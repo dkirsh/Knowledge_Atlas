@@ -1,0 +1,54 @@
+{
+  "required_checks": [
+    {
+      "id": "has_title",
+      "description": "HTML page has a <title> tag",
+      "type": "regex",
+      "pattern": "<title>[^<]+</title>"
+    },
+    {
+      "id": "has_viewport",
+      "description": "HTML page has a responsive viewport meta tag",
+      "type": "regex",
+      "pattern": "<meta[^>]+name=[\"']viewport[\"']"
+    },
+    {
+      "id": "has_primary_heading_signal",
+      "description": "HTML page exposes a primary heading through semantic or obvious visual-title markup",
+      "type": "regex",
+      "pattern": "<h1[^>]*>|hero-title|page-title|section-title|modal-head-title"
+    },
+    {
+      "id": "has_nav_or_header_nav",
+      "description": "HTML page exposes a navigation landmark or obvious nav container",
+      "type": "regex",
+      "pattern": "<(nav|header)[^>]*>|top-nav|topnav|sidebar|wordmark"
+    },
+    {
+      "id": "has_responsive_layout_signal",
+      "description": "HTML page includes a responsive breakpoint or an obvious responsive layout pattern",
+      "type": "regex",
+      "pattern": "@media|flex-wrap|minmax\\(|repeat\\(auto|overflow-x\\s*:\\s*auto"
+    }
+  ],
+  "warning_checks": [
+    {
+      "id": "has_cta",
+      "description": "HTML page appears to provide at least one action affordance",
+      "type": "regex",
+      "pattern": "<button|href=|btn-|cta|action"
+    },
+    {
+      "id": "has_page_purpose_marker",
+      "description": "HTML page includes an explicit page-purpose or workflow cue",
+      "type": "regex",
+      "pattern": "purpose|workflow|how it works|page-purpose|start here|what you can do"
+    },
+    {
+      "id": "has_evidence_or_source_marker",
+      "description": "Evidence-heavy pages should usually expose source or evidence language",
+      "type": "regex",
+      "pattern": "evidence|source|provenance|abstract|figure|table|results"
+    }
+  ]
+}
