@@ -372,6 +372,66 @@
             text-decoration: underline;
         }
 
+        /* Inline field errors */
+        .field-error {
+            display: none;
+            font-size: 11px;
+            color: #C0392B;
+            margin-top: 4px;
+            font-weight: 600;
+        }
+        .field-error.visible { display: block; }
+        input.input-error, select.input-error, textarea.input-error {
+            border-color: #E74C3C !important;
+            box-shadow: 0 0 0 3px rgba(231,76,60,0.12) !important;
+        }
+        input.input-ok {
+            border-color: #27AE60 !important;
+        }
+
+        /* Password strength */
+        .pw-strength-wrap {
+            margin-top: 5px;
+            height: 4px;
+            background: #EEE8E0;
+            border-radius: 2px;
+            overflow: hidden;
+        }
+        .pw-strength-bar {
+            height: 4px;
+            width: 0%;
+            border-radius: 2px;
+            transition: width .25s, background .25s;
+        }
+        .pw-hint { font-size: 11px; color: #8A7A68; margin-top: 4px; }
+
+        /* Success screen */
+        .success-screen {
+            display: none;
+            text-align: center;
+            padding: 56px 40px;
+        }
+        .success-screen.visible { display: block; }
+        .success-icon {
+            width: 64px; height: 64px; background: #2A7868;
+            border-radius: 50%; display: flex; align-items: center;
+            justify-content: center; margin: 0 auto 24px; font-size: 28px;
+        }
+        .success-screen h2 {
+            font-family: Georgia, serif; font-size: 1.4rem;
+            color: #1C3D3A; font-weight: 400; margin-bottom: 10px;
+        }
+        .success-screen p {
+            font-size: 0.9rem; color: #6B6B6B; line-height: 1.65;
+            max-width: 360px; margin: 0 auto 24px;
+        }
+        .success-detail {
+            background: #E6F5F0; border-radius: 8px;
+            padding: 14px 18px; font-size: 0.85rem;
+            color: #1a4a3f; text-align: left; margin-bottom: 28px;
+        }
+        .success-detail strong { color: #1C3D3A; }
+
         /* Version badge */
         .version-badge {
             position: fixed;
@@ -439,7 +499,7 @@
 <body>
     <!-- Navigation -->
     <nav>
-        <a href="/" class="nav-brand">
+        <a href="ka_home.html" class="nav-brand">
             <svg class="ka-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
                 <defs>
                     <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
@@ -503,6 +563,15 @@
 
                 <!-- Registration form -->
                 <div class="form-card">
+                    <!-- Success screen (shown on submit) -->
+                    <div class="success-screen" id="successScreen">
+                        <div class="success-icon">✓</div>
+                        <h2>Registration request submitted</h2>
+                        <p>Your application has been received. The instructor will review it and send you an approval email, usually within one working day.</p>
+                        <div class="success-detail" id="successDetail"></div>
+                        <a href="ka_home.html" class="btn btn-primary" style="text-decoration:none;display:inline-block;width:auto;padding:12px 32px">Return to Knowledge Atlas →</a>
+                    </div>
+
                     <form id="registerForm">
                         <!-- Section 1: Account -->
                         <div class="form-section">
@@ -511,24 +580,31 @@
                                 <div class="form-group">
                                     <label for="firstName">First name</label>
                                     <input type="text" id="firstName" name="firstName" required>
+                                    <span class="field-error" id="err-firstName">Please enter your first name.</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="lastName">Last name</label>
                                     <input type="text" id="lastName" name="lastName" required>
+                                    <span class="field-error" id="err-lastName">Please enter your last name.</span>
                                 </div>
                             </div>
                             <div class="form-group">
                                 <label for="email">Email address</label>
                                 <input type="email" id="email" name="email" required>
+                                <span class="field-error" id="err-email">Please enter a valid email address.</span>
                             </div>
                             <div class="form-group-row">
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" id="password" name="password" required>
+                                    <input type="password" id="password" name="password" required autocomplete="new-password">
+                                    <div class="pw-strength-wrap"><div class="pw-strength-bar" id="pwBar"></div></div>
+                                    <div class="pw-hint" id="pwHint">At least 8 characters</div>
+                                    <span class="field-error" id="err-password">Password must be at least 8 characters.</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPassword">Confirm password</label>
-                                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
+                                    <span class="field-error" id="err-confirmPassword">Passwords do not match.</span>
                                 </div>
                             </div>
                         </div>
@@ -590,28 +666,29 @@
                                 <select id="trackChoice1" name="trackChoice1" required>
                                     <option value="">Select a track</option>
                                     <option value="track1">Track 1 — Image Tagging (CNFA Tags)</option>
-                                    <option value="track2">Track 2 — Article Finding</option>
-                                    <option value="track3">Track 3 — VR Production</option>
-                                    <option value="track4">Track 4 — Use Case Evaluation &amp; Experiment Maker</option>
+                                    <option value="track2">Track 2 — Article Finding Pipeline</option>
+                                    <option value="track3">Track 3 — VR Environment Production</option>
+                                    <option value="track4">Track 4 — GUI Evaluation &amp; Experiment Design</option>
                                 </select>
+                                <span class="field-error" id="err-trackChoice1">Please select a first-choice track.</span>
                             </div>
                             <div class="form-group">
-                                <label for="skills1">Relevant skills for Track 1</label>
-                                <textarea id="skills1" name="skills1" placeholder="e.g. familiarity with image annotation, anatomy, spatial reasoning"></textarea>
+                                <label for="skills1" id="skills1Label">Relevant skills for your first-choice track</label>
+                                <textarea id="skills1" name="skills1" placeholder="Describe any relevant skills, experience, or reasons this track suits you."></textarea>
                             </div>
                             <div class="form-group">
-                                <label for="trackChoice2">Second choice track</label>
+                                <label for="trackChoice2">Second choice track <span style="font-weight:400;color:#8A7A68">(optional)</span></label>
                                 <select id="trackChoice2" name="trackChoice2">
                                     <option value="">No second choice</option>
                                     <option value="track1">Track 1 — Image Tagging (CNFA Tags)</option>
-                                    <option value="track2">Track 2 — Article Finding</option>
-                                    <option value="track3">Track 3 — VR Production</option>
-                                    <option value="track4">Track 4 — Use Case Evaluation &amp; Experiment Maker</option>
+                                    <option value="track2">Track 2 — Article Finding Pipeline</option>
+                                    <option value="track3">Track 3 — VR Environment Production</option>
+                                    <option value="track4">Track 4 — GUI Evaluation &amp; Experiment Design</option>
                                 </select>
                             </div>
                             <div class="form-group">
-                                <label for="interest">Why are you interested?</label>
-                                <textarea id="interest" name="interest"></textarea>
+                                <label for="interest">Why are you interested in contributing to KA?</label>
+                                <textarea id="interest" name="interest" placeholder="What draws you to this project? Any relevant coursework, research experience, or goals?"></textarea>
                             </div>
                         </div>
 
@@ -644,15 +721,195 @@
     <div class="version-badge">KA UI · v0.4</div>
 
     <script>
-        document.getElementById('registerForm').addEventListener('submit', function(e) {
-            e.preventDefault();
-            if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
-                alert('Passwords do not match');
-                return;
-            }
-            alert('Registration request submitted! An instructor will review your application.');
+    (function() {
+      // ── Track label names ────────────────────────────────────────────
+      const TRACK_NAMES = {
+        track1: 'Track 1 — Image Tagging',
+        track2: 'Track 2 — Article Finding',
+        track3: 'Track 3 — VR Production',
+        track4: 'Track 4 — GUI Evaluation & Experiment Design'
+      };
+
+      // ── Password strength ────────────────────────────────────────────
+      const pwInput = document.getElementById('password');
+      const pwBar   = document.getElementById('pwBar');
+      const pwHint  = document.getElementById('pwHint');
+
+      pwInput.addEventListener('input', function() {
+        const v = this.value;
+        let score = 0;
+        if (v.length >= 8)  score++;
+        if (v.length >= 12) score++;
+        if (/[A-Z]/.test(v)) score++;
+        if (/[0-9]/.test(v)) score++;
+        if (/[^A-Za-z0-9]/.test(v)) score++;
+        const pct = Math.min(100, score * 20);
+        pwBar.style.width  = pct + '%';
+        const colors = ['#E74C3C','#E74C3C','#E8872A','#F5A623','#2A7868','#2A7868'];
+        const labels = ['Too short','Too short','Weak','Fair','Strong','Very strong'];
+        pwBar.style.background = colors[score];
+        pwHint.textContent = v.length === 0 ? 'At least 8 characters' : labels[score];
+        if (v.length > 0 && v.length < 8) {
+          showErr('password','Password must be at least 8 characters.');
+        } else {
+          clearErr('password');
+        }
+      });
+
+      // ── Inline validation helpers ────────────────────────────────────
+      function showErr(id, msg) {
+        const el = document.getElementById('err-' + id);
+        const inp = document.getElementById(id);
+        if (el) { el.textContent = msg; el.classList.add('visible'); }
+        if (inp) inp.classList.add('input-error');
+      }
+      function clearErr(id) {
+        const el = document.getElementById('err-' + id);
+        const inp = document.getElementById(id);
+        if (el) el.classList.remove('visible');
+        if (inp) { inp.classList.remove('input-error'); inp.classList.add('input-ok'); }
+      }
+      function markClean(id) {
+        const inp = document.getElementById(id);
+        if (inp) { inp.classList.remove('input-error'); inp.classList.add('input-ok'); }
+      }
+
+      // ── Real-time blur validation ────────────────────────────────────
+      ['firstName','lastName'].forEach(id => {
+        document.getElementById(id).addEventListener('blur', function() {
+          if (!this.value.trim()) showErr(id, 'This field is required.');
+          else clearErr(id);
         });
+      });
+
+      document.getElementById('email').addEventListener('blur', function() {
+        if (!this.value.trim()) { showErr('email','Email is required.'); return; }
+        if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(this.value)) {
+          showErr('email','Please enter a valid email address.');
+        } else {
+          // Check duplicate in localStorage
+          const regs = JSON.parse(localStorage.getItem('ka_pending_registrations') || '[]');
+          const dup = regs.find(r => r.email.toLowerCase() === this.value.toLowerCase());
+          if (dup) showErr('email', 'An account with this email already exists. Try logging in.');
+          else clearErr('email');
+        }
+      });
+
+      document.getElementById('confirmPassword').addEventListener('blur', function() {
+        const pw = document.getElementById('password').value;
+        if (this.value && this.value !== pw) showErr('confirmPassword','Passwords do not match.');
+        else if (this.value) clearErr('confirmPassword');
+      });
+
+      document.getElementById('trackChoice1').addEventListener('change', function() {
+        const name = TRACK_NAMES[this.value] || 'your first-choice track';
+        document.getElementById('skills1Label').textContent = 'Relevant skills for ' + name;
+        if (this.value) clearErr('trackChoice1');
+      });
+
+      // ── Form submission ──────────────────────────────────────────────
+      document.getElementById('registerForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        let ok = true;
+
+        // Required text fields
+        ['firstName','lastName'].forEach(id => {
+          const val = document.getElementById(id).value.trim();
+          if (!val) { showErr(id, 'This field is required.'); ok = false; }
+          else clearErr(id);
+        });
+
+        // Email
+        const email = document.getElementById('email').value.trim();
+        if (!email || !/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)) {
+          showErr('email','Please enter a valid email address.'); ok = false;
+        } else {
+          const regs = JSON.parse(localStorage.getItem('ka_pending_registrations') || '[]');
+          if (regs.find(r => r.email.toLowerCase() === email.toLowerCase())) {
+            showErr('email','An account with this email already exists.'); ok = false;
+          } else clearErr('email');
+        }
+
+        // Password
+        const pw = document.getElementById('password').value;
+        if (pw.length < 8) { showErr('password','Password must be at least 8 characters.'); ok = false; }
+        else clearErr('password');
+
+        // Confirm password
+        const cpw = document.getElementById('confirmPassword').value;
+        if (cpw !== pw) { showErr('confirmPassword','Passwords do not match.'); ok = false; }
+        else if (cpw) clearErr('confirmPassword');
+
+        // Track choice
+        const track1 = document.getElementById('trackChoice1').value;
+        if (!track1) { showErr('trackChoice1','Please select a first-choice track.'); ok = false; }
+        else clearErr('trackChoice1');
+
+        if (!ok) {
+          // Scroll to first visible error
+          const firstErr = document.querySelector('.field-error.visible');
+          if (firstErr) firstErr.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          return;
+        }
+
+        // ── All valid: persist to localStorage ──────────────────────────
+        const userData = {
+          id: 'student_' + Date.now(),
+          firstName: document.getElementById('firstName').value.trim(),
+          lastName:  document.getElementById('lastName').value.trim(),
+          email:     email,
+          role:      document.querySelector('input[name="role"]:checked')?.value || 'undergrad',
+          institution: document.getElementById('institution').value.trim(),
+          department:  document.getElementById('department').value.trim(),
+          trackChoice1: track1,
+          trackChoice2: document.getElementById('trackChoice2').value,
+          timestamp: new Date().toISOString(),
+          status: 'pending'
+        };
+
+        // Save to pending registrations list
+        const regs = JSON.parse(localStorage.getItem('ka_pending_registrations') || '[]');
+        regs.push(userData);
+        localStorage.setItem('ka_pending_registrations', JSON.stringify(regs));
+
+        // Set current user session
+        localStorage.setItem('ka_current_user', JSON.stringify(userData));
+        localStorage.setItem('ka_logged_in', '1');
+        sessionStorage.setItem('ka_logged_in', '1');
+
+        // ── Show success screen ──────────────────────────────────────────
+        document.getElementById('registerForm').style.display = 'none';
+        const screen = document.getElementById('successScreen');
+        screen.classList.add('visible');
+        document.getElementById('successDetail').innerHTML =
+          '<strong>Name:</strong> ' + userData.firstName + ' ' + userData.lastName + '<br>' +
+          '<strong>Email:</strong> ' + userData.email + '<br>' +
+          '<strong>Track requested:</strong> ' + (TRACK_NAMES[track1] || track1) + '<br>' +
+          '<strong>Status:</strong> Pending instructor approval';
+        screen.scrollIntoView({ behavior: 'smooth' });
+      });
+    })();
     </script>
+
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_register',
+  title: 'Contributor Registration',
+  audience: 'New students and researchers seeking to join KA as contributors',
+  purpose: 'Collects account information, academic profile, and track preference. Saves a pending registration record to localStorage (demo) and sets the ka_logged_in flag so the user can immediately access authenticated features. In production this would POST to a backend; an instructor would review via ka_approve.html.',
+  workflowPos: 'Onboarding gate — must be completed before access to any track assignment page. Follows from ka_home.html or any "Join" call-to-action.',
+  notFor: 'Returning users (send to ka_login.html), track work itself, browsing KA content without an account.',
+  phase: 'Phase 1 — Foundation Infrastructure',
+  evalQuestions: [
+    'Is the 4-track description in the dropdown sufficient for students to make an informed choice?',
+    'Are the field error messages clear and placed where the eye naturally goes?',
+    'Does the skills textarea prompt update when you change your track selection?',
+    'Is the success screen reassuring and does it give enough information about next steps?',
+    'Can a user recover easily if they enter the wrong email format?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
 <script src="ka_demo_wiring.js"></script>
 </body>
 </html>
