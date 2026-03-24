@@ -415,6 +415,73 @@ git checkout -b track/N-staging/yourname   <span class="cmd-comment"># e.g., tra
       is intentional: it groups all track-2 branches together in the GitHub branch list, making
       it easy for the instructor to see everyone's work at a glance.
     </div>
+
+    <!-- Per-track copy-paste block -->
+    <div style="margin-top:20px">
+      <div style="font-size:11px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:#9A8870;margin-bottom:12px">
+        Quick reference — find your track and copy all three commands
+      </div>
+
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+
+        <div style="background:#1a2a28;border-radius:8px;overflow:hidden">
+          <div style="background:#0f1a18;padding:8px 14px;font-size:10px;font-weight:700;letter-spacing:.1em;color:#5AC8AA;text-transform:uppercase">Track 1 — Image Tagging</div>
+          <pre style="margin:0;padding:12px 14px;font-size:0.78rem;line-height:1.7;color:#a8e8d0;overflow-x:auto"><span style="color:#5a8878"># Clone (skip if already done)</span>
+git clone https://github.com/dkirsh/Knowledge_Atlas.git
+cd Knowledge_Atlas
+
+git checkout track/1-staging
+git checkout -b track/1-staging/<span style="color:#E8872A">your-ucsd-username</span>
+git push -u origin track/1-staging/<span style="color:#E8872A">your-ucsd-username</span></pre>
+        </div>
+
+        <div style="background:#1a2a28;border-radius:8px;overflow:hidden">
+          <div style="background:#0f1a18;padding:8px 14px;font-size:10px;font-weight:700;letter-spacing:.1em;color:#5AC8AA;text-transform:uppercase">Track 2 — Article Finder</div>
+          <pre style="margin:0;padding:12px 14px;font-size:0.78rem;line-height:1.7;color:#a8e8d0;overflow-x:auto"><span style="color:#5a8878"># Clone (skip if already done)</span>
+git clone https://github.com/dkirsh/Knowledge_Atlas.git
+cd Knowledge_Atlas
+
+git checkout track/2-staging
+git checkout -b track/2-staging/<span style="color:#E8872A">your-ucsd-username</span>
+git push -u origin track/2-staging/<span style="color:#E8872A">your-ucsd-username</span></pre>
+        </div>
+
+        <div style="background:#1a2a28;border-radius:8px;overflow:hidden">
+          <div style="background:#0f1a18;padding:8px 14px;font-size:10px;font-weight:700;letter-spacing:.1em;color:#5AC8AA;text-transform:uppercase">Track 3 — VR Production</div>
+          <pre style="margin:0;padding:12px 14px;font-size:0.78rem;line-height:1.7;color:#a8e8d0;overflow-x:auto"><span style="color:#5a8878"># Clone (skip if already done)</span>
+git clone https://github.com/dkirsh/Knowledge_Atlas.git
+cd Knowledge_Atlas
+
+git checkout track/3-staging
+git checkout -b track/3-staging/<span style="color:#E8872A">your-ucsd-username</span>
+git push -u origin track/3-staging/<span style="color:#E8872A">your-ucsd-username</span></pre>
+        </div>
+
+        <div style="background:#1a2a28;border-radius:8px;overflow:hidden">
+          <div style="background:#0f1a18;padding:8px 14px;font-size:10px;font-weight:700;letter-spacing:.1em;color:#5AC8AA;text-transform:uppercase">Track 4 — GUI Evaluation</div>
+          <pre style="margin:0;padding:12px 14px;font-size:0.78rem;line-height:1.7;color:#a8e8d0;overflow-x:auto"><span style="color:#5a8878"># Clone (skip if already done)</span>
+git clone https://github.com/dkirsh/Knowledge_Atlas.git
+cd Knowledge_Atlas
+
+git checkout track/4-staging
+git checkout -b track/4-staging/<span style="color:#E8872A">your-ucsd-username</span>
+git push -u origin track/4-staging/<span style="color:#E8872A">your-ucsd-username</span></pre>
+        </div>
+
+      </div>
+
+      <div style="margin-top:10px;padding:10px 14px;background:#FFF3E0;border:1px solid #f0c888;border-radius:6px;font-size:0.82rem;color:#9a5010">
+        <strong>Track 2 only:</strong> run Article Finder commands through the AF repo virtualenv, not bare <code>python3</code>.
+        The scorer and search-client dependencies may only be installed in the venv, and using the system interpreter
+        produces false pipeline failures. See your track assignment for the activation command.
+      </div>
+      <div style="margin-top:8px;padding:10px 14px;background:#E6F5F0;border:1px solid #a8d8d0;border-radius:6px;font-size:0.82rem;color:#1a4a3f">
+        <strong>All tracks:</strong> personal branches are not pre-created on GitHub — you create your own with the commands above.
+        The four staging branches (<code>track/1-staging</code> through <code>track/4-staging</code>) already exist
+        on the remote and are the base for all personal branches. Do not branch off <code>master</code>.
+      </div>
+    </div>
+
   </div>
 
   <!-- ── SECTION 3: Student Database ── -->
@@ -519,6 +586,7 @@ DB_PATH = "data/web_persistence_v5.db"</pre>
           <li>Open <code>data/student/research_queue_state.json</code> — these are your gap targets. You own a slice of this list (assigned in Week 1).</li>
           <li>Run the duplicate check on one test DOI: <code>python3 scripts/check_duplicate.py --doi=10.xxxx/xxxx</code></li>
           <li>Configure your local AF API settings before heavy search work: use a valid email for OpenAlex / Crossref / Unpaywall polite-pool access, and follow the current class guidance on when the OpenAlex trial key may be used.</li>
+          <li>Run AF commands through the repo virtualenv, not bare <code>python3</code>, or you may miss installed scorer/search dependencies and get false failures.</li>
           <li>Read the Google AI Query Guide in <code>docs/GOOGLE_AI_QUERY_GUIDE.md</code> before writing any queries.</li>
           <li>Set up your Query Diary: create <code>data/student/query_log_yourname.json</code> using the schema in <code>contracts/QUERY_LOG_SCHEMA.md</code>.</li>
           <li>Run one test query on Google AI or Semantic Scholar. Record it in your Query Diary. This is your Week 3 starting point.</li>

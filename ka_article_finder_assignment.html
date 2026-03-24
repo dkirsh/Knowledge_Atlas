@@ -492,20 +492,54 @@
       <div class="campaign-desc"><strong>New citation records by end of Week 7.</strong> This means APA citations with DOIs logged in the system. PDFs should be acquired for every article where the abstract passes the relevance filter (target: 50+ PDFs), but citation-level records count toward the primary milestone. The question set you built in Phase 2 is your input. The Article Propose intake pipeline is your output channel. Exceptional teams should aim beyond 150 — the pipeline has no ceiling.</div>
     </div>
 
+    <div class="callout callout-blue">
+      <strong>Important:</strong> the neural-underpinnings literature is only one of several search fronts for Track 2.
+      It is a strategic expansion area, not the whole pipeline. You still need to push the other high-VOI fronts,
+      topic clusters, replication gaps, and corpus-building tasks that keep KA balanced.
+    </div>
+
     <div class="section-title">Campaign Pipeline</div>
     <div class="pipeline-steps">
       <div class="pipeline-step"><div class="pipe-num">1</div><div class="pipe-body"><h4>Generate questions from KA's knowledge state</h4><p>Pull the top 20 highest-VOI topic areas from the Gap Explorer. For each, use the Question Maker to generate 3–5 tool-optimised questions. Focus on clusters with fewer than 20 articles and VOI ≥ 0.6.</p><div class="pipe-tool">Tools: Question Maker → VOI panel → export question set</div></div></div>
       <div class="pipeline-step"><div class="pipe-num">2</div><div class="pipe-body"><h4>Run questions via Elicit API (automated path)</h4><p>Elicit's API accepts a research question and returns structured results including DOIs, titles, abstracts, and methodology fields. Batch 50 questions through the API, parse the JSON output, and extract a citation list. Document your API call pattern for the handoff package.</p><div class="pipe-tool">Tools: Elicit API (explore key in Week 4), Python batch script, CSV output</div></div></div>
       <div class="pipeline-step"><div class="pipe-num">3</div><div class="pipe-body"><h4>Run questions manually via Google AI Scholar</h4><p>For questions where the Elicit API yields fewer than 5 results, run the question manually in Google AI Scholar. Copy the citations into the shared queue. Do not skip this — Google AI Scholar accesses different corpora and finds papers Elicit misses.</p><div class="pipe-tool">Tools: Google AI Scholar chat, shared citation queue in Question Maker</div></div></div>
-      <div class="pipeline-step"><div class="pipe-num">4</div><div class="pipe-body"><h4>Screen citations for relevance (abstract level)</h4><p>For every retrieved citation, paste the DOI into the Article Propose form. The form auto-fetches the abstract from CrossRef. Read the abstract and decide: Include / Exclude / Uncertain. Only Include-status articles advance to PDF acquisition.</p><div class="pipe-tool">Tools: Article Propose → abstract preview → relevance decision</div></div></div>
-      <div class="pipeline-step"><div class="pipe-num">5</div><div class="pipe-body"><h4>Acquire PDFs for Include-status articles</h4><p>Use the Elicit library link first. Fallback order: Unpaywall → Google Scholar free version → Zotero connector → author email. Upload via the Article Propose form. Each uploaded PDF enters the extraction queue for KA's claim-extraction pipeline.</p><div class="pipe-tool">Tools: Elicit DL link, Unpaywall, Article Propose → PDF upload</div></div></div>
+      <div class="pipeline-step"><div class="pipe-num">4</div><div class="pipe-body"><h4>Screen citations for relevance (abstract level)</h4><p>For every retrieved citation, record DOI/title in your corpus table or queue and read the abstract before spending effort on PDF acquisition. Decide: Include / Exclude / Uncertain. Only Include-status articles advance to PDF acquisition. This is stricter than the public contributor path because Track 2 is building a balanced corpus, not just suggesting isolated papers.</p><div class="pipe-tool">Tools: Article Search / corpus table / question queue → abstract-level relevance decision</div></div></div>
+      <div class="pipeline-step"><div class="pipe-num">5</div><div class="pipe-body"><h4>Acquire PDFs for Include-status articles, then stage them</h4><p>Use the Elicit library link first. Fallback order: Unpaywall → Google Scholar free version → Zotero connector → author email. Once an article passes abstract screening and you have the PDF, upload it through Article Propose for duplicate blocking and staging into the nightly intake queue.</p><div class="pipe-tool">Tools: Elicit DL link, Unpaywall, Article Propose → PDF-first staging with duplicate check</div></div></div>
       <div class="pipeline-step"><div class="pipe-num">6</div><div class="pipe-num" style="display:none"></div><div class="pipe-body"><h4>New area: Neuroscience of attention pathways</h4><p>One explicitly requested expansion area is deepening KA's neuroscience coverage — specifically the neural pathways underlying sustained attention, cognitive fatigue, and stress recovery (prefrontal cortex, locus coeruleus-norepinephrine, default mode network suppression). Add 10–15 focused questions on these pathways to the question queue.</p><div class="pipe-tool">Seed questions: "LC-NE modulation of sustained attention in fatigued states" · "DMN deactivation during focused work" · "PFC executive function and environmental noise"</div></div></div>
+    </div>
+
+    <div class="section-title">Neural Pathway Assignment Front</div>
+    <p class="section-intro">For some Track 2 teams, the assignment is not just "find more papers." It is to deepen one pathway family for the future Neural Underpinnings Explorer. That means collecting classic anchors, reviews, direct-measurement papers, and environment-relevant papers for a specific pathway.</p>
+    <table class="compare-table" style="margin-bottom:16px">
+      <thead><tr>
+        <th>Pathway family</th>
+        <th>What to collect first</th>
+        <th>Key discipline</th>
+      </tr></thead>
+      <tbody>
+        <tr><td>Predictive Processing</td><td>Classic anchors + recent reviews + environment-linked prediction-error papers</td><td>Separate broad framework papers from direct design-relevant evidence</td></tr>
+        <tr><td>Salience Networks</td><td>Orienting, reorienting, novelty, threat, and attention-switching anchors</td><td>Do not treat every attentional effect as a salience-network result</td></tr>
+        <tr><td>Interoceptive / Constructionist Affect</td><td>Insula/appraisal/interoception anchors + environment/comfort papers</td><td>Mark what is bodily-state evidence versus discussion-level affect inference</td></tr>
+        <tr><td>Neuromodulatory Systems</td><td>Dopamine, serotonin, acetylcholine, norepinephrine anchors and design-relevant follow-ons</td><td>Be strict about directly measured versus speculative neuromodulator claims</td></tr>
+        <tr><td>Chronobiological Regulation</td><td>Circadian/light anchors + workplace/daylight papers + recent reviews</td><td>Track melanopic and timing specifics, not only generic "light helps" claims</td></tr>
+        <tr><td>Multisensory Integration</td><td>Binding-window anchors + material coherence / audiovisual synchrony papers</td><td>Distinguish direct multisensory binding tests from loose cross-modal speculation</td></tr>
+      </tbody>
+    </table>
+    <div class="callout callout-teal">
+      <strong>Deliverable for a pathway team:</strong> 3–8 classic anchors, 2–4 recent reviews, 3–8 direct-measurement papers, 3–8 environment-relevant papers, plus a one-paragraph note on what the pathway is and what parts are directly measured versus inferred.
     </div>
 
     <div class="ai-box">
       <div class="ai-label">🤖 API exploration prompt for Week 4</div>
       <div class="ai-text" id="apiPrompt">"I am building an automated literature pipeline for an AI evidence-synthesis system. I have access to the Elicit API. Please show me: (1) the basic API call structure for Elicit's search endpoint, accepting a natural language research question and returning DOI, title, abstract, and year; (2) a Python function that takes a list of research questions and returns a pandas DataFrame with one row per result; (3) how to handle rate limiting and paginate through more than 25 results; (4) what the output JSON schema looks like for a typical Elicit API response. Assume I want to run 50–100 questions in a single session."</div>
       <button class="copy-btn" onclick="copyText('apiPrompt')">Copy prompt</button>
+    </div>
+
+    <div class="callout callout-amber">
+      <strong>API operations note:</strong> OpenAlex is currently valuable for scale-up, but students should not assume paid/premium OpenAlex access is permanent. Crossref should remain part of the default workflow, and all API credentials or emails must live in local config rather than inside page code or tracked files.
+    </div>
+    <div class="callout callout-teal">
+      <strong>AF runtime note:</strong> run Article Finder commands through the AF repo virtualenv, not bare <code>python3</code>. The scorer and some search dependencies may be installed in the venv only, and using the wrong interpreter can produce false pipeline failures.
     </div>
   </div>
 
