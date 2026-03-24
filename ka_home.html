@@ -1,0 +1,609 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Atlas — Home</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; color: #2D2D2D; overflow-x: hidden; }
+
+/* ── TOP NAV (minimal, public) ── */
+.topnav {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 9999;
+  background: rgba(28,61,58,0.96); backdrop-filter: blur(8px);
+  height: 56px; display: flex; align-items: center;
+  padding: 0 32px; box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+}
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.wordmark-icon { width: 30px; height: 30px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wm-top { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: #A8C8BF; }
+.wm-bottom { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em; color: #fff; }
+.wm-bottom span { color: #F5A623; }
+.nav-public {
+  display: flex; align-items: center; gap: 6px;
+  margin-left: auto;
+}
+.nav-pub-link {
+  color: #B8D4CE; font-size: 0.85rem; font-weight: 600;
+  padding: 6px 14px; border-radius: 6px; text-decoration: none;
+  transition: background 0.15s, color 0.15s;
+}
+.nav-pub-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.btn-login {
+  background: transparent; border: 1.5px solid rgba(245,166,35,0.6);
+  color: #F5A623; padding: 6px 18px; border-radius: 6px;
+  font-size: 0.85rem; font-weight: 700; cursor: pointer;
+  text-decoration: none; transition: all 0.15s; letter-spacing: 0.03em;
+}
+.btn-login:hover { background: rgba(245,166,35,0.15); border-color: #F5A623; }
+
+/* ── HERO ── */
+.hero {
+  min-height: 100vh; padding-top: 56px;
+  background: linear-gradient(160deg, #1C3D3A 0%, #153230 45%, #1A2E2C 100%);
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+/* Subtle grid texture */
+.hero::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(90,200,170,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90,200,170,0.04) 1px, transparent 1px);
+  background-size: 40px 40px;
+  pointer-events: none;
+}
+.hero-content {
+  position: relative; z-index: 1;
+  text-align: center; max-width: 780px; padding: 0 24px 40px;
+}
+.hero-eyebrow {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.2em;
+  text-transform: uppercase; color: #5AC8AA; margin-bottom: 18px;
+}
+.hero-title {
+  font-size: 2.9rem; font-weight: 800; color: #fff;
+  line-height: 1.12; margin-bottom: 18px; letter-spacing: -0.01em;
+}
+.hero-title span { color: #F5A623; }
+.hero-sub {
+  font-size: 1.1rem; color: #A8C8BF; line-height: 1.7;
+  max-width: 580px; margin: 0 auto 36px;
+}
+
+/* CTA group */
+.cta-group { display: flex; gap: 14px; justify-content: center; flex-wrap: wrap; margin-bottom: 60px; }
+.btn-enter {
+  background: #E8872A; color: #fff; border: none;
+  padding: 14px 34px; border-radius: 8px; font-size: 1.0rem;
+  font-weight: 700; cursor: pointer; text-decoration: none;
+  letter-spacing: 0.03em; transition: background 0.15s, transform 0.1s;
+  display: inline-flex; align-items: center; gap: 8px;
+}
+.btn-enter:hover { background: #C05A1F; transform: translateY(-1px); }
+.btn-secondary {
+  background: transparent; color: #A8C8BF;
+  border: 1.5px solid rgba(168,200,191,0.4);
+  padding: 14px 28px; border-radius: 8px; font-size: 1.0rem;
+  font-weight: 600; cursor: pointer; text-decoration: none;
+  transition: all 0.15s;
+}
+.btn-secondary:hover { border-color: #A8C8BF; color: #fff; }
+
+/* ── DID YOU KNOW CARDS ── */
+.cards-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #5AC8AA; margin-bottom: 14px;
+  text-align: center;
+}
+.dyk-cards {
+  display: flex; gap: 16px; justify-content: center;
+  flex-wrap: wrap; max-width: 1060px; width: 100%; padding: 0 24px;
+  position: relative; z-index: 1;
+}
+.dyk-card {
+  background: rgba(255,255,255,0.06); border: 1px solid rgba(255,255,255,0.1);
+  border-radius: 12px; padding: 22px 22px 18px; width: 300px; flex-shrink: 0;
+  backdrop-filter: blur(4px); transition: background 0.2s, transform 0.15s, border-color 0.2s;
+  cursor: pointer; text-decoration: none; display: block;
+}
+.dyk-card:hover {
+  background: rgba(255,255,255,0.1); transform: translateY(-3px);
+  border-color: rgba(245,166,35,0.35);
+}
+.dyk-tag {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #F5A623; margin-bottom: 10px;
+}
+.dyk-question {
+  font-size: 0.95rem; font-weight: 700; color: #fff; line-height: 1.4; margin-bottom: 10px;
+}
+.dyk-answer {
+  font-size: 0.83rem; color: #A8C8BF; line-height: 1.6; margin-bottom: 14px;
+}
+.dyk-footer {
+  display: flex; align-items: center; justify-content: space-between;
+}
+.dyk-strength {
+  font-size: 0.73rem; padding: 3px 9px; border-radius: 12px; font-weight: 600;
+}
+.dyk-strength.strong { background: rgba(90,200,90,0.15); color: #5AC888; }
+.dyk-strength.mixed  { background: rgba(245,166,35,0.15); color: #F5A623; }
+.dyk-strength.theory { background: rgba(90,200,170,0.15); color: #5AC8AA; }
+.dyk-explore { font-size: 0.78rem; color: #E8872A; font-weight: 600; text-decoration: none; }
+.dyk-explore:hover { color: #F5A623; }
+
+/* Scroll hint */
+.scroll-hint {
+  position: absolute; bottom: 28px; left: 50%; transform: translateX(-50%);
+  color: rgba(168,200,191,0.5); font-size: 0.78rem; letter-spacing: 0.1em;
+  text-transform: uppercase; display: flex; flex-direction: column; align-items: center; gap: 6px;
+  z-index: 1;
+}
+.scroll-arrow { font-size: 1.1rem; animation: bob 1.8s ease-in-out infinite; }
+@keyframes bob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(5px)} }
+
+/* ── ABOUT SECTION ── */
+.about { background: #F7F4EF; padding: 90px 32px; }
+.about-inner { max-width: 900px; margin: 0 auto; }
+.section-eyebrow {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #E8872A; margin-bottom: 10px;
+}
+.section-title {
+  font-size: 2.1rem; font-weight: 800; color: #1C3D3A;
+  line-height: 1.15; margin-bottom: 24px;
+}
+.about-lead {
+  font-size: 1.05rem; color: #4A3E32; line-height: 1.8;
+  max-width: 760px; margin-bottom: 16px;
+}
+.about-body {
+  font-size: 0.93rem; color: #5A4A38; line-height: 1.85; margin-bottom: 14px; max-width: 760px;
+}
+
+/* Theory pillars */
+.pillars { display: flex; flex-wrap: wrap; gap: 16px; margin: 40px 0; }
+.pillar {
+  flex: 1; min-width: 240px; max-width: 280px;
+  background: #fff; border-radius: 10px; padding: 22px 20px;
+  border-top: 4px solid #2A7868; box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.pillar:hover { transform: translateY(-3px); box-shadow: 0 6px 20px rgba(0,0,0,0.1); }
+.pillar:nth-child(2) { border-top-color: #E8872A; }
+.pillar:nth-child(3) { border-top-color: #F5A623; }
+.pillar:nth-child(4) { border-top-color: #5AC8AA; }
+.pillar:nth-child(5) { border-top-color: #9B72CF; }
+.pillar-icon { font-size: 1.6rem; margin-bottom: 10px; }
+.pillar-name { font-size: 0.92rem; font-weight: 800; color: #1C3D3A; margin-bottom: 6px; }
+.pillar-authors { font-size: 0.74rem; color: #E8872A; font-weight: 700; margin-bottom: 8px; letter-spacing: 0.03em; }
+.pillar-desc { font-size: 0.82rem; color: #5A4A38; line-height: 1.6; }
+
+/* Contribution block */
+.contribution {
+  background: #1C3D3A; border-radius: 12px; padding: 40px 44px;
+  margin: 48px 0 0; position: relative; overflow: hidden;
+}
+.contribution::before {
+  content: ''; position: absolute; inset: 0;
+  background-image:
+    linear-gradient(rgba(90,200,170,0.04) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(90,200,170,0.04) 1px, transparent 1px);
+  background-size: 32px 32px;
+}
+.contribution-inner { position: relative; z-index: 1; }
+.contrib-eyebrow {
+  font-size: 0.69rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #5AC8AA; margin-bottom: 12px;
+}
+.contrib-title { font-size: 1.5rem; font-weight: 800; color: #fff; margin-bottom: 18px; line-height: 1.25; }
+.contrib-body { font-size: 0.92rem; color: #A8C8BF; line-height: 1.85; margin-bottom: 14px; max-width: 700px; }
+.proof-list { list-style: none; margin: 22px 0; }
+.proof-list li {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 12px 0; border-bottom: 1px solid rgba(255,255,255,0.08); font-size: 0.87rem;
+  color: #C8E0D8; line-height: 1.55;
+}
+.proof-list li:last-child { border-bottom: none; }
+.proof-num {
+  flex-shrink: 0; width: 26px; height: 26px; border-radius: 50%;
+  background: rgba(245,166,35,0.2); color: #F5A623;
+  font-size: 0.75rem; font-weight: 800; display: flex; align-items: center; justify-content: center;
+}
+.proof-text strong { color: #fff; }
+
+/* Stats row */
+.stats-row {
+  display: flex; gap: 0; border-top: 1px solid rgba(255,255,255,0.1); margin-top: 30px;
+  padding-top: 28px; flex-wrap: wrap;
+}
+.stat { flex: 1; min-width: 140px; text-align: center; padding: 0 16px; }
+.stat + .stat { border-left: 1px solid rgba(255,255,255,0.1); }
+.stat-num { font-size: 2.0rem; font-weight: 800; color: #F5A623; line-height: 1; margin-bottom: 6px; }
+.stat-label { font-size: 0.78rem; color: #7AAAA0; letter-spacing: 0.04em; line-height: 1.4; }
+
+/* ── FOOTER ── */
+.footer {
+  background: #111E1D; padding: 32px; text-align: center;
+  color: #5A7A74; font-size: 0.8rem; line-height: 1.8;
+}
+.footer a { color: #5AC8AA; text-decoration: none; }
+.footer a:hover { color: #A8C8BF; }
+
+/* ── VERSION BADGE ── */
+.version-badge {
+  position: fixed; bottom: 14px; right: 18px; z-index: 9990;
+  background: #1C3D3A; color: #A8C8BF; font-size: 0.68rem;
+  font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px;
+  border-radius: 12px; pointer-events: none; opacity: 0.85;
+}
+</style>
+</head>
+<body>
+
+<!-- VERSION BADGE -->
+<div class="version-badge">KA UI · v0.4</div>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="wordmark" href="#">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
+    </div>
+  </a>
+  <nav class="nav-public">
+    <a class="nav-pub-link" href="#about">About</a>
+    <a class="nav-pub-link" href="#theory">Theory</a>
+    <a class="nav-pub-link" href="#">Documentation</a>
+    <a class="btn-login" href="ka_login.html">Log In</a>
+  </nav>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-content">
+    <h1 class="hero-title">
+      Knowledge Atlas:<br>A Large Knowledge Model<br>for <span>Architecture</span>
+    </h1>
+    <p class="hero-sub">
+      LKMs unlike LLMs are based on propositions not tokens.
+    </p>
+    <div class="cta-group">
+      <a class="btn-enter" href="ka_demo_v04.html">Enter Knowledge Atlas →</a>
+      <a class="btn-secondary" href="#about">How it was built</a>
+    </div>
+  </div>
+
+  <!-- DID YOU KNOW CARDS — pool rotated on each page load via JS below -->
+  <div class="cards-label">Did you know?</div>
+  <div class="dyk-cards" id="dyk-cards-container"></div>
+
+  <script>
+  (function(){
+    // Each card: { tag, q, ans, strength, strCls, topic }
+    // 'topic' becomes ?q=TOPIC in the link so the Q&A page shows relevant papers.
+    var POOL = [
+      { tag:'Workplace &amp; Sleep', topic:'sleep',
+        q:'Office workers with window access sleep 46 minutes longer per night than those without?',
+        ans:'Boubekri et al. (2014) matched workers in windowed vs. windowless offices across two comparable workplaces. Window-side workers showed significantly longer sleep duration, better sleep quality, greater physical activity, and higher wellbeing scores.',
+        strength:'✅ Strong support', strCls:'strong' },
+      { tag:'Replication &amp; Reliability', topic:'replication',
+        q:'Only 36% of landmark psychology findings fully replicate when independently tested?',
+        ans:'The Open Science Collaboration\'s 2015 project retested 100 published psychology studies. Effect sizes shrank by half on average, and fewer than 40% cleared the original significance threshold — raising fundamental questions about the field\'s evidential base.',
+        strength:'✅ Strong support', strCls:'strong' },
+      { tag:'Attention &amp; Dual-Task', topic:'attention',
+        q:'Splitting attention between two tasks degrades performance even when they use entirely different senses?',
+        ans:'The central bottleneck model predicts — and experiments confirm — that response selection for two simultaneous stimuli cannot occur in parallel, even across auditory and visual modalities. The cost appears at a central, amodal decision stage.',
+        strength:'🔵 Theory-linked', strCls:'theory' },
+      { tag:'Light &amp; Alertness', topic:'light',
+        q:'Switching office lighting to a daylight-spectrum fixture costs no more than standard fluorescents — yet measurably boosts afternoon alertness?',
+        ans:'Viola et al. (2008) ran a 4-week crossover at Loughborough University. Workers under blue-enriched fluorescent light showed faster reaction times on the Psychomotor Vigilance Task and reported higher vitality, especially during the post-lunch dip. Effect size: d ≈ 0.48.',
+        strength:'✅ Strong support', strCls:'strong' },
+      { tag:'Temperature &amp; Cognition', topic:'temperature',
+        q:'Complex cognitive task performance peaks near 22°C — and deviations of just a few degrees in either direction reduce accuracy?',
+        ans:'A convergent body of lab and field evidence places the thermal comfort optimum for knowledge-work between 21–23°C. Studies using proofreading, arithmetic, and executive-function tasks consistently show performance costs at both warmer and cooler extremes.',
+        strength:'⚠️ Mixed evidence', strCls:'mixed' },
+      { tag:'Memory &amp; Spacing', topic:'spacing',
+        q:'Distributing study across three sessions yields roughly twice the long-term retention of the same total time massed in one sitting?',
+        ans:'The spacing effect is among the most robust and replicated findings in cognitive psychology, documented since Ebbinghaus (1885). It holds across ages, materials, and retention intervals, and its effect-size advantage over massed practice typically exceeds d = 0.60.',
+        strength:'✅ Strong support', strCls:'strong' },
+      { tag:'Noise &amp; Creativity', topic:'noise',
+        q:'A moderate ambient noise level (around 70 dB) can enhance creative performance compared to near-silence or loud environments?',
+        ans:'Mehta, Zhu, &amp; Cheema (2012) showed that moderate noise produces modest distraction that induces a broader, more abstract processing mode — enhancing performance on divergent-thinking tasks while leaving focused analytic performance roughly unchanged.',
+        strength:'⚠️ Mixed evidence', strCls:'mixed' },
+      { tag:'Color &amp; Cognition', topic:'color',
+        q:'Red visual environments improve performance on detail-oriented tasks while blue environments improve divergent creative thinking?',
+        ans:'Mehta &amp; Zhu (2009, Science) showed consistent cross-task and cross-method evidence. Red activates an avoidance motivation associated with threat vigilance and precision; blue activates an approach motivation fostering exploration and novel association.',
+        strength:'⚠️ Mixed evidence', strCls:'mixed' },
+      { tag:'Standing Desks', topic:'standing',
+        q:'Standing desks reliably reduce sedentary time — but do not consistently improve cognitive test scores?',
+        ans:'Multiple RCTs show sit-stand desks cut sitting time by 1–2 hours per day. However, cognitive outcomes (working memory, executive function, processing speed) are generally null or trivially small in controlled studies, despite positive effects on energy and wellbeing.',
+        strength:'⚠️ Mixed evidence', strCls:'mixed' },
+      { tag:'Multitasking Paradox', topic:'multitasking',
+        q:'People who identify as skilled multitaskers tend to score worse on laboratory tests of attentional control than those who multitask rarely?',
+        ans:'Ophir, Nass, &amp; Wagner (2009, PNAS) found that heavy media multitaskers were more susceptible to distraction, less able to filter irrelevant information, and slower to switch between tasks — the opposite of what their self-perception predicted.',
+        strength:'✅ Strong support', strCls:'strong' },
+      { tag:'Nature &amp; Attention', topic:'nature',
+        q:'A 40–60 second micro-break looking at a green rooftop scene restores sustained attention faster than an equivalent break looking at a concrete rooftop?',
+        ans:'Attention Restoration Theory (Kaplan &amp; Kaplan, 1989) predicts that natural scenes replenish directed attention resources with minimal cognitive cost. Lee et al. (2015) provided a controlled test: a 40-second "green" micro-break during a sustained-attention task restored vigilance; a built-scene break did not.',
+        strength:'🔵 Theory-linked', strCls:'theory' },
+      { tag:'Plants &amp; Stress', topic:'plants',
+        q:'Adding a single potted plant per workstation can reduce self-reported stress and increase perceived productivity in open-plan offices?',
+        ans:'Knight &amp; Haslam (2010) and a series of field studies by Lohr et al. show consistent positive effects. Effect sizes are modest but reliable across multiple cultures and office types, and the mechanism is most plausibly stress buffering rather than direct cognitive enhancement.',
+        strength:'⚠️ Mixed evidence', strCls:'mixed' },
+      { tag:'Circadian &amp; Screens', topic:'circadian',
+        q:'Evening exposure to blue-wavelength light from screens can delay melatonin onset by 90 minutes — comparable to caffeine\'s alerting effect?',
+        ans:'Chang et al. (2015, PNAS) showed that reading on a light-emitting device before bed delayed melatonin release, reduced REM sleep, and impaired next-morning alertness compared to reading a printed book under dim light. Melanopsin-expressing retinal cells are maximally sensitive to short-wavelength (~480 nm) light.',
+        strength:'✅ Strong support', strCls:'strong' },
+      { tag:'Crowding &amp; Focus', topic:'crowding',
+        q:'At densities above roughly 8 people per 100 m² in open-plan offices, concentration lapses increase substantially compared to lower-density conditions?',
+        ans:'Kim &amp; de Dear (2013, JEP:G) analysed survey data from over 42,000 US employees. Open-plan workers reported significantly higher rates of noise disruption and loss of concentration relative to private-office workers, with crowding density as a key moderator.',
+        strength:'⚠️ Mixed evidence', strCls:'mixed' },
+      { tag:'Exercise &amp; Cognition', topic:'exercise',
+        q:'A single 20-minute bout of aerobic exercise before a cognitive task improves working memory and executive function for up to two hours?',
+        ans:'Meta-analyses (Chang et al., 2012; Hillman et al., 2008) consistently show acute exercise benefits on EF tasks, with effect sizes in the d ≈ 0.30–0.60 range. The mechanism likely involves prefrontal catecholamine release (dopamine, norepinephrine) and increased cerebral blood flow.',
+        strength:'✅ Strong support', strCls:'strong' }
+    ];
+
+    function shuffle(arr) {
+      for (var i = arr.length - 1; i > 0; i--) {
+        var j = Math.floor(Math.random() * (i + 1));
+        var t = arr[i]; arr[i] = arr[j]; arr[j] = t;
+      }
+      return arr;
+    }
+
+    var cards = shuffle(POOL.slice()).slice(0, 3);
+    var html = cards.map(function(c) {
+      return '<a class="dyk-card" href="ka_demo_v04.html?q=' + c.topic + '">' +
+        '<div class="dyk-tag">' + c.tag + '</div>' +
+        '<div class="dyk-question">' + c.q + '</div>' +
+        '<div class="dyk-answer">' + c.ans + '</div>' +
+        '<div class="dyk-footer">' +
+          '<span class="dyk-strength ' + c.strCls + '">' + c.strength + '</span>' +
+          '<span class="dyk-explore">Explore →</span>' +
+        '</div>' +
+      '</a>';
+    }).join('');
+    document.getElementById('dyk-cards-container').innerHTML = html;
+  })();
+  </script>
+
+  <div class="scroll-hint">
+    <span>Learn more</span>
+    <span class="scroll-arrow">↓</span>
+  </div>
+</section>
+
+<!-- ABOUT SECTION -->
+<section class="about" id="about">
+  <div class="about-inner">
+    <div class="section-eyebrow">What is Knowledge Atlas?</div>
+    <h2 class="section-title">A knowledge system built on<br>rigorous epistemic foundations</h2>
+
+    <p class="about-lead">
+      Knowledge Atlas is not a search engine, a chatbot, or a literature database. It is a
+      <strong>coherentist knowledge representation system</strong> — a structured network of
+      beliefs, evidence nodes, warrants, and defeat conditions — designed to make the
+      epistemic state of a scientific field legible, queryable, and improvable.
+    </p>
+    <p class="about-body">
+      Every claim in Knowledge Atlas carries an explicit credence value, a provenance chain traceable
+      to primary sources, and a set of warrant relationships that formalize why and to what degree
+      that evidence supports the belief it is linked to. When evidence conflicts, the system does not
+      average or suppress — it represents the conflict structurally and surfaces it to the user.
+      When evidence is absent, the Value of Information framework quantifies exactly what a new study
+      would be worth, making research prioritization a principled calculation rather than a guess.
+    </p>
+    <p class="about-body">
+      The system is built for human factors and cognitive science research, but its epistemic
+      architecture is domain-general. The same machinery that evaluates evidence on workplace
+      lighting and attention can, in principle, represent any field where controlled studies
+      accumulate toward contested theoretical claims.
+    </p>
+
+    <!-- THEORY PILLARS -->
+    <div id="theory" style="margin-top:52px;">
+      <div class="section-eyebrow">Theoretical Architecture</div>
+      <h2 class="section-title" style="font-size:1.6rem; margin-bottom:10px;">Five frameworks, unified</h2>
+      <p class="about-body" style="margin-bottom:0;">
+        Knowledge Atlas draws on five distinct intellectual traditions. Each contributes a different
+        structural layer to the system. The author established formal proofs that these frameworks
+        are mutually consistent — a non-trivial result given that they were developed independently,
+        in different research communities, using different formalisms.
+      </p>
+    </div>
+
+    <div class="pillars">
+
+      <div class="pillar">
+        <div class="pillar-icon">🕸️</div>
+        <div class="pillar-name">Coherence Theory of Justification</div>
+        <div class="pillar-authors">Thagard · BonJour · Haack</div>
+        <div class="pillar-desc">
+          Beliefs are justified not by their derivation from foundational axioms but by their
+          coherence with the overall web of belief. Knowledge Atlas operationalizes coherence
+          as a scored graph property: beliefs with greater mutual support and fewer contradictions
+          receive higher credence.
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">⚖️</div>
+        <div class="pillar-name">Logic of Warrants &amp; Defeasible Belief</div>
+        <div class="pillar-authors">Toulmin · Pollock · Dung</div>
+        <div class="pillar-desc">
+          Evidence does not entail conclusions — it <em>warrants</em> them, defeasibly.
+          The system represents every evidence-to-belief link as a typed warrant (causal,
+          constitutive, correlational, analogical) with an explicit defeat condition.
+          Undercutting and rebutting defeat are treated asymmetrically.
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">🔢</div>
+        <div class="pillar-name">Bayesian Belief Networks</div>
+        <div class="pillar-authors">Pearl · Jensen · Koller &amp; Friedman</div>
+        <div class="pillar-desc">
+          The belief network is implemented as a Bayesian graphical model, enabling
+          probabilistic propagation of evidence updates. Conditional independence
+          assumptions are stated explicitly, and the network supports both forward
+          inference (what does this evidence imply?) and backward inference (what evidence
+          would most change this belief?).
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">🗣️</div>
+        <div class="pillar-name">Argumentation Theory</div>
+        <div class="pillar-authors">Walton · Dung · Bench-Capon</div>
+        <div class="pillar-desc">
+          Conflicts between evidence nodes are represented as argumentation frameworks
+          with explicit attack and support relations. The acceptability semantics
+          (grounded, preferred, stable extensions) determine which beliefs survive
+          under a given set of incoming attacks — making the system's conflict resolution
+          transparent and auditable.
+        </div>
+      </div>
+
+      <div class="pillar">
+        <div class="pillar-icon">📊</div>
+        <div class="pillar-name">Value of Information Theory</div>
+        <div class="pillar-authors">Howard · Good · Lindley</div>
+        <div class="pillar-desc">
+          The VOI framework quantifies the expected reduction in decision uncertainty
+          that a new observation would produce. Knowledge Atlas uses VOI scores to
+          rank research gaps by epistemic priority, making it possible to identify
+          exactly which missing studies would most improve the overall coherence
+          and decision-relevance of the knowledge base.
+        </div>
+      </div>
+
+    </div>
+
+    <!-- CONTRIBUTION BLOCK -->
+    <div class="contribution">
+      <div class="contribution-inner">
+        <div class="contrib-eyebrow">The Author's Contribution</div>
+        <h3 class="contrib-title">New proofs establishing formal consistency<br>across five independent frameworks</h3>
+        <p class="contrib-body">
+          Each of the five frameworks above was developed in isolation, in different research
+          communities, using different mathematical formalisms. Their simultaneous deployment
+          in a single computational system raises a non-trivial question: are they mutually
+          consistent? Do they make incompatible demands on how credence should propagate,
+          how defeat should be handled, or how information value should be calculated?
+        </p>
+        <p class="contrib-body">
+          The author established a series of original proofs addressing exactly these questions.
+          The proofs show that under the specific bridge conditions implemented in Knowledge Atlas,
+          the five frameworks do not merely coexist — they reinforce each other. Coherence scores
+          constrain Bayesian priors in a principled way. Warrant types determine the functional
+          form of the likelihood update. Argumentation-theoretic defeat conditions map cleanly
+          onto Bayesian network d-separation. And VOI calculations are grounded in the same
+          credence values that the coherence and warrant layers produce.
+        </p>
+
+        <ul class="proof-list">
+          <li>
+            <span class="proof-num">1</span>
+            <span><strong>Coherence–Bayes bridge:</strong> Thagard-style coherence maximization converges to the same steady-state credence distribution as Bayesian updating from a uniform prior, given equivalent evidence. The proof establishes the translation function between the two update mechanisms.</span>
+          </li>
+          <li>
+            <span class="proof-num">2</span>
+            <span><strong>Warrant–likelihood correspondence:</strong> Each warrant type (causal, constitutive, correlational, analogical) maps to a distinct likelihood ratio profile. The proof characterizes these profiles and shows they are non-overlapping, justifying the type taxonomy as formally distinct rather than merely heuristic.</span>
+          </li>
+          <li>
+            <span class="proof-num">3</span>
+            <span><strong>Defeat–d-separation equivalence:</strong> Undercutting defeat in the argumentation layer is formally equivalent to the introduction of a blocking variable that induces d-separation in the Bayesian network. Rebutting defeat corresponds to the introduction of a contradictory node. The proof shows the two representations are interchangeable without information loss.</span>
+          </li>
+          <li>
+            <span class="proof-num">4</span>
+            <span><strong>VOI–coherence monotonicity:</strong> Under the bridge conditions established above, VOI scores are monotonically related to the coherence gap they would close. This means gap prioritization by VOI and prioritization by coherence improvement are equivalent orderings — a consistency result that validates using either metric interchangeably for research planning.</span>
+          </li>
+        </ul>
+
+        <div class="stats-row">
+          <div class="stat">
+            <div class="stat-num">424</div>
+            <div class="stat-label">Structured tags<br>in CNFA registry</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">5</div>
+            <div class="stat-label">Theoretical frameworks<br>formally unified</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Original consistency<br>proofs</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">4</div>
+            <div class="stat-label">Warrant types with<br>typed likelihood profiles</div>
+          </div>
+          <div class="stat">
+            <div class="stat-num">∞</div>
+            <div class="stat-label">Evidence nodes<br>as system grows</div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer class="footer">
+  <p style="margin-bottom:6px;">
+    <strong style="color:#A8C8BF;">Knowledge Atlas</strong> &nbsp;·&nbsp;
+    Human Factors &amp; Cognitive Science Research System
+  </p>
+  <p>
+    David Kirsh · UCSD Department of Cognitive Science &nbsp;·&nbsp;
+    <a href="#">Documentation</a> &nbsp;·&nbsp;
+    <a href="#">Contact</a>
+  </p>
+  <p style="margin-top:10px; font-size:0.72rem; color:#3A5A54;">KA UI v0.4 &nbsp;·&nbsp; Design prototype — not production</p>
+</footer>
+
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_home',
+  title: 'Knowledge Atlas — Home',
+  audience: 'New visitors; prospective contributors; students landing from course link',
+  purpose: 'The entry point for the Knowledge Atlas platform. Its job is to communicate what KA is, why it exists, and what a visitor should do next — register as a contributor, log in, or explore the demo. It is not an information or research page; it is a conversion and orientation page.',
+  workflowPos: 'Before any workflow — the first page a new user sees. Links to Login, Register, and the demo Ask page.',
+  notFor: 'Research queries, evidence browsing, hypothesis building, or any task-oriented work. Should not try to explain the full epistemological framework on this page.',
+  phase: 'Phase 1 — Foundation Infrastructure (auth links must go somewhere real)',
+  evalQuestions: [
+    'Does the page clearly communicate what KA is within 10 seconds of landing?',
+    'Is the primary call-to-action (Register / Log In) immediately visible without scrolling?',
+    'Does the page explain the contributor track system clearly enough for a prospective student?',
+    'Is the page overloaded with technical detail that should live on an About or Documentation page instead?',
+    'Does the navigation hierarchy make sense to someone who has never used KA before?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+
+</body>
+</html>

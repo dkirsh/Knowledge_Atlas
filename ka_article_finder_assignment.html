@@ -1,0 +1,565 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track 2 — Article Finder Pipeline · COGS 160</title>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --navy:#1C3D3A;--teal:#2A7868;--teal-lt:#5AC8AA;--teal-bg:#E6F5F0;
+      --amber:#E8872A;--amber-lt:#FFF3E0;--amber-dk:#9a5010;
+      --cream:#F7F4EF;--ink:#2C2C2C;--muted:#6B6B6B;--border:#D8D0C5;
+      --white:#FFFFFF;--rose:#A84F6B;--rose-lt:#F8EBF0;
+      --blue:#3A6EA8;--blue-lt:#EBF2F8;--green:#2A7868;--green-lt:#E6F5F0;
+    }
+    body{font-family:Arial,sans-serif;background:var(--cream);color:var(--ink)}
+    .top-nav{position:fixed;top:0;left:0;right:0;height:56px;background:var(--navy);
+      border-bottom:1px solid #0f2423;display:flex;align-items:center;justify-content:space-between;
+      padding:0 24px;z-index:1000;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+    .nav-wordmark{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.1em;color:#A8C8BF}
+    .nav-icon{width:20px;height:20px;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23A8C8BF" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="6" x2="12" y2="18"/><line x1="18" y1="6" x2="12" y2="18"/></svg>') no-repeat center/contain}
+    .nav-title{color:#fff}.nav-title-accent{color:#F5A623}
+    .nav-center{flex:1;text-align:center;color:#A8C8BF;font-size:13px}
+    .nav-right{display:flex;align-items:center;gap:14px}
+    .mode-pill{background:var(--blue);color:#fff;padding:5px 13px;border-radius:14px;font-size:11px;font-weight:600;letter-spacing:.06em}
+    .nav-avatar{width:30px;height:30px;border-radius:50%;background:#3A6B62;color:#A8C8BF;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:600;cursor:pointer}
+    .page-wrap{max-width:1120px;margin:80px auto 120px;padding:0 28px}
+    .breadcrumb{font-size:11px;color:var(--muted);margin-bottom:12px}
+    .breadcrumb a{color:var(--teal);text-decoration:none}
+
+    /* Hero */
+    .hero{background:var(--navy);color:#fff;border-radius:12px;padding:32px 36px;margin-bottom:28px;position:relative;overflow:hidden}
+    .hero::after{content:'';position:absolute;right:-60px;top:-40px;width:280px;height:280px;border-radius:50%;background:rgba(90,200,170,.07);pointer-events:none}
+    .hero-track-label{font-size:11px;letter-spacing:.12em;color:var(--teal-lt);text-transform:uppercase;margin-bottom:8px;font-weight:600}
+    .hero h1{font-family:Georgia,serif;font-size:1.7rem;font-weight:400;margin-bottom:10px}
+    .hero-sub{font-size:0.88rem;color:#b8d8d4;max-width:720px;line-height:1.65;margin-bottom:18px}
+    .hero-meta{display:flex;gap:16px;flex-wrap:wrap}
+    .hero-pill{background:rgba(255,255,255,.1);border:1px solid rgba(255,255,255,.15);color:#d0ece8;font-size:11px;padding:4px 12px;border-radius:12px}
+
+    /* Workflow overview */
+    .workflow-row{display:grid;grid-template-columns:repeat(5,1fr);gap:10px;margin-bottom:32px}
+    .wf-step{background:var(--white);border:2px solid var(--border);border-radius:8px;padding:14px 12px;text-align:center;cursor:pointer;transition:all .15s}
+    .wf-step:hover{border-color:var(--teal)}
+    .wf-step.active{border-color:var(--teal);background:var(--teal-bg)}
+    .wf-step.done{border-color:var(--teal-lt);background:var(--teal-bg)}
+    .wf-num{width:28px;height:28px;border-radius:50%;background:var(--border);color:var(--muted);font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;margin:0 auto 6px}
+    .wf-step.active .wf-num{background:var(--teal);color:#fff}
+    .wf-step.done .wf-num{background:var(--teal-lt);color:#fff;font-size:0}
+    .wf-step.done .wf-num::after{content:'✓';font-size:13px}
+    .wf-label{font-size:11px;font-weight:600;color:var(--navy);margin-bottom:3px}
+    .wf-weeks{font-size:10px;color:var(--muted)}
+
+    /* Panels */
+    .phase-panel{display:none}.phase-panel.active{display:block}
+    .section-title{font-family:Georgia,serif;font-size:1.05rem;font-weight:400;color:var(--navy);border-bottom:2px solid var(--teal);padding-bottom:6px;margin:28px 0 8px}
+    .section-intro{font-size:0.86rem;color:var(--muted);line-height:1.6;margin-bottom:16px}
+    .callout{padding:12px 16px;border-radius:6px;font-size:0.84rem;line-height:1.6;margin-bottom:14px}
+    .callout-teal{background:var(--teal-bg);border-left:3px solid var(--teal);color:#1a4a3f}
+    .callout-amber{background:var(--amber-lt);border-left:3px solid var(--amber);color:var(--amber-dk)}
+    .callout-blue{background:var(--blue-lt);border-left:3px solid var(--blue);color:#1a3a6a}
+    .callout-rose{background:var(--rose-lt);border-left:3px solid var(--rose);color:#5a1a30}
+
+    /* Tool cards */
+    .tool-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;margin-bottom:20px}
+    .tool-card{background:var(--white);border:2px solid var(--border);border-radius:10px;padding:16px;transition:all .15s}
+    .tool-card:hover{border-color:var(--teal)}
+    .tool-card-top{display:flex;align-items:center;gap:10px;margin-bottom:8px}
+    .tool-icon{font-size:22px}
+    .tool-name{font-family:Georgia,serif;font-size:0.95rem;color:var(--navy)}
+    .tool-type{font-size:10px;color:var(--teal);font-weight:600;text-transform:uppercase;letter-spacing:.07em}
+    .tool-desc{font-size:0.8rem;color:var(--muted);line-height:1.55;margin-bottom:10px}
+    .tool-features{list-style:none}
+    .tool-features li{font-size:0.78rem;color:var(--ink);padding:2px 0}
+    .tool-features li::before{content:'→ ';color:var(--teal)}
+    .tool-api-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;margin-top:6px;font-weight:600}
+    .api-yes{background:#d4edda;color:#1a5c2a;border:1px solid #b2ddd4}
+    .api-partial{background:var(--amber-lt);color:var(--amber-dk);border:1px solid #f0c080}
+    .api-no{background:#F8EBF0;color:var(--rose);border:1px solid #e8b8c8}
+
+    /* Query diary */
+    .diary-table-wrap{overflow-x:auto;margin-bottom:16px}
+    .diary-table{width:100%;border-collapse:collapse;font-size:0.82rem}
+    .diary-table th{background:var(--navy);color:#fff;padding:9px 12px;text-align:left;font-size:10px;letter-spacing:.06em;font-weight:600}
+    .diary-table td{padding:8px 12px;border-bottom:1px solid var(--border);vertical-align:top}
+    .diary-table tr:hover td{background:#FAF7F2}
+    .diary-table input,.diary-table select,.diary-table textarea{width:100%;border:1px solid var(--border);border-radius:4px;padding:5px 7px;font-size:0.78rem;font-family:Arial,sans-serif;background:var(--cream);color:var(--ink)}
+    .diary-table input:focus,.diary-table select:focus{outline:none;border-color:var(--teal);background:#fff}
+    .add-row-btn{border:1px dashed var(--teal);background:none;color:var(--teal);padding:7px 16px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-family:Arial,sans-serif;transition:all .12s;margin-bottom:4px}
+    .add-row-btn:hover{background:var(--teal-bg)}
+
+    /* Progress meters */
+    .progress-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px;margin-bottom:20px}
+    .progress-card{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:14px}
+    .progress-label{font-size:11px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:6px}
+    .progress-value{font-family:Georgia,serif;font-size:1.6rem;color:var(--navy)}
+    .progress-target{font-size:11px;color:var(--muted)}
+    .progress-bar-wrap{height:6px;background:#EEE8E0;border-radius:3px;margin-top:8px;overflow:hidden}
+    .progress-bar{height:6px;background:var(--teal);border-radius:3px;transition:width .3s}
+
+    /* Comparison table */
+    .compare-table{width:100%;border-collapse:collapse;font-size:0.83rem;margin-bottom:16px}
+    .compare-table th{background:#f0ebe3;color:var(--navy);padding:9px 14px;text-align:left;font-size:11px;font-weight:600;letter-spacing:.05em;border-bottom:2px solid var(--border)}
+    .compare-table td{padding:9px 14px;border-bottom:1px solid var(--border);vertical-align:top}
+    .compare-table tr:last-child td{border-bottom:none}
+    .compare-table tr:hover td{background:#FAF7F2}
+    .status-badge{display:inline-block;font-size:10px;padding:2px 7px;border-radius:10px;font-weight:600}
+    .status-found{background:#d4edda;color:#1a5c2a;border:1px solid #b2ddd4}
+    .status-missed{background:var(--rose-lt);color:var(--rose);border:1px solid #e8b8c8}
+    .status-partial{background:var(--amber-lt);color:var(--amber-dk);border:1px solid #f0c080}
+
+    /* Phase 4 campaign */
+    .campaign-target{background:var(--navy);color:#fff;border-radius:10px;padding:20px 24px;margin-bottom:20px;display:flex;align-items:center;gap:24px}
+    .campaign-num{font-family:Georgia,serif;font-size:2.8rem;color:var(--teal-lt);font-weight:300;flex-shrink:0}
+    .campaign-desc{font-size:0.88rem;line-height:1.6;color:#b8d8d4}
+    .campaign-desc strong{color:#fff}
+    .pipeline-steps{display:flex;flex-direction:column;gap:10px}
+    .pipeline-step{background:var(--white);border:1px solid var(--border);border-radius:8px;padding:14px 16px;display:flex;gap:14px;align-items:flex-start}
+    .pipe-num{width:28px;height:28px;border-radius:50%;background:var(--navy);color:#fff;font-size:12px;font-weight:700;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px}
+    .pipe-body h4{font-size:0.88rem;font-weight:600;color:var(--navy);margin-bottom:4px}
+    .pipe-body p{font-size:0.8rem;color:var(--muted);line-height:1.55}
+    .pipe-tool{font-size:10px;color:var(--teal);font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-top:4px}
+
+    /* AI prompts */
+    .ai-box{background:#F0EBF8;border:1px solid #c8b4e8;border-radius:8px;padding:14px 16px;margin:14px 0}
+    .ai-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:#6B4FA8;margin-bottom:8px}
+    .ai-text{font-size:0.82rem;color:#3d2e6b;line-height:1.6;font-family:Georgia,serif;font-style:italic}
+    .copy-btn{margin-top:8px;border:1px solid #6B4FA8;background:none;color:#6B4FA8;padding:4px 12px;border-radius:4px;font-size:11px;cursor:pointer;font-family:Arial,sans-serif}
+    .copy-btn:hover{background:#6B4FA8;color:#fff}
+
+    /* Submit strip */
+    .submit-strip{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:2px solid var(--teal);padding:14px 28px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 -3px 12px rgba(0,0,0,.08);z-index:100}
+    .strip-info{font-size:0.85rem;color:var(--muted)}.strip-info strong{color:var(--navy)}
+    .strip-actions{display:flex;gap:10px}
+    .btn-prev{background:none;border:1px solid var(--border);color:var(--muted);padding:9px 16px;border-radius:6px;font-size:0.85rem;cursor:pointer;font-family:Arial,sans-serif}
+    .btn-next{background:var(--teal);color:#fff;border:none;padding:9px 22px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif}
+    .btn-next:hover{background:#1a5c4e}
+    .btn-link{background:var(--amber);color:#fff;border:none;padding:9px 18px;border-radius:6px;font-size:0.83rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;text-decoration:none;display:inline-block}
+    .btn-link:hover{background:#c97020}
+
+    /* Modal */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;align-items:center;justify-content:center}
+    .modal-overlay.open{display:flex}
+    .modal-box{background:var(--white);border-radius:12px;max-width:520px;width:92vw;box-shadow:0 8px 40px rgba(0,0,0,.22);overflow:hidden}
+    .modal-head{background:var(--navy);color:#fff;padding:16px 22px;font-family:Georgia,serif;font-size:1.0rem}
+    .modal-body{padding:18px 22px;font-size:0.86rem;color:var(--ink);line-height:1.65}
+    .modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+    .btn-ok{background:var(--teal);color:#fff;border:none;padding:9px 22px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif}
+    .version-badge{position:fixed;bottom:68px;right:16px;background:var(--navy);color:#A8C8BF;font-size:10px;padding:3px 8px;border-radius:4px;opacity:.6;z-index:50}
+    .tag{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;letter-spacing:.05em}
+    .tag-blue{background:var(--blue-lt);color:var(--blue)}
+    .tag-teal{background:var(--teal-bg);color:var(--teal)}
+    .field-group{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+    .field-label{font-size:11px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.06em}
+    .field-input,.field-textarea{border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:Arial,sans-serif;font-size:0.83rem;color:var(--ink);background:var(--cream);resize:vertical}
+    .field-input:focus,.field-textarea:focus{outline:none;border-color:var(--teal);background:#fff}
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-wordmark"><span class="nav-icon"></span><span class="nav-title">Knowledge <span class="nav-title-accent">Atlas</span></span></div>
+  <div class="nav-center">COGS 160 · Track 2 Assignment</div>
+  <div class="nav-right"><span class="mode-pill">TRACK 2</span><div class="nav-avatar">JL</div></div>
+</nav>
+
+<div class="page-wrap">
+  <div class="breadcrumb"><a href="ka_home.html">Home</a> &nbsp;/&nbsp; <a href="ka_dashboard.html">Dashboard</a> &nbsp;/&nbsp; Article Finder Track</div>
+
+  <div class="hero">
+    <div class="hero-track-label">COGS 160 · Spring 2026 · Track 2 of 4</div>
+    <h1>Article Finder Pipeline Evaluation</h1>
+    <p class="hero-sub">You are the pipeline team. Your job is to understand how scientific literature gets into Knowledge Atlas, find out where the pipeline breaks, and by Week 8 add at least 1,000–1,500 new article records. That requires learning better ways to ask questions than Boolean strings, mastering four search tools, and building an intake workflow that others can follow.</p>
+    <div class="hero-meta">
+      <span class="hero-pill">📅 Weeks 1–10</span>
+      <span class="hero-pill">📚 Goal: +1,000–1,500 articles</span>
+      <span class="hero-pill">🔧 4 search tools</span>
+      <span class="hero-pill">🤖 Elicit API + manual pipeline</span>
+    </div>
+  </div>
+
+  <!-- Workflow bar -->
+  <div class="workflow-row" id="workflowBar">
+    <div class="wf-step active" onclick="gotoPhase(1)"><div class="wf-num">1</div><div class="wf-label">Tool Orientation</div><div class="wf-weeks">Weeks 1–2</div></div>
+    <div class="wf-step" onclick="gotoPhase(2)"><div class="wf-num">2</div><div class="wf-label">Question Making</div><div class="wf-weeks">Weeks 3–4</div></div>
+    <div class="wf-step" onclick="gotoPhase(3)"><div class="wf-num">3</div><div class="wf-label">Corpus Building</div><div class="wf-weeks">Weeks 4–6</div></div>
+    <div class="wf-step" onclick="gotoPhase(4)"><div class="wf-num">4</div><div class="wf-label">Scale-Up Campaign</div><div class="wf-weeks">Weeks 6–8</div></div>
+    <div class="wf-step" onclick="gotoPhase(5)"><div class="wf-num">5</div><div class="wf-label">Pipeline Report</div><div class="wf-weeks">Weeks 9–10</div></div>
+  </div>
+
+  <!-- ══ PHASE 1 ══ -->
+  <div class="phase-panel active" id="phase1">
+    <div class="section-title">Phase 1 — Tool Orientation &amp; Manual Baseline</div>
+    <p class="section-intro">Before you can evaluate or improve the pipeline, you must experience the problem it solves. Spend Weeks 1–2 searching manually, then systematically learn each of the four AI search tools. Your Query Diary is the evidence base for everything that follows.</p>
+
+    <div class="callout callout-amber"><strong>Week 1 task:</strong> Execute 15 manually-crafted queries on PubMed, PsycINFO, or Web of Science using Boolean operators. Record every query in the diary below. Identify 8 potentially relevant articles by title and abstract. <strong>Week 2:</strong> Extend to 25 queries, finalize at least 12 Include-status articles, write a 500-word reflection.</div>
+
+    <div class="section-title">The Four Search Tools</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-card-top"><span class="tool-icon">🎓</span><div><div class="tool-name">Google AI Scholar</div><div class="tool-type">Natural Language · Free</div></div></div>
+        <p class="tool-desc">Ask full English questions rather than Boolean strings. Best for exploratory queries where you do not know the controlled vocabulary. Returns summaries with citations, not just a list.</p>
+        <ul class="tool-features">
+          <li>Ask questions, not keyword strings</li>
+          <li>Follow-up question chains work well</li>
+          <li>Cite a paper and ask "what else is related?"</li>
+          <li>Cannot filter by date or database</li>
+        </ul>
+        <span class="tool-api-badge api-no">No API — manual only</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-top"><span class="tool-icon">⚗️</span><div><div class="tool-name">Elicit</div><div class="tool-type">AI Research Tool · API</div></div></div>
+        <p class="tool-desc">Ask a research question; Elicit retrieves relevant papers and extracts structured fields (methodology, sample size, effect size, limitations). The easiest manual DL path for library-accessible PDFs.</p>
+        <ul class="tool-features">
+          <li>Structured extraction per paper</li>
+          <li>API available — automation possible</li>
+          <li>Direct library DL is the fastest manual PDF method</li>
+          <li>Good for effect-size comparison across studies</li>
+        </ul>
+        <span class="tool-api-badge api-yes">API available — explore automation</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-top"><span class="tool-icon">🤝</span><div><div class="tool-name">Consensus</div><div class="tool-type">AI Research RAG · Chat</div></div></div>
+        <p class="tool-desc">Available via Claude and Gemini chat. Specialises in synthesising consensus across studies — "does X cause Y?" — and returning a confidence rating with supporting citations.</p>
+        <ul class="tool-features">
+          <li>Best for contested causal claims</li>
+          <li>Returns yes/no/mixed with citation support</li>
+          <li>Access via Claude chat or Gemini</li>
+          <li>API status uncertain — check during Week 3</li>
+        </ul>
+        <span class="tool-api-badge api-partial">API status: investigate</span>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-top"><span class="tool-icon">📖</span><div><div class="tool-name">Scholar AI</div><div class="tool-type">GPT Plugin · Chat</div></div></div>
+        <p class="tool-desc">Available as a ChatGPT/Claude plugin. Can retrieve and read PDFs directly, which makes it useful for full-text queries rather than just abstract-level search.</p>
+        <ul class="tool-features">
+          <li>Full-text access for open-access PDFs</li>
+          <li>Good for "what does this paper actually say?"</li>
+          <li>Access via Claude chat (plugin mode)</li>
+          <li>Less structured output than Elicit</li>
+        </ul>
+        <span class="tool-api-badge api-partial">Plugin — no standalone API</span>
+      </div>
+    </div>
+
+    <div class="callout callout-blue"><strong>Critical difference:</strong> Boolean search requires you to know the controlled vocabulary in advance ("Kaplan + Attention + Restoration + Workplace"). Natural language search (Elicit, Google AI Scholar) lets you ask "do natural views from office windows reduce mental fatigue?" and allows the system to map your intent to the literature. Learning to write good natural language questions is a skill — use the <a href="ka_question_maker.html" style="color:var(--blue);">Question Maker</a> to practise.</div>
+
+    <div class="section-title">Query Diary</div>
+    <p class="section-intro">One row per query. Record the tool, the query string or question, hit count, how many appeared relevant on first pass, and a note on what worked. Target: 25+ rows by end of Week 2.</p>
+    <div class="progress-grid">
+      <div class="progress-card"><div class="progress-label">Queries logged</div><div class="progress-value" id="queryCount">0</div><div class="progress-target">Target: 25+</div><div class="progress-bar-wrap"><div class="progress-bar" id="queryBar" style="width:0%"></div></div></div>
+      <div class="progress-card"><div class="progress-label">Include decisions</div><div class="progress-value" id="includeCount">0</div><div class="progress-target">Target: 12+</div><div class="progress-bar-wrap"><div class="progress-bar" id="includeBar" style="width:0%"></div></div></div>
+      <div class="progress-card"><div class="progress-label">Tools used</div><div class="progress-value" id="toolCount">0</div><div class="progress-target">Target: 4</div><div class="progress-bar-wrap"><div class="progress-bar" id="toolBar" style="width:0%"></div></div></div>
+    </div>
+    <div class="diary-table-wrap">
+      <table class="diary-table">
+        <thead><tr>
+          <th style="width:5%">#</th>
+          <th style="width:14%">Tool</th>
+          <th style="width:28%">Query / Question</th>
+          <th style="width:8%">Hits</th>
+          <th style="width:8%">Relevant?</th>
+          <th style="width:10%">Decision</th>
+          <th style="width:27%">Notes</th>
+        </tr></thead>
+        <tbody id="diaryBody"></tbody>
+      </table>
+    </div>
+    <button class="add-row-btn" onclick="addDiaryRow()">+ Add query</button>
+
+    <div class="section-title" style="margin-top:24px">Phase 1 · Reflection Prompt</div>
+    <div class="field-group">
+      <label class="field-label">500-word reflection (due end of Week 2)</label>
+      <textarea class="field-input field-textarea" rows="8" placeholder="What surprised you about the manual search experience? What was hardest? Where did vocabulary ambiguity cause problems? What would a good automated tool need to do that you found yourself doing manually? How did natural language questions (Elicit / Google AI Scholar) compare to Boolean queries?"></textarea>
+    </div>
+  </div>
+
+  <!-- ══ PHASE 2 ══ -->
+  <div class="phase-panel" id="phase2">
+    <div class="section-title">Phase 2 — Question Making &amp; Query Strategy</div>
+    <p class="section-intro">The hardest problem in systematic review is knowing what to ask. This phase develops your question-making skills and connects them to KA's internal knowledge about where the evidence is thin. Use the Question Maker tool to generate, test, and refine queries before executing them at scale in Phase 4.</p>
+
+    <div class="callout callout-teal"><strong>Core principle:</strong> A good natural language question for an AI RAG has a clear dependent variable, a specified population or context, and implies a comparison. "How does morning light exposure affect reaction time in office workers compared to windowless workspaces?" outperforms "light cognition workplace." The Question Maker shows you templates for each tool.</div>
+
+    <div class="section-title">Three sources of good questions</div>
+    <div class="pipeline-steps">
+      <div class="pipeline-step">
+        <div class="pipe-num">1</div>
+        <div class="pipe-body">
+          <h4>Paper clusters — what does KA already know?</h4>
+          <p>KA's hidden paper_clusters identify recurring topics across the 263+ ingested papers. A cluster with 10 articles is an area of existing coverage; a cluster with 3 articles and a high VOI score is a gap worth targeting. Open the Question Maker to see the current cluster map and VOI heat.</p>
+          <div class="pipe-tool">→ <a href="ka_question_maker.html">Question Maker → Topic Browser</a></div>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipe-num">2</div>
+        <div class="pipe-body">
+          <h4>VOI locator — where should papers exist but don't?</h4>
+          <p>KA's Value of Information scores identify where filling a knowledge gap would most change the system's credences. A high-VOI gap means many downstream beliefs depend on a claim that has thin evidence. These are the highest-priority search targets.</p>
+          <div class="pipe-tool">→ <a href="ka_gaps.html">Gap Explorer</a> / <a href="ka_question_maker.html">Question Maker → VOI Panel</a></div>
+        </div>
+      </div>
+      <div class="pipeline-step">
+        <div class="pipe-num">3</div>
+        <div class="pipe-body">
+          <h4>Interpreter &amp; argumentation layer — what is contested?</h4>
+          <p>KA's argumentation layer tracks claims where existing evidence is split, or where rebutting evidence undercuts a warrant. These contested claims are exactly where new articles can shift the network most. Ask KA "what is the most disputed claim in [topic]?" and use the answer as a search question.</p>
+          <div class="pipe-tool">→ <a href="ka_demo_v04.html">Ask KA</a> → "What is most contested about X?"</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:24px">Best Practices by Tool</div>
+    <div class="tool-grid">
+      <div class="tool-card">
+        <div class="tool-card-top"><span class="tool-icon">🎓</span><div><div class="tool-name">Google AI Scholar</div><div class="tool-type">Best practices</div></div></div>
+        <ul class="tool-features" style="font-size:0.81rem;line-height:1.65">
+          <li><strong>Use a full research question</strong>, not keywords: "What is the effect of biophilic office design on self-reported cognitive fatigue?"</li>
+          <li><strong>Specify the population</strong>: "in office workers" or "in university students" avoids irrelevant clinical literature</li>
+          <li><strong>Seed with a known paper</strong>: "Papers similar to Kaplan 1995 on attention restoration in natural settings"</li>
+          <li><strong>Follow the citation chain</strong>: "What papers cite [result]?" and "What does [result] cite?"</li>
+          <li><strong>Ask for disagreement</strong>: "Are there studies that failed to replicate [finding]?"</li>
+        </ul>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-top"><span class="tool-icon">⚗️</span><div><div class="tool-name">Elicit</div><div class="tool-type">Best practices</div></div></div>
+        <ul class="tool-features" style="font-size:0.81rem;line-height:1.65">
+          <li><strong>State the research question as a hypothesis</strong>: "Does exposure to natural light during work hours improve sustained attention performance?"</li>
+          <li><strong>Use column extraction</strong>: ask Elicit to pull effect sizes, sample sizes, and study designs into a table for comparison</li>
+          <li><strong>Filter by year</strong>: restrict to 1995–present to match KA's inclusion criteria</li>
+          <li><strong>Use the library DL link</strong>: fastest manual PDF acquisition path</li>
+          <li><strong>API</strong>: Elicit's API accepts a research question and returns structured results — explore batch automation</li>
+        </ul>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-top"><span class="tool-icon">🤝</span><div><div class="tool-name">Consensus</div><div class="tool-type">Best practices</div></div></div>
+        <ul class="tool-features" style="font-size:0.81rem;line-height:1.65">
+          <li><strong>Ask a binary causal question</strong>: "Does [X] cause [Y]?" format works best</li>
+          <li><strong>Use it for contested claims</strong>: Consensus is strongest when the literature is genuinely split</li>
+          <li><strong>Access via Claude chat</strong>: paste your question and add "use Consensus to find relevant studies"</li>
+          <li><strong>Follow up</strong>: "What studies found the opposite result?"</li>
+          <li><strong>Do not trust the confidence rating alone</strong>: read the citations and verify</li>
+        </ul>
+      </div>
+      <div class="tool-card">
+        <div class="tool-card-top"><span class="tool-icon">🌐</span><div><div class="tool-name">PubMed / PsycINFO</div><div class="tool-type">Best practices (Boolean)</div></div></div>
+        <ul class="tool-features" style="font-size:0.81rem;line-height:1.65">
+          <li><strong>Use MeSH terms</strong>: "Attention"[MeSH] AND "Work Environment"[MeSH] is more precise than free text</li>
+          <li><strong>Combine with title/abstract field</strong>: [Title/Abstract] limits to high-relevance hits</li>
+          <li><strong>Date filter</strong>: add AND ("1995"[PDAT] : "3000"[PDAT]) for KA-compatible range</li>
+          <li><strong>DOI export</strong>: export results as CSV with DOIs for batch submission to Article Propose</li>
+          <li><strong>Cross-database</strong>: the same search in PubMed vs. PsycINFO often returns non-overlapping results — run both</li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="callout callout-amber">
+      <strong>Phase 2 deliverable:</strong> Build a set of at least 20 well-formed questions (5 per tool) using the Question Maker, covering at least 4 different topic clusters. Your question set will become the input to the Phase 4 scale-up campaign. Document each question with the cluster it targets, the tool it is optimised for, and the expected yield.
+    </div>
+
+    <div class="section-title">Go to Question Maker</div>
+    <p class="section-intro">The Question Maker uses paper clusters, VOI scores, and argumentation gaps to help you formulate and store high-quality search questions. It maintains a shared question queue that the whole class can contribute to and draw from.</p>
+    <a class="btn-link" href="ka_question_maker.html">Open Question Maker →</a>
+  </div>
+
+  <!-- ══ PHASE 3 ══ -->
+  <div class="phase-panel" id="phase3">
+    <div class="section-title">Phase 3 — Corpus Building &amp; Pipeline Comparison</div>
+    <p class="section-intro">Assemble your final corpus of 25+ articles and compare it against KA's automated recall. The comparison is the core evaluation: it reveals where the automated pipeline succeeds, where it misses relevant work, and where it returns irrelevant results.</p>
+
+    <div class="progress-grid">
+      <div class="progress-card"><div class="progress-label">Corpus size</div><div class="progress-value">0</div><div class="progress-target">Target: 25+</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:0%"></div></div></div>
+      <div class="progress-card"><div class="progress-label">KA overlap</div><div class="progress-value">—</div><div class="progress-target">Recall metric</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:0%"></div></div></div>
+      <div class="progress-card"><div class="progress-label">KA-only hits</div><div class="progress-value">—</div><div class="progress-target">Precision metric</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:0%"></div></div></div>
+      <div class="progress-card"><div class="progress-label">Submitted to intake</div><div class="progress-value">0</div><div class="progress-target">New to KA</div><div class="progress-bar-wrap"><div class="progress-bar" style="width:0%"></div></div></div>
+    </div>
+
+    <div class="section-title">Comparison Table</div>
+    <p class="section-intro">For each article in your corpus, record its DOI, check whether KA already has it (you can search in the Article Search page), and note whether KA's automated pipeline would have found it. This gives you a row-level recall/precision table.</p>
+    <div class="diary-table-wrap">
+      <table class="compare-table">
+        <thead><tr>
+          <th>APA Citation (brief)</th>
+          <th>DOI</th>
+          <th>Topic Cluster</th>
+          <th>In KA?</th>
+          <th>Pipeline would find?</th>
+          <th>Action</th>
+        </tr></thead>
+        <tbody id="corpusBody">
+          <tr><td colspan="6" style="text-align:center;color:var(--muted);padding:20px;font-size:0.83rem;">Add articles from your Query Diary here — or use the Article Propose tool to submit directly.</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <div style="display:flex;gap:10px;flex-wrap:wrap;margin-bottom:16px">
+      <button class="add-row-btn" onclick="addCorpusRow()">+ Add article to corpus</button>
+      <a class="btn-link" href="ka_article_propose.html" style="padding:7px 16px;font-size:0.83rem;">Propose new article to KA →</a>
+    </div>
+
+    <div class="callout callout-rose">
+      <strong>Evaluation question:</strong> For the articles in your corpus that are NOT in KA, run the article's title and topic through KA's article search and question-asking interface. Would KA's automated queries have surfaced it? If not, why not — was the topic cluster missing, was the query vocabulary wrong, or was the paper simply not indexed in the databases the pipeline queries?
+    </div>
+
+    <div class="section-title">Zotero Integration Note</div>
+    <p class="section-intro">Zotero can theoretically automate PDF retrieval from library subscriptions, but in practice its success rate is low. Recommended workflow for PDF acquisition in order of reliability:</p>
+    <ol style="font-size:0.84rem;color:var(--ink);margin-left:18px;line-height:1.9">
+      <li><strong>Elicit direct library DL link</strong> — fastest manual method; click the library link on any Elicit result card</li>
+      <li><strong>DOI.org → Unpaywall</strong> — for open access versions of paywalled papers</li>
+      <li><strong>Google Scholar "All versions"</strong> — often includes a free PDF link</li>
+      <li><strong>Zotero browser connector</strong> — works well on publisher pages; use as a fallback</li>
+      <li><strong>Email the author</strong> — always works; turnaround is usually fast for CNFA-adjacent researchers</li>
+    </ol>
+  </div>
+
+  <!-- ══ PHASE 4 ══ -->
+  <div class="phase-panel" id="phase4">
+    <div class="section-title">Phase 4 — Scale-Up Campaign</div>
+
+    <div class="campaign-target">
+      <div class="campaign-num">+1,000–1,500</div>
+      <div class="campaign-desc"><strong>New article records by end of Week 8.</strong> This means APA citations with DOIs logged in the system, not necessarily PDFs. PDFs should be acquired for every article where the abstract passes the relevance filter, but citation-level records count toward the target. The question set you built in Phase 2 is your input. The Article Propose intake pipeline is your output channel.</div>
+    </div>
+
+    <div class="section-title">Campaign Pipeline</div>
+    <div class="pipeline-steps">
+      <div class="pipeline-step"><div class="pipe-num">1</div><div class="pipe-body"><h4>Generate questions from KA's knowledge state</h4><p>Pull the top 20 highest-VOI topic areas from the Gap Explorer. For each, use the Question Maker to generate 3–5 tool-optimised questions. Focus on clusters with fewer than 20 articles and VOI ≥ 0.6.</p><div class="pipe-tool">Tools: Question Maker → VOI panel → export question set</div></div></div>
+      <div class="pipeline-step"><div class="pipe-num">2</div><div class="pipe-body"><h4>Run questions via Elicit API (automated path)</h4><p>Elicit's API accepts a research question and returns structured results including DOIs, titles, abstracts, and methodology fields. Batch 50 questions through the API, parse the JSON output, and extract a citation list. Document your API call pattern for the handoff package.</p><div class="pipe-tool">Tools: Elicit API (explore key in Week 3), Python batch script, CSV output</div></div></div>
+      <div class="pipeline-step"><div class="pipe-num">3</div><div class="pipe-body"><h4>Run questions manually via Google AI Scholar</h4><p>For questions where the Elicit API yields fewer than 5 results, run the question manually in Google AI Scholar. Copy the citations into the shared queue. Do not skip this — Google AI Scholar accesses different corpora and finds papers Elicit misses.</p><div class="pipe-tool">Tools: Google AI Scholar chat, shared citation queue in Question Maker</div></div></div>
+      <div class="pipeline-step"><div class="pipe-num">4</div><div class="pipe-body"><h4>Screen citations for relevance (abstract level)</h4><p>For every retrieved citation, paste the DOI into the Article Propose form. The form auto-fetches the abstract from CrossRef. Read the abstract and decide: Include / Exclude / Uncertain. Only Include-status articles advance to PDF acquisition.</p><div class="pipe-tool">Tools: Article Propose → abstract preview → relevance decision</div></div></div>
+      <div class="pipeline-step"><div class="pipe-num">5</div><div class="pipe-body"><h4>Acquire PDFs for Include-status articles</h4><p>Use the Elicit library link first. Fallback order: Unpaywall → Google Scholar free version → Zotero connector → author email. Upload via the Article Propose form. Each uploaded PDF enters the extraction queue for KA's claim-extraction pipeline.</p><div class="pipe-tool">Tools: Elicit DL link, Unpaywall, Article Propose → PDF upload</div></div></div>
+      <div class="pipeline-step"><div class="pipe-num">6</div><div class="pipe-num" style="display:none"></div><div class="pipe-body"><h4>New area: Neuroscience of attention pathways</h4><p>One explicitly requested expansion area is deepening KA's neuroscience coverage — specifically the neural pathways underlying sustained attention, cognitive fatigue, and stress recovery (prefrontal cortex, locus coeruleus-norepinephrine, default mode network suppression). Add 10–15 focused questions on these pathways to the question queue.</p><div class="pipe-tool">Seed questions: "LC-NE modulation of sustained attention in fatigued states" · "DMN deactivation during focused work" · "PFC executive function and environmental noise"</div></div></div>
+    </div>
+
+    <div class="ai-box">
+      <div class="ai-label">🤖 API exploration prompt for Week 3</div>
+      <div class="ai-text" id="apiPrompt">"I am building an automated literature pipeline for an AI evidence-synthesis system. I have access to the Elicit API. Please show me: (1) the basic API call structure for Elicit's search endpoint, accepting a natural language research question and returning DOI, title, abstract, and year; (2) a Python function that takes a list of research questions and returns a pandas DataFrame with one row per result; (3) how to handle rate limiting and paginate through more than 25 results; (4) what the output JSON schema looks like for a typical Elicit API response. Assume I want to run 50–100 questions in a single session."</div>
+      <button class="copy-btn" onclick="copyText('apiPrompt')">Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- ══ PHASE 5 ══ -->
+  <div class="phase-panel" id="phase5">
+    <div class="section-title">Phase 5 — Pipeline Report &amp; Handoff</div>
+    <p class="section-intro">Your final deliverable is a short technical report and a handoff package that makes it possible for fall-semester students to operate the article-finding pipeline independently. The report combines your recall/precision analysis with your campaign yield and lessons learned.</p>
+
+    <div class="callout callout-teal"><strong>Handoff package must include:</strong> (1) query bank with at least 50 tested questions annotated by tool and topic cluster; (2) API call pattern for Elicit with sample code; (3) step-by-step PDF acquisition decision tree; (4) recall/precision analysis against your Phase 3 corpus; (5) list of 5 specific improvements to the pipeline with implementation notes.</div>
+
+    <div class="section-title">Report sections</div>
+    <div class="pipeline-steps">
+      <div class="pipeline-step"><div class="pipe-num">1</div><div class="pipe-body"><h4>Methodology</h4><p>What you searched, with which tools, using which question-generation strategy. Include your full query count and tool breakdown from the diary.</p></div></div>
+      <div class="pipeline-step"><div class="pipe-num">2</div><div class="pipe-body"><h4>Corpus &amp; recall analysis</h4><p>Size of your manual corpus, overlap with KA, estimated recall rate (how many of your Include articles does KA find automatically?), estimated precision rate (what fraction of KA's automatic results are genuinely relevant?). Note any systematic patterns in misses — topic, database, publication year.</p></div></div>
+      <div class="pipeline-step"><div class="pipe-num">3</div><div class="pipe-body"><h4>Scale-up yield</h4><p>Total new citations submitted, Include vs. Exclude breakdown, PDF acquisition success rate by method, and cluster-level distribution of new articles.</p></div></div>
+      <div class="pipeline-step"><div class="pipe-num">4</div><div class="pipe-body"><h4>Pipeline failure modes</h4><p>Where does the pipeline systematically fail? Rank the top 3–5 failure modes by epistemic consequence — which gaps, if unfilled, most distort KA's belief network?</p></div></div>
+      <div class="pipeline-step"><div class="pipe-num">5</div><div class="pipe-body"><h4>Recommendations</h4><p>At least one improvement you implemented, plus four you could not implement but have specified in enough detail that a developer could. Reference the Article Propose intake form and the Question Maker question queue as two infrastructure improvements already in place.</p></div></div>
+    </div>
+
+    <div class="field-group" style="margin-top:16px">
+      <label class="field-label">Draft report text</label>
+      <textarea class="field-input field-textarea" rows="12" placeholder="Write or paste your pipeline report here. The system will save drafts automatically. For the final submission, export this as a PDF or Word document and upload to the course system."></textarea>
+    </div>
+  </div>
+
+</div>
+
+<!-- Submit strip -->
+<div class="submit-strip">
+  <div class="strip-info"><strong id="stripLabel">Phase 1 — Tool Orientation</strong> &nbsp;·&nbsp; <span id="stripStatus">Complete the Query Diary (25+ rows) to advance</span></div>
+  <div class="strip-actions">
+    <button class="btn-prev" id="btnPrev" onclick="prevPhase()" style="display:none">← Back</button>
+    <button class="btn-next" id="btnNext" onclick="nextPhase()">Continue to Phase 2 →</button>
+  </div>
+</div>
+
+<div class="version-badge">KA UI · v0.4</div>
+
+<!-- Confirm modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-head" id="confirmTitle">Saved</div>
+    <div class="modal-body" id="confirmBody"></div>
+    <div class="modal-foot"><button class="btn-ok" onclick="closeModal()">OK</button></div>
+  </div>
+</div>
+
+<script>
+let currentPhase = 1;
+let diaryRows = 0;
+
+const PHASE_LABELS = ['Tool Orientation','Question Making','Corpus Building','Scale-Up Campaign','Pipeline Report'];
+const PHASE_STATUS = [
+  'Complete the Query Diary (25+ rows) to advance',
+  'Build your question set in the Question Maker',
+  'Add 25+ articles and compare against KA recall',
+  'Run the campaign — target 1,000–1,500 new records',
+  'Write the report and handoff package'
+];
+
+function gotoPhase(n) {
+  document.querySelectorAll('.phase-panel').forEach(p=>p.classList.remove('active'));
+  document.getElementById('phase'+n).classList.add('active');
+  document.querySelectorAll('.wf-step').forEach((s,i)=>{
+    s.classList.remove('active');
+    if(i<n-1)s.classList.add('done'); else s.classList.remove('done');
+    if(i===n-1)s.classList.add('active');
+  });
+  currentPhase=n;
+  document.getElementById('stripLabel').textContent='Phase '+n+' — '+PHASE_LABELS[n-1];
+  document.getElementById('stripStatus').textContent=PHASE_STATUS[n-1];
+  document.getElementById('btnPrev').style.display=n>1?'':'none';
+  document.getElementById('btnNext').textContent=n<5?'Continue to Phase '+(n+1)+' →':'All phases complete ✓';
+  document.getElementById('btnNext').disabled=n===5;
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+function nextPhase(){if(currentPhase<5)gotoPhase(currentPhase+1);}
+function prevPhase(){if(currentPhase>1)gotoPhase(currentPhase-1);}
+
+function addDiaryRow() {
+  diaryRows++;
+  const tbody = document.getElementById('diaryBody');
+  const tr = document.createElement('tr');
+  tr.innerHTML=`
+    <td style="color:var(--muted);font-size:11px">${diaryRows}</td>
+    <td><select style="width:100%;border:1px solid var(--border);border-radius:4px;padding:4px;font-size:0.78rem;background:var(--cream)">
+      <option>Google AI Scholar</option><option>Elicit</option><option>Consensus</option><option>Scholar AI</option><option>PubMed</option><option>PsycINFO</option><option>Web of Science</option>
+    </select></td>
+    <td><input type="text" placeholder="Query or question text…" style="width:100%;border:1px solid var(--border);border-radius:4px;padding:5px;font-size:0.78rem;background:var(--cream)"></td>
+    <td><input type="number" placeholder="0" style="width:100%;border:1px solid var(--border);border-radius:4px;padding:5px;font-size:0.78rem;background:var(--cream);text-align:center"></td>
+    <td><input type="number" placeholder="0" style="width:100%;border:1px solid var(--border);border-radius:4px;padding:5px;font-size:0.78rem;background:var(--cream);text-align:center"></td>
+    <td><select style="width:100%;border:1px solid var(--border);border-radius:4px;padding:4px;font-size:0.78rem;background:var(--cream)">
+      <option value="">—</option><option>Include</option><option>Exclude</option><option>Uncertain</option>
+    </select></td>
+    <td><input type="text" placeholder="What worked / what didn't…" style="width:100%;border:1px solid var(--border);border-radius:4px;padding:5px;font-size:0.78rem;background:var(--cream)"></td>`;
+  tbody.appendChild(tr);
+  const pct=Math.min(100,Math.round(diaryRows/25*100));
+  document.getElementById('queryCount').textContent=diaryRows;
+  document.getElementById('queryBar').style.width=pct+'%';
+}
+
+function addCorpusRow() {
+  const tbody=document.getElementById('corpusBody');
+  if(tbody.querySelector('td[colspan]'))tbody.innerHTML='';
+  const tr=document.createElement('tr');
+  tr.innerHTML=`
+    <td><input type="text" placeholder="Author (Year). Title…" style="width:100%;border:1px solid var(--border);border-radius:4px;padding:5px;font-size:0.78rem;background:var(--cream)"></td>
+    <td><input type="text" placeholder="10.xxxx/…" style="width:100%;border:1px solid var(--border);border-radius:4px;padding:5px;font-size:0.78rem;background:var(--cream)"></td>
+    <td><input type="text" placeholder="Cluster name" style="width:100%;border:1px solid var(--border);border-radius:4px;padding:5px;font-size:0.78rem;background:var(--cream)"></td>
+    <td><select style="width:100%;border:1px solid var(--border);border-radius:4px;padding:4px;font-size:0.78rem;background:var(--cream)"><option>—</option><option>Yes</option><option>No</option></select></td>
+    <td><select style="width:100%;border:1px solid var(--border);border-radius:4px;padding:4px;font-size:0.78rem;background:var(--cream)"><option>—</option><option>Yes</option><option>Probably</option><option>No</option></select></td>
+    <td><a href="ka_article_propose.html" style="font-size:0.78rem;color:var(--teal)">Propose →</a></td>`;
+  tbody.appendChild(tr);
+}
+
+function copyText(id){
+  const text=document.getElementById(id).textContent.trim();
+  navigator.clipboard.writeText(text).then(()=>{
+    document.getElementById('confirmTitle').textContent='Prompt Copied';
+    document.getElementById('confirmBody').innerHTML='<p style="color:var(--muted)">The prompt has been copied to your clipboard.</p>';
+    document.getElementById('confirmModal').classList.add('open');
+  });
+}
+function closeModal(){document.getElementById('confirmModal').classList.remove('open');}
+document.getElementById('confirmModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+</script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

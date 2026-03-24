@@ -1,0 +1,1509 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Theory &amp; Experiment Design — COGS 160</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #FFFFFF;
+    color: #1E293B;
+    line-height: 1.7;
+  }
+
+  /* ─── Global Navigation ─────────────────────────────────── */
+  nav.global-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 64px;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0891B2;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .logo:hover { color: #0369A1; }
+
+  .nav-links {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    color: #475569;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .nav-links a:hover {
+    background: #F1F5F9;
+    color: #0891B2;
+  }
+
+  .nav-links a.active {
+    background: #E0F2FE;
+    color: #0891B2;
+    font-weight: 600;
+  }
+
+  /* ─── Page Layout ───────────────────────────────────────── */
+  .page-wrapper {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .page-hero {
+    margin-bottom: 48px;
+  }
+
+  .page-hero h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+
+  .page-hero .subtitle {
+    font-size: 1.15rem;
+    color: #475569;
+    max-width: 800px;
+    line-height: 1.7;
+  }
+
+  /* ─── Section Tabs ──────────────────────────────────────── */
+  .section-tabs {
+    display: flex;
+    gap: 4px;
+    border-bottom: 2px solid #E2E8F0;
+    margin-bottom: 40px;
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  .section-tab {
+    padding: 12px 20px;
+    background: none;
+    border: none;
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: #64748B;
+    cursor: pointer;
+    border-bottom: 3px solid transparent;
+    margin-bottom: -2px;
+    white-space: nowrap;
+    transition: all 0.2s;
+  }
+
+  .section-tab:hover {
+    color: #0891B2;
+    background: #F0F9FF;
+  }
+
+  .section-tab.active {
+    color: #0891B2;
+    border-bottom-color: #0891B2;
+    font-weight: 600;
+  }
+
+  .tab-panel {
+    display: none;
+  }
+
+  .tab-panel.active {
+    display: block;
+  }
+
+  /* ─── Typography ────────────────────────────────────────── */
+  h2 {
+    font-size: 1.6rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin: 40px 0 16px;
+    line-height: 1.3;
+  }
+
+  h2:first-child { margin-top: 0; }
+
+  h3 {
+    font-size: 1.2rem;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 28px 0 12px;
+  }
+
+  p {
+    margin-bottom: 16px;
+    font-size: 1rem;
+    color: #334155;
+  }
+
+  /* ─── Taxonomy Cards ────────────────────────────────────── */
+  .taxonomy-grid {
+    display: grid;
+    grid-template-columns: 1fr;
+    gap: 24px;
+    margin: 32px 0;
+  }
+
+  .level-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 28px 32px;
+    position: relative;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+  }
+
+  .level-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  .level-card .level-badge {
+    position: absolute;
+    top: 0;
+    left: 0;
+    padding: 6px 16px;
+    font-size: 0.75rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    color: white;
+    border-radius: 0 0 8px 0;
+  }
+
+  .level-1 .level-badge { background: #64748B; }
+  .level-2 .level-badge { background: #0891B2; }
+  .level-3 .level-badge { background: #7C3AED; }
+  .level-4 .level-badge { background: #DC2626; }
+
+  .level-card h3 {
+    margin-top: 16px;
+    font-size: 1.25rem;
+  }
+
+  .level-card .level-question {
+    font-style: italic;
+    color: #0891B2;
+    font-size: 1.05rem;
+    margin: 8px 0 12px;
+  }
+
+  .level-card .example-box {
+    background: #F8FAFC;
+    border-left: 3px solid #0891B2;
+    padding: 12px 16px;
+    margin: 12px 0;
+    border-radius: 0 6px 6px 0;
+  }
+
+  .level-card .example-box .example-label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #0891B2;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .level-card .requirements {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 12px;
+  }
+
+  .level-card .req-tag {
+    background: #F1F5F9;
+    color: #475569;
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.82rem;
+    font-weight: 500;
+  }
+
+  .severity-meter {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-top: 12px;
+  }
+
+  .severity-meter .label {
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #64748B;
+  }
+
+  .severity-bar {
+    flex: 1;
+    height: 8px;
+    background: #E2E8F0;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+
+  .severity-fill {
+    height: 100%;
+    border-radius: 4px;
+    transition: width 0.5s ease;
+  }
+
+  .level-1 .severity-fill { width: 25%; background: #64748B; }
+  .level-2 .severity-fill { width: 50%; background: #0891B2; }
+  .level-3 .severity-fill { width: 75%; background: #7C3AED; }
+  .level-4 .severity-fill { width: 100%; background: #DC2626; }
+
+  /* ─── Theory Cards ──────────────────────────────────────── */
+  .theory-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(480px, 1fr));
+    gap: 24px;
+    margin: 32px 0;
+  }
+
+  .theory-card {
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: box-shadow 0.2s;
+    cursor: pointer;
+  }
+
+  .theory-card:hover {
+    box-shadow: 0 4px 16px rgba(0,0,0,0.08);
+  }
+
+  .theory-card .card-header {
+    padding: 20px 24px 16px;
+    border-bottom: 1px solid #F1F5F9;
+  }
+
+  .theory-card .card-header h3 {
+    margin: 0 0 4px;
+    font-size: 1.15rem;
+  }
+
+  .theory-card .card-header .theorist {
+    font-size: 0.88rem;
+    color: #64748B;
+    font-style: italic;
+  }
+
+  .theory-card .card-body {
+    padding: 16px 24px 20px;
+  }
+
+  .theory-card .core-claim {
+    font-size: 0.95rem;
+    color: #334155;
+    margin-bottom: 12px;
+  }
+
+  .prediction-list {
+    list-style: none;
+    margin: 12px 0;
+  }
+
+  .prediction-list li {
+    position: relative;
+    padding-left: 20px;
+    margin-bottom: 8px;
+    font-size: 0.92rem;
+    color: #475569;
+  }
+
+  .prediction-list li::before {
+    content: "→";
+    position: absolute;
+    left: 0;
+    color: #0891B2;
+    font-weight: 700;
+  }
+
+  .theory-detail {
+    display: none;
+    padding: 0 24px 24px;
+    border-top: 1px solid #F1F5F9;
+  }
+
+  .theory-detail.expanded {
+    display: block;
+  }
+
+  .theory-detail h4 {
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #1E293B;
+    margin: 16px 0 8px;
+  }
+
+  .design-implications {
+    background: #F0FDF4;
+    border-left: 3px solid #16A34A;
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 12px 0;
+  }
+
+  .design-implications .label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #16A34A;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  .tension-box {
+    background: #FEF3C7;
+    border-left: 3px solid #D97706;
+    padding: 12px 16px;
+    border-radius: 0 6px 6px 0;
+    margin: 12px 0;
+  }
+
+  .tension-box .label {
+    font-size: 0.8rem;
+    font-weight: 600;
+    color: #D97706;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 4px;
+  }
+
+  /* ─── Connection Map ────────────────────────────────────── */
+  .connection-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 24px 0;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.92rem;
+  }
+
+  .connection-table th {
+    background: #F8FAFC;
+    padding: 12px 16px;
+    text-align: left;
+    font-weight: 600;
+    color: #0F172A;
+    border-bottom: 2px solid #E2E8F0;
+    white-space: nowrap;
+  }
+
+  .connection-table td {
+    padding: 12px 16px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #334155;
+    vertical-align: top;
+  }
+
+  .connection-table tr:last-child td {
+    border-bottom: none;
+  }
+
+  .connection-table tr:hover td {
+    background: #F8FAFC;
+  }
+
+  .badge-level {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .badge-l1 { background: #64748B; }
+  .badge-l2 { background: #0891B2; }
+  .badge-l3 { background: #7C3AED; }
+  .badge-l4 { background: #DC2626; }
+
+  /* ─── Insight Callouts ──────────────────────────────────── */
+  .insight-callout {
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .insight-callout .speaker {
+    font-weight: 700;
+    color: #1E40AF;
+    font-size: 0.92rem;
+    margin-bottom: 6px;
+  }
+
+  .insight-callout .quote {
+    font-style: italic;
+    color: #1E3A5F;
+    font-size: 0.95rem;
+  }
+
+  .insight-callout .gloss {
+    margin-top: 8px;
+    font-size: 0.88rem;
+    color: #475569;
+  }
+
+  /* ─── Comparison Diagram ────────────────────────────────── */
+  .divergence-card {
+    background: #FFF7ED;
+    border: 1px solid #FDBA74;
+    border-radius: 12px;
+    padding: 24px;
+    margin: 24px 0;
+  }
+
+  .divergence-card h3 {
+    color: #9A3412;
+    margin-top: 0;
+  }
+
+  .divergence-columns {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 16px;
+    align-items: start;
+    margin-top: 16px;
+  }
+
+  .divergence-col {
+    background: white;
+    border-radius: 8px;
+    padding: 16px;
+  }
+
+  .divergence-col h4 {
+    font-size: 0.9rem;
+    font-weight: 700;
+    margin-bottom: 8px;
+  }
+
+  .divergence-vs {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #EA580C;
+    align-self: center;
+    text-align: center;
+  }
+
+  /* ─── Think About It ────────────────────────────────────── */
+  .think-box {
+    background: #FEFCE8;
+    border: 1px solid #FDE68A;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 32px 0;
+  }
+
+  .think-box .think-header {
+    font-weight: 700;
+    color: #92400E;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .think-box p {
+    color: #78350F;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+  }
+
+  /* ─── References ────────────────────────────────────────── */
+  .references {
+    margin-top: 48px;
+    padding-top: 24px;
+    border-top: 2px solid #E2E8F0;
+  }
+
+  .references h2 {
+    font-size: 1.3rem;
+    margin-bottom: 16px;
+  }
+
+  .ref-entry {
+    font-size: 0.88rem;
+    color: #475569;
+    margin-bottom: 10px;
+    padding-left: 32px;
+    text-indent: -32px;
+    line-height: 1.6;
+  }
+
+  /* ─── Responsive ────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .theory-grid { grid-template-columns: 1fr; }
+    .divergence-columns { grid-template-columns: 1fr; }
+    .divergence-vs { transform: rotate(90deg); }
+    .section-tabs { gap: 0; }
+    .section-tab { padding: 10px 14px; font-size: 0.85rem; }
+    .page-hero h1 { font-size: 1.6rem; }
+  }
+
+  /* ─── Expand/Collapse ───────────────────────────────────── */
+  .expand-btn {
+    background: none;
+    border: none;
+    color: #0891B2;
+    font-size: 0.88rem;
+    font-weight: 600;
+    cursor: pointer;
+    padding: 4px 0;
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .expand-btn:hover { color: #0369A1; }
+
+  .expand-chevron {
+    transition: transform 0.2s;
+    font-size: 0.75rem;
+  }
+
+  .expand-btn.open .expand-chevron {
+    transform: rotate(90deg);
+  }
+
+  /* ─── Footer ────────────────────────────────────────────── */
+  .page-footer {
+    margin-top: 64px;
+    padding: 32px 0;
+    border-top: 1px solid #E2E8F0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .page-footer a {
+    color: #0891B2;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .page-footer a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     GLOBAL NAVIGATION
+     ═══════════════════════════════════════════════════════════ -->
+<nav class="global-nav">
+  <a class="logo" href="knowledge_navigator.html">COGS 160</a>
+  <div class="nav-links">
+    <a href="knowledge_navigator.html">Knowledge Navigator</a>
+    <a href="theory_and_experiment_design.html" class="active">Theory &amp; Design</a>
+    <a href="hypothesis_builder.html">Hypothesis Builder</a>
+    <a href="methods_taxonomy.html">Methods Taxonomy</a>
+    <a href="measurement_instruments.html">Measurement Instruments</a>
+    <a href="sensor_catalogue.html">Sensor Catalogue</a>
+    <a href="en_navigator.html">Epistemic Network</a>
+    <a href="bn_navigator.html">Bayesian Network</a>
+    <a href="experiment_wizard.html">Experiment Builder</a>
+    <a href="system_inventory.html">System Inventory</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     HERO
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page-wrapper">
+  <div class="page-hero">
+    <h1>Theory and Experiment Design</h1>
+    <p class="subtitle">
+      Not all experiments are created equal. A study that merely asks "do plants improve mood?" differs fundamentally from one that asks "does the attention-restoration mechanism predicted by Kaplan's ART actually operate through involuntary attention, and can we distinguish its effects from those of stress recovery?" This module teaches the difference — and why it matters for the experiments you will design.
+    </p>
+  </div>
+
+  <!-- ─── Section Tabs ──────────────────────────────────── -->
+  <div class="section-tabs" role="tablist">
+    <button class="section-tab active" role="tab" onclick="switchTab('taxonomy')" id="tab-taxonomy">The 4-Level Taxonomy</button>
+    <button class="section-tab" role="tab" onclick="switchTab('theories')" id="tab-theories">Major Theories</button>
+    <button class="section-tab" role="tab" onclick="switchTab('connections')" id="tab-connections">Theory → Experiment</button>
+    <button class="section-tab" role="tab" onclick="switchTab('critical')" id="tab-critical">Critical Experiments</button>
+    <button class="section-tab" role="tab" onclick="switchTab('epistemology')" id="tab-epistemology">Epistemological Foundations</button>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       TAB 1: THE 4-LEVEL TAXONOMY
+       ═══════════════════════════════════════════════════════ -->
+  <div class="tab-panel active" id="panel-taxonomy">
+
+    <p>
+      Environmental psychology experiments vary enormously in what they try to accomplish. A useful way to think about this variation is a hierarchy of <em>theoretical ambition</em> — from descriptive work that maps the territory to critical experiments that adjudicate between rival theoretical programmes. Each level builds on the previous ones, requires deeper theoretical understanding, and produces knowledge of a different kind.
+    </p>
+
+    <div class="insight-callout">
+      <div class="speaker">Deborah Mayo — Error statistician</div>
+      <div class="quote">"The value of an experiment is not how surprising the result is, but how severely it tested the hypothesis. A severe test is one where, if the hypothesis were false, the experiment would very probably have detected the error."</div>
+      <div class="gloss">Severity increases as you move from Level 1 to Level 4 — each level blocks a larger class of alternative explanations.</div>
+    </div>
+
+    <div class="taxonomy-grid">
+
+      <!-- LEVEL 1 -->
+      <div class="level-card level-1">
+        <div class="level-badge">Level 1</div>
+        <h3>Descriptive &amp; Exploratory</h3>
+        <p class="level-question">What happens? What correlates with what?</p>
+        <p>
+          Level 1 experiments establish the phenomena that theories must eventually explain. You observe, measure, and document regularities in how people respond to environments — without yet committing to an explanation. This is foundational science: it maps the landscape of effects before anyone tries to explain why they occur.
+        </p>
+        <div class="example-box">
+          <div class="example-label">Environmental psychology example</div>
+          <p style="margin:0; font-size: 0.92rem; color: #334155;">
+            Measuring how people rate their mood after spending 20 minutes in a room with plants versus without plants. You document the effect ("people report better mood with plants") but do not yet test <em>why</em> — it could be attention restoration, stress reduction, biophilia, novelty, or expectation effects.
+          </p>
+        </div>
+        <div class="example-box">
+          <div class="example-label">What you learn</div>
+          <p style="margin:0; font-size: 0.92rem; color: #334155;">
+            Whether an effect exists and its approximate size. This is essential — you cannot explain what you have not first documented.
+          </p>
+        </div>
+        <div class="requirements">
+          <span class="req-tag">Careful observation</span>
+          <span class="req-tag">Demand characteristic control</span>
+          <span class="req-tag">Validated measures</span>
+        </div>
+        <div class="severity-meter">
+          <span class="label">Error-blocking capacity</span>
+          <div class="severity-bar"><div class="severity-fill"></div></div>
+          <span class="label" style="color: #64748B;">Low</span>
+        </div>
+      </div>
+
+      <!-- LEVEL 2 -->
+      <div class="level-card level-2">
+        <div class="level-badge">Level 2</div>
+        <h3>Effect-Hunting — Novel Prediction Testing</h3>
+        <p class="level-question">Does the theory's prediction hold?</p>
+        <p>
+          Level 2 experiments derive a <em>specific prediction</em> from a named theory and test whether it holds. You are no longer just observing — you are asking whether the world behaves as the theory says it should. This is where most solid environmental psychology research operates: taking established theories (ART, SRT, arousal theory) and testing their claims in new conditions.
+        </p>
+        <div class="example-box">
+          <div class="example-label">Environmental psychology example</div>
+          <p style="margin:0; font-size: 0.92rem; color: #334155;">
+            ART predicts that directed attention degrades under sustained cognitive demand, and that exposure to environments with "soft fascination" (gently engaging stimuli like moving leaves or flowing water) should restore directed attention capacity. A Level 2 experiment would measure directed attention performance (e.g., backward digit span, Attention Network Test) before and after nature exposure, comparing to an urban control condition.
+          </p>
+        </div>
+        <div class="example-box">
+          <div class="example-label">What you learn</div>
+          <p style="margin:0; font-size: 0.92rem; color: #334155;">
+            Whether the predicted effect occurs. But not yet <em>why</em> it occurs — mood improvement, relaxation, distraction, or genuine attentional restoration could all produce similar results at this level.
+          </p>
+        </div>
+        <div class="requirements">
+          <span class="req-tag">Named theory</span>
+          <span class="req-tag">Specific prediction</span>
+          <span class="req-tag">Randomization</span>
+          <span class="req-tag">Confound control</span>
+        </div>
+        <div class="severity-meter">
+          <span class="label">Error-blocking capacity</span>
+          <div class="severity-bar"><div class="severity-fill"></div></div>
+          <span class="label" style="color: #0891B2;">Moderate</span>
+        </div>
+      </div>
+
+      <!-- LEVEL 3 -->
+      <div class="level-card level-3">
+        <div class="level-badge">Level 3</div>
+        <h3>Mechanism-Probing</h3>
+        <p class="level-question">Does the proposed mechanism actually operate?</p>
+        <p>
+          Level 3 experiments go beyond asking <em>whether</em> an effect occurs to asking <em>how</em> it occurs — testing the specific causal mechanism that a theory proposes. This is substantially more ambitious than Level 2, because you must decompose the theory's mechanism into measurable steps and design measures that can distinguish between rival causal pathways.
+        </p>
+        <div class="example-box">
+          <div class="example-label">Environmental psychology example</div>
+          <p style="margin:0; font-size: 0.92rem; color: #334155;">
+            ART claims that nature restores directed attention <em>specifically</em> through engaging involuntary attention (the "soft fascination" mechanism). A Level 3 experiment would: (1) induce directed attention fatigue with a demanding cognitive task; (2) expose participants to nature vs. urban conditions; (3) measure <em>both</em> directed attention recovery (backward digit span) <em>and</em> involuntary attention engagement (eye-tracking for gaze patterns in natural scenes, EEG for ventral attention network activation); (4) test whether attention recovery is mediated by involuntary attention engagement — or whether simple relaxation produces equivalent recovery.
+          </p>
+        </div>
+        <div class="example-box">
+          <div class="example-label">What you learn</div>
+          <p style="margin:0; font-size: 0.92rem; color: #334155;">
+            Whether the theory's proposed mechanism is the actual cause — or whether the effect operates through a different pathway. This is where theories are genuinely constrained, because you can show that the predicted mechanism either engages or fails to engage.
+          </p>
+        </div>
+        <div class="requirements">
+          <span class="req-tag">Mechanistic decomposition</span>
+          <span class="req-tag">Multiple measurement points</span>
+          <span class="req-tag">Mediation analysis</span>
+          <span class="req-tag">Rival mechanism controls</span>
+        </div>
+        <div class="severity-meter">
+          <span class="label">Error-blocking capacity</span>
+          <div class="severity-bar"><div class="severity-fill"></div></div>
+          <span class="label" style="color: #7C3AED;">High</span>
+        </div>
+      </div>
+
+      <!-- LEVEL 4 -->
+      <div class="level-card level-4">
+        <div class="level-badge">Level 4</div>
+        <h3>Critical Experimentation</h3>
+        <p class="level-question">Which competing theory is right?</p>
+        <p>
+          Level 4 experiments find conditions where two or more competing theories make <em>incompatible</em> predictions — and test which prediction holds. This is the most theoretically ambitious form of experimentation. It requires deep understanding of multiple theories, sufficient to identify their genuine points of divergence and design conditions that force them apart.
+        </p>
+        <div class="example-box">
+          <div class="example-label">Environmental psychology example</div>
+          <p style="margin:0; font-size: 0.92rem; color: #334155;">
+            ART and Stress Recovery Theory (SRT) often make similar predictions (nature exposure improves wellbeing), but their mechanisms diverge. ART predicts restoration of <em>directed attention capacity</em> through soft fascination; SRT predicts reduction of <em>physiological stress markers</em> through parasympathetic activation. A critical experiment would: (1) induce both cognitive fatigue <em>and</em> physiological stress; (2) expose participants to nature conditions designed to maximally engage soft fascination (moving water, dappled light) vs. conditions designed to maximally trigger parasympathetic activation (calm, low-arousal natural scenes); (3) measure <em>both</em> directed attention recovery and stress physiology (cortisol, HRV); (4) identify whether attention recovery can occur <em>without</em> stress reduction, or vice versa.
+          </p>
+        </div>
+        <div class="example-box">
+          <div class="example-label">What you learn</div>
+          <p style="margin:0; font-size: 0.92rem; color: #334155;">
+            Whether the theories describe the same underlying process or genuinely distinct mechanisms. This is the kind of experiment that advances scientific understanding most dramatically — but it requires the deepest theoretical preparation.
+          </p>
+        </div>
+        <div class="requirements">
+          <span class="req-tag">Multiple theories mastered</span>
+          <span class="req-tag">Divergence point identified</span>
+          <span class="req-tag">Conditions forcing separation</span>
+          <span class="req-tag">Multiple dependent measures</span>
+        </div>
+        <div class="severity-meter">
+          <span class="label">Error-blocking capacity</span>
+          <div class="severity-bar"><div class="severity-fill"></div></div>
+          <span class="label" style="color: #DC2626;">Very High</span>
+        </div>
+      </div>
+
+    </div><!-- /taxonomy-grid -->
+
+    <div class="think-box">
+      <div class="think-header">Think About It</div>
+      <p>
+        Consider the research front you selected in the Experiment Builder. At what level is most of the existing research in that front? Could you design an experiment at a higher level? What additional theoretical knowledge would you need?
+      </p>
+    </div>
+
+  </div><!-- /panel-taxonomy -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       TAB 2: MAJOR THEORIES
+       ═══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-theories">
+
+    <p>
+      Environmental psychology draws on several major theoretical frameworks, each proposing a different mechanism by which physical environments affect human cognition, affect, and behavior. Understanding these theories is essential for designing experiments above Level 1 — because without a theory, you cannot generate the specific, falsifiable predictions that give experiments their scientific power.
+    </p>
+
+    <p>
+      Below are the six theories most frequently invoked in our corpus of 258 papers and 5,027 empirical claims. Click any theory card to see its full details: what it predicts, where it conflicts with rival theories, and what kinds of experiments it generates at each level.
+    </p>
+
+    <div class="theory-grid">
+
+      <!-- ─── ART ─────────────────────────────────────────── -->
+      <div class="theory-card" id="theory-art" onclick="toggleTheory('art')">
+        <div class="card-header">
+          <h3>Attention Restoration Theory (ART)</h3>
+          <div class="theorist">Rachel &amp; Stephen Kaplan, 1989, 1995</div>
+        </div>
+        <div class="card-body">
+          <p class="core-claim">
+            <strong>Core claim:</strong> Directed (voluntary) attention is a finite resource that becomes fatigued under sustained demand. Natural environments restore directed attention capacity because they engage involuntary attention through "soft fascination" — stimuli that capture attention gently without requiring effort.
+          </p>
+          <ul class="prediction-list">
+            <li>Nature exposure improves performance on tasks requiring directed attention (e.g., backward digit span, Stroop, ANT)</li>
+            <li>The restoration effect is specific to directed attention, not general arousal or mood</li>
+            <li>Environments high in "soft fascination" (moving water, rustling leaves, dappled light) restore more effectively than those without</li>
+            <li>Prior cognitive fatigue is necessary — restoration cannot occur without prior depletion</li>
+          </ul>
+          <button class="expand-btn" id="expand-art"><span class="expand-chevron">▶</span> Full details &amp; design implications</button>
+        </div>
+        <div class="theory-detail" id="detail-art">
+          <h4>The Four Components of Restorative Environments</h4>
+          <p style="font-size:0.92rem">
+            Kaplan (1995) identified four properties that make an environment restorative: (1) <strong>Being Away</strong> — conceptual and physical distance from routine demands; (2) <strong>Fascination</strong> — involuntary attention engagement; (3) <strong>Extent</strong> — an environment rich enough to engage the mind; (4) <strong>Compatibility</strong> — the environment supports rather than fights one's current purposes. An experiment can manipulate these independently.
+          </p>
+          <div class="design-implications">
+            <div class="label">Design implications for architects</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              ART suggests that workspaces should include visual access to nature or nature-like stimuli (moving water features, plant walls, views of vegetation), particularly for workers who perform sustained-attention tasks. Break spaces should maximize all four restorative components. The theory further implies that static nature images may be insufficient — fascination requires dynamic, gently changing stimuli.
+            </p>
+          </div>
+          <div class="tension-box">
+            <div class="label">Where ART conflicts with other theories</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              ART and SRT both predict that nature exposure improves wellbeing, but through different mechanisms. ART emphasizes <em>cognitive</em> restoration (directed attention), while SRT emphasizes <em>physiological</em> recovery (autonomic nervous system). They also differ on what counts as the active ingredient: ART says soft fascination, SRT says parasympathetic activation. Arousal theory makes a third prediction: that nature works simply by reducing over-arousal.
+            </p>
+          </div>
+          <h4>Key References</h4>
+          <p style="font-size: 0.88rem; color: #64748B;">
+            Kaplan, S. (1995). The restorative benefits of nature. <em>Journal of Environmental Psychology, 15</em>(3), 169–182.
+            Kaplan, R., &amp; Kaplan, S. (1989). <em>The experience of nature</em>. Cambridge University Press.
+            Berman, M. G., Jonides, J., &amp; Kaplan, S. (2008). The cognitive benefits of interacting with nature. <em>Psychological Science, 19</em>(12), 1207–1212.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── SRT ─────────────────────────────────────────── -->
+      <div class="theory-card" id="theory-srt" onclick="toggleTheory('srt')">
+        <div class="card-header">
+          <h3>Stress Recovery Theory (SRT)</h3>
+          <div class="theorist">Roger Ulrich, 1983, 1984, 1991</div>
+        </div>
+        <div class="card-body">
+          <p class="core-claim">
+            <strong>Core claim:</strong> Natural environments trigger rapid, automatic parasympathetic nervous system activation that reduces physiological stress. This is an evolved response — humans have an innate predisposition to recover from stress in natural settings because our species evolved in such environments.
+          </p>
+          <ul class="prediction-list">
+            <li>Nature exposure reduces cortisol, heart rate, blood pressure, and muscle tension</li>
+            <li>The effect is automatic and rapid — it does not require conscious awareness or cognitive processing</li>
+            <li>Physiological stress reduction should precede or occur independently of cognitive improvements</li>
+            <li>Threatened or stressed individuals should benefit more than non-stressed individuals</li>
+          </ul>
+          <button class="expand-btn" id="expand-srt"><span class="expand-chevron">▶</span> Full details &amp; design implications</button>
+        </div>
+        <div class="theory-detail" id="detail-srt">
+          <h4>The Psychoevolutionary Framework</h4>
+          <p style="font-size:0.92rem">
+            Ulrich's (1983) theory is explicitly evolutionary: the human stress-recovery response to nature is a product of natural selection operating over millions of years in savanna and woodland environments. The theory predicts that certain visual configurations (open views, water, moderate complexity, absence of threat cues) are innately associated with safety and trigger parasympathetic recovery. This contrasts with ART's cognitive emphasis — SRT treats the effect as subcortical and affective rather than cortical and attentional.
+          </p>
+          <div class="design-implications">
+            <div class="label">Design implications for architects</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              SRT suggests that healthcare environments, high-stress workplaces, and recovery spaces should maximize natural views and nature-like visual patterns. Ulrich's landmark 1984 study showed that hospital patients with window views of trees recovered faster from surgery than those viewing a brick wall. The theory implies that even simulated nature (videos, VR) may trigger the same parasympathetic response if the visual configuration is right.
+            </p>
+          </div>
+          <div class="tension-box">
+            <div class="label">Where SRT conflicts with other theories</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              SRT predicts that nature's benefits are primarily <em>physiological</em> — if you block the stress-recovery pathway (e.g., in a non-stressed participant), the benefit should disappear. ART predicts benefits even without physiological stress, through the cognitive pathway of attention restoration. Biophilia extends SRT by proposing that the affinity for nature is not just about stress recovery but reflects a broader innate connection to living systems.
+            </p>
+          </div>
+          <h4>Key References</h4>
+          <p style="font-size: 0.88rem; color: #64748B;">
+            Ulrich, R. S. (1983). Aesthetic and affective response to natural environment. In I. Altman &amp; J. F. Wohlwill (Eds.), <em>Behavior and the natural environment</em> (pp. 85–125). Plenum.
+            Ulrich, R. S. (1984). View through a window may influence recovery from surgery. <em>Science, 224</em>(4647), 420–421.
+            Ulrich, R. S., et al. (1991). Stress recovery during exposure to natural and urban environments. <em>Journal of Environmental Psychology, 11</em>(3), 201–230.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Biophilia ───────────────────────────────────── -->
+      <div class="theory-card" id="theory-biophilia" onclick="toggleTheory('biophilia')">
+        <div class="card-header">
+          <h3>Biophilia Hypothesis</h3>
+          <div class="theorist">Edward O. Wilson, 1984; Kellert &amp; Wilson, 1993</div>
+        </div>
+        <div class="card-body">
+          <p class="core-claim">
+            <strong>Core claim:</strong> Humans possess an innate tendency to seek connections with nature and other living systems. This "biophilia" is a product of our evolutionary heritage and manifests as aesthetic preferences, emotional affiliations, and cognitive orientations toward the living world.
+          </p>
+          <ul class="prediction-list">
+            <li>Humans should prefer environments with living nature over those without, controlling for other features</li>
+            <li>Living vegetation should produce stronger effects than artificial replicas or images</li>
+            <li>Biophilic responses should appear cross-culturally and developmentally early</li>
+            <li>Environments incorporating biophilic design elements should improve health, productivity, and wellbeing</li>
+          </ul>
+          <button class="expand-btn" id="expand-biophilia"><span class="expand-chevron">▶</span> Full details &amp; design implications</button>
+        </div>
+        <div class="theory-detail" id="detail-biophilia">
+          <h4>From Hypothesis to Design Framework</h4>
+          <p style="font-size:0.92rem">
+            Wilson's (1984) original biophilia hypothesis was broad and somewhat vague, but Kellert and colleagues have operationalized it into a design framework identifying 72 biophilic design attributes grouped into three categories: direct experience of nature (plants, water, natural light, airflow, animals), indirect experience (natural materials, natural colors, nature images, biomimicry, natural geometries), and experience of space and place (prospect and refuge, organized complexity, sensory variability). This gives designers concrete levers.
+          </p>
+          <div class="design-implications">
+            <div class="label">Design implications for architects</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              The biophilic framework argues for integrating nature at every scale — from building orientation (maximizing natural light and views) to material selection (wood, stone, natural fibers) to spatial configuration (prospect-refuge geometries). Evidence from Terrapin Bright Green's (2014) review suggests 8–11% gains in productivity and up to 15% improvements in wellbeing in biophilic buildings, though the mechanisms remain debated.
+            </p>
+          </div>
+          <div class="tension-box">
+            <div class="label">Where Biophilia conflicts with other theories</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              The key empirical question is whether <em>living</em> nature is necessary or whether nature-like patterns suffice. ART does not require living nature — soft fascination can come from clouds, water sounds, or even fractal patterns. Biophilia predicts a specific advantage for living systems. Testing this requires experiments that systematically compare living vegetation, realistic artificial plants, nature images, and abstract fractal patterns while measuring the same outcomes.
+            </p>
+          </div>
+          <h4>Key References</h4>
+          <p style="font-size: 0.88rem; color: #64748B;">
+            Wilson, E. O. (1984). <em>Biophilia</em>. Harvard University Press.
+            Kellert, S. R., &amp; Wilson, E. O. (Eds.). (1993). <em>The biophilia hypothesis</em>. Island Press.
+            Kellert, S. R., Heerwagen, J. H., &amp; Mador, M. L. (2008). <em>Biophilic design</em>. Wiley.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Arousal Theory ──────────────────────────────── -->
+      <div class="theory-card" id="theory-arousal" onclick="toggleTheory('arousal')">
+        <div class="card-header">
+          <h3>Arousal Theory</h3>
+          <div class="theorist">Mehrabian &amp; Russell, 1974; Berlyne, 1971</div>
+        </div>
+        <div class="card-body">
+          <p class="core-claim">
+            <strong>Core claim:</strong> Environments affect behavior primarily by modulating physiological arousal. There is an inverted-U relationship between arousal and performance (Yerkes-Dodson Law): moderate arousal optimizes performance, while both under- and over-arousal impair it. Environmental factors (noise, light, temperature, complexity) raise or lower arousal.
+          </p>
+          <ul class="prediction-list">
+            <li>Noisy, complex, or stimulating environments increase arousal and impair tasks requiring focus</li>
+            <li>Quiet, low-complexity environments reduce arousal and may impair tasks requiring alertness</li>
+            <li>The optimal environment depends on the task — complex tasks need lower arousal, simple tasks tolerate higher</li>
+            <li>Individual differences in baseline arousal (introversion/extraversion) moderate environmental effects</li>
+          </ul>
+          <button class="expand-btn" id="expand-arousal"><span class="expand-chevron">▶</span> Full details &amp; design implications</button>
+        </div>
+        <div class="theory-detail" id="detail-arousal">
+          <h4>The PAD Model</h4>
+          <p style="font-size:0.92rem">
+            Mehrabian and Russell (1974) proposed that emotional responses to environments can be captured by three dimensions: Pleasure, Arousal, and Dominance (PAD). Environments high in both pleasure and moderate arousal are most preferred. Berlyne's (1971) aesthetic theory adds that visual complexity, novelty, and incongruity are the primary drivers of arousal from visual environments. Together, these predict specific environment-behavior mappings testable in VR.
+          </p>
+          <div class="design-implications">
+            <div class="label">Design implications for architects</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              Arousal theory implies that workspace design should be matched to task demands. Open-plan offices with high sensory input (noise, visual distraction, social stimulation) may be appropriate for simple, routine tasks but harmful for complex analytical work. The theory justifies quiet zones, focus rooms, and adjustable environmental controls that let occupants modulate their own arousal level.
+            </p>
+          </div>
+          <div class="tension-box">
+            <div class="label">Where Arousal Theory conflicts with other theories</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              Arousal theory treats nature's benefits as simply arousal reduction — nature is calming, and calming environments improve performance on demanding tasks. ART counters that nature's benefit is <em>specifically</em> attentional, not just arousal-related. The critical question: Can attention restoration occur without arousal reduction? If yes, ART explains something arousal theory cannot.
+            </p>
+          </div>
+          <h4>Key References</h4>
+          <p style="font-size: 0.88rem; color: #64748B;">
+            Mehrabian, A., &amp; Russell, J. A. (1974). <em>An approach to environmental psychology</em>. MIT Press.
+            Berlyne, D. E. (1971). <em>Aesthetics and psychobiology</em>. Appleton-Century-Crofts.
+            Yerkes, R. M., &amp; Dodson, J. D. (1908). The relation of strength of stimulus to rapidity of habit-formation. <em>Journal of Comparative Neurology and Psychology, 18</em>(5), 459–482.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Affordances ─────────────────────────────────── -->
+      <div class="theory-card" id="theory-affordances" onclick="toggleTheory('affordances')">
+        <div class="card-header">
+          <h3>Environmental Affordances</h3>
+          <div class="theorist">James J. Gibson, 1979; Harry Heft, 2010</div>
+        </div>
+        <div class="card-body">
+          <p class="core-claim">
+            <strong>Core claim:</strong> Environments are perceived in terms of their <em>affordances</em> — the possibilities for action they offer a perceiver. An affordance is a relationship between environmental properties and the organism's capabilities. People do not first perceive features and then infer what to do; they directly perceive what the environment allows them to do.
+          </p>
+          <ul class="prediction-list">
+            <li>People's behavior in environments is predicted by the affordances present, not just physical features</li>
+            <li>Affordance perception is direct and immediate — not mediated by cognitive inference</li>
+            <li>Different populations (children, elderly, disabled) perceive different affordances in the same environment</li>
+            <li>Environments that afford diverse activities promote richer engagement and wellbeing</li>
+          </ul>
+          <button class="expand-btn" id="expand-affordances"><span class="expand-chevron">▶</span> Full details &amp; design implications</button>
+        </div>
+        <div class="theory-detail" id="detail-affordances">
+          <h4>From Ecological Psychology to Design</h4>
+          <p style="font-size:0.92rem">
+            Gibson's (1979) ecological approach was developed for visual perception but has been extended to environmental psychology by Heft (2010) and others. The key insight is that environments should be described not in physical terms (dimensions, materials, lux levels) but in terms of what they afford: sitting, walking, hiding, gathering, overlooking, sheltering. This reframes the design question from "what features does this space have?" to "what does this space let people do?"
+          </p>
+          <div class="design-implications">
+            <div class="label">Design implications for architects</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              Affordance theory suggests that good design maximizes the range of meaningful actions a space supports. A well-designed classroom affords individual focus, small-group collaboration, whole-class discussion, and movement. Affordance-based analysis of existing buildings can reveal mismatches between intended and actual use — spaces designed for collaboration that actually afford only parallel individual work, for example.
+            </p>
+          </div>
+          <div class="tension-box">
+            <div class="label">Where Affordances conflict with other theories</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              Affordance theory challenges the stimulus-response framework assumed by arousal theory and (partially) by ART. Where arousal theory says environments cause states in people, affordance theory says environments and people form coupled systems. This has methodological implications: instead of measuring what environments do <em>to</em> people, you measure what people do <em>with</em> environments.
+            </p>
+          </div>
+          <h4>Key References</h4>
+          <p style="font-size: 0.88rem; color: #64748B;">
+            Gibson, J. J. (1979). <em>The ecological approach to visual perception</em>. Houghton Mifflin.
+            Heft, H. (2010). Affordances and the perception of landscape. In C. Ward Thompson et al. (Eds.), <em>Innovative approaches to researching landscape and health</em>. Routledge.
+            Kyttä, M. (2004). The extent of children's independent mobility and the number of actualized affordances as criteria for child-friendly environments. <em>Journal of Environmental Psychology, 24</em>(2), 179–198.
+          </p>
+        </div>
+      </div>
+
+      <!-- ─── Prospect-Refuge ─────────────────────────────── -->
+      <div class="theory-card" id="theory-prospect-refuge" onclick="toggleTheory('prospect-refuge')">
+        <div class="card-header">
+          <h3>Prospect-Refuge Theory</h3>
+          <div class="theorist">Jay Appleton, 1975, 1996</div>
+        </div>
+        <div class="card-body">
+          <p class="core-claim">
+            <strong>Core claim:</strong> Humans have an evolved preference for environments that simultaneously provide <em>prospect</em> (the ability to see — open views, vantage points) and <em>refuge</em> (the ability to hide — enclosure, shelter, protection from behind). This preference derives from the survival advantages of being able to see predators and prey while being protected from detection.
+          </p>
+          <ul class="prediction-list">
+            <li>Spaces with both prospect (open views) and refuge (overhead cover, back walls) are rated as most preferred</li>
+            <li>Prospect without refuge (exposed open spaces) feels unsafe; refuge without prospect (enclosed spaces) feels trapped</li>
+            <li>The preference should be strongest under conditions of perceived threat or stress</li>
+            <li>Prospect-refuge configurations in interior design should improve comfort and reduce anxiety</li>
+          </ul>
+          <button class="expand-btn" id="expand-prospect-refuge"><span class="expand-chevron">▶</span> Full details &amp; design implications</button>
+        </div>
+        <div class="theory-detail" id="detail-prospect-refuge">
+          <h4>Spatial Geometry as Evolutionary Signal</h4>
+          <p style="font-size:0.92rem">
+            Appleton's (1975) theory has been extended by Dosen and Ostwald (2016) into measurable spatial metrics: isovist area (how much you can see from a point), occlusivity (how much is hidden), and enclosure ratio. These computational measures allow systematic testing of prospect-refuge predictions in architectural layouts. VR is particularly valuable here because you can parametrically vary the prospect-refuge balance while holding everything else constant.
+          </p>
+          <div class="design-implications">
+            <div class="label">Design implications for architects</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              Prospect-refuge theory has direct spatial implications: restaurants where diners prefer booths (refuge) with views of the room (prospect); offices where workers prefer desks against walls (refuge) facing the room (prospect); libraries where reading nooks (refuge) near windows (prospect) are most popular. The theory provides specific, testable spatial predictions that can guide floor plan design.
+            </p>
+          </div>
+          <div class="tension-box">
+            <div class="label">Where Prospect-Refuge conflicts with other theories</div>
+            <p style="margin:0; font-size: 0.92rem; color: #334155;">
+              Prospect-refuge is primarily about <em>spatial configuration</em> — it predicts that geometry matters independently of nature content. ART and biophilia predict that <em>content</em> (nature, vegetation, water) matters independently of geometry. A critical experiment would test: In a VR environment with perfect prospect-refuge geometry but no natural content, do you still get the wellbeing benefits? If yes, prospect-refuge explains something the nature theories cannot.
+            </p>
+          </div>
+          <h4>Key References</h4>
+          <p style="font-size: 0.88rem; color: #64748B;">
+            Appleton, J. (1975). <em>The experience of landscape</em>. Wiley.
+            Dosen, A. S., &amp; Ostwald, M. J. (2016). Evidence for prospect-refuge theory: A meta-analysis. <em>City, Territory and Architecture, 3</em>(1), 4.
+            Stamps, A. E. (2005). Enclosure and safety in urbanscapes. <em>Environment and Behavior, 37</em>(1), 102–133.
+          </p>
+        </div>
+      </div>
+
+    </div><!-- /theory-grid -->
+
+    <div class="think-box">
+      <div class="think-header">Think About It</div>
+      <p>
+        Pick two theories from above that are relevant to your chosen research front. Where do they agree? Where do they make different predictions? Could you design a single experiment that distinguishes between them?
+      </p>
+    </div>
+
+  </div><!-- /panel-theories -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       TAB 3: THEORY → EXPERIMENT MAPPING
+       ═══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-connections">
+
+    <h2>How Theories Generate Experiments at Each Level</h2>
+
+    <p>
+      The same theory generates different experiments depending on what level of ambition you bring to it. Below is a mapping showing how each major theory produces experimental questions at each of the four taxonomy levels. Use this as a template for your own research front.
+    </p>
+
+    <table class="connection-table">
+      <thead>
+        <tr>
+          <th>Theory</th>
+          <th>Level 1: Descriptive</th>
+          <th>Level 2: Effect-Hunting</th>
+          <th>Level 3: Mechanism</th>
+          <th>Level 4: Critical</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><strong>ART</strong></td>
+          <td>Do people report feeling more refreshed after nature exposure?</td>
+          <td>Does nature exposure improve backward digit span scores after cognitive fatigue? <span class="badge-level badge-l2">L2</span></td>
+          <td>Is the improvement mediated by involuntary attention engagement (measured by eye-tracking/EEG)? <span class="badge-level badge-l3">L3</span></td>
+          <td>Can attention restoration occur without stress reduction? (ART vs. SRT) <span class="badge-level badge-l4">L4</span></td>
+        </tr>
+        <tr>
+          <td><strong>SRT</strong></td>
+          <td>Do people feel calmer after viewing natural scenes?</td>
+          <td>Does nature exposure reduce cortisol and heart rate in stressed participants? <span class="badge-level badge-l2">L2</span></td>
+          <td>Does parasympathetic activation (HRV increase) precede or follow mood improvement? <span class="badge-level badge-l3">L3</span></td>
+          <td>Does stress reduction occur without attention restoration? (SRT vs. ART) <span class="badge-level badge-l4">L4</span></td>
+        </tr>
+        <tr>
+          <td><strong>Biophilia</strong></td>
+          <td>Do people prefer rooms with living plants over those without?</td>
+          <td>Do living plants produce stronger effects than artificial plants on stress and attention? <span class="badge-level badge-l2">L2</span></td>
+          <td>Is there a measurable psychophysiological signature (skin conductance, EEG) unique to living vs. artificial nature? <span class="badge-level badge-l3">L3</span></td>
+          <td>Does the "living" requirement predict outcomes that ART's "soft fascination" cannot? <span class="badge-level badge-l4">L4</span></td>
+        </tr>
+        <tr>
+          <td><strong>Arousal</strong></td>
+          <td>Do noisy offices receive lower satisfaction ratings?</td>
+          <td>Does ambient noise above 55 dB impair performance on complex cognitive tasks? <span class="badge-level badge-l2">L2</span></td>
+          <td>Is the impairment mediated by increased physiological arousal (pupil dilation, skin conductance)? <span class="badge-level badge-l3">L3</span></td>
+          <td>Can arousal reduction explain nature's cognitive benefits as well as ART can? <span class="badge-level badge-l4">L4</span></td>
+        </tr>
+        <tr>
+          <td><strong>Affordances</strong></td>
+          <td>How do people actually use different zones of an open-plan office?</td>
+          <td>Do environments with more diverse affordances produce greater engagement? <span class="badge-level badge-l2">L2</span></td>
+          <td>Do people perceive affordances directly (gaze-tracking to action-relevant features) or through cognitive inference? <span class="badge-level badge-l3">L3</span></td>
+          <td>Does affordance-based prediction outperform arousal-based prediction of behavior? <span class="badge-level badge-l4">L4</span></td>
+        </tr>
+        <tr>
+          <td><strong>Prospect-Refuge</strong></td>
+          <td>Which seats in a café do people choose first?</td>
+          <td>Do high-prospect, high-refuge positions reduce self-reported anxiety? <span class="badge-level badge-l2">L2</span></td>
+          <td>Is the preference driven by visual isovist area (prospect) and back-protection geometry (refuge), or by social factors? <span class="badge-level badge-l3">L3</span></td>
+          <td>In VR: do prospect-refuge geometries produce wellbeing gains even without nature content? (Prospect-Refuge vs. ART/Biophilia) <span class="badge-level badge-l4">L4</span></td>
+        </tr>
+      </tbody>
+    </table>
+
+    <h2>The Depth Principle</h2>
+
+    <p>
+      Notice the pattern: as you move from Level 1 to Level 4, three things happen simultaneously. First, the experiment requires <em>more theoretical knowledge</em> — you cannot design a Level 3 ART experiment without understanding what "directed attention" means and how it differs from general arousal. Second, the experiment produces <em>more constrained knowledge</em> — a Level 3 result tells you not just that an effect exists but specifically how it works. Third, the experiment blocks <em>more alternative explanations</em> — what Mayo calls "severity."
+    </p>
+
+    <div class="insight-callout">
+      <div class="speaker">Imre Lakatos — Philosopher of science</div>
+      <div class="quote">"A research programme is progressive if its theoretical growth anticipates its empirical growth — that is, if it keeps predicting novel facts, some of which are corroborated."</div>
+      <div class="gloss">When you design Level 2+ experiments, you are testing whether a research programme (ART, SRT, biophilia) is <em>progressive</em> — generating novel, true predictions — or <em>degenerating</em> — only accommodating known facts after the fact.</div>
+    </div>
+
+    <h2>Practical Guide: Upgrading Your Experiment's Level</h2>
+
+    <p>
+      Suppose you have already designed a Level 1 or Level 2 experiment. Here is how to upgrade it:
+    </p>
+
+    <h3>From Level 1 → Level 2</h3>
+    <p>
+      Name a theory. Derive a specific prediction. State what result would <em>disconfirm</em> the prediction. Add a control condition that rules out the most obvious alternative explanation.
+    </p>
+
+    <h3>From Level 2 → Level 3</h3>
+    <p>
+      Decompose the theory's mechanism into sequential steps (following Machamer: entities → activities → temporal organization). Add measures for intermediate steps, not just the final outcome. Design a condition that tests whether the specific mechanism operates — or whether a different pathway produces the same result.
+    </p>
+
+    <h3>From Level 3 → Level 4</h3>
+    <p>
+      Identify a second theory that explains the same phenomenon through a different mechanism. Find conditions where the two theories make <em>incompatible</em> predictions. Design conditions that force the two predictions apart. Measure outcomes that are diagnostic for one theory but not the other.
+    </p>
+
+    <div class="think-box">
+      <div class="think-header">Think About It</div>
+      <p>
+        Take the experiment you are designing in the Experiment Builder. What level is it currently at? Write out the specific steps you would need to take to raise it by one level. What additional measures would you need? What additional theoretical knowledge?
+      </p>
+    </div>
+
+  </div><!-- /panel-connections -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       TAB 4: CRITICAL EXPERIMENTS
+       ═══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-critical">
+
+    <h2>Where Theories Diverge: Opportunities for Critical Experiments</h2>
+
+    <p>
+      The most valuable experiments in any science are those that distinguish between competing explanations. In environmental psychology, several theory pairs make predictions that overlap in many conditions but diverge in specific, testable ways. Below are the most promising divergence points — each one is an opportunity for a genuinely informative experiment.
+    </p>
+
+    <!-- ART vs SRT -->
+    <div class="divergence-card">
+      <h3>ART vs. Stress Recovery Theory</h3>
+      <p style="font-size: 0.92rem; color: #78350F; margin-bottom: 16px;">
+        Both predict that nature exposure improves wellbeing, but through fundamentally different mechanisms. ART says the active ingredient is cognitive (restoration of directed attention via soft fascination). SRT says it is physiological (parasympathetic activation reducing stress hormones). They agree on the outcome but disagree on the pathway.
+      </p>
+      <div class="divergence-columns">
+        <div class="divergence-col">
+          <h4 style="color: #0891B2;">ART Predicts</h4>
+          <p style="font-size: 0.88rem; margin: 0; color: #334155;">Attention restoration should occur even in participants who are cognitively fatigued but not physiologically stressed. The key mediator is involuntary attention engagement, not arousal reduction.</p>
+        </div>
+        <div class="divergence-vs">vs.</div>
+        <div class="divergence-col">
+          <h4 style="color: #7C3AED;">SRT Predicts</h4>
+          <p style="font-size: 0.88rem; margin: 0; color: #334155;">Wellbeing improvements should be driven by physiological stress reduction. In non-stressed participants, the nature benefit should be minimal or absent. Cortisol reduction should precede cognitive improvement.</p>
+        </div>
+      </div>
+      <div class="example-box" style="margin-top: 16px;">
+        <div class="example-label">Critical experiment design</div>
+        <p style="margin:0; font-size: 0.92rem; color: #334155;">
+          Use a 2×2 design: (cognitive fatigue: yes/no) × (physiological stress: yes/no). Induce fatigue with a demanding sustained-attention task; induce stress with a social-evaluative threat (Trier Social Stress Test). Then expose all groups to nature. Measure both directed attention (ANT, backward digit span) and stress physiology (cortisol, HRV). If nature restores attention in fatigued-but-not-stressed participants, ART is supported. If nature only helps stressed participants, SRT is supported.
+        </p>
+      </div>
+    </div>
+
+    <!-- Biophilia vs ART -->
+    <div class="divergence-card">
+      <h3>Biophilia vs. ART</h3>
+      <p style="font-size: 0.92rem; color: #78350F; margin-bottom: 16px;">
+        Biophilia claims that living nature has a special status — humans respond to life itself, not just to patterns that happen to be natural. ART claims that the active ingredient is soft fascination — gently engaging stimuli that capture involuntary attention regardless of whether they involve living systems.
+      </p>
+      <div class="divergence-columns">
+        <div class="divergence-col">
+          <h4 style="color: #16A34A;">Biophilia Predicts</h4>
+          <p style="font-size: 0.88rem; margin: 0; color: #334155;">Living plants should produce stronger restorative effects than equally engaging non-living stimuli (abstract fractals, moving water simulations, artificial plants).</p>
+        </div>
+        <div class="divergence-vs">vs.</div>
+        <div class="divergence-col">
+          <h4 style="color: #0891B2;">ART Predicts</h4>
+          <p style="font-size: 0.88rem; margin: 0; color: #334155;">Any stimulus with sufficient soft fascination should be equally restorative — whether living, artificial, or abstract — as long as it engages involuntary attention without demanding directed attention.</p>
+        </div>
+      </div>
+      <div class="example-box" style="margin-top: 16px;">
+        <div class="example-label">Critical experiment design</div>
+        <p style="margin:0; font-size: 0.92rem; color: #334155;">
+          In VR, create four conditions matched for visual complexity and soft fascination: (1) real vegetation (photogrammetry scans of plants), (2) high-quality artificial plants, (3) abstract fractal animations with nature-like movement dynamics, (4) urban control. Measure directed attention recovery (ART's outcome) and affective preference (biophilia's outcome). If conditions 1–3 produce equal attention recovery, ART is supported. If condition 1 uniquely produces stronger effects, biophilia is supported.
+        </p>
+      </div>
+    </div>
+
+    <!-- Prospect-Refuge vs Content-Based -->
+    <div class="divergence-card">
+      <h3>Prospect-Refuge vs. Content-Based Theories (ART, SRT, Biophilia)</h3>
+      <p style="font-size: 0.92rem; color: #78350F; margin-bottom: 16px;">
+        Prospect-refuge theory predicts that spatial geometry (open views + enclosed refuge) drives environmental preferences and wellbeing. Content-based theories (ART, SRT, biophilia) predict that what fills the space — nature, vegetation, water — matters more than the geometry. Both could contribute, but the question is which factor dominates.
+      </p>
+      <div class="divergence-columns">
+        <div class="divergence-col">
+          <h4 style="color: #EA580C;">Prospect-Refuge Predicts</h4>
+          <p style="font-size: 0.88rem; margin: 0; color: #334155;">High-prospect, high-refuge urban spaces (a sheltered balcony overlooking a city plaza) should produce wellbeing benefits comparable to nature, as long as the geometry is right.</p>
+        </div>
+        <div class="divergence-vs">vs.</div>
+        <div class="divergence-col">
+          <h4 style="color: #16A34A;">Content Theories Predict</h4>
+          <p style="font-size: 0.88rem; margin: 0; color: #334155;">Nature content should produce benefits regardless of prospect-refuge geometry. An open field with no refuge should still restore attention (ART) or reduce stress (SRT) if it contains nature.</p>
+        </div>
+      </div>
+      <div class="example-box" style="margin-top: 16px;">
+        <div class="example-label">Critical experiment design</div>
+        <p style="margin:0; font-size: 0.92rem; color: #334155;">
+          Use VR to independently manipulate geometry and content in a 2×2 design: (prospect-refuge: high/low) × (nature content: present/absent). Four conditions: (1) nature view from a sheltered nook, (2) nature in an exposed open space, (3) urban view from a sheltered nook, (4) exposed urban plaza. Measure preference, anxiety (state anxiety inventory), and attention (ANT). The interaction pattern reveals whether geometry or content drives the effects.
+        </p>
+      </div>
+    </div>
+
+    <div class="insight-callout">
+      <div class="speaker">Karl Popper — Philosopher of science</div>
+      <div class="quote">"The criterion of the scientific status of a theory is its falsifiability."</div>
+      <div class="gloss">Critical experiments are the gold standard precisely because they put theories at genuine risk. A theory that cannot be distinguished from its competitors has not been seriously tested.</div>
+    </div>
+
+    <div class="think-box">
+      <div class="think-header">Think About It</div>
+      <p>
+        Look at the divergence cards above. Which pair of theories is most relevant to your research front? Could you design a VR experiment that forces them apart? What would you need to measure to tell which theory's prediction holds?
+      </p>
+    </div>
+
+  </div><!-- /panel-critical -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       TAB 5: EPISTEMOLOGICAL FOUNDATIONS
+       ═══════════════════════════════════════════════════════ -->
+  <div class="tab-panel" id="panel-epistemology">
+
+    <h2>Why Theory Matters for Experimental Design</h2>
+
+    <p>
+      This module draws on insights from philosophy of science — specifically, from an expert panel deliberation among eight philosophers and methodologists who considered how experimental epistemology applies to environmental psychology research. Their key insights shape the pedagogy of this course.
+    </p>
+
+    <h3>Severity: The Measure of Experimental Value</h3>
+    <p>
+      Deborah Mayo's <em>severity principle</em> provides the deepest answer to "what makes a good experiment." An experimental result severely tests a hypothesis H when, if H were false, the experiment would very probably have produced a result that disagreed with H. In other words, your experiment is good to the extent that it could have gone wrong — and didn't. Level 1 experiments have low severity because many alternative hypotheses could also explain the result. Level 4 experiments have high severity because they eliminate rival explanations systematically (Mayo, 2018).
+    </p>
+
+    <h3>Research Programmes, Not Individual Theories</h3>
+    <p>
+      Imre Lakatos argued that science progresses through <em>research programmes</em> — not isolated theories but organized systems of assumptions, hypotheses, and heuristics. A programme has a "hard core" of fundamental commitments (e.g., ART's commitment to directed attention as a finite resource) and a "protective belt" of auxiliary hypotheses that can be adjusted when anomalies arise. A programme is <em>progressive</em> when it generates novel predictions that turn out to be true, and <em>degenerating</em> when it only accommodates known facts after the fact. When you design experiments, you are testing whether a programme is progressive — whether it can anticipate new phenomena (Lakatos, 1978).
+    </p>
+
+    <h3>Mechanisms as Real Capacities</h3>
+    <p>
+      Nancy Cartwright emphasizes that theories in the natural and social sciences describe <em>capacities</em> — real powers that operate under specific local conditions. ART's attention-restoration capacity is not a universal law ("nature always restores attention") but a capacity that operates when certain preconditions are met (prior fatigue, environment with soft fascination, receptive individual, sufficient time). The goal of Level 3 experiments is to map these boundary conditions — to establish when, for whom, and under what circumstances the capacity operates. This yields actionable knowledge for designers: not "add plants," but "in workspaces where sustained-attention tasks dominate, provide periodic access to environments with moderate visual complexity and gentle movement, for occupants who have been working for 90+ minutes" (Cartwright, 1989).
+    </p>
+
+    <h3>Mechanistic Decomposition</h3>
+    <p>
+      Peter Machamer argues that scientific explanation consists of identifying <em>mechanisms</em>: entities with properties that engage in activities organized in specific spatiotemporal ways. For ART, the mechanism involves: (1) entities — the directed attention system and the involuntary attention system; (2) activities — fatigue of directed attention, engagement of involuntary attention by soft fascination, disengagement from voluntary control, recovery of directed attention capacity; (3) temporal organization — a sequence from depletion through exposure to recovery. A Level 3 experiment should measure <em>each step</em> of this temporal sequence, not just the endpoint. Measuring only the final outcome (did attention improve?) gives no mechanistic insight (Machamer et al., 2000).
+    </p>
+
+    <h3>Context-Dependent Value</h3>
+    <p>
+      Allan Franklin reminds us that the scientific value of an experiment depends on what the field needs to learn <em>next</em>. An experiment that would have been groundbreaking in 1984 (Ulrich's window study) may be routine today because the basic effect is well-established. As Franklin notes, the same theoretical framework becomes more valuable when new measurement tools arrive — SRT became mechanistically testable when cortisol assays and HRV monitoring became portable and affordable. In COGS 160, VR provides a new measurement tool that makes certain questions testable for the first time: precise parametric manipulation of environmental geometry, content, and temporal dynamics (Franklin, 1986).
+    </p>
+
+    <div class="insight-callout">
+      <div class="speaker">Peter Machamer — Philosopher of mechanisms</div>
+      <div class="quote">"To explain is to describe how things work — the entities involved, the activities they engage in, and how these are organized to produce the phenomenon."</div>
+      <div class="gloss">When you design a Level 3 experiment, you are decomposing a mechanism into its component activities and testing each one. This is the core skill of mechanism-probing research.</div>
+    </div>
+
+    <h3>What This Means for Your Experiments</h3>
+
+    <p>
+      Taken together, these epistemological principles suggest a clear agenda for undergraduate experimental design:
+    </p>
+
+    <p>
+      First, <strong>ground your experiment in a named theory</strong>. Do not just ask "does X affect Y?" — specify <em>which theory predicts</em> that X affects Y, and <em>through what mechanism</em>. This immediately raises your experiment from Level 1 to Level 2.
+    </p>
+
+    <p>
+      Second, <strong>specify what would count as error</strong>. Before you run the experiment, state explicitly: "If the theory is wrong, I would expect to see [specific result]." This is Mayo's severity principle in practice, and it forces you to think about alternative explanations before you collect data.
+    </p>
+
+    <p>
+      Third, <strong>decompose the mechanism</strong>. If you can identify intermediate steps in the theoretical mechanism and measure them, you upgrade from Level 2 to Level 3. Most undergraduate experiments stop at the endpoint; yours should trace the pathway.
+    </p>
+
+    <p>
+      Fourth, <strong>consider rival theories</strong>. Even if you do not design a full Level 4 critical experiment, knowing which theories compete and where they diverge helps you interpret your results. A finding that is consistent with ART is more impressive if you can also show it is <em>inconsistent</em> with arousal theory.
+    </p>
+
+    <div class="references">
+      <h2>References</h2>
+      <p class="ref-entry">Appleton, J. (1975). <em>The experience of landscape</em>. Wiley.</p>
+      <p class="ref-entry">Berman, M. G., Jonides, J., &amp; Kaplan, S. (2008). The cognitive benefits of interacting with nature. <em>Psychological Science, 19</em>(12), 1207–1212. https://doi.org/10.1111/j.1467-9280.2008.02225.x</p>
+      <p class="ref-entry">Berlyne, D. E. (1971). <em>Aesthetics and psychobiology</em>. Appleton-Century-Crofts.</p>
+      <p class="ref-entry">Cartwright, N. (1989). <em>Nature's capacities and their measurement</em>. Oxford University Press.</p>
+      <p class="ref-entry">Dosen, A. S., &amp; Ostwald, M. J. (2016). Evidence for prospect-refuge theory: A meta-analysis of the characteristics of preferred environments. <em>City, Territory and Architecture, 3</em>(1), 4. https://doi.org/10.1186/s40410-016-0033-1</p>
+      <p class="ref-entry">Franklin, A. (1986). <em>The neglect of experiment</em>. Cambridge University Press.</p>
+      <p class="ref-entry">Gibson, J. J. (1979). <em>The ecological approach to visual perception</em>. Houghton Mifflin.</p>
+      <p class="ref-entry">Heft, H. (2010). Affordances and the perception of landscape: An inquiry into environmental perception and aesthetics. In C. Ward Thompson, P. Aspinall, &amp; S. Bell (Eds.), <em>Innovative approaches to researching landscape and health</em> (pp. 9–32). Routledge.</p>
+      <p class="ref-entry">Kaplan, R., &amp; Kaplan, S. (1989). <em>The experience of nature: A psychological perspective</em>. Cambridge University Press.</p>
+      <p class="ref-entry">Kaplan, S. (1995). The restorative benefits of nature: Toward an integrative framework. <em>Journal of Environmental Psychology, 15</em>(3), 169–182. https://doi.org/10.1016/0272-4944(95)90001-2</p>
+      <p class="ref-entry">Kellert, S. R., &amp; Wilson, E. O. (Eds.). (1993). <em>The biophilia hypothesis</em>. Island Press.</p>
+      <p class="ref-entry">Kellert, S. R., Heerwagen, J. H., &amp; Mador, M. L. (2008). <em>Biophilic design: The theory, science and practice of bringing buildings to life</em>. Wiley.</p>
+      <p class="ref-entry">Kyttä, M. (2004). The extent of children's independent mobility and the number of actualized affordances as criteria for child-friendly environments. <em>Journal of Environmental Psychology, 24</em>(2), 179–198. https://doi.org/10.1016/j.jenvp.2004.01.001</p>
+      <p class="ref-entry">Lakatos, I. (1978). <em>The methodology of scientific research programmes</em>. Cambridge University Press.</p>
+      <p class="ref-entry">Machamer, P., Darden, L., &amp; Craver, C. F. (2000). Thinking about mechanisms. <em>Philosophy of Science, 67</em>(1), 1–25. https://doi.org/10.1086/392759</p>
+      <p class="ref-entry">Mayo, D. G. (2018). <em>Statistical inference as severe testing: How to get beyond the statistics wars</em>. Cambridge University Press.</p>
+      <p class="ref-entry">Mehrabian, A., &amp; Russell, J. A. (1974). <em>An approach to environmental psychology</em>. MIT Press.</p>
+      <p class="ref-entry">Stamps, A. E. (2005). Enclosure and safety in urbanscapes. <em>Environment and Behavior, 37</em>(1), 102–133. https://doi.org/10.1177/0013916504266806</p>
+      <p class="ref-entry">Ulrich, R. S. (1983). Aesthetic and affective response to natural environment. In I. Altman &amp; J. F. Wohlwill (Eds.), <em>Behavior and the natural environment</em> (pp. 85–125). Plenum.</p>
+      <p class="ref-entry">Ulrich, R. S. (1984). View through a window may influence recovery from surgery. <em>Science, 224</em>(4647), 420–421. https://doi.org/10.1126/science.6143402</p>
+      <p class="ref-entry">Ulrich, R. S., Simons, R. F., Losito, B. D., Fiorito, E., Miles, M. A., &amp; Zelson, M. (1991). Stress recovery during exposure to natural and urban environments. <em>Journal of Environmental Psychology, 11</em>(3), 201–230. https://doi.org/10.1016/S0272-4944(05)80184-7</p>
+      <p class="ref-entry">Wilson, E. O. (1984). <em>Biophilia</em>. Harvard University Press.</p>
+      <p class="ref-entry">Yerkes, R. M., &amp; Dodson, J. D. (1908). The relation of strength of stimulus to rapidity of habit-formation. <em>Journal of Comparative Neurology and Psychology, 18</em>(5), 459–482.</p>
+    </div>
+
+  </div><!-- /panel-epistemology -->
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       FOOTER
+       ═══════════════════════════════════════════════════════ -->
+  <div class="page-footer">
+    <a href="knowledge_navigator.html">← Knowledge Navigator</a>
+    <a href="hypothesis_builder.html">Formulate Your Hypothesis →</a>
+    <a href="methods_taxonomy.html">Methods Taxonomy</a>
+    <a href="measurement_instruments.html">Measurement Instruments</a>
+    <a href="sensor_catalogue.html">Sensor Catalogue</a>
+    <a href="en_navigator.html">Epistemic Network</a>
+    <a href="bn_navigator.html">Bayesian Network</a>
+    <a href="experiment_wizard.html">Experiment Builder</a>
+    <a href="system_inventory.html">System Inventory</a>
+  </div>
+
+</div><!-- /page-wrapper -->
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+// ─── Tab Switching ───────────────────────────────────────────
+function switchTab(tabId) {
+  // Deactivate all tabs and panels
+  document.querySelectorAll('.section-tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+
+  // Activate selected
+  document.getElementById('tab-' + tabId).classList.add('active');
+  document.getElementById('panel-' + tabId).classList.add('active');
+
+  // Scroll to top of panel
+  window.scrollTo({ top: document.querySelector('.section-tabs').offsetTop - 80, behavior: 'smooth' });
+}
+
+// ─── Theory Card Expand/Collapse ─────────────────────────────
+function toggleTheory(theoryId) {
+  const detail = document.getElementById('detail-' + theoryId);
+  const btn = document.getElementById('expand-' + theoryId);
+
+  if (detail.classList.contains('expanded')) {
+    detail.classList.remove('expanded');
+    btn.classList.remove('open');
+    btn.innerHTML = '<span class="expand-chevron">▶</span> Full details &amp; design implications';
+  } else {
+    detail.classList.add('expanded');
+    btn.classList.add('open');
+    btn.innerHTML = '<span class="expand-chevron">▶</span> Hide details';
+  }
+
+  // Prevent the card click from propagating
+  event.stopPropagation();
+}
+
+// Prevent card click from toggling when clicking expand button
+document.querySelectorAll('.theory-card').forEach(card => {
+  card.addEventListener('click', function(e) {
+    // Only toggle if click is on the card itself, not a button
+    if (e.target.closest('.expand-btn')) return;
+    const theoryId = this.id.replace('theory-', '');
+    toggleTheory(theoryId);
+  });
+});
+
+// ─── URL Hash Navigation ─────────────────────────────────────
+function checkHash() {
+  const hash = window.location.hash.replace('#', '');
+  if (hash) {
+    const validTabs = ['taxonomy', 'theories', 'connections', 'critical', 'epistemology'];
+    if (validTabs.includes(hash)) {
+      switchTab(hash);
+    }
+    // Also handle direct theory links like #theory-art
+    if (hash.startsWith('theory-')) {
+      switchTab('theories');
+      setTimeout(() => {
+        const el = document.getElementById(hash);
+        if (el) {
+          el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+          toggleTheory(hash.replace('theory-', ''));
+        }
+      }, 300);
+    }
+  }
+}
+
+window.addEventListener('hashchange', checkHash);
+window.addEventListener('load', checkHash);
+</script>
+
+</body>
+</html>

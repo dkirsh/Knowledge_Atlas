@@ -1,0 +1,1387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sensor Catalogue — COGS 160 Experiment Design</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #FFFFFF;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        /* ─── Global Navigation ─── */
+        .global-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0891B2;
+            text-decoration: none;
+            margin-right: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 0.9rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 0.25rem;
+        }
+
+        .nav-links a:hover { color: #0891B2; }
+        .nav-links a.active { color: #0891B2; border-bottom-color: #0891B2; }
+
+        /* ─── Main Container ─── */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        /* ─── Page Header ─── */
+        .page-header {
+            margin-bottom: 2rem;
+        }
+
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-header .subtitle {
+            font-size: 1.05rem;
+            color: #64748B;
+            max-width: 800px;
+        }
+
+        /* ─── View Toggle ─── */
+        .view-controls {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            align-items: center;
+        }
+
+        .view-toggle {
+            display: flex;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .view-toggle button {
+            padding: 0.5rem 1rem;
+            border: none;
+            background: #F8FAFC;
+            color: #475569;
+            font-size: 0.9rem;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .view-toggle button:hover { background: #E2E8F0; }
+        .view-toggle button.active { background: #0891B2; color: white; }
+
+        .search-input {
+            padding: 0.5rem 1rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            font-size: 0.9rem;
+            width: 250px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        .search-input:focus { border-color: #0891B2; }
+
+        /* ─── Construct Filter Chips ─── */
+        .construct-filters {
+            display: flex;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+            margin-bottom: 1.5rem;
+        }
+
+        .filter-chip {
+            padding: 0.35rem 0.85rem;
+            border: 1px solid #E2E8F0;
+            border-radius: 20px;
+            background: #F8FAFC;
+            font-size: 0.85rem;
+            font-weight: 500;
+            color: #475569;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-chip:hover { border-color: #0891B2; color: #0891B2; }
+
+        .filter-chip.active {
+            background: #0891B2;
+            color: white;
+            border-color: #0891B2;
+        }
+
+        /* ─── Sensor Cards (Catalogue View) ─── */
+        .sensor-grid {
+            display: grid;
+            gap: 1rem;
+        }
+
+        .sensor-card {
+            border: 1px solid #E2E8F0;
+            border-radius: 10px;
+            overflow: hidden;
+            transition: box-shadow 0.2s;
+        }
+
+        .sensor-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+
+        .sensor-card-header {
+            padding: 1rem 1.25rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            cursor: pointer;
+            user-select: none;
+            background: #FAFBFC;
+        }
+
+        .sensor-card-header:hover { background: #F1F5F9; }
+
+        .sensor-title-area {
+            flex: 1;
+        }
+
+        .sensor-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0F172A;
+        }
+
+        .sensor-oneliner {
+            font-size: 0.85rem;
+            color: #64748B;
+            margin-top: 0.15rem;
+        }
+
+        .sensor-badges {
+            display: flex;
+            gap: 0.4rem;
+            margin-left: 1rem;
+            flex-shrink: 0;
+            flex-wrap: wrap;
+            justify-content: flex-end;
+        }
+
+        .badge {
+            padding: 0.2rem 0.6rem;
+            border-radius: 12px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+
+        .badge-physio { background: #DBEAFE; color: #1E40AF; }
+        .badge-behavioral { background: #D1FAE5; color: #065F46; }
+        .badge-self-report { background: #FEF3C7; color: #92400E; }
+        .badge-neural { background: #EDE9FE; color: #5B21B6; }
+
+        .chevron-icon {
+            width: 20px;
+            height: 20px;
+            transition: transform 0.3s;
+            color: #94A3B8;
+            flex-shrink: 0;
+            margin-left: 0.75rem;
+        }
+
+        .sensor-card.expanded .chevron-icon {
+            transform: rotate(180deg);
+        }
+
+        /* ─── Sensor Card Body ─── */
+        .sensor-card-body {
+            display: none;
+            padding: 0 1.25rem 1.25rem;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .sensor-card.expanded .sensor-card-body { display: block; }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-top: 1rem;
+        }
+
+        @media (max-width: 768px) {
+            .detail-grid { grid-template-columns: 1fr; }
+        }
+
+        .detail-block {
+            padding: 0.75rem;
+            background: #F8FAFC;
+            border-radius: 8px;
+            border-left: 3px solid #E2E8F0;
+        }
+
+        .detail-block.what-it-measures { border-left-color: #0891B2; }
+        .detail-block.what-it-indicates { border-left-color: #7C3AED; }
+        .detail-block.strength-rating { border-left-color: #059669; }
+        .detail-block.ranking { border-left-color: #D97706; }
+        .detail-block.temporal { border-left-color: #DC2626; }
+        .detail-block.confounds { border-left-color: #9333EA; }
+        .detail-block.vr-compat { border-left-color: #2563EB; }
+        .detail-block.key-ref { border-left-color: #64748B; }
+        .detail-block.cost-access { border-left-color: #EA580C; }
+
+        .detail-block-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #64748B;
+            margin-bottom: 0.35rem;
+        }
+
+        .detail-block-content {
+            font-size: 0.9rem;
+            color: #334155;
+        }
+
+        .full-width { grid-column: 1 / -1; }
+
+        /* Strength meter */
+        .strength-meter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-top: 0.25rem;
+        }
+
+        .strength-bar {
+            display: flex;
+            gap: 3px;
+        }
+
+        .strength-pip {
+            width: 18px;
+            height: 8px;
+            border-radius: 2px;
+            background: #E2E8F0;
+        }
+
+        .strength-pip.filled { background: #059669; }
+        .strength-pip.filled.moderate { background: #D97706; }
+        .strength-pip.filled.weak { background: #DC2626; }
+
+        .strength-label {
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .strength-label.strong { color: #059669; }
+        .strength-label.moderate { color: #D97706; }
+        .strength-label.weak { color: #DC2626; }
+
+        /* Construct tags inside cards */
+        .construct-tag-row {
+            display: flex;
+            gap: 0.4rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .construct-tag {
+            padding: 0.15rem 0.55rem;
+            border-radius: 10px;
+            font-size: 0.72rem;
+            font-weight: 600;
+            background: #F1F5F9;
+            color: #475569;
+            border: 1px solid #E2E8F0;
+        }
+
+        /* ─── Construct View ─── */
+        .construct-section {
+            margin-bottom: 2rem;
+        }
+
+        .construct-header {
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.35rem;
+            padding-bottom: 0.35rem;
+            border-bottom: 2px solid #0891B2;
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .construct-description {
+            font-size: 0.9rem;
+            color: #64748B;
+            margin-bottom: 1rem;
+        }
+
+        .ranking-table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .ranking-table th {
+            text-align: left;
+            padding: 0.6rem 0.75rem;
+            background: #F1F5F9;
+            color: #475569;
+            font-weight: 600;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        .ranking-table td {
+            padding: 0.6rem 0.75rem;
+            border-bottom: 1px solid #F1F5F9;
+            vertical-align: top;
+        }
+
+        .ranking-table tr:hover { background: #FAFBFC; }
+
+        .ranking-table .rank-num {
+            font-weight: 700;
+            color: #0891B2;
+            width: 2.5rem;
+            text-align: center;
+        }
+
+        .ranking-table .sensor-link {
+            color: #0891B2;
+            cursor: pointer;
+            font-weight: 600;
+            text-decoration: none;
+        }
+
+        .ranking-table .sensor-link:hover { text-decoration: underline; }
+
+        /* ─── Inline Modal (for embedding in other pages) ─── */
+        .sensor-modal-overlay {
+            display: none;
+            position: fixed;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.5);
+            z-index: 2000;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .sensor-modal-overlay.visible {
+            display: flex;
+        }
+
+        .sensor-modal {
+            background: white;
+            border-radius: 12px;
+            max-width: 700px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            padding: 2rem;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+        }
+
+        .sensor-modal-close {
+            float: right;
+            border: none;
+            background: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #94A3B8;
+            padding: 0.25rem;
+        }
+
+        .sensor-modal-close:hover { color: #0F172A; }
+
+        .sensor-modal h2 {
+            font-size: 1.4rem;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .sensor-modal .modal-oneliner {
+            color: #64748B;
+            font-size: 0.95rem;
+            margin-bottom: 1rem;
+        }
+
+        /* ─── Footer ─── */
+        .page-footer {
+            margin-top: 3rem;
+            padding: 1.5rem 0;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+            justify-content: center;
+        }
+
+        .page-footer a {
+            color: #0891B2;
+            text-decoration: none;
+            font-size: 0.9rem;
+            font-weight: 500;
+        }
+
+        .page-footer a:hover { text-decoration: underline; }
+
+        /* ─── Responsive ─── */
+        @media (max-width: 768px) {
+            .nav-links { gap: 0.75rem; }
+            .nav-links a { font-size: 0.8rem; }
+            .view-controls { flex-direction: column; }
+            .search-input { width: 100%; }
+            .sensor-badges { margin-left: 0; margin-top: 0.5rem; }
+            .sensor-card-header { flex-wrap: wrap; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     NAVIGATION
+     ═══════════════════════════════════════════════════════════ -->
+<nav class="global-nav">
+    <div class="nav-container">
+        <a href="knowledge_navigator.html" class="nav-logo">COGS 160</a>
+        <ul class="nav-links">
+            <li><a href="knowledge_navigator.html">Knowledge Navigator</a></li>
+            <li><a href="theory_and_experiment_design.html">Theory &amp; Design</a></li>
+            <li><a href="hypothesis_builder.html">Hypothesis Builder</a></li>
+            <li><a href="methods_taxonomy.html">Methods Taxonomy</a></li>
+            <li><a href="measurement_instruments.html">Measurement Instruments</a></li>
+            <li><a href="sensor_catalogue.html" class="active">Sensor Catalogue</a></li>
+            <li><a href="en_navigator.html">Epistemic Network</a></li>
+            <li><a href="bn_navigator.html">Bayesian Network</a></li>
+            <li><a href="experiment_wizard.html">Experiment Builder</a></li>
+            <li><a href="system_inventory.html">System Inventory</a></li>
+        </ul>
+    </div>
+</nav>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     PAGE CONTENT
+     ═══════════════════════════════════════════════════════════ -->
+<div class="container">
+
+    <div class="page-header">
+        <h1>Sensor &amp; Measure Catalogue</h1>
+        <p class="subtitle">Every measurement device and instrument used in the environment–cognition literature, organized by what it physically measures, what that measurement tells you about psychological and physiological states, and how it compares with alternative measures of the same construct.</p>
+    </div>
+
+    <!-- View Controls -->
+    <div class="view-controls">
+        <div class="view-toggle">
+            <button class="active" onclick="setView('catalogue', this)">All Sensors</button>
+            <button onclick="setView('construct', this)">By Construct</button>
+        </div>
+        <input type="text" class="search-input" placeholder="Search sensors..." oninput="filterSensors(this.value)" id="searchBox">
+    </div>
+
+    <!-- Construct Filter Chips (shown in catalogue view) -->
+    <div class="construct-filters" id="constructFilters">
+        <!-- populated by JS -->
+    </div>
+
+    <!-- CATALOGUE VIEW -->
+    <div id="catalogueView" class="sensor-grid">
+        <!-- populated by JS -->
+    </div>
+
+    <!-- CONSTRUCT VIEW -->
+    <div id="constructView" style="display:none;">
+        <!-- populated by JS -->
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+        <a href="measurement_instruments.html">&larr; Measurement Instruments</a>
+        <a href="methods_taxonomy.html">Methods Taxonomy</a>
+        <a href="hypothesis_builder.html">Hypothesis Builder</a>
+        <a href="knowledge_navigator.html">Knowledge Navigator</a>
+        <a href="experiment_wizard.html">Experiment Builder &rarr;</a>
+    </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════════════════════
+     INLINE MODAL (for cross-page use)
+     ═══════════════════════════════════════════════════════════ -->
+<div class="sensor-modal-overlay" id="sensorModal" onclick="if(event.target===this)closeSensorModal()">
+    <div class="sensor-modal">
+        <button class="sensor-modal-close" onclick="closeSensorModal()">&times;</button>
+        <div id="sensorModalContent"></div>
+    </div>
+</div>
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     SENSOR DATABASE + JAVASCRIPT
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+// ──────────────────────────────────────────────────────────
+// SENSOR DATABASE
+// Each entry: what the sensor physically measures, what that
+// indicates, strength as indicator, ranking among peers,
+// confounds, temporal dynamics, VR compatibility, cost, refs
+// ──────────────────────────────────────────────────────────
+
+const CONSTRUCTS = {
+    stress:     { label: "Stress",            icon: "🔴", description: "Physiological and psychological stress response — HPA axis activation, sympathetic arousal, subjective distress. Central to SRT predictions." },
+    attention:  { label: "Attention",         icon: "🎯", description: "Sustained, selective, and executive attention — the capacity to direct and maintain cognitive focus. Central to ART predictions." },
+    emotion:    { label: "Emotion / Affect",  icon: "💛", description: "Valence (positive–negative) and arousal dimensions of emotional experience. Targeted by arousal theory and biophilia." },
+    cognitive_load: { label: "Cognitive Load", icon: "🧠", description: "Mental effort and working memory demand imposed by a task or environment." },
+    arousal:    { label: "Arousal",           icon: "⚡", description: "General physiological activation level — sympathetic vs. parasympathetic dominance." },
+    presence:   { label: "Presence (VR)",     icon: "🥽", description: "Sense of 'being there' in a virtual environment — place illusion, plausibility illusion." },
+    restoration:{ label: "Restoration",       icon: "🌿", description: "Recovery of depleted cognitive and affective resources after fatigue or stress. Core ART and SRT outcome." },
+    fatigue:    { label: "Fatigue",           icon: "😴", description: "Mental and physical exhaustion — reduced capacity for sustained performance." },
+    preference: { label: "Preference / Comfort", icon: "🏠", description: "Subjective environmental appraisal — how much a person likes, feels comfortable in, or prefers a setting." }
+};
+
+const SENSORS = [
+    // ═══════════════════════════════════════════
+    // PHYSIOLOGICAL SENSORS
+    // ═══════════════════════════════════════════
+    {
+        id: "hrv",
+        name: "Heart Rate Variability (HRV)",
+        oneliner: "Beat-to-beat variation in heart rhythm — continuous, real-time index of autonomic nervous system balance",
+        category: "physio",
+        constructs: ["stress", "arousal", "restoration", "emotion"],
+        whatItMeasures: "A chest-strap or wrist-worn sensor records the time interval between successive heartbeats (R-R intervals, in milliseconds). Software then computes time-domain metrics (RMSSD = root mean square of successive differences; SDNN = standard deviation of all intervals) and frequency-domain metrics (HF-HRV = high-frequency power, 0.15–0.40 Hz, reflecting vagal/parasympathetic tone; LF-HRV = low-frequency power, 0.04–0.15 Hz, reflecting mixed sympathetic and parasympathetic input).",
+        whatItIndicates: {
+            stress: { text: "Higher HF-HRV indicates parasympathetic dominance (calm, recovery). Lower HF-HRV and elevated LF/HF ratio indicates sympathetic dominance (fight-or-flight, stress). SRT predicts nature exposure increases HF-HRV.", strength: 3, strengthLabel: "Moderate–Strong", reason: "HRV is a well-validated autonomic marker with direct physiological pathway to stress response via the vagus nerve. However, it reflects general autonomic balance, not stress specifically — physical activity, posture changes, and breathing rate all modulate HRV independently of psychological stress." },
+            arousal: { text: "Low HRV = high sympathetic arousal; High HRV = parasympathetic dominance (low arousal, relaxation).", strength: 4, strengthLabel: "Strong", reason: "HRV is one of the most direct measures of autonomic arousal. The sympathetic-parasympathetic balance it captures IS the physiological basis of the arousal construct." },
+            restoration: { text: "ART and SRT both predict that restorative environments increase HF-HRV as the body shifts from sympathetic to parasympathetic dominance.", strength: 3, strengthLabel: "Moderate–Strong", reason: "HRV increase during nature exposure has been replicated across multiple studies (e.g., Park et al., 2010; Tsunetsugu et al., 2013). But HRV restoration could reflect physical rest, not specifically cognitive/attentional restoration." },
+            emotion: { text: "Emotional arousal (both positive and negative) tends to suppress HRV. Calm positive states (contentment, serenity) elevate HF-HRV.", strength: 2, strengthLabel: "Moderate", reason: "HRV tracks arousal dimension of emotion reliably, but cannot distinguish valence — both excitement and fear suppress HRV similarly." }
+        },
+        confounds: "Breathing rate directly modulates HF-HRV (respiratory sinus arrhythmia) — if participants breathe faster in one condition, HRV changes regardless of stress. Physical movement increases heart rate and reduces HRV. Caffeine, medications (beta-blockers), alcohol, and smoking affect baseline HRV. Posture (standing vs. sitting) shifts autonomic balance. Age: HRV declines ~1% per year after age 25.",
+        temporalDynamics: "Continuous, real-time. Responds to stimuli within seconds. However, stable frequency-domain metrics require a minimum 5-minute epoch. Time-domain metrics (RMSSD) can be computed from shorter windows (~1 min) but with more noise.",
+        vrCompatibility: "Excellent. Chest-strap monitors (Polar H10) work seamlessly inside VR headsets. Continuous data during immersion reveals moment-to-moment autonomic shifts. No interference with visual display.",
+        costAccess: "Low–Moderate. Consumer chest straps: $50–100 (Polar H10). Research-grade: $200–500 (Biopac, Empatica E4). Software: Kubios HRV (free for basic analysis).",
+        keyReference: "Shaffer, F., & Ginsberg, J. P. (2017). An overview of heart rate variability metrics and norms. <em>Frontiers in Public Health, 5</em>, 258. [~3,400 citations]",
+        rankingContext: {
+            stress: { rank: 2, of: 6, note: "Behind cortisol (gold standard HPA-axis) but ahead of EDA, because HRV reflects the parasympathetic recovery branch, not just acute arousal." },
+            arousal: { rank: 1, of: 5, note: "Most direct continuous measure of autonomic arousal balance." }
+        }
+    },
+    {
+        id: "eda",
+        name: "Electrodermal Activity (EDA / GSR)",
+        oneliner: "Skin conductance driven by eccrine sweat glands — pure sympathetic nervous system signal, no parasympathetic component",
+        category: "physio",
+        constructs: ["arousal", "stress", "emotion"],
+        whatItMeasures: "Electrodes on the fingers or wrist pass a tiny constant voltage across the skin and measure conductance (in microsiemens, μS). Sweat gland activity modulates conductance. Two components: tonic Skin Conductance Level (SCL = baseline arousal over minutes) and phasic Skin Conductance Responses (SCR = sharp peaks within 1–5 seconds of a stimulus, reflecting event-related arousal).",
+        whatItIndicates: {
+            arousal: { text: "EDA is driven exclusively by the sympathetic branch of the autonomic nervous system — it is a pure arousal signal. High SCL or frequent SCRs = high sympathetic activation. Low SCL = low arousal / calm.", strength: 5, strengthLabel: "Strong", reason: "Unlike HRV (mixed sympathetic + parasympathetic), EDA has no parasympathetic innervation. Eccrine sweat glands on palms and fingers are controlled exclusively by sympathetic cholinergic fibers. This makes EDA the cleanest available peripheral measure of sympathetic arousal." },
+            stress: { text: "Stressors increase SCL and SCR frequency. Nature exposure (per SRT and arousal theory) should decrease tonic EDA.", strength: 2, strengthLabel: "Moderate", reason: "EDA reflects general sympathetic arousal, not stress per se. Excitement, surprise, cognitive effort, and novelty all elevate EDA. A student seeing a beautiful vista may show a SCR — not from stress, but from awe. EDA cannot distinguish these." },
+            emotion: { text: "Emotional stimuli (positive or negative) trigger phasic SCRs. Higher arousal emotions (fear, excitement) produce larger SCRs than low-arousal emotions (sadness, calm).", strength: 2, strengthLabel: "Moderate", reason: "EDA tracks the arousal dimension of emotion well but is completely blind to valence — fear and excitement look identical." }
+        },
+        confounds: "Temperature: warm environments increase sweating regardless of emotion (thermoregulatory sweating). Humidity: high humidity elevates baseline SCL. Hand moisture from any source. Individual differences in sweat gland density (can vary 3x between people). Physical movement. Hydration level.",
+        temporalDynamics: "Fast phasic response: SCR onset 1–3 seconds after stimulus, peaks at 3–5 seconds. Tonic SCL changes over minutes. Recovery: SCL returns to baseline within 5–15 minutes after stressor removal. Habituation: repeated identical stimuli produce progressively smaller SCRs.",
+        vrCompatibility: "Excellent. Sensors worn on non-dominant hand fingers or wrist, outside the headset. Real-time data during immersion. Some VR controllers (Valve Index) have integrated EDA sensors.",
+        costAccess: "Low. Consumer sensors: $50–200 (Shimmer, Grove). Research-grade: $200–500 (Biopac, Empatica E4). Can build DIY sensors for <$30 with Arduino.",
+        keyReference: "Boucsein, W. (2012). <em>Electrodermal Activity</em> (2nd ed.). Springer. [~4,100 citations]",
+        rankingContext: {
+            arousal: { rank: 1, of: 5, note: "Gold standard peripheral measure of sympathetic arousal — no parasympathetic contamination." },
+            stress: { rank: 4, of: 6, note: "Too nonspecific. Elevated EDA tells you 'something arousing happened,' not 'the person is stressed.'" }
+        }
+    },
+    {
+        id: "cortisol",
+        name: "Salivary Cortisol",
+        oneliner: "Hypothalamic-pituitary-adrenal (HPA) axis hormone — the gold standard biomarker for physiological stress",
+        category: "physio",
+        constructs: ["stress", "arousal"],
+        whatItMeasures: "A saliva sample (passive drool or Salivette cotton roll) is collected and sent to a laboratory for immunoassay analysis (ELISA, radioimmunoassay, or mass spectrometry LC-MS/MS). Returns cortisol concentration in nmol/L or μg/dL. Cortisol is a glucocorticoid hormone released by the adrenal cortex in response to HPA-axis activation triggered by psychological or physical stressors.",
+        whatItIndicates: {
+            stress: { text: "Elevated cortisol = the body's stress response is active. The HPA axis is the canonical physiological stress pathway: perceived threat → hypothalamus releases CRH → pituitary releases ACTH → adrenal cortex releases cortisol. SRT predicts nature exposure reduces cortisol.", strength: 5, strengthLabel: "Strong", reason: "Cortisol IS the stress hormone. The HPA-axis cascade is the most studied and best-understood stress pathway in psychobiology. Cortisol has a direct, well-characterized mechanism: stressor → brain → hormone release → measurable in saliva. This is not a proxy — it is the thing itself." },
+            arousal: { text: "Cortisol elevation accompanies high arousal, especially negative arousal (threat, anxiety). Positive high-arousal states (excitement) do not reliably elevate cortisol.", strength: 2, strengthLabel: "Moderate", reason: "Cortisol is specific to the HPA-axis stress response, not general arousal. Sympathetic arousal (captured by EDA) can occur without cortisol elevation. Cortisol is thus a stress-specific arousal marker, not a general one." }
+        },
+        confounds: "Strong diurnal rhythm: cortisol peaks ~30 min after waking (cortisol awakening response, CAR), declines through the day, lowest at ~11pm. All participants MUST be tested at the same time of day. Food intake within 30 min elevates cortisol. Caffeine elevates cortisol. Nicotine elevates cortisol. Vigorous exercise elevates cortisol. Oral contraceptives affect cortisol binding globulin. Tooth brushing can introduce blood contamination via gum irritation.",
+        temporalDynamics: "Slow. After a stressor, cortisol peaks 15–25 minutes later (the HPA cascade takes time). Half-life: ~60–90 minutes. This means cortisol cannot capture moment-to-moment changes — it integrates stress over a ~30-minute window. Minimum 3 samples needed: baseline (pre-stressor), peak (15–25 min post), recovery (45–60 min post).",
+        vrCompatibility: "Moderate. Can collect saliva before and after VR exposure. Cannot sample during immersion (must remove headset for drool sample). The 15–25 minute lag means cortisol measured after VR reflects the experience during VR, which is actually advantageous.",
+        costAccess: "Moderate–High. Lab assay: $15–40 per sample. If 3 samples × 30 participants = $1,350–3,600 for assay costs alone. Salivette tubes: ~$2 each. Requires −20°C freezer for storage. Turnaround: 1–4 weeks from lab.",
+        keyReference: "Kirschbaum, C., & Hellhammer, D. H. (1994). Salivary cortisol in psychoneuroendocrine research. <em>Psychoneuroendocrinology, 19</em>(4), 313–333. [~5,800 citations]",
+        rankingContext: {
+            stress: { rank: 1, of: 6, note: "Gold standard. The HPA-axis cortisol response IS the physiological stress response, not a proxy for it." }
+        }
+    },
+    {
+        id: "eeg",
+        name: "EEG (Electroencephalography)",
+        oneliner: "Scalp electrodes measure cortical electrical activity — millisecond temporal resolution of brain oscillatory dynamics",
+        category: "neural",
+        constructs: ["attention", "cognitive_load", "arousal", "emotion", "restoration"],
+        whatItMeasures: "Electrodes placed on the scalp (typically 32 or 64 channels, using the 10–20 system) record voltage fluctuations produced by synchronized post-synaptic potentials in cortical pyramidal neurons. The raw signal is decomposed into frequency bands: delta (0.5–4 Hz, deep sleep), theta (4–8 Hz, memory encoding, drowsiness), alpha (8–13 Hz, relaxed wakefulness, idling), beta (13–30 Hz, active thinking, motor planning), gamma (30–100 Hz, binding, high-level cognition). Event-related potentials (ERPs) can also be extracted: P300 (attentional resource allocation), N200 (conflict detection).",
+        whatItIndicates: {
+            attention: { text: "Decreased alpha power = cortical activation (attention engaged). Increased frontal theta = sustained attention / working memory maintenance. P300 amplitude = attentional resource allocation to a stimulus. Alpha asymmetry (left > right frontal alpha) = approach motivation.", strength: 4, strengthLabel: "Strong", reason: "EEG directly measures the neural substrate of attention — cortical activation patterns. Alpha suppression during attention tasks has been replicated thousands of times since Berger (1929). The P300 ERP is one of the most well-characterized neural markers in cognitive neuroscience." },
+            cognitive_load: { text: "Increased frontal theta and suppressed posterior alpha indicate higher working memory demand. Theta/alpha ratio increases with task difficulty.", strength: 4, strengthLabel: "Strong", reason: "Frontal theta oscillations (especially at Fz) are a reliable index of working memory load (Gevins et al., 1997). The relationship is monotonic: more load → more theta. This is among the most robust findings in cognitive electrophysiology." },
+            arousal: { text: "High arousal: dominant beta, suppressed alpha. Low arousal/drowsiness: increased theta, alpha slowing. Deep relaxation: increased alpha.", strength: 3, strengthLabel: "Moderate–Strong", reason: "The alpha-arousal relationship was EEG's first major finding (Berger, 1929). But modern understanding is more nuanced: alpha is not purely 'relaxation' — it also reflects active inhibition of task-irrelevant cortical regions." },
+            emotion: { text: "Frontal alpha asymmetry: greater left frontal activation (lower left alpha) = approach motivation / positive affect. Greater right frontal activation = withdrawal / negative affect.", strength: 2, strengthLabel: "Moderate", reason: "The frontal asymmetry model (Davidson, 1992) has substantial empirical support but also significant failures to replicate. Individual differences are large, and the approach-withdrawal distinction does not map cleanly onto positive-negative valence." },
+            restoration: { text: "ART predicts: after restoration, alpha power should increase (relaxed wakefulness), theta should normalize (reduced cognitive strain), and frontal asymmetry should shift leftward (approach motivation).", strength: 3, strengthLabel: "Moderate–Strong", reason: "Alpha increase after nature exposure has been shown in several studies (e.g., Chang et al., 2008). However, alpha can also increase from simple rest (closing eyes), so nature-specific effects must be controlled against passive rest." }
+        },
+        confounds: "Muscle artifact (EMG from jaw clenching, eye movement, head movement) contaminates signal — especially theta band. Eye blinks produce large artifacts requiring correction (ICA). Electrode impedance drift over time. Reference electrode choice affects all channel values. Hair thickness/style affects scalp contact. Caffeine shifts alpha frequency. Individual alpha frequency varies (7–13 Hz across people).",
+        temporalDynamics: "Millisecond resolution — the fastest brain measure available. ERP components appear 50–600ms post-stimulus. Frequency band changes detectable within seconds. However, reliable spectral estimates require epochs ≥2 seconds. Excellent for tracking rapid attentional shifts in VR environments.",
+        vrCompatibility: "Challenging but feasible. Dry-electrode EEG headsets (Emotiv EPOC, Muse) can be worn under VR headsets, though electrode contact is compromised by headset pressure. Research-grade wet-electrode EEG requires careful integration — front electrodes (Fp1, Fp2) are often occluded by the headset. Best practice: use posterior and lateral electrodes only, or use EEG-compatible VR (e.g., custom rigs).",
+        costAccess: "High. Research-grade: $10,000–50,000 (BioSemi, Brain Products). Consumer-grade: $250–800 (Emotiv EPOC, Muse). Analysis requires expertise (artifact rejection, ICA, spectral analysis). Software: EEGLAB (free), MNE-Python (free).",
+        keyReference: "Luck, S. J. (2014). <em>An Introduction to the Event-Related Potential Technique</em> (2nd ed.). MIT Press. [~8,200 citations]",
+        rankingContext: {
+            attention: { rank: 1, of: 5, note: "Direct measure of cortical attentional state. No other measure captures the neural dynamics of attention with this temporal precision." },
+            cognitive_load: { rank: 1, of: 4, note: "Frontal theta is the most direct neural index of working memory load." }
+        }
+    },
+    {
+        id: "pupillometry",
+        name: "Pupillometry",
+        oneliner: "Pupil diameter as a window into cognitive effort and emotional arousal — sensitive, non-invasive, VR-native",
+        category: "physio",
+        constructs: ["cognitive_load", "arousal", "attention", "emotion"],
+        whatItMeasures: "An eye-tracker (standalone or integrated into a VR headset) continuously measures pupil diameter in millimeters at 60–1000 Hz. The pupil dilates (mydriasis) and constricts (miosis) via opposing action of the dilator pupillae (sympathetic) and sphincter pupillae (parasympathetic) muscles. Key metrics: baseline pupil size, task-evoked pupillary response (TEPR = dilation relative to baseline), peak dilation latency, dilation recovery time.",
+        whatItIndicates: {
+            cognitive_load: { text: "Pupil diameter increases monotonically with cognitive load. More difficult tasks → larger pupils. First demonstrated by Hess & Polt (1964) with arithmetic problems. Beatty (1982) established that TEPR scales linearly with memory load in digit span tasks.", strength: 4, strengthLabel: "Strong", reason: "The pupil-load relationship is one of the most replicated findings in psychophysiology. Beatty's (1982) review documented the relationship across dozens of task types. The mechanism is well understood: locus coeruleus → norepinephrine → dilator pupillae. Load increases LC-NE activity, which dilates the pupil." },
+            arousal: { text: "Emotionally arousing stimuli (positive or negative) dilate pupils. Baseline pupil size reflects tonic arousal level.", strength: 3, strengthLabel: "Moderate–Strong", reason: "Pupil dilation to arousing stimuli is robust and replicable. But disentangling arousal-driven dilation from load-driven dilation requires careful experimental design (the same dilation mechanism serves both)." },
+            attention: { text: "Pupil dilation accompanies orienting responses to novel or salient stimuli. Sustained attention tasks produce tonic pupil dilation that decreases as vigilance declines (the 'vigilance decrement').", strength: 3, strengthLabel: "Moderate–Strong", reason: "The LC-NE system that drives pupil dilation is also central to attention regulation (Aston-Jones & Cohen, 2005). But attention and load co-vary in most tasks, making it hard to isolate attention specifically." },
+            emotion: { text: "Emotional images, sounds, and memories dilate pupils. Negative stimuli produce slightly larger dilation than positive stimuli of matched arousal.", strength: 2, strengthLabel: "Moderate", reason: "Pupil dilation captures the arousal dimension of emotion, not valence. Happy and scary stimuli both dilate pupils if equally arousing." }
+        },
+        confounds: "Light reflex: pupil constricts in bright light, dilates in dim light. ALL luminance differences between conditions MUST be controlled or normalized. Accommodation: focusing on near objects constricts pupils. Age: baseline pupil size decreases with age (~0.4mm per decade after 20). Iris pigmentation: darker irises = smaller baseline pupils. Medications: stimulants, antihistamines, antidepressants, opioids, and anticholinergics all affect pupil. Fatigue: pupil 'hippus' (oscillations) increases with fatigue.",
+        temporalDynamics: "Fast. Pupil begins dilating 200–500ms after stimulus onset, peaks at 1–2 seconds. Returns to baseline within 2–5 seconds for brief stimuli. Can track trial-by-trial variations in load/arousal within a single experimental session.",
+        vrCompatibility: "Excellent — native to VR. Modern headsets (Meta Quest Pro, HTC Vive Pro Eye, Pico 4 Enterprise) have integrated eye-trackers that provide pupillometry data automatically. No additional hardware needed. The enclosed VR headset even controls ambient light, reducing the main confound.",
+        costAccess: "Low (if VR headset has eye-tracking: included free). Standalone: $5,000–25,000 (Tobii, SR Research EyeLink). Analysis: open-source tools available (GazeR for R, PyGaze for Python).",
+        keyReference: "Beatty, J. (1982). Task-evoked pupillary responses, processing load, and the structure of processing resources. <em>Psychological Bulletin, 91</em>(2), 276–292. [~2,300 citations]",
+        rankingContext: {
+            cognitive_load: { rank: 2, of: 4, note: "After EEG frontal theta (more direct neural measure). But pupillometry is far cheaper and VR-native, making it the practical first choice for most student experiments." }
+        }
+    },
+    {
+        id: "eye_tracking",
+        name: "Eye-Tracking (Gaze Patterns)",
+        oneliner: "Where people look, how long they look, and how they scan a scene — the behavioral footprint of visual attention",
+        category: "behavioral",
+        constructs: ["attention", "cognitive_load", "preference", "restoration"],
+        whatItMeasures: "An infrared camera tracks corneal reflections to determine gaze direction at 60–1000 Hz. Gaze data is parsed into fixations (sustained gaze at one location, typically >100ms), saccades (rapid eye movements between fixations, 20–80ms), and smooth pursuits (tracking moving objects). Derived metrics: fixation count, mean fixation duration, total dwell time on areas of interest (AOIs), scanpath length, gaze entropy (Shannon entropy of gaze distribution), first fixation location, time to first fixation on AOI.",
+        whatItIndicates: {
+            attention: { text: "Fixation duration = processing depth at that location. Fixation count = how many distinct locations are attended. Gaze entropy = disorganization of attention (high entropy = exploratory; low entropy = focused). Time to first fixation = attentional capture. These metrics directly operationalize where selective attention is deployed in a scene.", strength: 5, strengthLabel: "Strong", reason: "Eye movements ARE the behavioral expression of spatial attention. The eyes-mind hypothesis (Just & Carpenter, 1980) holds that what people fixate is what they attend to. While covert attention (attending without looking) exists, overt gaze is the single best behavioral predictor of attention allocation in naturalistic environments." },
+            cognitive_load: { text: "Higher load → longer fixations (more processing per location), shorter saccades, and more revisits to previously fixated items. Reduced gaze entropy under high load (tunnel vision effect).", strength: 3, strengthLabel: "Moderate–Strong", reason: "Fixation duration increases with processing difficulty (Rayner, 1998). But the relationship is noisy in complex scenes where bottom-up salience also drives fixation patterns." },
+            preference: { text: "People look longer at preferred or interesting elements. Total dwell time on scenic elements (e.g., water, vegetation) correlates with self-reported preference. First fixation reveals what captures attention; sustained fixation reveals what holds it.", strength: 3, strengthLabel: "Moderate–Strong", reason: "Gaze-preference correlation is well-established in environmental psychology (e.g., Berto et al., 2008). But 'looking more' can also indicate confusion or threat detection, not preference." },
+            restoration: { text: "ART predicts: during restoration, gaze entropy should decrease (soft fascination narrows the scope of attention) and fixation duration on natural features (fractals, flowing water) should increase.", strength: 2, strengthLabel: "Moderate", reason: "Limited direct evidence. The prediction is theoretically grounded (ART's soft fascination concept) but empirical validation is sparse compared to reaction-time measures of attention restoration." }
+        },
+        confounds: "Calibration drift: eye-tracker accuracy decreases over time (especially with head movement). Bottom-up salience (bright colors, high contrast, faces) attracts gaze independently of cognitive processes. Individual differences in scan strategies. Glasses and contact lenses can affect tracking quality. In VR: headset slippage invalidates calibration.",
+        temporalDynamics: "Continuous, real-time. Fixations are detectable within ~100ms. Saccades take 20–80ms. Full scanpath analysis requires at least 10–30 seconds of viewing. AOI dwell time analysis is meaningful for viewing periods ≥5 seconds.",
+        vrCompatibility: "Excellent — native to VR. Integrated in Meta Quest Pro, HTC Vive Pro Eye, Pico 4 Enterprise. VR provides perfect AOI control (you define exactly what's in the scene). 3D gaze direction available in VR (not just 2D screen coordinates).",
+        costAccess: "Low–Moderate in VR (integrated). Standalone: $5,000–30,000 (Tobii Pro, SR Research). Analysis: open-source (PyGaze, I2MC fixation detection).",
+        keyReference: "Holmqvist, K., Nyström, M., Andersson, R., Dewhurst, R., Jarodzka, H., & Van de Weijer, J. (2011). <em>Eye Tracking: A Comprehensive Guide</em>. Oxford University Press. [~3,600 citations]",
+        rankingContext: {
+            attention: { rank: 2, of: 5, note: "After EEG (which captures neural attention directly). But eye-tracking is more ecologically valid in naturalistic environments and VR." }
+        }
+    },
+    {
+        id: "respiration",
+        name: "Respiratory Rate & Pattern",
+        oneliner: "Breathing frequency and depth — reflects autonomic state and interacts with HRV measurement",
+        category: "physio",
+        constructs: ["stress", "arousal", "restoration"],
+        whatItMeasures: "A chest-strap (respiratory inductance plethysmography, RIP) or nasal cannula measures breathing frequency (breaths per minute), tidal volume (depth of each breath), and respiratory pattern (regularity, sighing frequency). Normal adult rate: 12–20 breaths/min at rest.",
+        whatItIndicates: {
+            stress: { text: "Acute stress increases respiratory rate and decreases tidal volume (shallow, rapid breathing). Chronic stress is associated with irregular respiratory patterns and increased sighing frequency.", strength: 2, strengthLabel: "Moderate", reason: "The respiratory stress response is real but variable. Some people hold their breath under stress; others hyperventilate. Individual differences are large, and respiration is under partial voluntary control (people can deliberately slow their breathing)." },
+            arousal: { text: "Higher arousal = faster respiration. Deep relaxation = slow, deep, regular breathing.", strength: 2, strengthLabel: "Moderate", reason: "Respiration rate co-varies with sympathetic arousal, but the relationship is nonlinear and modulated by speech, physical activity, and voluntary control." },
+            restoration: { text: "Restorative environments may slow and regularize breathing. Reduced sighing frequency. Increased breath depth.", strength: 2, strengthLabel: "Moderate", reason: "Limited direct evidence in environmental psychology. Mostly used as a covariate for HRV correction rather than a primary outcome." }
+        },
+        confounds: "Speech (talking changes respiration completely). Physical movement. Voluntary control (participants can deliberately regulate breathing). Altitude. Temperature. Smoking status. Respiratory illness.",
+        temporalDynamics: "Continuous. Changes in rate are detectable breath-by-breath (each cycle ~3–5 seconds). Pattern analysis requires ≥2 minutes of stable data.",
+        vrCompatibility: "Good. Chest-strap RIP works under VR headsets. Nasal cannula may be uncomfortable with some headsets.",
+        costAccess: "Low. Chest-strap sensors: $50–200. Often bundled with HRV monitors (Biopac). Can derive from HRV signal computationally (ECG-derived respiration).",
+        keyReference: "Boiten, F. A., Frijda, N. H., & Wientjes, C. J. (1994). Emotions and respiratory patterns: Review and critical analysis. <em>International Journal of Psychophysiology, 17</em>(2), 103–128. [~680 citations]",
+        rankingContext: {
+            stress: { rank: 5, of: 6, note: "Weak as primary stress measure. Best used as HRV covariate (controls respiratory confound on HF-HRV)." }
+        }
+    },
+    {
+        id: "skin_temp",
+        name: "Peripheral Skin Temperature",
+        oneliner: "Fingertip or wrist temperature — reflects sympathetic vasoconstriction, an indirect arousal marker",
+        category: "physio",
+        constructs: ["stress", "arousal"],
+        whatItMeasures: "A thermistor attached to a fingertip or wrist measures skin surface temperature (°C or °F) continuously. Sympathetic activation causes vasoconstriction (blood vessels narrow), reducing peripheral blood flow and lowering skin temperature. Parasympathetic dominance allows vasodilation, raising skin temperature.",
+        whatItIndicates: {
+            stress: { text: "Acute stress → sympathetic vasoconstriction → cold hands/fingers. Relaxation → vasodilation → warm hands. The effect is colloquially known as 'cold hands, warm heart.'", strength: 1, strengthLabel: "Weak", reason: "Skin temperature is a very indirect stress marker. The signal is slow (changes over minutes), small (1–3°C range), and heavily confounded by ambient temperature. It is rarely used as a primary stress measure in modern research." },
+            arousal: { text: "High arousal = peripheral vasoconstriction = cooler extremities. Low arousal = vasodilation = warmer extremities.", strength: 1, strengthLabel: "Weak", reason: "Too many non-arousal factors influence skin temperature (ambient temperature, clothing, hydration, time of day, physical activity). The signal-to-noise ratio is poor." }
+        },
+        confounds: "Ambient temperature (the dominant factor). Clothing. Room airflow. Hydration. Time of day (diurnal temperature rhythm). Physical activity. Vasoactive medications.",
+        temporalDynamics: "Very slow. Temperature changes take 2–10 minutes to manifest after a stimulus. Not suitable for event-related analysis. Useful only for tonic state assessment over ≥10-minute epochs.",
+        vrCompatibility: "Good. Small sensors can be worn on fingers outside headset. But VR headset itself generates heat near the face, potentially confounding facial temperature measures.",
+        costAccess: "Very low. Thermistors: $10–50. Infrared thermometers: $30–100.",
+        keyReference: "Kistler, A., Mariauzouls, C., & von Berlepsch, K. (1998). Fingertip temperature as an indicator for sympathetic responses. <em>International Journal of Psychophysiology, 29</em>(1), 35–41. [~280 citations]",
+        rankingContext: {
+            stress: { rank: 6, of: 6, note: "Weakest physiological stress marker. Too slow, too confounded. Use only as supplementary measure alongside EDA or HRV." }
+        }
+    },
+    {
+        id: "blood_pressure",
+        name: "Blood Pressure (Systolic / Diastolic)",
+        oneliner: "Cardiovascular pressure — reflects acute stress reactivity and recovery, standard medical vital sign",
+        category: "physio",
+        constructs: ["stress", "arousal"],
+        whatItMeasures: "An automated cuff (oscillometric sphygmomanometer) on the upper arm measures systolic blood pressure (SBP = peak pressure during heart contraction, mmHg) and diastolic blood pressure (DBP = resting pressure between beats). Some research devices provide continuous beat-to-beat BP (Finapres, Portapres) via finger cuff.",
+        whatItIndicates: {
+            stress: { text: "Acute stress elevates both SBP and DBP (cardiovascular reactivity). The Trier Social Stress Test (TSST) reliably produces SBP increases of 15–30 mmHg. Recovery speed (how fast BP returns to baseline) is a validated measure of stress recovery.", strength: 3, strengthLabel: "Moderate–Strong", reason: "Blood pressure reactivity to stressors is well-established and clinically validated. However, BP also responds to physical exertion, posture, caffeine, and white-coat effects (anxiety about measurement itself). As a stress measure, it is robust for acute stressor paradigms but less sensitive to ambient environmental effects." },
+            arousal: { text: "Higher arousal = elevated BP. Relaxation = lower BP.", strength: 2, strengthLabel: "Moderate", reason: "BP reflects cardiovascular output, which is modulated by both autonomic arousal and metabolic demand. Not specific to psychological arousal." }
+        },
+        confounds: "White-coat hypertension (anxiety from measurement). Caffeine. Physical activity. Posture (sitting vs. standing). Talking during measurement. Full bladder. Medications (antihypertensives, stimulants). Time of day.",
+        temporalDynamics: "Intermittent: standard cuff requires 30–60 seconds per reading, so measurement is periodic (every 5–10 minutes). Continuous finger-cuff devices (Finapres) provide beat-to-beat data but are expensive and uncomfortable. Recovery from acute stress: SBP returns to baseline within 10–30 minutes.",
+        vrCompatibility: "Moderate. Arm cuff works during VR, but inflation may be distracting and break immersion. Continuous finger cuff (Finapres) is possible but limits hand use for VR controllers.",
+        costAccess: "Low (intermittent): $30–100 for automated cuff. High (continuous): $15,000+ for Finapres/Portapres.",
+        keyReference: "Obrist, P. A. (1981). <em>Cardiovascular Psychophysiology: A Perspective</em>. Plenum Press. [~1,400 citations]",
+        rankingContext: {
+            stress: { rank: 3, of: 6, note: "After cortisol (HPA gold standard) and HRV (continuous autonomic). BP is strong for acute stress reactivity but cannot capture tonic stress state as well." }
+        }
+    },
+
+    // ═══════════════════════════════════════════
+    // BEHAVIORAL MEASURES
+    // ═══════════════════════════════════════════
+    {
+        id: "ant",
+        name: "Attention Network Test (ANT)",
+        oneliner: "Reaction-time task dissociating three attentional networks — alerting, orienting, executive control",
+        category: "behavioral",
+        constructs: ["attention", "restoration"],
+        whatItMeasures: "A computerized flanker task with spatial cuing. Participant responds to direction of a central arrow flanked by congruent or incongruent arrows. Cue types (no cue, center cue, spatial cue, double cue) manipulate alerting and orienting. Three scores computed from reaction time differences: Alerting (double cue – no cue RT), Orienting (spatial cue – center cue RT), Executive control (incongruent – congruent RT). Takes ~20 minutes.",
+        whatItIndicates: {
+            attention: { text: "Directly measures three functionally distinct attention networks (Fan et al., 2002). Alerting = maintaining vigilance. Orienting = shifting spatial attention. Executive control = resolving conflict. ART specifically predicts that nature exposure improves executive attention (the network depleted by directed attention fatigue).", strength: 5, strengthLabel: "Strong", reason: "The ANT was designed specifically to decompose attention into functionally and anatomically distinct networks (Posner & Petersen, 1990). It is one of the most theory-grounded behavioral measures available. The executive network score directly tests ART's central prediction." },
+            restoration: { text: "If ART is correct, nature exposure should specifically improve the executive attention score (reduced incongruent–congruent RT difference) while leaving alerting and orienting unchanged. This pattern-specific prediction is a strong test of the theory.", strength: 4, strengthLabel: "Strong", reason: "The ANT provides a theoretically motivated dissociation: ART predicts executive-specific restoration, and the ANT can test this. Several studies have used the ANT for this purpose (e.g., Berman et al., 2008)." }
+        },
+        confounds: "Practice effects: performance improves across sessions (counterbalance condition order). Speed-accuracy tradeoff. Motivation differences between conditions. Time of day effects on alerting network. Test-retest reliability of individual network scores is only moderate (r ≈ .5–.7).",
+        temporalDynamics: "Single administration: ~20 minutes. Captures attentional state at time of testing. Sensitive to pre-test manipulations (e.g., nature walk before testing). Not continuous — provides one snapshot per administration.",
+        vrCompatibility: "Moderate. Can be administered on a 2D panel within VR, but this breaks immersion. Better administered outside VR (before/after design) to test whether the VR nature environment restored attention.",
+        costAccess: "Free. Open-source implementations available (e.g., in PsychoPy, E-Prime). No special hardware needed beyond a computer with keyboard.",
+        keyReference: "Fan, J., McCandliss, B. D., Sommer, T., Raz, A., & Posner, M. I. (2002). Testing the efficiency and independence of attentional networks. <em>Journal of Cognitive Neuroscience, 14</em>(3), 340–347. [~5,100 citations]",
+        rankingContext: {
+            attention: { rank: 1, of: 4, note: "Best behavioral attention measure for ART research because it dissociates the three networks. Only the ANT can test the executive-specific prediction." }
+        }
+    },
+    {
+        id: "digit_span",
+        name: "Backward Digit Span",
+        oneliner: "Verbal working memory capacity — how many digits can be held and reversed in mind",
+        category: "behavioral",
+        constructs: ["cognitive_load", "attention", "restoration"],
+        whatItMeasures: "Experimenter reads digit sequences of increasing length (e.g., '7-3-9'). Participant repeats them in reverse order ('9-3-7'). Score = longest sequence correctly reversed. Forward version tests simple short-term memory; backward version requires executive manipulation, loading working memory.",
+        whatItIndicates: {
+            cognitive_load: { text: "Backward digit span directly indexes working memory capacity — the cognitive resource that is loaded by demanding tasks. Lower span = resources depleted or capacity exceeded.", strength: 4, strengthLabel: "Strong", reason: "Digit span is one of the oldest and most validated measures in experimental psychology (Wechsler, 1939). Backward span specifically requires executive control (reordering), making it sensitive to prefrontal depletion." },
+            attention: { text: "ART predicts that directed attention fatigue reduces backward digit span (executive resources depleted), and nature exposure restores it.", strength: 3, strengthLabel: "Moderate–Strong", reason: "Berman et al. (2008) showed nature walk improved backward digit span relative to urban walk. But the effect size is modest (d ≈ 0.3–0.5) and not always replicated." },
+            restoration: { text: "Pre/post comparison: if span increases after nature exposure (relative to control), this supports restoration of executive resources.", strength: 3, strengthLabel: "Moderate–Strong", reason: "Clean, interpretable measure for restoration studies. But practice effects are a concern — participants improve with repeated testing regardless of condition." }
+        },
+        confounds: "Practice effects (significant across sessions — use counterbalanced order). Anxiety about testing. Noise interference. Phonological similarity of digits. Experimenter pacing.",
+        temporalDynamics: "Quick: 3–5 minutes per administration. Captures working memory state at moment of testing.",
+        vrCompatibility: "Good. Can be administered auditorily within VR (audio playback of digit sequences, verbal response). Maintains immersion better than visual tasks.",
+        costAccess: "Free. No special equipment. Can use pre-recorded audio files.",
+        keyReference: "Wechsler, D. (2008). <em>Wechsler Adult Intelligence Scale</em> (4th ed.). Pearson. [>15,000 citations for WAIS series]",
+        rankingContext: {
+            cognitive_load: { rank: 3, of: 4, note: "After EEG (direct neural index) and pupillometry (continuous). But digit span is the cheapest, fastest, and most accessible measure of working memory capacity." }
+        }
+    },
+    {
+        id: "stroop",
+        name: "Stroop Color-Word Task",
+        oneliner: "Conflict between word reading and color naming — classic measure of executive inhibition and cognitive control",
+        category: "behavioral",
+        constructs: ["attention", "cognitive_load"],
+        whatItMeasures: "Participant names the ink color of color words (e.g., the word 'RED' printed in blue ink — correct response: 'blue'). Congruent trials (word matches color) vs. incongruent trials (word conflicts with color). The Stroop effect = RT(incongruent) – RT(congruent), measuring the cost of resolving conflict between automatic word reading and controlled color naming.",
+        whatItIndicates: {
+            attention: { text: "The Stroop effect indexes executive control — the ability to inhibit prepotent responses (word reading) in favor of task-relevant behavior (color naming). Larger Stroop effect = weaker executive control = attention resources depleted.", strength: 4, strengthLabel: "Strong", reason: "The Stroop task is one of the most replicated paradigms in cognitive psychology (MacLeod, 1991). The interference effect is robust (d > 1.0 in most studies). It specifically targets executive inhibition, which ART claims is depleted by sustained directed attention." },
+            cognitive_load: { text: "Higher cognitive load from a preceding task increases Stroop interference (executive resources already depleted). Post-restoration, Stroop interference should decrease.", strength: 3, strengthLabel: "Moderate–Strong", reason: "The relationship between prior load and Stroop interference is well-established but variable. Some studies find null effects, possibly because the Stroop task itself is so easy that floor effects emerge." }
+        },
+        confounds: "Practice effects (Stroop effect decreases with practice). Color-blind participants. Reading ability differences. Language (effect is smaller in non-native language). Response modality (vocal vs. manual) affects effect size.",
+        temporalDynamics: "Quick: 5–10 minutes. Sensitive to prior cognitive depletion. The Stroop effect is stable within a session but shows practice reduction across sessions.",
+        vrCompatibility: "Moderate. Can be implemented on a virtual screen in VR. The visual nature of the task (color perception) is affected by VR display characteristics (color gamut, resolution).",
+        costAccess: "Free. Implemented in PsychoPy, E-Prime, or any programming language. No special hardware.",
+        keyReference: "MacLeod, C. M. (1991). Half a century of research on the Stroop effect: An integrative review. <em>Psychological Bulletin, 109</em>(2), 163–203. [~6,800 citations]",
+        rankingContext: {
+            attention: { rank: 3, of: 4, note: "After ANT (dissociates networks) and digit span (targets working memory specifically). Stroop targets inhibition specifically, which is one component of executive control." }
+        }
+    },
+    {
+        id: "sart",
+        name: "Sustained Attention to Response Task (SART)",
+        oneliner: "Go/NoGo task measuring sustained attention and mind-wandering over time",
+        category: "behavioral",
+        constructs: ["attention", "fatigue"],
+        whatItMeasures: "Digits (1–9) appear sequentially. Participant presses a key for every digit EXCEPT a target digit (typically '3'). Most trials require a response (Go), creating a prepotent tendency. The rare NoGo trial (target digit) requires inhibition. Errors of commission (pressing on NoGo trials) indicate attention lapses. Some versions include thought probes to assess mind-wandering frequency.",
+        whatItIndicates: {
+            attention: { text: "Commission errors (responding when you should have withheld) directly measure sustained attention failures. More errors = more lapses. Error rate typically increases over time (the 'vigilance decrement'), and this decline is what ART claims nature exposure should reverse.", strength: 4, strengthLabel: "Strong", reason: "SART was designed specifically to measure sustained attention (Robertson et al., 1997). It is sensitive to attention lapses, mind-wandering, and vigilance decline — exactly the phenomena ART claims are reversed by restoration." },
+            fatigue: { text: "SART commission errors increase monotonically with time-on-task, providing a direct measure of mental fatigue / vigilance decrement.", strength: 4, strengthLabel: "Strong", reason: "The vigilance decrement is one of the most robust findings in sustained attention research (Warm et al., 2008). SART captures it cleanly." }
+        },
+        confounds: "Speed-accuracy tradeoff (fast responders make more errors). Motor preparation strategies. Motivation. Caffeine. Time of day.",
+        temporalDynamics: "Session: 10–15 minutes. The vigilance decrement typically emerges after ~5 minutes. Can be divided into time blocks to track attention decline within a session.",
+        vrCompatibility: "Good. Can be administered within VR as an auditory or visual task. Simple enough to implement on a virtual screen without breaking immersion.",
+        costAccess: "Free. Open-source implementations available in PsychoPy.",
+        keyReference: "Robertson, I. H., Manly, T., Andrade, J., Baddeley, B. T., & Yiend, J. (1997). 'Oops!': Performance correlates of everyday attentional failures in traumatic brain injured and normal subjects. <em>Neuropsychologia, 35</em>(6), 747–758. [~1,900 citations]",
+        rankingContext: {
+            attention: { rank: 4, of: 4, note: "Good for sustained attention/vigilance specifically but does not dissociate attention networks like ANT or target working memory like digit span." },
+            fatigue: { rank: 1, of: 3, note: "Best behavioral measure of vigilance decline. The within-session time course makes it ideal for pre/post restoration designs." }
+        }
+    },
+
+    // ═══════════════════════════════════════════
+    // SELF-REPORT MEASURES
+    // ═══════════════════════════════════════════
+    {
+        id: "panas",
+        name: "PANAS (Positive & Negative Affect Schedule)",
+        oneliner: "20-item questionnaire capturing momentary emotional state on two independent dimensions — takes ~3 minutes",
+        category: "self-report",
+        constructs: ["emotion", "stress", "restoration"],
+        whatItMeasures: "20 adjectives (10 positive: interested, excited, strong, enthusiastic, proud, alert, inspired, determined, attentive, active; 10 negative: distressed, upset, guilty, scared, hostile, irritable, ashamed, nervous, jittery, afraid) rated on a 5-point scale (1 = very slightly / not at all → 5 = extremely). Yields two scores: Positive Affect (PA) and Negative Affect (NA). State version: 'right now / today.' Trait version: 'in general.'",
+        whatItIndicates: {
+            emotion: { text: "PA and NA are independent dimensions (Watson & Tellegen, 1985), not opposites. High PA = enthusiastic, alert, active. Low PA = sad, lethargic. High NA = distressed, hostile. Low NA = calm, relaxed. This structure maps onto the circumplex model of affect.", strength: 5, strengthLabel: "Strong", reason: "PANAS is the most widely used affect measure in psychology (~40,000+ citations for Watson et al., 1988). Its psychometric properties are exceptionally well-characterized across cultures, ages, and clinical populations." },
+            stress: { text: "High NA scores (especially distressed, nervous, jittery, scared) serve as a subjective stress proxy. SRT predicts nature exposure reduces NA.", strength: 3, strengthLabel: "Moderate–Strong", reason: "NA captures the subjective experience of stress. But PANAS is broader than stress — it captures other negative emotions (guilt, hostility) that are not stress-related. STAI is more stress-specific." },
+            restoration: { text: "ART and SRT predict: post-restoration, PA should increase (activated, alert, inspired) and NA should decrease (less distressed, less nervous).", strength: 3, strengthLabel: "Moderate–Strong", reason: "Clean, efficient measure for pre/post restoration designs. The independence of PA and NA is especially useful: restoration might increase PA without changing NA, or decrease NA without changing PA — these are theoretically distinct predictions." }
+        },
+        confounds: "Demand characteristics (participants guess the hypothesis). Social desirability. Retrospective bias. Cultural differences in self-report tendencies (e.g., East Asian cultures show lower PA norms). Test-retest across short intervals can produce reactivity effects.",
+        temporalDynamics: "Snapshot: captures affect at the moment of administration (~3 min). Sensitive to short-term manipulations if administered pre/post. But cannot capture moment-to-moment affect changes during an experience.",
+        vrCompatibility: "Administer AFTER removing headset. In-VR questionnaires break immersion and may induce cybersickness-related negative affect that contaminates responses.",
+        costAccess: "Free for research use. Original article provides the full scale.",
+        keyReference: "Watson, D., Clark, L. A., & Tellegen, A. (1988). Development and validation of brief measures of positive and negative affect: The PANAS scales. <em>Journal of Personality and Social Psychology, 54</em>(6), 1063–1070. [~40,000+ citations]",
+        rankingContext: {
+            emotion: { rank: 1, of: 4, note: "Gold standard self-report affect measure. Separates PA and NA (unlike single-item mood scales). Most replicated and cross-validated." }
+        }
+    },
+    {
+        id: "stai",
+        name: "State-Trait Anxiety Inventory (STAI)",
+        oneliner: "20-item measure of current anxiety level — the gold standard self-report for subjective stress",
+        category: "self-report",
+        constructs: ["stress", "emotion"],
+        whatItMeasures: "State form (STAI-S): 20 items rated on a 4-point Likert scale (1 = not at all → 4 = very much so). Items include: 'I feel calm' (reverse-scored), 'I feel tense,' 'I feel nervous,' 'I feel content' (reverse-scored). Total score range: 20–80. Higher = more anxious. Trait form (STAI-T) measures dispositional anxiety (not typically used in experiments).",
+        whatItIndicates: {
+            stress: { text: "STAI state anxiety directly measures subjective stress experience. SRT specifically predicts that nature exposure reduces STAI scores relative to urban or control conditions.", strength: 5, strengthLabel: "Strong", reason: "STAI has ~70,000 citations (Spielberger et al., 1983). It is the most widely used anxiety measure in clinical and experimental research. Its items directly tap the subjective experience of stress and anxiety. When paired with cortisol, STAI provides the subjective complement to the physiological stress measure." },
+            emotion: { text: "STAI captures the anxiety/tension pole of negative affect. Not as broad as PANAS (does not capture positive affect).", strength: 3, strengthLabel: "Moderate–Strong", reason: "Highly specific to anxiety/tension, which is useful for stress studies but less useful for general emotion research. Does not capture positive emotions at all." }
+        },
+        confounds: "Demand characteristics. Social desirability. Item transparency (items obviously measure anxiety). Test-retest reactivity across short intervals. Differentiation from depression (anxiety and depression overlap significantly).",
+        temporalDynamics: "Snapshot: ~5 minutes to administer. Sensitive to immediate environmental changes. Can detect anxiety changes from a 10-minute intervention.",
+        vrCompatibility: "Administer after removing headset. Same rationale as PANAS.",
+        costAccess: "Copyrighted — requires purchase from Mind Garden ($2.40 per use + manual). Total: ~$100–200 for a study with 30+ participants.",
+        keyReference: "Spielberger, C. D., Gorsuch, R. L., Lushene, R., Vagg, P. R., & Jacobs, G. A. (1983). <em>Manual for the State-Trait Anxiety Inventory</em>. Consulting Psychologists Press. [~70,000+ citations]",
+        rankingContext: {
+            stress: { rank: 1, of: 3, note: "Gold standard self-report stress measure. Pair with cortisol for subjective + physiological convergence." }
+        }
+    },
+    {
+        id: "prs",
+        name: "Perceived Restorativeness Scale (PRS)",
+        oneliner: "16-item measure of how restorative an environment feels — directly tests ART's four components",
+        category: "self-report",
+        constructs: ["restoration", "preference"],
+        whatItMeasures: "16 items rated on a 7-point or 11-point scale. Four subscales map directly onto ART's four components: Being Away (escape from routine demands), Fascination (involuntary attention capture without effort), Extent (scope and coherence of the environment), and Compatibility (fit between the environment and the person's goals). Example items: 'Being here is like being in another world' (Being Away), 'The setting is fascinating' (Fascination).",
+        whatItIndicates: {
+            restoration: { text: "PRS directly operationalizes Kaplan's (1995) ART. Each subscale corresponds to a theorized mechanism of restoration. High PRS scores indicate the environment possesses the qualities ART claims are necessary for attention restoration.", strength: 5, strengthLabel: "Strong", reason: "PRS was designed specifically for ART research by Hartig and colleagues (1997). It has face validity (items directly describe ART components), construct validity (subscales correlate with attentional recovery), and discriminant validity (nature environments score higher than urban environments)." },
+            preference: { text: "PRS total score correlates strongly (r ≈ .6–.8) with environmental preference ratings. Perceived restorativeness is a major predictor of how much people like a place.", strength: 4, strengthLabel: "Strong", reason: "Well-established empirically (Purcell et al., 2001). However, the direction of causality is ambiguous: do people prefer restorative environments, or do they rate preferred environments as restorative?" }
+        },
+        confounds: "Demand characteristics (items transparently measure perceived restoration). Prior expectations about nature. Cultural differences in nature preferences. Version differences (PRS, PRS-11, RPRS) complicate cross-study comparison.",
+        temporalDynamics: "Snapshot: ~5 minutes. Administered after environment exposure. Captures retrospective appraisal, not moment-to-moment restoration.",
+        vrCompatibility: "Administer after VR exposure. The 'Being Away' subscale is particularly relevant — VR environments can create place illusion that scores high on Being Away.",
+        costAccess: "Free. Published items available in Hartig et al. (1997).",
+        keyReference: "Hartig, T., Korpela, K., Evans, G. W., & Gärling, T. (1997). A measure of restorative quality in environments. <em>Scandinavian Housing & Planning Research, 14</em>(4), 175–194. [~1,100 citations]",
+        rankingContext: {
+            restoration: { rank: 1, of: 3, note: "Only self-report measure designed specifically for ART. No competitor directly operationalizes the four ART components." }
+        }
+    },
+    {
+        id: "nasa_tlx",
+        name: "NASA Task Load Index (NASA-TLX)",
+        oneliner: "Six-dimension subjective workload assessment — the standard in human factors and ergonomics research",
+        category: "self-report",
+        constructs: ["cognitive_load", "fatigue"],
+        whatItMeasures: "Six subscales rated on 21-point scales (0–100): Mental Demand, Physical Demand, Temporal Demand, Performance (self-assessed), Effort, and Frustration. Originally includes pairwise comparison weighting; Raw TLX (unweighted average) is now more common due to similar sensitivity and simpler administration.",
+        whatItIndicates: {
+            cognitive_load: { text: "Mental Demand and Effort subscales directly measure perceived cognitive load. The six-dimension structure captures different sources of load that unitary measures miss.", strength: 4, strengthLabel: "Strong", reason: "NASA-TLX is the most widely used subjective workload measure in human factors (~20,000+ citations). Its multidimensional structure is more informative than single-item load ratings. Hart & Staveland (1988) validated it extensively across task types." },
+            fatigue: { text: "High overall TLX scores, especially on Effort and Frustration subscales, indicate the task was fatiguing. Post-task TLX can assess whether an environment reduced perceived workload.", strength: 3, strengthLabel: "Moderate–Strong", reason: "TLX captures the subjective experience of workload, which is a precursor to fatigue. But it measures load at a single timepoint, not the time course of fatigue accumulation." }
+        },
+        confounds: "Subjective scaling differences between participants (some use the full range, others cluster near the middle). Retrospective bias. Version differences (weighted vs. raw). Does not distinguish between types of cognitive load (intrinsic vs. extraneous).",
+        temporalDynamics: "Snapshot: ~2 minutes. Administered immediately after task completion. Captures retrospective workload appraisal for that specific task.",
+        vrCompatibility: "Good. Administer after VR. Can assess whether different VR environments impose different cognitive loads.",
+        costAccess: "Free. Public domain — NASA released it without copyright restrictions.",
+        keyReference: "Hart, S. G., & Staveland, L. E. (1988). Development of NASA-TLX: Results of empirical and theoretical research. <em>Advances in Psychology, 52</em>, 139–183. [~20,000+ citations]",
+        rankingContext: {
+            cognitive_load: { rank: 1, of: 3, note: "Gold standard self-report workload measure. Multidimensional structure captures more information than single-item ratings." }
+        }
+    },
+    {
+        id: "presence_q",
+        name: "Presence Questionnaires (IPQ / SUS / PQ)",
+        oneliner: "Subjective sense of 'being there' in a virtual environment — critical for VR experiment validity",
+        category: "self-report",
+        constructs: ["presence"],
+        whatItMeasures: "Several competing instruments: IPQ (Igroup Presence Questionnaire, Schubert et al., 2001) measures spatial presence, involvement, and experienced realism on 7-point scales. SUS (Slater-Usoh-Steed, 1994) measures presence via 6 items about the sense of being in the virtual vs. real environment. Witmer & Singer PQ (1998) measures control, sensory, distraction, and realism factors. All capture the subjective experience of 'being present' in a mediated environment.",
+        whatItIndicates: {
+            presence: { text: "Presence scores validate that the VR manipulation 'worked' — that participants experienced the virtual environment as a place they were in, not a display they were watching. Without adequate presence, nature VR cannot be expected to produce the same effects as real nature.", strength: 5, strengthLabel: "Strong", reason: "These questionnaires are the standard approach to validating VR experiences. Slater's (2009) distinction between place illusion (spatial presence) and plausibility illusion (events seem real) provides theoretical grounding. High presence scores are necessary (though not sufficient) for ecological validity in VR studies." }
+        },
+        confounds: "No VR-naive baseline (first-time VR users may rate presence higher due to novelty, or lower due to discomfort). Demand characteristics. Items vary across questionnaires, complicating cross-study comparison. Breaks in presence (glitches, loading screens) affect scores.",
+        temporalDynamics: "Snapshot: ~3–5 minutes. Administered after VR exposure. Captures retrospective presence assessment.",
+        vrCompatibility: "N/A — these ARE VR measures. Administer immediately after removing headset.",
+        costAccess: "Free. IPQ items available at www.igroup.org/pq. SUS items in Slater et al. (1994). Witmer & Singer PQ published in article.",
+        keyReference: "Schubert, T., Friedmann, F., & Regenbrecht, H. (2001). The experience of presence: Factor analytic insights. <em>Presence: Teleoperators and Virtual Environments, 10</em>(3), 266–281. [~2,500 citations]",
+        rankingContext: {
+            presence: { rank: 1, of: 2, note: "Standard approach. IPQ is most widely used currently. No physiological 'presence measure' has achieved comparable validity." }
+        }
+    },
+    {
+        id: "sam",
+        name: "Self-Assessment Manikin (SAM)",
+        oneliner: "Pictorial scale for valence, arousal, and dominance — language-free, 30-second administration",
+        category: "self-report",
+        constructs: ["emotion", "arousal"],
+        whatItMeasures: "Three rows of cartoon figures (manikins) depict a 9-point scale for each dimension: Valence (happy → unhappy), Arousal (excited → calm), and Dominance (in control → controlled). Participants point to or circle the manikin that best represents their state. The pictorial format eliminates language dependence.",
+        whatItIndicates: {
+            emotion: { text: "SAM captures the two primary dimensions of emotion (valence and arousal) that define the circumplex model (Russell, 1980). Any emotional state can be located in valence × arousal space.", strength: 4, strengthLabel: "Strong", reason: "SAM directly operationalizes dimensional emotion theory. Its pictorial format reduces cultural and linguistic bias. However, it is very coarse (only 2–3 dimensions, 9 points each) compared to the rich differentiation of PANAS." },
+            arousal: { text: "The arousal manikin directly captures subjective arousal experience on a single 9-point scale.", strength: 3, strengthLabel: "Moderate–Strong", reason: "Simple, clean measure of subjective arousal. But a single item has limited reliability compared to multi-item scales." }
+        },
+        confounds: "Very coarse measurement (single item per dimension). Cannot differentiate specific emotions (anger vs. fear both = high arousal + negative valence). Dominance dimension is rarely used and poorly understood.",
+        temporalDynamics: "Extremely fast: 30 seconds. Can be administered repeatedly within a session with minimal fatigue. Useful for tracking affect changes across multiple VR scenes.",
+        vrCompatibility: "Good. Can be presented within VR as a simple pictorial rating. Fast enough to administer between VR scenes without breaking immersion significantly.",
+        costAccess: "Free. Published in Bradley & Lang (1994).",
+        keyReference: "Bradley, M. M., & Lang, P. J. (1994). Measuring emotion: The Self-Assessment Manikin and the semantic differential. <em>Journal of Behavior Therapy and Experimental Psychiatry, 25</em>(1), 49–59. [~7,200 citations]",
+        rankingContext: {
+            emotion: { rank: 2, of: 4, note: "After PANAS (richer differentiation). But SAM is faster, language-free, and can be used within VR — ideal for repeated measures within a session." }
+        }
+    },
+    {
+        id: "ieq",
+        name: "Indoor Environmental Quality (IEQ) Scales",
+        oneliner: "Subjective ratings of thermal comfort, air quality, lighting, and acoustics — covers all physical environment dimensions",
+        category: "self-report",
+        constructs: ["preference"],
+        whatItMeasures: "Various scales (no single standard) rating subjective satisfaction with indoor environment dimensions: thermal comfort (ASHRAE 7-point thermal sensation scale), air quality (acceptability, stuffiness), lighting (brightness satisfaction, glare), acoustics (noise disturbance, speech privacy), and overall environmental satisfaction. Typically Likert-type scales.",
+        whatItIndicates: {
+            preference: { text: "IEQ scales capture how comfortable and satisfying participants find the physical environment. Relevant for studies manipulating environmental features (lighting, temperature, noise, spatial openness) and measuring subjective response.", strength: 4, strengthLabel: "Strong", reason: "Well-validated in building science and occupational research. The ASHRAE thermal comfort scale alone has been validated in thousands of buildings worldwide. But 'satisfaction' ≠ 'preference' — a person can be satisfied with a mediocre environment." }
+        },
+        confounds: "Adaptation: people adjust to environments over time (thermal adaptation). Expectations differ by climate, culture, and experience. Question framing affects responses.",
+        temporalDynamics: "Snapshot: 3–5 minutes. Captures current environmental appraisal.",
+        vrCompatibility: "Directly applicable to VR — participants can rate the virtual environment's perceived lighting, spaciousness, etc. Useful for validating that VR manipulations are perceived as intended.",
+        costAccess: "Free. ASHRAE scales published. Custom IEQ surveys are common.",
+        keyReference: "ASHRAE. (2020). <em>ASHRAE Standard 55: Thermal Environmental Conditions for Human Occupancy</em>. American Society of Heating, Refrigerating and Air-Conditioning Engineers. [Standard, not individually citable]",
+        rankingContext: {
+            preference: { rank: 1, of: 2, note: "Standard for physical environment evaluation. PRS is better for restorativeness; IEQ is better for thermal/lighting/acoustic comfort." }
+        }
+    }
+];
+
+// ──────────────────────────────────────────────────────────
+// RENDERING FUNCTIONS
+// ──────────────────────────────────────────────────────────
+
+let currentView = 'catalogue';
+let activeConstruct = 'all';
+let searchTerm = '';
+
+function init() {
+    renderConstructFilters();
+    renderCatalogueView();
+    renderConstructView();
+}
+
+function setView(view, btn) {
+    currentView = view;
+    document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+    btn.classList.add('active');
+    document.getElementById('catalogueView').style.display = view === 'catalogue' ? 'grid' : 'none';
+    document.getElementById('constructView').style.display = view === 'construct' ? 'block' : 'none';
+    document.getElementById('constructFilters').style.display = view === 'catalogue' ? 'flex' : 'none';
+}
+
+function renderConstructFilters() {
+    const container = document.getElementById('constructFilters');
+    let html = '<button class="filter-chip active" onclick="filterByConstruct(\'all\', this)">All Sensors</button>';
+    for (const [key, c] of Object.entries(CONSTRUCTS)) {
+        html += `<button class="filter-chip" onclick="filterByConstruct('${key}', this)">${c.icon} ${c.label}</button>`;
+    }
+    container.innerHTML = html;
+}
+
+function filterByConstruct(construct, btn) {
+    activeConstruct = construct;
+    document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+    btn.classList.add('active');
+    applyFilters();
+}
+
+function filterSensors(term) {
+    searchTerm = term.toLowerCase();
+    applyFilters();
+}
+
+function applyFilters() {
+    const cards = document.querySelectorAll('.sensor-card');
+    cards.forEach(card => {
+        const id = card.dataset.sensorId;
+        const sensor = SENSORS.find(s => s.id === id);
+        let show = true;
+        if (activeConstruct !== 'all' && !sensor.constructs.includes(activeConstruct)) show = false;
+        if (searchTerm) {
+            const haystack = (sensor.name + ' ' + sensor.oneliner + ' ' + sensor.whatItMeasures + ' ' + sensor.constructs.join(' ')).toLowerCase();
+            if (!haystack.includes(searchTerm)) show = false;
+        }
+        card.style.display = show ? 'block' : 'none';
+    });
+}
+
+function getCategoryBadge(cat) {
+    const map = {
+        physio: { cls: 'badge-physio', label: 'Physiological' },
+        behavioral: { cls: 'badge-behavioral', label: 'Behavioral' },
+        'self-report': { cls: 'badge-self-report', label: 'Self-Report' },
+        neural: { cls: 'badge-neural', label: 'Neural' }
+    };
+    const m = map[cat] || { cls: '', label: cat };
+    return `<span class="badge ${m.cls}">${m.label}</span>`;
+}
+
+function strengthMeterHTML(level, label) {
+    const maxPips = 5;
+    let cls = level >= 4 ? 'filled' : level >= 3 ? 'filled moderate' : 'filled weak';
+    let labelCls = level >= 4 ? 'strong' : level >= 3 ? 'moderate' : 'weak';
+    let pips = '';
+    for (let i = 0; i < maxPips; i++) {
+        pips += `<div class="strength-pip ${i < level ? cls : ''}"></div>`;
+    }
+    return `<div class="strength-meter"><div class="strength-bar">${pips}</div><span class="strength-label ${labelCls}">${label}</span></div>`;
+}
+
+function renderCatalogueView() {
+    const container = document.getElementById('catalogueView');
+    let html = '';
+    for (const s of SENSORS) {
+        const constructTags = s.constructs.map(c => `<span class="construct-tag">${CONSTRUCTS[c].icon} ${CONSTRUCTS[c].label}</span>`).join('');
+
+        // Build detail blocks for each construct this sensor measures
+        let indicatesHTML = '';
+        for (const [cKey, cData] of Object.entries(s.whatItIndicates)) {
+            const cInfo = CONSTRUCTS[cKey];
+            indicatesHTML += `
+                <div class="detail-block what-it-indicates">
+                    <div class="detail-block-label">${cInfo.icon} As a measure of ${cInfo.label}</div>
+                    <div class="detail-block-content">
+                        <p>${cData.text}</p>
+                        ${strengthMeterHTML(cData.strength, cData.strengthLabel)}
+                        <p style="margin-top:0.5rem;font-size:0.85rem;color:#64748B;"><strong>Why this rating:</strong> ${cData.reason}</p>
+                    </div>
+                </div>`;
+        }
+
+        // Ranking context
+        let rankingHTML = '';
+        if (s.rankingContext) {
+            for (const [cKey, rData] of Object.entries(s.rankingContext)) {
+                const cInfo = CONSTRUCTS[cKey];
+                rankingHTML += `<p><strong>${cInfo.icon} ${cInfo.label}:</strong> Ranked <strong>#${rData.rank}</strong> of ${rData.of} sensors. ${rData.note}</p>`;
+            }
+        }
+
+        html += `
+        <div class="sensor-card" data-sensor-id="${s.id}">
+            <div class="sensor-card-header" onclick="toggleSensorCard(this)">
+                <div class="sensor-title-area">
+                    <div class="sensor-name">${s.name}</div>
+                    <div class="sensor-oneliner">${s.oneliner}</div>
+                </div>
+                <div class="sensor-badges">
+                    ${getCategoryBadge(s.category)}
+                </div>
+                <svg class="chevron-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <polyline points="6 9 12 15 18 9"></polyline>
+                </svg>
+            </div>
+            <div class="sensor-card-body">
+                <div class="construct-tag-row">${constructTags}</div>
+
+                <div class="detail-grid">
+                    <div class="detail-block what-it-measures full-width">
+                        <div class="detail-block-label">What It Physically Measures</div>
+                        <div class="detail-block-content">${s.whatItMeasures}</div>
+                    </div>
+
+                    ${indicatesHTML}
+
+                    ${rankingHTML ? `<div class="detail-block ranking full-width">
+                        <div class="detail-block-label">Comparative Ranking</div>
+                        <div class="detail-block-content">${rankingHTML}</div>
+                    </div>` : ''}
+
+                    <div class="detail-block confounds">
+                        <div class="detail-block-label">Confounds &amp; Pitfalls</div>
+                        <div class="detail-block-content">${s.confounds}</div>
+                    </div>
+
+                    <div class="detail-block temporal">
+                        <div class="detail-block-label">Temporal Dynamics</div>
+                        <div class="detail-block-content">${s.temporalDynamics}</div>
+                    </div>
+
+                    <div class="detail-block vr-compat">
+                        <div class="detail-block-label">VR Compatibility</div>
+                        <div class="detail-block-content">${s.vrCompatibility}</div>
+                    </div>
+
+                    <div class="detail-block cost-access">
+                        <div class="detail-block-label">Cost &amp; Access</div>
+                        <div class="detail-block-content">${s.costAccess}</div>
+                    </div>
+
+                    <div class="detail-block key-ref full-width">
+                        <div class="detail-block-label">Key Reference</div>
+                        <div class="detail-block-content">${s.keyReference}</div>
+                    </div>
+                </div>
+            </div>
+        </div>`;
+    }
+    container.innerHTML = html;
+}
+
+function renderConstructView() {
+    const container = document.getElementById('constructView');
+    let html = '';
+
+    for (const [cKey, cInfo] of Object.entries(CONSTRUCTS)) {
+        const relevantSensors = SENSORS.filter(s => s.constructs.includes(cKey));
+        if (relevantSensors.length === 0) continue;
+
+        // Sort by strength for this construct
+        relevantSensors.sort((a, b) => {
+            const aStr = a.whatItIndicates[cKey] ? a.whatItIndicates[cKey].strength : 0;
+            const bStr = b.whatItIndicates[cKey] ? b.whatItIndicates[cKey].strength : 0;
+            return bStr - aStr;
+        });
+
+        html += `
+        <div class="construct-section">
+            <div class="construct-header">${cInfo.icon} ${cInfo.label}</div>
+            <p class="construct-description">${cInfo.description}</p>
+            <table class="ranking-table">
+                <thead>
+                    <tr>
+                        <th style="width:3rem">#</th>
+                        <th>Sensor / Measure</th>
+                        <th>Type</th>
+                        <th style="width:8rem">Strength</th>
+                        <th>What It Tells You</th>
+                        <th>Key Limitation</th>
+                    </tr>
+                </thead>
+                <tbody>`;
+
+        relevantSensors.forEach((s, i) => {
+            const cData = s.whatItIndicates[cKey];
+            if (!cData) return;
+            const catMap = { physio: 'Physiological', behavioral: 'Behavioral', 'self-report': 'Self-Report', neural: 'Neural' };
+            // Extract first sentence as limitation summary
+            const limitSentence = s.confounds.split('. ')[0] + '.';
+
+            html += `
+                <tr>
+                    <td class="rank-num">${i + 1}</td>
+                    <td><a class="sensor-link" onclick="openSensorModal('${s.id}')">${s.name}</a></td>
+                    <td>${getCategoryBadge(s.category)}</td>
+                    <td>${strengthMeterHTML(cData.strength, cData.strengthLabel)}</td>
+                    <td style="font-size:0.85rem">${cData.text.split('. ').slice(0,2).join('. ')}.</td>
+                    <td style="font-size:0.85rem;color:#64748B">${limitSentence}</td>
+                </tr>`;
+        });
+
+        html += `</tbody></table></div>`;
+    }
+
+    container.innerHTML = html;
+}
+
+// ──────────────────────────────────────────────────────────
+// INTERACTION HANDLERS
+// ──────────────────────────────────────────────────────────
+
+function toggleSensorCard(header) {
+    header.closest('.sensor-card').classList.toggle('expanded');
+}
+
+// ──────────────────────────────────────────────────────────
+// MODAL (for cross-page use)
+// ──────────────────────────────────────────────────────────
+
+function openSensorModal(sensorId) {
+    const s = SENSORS.find(x => x.id === sensorId);
+    if (!s) return;
+
+    const constructTags = s.constructs.map(c => `<span class="construct-tag">${CONSTRUCTS[c].icon} ${CONSTRUCTS[c].label}</span>`).join(' ');
+
+    let indicatesHTML = '';
+    for (const [cKey, cData] of Object.entries(s.whatItIndicates)) {
+        const cInfo = CONSTRUCTS[cKey];
+        indicatesHTML += `
+            <div style="margin-bottom:1rem;padding:0.75rem;background:#F8FAFC;border-radius:8px;border-left:3px solid #7C3AED;">
+                <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:#64748B;margin-bottom:0.25rem;">${cInfo.icon} As a measure of ${cInfo.label}</div>
+                <p style="font-size:0.9rem;margin-bottom:0.5rem;">${cData.text}</p>
+                ${strengthMeterHTML(cData.strength, cData.strengthLabel)}
+                <p style="margin-top:0.5rem;font-size:0.82rem;color:#64748B;"><strong>Why:</strong> ${cData.reason}</p>
+            </div>`;
+    }
+
+    let rankHTML = '';
+    if (s.rankingContext) {
+        for (const [cKey, rData] of Object.entries(s.rankingContext)) {
+            const cInfo = CONSTRUCTS[cKey];
+            rankHTML += `<p style="font-size:0.88rem;"><strong>${cInfo.icon} ${cInfo.label}:</strong> #${rData.rank} of ${rData.of}. ${rData.note}</p>`;
+        }
+    }
+
+    document.getElementById('sensorModalContent').innerHTML = `
+        <h2>${s.name}</h2>
+        <p class="modal-oneliner">${s.oneliner}</p>
+        <div style="margin-bottom:1rem;">${getCategoryBadge(s.category)} ${constructTags}</div>
+
+        <div style="margin-bottom:1rem;padding:0.75rem;background:#F0FDFA;border-radius:8px;border-left:3px solid #0891B2;">
+            <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:#64748B;margin-bottom:0.25rem;">What It Physically Measures</div>
+            <p style="font-size:0.9rem;">${s.whatItMeasures}</p>
+        </div>
+
+        ${indicatesHTML}
+
+        ${rankHTML ? `<div style="margin-bottom:1rem;padding:0.75rem;background:#FFFBEB;border-radius:8px;border-left:3px solid #D97706;">
+            <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:#64748B;margin-bottom:0.25rem;">Comparative Ranking</div>
+            ${rankHTML}
+        </div>` : ''}
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:0.75rem;">
+            <div style="padding:0.75rem;background:#F8FAFC;border-radius:8px;">
+                <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:#64748B;margin-bottom:0.25rem;">Confounds</div>
+                <p style="font-size:0.85rem;">${s.confounds}</p>
+            </div>
+            <div style="padding:0.75rem;background:#F8FAFC;border-radius:8px;">
+                <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:#64748B;margin-bottom:0.25rem;">VR Compatibility</div>
+                <p style="font-size:0.85rem;">${s.vrCompatibility}</p>
+            </div>
+        </div>
+
+        <div style="margin-top:1rem;padding:0.75rem;background:#F8FAFC;border-radius:8px;">
+            <div style="font-size:0.75rem;font-weight:700;text-transform:uppercase;color:#64748B;margin-bottom:0.25rem;">Key Reference</div>
+            <p style="font-size:0.85rem;">${s.keyReference}</p>
+        </div>
+    `;
+
+    document.getElementById('sensorModal').classList.add('visible');
+}
+
+function closeSensorModal() {
+    document.getElementById('sensorModal').classList.remove('visible');
+}
+
+// Close modal on Escape key
+document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeSensorModal();
+});
+
+// URL hash navigation
+function handleHash() {
+    const hash = window.location.hash;
+    if (hash.startsWith('#sensor-')) {
+        const sensorId = hash.replace('#sensor-', '');
+        // Open the card in catalogue view
+        const card = document.querySelector(`.sensor-card[data-sensor-id="${sensorId}"]`);
+        if (card) {
+            card.classList.add('expanded');
+            setTimeout(() => card.scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        }
+    } else if (hash.startsWith('#construct-')) {
+        const constructKey = hash.replace('#construct-', '');
+        // Switch to construct view
+        const btn = document.querySelectorAll('.view-toggle button')[1];
+        setView('construct', btn);
+        const section = document.querySelector(`.construct-section`);
+        // find the right section
+        const sections = document.querySelectorAll('.construct-section');
+        const cKeys = Object.keys(CONSTRUCTS);
+        const idx = cKeys.indexOf(constructKey);
+        if (idx >= 0 && sections[idx]) {
+            setTimeout(() => sections[idx].scrollIntoView({ behavior: 'smooth', block: 'start' }), 100);
+        }
+    } else if (hash === '#modal') {
+        // Triggered by external pages: sensor_catalogue.html#modal&id=hrv
+        const params = new URLSearchParams(hash.slice(1));
+        const id = params.get('id');
+        if (id) openSensorModal(id);
+    }
+}
+
+// Initialize on load
+window.addEventListener('DOMContentLoaded', function() {
+    init();
+    handleHash();
+});
+
+window.addEventListener('hashchange', handleHash);
+
+// ──────────────────────────────────────────────────────────
+// GLOBAL API for cross-page modal usage
+// Other pages can include this script and call:
+//   window.openSensorCatalogueModal(sensorId)
+// which opens this page in a new tab with the modal shown
+// ──────────────────────────────────────────────────────────
+window.openSensorCatalogueModal = function(sensorId) {
+    openSensorModal(sensorId);
+};
+
+</script>
+
+</body>
+</html>

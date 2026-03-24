@@ -1,0 +1,1005 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COGS 160 Spring 2026 — AI-Directed Knowledge System Building</title>
+<style>
+  :root {
+    --bg: #fafaf8;
+    --text: #1a1a1a;
+    --text-secondary: #555;
+    --accent: #c0392b;
+    --accent-light: #e74c3c;
+    --accent-bg: #fdf2f0;
+    --card-bg: #fff;
+    --border: #e0ddd8;
+    --nav-bg: #1a1a1a;
+    --nav-text: #f0ece4;
+    --sidebar-bg: #f5f3ee;
+    --code-bg: #f5f3ee;
+    --track-evidence: #2e7d32;
+    --track-gaps: #1565c0;
+    --track-experiment: #6a1b9a;
+    --track-theory: #e65100;
+    --track-qa: #00838f;
+    --track-annotation: #4e342e;
+    --track-scicomm: #ad1457;
+    --pullquote-border: #c0392b;
+    --highlight: #fff9c4;
+  }
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: 'Source Serif 4', 'Georgia', serif;
+    background: var(--bg);
+    color: var(--text);
+    line-height: 1.7;
+    font-size: 17px;
+  }
+  h1, h2, h3, h4 { font-family: 'Inter', 'Helvetica Neue', sans-serif; font-weight: 700; line-height: 1.25; }
+  h1 { font-size: 2.2rem; margin-bottom: 0.8rem; }
+  h2 { font-size: 1.6rem; margin-top: 2rem; margin-bottom: 0.8rem; color: var(--accent); }
+  h3 { font-size: 1.2rem; margin-top: 1.5rem; margin-bottom: 0.5rem; }
+  p { margin-bottom: 1rem; }
+  a { color: var(--accent); text-decoration: none; }
+  a:hover { text-decoration: underline; }
+  code { background: var(--code-bg); padding: 2px 6px; border-radius: 3px; font-size: 0.9em; }
+
+  /* Top Nav */
+  .topnav {
+    background: var(--nav-bg);
+    color: var(--nav-text);
+    display: flex;
+    align-items: center;
+    padding: 0 2rem;
+    height: 56px;
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    z-index: 100;
+    font-family: 'Inter', sans-serif;
+  }
+  .topnav .brand {
+    font-weight: 700;
+    font-size: 1rem;
+    white-space: nowrap;
+    margin-right: 2rem;
+  }
+  .topnav .brand span { color: var(--accent-light); }
+  .topnav-links {
+    display: flex;
+    gap: 0.2rem;
+    flex-wrap: wrap;
+  }
+  .topnav-links button {
+    background: none;
+    border: none;
+    color: var(--nav-text);
+    font-family: 'Inter', sans-serif;
+    font-size: 0.85rem;
+    padding: 0.5rem 0.9rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: background 0.15s;
+  }
+  .topnav-links button:hover { background: rgba(255,255,255,0.1); }
+  .topnav-links button.active { background: var(--accent); color: #fff; }
+
+  /* Layout */
+  .layout { display: flex; margin-top: 56px; min-height: calc(100vh - 56px); }
+  .main-content {
+    flex: 1;
+    max-width: 880px;
+    margin: 0 auto;
+    padding: 2.5rem 2rem 4rem;
+  }
+
+  /* Page sections */
+  .page { display: none; }
+  .page.active { display: block; }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, var(--nav-bg) 0%, #2c2c2c 100%);
+    color: #f0ece4;
+    padding: 3rem 2rem;
+    border-radius: 12px;
+    margin-bottom: 2rem;
+  }
+  .hero h1 { font-size: 2.5rem; color: #fff; margin-bottom: 0.5rem; }
+  .hero .subtitle { font-size: 1.15rem; color: #ccc; margin-bottom: 1.5rem; line-height: 1.5; }
+  .hero .stats {
+    display: flex;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-top: 1.5rem;
+  }
+  .hero .stat {
+    text-align: center;
+  }
+  .hero .stat-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent-light);
+  }
+  .hero .stat-label {
+    font-size: 0.8rem;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+
+  /* Pullquote */
+  .pullquote {
+    border-left: 4px solid var(--pullquote-border);
+    padding: 1.5rem 1.5rem 1.5rem 2rem;
+    background: var(--accent-bg);
+    margin: 2rem 0;
+    border-radius: 0 8px 8px 0;
+    font-style: italic;
+    font-size: 1.05rem;
+    line-height: 1.8;
+  }
+  .pullquote .attribution {
+    font-style: normal;
+    font-size: 0.85rem;
+    color: var(--text-secondary);
+    margin-top: 0.8rem;
+  }
+
+  /* Before/After */
+  .before-after {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 1.5rem;
+    margin: 2rem 0;
+  }
+  .ba-card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+  }
+  .ba-card.before { border-top: 3px solid #999; }
+  .ba-card.after { border-top: 3px solid var(--accent); }
+  .ba-card .ba-label {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    margin-bottom: 0.8rem;
+  }
+  .ba-card.before .ba-label { color: #999; }
+  .ba-card.after .ba-label { color: var(--accent); }
+  .ba-card p { font-size: 0.95rem; margin-bottom: 0.7rem; }
+
+  /* Cards */
+  .card-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 1.2rem;
+    margin: 1.5rem 0;
+  }
+  .card {
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    transition: box-shadow 0.2s;
+  }
+  .card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+  .card h4 { font-size: 1rem; margin-bottom: 0.5rem; }
+  .card p { font-size: 0.9rem; color: var(--text-secondary); margin-bottom: 0; }
+  .card .track-badge {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    font-weight: 600;
+    padding: 2px 8px;
+    border-radius: 3px;
+    color: #fff;
+    margin-bottom: 0.8rem;
+  }
+
+  /* Track colors */
+  .track-evidence .track-badge { background: var(--track-evidence); }
+  .track-gaps .track-badge { background: var(--track-gaps); }
+  .track-experiment .track-badge { background: var(--track-experiment); }
+  .track-theory .track-badge { background: var(--track-theory); }
+  .track-qa .track-badge { background: var(--track-qa); }
+  .track-annotation .track-badge { background: var(--track-annotation); }
+  .track-scicomm .track-badge { background: var(--track-scicomm); }
+
+  /* Week table */
+  .week-table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+  .week-table th {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.8rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    text-align: left;
+    padding: 0.8rem 1rem;
+    border-bottom: 2px solid var(--border);
+    color: var(--text-secondary);
+  }
+  .week-table td {
+    padding: 0.8rem 1rem;
+    border-bottom: 1px solid var(--border);
+    vertical-align: top;
+    font-size: 0.95rem;
+  }
+  .week-table tr:hover { background: var(--sidebar-bg); }
+  .week-num {
+    font-family: 'Inter', sans-serif;
+    font-weight: 700;
+    color: var(--accent);
+    white-space: nowrap;
+  }
+
+  /* Method steps */
+  .method-step {
+    display: flex;
+    gap: 1.5rem;
+    margin: 1.5rem 0;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border: 1px solid var(--border);
+    border-radius: 8px;
+  }
+  .step-number {
+    font-family: 'Inter', sans-serif;
+    font-size: 2rem;
+    font-weight: 800;
+    color: var(--accent);
+    min-width: 50px;
+    text-align: center;
+    line-height: 1;
+    padding-top: 0.3rem;
+  }
+  .step-content h4 { margin-bottom: 0.4rem; }
+  .step-content p { font-size: 0.93rem; color: var(--text-secondary); margin-bottom: 0; }
+
+  /* Module list */
+  .module-list { margin: 1.5rem 0; }
+  .module-item {
+    padding: 1rem 1.5rem;
+    border-left: 3px solid var(--border);
+    margin-bottom: 0.5rem;
+    transition: border-color 0.2s;
+  }
+  .module-item:hover { border-color: var(--accent); }
+  .module-item .module-num {
+    font-family: 'Inter', sans-serif;
+    font-size: 0.75rem;
+    color: var(--accent);
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+  }
+  .module-item h4 { margin: 0.2rem 0; font-size: 1rem; }
+  .module-item p { font-size: 0.88rem; color: var(--text-secondary); margin-bottom: 0; }
+
+  /* Checklist */
+  .checklist { margin: 1rem 0; }
+  .checklist li {
+    list-style: none;
+    padding: 0.4rem 0 0.4rem 2rem;
+    position: relative;
+    font-size: 0.95rem;
+  }
+  .checklist li::before {
+    content: '☐';
+    position: absolute;
+    left: 0.3rem;
+    color: var(--accent);
+    font-size: 1.1rem;
+  }
+
+  /* Gap badge */
+  .gap-badge {
+    display: inline-block;
+    font-family: 'Inter', sans-serif;
+    font-size: 0.7rem;
+    padding: 2px 6px;
+    border-radius: 3px;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+    margin-right: 0.3rem;
+  }
+
+  /* Footer */
+  .site-footer {
+    text-align: center;
+    padding: 2rem;
+    color: var(--text-secondary);
+    font-size: 0.85rem;
+    border-top: 1px solid var(--border);
+    margin-top: 3rem;
+  }
+
+  /* Responsive */
+  @media (max-width: 768px) {
+    .before-after { grid-template-columns: 1fr; }
+    .card-grid { grid-template-columns: 1fr; }
+    .hero { padding: 2rem 1.5rem; }
+    .hero h1 { font-size: 1.8rem; }
+    .hero .stats { gap: 1.5rem; }
+    .method-step { flex-direction: column; gap: 0.5rem; }
+    .topnav-links { display: none; }
+    .main-content { padding: 1.5rem 1rem 3rem; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Top Navigation -->
+<nav class="topnav">
+  <div class="brand">COGS <span>160</span></div>
+  <div class="topnav-links">
+    <button onclick="showPage('home')" class="active" data-page="home">Home</button>
+    <button onclick="showPage('method')" data-page="method">The Method</button>
+    <button onclick="showPage('syllabus')" data-page="syllabus">Syllabus</button>
+    <button onclick="showPage('tracks')" data-page="tracks">Tracks</button>
+    <button onclick="showPage('atlas')" data-page="atlas">Knowledge_ATLAS</button>
+    <button onclick="showPage('prompts')" data-page="prompts">Prompt Design</button>
+    <button onclick="showPage('resources')" data-page="resources">Resources</button>
+  </div>
+</nav>
+
+<div class="layout">
+<div class="main-content">
+
+<!-- ===== HOME PAGE ===== -->
+<div class="page active" id="page-home">
+
+<div class="hero">
+  <h1>AI-Directed Knowledge System Building</h1>
+  <p class="subtitle">COGS 160 &middot; Spring 2026 &middot; Prof. David Kirsh &middot; UCSD Cognitive Science</p>
+  <p class="subtitle" style="font-size:1rem; color:#ddd;">Learn to direct AI systems to build, verify, and maintain production knowledge infrastructure. The methodology transfers to any domain. Knowledge_ATLAS is the practice substrate.</p>
+  <div class="stats">
+    <div class="stat"><div class="stat-num">5,461</div><div class="stat-label">Beliefs in the Web</div></div>
+    <div class="stat"><div class="stat-num">800+</div><div class="stat-label">Papers Ingested</div></div>
+    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Student Tracks</div></div>
+    <div class="stat"><div class="stat-num">91/100</div><div class="stat-label">AESHI Score</div></div>
+  </div>
+</div>
+
+<div class="pullquote">
+  The core pedagogical insight: these are undergraduates who have used ChatGPT the way everyone uses ChatGPT &mdash; type a question, get an answer, maybe follow up. What they have never done is convene an expert panel to figure out what a system should do, force the AI to plan before implementing, set success conditions that define "done" before work starts, verify that output matches the spec, and use ruthless prompts when the AI drifts. That methodology &mdash; not the content of any particular system &mdash; is the transferable skill that makes the difference between a weekend demo and a production system.
+</div>
+
+<h2>What You'll Actually Learn</h2>
+
+<div class="before-after">
+  <div class="ba-card before">
+    <div class="ba-label">Before this course</div>
+    <p>"I can ask ChatGPT to write code."</p>
+    <p>"I can use AI to summarize papers."</p>
+    <p>"I know what an experiment is."</p>
+  </div>
+  <div class="ba-card after">
+    <div class="ba-label">After this course</div>
+    <p>"I can direct three AIs simultaneously to build a production system in an afternoon."</p>
+    <p>"I can build an automated literature pipeline with relevance scoring, quality filtering, and structured claim extraction."</p>
+    <p>"I can design an experiment whose data enters a production knowledge system."</p>
+  </div>
+</div>
+
+<h2>The Transferable Skill</h2>
+
+<p>By Week 5, you will be able to sit down with two or three AI systems and, in a single afternoon, produce a working component that meets a defined specification. We call this <strong>"The Afternoon with Three AIs"</strong> &mdash; and it is the skill that every employer, graduate program, and research lab will value in you.</p>
+
+<p>The workflow: <strong>Panel &rarr; Spec &rarr; Contracts &rarr; Implement &rarr; Verify &rarr; Iterate</strong>. Every step has specific techniques. This course teaches them all, using a real system as the practice substrate.</p>
+
+<h2>The Practice Substrate: Knowledge_ATLAS</h2>
+
+<p>Knowledge_ATLAS is a large knowledge system that maps what the scientific literature says about how built environments affect human cognition, emotion, and behavior. It contains a Web of Belief with 5,461 interconnected claims, drawn from 800+ scientific papers, organized into 25 research fronts. It has a Bayesian causal bridge that can predict what will happen if you change a building. It has an extraction pipeline that scores 91/100 on the AESHI quality audit.</p>
+
+<p>It also has six major capability gaps &mdash; things it should be able to do but can't yet. <strong>Your job is to close those gaps.</strong> Each student track addresses one or more gaps. By the end of the quarter, KA will be measurably more capable than it is today, and you will have the methodology to build systems like it in any domain.</p>
+
+<p style="text-align:center; margin-top:2rem;"><button onclick="showPage('method')" style="background:var(--accent); color:#fff; border:none; padding:0.8rem 2rem; border-radius:6px; font-family:'Inter',sans-serif; font-size:1rem; cursor:pointer;">Learn the Method &rarr;</button></p>
+
+</div>
+
+<!-- ===== THE METHOD PAGE ===== -->
+<div class="page" id="page-method">
+
+<h1>The Method: AI-Directed System Building</h1>
+
+<p>This is not a "prompt engineering" course. This is a course in directing AI systems to build verified knowledge artifacts. The distinction matters: prompt engineering is about getting better chatbot answers; AI-directed system building is about producing components that meet formal specifications, pass defined tests, and integrate correctly with a larger system.</p>
+
+<h2>The Seven-Step Workflow</h2>
+
+<div class="method-step">
+  <div class="step-number">1</div>
+  <div class="step-content">
+    <h4>Define the Problem</h4>
+    <p>What exactly should this component do? What questions must it answer? Who is the user? Start with use cases, not features. "A researcher asks: what is the strongest evidence for biophilic design effects on stress?" is a better problem definition than "build an evidence browser."</p>
+  </div>
+</div>
+
+<div class="method-step">
+  <div class="step-number">2</div>
+  <div class="step-content">
+    <h4>Convene an Expert Panel</h4>
+    <p>Don't guess what the system should do &mdash; ask experts. Direct an AI to simulate 3&ndash;5 domain experts, each grounded in named researchers and their published positions. Include at least one adversarial voice. Include a methodologist. The panel argues about what matters and what "good" looks like.</p>
+  </div>
+</div>
+
+<div class="method-step">
+  <div class="step-number">3</div>
+  <div class="step-content">
+    <h4>Produce a Spec with Success Conditions</h4>
+    <p>Convert the panel's output into a contract: inputs, outputs, invariants, and measurable success conditions. "Precision &gt; 0.85 on a 50-paper test set" is a success condition. "It should work well" is not. You cannot verify what you cannot measure.</p>
+  </div>
+</div>
+
+<div class="method-step">
+  <div class="step-number">4</div>
+  <div class="step-content">
+    <h4>Force Planning Before Implementation</h4>
+    <p>Direct the AI to produce a strategy document: what approach, what architecture, what risks, what testing plan. The prompt says: "Do NOT write any code. Produce a strategy document." This prevents the most common AI failure: producing 400 lines of professional-looking code that solves the wrong problem.</p>
+  </div>
+</div>
+
+<div class="method-step">
+  <div class="step-number">5</div>
+  <div class="step-content">
+    <h4>Implement with Parallel AIs</h4>
+    <p>Independent components go to different AIs simultaneously. One builds the keyword scorer, another builds the journal quality scorer. Division of labor with clear interfaces. Each AI receives the spec and the vocabulary &mdash; not just a vague instruction.</p>
+  </div>
+</div>
+
+<div class="method-step">
+  <div class="step-number">6</div>
+  <div class="step-content">
+    <h4>Verify Against the Spec</h4>
+    <p>Run the output against the success conditions. Compare the AI's self-assessment ("this should work well!") with the actual numbers. The AI that builds should not be the sole evaluator of its own work. Use cross-AI verification, automated tests, and human spot-checks.</p>
+  </div>
+</div>
+
+<div class="method-step">
+  <div class="step-number">7</div>
+  <div class="step-content">
+    <h4>Iterate with Ruthless Prompts</h4>
+    <p>Where output fails the spec, write a ruthless correction: show the specific error, explain why it's wrong, demand a specific fix, forbid the pattern that caused the error. Ruthlessness is for execution, not exploration. It is precise, not angry.</p>
+  </div>
+</div>
+
+<h2>Why This Works</h2>
+
+<p>What looks like "an afternoon's work with three AIs" is the compressed output of years of hard-won craft. Students who skip the panel step produce systems that solve the wrong problem. Students who skip the spec step produce systems that cannot be tested. Students who skip verification produce systems that look impressive and are subtly wrong. The methodology exists because every shortcut has been tried and has failed.</p>
+
+<h2>The Five AI Failure Modes</h2>
+
+<p>AIs fail in predictable ways. Knowing these patterns lets you prevent them:</p>
+
+<div class="card-grid">
+  <div class="card">
+    <h4>1. Plausible Hallucination</h4>
+    <p>The AI generates content that reads correctly, uses domain vocabulary, and is completely made up. Fake citations, invented effect sizes, fabricated study descriptions.</p>
+  </div>
+  <div class="card">
+    <h4>2. Wrong-Problem Drift</h4>
+    <p>The AI starts on task X and gradually drifts to task Y because Y is easier. Common in multi-step prompts where attention degrades.</p>
+  </div>
+  <div class="card">
+    <h4>3. Self-Congratulatory Report</h4>
+    <p>The AI implements, tests its own work, and reports success. The tests test what the code does, not what it should do.</p>
+  </div>
+  <div class="card">
+    <h4>4. Consensus Fabrication</h4>
+    <p>When synthesizing multiple perspectives, the AI smooths over disagreements. This destroys exactly the information that matters most.</p>
+  </div>
+  <div class="card">
+    <h4>5. Premature Abstraction</h4>
+    <p>The AI produces abstract, general output when concrete, specific output was needed. "Several studies found..." instead of "3 studies (Mehta 2012, N=45; Steidle 2013, N=80) found..."</p>
+  </div>
+</div>
+
+</div>
+
+<!-- ===== SYLLABUS PAGE ===== -->
+<div class="page" id="page-syllabus">
+
+<h1>Syllabus: Week by Week</h1>
+
+<p>The course has three phases: <strong>Weeks 1&ndash;3</strong> teach the methodology through live demonstration and practice. <strong>Weeks 4&ndash;8</strong> apply the methodology to real KA capability gaps in track-based sprints. <strong>Weeks 9&ndash;10</strong> integrate, test, and present.</p>
+
+<table class="week-table">
+<thead>
+  <tr><th>Week</th><th>Theme</th><th>Seminar</th><th>Lab</th><th>Deliverable</th></tr>
+</thead>
+<tbody>
+  <tr>
+    <td class="week-num">1</td>
+    <td>The Workflow</td>
+    <td>Live demo: David builds a PDF relevance filter in front of the class using 3 AIs simultaneously. Full 7-step methodology.</td>
+    <td>Students replicate the workflow: build a title-to-research-front classifier using labeled test set from a20 annotations.</td>
+    <td>Methodology Log #1</td>
+  </tr>
+  <tr>
+    <td class="week-num">2</td>
+    <td>Failure Modes</td>
+    <td>The 5 AI failure modes, with live examples. Techniques: panels, contracts, ruthless prompts, verification loops, model selection.</td>
+    <td>Debugging exercise: fix a "broken" AI-generated module containing all 5 failure modes.</td>
+    <td>Methodology Log #2 + Draft contracts for Sprint 1</td>
+  </tr>
+  <tr>
+    <td class="week-num">3</td>
+    <td>KA as Case Study</td>
+    <td>KA architecture walkthrough: Web of Belief, extraction pipeline, 6 capability gaps. Framed as: "Where was the methodology applied? Where was it violated?"</td>
+    <td>Hands-on KA exploration. Each track identifies 3 specific KA failures for their use cases. Teams present contracts; peer review; David approves.</td>
+    <td>Approved Sprint 1 contracts + Sprint 1 plan</td>
+  </tr>
+  <tr>
+    <td class="week-num">4</td>
+    <td>Sprint 1 Start</td>
+    <td>Track-specific deep dive. Vocabulary control, context loading, domain-specific prompt design.</td>
+    <td>Sprint 1 implementation begins. Cross-track: VR delivers scene specs &rarr; Paradigms confirms experimental requirements.</td>
+    <td>Sprint 1 in progress</td>
+  </tr>
+  <tr>
+    <td class="week-num">5</td>
+    <td>Sprint 1 Demo</td>
+    <td>Multi-AI orchestration patterns. Choosing the right AI. The cost-quality tradeoff.</td>
+    <td>Sprint 1 demos with mandatory human usability testing (students test each other). Lit. Harvest delivers relevance filter &rarr; all tracks use it.</td>
+    <td>Sprint 1 demo + Methodology Log #3</td>
+  </tr>
+  <tr>
+    <td class="week-num">6</td>
+    <td>Sprint 2 Start</td>
+    <td>Progressive disclosure and query depth. Building systems that answer at multiple levels of detail.</td>
+    <td>Sprint 2 implementation. AI Tagging delivers first taxonomy &rarr; Exp. Builder integrates tags.</td>
+    <td>Sprint 2 in progress</td>
+  </tr>
+  <tr>
+    <td class="week-num">7</td>
+    <td>Sprint 2 Demo</td>
+    <td>Mid-quarter review: what methodology patterns are working? Where are teams struggling?</td>
+    <td>Sprint 2 demos with human testing. Exp. Builder demos wizard &rarr; Paradigms tests with their designs.</td>
+    <td>Sprint 2 demo + Methodology Log #4</td>
+  </tr>
+  <tr>
+    <td class="week-num">8</td>
+    <td>Sprint 3 + Integration</td>
+    <td>Cross-track integration architecture. How components compose into a system.</td>
+    <td>Sprint 3 implementation focused on integration. Lit. Harvest delivers enriched claims &rarr; all tracks verify data quality.</td>
+    <td>Sprint 3 in progress</td>
+  </tr>
+  <tr>
+    <td class="week-num">9</td>
+    <td>Integration Test</td>
+    <td>Full pipeline integration: run all target queries end-to-end across all tracks.</td>
+    <td>Bug fixing, edge cases, documentation. Each track writes "State of the Track" report.</td>
+    <td>Sprint 3 demo + Integration test results + Methodology Log #5</td>
+  </tr>
+  <tr>
+    <td class="week-num">10</td>
+    <td>Presentations</td>
+    <td>Each track presents: what they built, what methodology they used, what they learned about directing AI systems.</td>
+    <td>Final portfolio assembly: methodology logs + sprint demos + contribution summary.</td>
+    <td>Final portfolio + Presentation</td>
+  </tr>
+</tbody>
+</table>
+
+<h2>Assessment</h2>
+
+<p>The primary assessment artifact is the <strong>methodology log</strong> &mdash; a running document that grows across the quarter. It documents every prompt design decision, every failure, every correction, every verification. It replaces generic lab reports with structured documentation of the AI-directed development craft.</p>
+
+<table class="week-table" style="max-width:500px;">
+<thead><tr><th>Component</th><th>Weight</th></tr></thead>
+<tbody>
+  <tr><td>Methodology logs (running document, 5 entries)</td><td>~40%</td></tr>
+  <tr><td>Sprint deliverables (3 sprints)</td><td>~25%</td></tr>
+  <tr><td>Sprint demos (3 live demonstrations)</td><td>~15%</td></tr>
+  <tr><td>Final portfolio + reflection</td><td>~15%</td></tr>
+  <tr><td>Participation (peer review, testing, collaboration)</td><td>~5%</td></tr>
+</tbody>
+</table>
+
+</div>
+
+<!-- ===== TRACKS PAGE ===== -->
+<div class="page" id="page-tracks">
+
+<h1>Student Tracks</h1>
+
+<p>Each track addresses one or more of KA's six capability gaps. Tracks work independently during sprints but integrate at defined cross-track checkpoints. Progress is measured by <strong>KA queries that now return correct answers</strong>, not features built.</p>
+
+<h2>The Six Capability Gaps</h2>
+
+<div class="card-grid">
+  <div class="card"><h4><span class="gap-badge">GAP 1</span> Equipment-Conditioned VOI</h4><p>"I have EmotiBit + VR. What's the highest-value experiment I can run?"</p></div>
+  <div class="card"><h4><span class="gap-badge">GAP 2</span> Causal Query Routing</h4><p>"Does natural light improve performance, and through what mechanism?"</p></div>
+  <div class="card"><h4><span class="gap-badge">GAP 3</span> Graph-Based Exploration</h4><p>"Show me everything about lighting &rarr; circadian rhythm and let me follow the paths."</p></div>
+  <div class="card"><h4><span class="gap-badge">GAP 4</span> Practitioner Simplification</h4><p>"Should I put plants in this hospital lobby?" (Plain language, actionable.)</p></div>
+  <div class="card"><h4><span class="gap-badge">GAP 5</span> Hypothetical Simulation</h4><p>"If I found X, how would that change what KA believes?"</p></div>
+  <div class="card"><h4><span class="gap-badge">GAP 6</span> Unified Query Routing</h4><p>One entry point, automatic sub-query decomposition across all system layers.</p></div>
+</div>
+
+<h2>The Nine Tracks</h2>
+
+<p style="margin-bottom:1.5rem;">Each track card shows the final deliverable — what the team must produce and demonstrate by June 6. Success is measured by working components, not effort.</p>
+
+<div class="card-grid">
+  <div class="card track-evidence">
+    <span class="track-badge">Track 1</span>
+    <h4>Evidence Product Team</h4>
+    <p><strong>Final deliverable:</strong> A working Evidence Explorer — query KA, see supporting and conflicting claims with effect sizes, causal tier labels (RCT / correlational / quasi-experimental), and a provenance panel linking every claim to its source paper, verbatim quote, and PDF page. Claims with low warrant strength are visually flagged.</p>
+    <p style="margin-top:0.5rem;"><span class="gap-badge">GAP 2</span> <span class="gap-badge">GAP 3</span></p>
+  </div>
+  <div class="card track-gaps">
+    <span class="track-badge">Track 2</span>
+    <h4>Research Gaps Team</h4>
+    <p><strong>Final deliverable:</strong> A VOI-Driven Gap Explorer — input your equipment (EmotiBit, EEG, VR, eye tracker), get a ranked list of the highest-value experiments you can run with it. Includes a "hypothetical update" tool: if I found X with effect size d=0.6, how would that change KA's beliefs?</p>
+    <p style="margin-top:0.5rem;"><span class="gap-badge">GAP 1</span> <span class="gap-badge">GAP 5</span></p>
+  </div>
+  <div class="card track-experiment">
+    <span class="track-badge">Track 3</span>
+    <h4>Experiment Design Studio</h4>
+    <p><strong>Final deliverable:</strong> An evolved wizard with three new capabilities: (1) a "Replicate First" pathway that surfaces specification gaps in published papers; (2) a paradigm comparison view showing what each design controls vs. misses; (3) automatic pre-registration document generation in AsPredicted format.</p>
+    <p style="margin-top:0.5rem;"><span class="gap-badge">GAP 2</span> <span class="gap-badge">GAP 3</span> <span class="gap-badge">GAP 6</span></p>
+  </div>
+  <div class="card track-theory">
+    <span class="track-badge">Track 4</span>
+    <h4>Theory &amp; Mechanism Team</h4>
+    <p><strong>Final deliverable:</strong> A Theory Layer with explorable theory cards (what each theory predicts, what supports it, what would falsify it) and a mechanism map — given IV&rarr;DV, trace the neural and psychological pathway connecting them, with confidence ratings per step.</p>
+    <p style="margin-top:0.5rem;"><span class="gap-badge">GAP 2</span> <span class="gap-badge">GAP 5</span></p>
+  </div>
+  <div class="card track-qa">
+    <span class="track-badge">Track 5</span>
+    <h4>QA / Trust Team</h4>
+    <p><strong>Final deliverable:</strong> A Trust Layer — "Why trust this?" and "What could be wrong?" panels for any KA claim, using the 6-tier Carson/Sagan confidence spectrum. Plus a practitioner summary mode: jargon-free, 2-3 sentences, actionable verdict for non-expert users.</p>
+    <p style="margin-top:0.5rem;"><span class="gap-badge">GAP 4</span></p>
+  </div>
+  <div class="card track-annotation">
+    <span class="track-badge">Track 6</span>
+    <h4>Annotation / Curation Team</h4>
+    <p><strong>Final deliverable:</strong> Audited and corrected annotation families (≥20 errors fixed in a 200-claim test set), one new annotation family applied to ≥500 claims, and a browser-based curation tool for David and TAs to accept/reject/edit proposed annotations.</p>
+    <p style="margin-top:0.5rem;"><span class="gap-badge">GAP 3</span> <span class="gap-badge">GAP 6</span></p>
+  </div>
+  <div class="card track-scicomm">
+    <span class="track-badge">Track 7</span>
+    <h4>Science Communication Team</h4>
+    <p><strong>Final deliverable:</strong> 25 "Did You Know?" cards (one per research front) with human-scale effect size translations, a 5-step onboarding flow for new KA users, and a template library for plain-language summaries. All content passes the ProseRevisionService quality gate (≥7.0/10).</p>
+    <p style="margin-top:0.5rem;"><span class="gap-badge">GAP 4</span></p>
+  </div>
+  <div class="card" style="border-left: 4px solid #00695c;">
+    <span class="track-badge" style="background:#00695c;">Track 8 — NEW</span>
+    <h4>Image Tagger</h4>
+    <p><strong>Final deliverable:</strong> A working stimulus image tagger — a vocabulary of 20-40 spatial predicates (naturalness, enclosure, biophilia density, luminance uniformity, prospect/refuge balance, etc.), a scoring function for each, and a regional tagger that overlays a heatmap showing where and how much each region satisfies each predicate.</p>
+    <p style="margin-top:0.5rem;"><span class="gap-badge">GAP 1</span> <span class="gap-badge">GAP 2</span></p>
+  </div>
+  <div class="card" style="border-left: 4px solid #1565c0;">
+    <span class="track-badge" style="background:#1565c0;">Track 9 — NEW</span>
+    <h4>Article Finder</h4>
+    <p><strong>Final deliverable:</strong> A VOI-driven literature pipeline — given a research gap, generates optimized search queries, retrieves candidates from Semantic Scholar, Elicit, Consensus, and Scite, scores them for relevance, and acquires PDFs where open access allows. Outputs a retrieval report showing gap &rarr; queries &rarr; candidates &rarr; acquired.</p>
+    <p style="margin-top:0.5rem;"><span class="gap-badge">GAP 1</span></p>
+  </div>
+</div>
+
+<h2>Cross-Track Integration Checkpoints</h2>
+
+<table class="week-table">
+<thead><tr><th>Date</th><th>Event</th><th>Tracks</th></tr></thead>
+<tbody>
+  <tr><td>April 4 (Wk 1)</td><td>All tracks: environment set up, first sprint spec complete</td><td>All</td></tr>
+  <tr><td>April 18 (Wk 3)</td><td>Article Finder &rarr; Evidence Product: new papers ingested, claims visible</td><td>9 &rarr; 1</td></tr>
+  <tr><td>May 2 (Wk 5)</td><td>Image Tagger &rarr; Theory/Mechanism: stimulus images tagged and linked to claims</td><td>8 &rarr; 4</td></tr>
+  <tr><td>May 2 (Wk 5)</td><td>Annotation/Curation &rarr; all UI tracks: new annotation families available</td><td>6 &rarr; all</td></tr>
+  <tr><td>May 16 (Wk 7)</td><td>Research Gaps &rarr; Experiment Studio: VOI rankings feed paradigm recommendations</td><td>2 &rarr; 3</td></tr>
+  <tr><td>May 30 (Wk 9)</td><td>Integration freeze — final verification runs for all tracks</td><td>All</td></tr>
+  <tr><td>June 6 (Wk 10)</td><td>Final demos — each track presents working system to class</td><td>All</td></tr>
+</tbody>
+</table>
+
+<h2>Sprint Discipline</h2>
+
+<p>Every track follows the same 2-week sprint cycle:</p>
+
+<table class="week-table" style="max-width:600px;">
+<thead><tr><th>Phase</th><th>Activity</th><th>Deliverable</th></tr></thead>
+<tbody>
+  <tr><td><strong>Plan</strong> (Day 1)</td><td>Convene panel, produce spec, define success conditions</td><td>Spec document</td></tr>
+  <tr><td><strong>Implement</strong> (Days 2&ndash;8)</td><td>AI-directed development using the method</td><td>Code + tests</td></tr>
+  <tr><td><strong>Verify</strong> (Day 9)</td><td>Run tests against SCs, human review</td><td>Verification report</td></tr>
+  <tr><td><strong>Demo</strong> (Day 10)</td><td>Show working component to class</td><td>Live demo + methodology log</td></tr>
+</tbody>
+</table>
+
+</div>
+
+<!-- ===== KNOWLEDGE_ATLAS PAGE ===== -->
+<div class="page" id="page-atlas">
+
+<h1>Knowledge_ATLAS</h1>
+
+<p>Knowledge_ATLAS (Architecture for Typed, Layered Assessment of Science) is a computational knowledge system that maps what science knows about how built environments affect human cognition, emotion, and behavior. It is the practice substrate for this course &mdash; the system you will improve.</p>
+
+<h2>What It Contains</h2>
+
+<div class="card-grid">
+  <div class="card">
+    <h4>Web of Belief</h4>
+    <p>5,461 interconnected beliefs organized as a directed multigraph. Each belief has a credence (0&ndash;1), warrant type, and connections to supporting evidence.</p>
+  </div>
+  <div class="card">
+    <h4>Extraction Pipeline</h4>
+    <p>800+ scientific papers processed through a seven-stage pipeline: PDF ingestion, metadata extraction, article typing, table detection, claim extraction, variable resolution, web integration. AESHI quality score: 91/100.</p>
+  </div>
+  <div class="card">
+    <h4>Bayesian Causal Bridge</h4>
+    <p>A structural causal model that translates knowledge ("what we believe") into prediction ("what will happen if we intervene"). Uses the projection calculus with four factors: warrant type, warrant strength, population transfer, and lab effect size.</p>
+  </div>
+  <div class="card">
+    <h4>25 Research Fronts</h4>
+    <p>The corpus is organized into 25 active research areas, from "Ceiling Height and Creativity" to "Biophilic Design and Stress Recovery." Each front has structured evidence summaries, findings tables, and meta-reviews.</p>
+  </div>
+</div>
+
+<h2>The Three-Layer Architecture</h2>
+
+<p>ATLAS separates what we <em>know</em> from what we can <em>predict</em>:</p>
+
+<div class="method-step" style="background:var(--sidebar-bg);">
+  <div class="step-number" style="font-size:1.2rem;">EN</div>
+  <div class="step-content">
+    <h4>Epistemic Network</h4>
+    <p>A labeled directed multigraph representing our state of knowledge. Contains multiple evidence types, latent intermediates, theoretical claims, parallel edges, and cycles. Seven warrant types: CONSTITUTIVE, MECHANISM, EMPIRICAL_ASSOCIATION, THEORY_DERIVED, FUNCTIONAL, ANALOGICAL, CAPACITY.</p>
+  </div>
+</div>
+
+<div class="method-step" style="background:var(--sidebar-bg);">
+  <div class="step-number" style="font-size:1.2rem;">&pi;</div>
+  <div class="step-content">
+    <h4>Projection Function</h4>
+    <p>Maps from EN to BN. Translates knowledge into prediction using the four-factor formula: logit(p_target) = d(&tau;) &middot; &omega; &middot; &delta; &middot; logit(p_lab). Each factor captures a distinct epistemic dimension.</p>
+  </div>
+</div>
+
+<div class="method-step" style="background:var(--sidebar-bg);">
+  <div class="step-number" style="font-size:1.2rem;">BN</div>
+  <div class="step-content">
+    <h4>Bayesian Network</h4>
+    <p>A directed acyclic graph with conditional probability tables. The operational prediction engine: "What will happen if we intervene on X?" Uses Pearl's do-calculus for causal reasoning.</p>
+  </div>
+</div>
+
+<h2>What It Can't Do Yet (The Six Gaps)</h2>
+
+<p>These are the questions KA should answer but currently can't. Each gap is a concrete failure that your track work will fix:</p>
+
+<p><strong>Gap 1</strong>: "I have an EmotiBit and a VR headset. What's the highest-value experiment I can run?" &rarr; KA doesn't know what equipment you have or how to condition its recommendations on your resources.</p>
+
+<p><strong>Gap 2</strong>: "Does natural light improve performance, and through what mechanism?" &rarr; KA has the evidence but can't route a natural-language question to the right causal chain and present the full mechanism pathway.</p>
+
+<p><strong>Gap 3</strong>: "Show me everything about lighting &rarr; circadian rhythm and let me follow the paths." &rarr; KA has the graph structure but no interface lets you explore it visually, following edges from cause to mechanism to outcome.</p>
+
+<p><strong>Gap 4</strong>: "Should I put plants in this hospital lobby?" &rarr; A practitioner needs a plain-language answer with honest uncertainty, not a research paper. KA can't simplify its knowledge for non-expert users.</p>
+
+<p><strong>Gap 5</strong>: "If someone proved that fractal patterns reduce cortical prediction error, how would that change KA's beliefs?" &rarr; KA can't run hypothetical scenarios and propagate their consequences through the web.</p>
+
+<p><strong>Gap 6</strong>: A single question might need evidence from multiple fronts, theory from multiple frameworks, and predictions under multiple scenarios. KA can't decompose complex queries automatically.</p>
+
+</div>
+
+<!-- ===== PROMPT DESIGN PAGE ===== -->
+<div class="page" id="page-prompts">
+
+<h1>Prompt Design</h1>
+
+<p>This course teaches prompt design as a component of a larger methodology: using AI as a directed instrument in the construction of verified knowledge artifacts. The goal is not "getting good output" but producing output that meets a formal specification, passes defined tests, and integrates correctly with a larger system.</p>
+
+<h2>The Five Components of a Production Prompt</h2>
+
+<div class="module-list">
+  <div class="module-item">
+    <div class="module-num">Component 1</div>
+    <h4>Role Assignment</h4>
+    <p>Who is the AI pretending to be? Specific enough to activate domain knowledge. "A bibliometrician who specializes in systematic review methodology" &mdash; not "a helpful assistant."</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Component 2</div>
+    <h4>Task Definition</h4>
+    <p>What exactly should the AI produce? Defined in terms of output format, not just intent. JSON schema, not prose. Testable, not aspirational.</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Component 3</div>
+    <h4>Constraints and Prohibitions</h4>
+    <p>The "DO NOT" pattern. AIs have systematic failure modes; constraints prevent them. "DO NOT invent citations. DO NOT summarize when asked to extract. DO NOT evaluate your own output."</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Component 4</div>
+    <h4>Context Loading</h4>
+    <p>Vocabulary sheets, canonical term lists, reference documents. The AI doesn't know your domain vocabulary &mdash; teach it explicitly, or it will map "illuminance" to "enlightenment."</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Component 5</div>
+    <h4>Output Format Specification</h4>
+    <p>The exact structure of the response. JSON schema with required fields, not free text. The format is the contract between the AI's output and the next step in your pipeline.</p>
+  </div>
+</div>
+
+<h2>Full Curriculum: 11 Modules</h2>
+
+<div class="module-list">
+  <div class="module-item">
+    <div class="module-num">Module 1 &middot; Week 1</div>
+    <h4>Anatomy of a Prompt</h4>
+    <p>The five components in practice. Live examples from the PDF relevance filter demo. Lab: build a title classifier using all five components.</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 2 &middot; Weeks 1&ndash;2</div>
+    <h4>The Expert Panel Pattern</h4>
+    <p>Panel composition, structured deliberation, converting panel output to specification. When panels produce echo chambers and how to prevent it.</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 3 &middot; Week 2</div>
+    <h4>Contracts and Success Conditions</h4>
+    <p>Inputs, outputs, invariants, measurable thresholds. The contract-to-test pipeline. Why "it should work well" is not a success condition.</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 4 &middot; Weeks 2&ndash;3</div>
+    <h4>The "DO NOT" Pattern</h4>
+    <p>The five AI failure modes and the constraints that prevent each. The numbered constraint architecture from KA's extraction pipeline (C-04 through C-11).</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 5 &middot; Week 3</div>
+    <h4>Ruthless Prompts</h4>
+    <p>The four-part structure: show the failure, explain why, demand the fix, forbid the pattern. When to be ruthless vs. when to explore. The escalation ladder.</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 6 &middot; Weeks 3&ndash;4</div>
+    <h4>Verification and the Trust Problem</h4>
+    <p>Cross-AI verification, automated testing, human spot-checking. The trust calibration framework: how much verification does each task type require?</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 7 &middot; Week 4</div>
+    <h4>Vocabulary Control</h4>
+    <p>Canonical vocabularies, mapping problems, NEW_VARIABLE detection. Why context loading is not optional. Building and testing domain-specific vocabulary sheets.</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 8 &middot; Week 5</div>
+    <h4>Multi-AI Orchestration</h4>
+    <p>Parallel division, pipeline (sequential), adversarial review. When to use each pattern. David's three-terminal workflow.</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 9 &middot; Week 5</div>
+    <h4>Choosing the Right AI</h4>
+    <p>Model selection by task type: reasoning depth, speed/cost, faithfulness, code quality. The cost-quality tradeoff with real numbers from KA's pipeline.</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 10 &middot; Week 6</div>
+    <h4>Progressive Disclosure</h4>
+    <p>The five-level depth model (L1&ndash;L5). Depth detection from linguistic markers. Different prompt architectures for different answer depths.</p>
+  </div>
+  <div class="module-item">
+    <div class="module-num">Module 11 &middot; Ongoing</div>
+    <h4>The Methodology Log</h4>
+    <p>Structured documentation of every prompt design decision: what worked, what failed, what was learned. The portfolio that demonstrates the transferable skill.</p>
+  </div>
+</div>
+
+<p>Full curriculum details: see <code>docs/PROMPT_DESIGN_CURRICULUM_SPRING_2026_2026-03-16.md</code></p>
+
+</div>
+
+<!-- ===== RESOURCES PAGE ===== -->
+<div class="page" id="page-resources">
+
+<h1>Resources</h1>
+
+<h2>Prompt Design Cheat Sheet</h2>
+
+<h3>Before You Prompt</h3>
+<ul class="checklist">
+  <li>Do I have a contract with success conditions?</li>
+  <li>Do I have a test set to verify against?</li>
+  <li>Do I have a vocabulary sheet for my domain?</li>
+  <li>Do I know which failure modes to watch for?</li>
+  <li>Have I chosen the right model for this task?</li>
+</ul>
+
+<h3>The Prompt Itself</h3>
+<ul class="checklist">
+  <li>Role assignment (specific, not generic)</li>
+  <li>Task definition (output format, not just intent)</li>
+  <li>Constraints and DO NOTs (at least 3)</li>
+  <li>Context loading (vocabulary, examples, reference docs)</li>
+  <li>Output format specification (schema, not prose)</li>
+</ul>
+
+<h3>After You Get Output</h3>
+<ul class="checklist">
+  <li>Does it meet the contract? (Check every field)</li>
+  <li>Does it pass the success conditions? (Run the tests)</li>
+  <li>Is it suspiciously good? (Check for hallucination)</li>
+  <li>Did the AI evaluate its own work? (Don't trust self-assessment)</li>
+  <li>Would a different AI produce different output? (Cross-verify)</li>
+</ul>
+
+<h3>When It Fails</h3>
+<ul class="checklist">
+  <li>Identify the failure mode (which of the 5?)</li>
+  <li>Write a ruthless prompt (show error, explain why, demand fix, forbid pattern)</li>
+  <li>Re-run and verify improvement</li>
+  <li>Add the failure to your constraint set for next time</li>
+  <li>If it fails 3 times, restructure the prompt or switch approach</li>
+</ul>
+
+<h2>Key Documents</h2>
+
+<div class="card-grid">
+  <div class="card">
+    <h4>Prompt Design Curriculum</h4>
+    <p>Full 11-module curriculum with real KA examples, lab exercises, and assessment criteria.</p>
+  </div>
+  <div class="card">
+    <h4>KA User Personas & Use Cases</h4>
+    <p>8 personas, 80+ use cases at 3 ambition levels. The master reference for what KA must be able to do.</p>
+  </div>
+  <div class="card">
+    <h4>Spring Course Methodology Revision</h4>
+    <p>Week-by-week pedagogical design. PDF filter spec. Sprint discipline. Cross-track integration points.</p>
+  </div>
+  <div class="card">
+    <h4>ATLAS Master Doc</h4>
+    <p>The complete theoretical, empirical, computational, and methodological archive of ATLAS. The system's brain.</p>
+  </div>
+</div>
+
+<h2>Tools</h2>
+
+<div class="card-grid">
+  <div class="card">
+    <h4>Claude / Claude Code</h4>
+    <p>Deep reasoning, complex synthesis, adversarial review, specification writing. Best for planning and high-stakes implementation.</p>
+  </div>
+  <div class="card">
+    <h4>Gemini</h4>
+    <p>Fast batch processing, PDF extraction, classification. Cost-effective for high-volume tasks. Flash variant for extraction pipeline.</p>
+  </div>
+  <div class="card">
+    <h4>Codex</h4>
+    <p>Code-focused AI for implementation tasks. Strong at following schemas and generating structured output.</p>
+  </div>
+</div>
+
+<h2>Reading</h2>
+
+<p>Kapur, M. (2008). Productive failure. <em>Cognition and Instruction</em>, 26(3), 379&ndash;424.</p>
+<p>Toulmin, S. E. (1958). <em>The Uses of Argument</em>. Cambridge University Press.</p>
+<p>Wei, J., et al. (2022). Chain-of-thought prompting elicits reasoning in large language models. <em>NeurIPS</em>, 35.</p>
+<p>Zamfirescu-Pereira, J. D., et al. (2023). Why Johnny can't prompt. <em>CHI 2023</em>.</p>
+<p>White, J., et al. (2023). A prompt pattern catalog to enhance prompt engineering with ChatGPT. <em>arXiv:2302.11382</em>.</p>
+
+</div>
+
+<!-- ===== FOOTER ===== -->
+<div class="site-footer">
+  COGS 160 &middot; Spring 2026 &middot; Department of Cognitive Science &middot; UC San Diego<br>
+  Prof. David Kirsh &middot; <a href="mailto:dkirsh@ucsd.edu">dkirsh@ucsd.edu</a>
+</div>
+
+</div><!-- /main-content -->
+</div><!-- /layout -->
+
+<script>
+function showPage(pageId) {
+  // Hide all pages
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  // Show target page
+  document.getElementById('page-' + pageId).classList.add('active');
+  // Update nav
+  document.querySelectorAll('.topnav-links button').forEach(b => {
+    b.classList.toggle('active', b.dataset.page === pageId);
+  });
+  // Scroll to top
+  window.scrollTo(0, 0);
+}
+</script>
+</body>
+</html>

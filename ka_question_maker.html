@@ -1,0 +1,688 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Question Maker – Knowledge Atlas</title>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --navy:#1C3D3A;--teal:#2A7868;--teal-lt:#5AC8AA;--teal-bg:#E6F5F0;
+      --amber:#E8872A;--amber-lt:#FFF3E0;--amber-dk:#9a5010;
+      --cream:#F7F4EF;--ink:#2C2C2C;--muted:#6B6B6B;--border:#D8D0C5;
+      --white:#FFFFFF;--purple:#6B4FA8;--purple-lt:#F0EBF8;
+      --rose:#A84F6B;--rose-lt:#F8EBF0;--blue:#3A6EA8;--blue-lt:#EBF2F8;
+      --voi-high:#C0392B;--voi-med:#E8872A;--voi-low:#2A7868;
+    }
+    body{font-family:Arial,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh}
+    .top-nav{position:sticky;top:0;height:56px;background:var(--navy);border-bottom:1px solid #0f2423;
+      display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:100;
+      box-shadow:0 1px 3px rgba(0,0,0,.12)}
+    .nav-wordmark{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.1em;color:#A8C8BF}
+    .nav-icon{width:20px;height:20px;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23A8C8BF" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="6" x2="12" y2="18"/><line x1="18" y1="6" x2="12" y2="18"/></svg>') no-repeat center/contain}
+    .nav-title{color:#fff}.nav-title-accent{color:#F5A623}
+    .nav-links{display:flex;gap:20px;list-style:none}
+    .nav-links a{color:#B8D4CE;font-size:0.86rem;text-decoration:none;transition:color .12s}
+    .nav-links a:hover,.nav-links a.active{color:#fff}
+    .nav-right{display:flex;align-items:center;gap:12px}
+    .mode-pill{background:rgba(42,120,104,.3);color:#7AACA0;font-size:11px;font-weight:700;letter-spacing:.1em;padding:4px 12px;border-radius:20px}
+
+    /* Layout: 3-column */
+    .app-layout{display:grid;grid-template-columns:300px 1fr 320px;min-height:calc(100vh - 56px);gap:0}
+
+    /* ── Left: Topic Browser ── */
+    .sidebar-left{background:var(--white);border-right:1px solid var(--border);padding:20px 0;overflow-y:auto;max-height:calc(100vh - 56px);position:sticky;top:56px}
+    .sidebar-section-title{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);padding:0 18px;margin-bottom:10px;margin-top:18px}
+    .sidebar-section-title:first-child{margin-top:0}
+    .voi-banner{background:var(--navy);color:#fff;padding:12px 18px;margin-bottom:8px}
+    .voi-banner-title{font-size:11px;letter-spacing:.08em;text-transform:uppercase;color:var(--teal-lt);margin-bottom:6px;font-weight:600}
+    .voi-top-item{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:0.78rem;color:#b8d8d4;cursor:pointer}
+    .voi-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+    .voi-dot.high{background:var(--voi-high)}
+    .voi-dot.med{background:var(--voi-med)}
+    .cluster-item{display:flex;align-items:center;gap:0;padding:8px 18px;cursor:pointer;transition:background .12s;border-left:3px solid transparent}
+    .cluster-item:hover{background:var(--teal-bg)}
+    .cluster-item.selected{background:var(--teal-bg);border-left-color:var(--teal)}
+    .cluster-name{flex:1;font-size:0.83rem;color:var(--ink)}
+    .cluster-count{font-size:10px;color:var(--muted);background:#F0EBE3;padding:2px 6px;border-radius:10px;margin-right:6px}
+    .cluster-voi{width:6px;height:6px;border-radius:50%;flex-shrink:0}
+    .cluster-voi.high{background:var(--voi-high)}
+    .cluster-voi.med{background:var(--voi-med)}
+    .cluster-voi.low{background:var(--voi-low)}
+    .cluster-voi.none{background:var(--border)}
+    .voi-legend{padding:6px 18px 12px;display:flex;gap:10px;flex-wrap:wrap}
+    .voi-leg-item{display:flex;align-items:center;gap:4px;font-size:10px;color:var(--muted)}
+    .search-clusters{margin:0 18px 12px;padding:7px 10px;border:1px solid var(--border);border-radius:6px;font-size:0.82rem;width:calc(100% - 36px);background:var(--cream);color:var(--ink)}
+    .search-clusters:focus{outline:none;border-color:var(--teal);background:#fff}
+
+    /* ── Center: Question Builder ── */
+    .main-area{padding:24px 28px;overflow-y:auto;max-height:calc(100vh - 56px)}
+    .page-header{margin-bottom:22px}
+    .page-header h1{font-family:Georgia,serif;font-size:1.5rem;font-weight:400;color:var(--navy);margin-bottom:6px}
+    .page-header p{font-size:0.86rem;color:var(--muted);line-height:1.6;max-width:580px}
+    .selected-cluster-header{background:var(--navy);color:#fff;border-radius:8px;padding:14px 18px;margin-bottom:18px;display:flex;align-items:center;justify-content:space-between}
+    .sch-name{font-family:Georgia,serif;font-size:1.0rem}
+    .sch-meta{font-size:11px;color:#A8C8BF;margin-top:3px}
+    .sch-voi-bar{display:flex;align-items:center;gap:8px;margin-top:8px}
+    .sch-voi-label{font-size:10px;color:#A8C8BF;white-space:nowrap}
+    .voi-track{flex:1;height:6px;background:rgba(255,255,255,.15);border-radius:3px;overflow:hidden}
+    .voi-fill{height:6px;border-radius:3px;transition:width .3s}
+
+    /* Tool tabs */
+    .tool-tabs{display:flex;gap:0;border:1px solid var(--border);border-radius:8px;overflow:hidden;margin-bottom:18px}
+    .tool-tab{flex:1;padding:9px 8px;text-align:center;cursor:pointer;font-size:11px;font-weight:600;color:var(--muted);background:var(--white);border-right:1px solid var(--border);transition:all .12s;letter-spacing:.04em}
+    .tool-tab:last-child{border-right:none}
+    .tool-tab:hover{background:var(--cream)}
+    .tool-tab.active{background:var(--teal);color:#fff}
+
+    /* Question builder form */
+    .builder-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:18px;margin-bottom:14px}
+    .builder-card h3{font-family:Georgia,serif;font-size:0.92rem;color:var(--navy);margin-bottom:12px}
+    .field-group{display:flex;flex-direction:column;gap:4px;margin-bottom:10px}
+    .field-label{font-size:11px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.06em}
+    .field-input,.field-textarea,.field-select{border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-family:Arial,sans-serif;font-size:0.83rem;color:var(--ink);background:var(--cream);resize:vertical;width:100%}
+    .field-input:focus,.field-textarea:focus,.field-select:focus{outline:none;border-color:var(--teal);background:#fff}
+    .field-hint{font-size:10px;color:var(--muted);line-height:1.4}
+    .template-row{display:flex;gap:8px;flex-wrap:wrap;margin-bottom:8px}
+    .template-chip{background:var(--teal-bg);border:1px solid #b2ddd4;color:var(--teal);font-size:11px;padding:3px 9px;border-radius:12px;cursor:pointer;transition:all .12s;font-family:Arial,sans-serif}
+    .template-chip:hover{background:var(--teal);color:#fff;border-color:var(--teal)}
+
+    /* Generated question */
+    .generated-question{background:var(--purple-lt);border:1px solid #c8b4e8;border-radius:8px;padding:14px 16px;margin-bottom:12px}
+    .gq-label{font-size:10px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:var(--purple);margin-bottom:8px}
+    .gq-text{font-size:0.86rem;color:var(--ink);line-height:1.65;font-family:Georgia,serif}
+    .gq-actions{display:flex;gap:8px;margin-top:10px;flex-wrap:wrap}
+    .btn-add-queue{background:var(--teal);color:#fff;border:none;padding:6px 14px;border-radius:5px;font-size:0.8rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif}
+    .btn-add-queue:hover{background:#1a5c4e}
+    .btn-copy{background:none;border:1px solid var(--border);color:var(--muted);padding:6px 12px;border-radius:5px;font-size:0.8rem;cursor:pointer;font-family:Arial,sans-serif}
+    .btn-copy:hover{border-color:var(--muted);color:var(--ink)}
+    .btn-generate{background:var(--amber);color:#fff;border:none;padding:9px 20px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;width:100%;margin-top:6px}
+    .btn-generate:hover{background:#c97020}
+
+    /* Best practices panel */
+    .bp-card{background:#FAFAF8;border:1px solid var(--border);border-radius:8px;padding:14px;margin-bottom:10px}
+    .bp-title{font-size:0.86rem;font-weight:600;color:var(--navy);margin-bottom:6px}
+    .bp-list{list-style:none}
+    .bp-list li{font-size:0.79rem;color:var(--ink);padding:3px 0;line-height:1.5}
+    .bp-list li::before{content:'✓ ';color:var(--teal);font-weight:700}
+    .bp-warn li::before{content:'⚠ ';color:var(--amber)}
+
+    /* ── Right: Question Queue ── */
+    .sidebar-right{background:var(--white);border-left:1px solid var(--border);padding:20px 0;overflow-y:auto;max-height:calc(100vh - 56px);position:sticky;top:56px}
+    .queue-header{padding:0 16px;margin-bottom:12px;display:flex;align-items:center;justify-content:space-between}
+    .queue-title{font-family:Georgia,serif;font-size:0.95rem;color:var(--navy)}
+    .queue-count{font-size:11px;background:var(--navy);color:#fff;padding:2px 7px;border-radius:10px}
+    .queue-tabs{display:flex;gap:0;margin:0 16px 12px;border:1px solid var(--border);border-radius:6px;overflow:hidden}
+    .queue-tab{flex:1;padding:6px 8px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--muted);background:var(--white);border-right:1px solid var(--border);transition:all .12s}
+    .queue-tab:last-child{border-right:none}
+    .queue-tab.active{background:var(--navy);color:#fff}
+    .queue-item{padding:10px 16px;border-bottom:1px solid var(--border);cursor:pointer;transition:background .12s}
+    .queue-item:hover{background:var(--cream)}
+    .queue-item.claimed{opacity:.6}
+    .qi-tool{font-size:10px;font-weight:600;text-transform:uppercase;letter-spacing:.06em;margin-bottom:3px}
+    .qi-text{font-size:0.79rem;color:var(--ink);line-height:1.45;margin-bottom:5px}
+    .qi-meta{display:flex;align-items:center;gap:8px;flex-wrap:wrap}
+    .qi-cluster{font-size:10px;background:#F0EBE3;color:var(--muted);padding:2px 6px;border-radius:8px}
+    .qi-votes{font-size:10px;color:var(--muted)}
+    .qi-actions{display:flex;gap:6px;margin-top:6px}
+    .btn-claim{font-size:10px;background:var(--teal);color:#fff;border:none;padding:3px 8px;border-radius:4px;cursor:pointer;font-family:Arial,sans-serif}
+    .btn-vote{font-size:10px;background:none;border:1px solid var(--border);color:var(--muted);padding:3px 8px;border-radius:4px;cursor:pointer;font-family:Arial,sans-serif}
+    .btn-vote:hover{border-color:var(--teal);color:var(--teal)}
+    .add-question-btn{margin:0 16px;width:calc(100% - 32px);border:1px dashed var(--teal);background:none;color:var(--teal);padding:8px;border-radius:6px;cursor:pointer;font-size:0.82rem;font-family:Arial,sans-serif;transition:all .12s}
+    .add-question-btn:hover{background:var(--teal-bg)}
+
+    /* Modal */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;align-items:center;justify-content:center}
+    .modal-overlay.open{display:flex}
+    .modal-box{background:var(--white);border-radius:12px;max-width:560px;width:92vw;max-height:86vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 8px 40px rgba(0,0,0,.22)}
+    .modal-head{background:var(--navy);color:#fff;padding:16px 22px;display:flex;align-items:center;justify-content:space-between}
+    .modal-head-title{font-family:Georgia,serif;font-size:1.0rem}
+    .modal-close{background:none;border:none;color:#A8C8BF;font-size:1.3rem;cursor:pointer;padding:4px 8px;border-radius:4px}
+    .modal-close:hover{color:#fff;background:rgba(255,255,255,.12)}
+    .modal-body{padding:18px 22px;overflow-y:auto;flex:1;font-size:0.86rem;line-height:1.65}
+    .modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end;gap:10px}
+    .btn-ok{background:var(--teal);color:#fff;border:none;padding:9px 22px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif}
+    .btn-cancel{background:none;border:1px solid var(--border);color:var(--muted);padding:9px 16px;border-radius:6px;font-size:0.85rem;cursor:pointer;font-family:Arial,sans-serif}
+    .callout-amber{background:var(--amber-lt);border-left:3px solid var(--amber);color:var(--amber-dk);padding:10px 14px;border-radius:0 6px 6px 0;font-size:0.83rem;line-height:1.6;margin-bottom:12px}
+    .quality-gate{background:#FFF3E0;border:1px solid #f0c080;border-radius:8px;padding:12px 14px;margin-bottom:12px;font-size:0.83rem;color:var(--amber-dk)}
+    .quality-gate-title{font-weight:600;margin-bottom:6px}
+    .quality-checklist{list-style:none}
+    .quality-checklist li{padding:3px 0;display:flex;align-items:center;gap:6px}
+    .quality-check{width:14px;height:14px;border:1px solid var(--amber);border-radius:3px;flex-shrink:0;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:10px;color:var(--amber)}
+    .quality-check.checked{background:var(--amber);color:#fff}
+    .version-badge{position:fixed;bottom:12px;right:16px;background:var(--navy);color:#A8C8BF;font-size:10px;padding:3px 8px;border-radius:4px;opacity:.6;z-index:50}
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-wordmark"><span class="nav-icon"></span><span class="nav-title">Knowledge <span class="nav-title-accent">Atlas</span></span></div>
+  <ul class="nav-links">
+    <li><a href="ka_demo_v04.html">Ask</a></li>
+    <li><a href="ka_gaps.html">Gaps</a></li>
+    <li><a href="ka_article_search.html">Articles</a></li>
+    <li><a href="ka_question_maker.html" class="active">Question Maker</a></li>
+  </ul>
+  <div class="nav-right"><span class="mode-pill">CONTRIBUTOR</span></div>
+</nav>
+
+<div class="app-layout">
+
+  <!-- ── LEFT: Topic Browser ── -->
+  <aside class="sidebar-left">
+    <div class="voi-banner">
+      <div class="voi-banner-title">⚡ Highest-VOI Gaps</div>
+      <div id="voiTop"></div>
+    </div>
+    <div class="sidebar-section-title">Topic Clusters</div>
+    <input class="search-clusters" type="text" placeholder="Filter clusters…" oninput="filterClusters(this.value)" id="clusterSearch">
+    <div id="clusterList"></div>
+    <div class="voi-legend">
+      <div class="voi-leg-item"><div class="cluster-voi high"></div> High VOI</div>
+      <div class="voi-leg-item"><div class="cluster-voi med"></div> Medium VOI</div>
+      <div class="voi-leg-item"><div class="cluster-voi low"></div> Well-covered</div>
+    </div>
+  </aside>
+
+  <!-- ── CENTER: Builder ── -->
+  <main class="main-area">
+    <div class="page-header">
+      <h1>Question Maker</h1>
+      <p>Select a topic cluster, choose a search tool, and build a well-formed question optimised for that tool. Add finished questions to the shared queue for the class to claim and run.</p>
+    </div>
+
+    <div id="clusterHeader" style="display:none"></div>
+
+    <!-- Tool selector -->
+    <div class="tool-tabs" id="toolTabs">
+      <div class="tool-tab active" onclick="selectTool('google')">🎓 Google AI Scholar</div>
+      <div class="tool-tab" onclick="selectTool('elicit')">⚗️ Elicit</div>
+      <div class="tool-tab" onclick="selectTool('consensus')">🤝 Consensus</div>
+      <div class="tool-tab" onclick="selectTool('pubmed')">📋 PubMed/Boolean</div>
+    </div>
+
+    <!-- Builder form -->
+    <div class="builder-card">
+      <h3 id="builderTitle">Build a Google AI Scholar question</h3>
+
+      <div class="field-group">
+        <label class="field-label">Population / Context</label>
+        <input type="text" class="field-input" id="fPopulation" placeholder="e.g. office workers in open-plan spaces, university students, remote workers">
+        <span class="field-hint">Who is experiencing the phenomenon? Be specific — "office workers" is better than "people".</span>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Independent Variable or Exposure</label>
+        <input type="text" class="field-input" id="fIV" placeholder="e.g. access to a window with a green view, exposure to natural light, ambient noise level">
+        <span class="field-hint">What is manipulated, varied, or compared? State a direction or comparison if possible.</span>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Dependent Variable or Outcome</label>
+        <input type="text" class="field-input" id="fDV" placeholder="e.g. sustained attention performance, self-reported fatigue, cortisol levels">
+        <span class="field-hint">What is measured? Use the construct name your target literature uses, not a lay synonym.</span>
+      </div>
+      <div class="field-group" id="mechanismGroup">
+        <label class="field-label">Proposed Mechanism (optional)</label>
+        <input type="text" class="field-input" id="fMechanism" placeholder="e.g. involuntary attention restoration, circadian rhythm entrainment, stress response suppression">
+        <span class="field-hint">Adding a mechanism focuses the search on theoretically relevant papers and reduces noise.</span>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Template starter (click to apply)</label>
+        <div class="template-row" id="templateRow"></div>
+      </div>
+
+      <div class="field-group">
+        <label class="field-label">Generated question (edit before adding to queue)</label>
+        <textarea class="field-textarea" id="generatedQ" rows="3" placeholder="Fill in the fields above, then click Generate →"></textarea>
+      </div>
+
+      <button class="btn-generate" onclick="generateQuestion()">Generate Question →</button>
+    </div>
+
+    <!-- Best practices for current tool -->
+    <div id="bestPracticesArea"></div>
+
+  </main>
+
+  <!-- ── RIGHT: Question Queue ── -->
+  <aside class="sidebar-right">
+    <div class="queue-header">
+      <div class="queue-title">Question Queue</div>
+      <span class="queue-count" id="queueCount">0</span>
+    </div>
+    <div class="queue-tabs">
+      <div class="queue-tab active" onclick="showQueueTab('all')">All</div>
+      <div class="queue-tab" onclick="showQueueTab('unclaimed')">Unclaimed</div>
+      <div class="queue-tab" onclick="showQueueTab('mine')">Mine</div>
+    </div>
+    <button class="add-question-btn" onclick="openAddQuestionModal()">+ Propose a question</button>
+    <div id="queueList"></div>
+  </aside>
+</div>
+
+<div class="version-badge">KA UI · v0.4</div>
+
+<!-- Add question modal (quality gate) -->
+<div class="modal-overlay" id="addQModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-title">Propose a Question to the Queue</div>
+      <button class="modal-close" onclick="closeModal('addQModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="quality-gate">
+        <div class="quality-gate-title">Quality gate — check all before submitting</div>
+        <ul class="quality-checklist" id="qualityChecklist">
+          <li><div class="quality-check" onclick="toggleCheck(this)"></div>The question includes a specific population or context</li>
+          <li><div class="quality-check" onclick="toggleCheck(this)"></div>The question names a dependent variable (what is measured)</li>
+          <li><div class="quality-check" onclick="toggleCheck(this)"></div>The question implies a comparison or manipulation, not just a correlation</li>
+          <li><div class="quality-check" onclick="toggleCheck(this)"></div>The question is not already in the queue (I have checked)</li>
+          <li><div class="quality-check" onclick="toggleCheck(this)"></div>The question targets a topic cluster with fewer than 30 papers in KA</li>
+        </ul>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Question text</label>
+        <textarea class="field-textarea" id="modalQText" rows="3" placeholder="Write the full question as it will be entered into the search tool"></textarea>
+      </div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+        <div class="field-group">
+          <label class="field-label">Target search tool</label>
+          <select class="field-input field-select" id="modalQTool">
+            <option>Google AI Scholar</option><option>Elicit</option><option>Consensus</option><option>PubMed Boolean</option><option>Any</option>
+          </select>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Topic cluster</label>
+          <select class="field-input field-select" id="modalQCluster"></select>
+        </div>
+      </div>
+      <div class="field-group">
+        <label class="field-label">Why does this question target a gap? (1–2 sentences)</label>
+        <textarea class="field-textarea" id="modalQRationale" rows="2" placeholder="e.g. KA has only 4 papers on thermal comfort and sustained attention, and none examine temperature × noise interactions."></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-cancel" onclick="closeModal('addQModal')">Cancel</button>
+      <button class="btn-ok" id="modalSubmitBtn" onclick="submitQuestion()">Add to Queue</button>
+    </div>
+  </div>
+</div>
+
+<!-- Confirm modal -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box" style="max-width:420px">
+    <div class="modal-head"><div class="modal-head-title" id="confirmTitle">Done</div><button class="modal-close" onclick="closeModal('confirmModal')">✕</button></div>
+    <div class="modal-body" id="confirmBody"></div>
+    <div class="modal-foot"><button class="btn-ok" onclick="closeModal('confirmModal')">OK</button></div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA: Paper clusters (sourced from Article_Eater paper_clusters)
+// ─────────────────────────────────────────────────────────────────────────────
+const CLUSTERS = [
+  {id:'art',name:'Attention Restoration Theory',n:47,voi:0.42,cat:'Cognitive'},
+  {id:'light_circ',name:'Lighting & Circadian Rhythms',n:38,voi:0.71,cat:'Physiological'},
+  {id:'cogload',name:'Cognitive Load & Workspace Design',n:52,voi:0.38,cat:'Cognitive'},
+  {id:'biophilia',name:'Biophilic Design',n:29,voi:0.68,cat:'Environmental'},
+  {id:'open_noise',name:'Open Office & Noise Distraction',n:34,voi:0.55,cat:'Environmental'},
+  {id:'nature_stress',name:'Nature Views & Stress Recovery',n:41,voi:0.48,cat:'Environmental'},
+  {id:'vdt_fatigue',name:'VDT Fatigue & Visual Ergonomics',n:27,voi:0.62,cat:'Physiological'},
+  {id:'thermal',name:'Temperature & Thermal Comfort',n:18,voi:0.79,cat:'Environmental'},
+  {id:'exec_fn',name:'Executive Function & Environment',n:31,voi:0.53,cat:'Cognitive'},
+  {id:'exercise',name:'Physical Activity & Cognition',n:23,voi:0.66,cat:'Physiological'},
+  {id:'color_space',name:'Color & Spatial Design',n:16,voi:0.74,cat:'Environmental'},
+  {id:'crowding',name:'Crowding & Social Density',n:19,voi:0.70,cat:'Environmental'},
+  {id:'plants',name:'Indoor Plants & Air Quality',n:14,voi:0.77,cat:'Environmental'},
+  {id:'neuro_pathways',name:'Neuroscience of Attention Pathways',n:9,voi:0.91,cat:'Neuroscience'},
+  {id:'default_mode',name:'Default Mode Network & Fatigue',n:7,voi:0.88,cat:'Neuroscience'},
+  {id:'lc_ne',name:'LC-NE System & Sustained Attention',n:6,voi:0.93,cat:'Neuroscience'},
+  {id:'pfc_env',name:'PFC Function & Environmental Load',n:11,voi:0.85,cat:'Neuroscience'},
+  {id:'multitask',name:'Multitasking & Task Switching',n:22,voi:0.58,cat:'Cognitive'},
+  {id:'replication',name:'Replication & Effect Sizes',n:31,voi:0.44,cat:'Methodology'},
+  {id:'wayfinding',name:'Wayfinding & Spatial Cognition',n:24,voi:0.46,cat:'Cognitive'},
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA: Templates per tool
+// ─────────────────────────────────────────────────────────────────────────────
+const TOOLS = {
+  google: {
+    label:'Google AI Scholar',
+    builderTitle:'Build a Google AI Scholar question',
+    templates:[
+      'Effect of [IV] on [DV] in [population]',
+      'Does [IV] cause [DV]? Evidence from [population]',
+      'Papers similar to [known paper] on [topic]',
+      'Studies that failed to replicate [finding] in [topic]',
+      'What is the mechanism linking [IV] to [DV]?',
+    ],
+    generate:(p,iv,dv,m)=>`What is the effect of ${iv||'[exposure]'} on ${dv||'[outcome]'} in ${p||'[population]'}?${m?' Specifically, studies examining whether ${m} explains the relationship.':''}`,
+    practices:[
+      {title:'Ask a full English question, not keywords','items':['Use complete sentences with a subject, verb, and object','Include population context: "in office workers" or "in knowledge workers"','State the comparison: "compared to [control condition]"']},
+      {title:'Seed with known papers',items:['Type "papers like Kaplan 1995 Attention Restoration" to find related work','Follow citation chains: "what cites [result]?" and "what does [result] cite?"']},
+      {title:'Ask for disagreement',items:['Try "Are there studies that challenge [well-known finding]?"','Try "meta-analyses with heterogeneous effect sizes for [topic]"']},
+    ],
+    warnings:['Cannot filter by date or database — verify publication dates manually','Results are not exhaustive — supplement with Elicit for systematic review']
+  },
+  elicit: {
+    label:'Elicit',
+    builderTitle:'Build an Elicit research question',
+    templates:[
+      'Does [IV] improve [DV] in [population]?',
+      'What is the effect size of [IV] on [DV] across studies?',
+      'Which studies compare [condition A] vs [condition B] on [DV]?',
+      'RCTs examining [IV] and [DV] published after 2000',
+      'Systematic reviews or meta-analyses of [topic]',
+    ],
+    generate:(p,iv,dv,m)=>`Does ${iv||'[exposure]'} improve ${dv||'[outcome]'} in ${p||'[population]'}?${m?' Studies testing whether the effect is mediated by ${m}.':''}`,
+    practices:[
+      {title:'Use hypothesis form',items:['State a directional prediction: "Does X improve Y?" works better than "X and Y"','Elicit extracts effect sizes — frame questions to elicit quantitative results']},
+      {title:'Use column extraction',items:['Request "sample size, effect size, study design" as columns for comparison','Filter by year (1995–present) to match KA inclusion criteria']},
+      {title:'Use the library DL link',items:['The direct library link on each result is the fastest PDF acquisition path','Available for all papers your institution subscribes to']},
+    ],
+    warnings:['API rate limit: ~100 queries/hour — batch carefully','Output is structured JSON — write a Python parser before running at scale']
+  },
+  consensus: {
+    label:'Consensus',
+    builderTitle:'Build a Consensus query',
+    templates:[
+      'Does [IV] cause [DV]?',
+      'Is there scientific consensus that [claim]?',
+      'Do [intervention] improve [outcome] in [population]?',
+      'What does research say about [topic]?',
+      'Are [factor A] and [factor B] causally linked?',
+    ],
+    generate:(p,iv,dv,m)=>`Does ${iv||'[exposure]'} cause ${dv||'[outcome]'} in ${p||'[population]'}?`,
+    practices:[
+      {title:'Use binary causal questions',items:['"Does X cause Y?" format returns a consensus rating (Yes / No / Mixed)','Best for contested claims where the literature is genuinely split']},
+      {title:'Access via Claude or Gemini chat',items:['In Claude: "Using Consensus, find studies on whether [X causes Y]"','Review the citations — do not rely on the confidence rating alone']},
+    ],
+    warnings:['Confidence ratings are summaries — read the underlying citations','Less suitable for nuanced questions with many moderating variables']
+  },
+  pubmed: {
+    label:'PubMed / Boolean',
+    builderTitle:'Build a PubMed Boolean query',
+    templates:[
+      '"[MeSH term]"[MeSH] AND "[MeSH term]"[MeSH]',
+      '([concept A] OR [synonym A]) AND ([concept B] OR [synonym B])',
+      '"[term]"[Title/Abstract] AND ("1995"[PDAT] : "3000"[PDAT])',
+      'systematic[sb] AND "[topic]"[MeSH]',
+      '"[author name]"[Author] AND "[topic]"',
+    ],
+    generate:(p,iv,dv,m)=>`("${iv||'attention restoration'}"[Title/Abstract] OR "${iv||'attention restoration'}"[MeSH]) AND ("${dv||'cognitive performance'}"[Title/Abstract]) AND ("${p||'workplace'}"[Title/Abstract]) AND ("1995"[PDAT] : "3000"[PDAT])`,
+    practices:[
+      {title:'Use MeSH terms for precision',items:['"Attention"[MeSH] is more precise than free text "attention"','Use MeSH tree to find related terms: e.g., "Work Environment"[MeSH] captures office, laboratory, industrial']},
+      {title:'Run cross-database searches',items:['The same Boolean query in PsycINFO and PubMed often returns different non-overlapping papers','Combine databases in Web of Science for broadest coverage']},
+    ],
+    warnings:['Boolean queries miss synonyms and related concepts — also run natural language versions','Export results as CSV with DOIs for batch submission to Article Propose']
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA: Question queue (seeded)
+// ─────────────────────────────────────────────────────────────────────────────
+let QUEUE = [
+  {id:1,text:'What is the effect of access to a green outdoor window view on sustained attention performance in office workers compared to windowless spaces?',tool:'Google AI Scholar',cluster:'nature_stress',votes:4,claimed:false,mine:false,rationale:'High VOI — only 8 papers in KA on window views and attention; none are RCTs.'},
+  {id:2,text:'Does exposure to warm white light (3000K) versus cool white light (6500K) during the workday improve afternoon reaction time in knowledge workers?',tool:'Elicit',cluster:'light_circ',votes:3,claimed:true,mine:false,rationale:'Circadian cluster is thin on direct reaction-time outcomes.'},
+  {id:3,text:'Is there scientific consensus that indoor plants in offices reduce self-reported cognitive fatigue?',tool:'Consensus',cluster:'plants',votes:2,claimed:false,mine:false,rationale:'Plants cluster has only 14 papers; consensus tool ideal for binary causal claim.'},
+  {id:4,text:'("locus coeruleus"[MeSH] OR "norepinephrine"[MeSH]) AND ("sustained attention"[Title/Abstract]) AND ("fatigue"[Title/Abstract]) AND ("1995"[PDAT] : "3000"[PDAT])',tool:'PubMed Boolean',cluster:'lc_ne',votes:6,claimed:false,mine:false,rationale:'LC-NE cluster critically underpopulated — 6 papers only.'},
+  {id:5,text:'What neural mechanisms explain why open office noise impairs focused cognitive work? Studies examining prefrontal cortex function and ambient sound.',tool:'Google AI Scholar',cluster:'pfc_env',votes:3,claimed:false,mine:false,rationale:'PFC cluster needs neuroscience literature to complement behavioral studies.'},
+  {id:6,text:'Do interventions that increase thermal comfort in offices (e.g., personal control over temperature) improve decision-making quality?',tool:'Elicit',cluster:'thermal',votes:5,claimed:false,mine:false,rationale:'Thermal cluster is the second-highest VOI in KA; nearly no executive function outcome papers.'},
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let selectedCluster = null;
+let selectedTool = 'google';
+let queueTab = 'all';
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER: Left sidebar
+// ─────────────────────────────────────────────────────────────────────────────
+function renderVOITop() {
+  const top = [...CLUSTERS].sort((a,b)=>b.voi-a.voi).slice(0,4);
+  document.getElementById('voiTop').innerHTML = top.map(c=>`
+    <div class="voi-top-item" onclick="selectCluster('${c.id}')">
+      <div class="voi-dot ${c.voi>=0.8?'high':'med'}"></div>
+      <span>${c.name} <span style="color:rgba(255,255,255,.4);font-size:10px">(${c.n} papers)</span></span>
+    </div>`).join('');
+}
+
+function renderClusters(filter='') {
+  const f = filter.toLowerCase();
+  const list = document.getElementById('clusterList');
+  const shown = CLUSTERS.filter(c=>!f||c.name.toLowerCase().includes(f)||c.cat.toLowerCase().includes(f));
+
+  // Group by category
+  const cats = [...new Set(shown.map(c=>c.cat))];
+  list.innerHTML = cats.map(cat=>`
+    <div class="sidebar-section-title">${cat}</div>
+    ${shown.filter(c=>c.cat===cat).map(c=>`
+      <div class="cluster-item${selectedCluster===c.id?' selected':''}" id="ci-${c.id}" onclick="selectCluster('${c.id}')">
+        <span class="cluster-name">${c.name}</span>
+        <span class="cluster-count">${c.n}</span>
+        <div class="cluster-voi ${c.voi>=0.75?'high':c.voi>=0.5?'med':c.voi>=0.3?'low':'none'}"></div>
+      </div>`).join('')}
+  `).join('');
+}
+
+function filterClusters(val) { renderClusters(val); }
+
+function selectCluster(id) {
+  selectedCluster = id;
+  const c = CLUSTERS.find(x=>x.id===id);
+  renderClusters(document.getElementById('clusterSearch').value);
+
+  const voiPct = Math.round(c.voi*100);
+  const voiColor = c.voi>=0.75?'#C0392B':c.voi>=0.5?'#E8872A':'#2A7868';
+  document.getElementById('clusterHeader').style.display='block';
+  document.getElementById('clusterHeader').innerHTML=`
+    <div class="selected-cluster-header">
+      <div>
+        <div class="sch-name">${c.name}</div>
+        <div class="sch-meta">${c.n} papers in KA · ${c.cat} · VOI ${voiPct}%</div>
+        <div class="sch-voi-bar">
+          <span class="sch-voi-label">Gap urgency</span>
+          <div class="voi-track"><div class="voi-fill" style="width:${voiPct}%;background:${voiColor}"></div></div>
+          <span style="font-size:11px;color:#A8C8BF;margin-left:6px">${voiPct}%</span>
+        </div>
+      </div>
+    </div>`;
+
+  // Pre-fill population from cluster
+  const populationHints = {
+    art:'office workers or students with access to natural environments',
+    light_circ:'knowledge workers exposed to artificial office lighting',
+    thermal:'office workers in climate-controlled workspaces',
+    plants:'workers in offices with and without indoor vegetation',
+    lc_ne:'human participants or animal models under sustained cognitive demand',
+    default_mode:'participants switching between focused and resting cognitive states',
+    neuro_pathways:'healthy adults performing sustained attention tasks',
+    pfc_env:'participants in high vs. low environmental demand conditions',
+    biophilia:'office workers or students in biophilic vs. conventional spaces',
+  };
+  if(populationHints[id]) document.getElementById('fPopulation').value=populationHints[id];
+  generateQuestion();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER: Builder
+// ─────────────────────────────────────────────────────────────────────────────
+function selectTool(key) {
+  selectedTool = key;
+  document.querySelectorAll('.tool-tab').forEach((t,i)=>{
+    const keys=['google','elicit','consensus','pubmed'];
+    t.classList.toggle('active',keys[i]===key);
+  });
+  const td = TOOLS[key];
+  document.getElementById('builderTitle').textContent = td.builderTitle;
+  document.getElementById('templateRow').innerHTML = td.templates.map(t=>
+    `<div class="template-chip" onclick="applyTemplate(\`${t.replace(/`/g,'\\`')}\`)">${t.slice(0,40)}${t.length>40?'…':''}</div>`
+  ).join('');
+  renderBestPractices();
+  generateQuestion();
+}
+
+function applyTemplate(t) {
+  document.getElementById('generatedQ').value = t;
+}
+
+function generateQuestion() {
+  const p=document.getElementById('fPopulation').value.trim();
+  const iv=document.getElementById('fIV').value.trim();
+  const dv=document.getElementById('fDV').value.trim();
+  const m=document.getElementById('fMechanism').value.trim();
+  const q = TOOLS[selectedTool].generate(p,iv,dv,m);
+  document.getElementById('generatedQ').value = q;
+}
+
+function renderBestPractices() {
+  const td = TOOLS[selectedTool];
+  const area = document.getElementById('bestPracticesArea');
+  area.innerHTML = `
+    <div style="font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:16px 0 8px">Best Practices: ${td.label}</div>
+    ${td.practices.map(p=>`
+      <div class="bp-card">
+        <div class="bp-title">${p.title}</div>
+        <ul class="bp-list">${p.items.map(i=>`<li>${i}</li>`).join('')}</ul>
+      </div>`).join('')}
+    <div class="bp-card" style="border-color:#f0c080">
+      <div class="bp-title" style="color:var(--amber-dk)">⚠ Watch out</div>
+      <ul class="bp-list bp-warn">${(td.warnings||[]).map(w=>`<li>${w}</li>`).join('')}</ul>
+    </div>
+    <div style="display:flex;gap:8px;margin-top:14px">
+      <button class="btn-add-queue" onclick="addGeneratedToQueue()">Add to Question Queue →</button>
+      <button class="btn-copy" onclick="copyGenerated()">Copy question</button>
+    </div>`;
+}
+
+function addGeneratedToQueue() {
+  const text = document.getElementById('generatedQ').value.trim();
+  if(!text||text.includes('[')) {
+    showConfirm('Fill in all fields','Please complete the population, IV, and DV fields before adding to the queue.');
+    return;
+  }
+  const cluster = selectedCluster || 'art';
+  const id = Date.now();
+  QUEUE.unshift({id,text,tool:TOOLS[selectedTool].label,cluster,votes:0,claimed:false,mine:true,rationale:'Added by you.'});
+  renderQueue();
+  showConfirm('Added to queue','Your question has been added to the shared queue. Others can vote for it or claim it to run.');
+}
+
+function copyGenerated() {
+  const text = document.getElementById('generatedQ').value;
+  navigator.clipboard.writeText(text).then(()=>showConfirm('Copied','Question copied to clipboard.'));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER: Queue
+// ─────────────────────────────────────────────────────────────────────────────
+function showQueueTab(tab) {
+  queueTab=tab;
+  document.querySelectorAll('.queue-tab').forEach((t,i)=>{
+    const tabs=['all','unclaimed','mine'];
+    t.classList.toggle('active',tabs[i]===tab);
+  });
+  renderQueue();
+}
+
+function renderQueue() {
+  let items = QUEUE;
+  if(queueTab==='unclaimed') items=QUEUE.filter(q=>!q.claimed);
+  if(queueTab==='mine') items=QUEUE.filter(q=>q.mine);
+
+  document.getElementById('queueCount').textContent=items.length;
+  const TOOL_COLORS={
+    'Google AI Scholar':'var(--teal)','Elicit':'var(--purple)',
+    'Consensus':'var(--rose)','PubMed Boolean':'var(--blue)'
+  };
+  document.getElementById('queueList').innerHTML = items.map(q=>{
+    const c = CLUSTERS.find(x=>x.id===q.cluster);
+    return `<div class="queue-item${q.claimed?' claimed':''}">
+      <div class="qi-tool" style="color:${TOOL_COLORS[q.tool]||'var(--teal)'}">${q.tool}${q.claimed?' · claimed':''}</div>
+      <div class="qi-text">${q.text.length>120?q.text.slice(0,120)+'…':q.text}</div>
+      <div class="qi-meta">
+        <span class="qi-cluster">${c?c.name:q.cluster}</span>
+        <span class="qi-votes">▲ ${q.votes}</span>
+      </div>
+      <div class="qi-actions">
+        ${q.claimed?'<span style="font-size:10px;color:var(--muted)">In progress</span>':`<button class="btn-claim" onclick="claimQ(${q.id})">Claim</button>`}
+        <button class="btn-vote" onclick="voteQ(${q.id})">▲ Vote</button>
+        <button class="btn-vote" onclick="copyQ(${q.id})">Copy</button>
+      </div>
+    </div>`;
+  }).join('');
+}
+
+function claimQ(id) {
+  const q=QUEUE.find(x=>x.id===id);
+  if(q){q.claimed=true;q.mine=true;}
+  renderQueue();
+  showConfirm('Question claimed','This question is now assigned to you. Run it in the specified tool and submit your results via the Article Propose form.');
+}
+function voteQ(id) {
+  const q=QUEUE.find(x=>x.id===id);
+  if(q)q.votes++;
+  renderQueue();
+}
+function copyQ(id) {
+  const q=QUEUE.find(x=>x.id===id);
+  if(q)navigator.clipboard.writeText(q.text).then(()=>showConfirm('Copied',q.text));
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Add question modal
+// ─────────────────────────────────────────────────────────────────────────────
+function openAddQuestionModal() {
+  // Populate cluster select
+  const sel = document.getElementById('modalQCluster');
+  sel.innerHTML = CLUSTERS.map(c=>`<option value="${c.id}">${c.name} (${c.n})</option>`).join('');
+  document.getElementById('addQModal').classList.add('open');
+}
+
+function toggleCheck(el) {
+  el.classList.toggle('checked');
+  el.textContent = el.classList.contains('checked') ? '✓' : '';
+  const all = document.querySelectorAll('#qualityChecklist .quality-check');
+  const allChecked = [...all].every(c=>c.classList.contains('checked'));
+  document.getElementById('modalSubmitBtn').style.background = allChecked?'var(--teal)':'#ccc';
+}
+
+function submitQuestion() {
+  const checks = document.querySelectorAll('#qualityChecklist .quality-check');
+  const allOk = [...checks].every(c=>c.classList.contains('checked'));
+  if(!allOk){showConfirm('Quality gate','Please check all five quality criteria before submitting.');return;}
+  const text = document.getElementById('modalQText').value.trim();
+  const tool = document.getElementById('modalQTool').value;
+  const cluster = document.getElementById('modalQCluster').value;
+  if(!text){showConfirm('Required','Please write the question text.');return;}
+  QUEUE.unshift({id:Date.now(),text,tool,cluster,votes:0,claimed:false,mine:true,rationale:document.getElementById('modalQRationale').value});
+  closeModal('addQModal');
+  renderQueue();
+  showConfirm('Question added','Your question has passed the quality gate and been added to the shared queue.');
+}
+
+function showConfirm(title,body) {
+  document.getElementById('confirmTitle').textContent=title;
+  document.getElementById('confirmBody').innerHTML=`<p style="color:var(--muted);font-size:0.85rem;line-height:1.6">${body}</p>`;
+  document.getElementById('confirmModal').classList.add('open');
+}
+function closeModal(id){document.getElementById(id).classList.remove('open');}
+['addQModal','confirmModal'].forEach(id=>{
+  document.getElementById(id).addEventListener('click',function(e){if(e.target===this)closeModal(id);});
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+renderVOITop();
+renderClusters();
+selectTool('google');
+renderQueue();
+</script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

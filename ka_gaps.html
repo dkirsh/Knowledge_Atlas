@@ -1,0 +1,1278 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Research Gap Explorer · Knowledge Atlas</title>
+    <style>
+        /* === DESIGN SYSTEM === */
+        :root {
+            --navy: #1C3D3A;
+            --teal: #2A7868;
+            --teal-light: #E0F2EE;
+            --amber: #E8872A;
+            --amber-dark: #C05A1F;
+            --amber-light: #FFF4E6;
+            --cream: #F7F4EF;
+            --gold: #F5A623;
+            --white: #FFFFFF;
+            --border: #E0DAD3;
+            --purple: #5C3A7E;
+            --purple-light: #F3EEF9;
+            --red: #C1464F;
+            --green-accent: #4A8C6E;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            height: 100%;
+            font-family: Georgia, serif;
+            color: var(--navy);
+            background-color: var(--cream);
+        }
+
+        /* === STICKY NAV === */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            height: 56px;
+            background-color: var(--navy);
+            display: flex;
+            align-items: center;
+            padding: 0 24px;
+            gap: 32px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+        }
+
+        .wordmark {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: bold;
+            font-size: 1.1rem;
+        }
+
+        .wordmark-main {
+            color: var(--gold);
+            letter-spacing: -0.5px;
+        }
+
+        .wordmark-sub {
+            color: rgba(255,255,255,0.6);
+            font-size: 0.8rem;
+            font-family: Arial, sans-serif;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 24px;
+            align-items: center;
+            flex: 1;
+        }
+
+        .nav-links a {
+            color: rgba(255,255,255,0.85);
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--gold);
+        }
+
+        .mode-pill {
+            margin-left: auto;
+            background-color: rgba(74, 140, 110, 0.2);
+            color: var(--green-accent);
+            padding: 4px 12px;
+            border-radius: 16px;
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            border: 1px solid var(--green-accent);
+        }
+
+        /* === VERSION BADGE === */
+        .version-badge {
+            position: fixed;
+            bottom: 16px;
+            right: 16px;
+            background-color: var(--navy);
+            color: var(--gold);
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 0.65rem;
+            font-weight: bold;
+            z-index: 99;
+            letter-spacing: 0.5px;
+        }
+
+        /* === HERO SECTION === */
+        .hero {
+            background: linear-gradient(135deg, var(--teal-light) 0%, rgba(42, 120, 104, 0.1) 100%);
+            padding: 40px 24px;
+            text-align: center;
+            border-bottom: 2px solid var(--border);
+        }
+
+        .hero h1 {
+            font-size: 2rem;
+            margin-bottom: 8px;
+            color: var(--navy);
+        }
+
+        .hero p {
+            font-size: 1rem;
+            color: var(--teal);
+            margin-bottom: 24px;
+        }
+
+        .hero-controls {
+            display: flex;
+            gap: 16px;
+            justify-content: center;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .search-box {
+            padding: 8px 16px;
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            width: 280px;
+            background-color: var(--white);
+        }
+
+        .search-box:focus {
+            outline: none;
+            border-color: var(--teal);
+            box-shadow: 0 0 4px rgba(42, 120, 104, 0.2);
+        }
+
+        .gap-count {
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            color: var(--navy);
+            background-color: rgba(255, 255, 255, 0.7);
+            padding: 6px 12px;
+            border-radius: 4px;
+        }
+
+        /* === MAIN CONTAINER === */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 24px;
+            padding: 24px;
+            min-height: calc(100vh - 56px - 200px);
+        }
+
+        /* === FILTER PANEL === */
+        .filter-panel {
+            width: 300px;
+            flex-shrink: 0;
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+            max-height: calc(100vh - 120px);
+            overflow-y: auto;
+        }
+
+        .filter-section {
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            padding: 16px;
+            margin-bottom: 16px;
+        }
+
+        .filter-section h3 {
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--navy);
+            margin-bottom: 12px;
+            letter-spacing: 0.5px;
+        }
+
+        .chip-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .chip {
+            padding: 6px 12px;
+            border-radius: 4px;
+            border: 2px solid transparent;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            text-align: center;
+            transition: all 0.2s;
+        }
+
+        .chip:hover {
+            opacity: 0.8;
+        }
+
+        .chip.active {
+            border-color: var(--navy);
+            font-weight: bold;
+        }
+
+        /* Gap type colors */
+        .chip-untested {
+            background-color: var(--purple-light);
+            color: var(--purple);
+        }
+
+        .chip-credence {
+            background-color: var(--amber-light);
+            color: var(--amber-dark);
+        }
+
+        .chip-measurement {
+            background-color: var(--teal-light);
+            color: var(--teal);
+        }
+
+        .chip-conflict {
+            background-color: rgba(193, 70, 79, 0.1);
+            color: var(--red);
+        }
+
+        .chip-context {
+            background-color: rgba(28, 61, 58, 0.1);
+            color: var(--navy);
+        }
+
+        /* VOI and other chips */
+        .chip-voi-high {
+            background-color: rgba(74, 140, 110, 0.15);
+            color: var(--green-accent);
+        }
+
+        .chip-voi-medium {
+            background-color: var(--amber-light);
+            color: var(--amber-dark);
+        }
+
+        .chip-voi-low {
+            background-color: rgba(193, 70, 79, 0.1);
+            color: var(--red);
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            cursor: pointer;
+            font-size: 0.9rem;
+        }
+
+        .checkbox-item input {
+            cursor: pointer;
+            accent-color: var(--teal);
+        }
+
+        /* === CARDS AREA === */
+        .cards-area {
+            flex: 1;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(500px, 1fr));
+            gap: 20px;
+            auto-rows: max-content;
+        }
+
+        @media (max-width: 1200px) {
+            .cards-area {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* === GAP CARDS === */
+        .gap-card {
+            background-color: var(--white);
+            border: 1px solid var(--border);
+            border-radius: 4px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+            transition: all 0.2s;
+            position: relative;
+        }
+
+        .gap-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+        }
+
+        .gap-card-type-strip {
+            height: 4px;
+            width: 100%;
+        }
+
+        .gap-card-untested .gap-card-type-strip {
+            background-color: var(--purple);
+        }
+
+        .gap-card-credence .gap-card-type-strip {
+            background-color: var(--amber);
+        }
+
+        .gap-card-measurement .gap-card-type-strip {
+            background-color: var(--teal);
+        }
+
+        .gap-card-conflict .gap-card-type-strip {
+            background-color: var(--red);
+        }
+
+        .gap-card-context .gap-card-type-strip {
+            background-color: var(--navy);
+        }
+
+        .gap-card-header {
+            padding: 16px;
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            gap: 12px;
+        }
+
+        .gap-card-title {
+            font-size: 1rem;
+            font-weight: bold;
+            color: var(--navy);
+            margin-bottom: 8px;
+            flex: 1;
+        }
+
+        .gap-card-bookmark {
+            background: none;
+            border: none;
+            font-size: 1.2rem;
+            cursor: pointer;
+            padding: 0;
+            color: #CCC;
+            transition: color 0.2s;
+        }
+
+        .gap-card-bookmark:hover,
+        .gap-card-bookmark.bookmarked {
+            color: var(--gold);
+        }
+
+        .gap-card-description {
+            font-size: 0.9rem;
+            line-height: 1.6;
+            color: #444;
+            margin-bottom: 12px;
+            padding: 0 16px;
+        }
+
+        .gap-card-metadata {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            padding: 0 16px;
+            margin-bottom: 12px;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+        }
+
+        .metadata-badge {
+            padding: 4px 8px;
+            border-radius: 3px;
+            background-color: var(--teal-light);
+            color: var(--teal);
+            font-weight: bold;
+        }
+
+        .metadata-badge.context {
+            background-color: var(--amber-light);
+            color: var(--amber-dark);
+        }
+
+        .metadata-badge.voi-high {
+            background-color: rgba(74, 140, 110, 0.15);
+            color: var(--green-accent);
+        }
+
+        .metadata-badge.voi-medium {
+            background-color: var(--amber-light);
+            color: var(--amber-dark);
+        }
+
+        .metadata-badge.voi-low {
+            background-color: rgba(193, 70, 79, 0.1);
+            color: var(--red);
+        }
+
+        .credence-section {
+            padding: 12px 16px;
+            background-color: rgba(230, 242, 238, 0.5);
+            border-top: 1px solid var(--border);
+            border-bottom: 1px solid var(--border);
+            margin: 12px 0;
+            font-family: Arial, sans-serif;
+        }
+
+        .credence-label {
+            font-size: 0.75rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            color: var(--navy);
+            margin-bottom: 6px;
+            letter-spacing: 0.5px;
+        }
+
+        .credence-bar-container {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        .credence-bar {
+            flex: 1;
+            height: 8px;
+            background-color: #DDD;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        .credence-bar-fill {
+            height: 100%;
+            background-color: var(--teal);
+            border-radius: 4px;
+        }
+
+        .credence-value {
+            font-weight: bold;
+            color: var(--navy);
+            min-width: 40px;
+            font-size: 0.85rem;
+        }
+
+        .credence-note {
+            font-size: 0.8rem;
+            color: #666;
+            margin-top: 4px;
+            font-style: italic;
+        }
+
+        .why-matters {
+            display: none;
+            padding: 12px 16px;
+            background-color: var(--purple-light);
+            border-left: 3px solid var(--teal);
+            margin: 0 16px 12px 16px;
+            border-radius: 2px;
+        }
+
+        .why-matters.open {
+            display: block;
+        }
+
+        .why-matters-content {
+            font-size: 0.85rem;
+            line-height: 1.5;
+            color: #333;
+        }
+
+        .why-matters-toggle {
+            padding: 12px 16px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            color: var(--teal);
+            font-weight: bold;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            text-align: left;
+        }
+
+        .why-matters-toggle:hover {
+            color: var(--navy);
+        }
+
+        .card-actions {
+            display: flex;
+            gap: 8px;
+            padding: 12px 16px;
+            border-top: 1px solid var(--border);
+        }
+
+        .btn {
+            flex: 1;
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            font-weight: bold;
+            text-transform: uppercase;
+            transition: all 0.2s;
+            text-decoration: none;
+            text-align: center;
+            display: inline-block;
+            letter-spacing: 0.5px;
+        }
+
+        .btn-primary {
+            background-color: var(--teal);
+            color: var(--white);
+        }
+
+        .btn-primary:hover {
+            background-color: var(--navy);
+        }
+
+        .btn-secondary {
+            background-color: rgba(42, 120, 104, 0.1);
+            color: var(--teal);
+            border: 1px solid var(--teal);
+        }
+
+        .btn-secondary:hover {
+            background-color: var(--teal-light);
+        }
+
+        /* === NO RESULTS === */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 48px 24px;
+            color: #999;
+        }
+
+        .no-results h2 {
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+            color: var(--navy);
+        }
+
+        /* === RESPONSIVE === */
+        @media (max-width: 900px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .filter-panel {
+                width: 100%;
+                position: relative;
+                top: 0;
+                max-height: none;
+            }
+
+            .cards-area {
+                grid-template-columns: 1fr;
+            }
+
+            .nav-links {
+                gap: 12px;
+            }
+
+            .nav-links a {
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 600px) {
+            nav {
+                padding: 0 12px;
+                gap: 12px;
+            }
+
+            .wordmark {
+                font-size: 0.9rem;
+            }
+
+            .nav-links {
+                display: none;
+            }
+
+            .mode-pill {
+                margin-left: 0;
+            }
+
+            .hero {
+                padding: 24px 12px;
+            }
+
+            .hero h1 {
+                font-size: 1.5rem;
+            }
+
+            .hero-controls {
+                flex-direction: column;
+            }
+
+            .search-box {
+                width: 100%;
+            }
+
+            .container {
+                padding: 12px;
+                gap: 12px;
+            }
+
+            .filter-section {
+                padding: 12px;
+                margin-bottom: 12px;
+            }
+        }
+
+        /* === SCROLLBAR STYLING === */
+        .filter-panel::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .filter-panel::-webkit-scrollbar-track {
+            background: var(--cream);
+        }
+
+        .filter-panel::-webkit-scrollbar-thumb {
+            background: var(--border);
+            border-radius: 3px;
+        }
+
+        .filter-panel::-webkit-scrollbar-thumb:hover {
+            background: var(--teal);
+        }
+    </style>
+</head>
+<body>
+    <!-- STICKY NAV -->
+    <nav>
+        <div class="wordmark">
+            <span class="wordmark-main">Knowledge Atlas</span>
+            <span class="wordmark-sub">COGS 160</span>
+        </div>
+        <div class="nav-links">
+            <a href="ka_demo_v04.html">Ask</a>
+            <a href="ka_evidence.html">Evidence</a>
+            <a href="ka_hypothesis_builder.html">Build</a>
+            <a href="ka_tagger.html">Tag</a>
+            <a href="ka_articles.html">Articles</a>
+            <a href="ka_datacapture.html">Capture</a>
+        </div>
+        <div class="mode-pill">RESEARCHER</div>
+    </nav>
+
+    <!-- HERO SECTION -->
+    <section class="hero">
+        <h1>Research Gap Explorer</h1>
+        <p>Discover where new studies would have the highest Value of Information</p>
+        <div class="hero-controls">
+            <input type="text" id="searchBox" class="search-box" placeholder="Filter gaps by title or description...">
+            <div class="gap-count">
+                <span id="gapCount">16</span> gaps
+            </div>
+        </div>
+    </section>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <!-- FILTER PANEL -->
+        <aside class="filter-panel">
+            <!-- Gap Type Filter -->
+            <div class="filter-section">
+                <h3>Gap Type</h3>
+                <div class="chip-group">
+                    <button class="chip chip-untested" data-filter-type="untested">Untested Prediction</button>
+                    <button class="chip chip-credence" data-filter-type="credence">Low Credence Claim</button>
+                    <button class="chip chip-measurement" data-filter-type="measurement">Measurement Gap</button>
+                    <button class="chip chip-conflict" data-filter-type="conflict">Inter-finding Conflict</button>
+                    <button class="chip chip-context" data-filter-type="context">Context Gap</button>
+                </div>
+            </div>
+
+            <!-- Construct Area Filter -->
+            <div class="filter-section">
+                <h3>Construct Area</h3>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="sustained-attention">
+                        Sustained Attention
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="stress">
+                        Stress & Allostasis
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="social-rapport">
+                        Social Rapport
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="wm-load">
+                        Working Memory Load
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="awe">
+                        Awe & Wonder
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="flow">
+                        Flow State
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="valence">
+                        Emotional Valence
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="well-being">
+                        Psychological Well-being
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="ltm">
+                        Long-Term Memory
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="social-dominance">
+                        Social Dominance
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="construct" value="creativity">
+                        Creativity
+                    </label>
+                </div>
+            </div>
+
+            <!-- VOI Filter -->
+            <div class="filter-section">
+                <h3>Value of Information</h3>
+                <div class="chip-group">
+                    <button class="chip chip-voi-high" data-filter-voi="high">High</button>
+                    <button class="chip chip-voi-medium" data-filter-voi="medium">Medium</button>
+                    <button class="chip chip-voi-low" data-filter-voi="low">Low</button>
+                </div>
+            </div>
+
+            <!-- Spatial Context Filter -->
+            <div class="filter-section">
+                <h3>Spatial Context</h3>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="context" value="open-plan">
+                        Open-plan Office
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="context" value="private">
+                        Private Office
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="context" value="atrium">
+                        Atrium/Lobby
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="context" value="outdoor">
+                        Outdoor Space
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="context" value="transit">
+                        Transit Space
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="context" value="residential">
+                        Residential
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="context" value="healthcare">
+                        Healthcare
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" name="context" value="educational">
+                        Educational
+                    </label>
+                </div>
+            </div>
+
+            <!-- Sort Control -->
+            <div class="filter-section">
+                <h3>Sort Order</h3>
+                <label class="checkbox-item">
+                    <input type="checkbox" id="sortByVoi" checked>
+                    Sort by Value of Information
+                </label>
+            </div>
+        </aside>
+
+        <!-- CARDS AREA -->
+        <div id="cardsContainer" class="cards-area"></div>
+    </div>
+
+    <!-- VERSION BADGE -->
+    <div class="version-badge">KA UI · v0.4</div>
+
+    <script>
+        // === GAP DATA ===
+        const gaps = [
+            {
+                id: 1,
+                type: 'untested',
+                title: 'Attention Restoration Theory in Multi-Hour Work Sessions',
+                description: 'Attention Restoration Theory has been tested extensively in 10–20 minute recovery paradigms, yet the evidence for sustained benefit across multi-hour work sessions with continuous behavioral performance measurement remains absent. The theoretical prediction is clear: extended natural views should enable recovery even during prolonged cognitive tasks.',
+                construct: 'sustained-attention',
+                context: 'open-plan',
+                voi: 'high',
+                credence: 0.55,
+                whyMatters: 'If ART operates only in short windows, workplace design interventions may need fundamentally different recovery architecture. Understanding the temporal boundary would reshape how we design work environments for knowledge workers.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=1',
+                evidenceLink: 'ka_evidence.html?construct=sustained-attention&context=open-plan'
+            },
+            {
+                id: 2,
+                type: 'credence',
+                title: 'Plants Reduce Psychological Stress in Offices',
+                description: 'Questionnaire evidence shows small to moderate effects of office plants on reported stress (d ≈ 0.3), but this finding has never been replicated using multi-signal psychophysiological measurement combining cortisol and electrodermal activity. The current evidence base rests on self-report alone.',
+                construct: 'stress',
+                context: 'open-plan',
+                voi: 'medium',
+                credence: 0.48,
+                whyMatters: 'Biophilic design is increasingly adopted in workplace policy. A robust psychophysiological replication would either validate or challenge billions of dollars in green office investment decisions.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=2',
+                evidenceLink: 'ka_evidence.html?construct=stress&context=open-plan'
+            },
+            {
+                id: 3,
+                type: 'measurement',
+                title: 'Physiological Synchrony as Rapport Index in Co-working Spaces',
+                description: 'Wearable multi-person physiological synchrony—joint variations in heart rate, skin conductance, and respiration—has been validated as an indicator of rapport in laboratory dyads. However, this measurement approach has not been deployed in naturalistic co-working environments where rapport actually matters professionally.',
+                construct: 'social-rapport',
+                context: 'open-plan',
+                voi: 'high',
+                credence: 0.65,
+                whyMatters: 'If synchrony can be measured reliably in the field, it opens entirely new approaches to understanding collaboration dynamics and designing spaces that support productive partnership.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=3',
+                evidenceLink: 'ka_evidence.html?construct=social-rapport&context=open-plan'
+            },
+            {
+                id: 4,
+                type: 'conflict',
+                title: 'EDA and Cognitive Load: Lab Versus Field Discrepancy',
+                description: 'Electrodermal activity (EDA) is a reliable index of working memory load in laboratory N-back tasks, yet field studies of workers in naturalistic settings show inconsistent relationships between EDA and load. The source of this discrepancy is unresolved: is it laboratory control artifact masking real ecological boundaries, or genuine moderating factors in the field?',
+                construct: 'wm-load',
+                context: 'multiple',
+                voi: 'high',
+                credence: 0.58,
+                whyMatters: 'This conflict directly affects whether wearable EDA sensors can be deployed in workplace monitoring systems. Resolving it is essential for translating neuroscience findings into practice.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=4',
+                evidenceLink: 'ka_evidence.html?construct=wm-load'
+            },
+            {
+                id: 5,
+                type: 'untested',
+                title: 'Frontal Theta as Workload Monitor During Architectural Design Tasks',
+                description: 'Frontal theta oscillations (4–7 Hz) are validated as a real-time index of working memory load in laboratory N-back paradigms. The prediction is straightforward: wearable EEG should detect frontal theta elevation during complex architectural design work. Yet this prediction has never been tested in naturalistic design studio settings.',
+                construct: 'wm-load',
+                context: 'educational',
+                voi: 'medium',
+                credence: 0.60,
+                whyMatters: 'Design studios increasingly experiment with real-time neurofeedback for cognitive load. A validated field deployment would enable designers to monitor their own cognitive state and adjust task complexity dynamically.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=5',
+                evidenceLink: 'ka_evidence.html?construct=wm-load&context=educational'
+            },
+            {
+                id: 6,
+                type: 'context',
+                title: 'Awe in Architectural Atria: Physiological Study',
+                description: 'The awe response has been extensively documented in laboratory experiments using video stimuli, photographs, and immersive environments. Yet no study has measured the physiological correlates of awe—corrugator EMG, skin conductance, pupil dilation—in response to actually standing within a physically present architectural space designed to evoke awe.',
+                construct: 'awe',
+                context: 'atrium',
+                voi: 'high',
+                credence: 0.50,
+                whyMatters: 'Architects claim that scale and volume generate awe. Physiological measurement in actual spaces would either validate this intuition or reveal that awe in situ operates through entirely different mechanisms than in laboratory stimuli.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=6',
+                evidenceLink: 'ka_evidence.html?construct=awe&context=atrium'
+            },
+            {
+                id: 7,
+                type: 'credence',
+                title: 'Open-plan Noise Increases Cortisol',
+                description: 'Three studies have examined the effect of open-plan office noise on salivary cortisol; two report positive effects and one null. Samples are heterogeneous, and no study has adopted pre-registered replication protocols. The current evidence base shows apparent effectiveness but lacks the methodological consistency needed for high credence.',
+                construct: 'stress',
+                context: 'open-plan',
+                voi: 'high',
+                credence: 0.52,
+                whyMatters: 'Cortisol elevation is a marker of chronic stress with health consequences. A robust replication would clarify whether open-plan design itself poses physiological risk or whether the effect is conditional on unmeasured moderators.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=7',
+                evidenceLink: 'ka_evidence.html?construct=stress&context=open-plan'
+            },
+            {
+                id: 8,
+                type: 'measurement',
+                title: 'Flow State in Complex Spatial Navigation Tasks',
+                description: 'The Flow State Scale (FSS) is validated for sports and creative work but was designed with those domains in mind. No validated measurement instrument for flow exists in navigation and wayfinding contexts. This measurement gap leaves the question of flow during complex spatial cognition entirely open.',
+                construct: 'flow',
+                context: 'educational',
+                voi: 'medium',
+                credence: 0.45,
+                whyMatters: 'If navigation can induce flow, architectural experience becomes a domain of psychological optimization. Developing sensitive flow measures would unlock new research on how spatial design affects engagement and learning.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=8',
+                evidenceLink: 'ka_evidence.html?construct=flow&context=educational'
+            },
+            {
+                id: 9,
+                type: 'conflict',
+                title: 'Nature View Versus Daylight: Which Matters for Cognitive Performance?',
+                description: 'Studies consistently show that both outdoor views and daylight access correlate with improved cognitive performance in office workers. However, every study confounds these factors—workers with views also have greater daylight access. The relative contribution of each factor to performance gains remains completely unresolved.',
+                construct: 'sustained-attention',
+                context: 'open-plan',
+                voi: 'high',
+                credence: 0.55,
+                whyMatters: 'Building codes and workplace standards are based partly on the assumption that views matter. If daylight is the actual mechanism, design priorities would shift from window placement to light access and potentially away from views themselves.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=9',
+                evidenceLink: 'ka_evidence.html?construct=sustained-attention&context=open-plan'
+            },
+            {
+                id: 10,
+                type: 'untested',
+                title: 'Allostatic Load Accumulation Across a Working Day',
+                description: 'Bruce McEwen\'s allostatic load model predicts measurable cumulative physiological wear—captured by HPA axis output, inflammatory markers, and autonomic balance—across the working day. The model further predicts a larger cumulative response in open-plan versus private office workers. Yet no full-day longitudinal cortisol and inflammatory study with this design exists.',
+                construct: 'stress',
+                context: 'open-plan',
+                voi: 'high',
+                credence: 0.50,
+                whyMatters: 'If open-plan offices genuinely accumulate allostatic load, they represent a measurable occupational health hazard. Evidence would reshape policy on workspace allocation and occupational wellness standards.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=10',
+                evidenceLink: 'ka_evidence.html?construct=stress&context=open-plan'
+            },
+            {
+                id: 11,
+                type: 'context',
+                title: 'Emotional Valence During Spatial Transition Sequences in Healthcare',
+                description: 'The valence dimension of emotion can be measured continuously using corrugator supercilii EMG and the Self-Assessment Manikin (SAM). Healthcare design theory predicts that moving through carefully designed spatial sequences should evoke increasing positive valence. No study has tracked this prediction across the actual spatial transitions within a hospital.',
+                construct: 'valence',
+                context: 'healthcare',
+                voi: 'medium',
+                credence: 0.40,
+                whyMatters: 'Healthcare environments are known stressors. If spatial design can systematically elevate emotional tone through transitions, that mechanism becomes a concrete tool for wayfinding and patient experience.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=11',
+                evidenceLink: 'ka_evidence.html?construct=valence&context=healthcare'
+            },
+            {
+                id: 12,
+                type: 'credence',
+                title: 'Biophilic Design Elements: Individual Versus Combined Effects',
+                description: 'Biophilic design studies test presence versus absence of elements (plants, water, sunlight, natural materials). None systematically vary the number or combination of elements to identify dose-response relationships. Current evidence cannot distinguish whether one well-designed element suffices or whether multiple elements interact synergistically.',
+                construct: 'well-being',
+                context: 'open-plan',
+                voi: 'medium',
+                credence: 0.45,
+                whyMatters: 'Design decisions about biophilic density directly affect cost and feasibility. A dose-response relationship would allow cost-benefit optimization and clarify minimum thresholds for effectiveness.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=12',
+                evidenceLink: 'ka_evidence.html?construct=well-being&context=open-plan'
+            },
+            {
+                id: 13,
+                type: 'measurement',
+                title: 'LTM Consolidation Differences in High Versus Low-Distraction Environments',
+                description: 'Learning and memory research demonstrates consolidation benefits of low-distraction environments, yet studies rely on laboratory learning tasks, not CNFA-style spatial contexts. No recognition memory paradigm exists that contrasts consolidation in matched high-distraction versus low-distraction office conditions.',
+                construct: 'ltm',
+                context: 'open-plan',
+                voi: 'medium',
+                credence: 0.50,
+                whyMatters: 'If office design measurably affects memory consolidation, it becomes a mechanism for understanding workplace productivity. Current evidence exists only in educational contexts, not professional work.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=13',
+                evidenceLink: 'ka_evidence.html?construct=ltm&context=open-plan'
+            },
+            {
+                id: 14,
+                type: 'untested',
+                title: 'Dominant Speakers Show Higher Testosterone:Cortisol Ratio Before Group Design Critiques',
+                description: 'The testosterone-to-cortisol ratio predicts social dominance behavior in competitive contexts (games, contests). The prediction extends naturally to creative professional contexts: speakers dominating group design critiques should display elevated T:C ratio beforehand. Yet this hypothesis has been tested only in zero-sum competitive games, never in the collaborative conflict of professional design feedback.',
+                construct: 'social-dominance',
+                context: 'educational',
+                voi: 'low',
+                credence: 0.42,
+                whyMatters: 'If validated, T:C measurement would offer a physiological marker of emerging group hierarchy. This matters for understanding team dynamics in collaborative work.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=14',
+                evidenceLink: 'ka_evidence.html?construct=social-dominance&context=educational'
+            },
+            {
+                id: 15,
+                type: 'conflict',
+                title: 'Moderate Versus High Arousal for Creativity: Yerkes-Dodson in CNFA',
+                description: 'Some CNFA studies show that quiet spaces improve creative output and ideation quality, consistent with the prediction that high arousal impairs creativity. Other CNFA and adjacent research demonstrate a coffeehouse effect where moderate ambient noise enhances creative thinking. The conditions under which each relationship holds are completely unresolved.',
+                construct: 'creativity',
+                context: 'multiple',
+                voi: 'high',
+                credence: 0.48,
+                whyMatters: 'This conflict directly affects workplace design policy for creative professionals. Resolving it would clarify whether team creative spaces should be quiet or moderately stimulating.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=15',
+                evidenceLink: 'ka_evidence.html?construct=creativity'
+            },
+            {
+                id: 16,
+                type: 'context',
+                title: 'Psychological Well-being of Transit Workers: Underground Versus Surface Stations',
+                description: 'The occupational stress literature focuses almost entirely on office workers. No psychophysiological study has examined well-being in transit workers across comparable underground and surface station environments. Whether subterranean work imposes greater allostatic load than surface exposure remains completely unknown.',
+                construct: 'well-being',
+                context: 'transit',
+                voi: 'medium',
+                credence: 0.40,
+                whyMatters: 'Transit workers represent a poorly understood occupational group whose work occurs in architectural extremes. Understanding how spatial environment affects their well-being is both scientifically interesting and professionally humane.',
+                hypothesisBuild: 'ka_hypothesis_builder.html?gap=16',
+                evidenceLink: 'ka_evidence.html?construct=well-being&context=transit'
+            }
+        ];
+
+        // === STATE ===
+        let activeFilters = {
+            types: new Set(),
+            constructs: new Set(),
+            vois: new Set(),
+            contexts: new Set()
+        };
+
+        let bookmarked = new Set();
+        let sortByVoi = true;
+
+        // === FILTER PANELS ===
+        document.querySelectorAll('[data-filter-type]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const type = btn.dataset.filterType;
+                if (activeFilters.types.has(type)) {
+                    activeFilters.types.delete(type);
+                    btn.classList.remove('active');
+                } else {
+                    activeFilters.types.add(type);
+                    btn.classList.add('active');
+                }
+                render();
+            });
+        });
+
+        document.querySelectorAll('[data-filter-voi]').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const voi = btn.dataset.filterVoi;
+                if (activeFilters.vois.has(voi)) {
+                    activeFilters.vois.delete(voi);
+                    btn.classList.remove('active');
+                } else {
+                    activeFilters.vois.add(voi);
+                    btn.classList.add('active');
+                }
+                render();
+            });
+        });
+
+        document.querySelectorAll('input[name="construct"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                if (cb.checked) {
+                    activeFilters.constructs.add(cb.value);
+                } else {
+                    activeFilters.constructs.delete(cb.value);
+                }
+                render();
+            });
+        });
+
+        document.querySelectorAll('input[name="context"]').forEach(cb => {
+            cb.addEventListener('change', () => {
+                if (cb.checked) {
+                    activeFilters.contexts.add(cb.value);
+                } else {
+                    activeFilters.contexts.delete(cb.value);
+                }
+                render();
+            });
+        });
+
+        document.getElementById('sortByVoi').addEventListener('change', (e) => {
+            sortByVoi = e.target.checked;
+            render();
+        });
+
+        document.getElementById('searchBox').addEventListener('input', render);
+
+        // === RENDER ===
+        function render() {
+            const searchTerm = document.getElementById('searchBox').value.toLowerCase();
+            let filtered = gaps.filter(gap => {
+                // Text search
+                if (searchTerm && !gap.title.toLowerCase().includes(searchTerm) &&
+                    !gap.description.toLowerCase().includes(searchTerm)) {
+                    return false;
+                }
+                // Type filter
+                if (activeFilters.types.size > 0 && !activeFilters.types.has(gap.type)) {
+                    return false;
+                }
+                // VOI filter
+                if (activeFilters.vois.size > 0 && !activeFilters.vois.has(gap.voi.toLowerCase())) {
+                    return false;
+                }
+                // Construct filter
+                if (activeFilters.constructs.size > 0 && !activeFilters.constructs.has(gap.construct)) {
+                    return false;
+                }
+                // Context filter
+                if (activeFilters.contexts.size > 0 && !activeFilters.contexts.has(gap.context)) {
+                    return false;
+                }
+                return true;
+            });
+
+            // Sort
+            if (sortByVoi) {
+                const voiOrder = { high: 0, medium: 1, low: 2 };
+                filtered.sort((a, b) => voiOrder[a.voi.toLowerCase()] - voiOrder[b.voi.toLowerCase()]);
+            }
+
+            // Update count
+            document.getElementById('gapCount').textContent = filtered.length;
+
+            // Render cards
+            const container = document.getElementById('cardsContainer');
+            container.innerHTML = '';
+
+            if (filtered.length === 0) {
+                container.innerHTML = `
+                    <div class="no-results">
+                        <h2>No gaps match your filters</h2>
+                        <p>Try adjusting your selection to explore more research gaps.</p>
+                    </div>
+                `;
+                return;
+            }
+
+            filtered.forEach(gap => {
+                const card = document.createElement('div');
+                card.className = `gap-card gap-card-${gap.type}`;
+                card.innerHTML = `
+                    <div class="gap-card-type-strip"></div>
+                    <div class="gap-card-header">
+                        <div class="gap-card-title">${gap.title}</div>
+                        <button class="gap-card-bookmark ${bookmarked.has(gap.id) ? 'bookmarked' : ''}">★</button>
+                    </div>
+                    <div class="gap-card-description">${gap.description}</div>
+                    <div class="gap-card-metadata">
+                        <div class="metadata-badge">${formatConstruct(gap.construct)}</div>
+                        <div class="metadata-badge context">${formatContext(gap.context)}</div>
+                        <div class="metadata-badge voi-${gap.voi.toLowerCase()}">${gap.voi} VOI</div>
+                    </div>
+                    <div class="credence-section">
+                        <div class="credence-label">Current Credence</div>
+                        <div class="credence-bar-container">
+                            <div class="credence-bar">
+                                <div class="credence-bar-fill" style="width: ${gap.credence * 100}%"></div>
+                            </div>
+                            <div class="credence-value">${gap.credence.toFixed(2)}</div>
+                        </div>
+                        <div class="credence-note">Genuine uncertainty about this prediction</div>
+                    </div>
+                    <button class="why-matters-toggle" data-gap-id="${gap.id}">+ Why this matters</button>
+                    <div class="why-matters" data-gap-id="${gap.id}">
+                        <div class="why-matters-content">${gap.whyMatters}</div>
+                    </div>
+                    <div class="card-actions">
+                        <a href="${gap.hypothesisBuild}" class="btn btn-primary">Start Hypothesis</a>
+                        <a href="${gap.evidenceLink}" class="btn btn-secondary">See Evidence</a>
+                    </div>
+                `;
+                container.appendChild(card);
+
+                // Bookmark handler
+                const bookmark = card.querySelector('.gap-card-bookmark');
+                bookmark.addEventListener('click', () => {
+                    if (bookmarked.has(gap.id)) {
+                        bookmarked.delete(gap.id);
+                        bookmark.classList.remove('bookmarked');
+                    } else {
+                        bookmarked.add(gap.id);
+                        bookmark.classList.add('bookmarked');
+                    }
+                });
+
+                // Why matters toggle
+                const toggle = card.querySelector('.why-matters-toggle');
+                const box = card.querySelector('.why-matters');
+                toggle.addEventListener('click', () => {
+                    box.classList.toggle('open');
+                    toggle.textContent = box.classList.contains('open') ? '− Why this matters' : '+ Why this matters';
+                });
+            });
+        }
+
+        function formatConstruct(c) {
+            const map = {
+                'sustained-attention': 'Sustained Attention',
+                'stress': 'Stress',
+                'social-rapport': 'Social Rapport',
+                'wm-load': 'WM Load',
+                'awe': 'Awe',
+                'flow': 'Flow',
+                'valence': 'Valence',
+                'well-being': 'Well-being',
+                'ltm': 'LTM',
+                'social-dominance': 'Social Dominance',
+                'creativity': 'Creativity'
+            };
+            return map[c] || c;
+        }
+
+        function formatContext(c) {
+            if (c === 'multiple') return 'Multiple Contexts';
+            const map = {
+                'open-plan': 'Open-plan',
+                'private': 'Private Office',
+                'atrium': 'Atrium',
+                'outdoor': 'Outdoor',
+                'transit': 'Transit',
+                'residential': 'Residential',
+                'healthcare': 'Healthcare',
+                'educational': 'Educational'
+            };
+            return map[c] || c;
+        }
+
+        // Initial render
+        render();
+    </script>
+<script src="ka_acronyms.js"></script>
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_gaps',
+  title: 'Gap Explorer',
+  audience: 'Researchers and students looking for under-studied questions to investigate; hypothesis formation entry point',
+  purpose: 'Displays detected research gaps — areas where evidence is thin, predictions are untested, measuring instruments are absent, or findings conflict. Each gap has a construct tag, gap type, credence score, VOI [Value of Information] rating, and a "Start Hypothesis" link that pre-populates the Hypothesis Builder with the relevant construct and motivation. In the live system gaps are detected algorithmically from the evidence node corpus.',
+  workflowPos: 'Early in the hypothesis formation process — a student who does not yet have a research question may start here. Also used by instructors to seed assignment prompts. Reached from the main nav or from the student dashboard.',
+  notFor: 'Browsing evidence for known constructs (use Evidence Browser). Building a hypothesis from a specific question the student already has (go directly to Hypothesis Builder). Article discovery (use Article Search).',
+  phase: 'Phase 4 — Core Tool Backends (gap detection algorithm requires evidence node corpus from Phase 2)',
+  evalQuestions: [
+    'Does the gap type taxonomy (Untested Prediction, Low Credence, Measurement Gap, Conflict, Context Gap) make sense to a student without a statistics background?',
+    'Is the VOI [Value of Information] rating legible — does the user understand why some gaps are rated more valuable than others?',
+    'Is the "Start Hypothesis" path from gap card to Hypothesis Builder smooth enough, or does it lose context?',
+    'Are the filter options useful — do students filter by construct, or do they browse?',
+    'Does the gap description give enough information to motivate a student, or is it too abstract?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

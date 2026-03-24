@@ -1,0 +1,592 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Topic Browser · Knowledge Atlas</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: #1C3D3A; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.nav-left { display: flex; align-items: center; gap: 28px; }
+.wordmark { font-size: 1.25rem; font-weight: 700; color: #F5A623; letter-spacing: -0.3px; }
+.wordmark-sub { font-size: 0.62rem; color: #7AACA0; letter-spacing: 1.5px; text-transform: uppercase; }
+nav ul { display: flex; gap: 20px; list-style: none; }
+nav a { color: #B8D4CE; font-size: 0.88rem; text-decoration: none; transition: color 0.15s; }
+nav a:hover { color: #fff; }
+nav a.active { color: #F5A623; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.mode-pill {
+  background: rgba(42,120,104,0.3); color: #7AACA0;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  padding: 4px 12px; border-radius: 20px;
+}
+
+/* ── HERO ── */
+.hero {
+  background: linear-gradient(135deg, #1C3D3A 0%, #163230 100%);
+  padding: 44px 24px 36px; text-align: center;
+}
+.hero-tag {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #7AACA0; margin-bottom: 10px;
+}
+.hero h1 {
+  font-family: Georgia, serif; font-size: 2.1rem; color: #fff;
+  margin-bottom: 12px; font-weight: 600;
+}
+.hero-sub {
+  font-size: 0.95rem; color: #9ABFB8; max-width: 580px; margin: 0 auto 24px;
+  line-height: 1.6;
+}
+.hero-stats {
+  display: flex; gap: 32px; justify-content: center; flex-wrap: wrap;
+}
+.hero-stat {
+  text-align: center;
+}
+.hero-stat-num {
+  font-family: Georgia, serif; font-size: 1.8rem; font-weight: 700; color: #E8872A;
+}
+.hero-stat-label {
+  font-size: 0.72rem; letter-spacing: 0.1em; text-transform: uppercase; color: #7AACA0;
+}
+
+/* ── PRIORITY BANNER ── */
+.priority-section {
+  max-width: 1100px; margin: 32px auto 0; padding: 0 24px;
+}
+.priority-label {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.16em;
+  text-transform: uppercase; color: #B0886A; margin-bottom: 14px;
+  display: flex; align-items: center; gap: 8px;
+}
+.priority-label::before { content: ''; display: inline-block; width: 8px; height: 8px;
+  background: #E8872A; border-radius: 50%; }
+.priority-grid {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px;
+}
+@media (max-width: 900px) { .priority-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 540px) { .priority-grid { grid-template-columns: 1fr; } }
+
+.priority-card {
+  background: #fff; border: 1.5px solid #E8872A; border-radius: 10px;
+  padding: 16px; cursor: pointer; transition: box-shadow 0.15s, transform 0.1s;
+}
+.priority-card:hover { box-shadow: 0 4px 14px rgba(232,135,42,0.18); transform: translateY(-2px); }
+.pc-voi {
+  font-size: 1.4rem; font-weight: 800; color: #E8872A;
+  font-family: Georgia, serif; margin-bottom: 4px;
+}
+.pc-name {
+  font-size: 0.88rem; font-weight: 700; color: #2D2D2D; margin-bottom: 4px;
+  line-height: 1.3;
+}
+.pc-meta { font-size: 0.76rem; color: #8A9A96; }
+
+/* ── CONTROLS ── */
+.controls-bar {
+  max-width: 1100px; margin: 28px auto 0; padding: 0 24px;
+  display: flex; align-items: center; gap: 14px; flex-wrap: wrap;
+}
+.filter-tabs {
+  display: flex; gap: 6px; flex-wrap: wrap;
+}
+.filter-tab {
+  padding: 7px 16px; border-radius: 20px; font-size: 0.82rem; font-weight: 600;
+  border: 1.5px solid #C8C0B0; background: #fff; cursor: pointer;
+  transition: all 0.15s; color: #2D2D2D;
+}
+.filter-tab:hover { border-color: #2A7868; color: #2A7868; }
+.filter-tab.active { background: #2A7868; border-color: #2A7868; color: #fff; }
+.controls-right {
+  margin-left: auto; display: flex; align-items: center; gap: 10px;
+}
+.sort-label {
+  font-size: 0.78rem; color: #8A9A96; font-weight: 600;
+}
+.sort-select {
+  font-size: 0.82rem; padding: 6px 10px; border: 1.5px solid #C8C0B0;
+  border-radius: 6px; background: #fff; color: #2D2D2D; cursor: pointer;
+}
+.topic-count-label {
+  font-size: 0.78rem; color: #8A9A96;
+}
+
+/* ── TOPIC GRID ── */
+.topic-grid {
+  max-width: 1100px; margin: 20px auto 0; padding: 0 24px 60px;
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+}
+@media (max-width: 960px) { .topic-grid { grid-template-columns: repeat(2,1fr); } }
+@media (max-width: 600px) { .topic-grid { grid-template-columns: 1fr; } }
+
+.topic-card {
+  background: #fff; border: 1.5px solid #E0D8CC; border-radius: 12px;
+  padding: 20px; display: flex; flex-direction: column; gap: 12px;
+  transition: box-shadow 0.15s, transform 0.12s; cursor: default;
+}
+.topic-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
+.topic-card.hidden { display: none; }
+
+.tc-top {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+}
+.tc-name {
+  font-family: Georgia, serif; font-size: 1.02rem; font-weight: 700;
+  color: #1C3D3A; line-height: 1.35; flex: 1;
+}
+.cat-badge {
+  flex-shrink: 0; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 3px 9px; border-radius: 20px;
+}
+.cat-cognitive   { background: #E8F0FE; color: #1A56A0; }
+.cat-physiological { background: #E8F8F2; color: #1A7050; }
+.cat-environmental { background: #FEF3E2; color: #985E0A; }
+.cat-neuroscience { background: #F3E8FE; color: #6B2FA0; }
+.cat-methodology { background: #F0F0F0; color: #555; }
+
+.tc-desc {
+  font-size: 0.86rem; color: #5A5A5A; line-height: 1.5;
+}
+
+.tc-metrics {
+  display: flex; gap: 12px; align-items: center;
+}
+.tc-metric {
+  display: flex; align-items: center; gap: 5px;
+}
+.tc-metric-label {
+  font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em;
+  color: #A09080; font-weight: 600;
+}
+.tc-metric-val {
+  font-size: 0.88rem; font-weight: 700; color: #2D2D2D;
+}
+.voi-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.voi-critical { background: #D63B3B; }
+.voi-high     { background: #E8872A; }
+.voi-medium   { background: #D4A820; }
+.voi-low      { background: #A0B8B0; }
+
+.voi-bar-bg {
+  flex: 1; height: 5px; background: #EAE4D8; border-radius: 3px; overflow: hidden;
+}
+.voi-bar-fill { height: 100%; border-radius: 3px; transition: width 0.4s; }
+
+.tc-actions {
+  display: grid; grid-template-columns: 1fr 1fr; gap: 7px; margin-top: 4px;
+}
+.tc-btn {
+  font-size: 0.78rem; font-weight: 700; padding: 8px 10px; border-radius: 7px;
+  border: none; cursor: pointer; text-align: center; text-decoration: none;
+  display: block; transition: all 0.15s;
+}
+.tc-btn-ask {
+  background: #1C3D3A; color: #fff;
+}
+.tc-btn-ask:hover { background: #2A7868; }
+.tc-btn-articles {
+  background: #F0EBE2; color: #2D2D2D;
+}
+.tc-btn-articles:hover { background: #E0D8CC; }
+.tc-btn-question {
+  background: #FEF3E2; color: #985E0A;
+}
+.tc-btn-question:hover { background: #FDDEB8; }
+.tc-btn-build {
+  background: #E8F0FE; color: #1A56A0;
+}
+.tc-btn-build:hover { background: #C8D8F8; }
+
+/* ── EMPTY STATE ── */
+.empty-state {
+  display: none; text-align: center; padding: 60px 24px;
+  color: #A09080;
+}
+.empty-state.visible { display: block; }
+
+/* ── PAGE PURPOSE ── */
+.page-purpose {
+  background: #EDE8E0; border-top: 1px solid #D0C8BC;
+  padding: 16px 24px; font-size: 0.8rem; color: #8A9088;
+  line-height: 1.6;
+}
+.page-purpose-inner { max-width: 1100px; margin: 0 auto; }
+
+/* ── VERSION ── */
+.version-badge {
+  position: fixed; bottom: 16px; right: 20px;
+  font-size: 0.65rem; color: #C0B0A0; letter-spacing: 0.06em;
+  pointer-events: none;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div class="nav-left">
+    <div>
+      <div class="wordmark">Knowledge Atlas</div>
+      <div class="wordmark-sub">COGS 160</div>
+    </div>
+    <ul>
+      <li><a href="ka_demo_v04.html">Ask</a></li>
+      <li><a href="ka_evidence.html">Evidence</a></li>
+      <li><a href="ka_hypothesis_builder.html">Build</a></li>
+      <li><a href="ka_article_search.html">Articles</a></li>
+      <li><a href="ka_gaps.html">Gaps</a></li>
+      <li><a href="ka_topics.html" class="active">Topics</a></li>
+      <li><a href="ka_question_maker.html">Question Maker</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <div class="mode-pill">RESEARCHER</div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-tag">Knowledge Atlas · Topic Browser</div>
+  <h1>Research Topic Clusters</h1>
+  <p class="hero-sub">
+    Twenty clusters spanning 263+ ingested papers — explore what KA knows,
+    where the evidence is strong, and where the most urgent gaps lie.
+    VOI scores mark topics where new studies would most shift system credences.
+  </p>
+  <div class="hero-stats">
+    <div class="hero-stat">
+      <div class="hero-stat-num">263</div>
+      <div class="hero-stat-label">Papers ingested</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">20</div>
+      <div class="hero-stat-label">Topic clusters</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">0.93</div>
+      <div class="hero-stat-label">Peak VOI</div>
+    </div>
+    <div class="hero-stat">
+      <div class="hero-stat-num">4</div>
+      <div class="hero-stat-label">Critical gaps (VOI ≥ 0.85)</div>
+    </div>
+  </div>
+</div>
+
+<!-- PRIORITY GAPS BANNER -->
+<div class="priority-section">
+  <div class="priority-label">Highest-priority research gaps — most needed papers</div>
+  <div class="priority-grid" id="priority-grid"></div>
+</div>
+
+<!-- CONTROLS -->
+<div class="controls-bar">
+  <div class="filter-tabs" id="filter-tabs">
+    <button class="filter-tab active" data-cat="all" onclick="filterBy('all',this)">All topics</button>
+    <button class="filter-tab" data-cat="Cognitive"      onclick="filterBy('Cognitive',this)">Cognitive</button>
+    <button class="filter-tab" data-cat="Physiological"  onclick="filterBy('Physiological',this)">Physiological</button>
+    <button class="filter-tab" data-cat="Environmental"  onclick="filterBy('Environmental',this)">Environmental</button>
+    <button class="filter-tab" data-cat="Neuroscience"   onclick="filterBy('Neuroscience',this)">Neuroscience</button>
+    <button class="filter-tab" data-cat="Methodology"    onclick="filterBy('Methodology',this)">Methodology</button>
+  </div>
+  <div class="controls-right">
+    <span class="sort-label">Sort by:</span>
+    <select class="sort-select" onchange="sortBy(this.value)">
+      <option value="voi">VOI (highest gap first)</option>
+      <option value="papers">Papers (largest corpus)</option>
+      <option value="name">Name A–Z</option>
+    </select>
+    <span class="topic-count-label" id="count-label">Showing 20 of 20</span>
+  </div>
+</div>
+
+<!-- TOPIC GRID -->
+<div class="topic-grid" id="topic-grid"></div>
+<div class="empty-state" id="empty-state">No topics match this filter.</div>
+
+<!-- PAGE PURPOSE NOTE -->
+<div class="page-purpose">
+  <p class="page-purpose-inner">
+    <em>Page purpose (for workflow and interface designers):</em>
+    This is the <strong>topic entry point</strong> for Knowledge Atlas — the page that lets
+    any user (student, researcher, contributor) see what intellectual territory KA covers
+    before they ask a question or propose a study.
+    Each cluster card shows the corpus size (papers already ingested), the Value of Information
+    (VOI) score (expected reduction in uncertainty if a new well-powered study were run on that
+    topic), and quick-action buttons routing to the Ask, Evidence, Question Maker, and Hypothesis
+    Builder tools. The priority banner surfaces the top-4 most urgent gaps so students know
+    immediately where a new literature search would have the greatest impact.
+    In the live system, cluster metadata (n, VOI, top constructs) is computed nightly from
+    the <code>finding_clusters</code> database table; in this demo it is seeded from the
+    <code>CLUSTERS</code> data array shared with the Question Maker page.
+  </p>
+</div>
+
+<div class="version-badge">KA UI · v0.4</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────────────────────
+const CLUSTERS = [
+  {
+    id:'lc_ne', cat:'Neuroscience', n:6, voi:0.93,
+    name:'LC-NE System & Sustained Attention',
+    desc:'The locus coeruleus–norepinephrine system modulates arousal and tonic alertness over long work sessions. KA has only 6 papers and high credence uncertainty on mechanism questions connecting LC-NE firing to workspace-induced fatigue.'
+  },
+  {
+    id:'default_mode', cat:'Neuroscience', n:7, voi:0.88,
+    name:'Default Mode Network & Fatigue',
+    desc:'DMN engagement during rest micro-periods may predict recovery of directed attention. Evidence linking DMN dynamics to CNFA-relevant interventions (nature views, breaks) remains sparse and methodologically heterogeneous.'
+  },
+  {
+    id:'pfc_env', cat:'Neuroscience', n:11, voi:0.85,
+    name:'PFC Function & Environmental Load',
+    desc:'Prefrontal cortex depletion under high cognitive-environmental load is a core claim of Attention Restoration Theory, yet direct neuroimaging evidence in naturalistic workspace contexts is rare. A critical gap for KA\'s mechanistic layer.'
+  },
+  {
+    id:'neuro_pathways', cat:'Neuroscience', n:9, voi:0.91,
+    name:'Neuroscience of Attention Pathways',
+    desc:'The circuitry linking ipRGC photoreception, the SCN, and sustained-attention networks is increasingly well-understood in basic science but poorly translated into workspace design studies. Opening this pathway is a strategic priority for CNFA.'
+  },
+  {
+    id:'thermal', cat:'Environmental', n:18, voi:0.79,
+    name:'Temperature & Thermal Comfort',
+    desc:'Thermal comfort affects cognitive performance through arousal regulation and metabolic load. Most studies use subjective ratings; objective neurophysiological markers (EDA, HRV) are rare, leaving causal mechanism chains underspecified.'
+  },
+  {
+    id:'plants', cat:'Environmental', n:14, voi:0.77,
+    name:'Indoor Plants & Air Quality',
+    desc:'Live plants affect workspace outcomes via multiple pathways: air-quality improvement, biophilic visual stimulation, and humidity regulation. Disentangling these pathways requires designs that isolate each channel independently.'
+  },
+  {
+    id:'color_space', cat:'Environmental', n:16, voi:0.74,
+    name:'Color & Spatial Design',
+    desc:'Color temperature and hue affect alertness, mood, and cognitive performance through both photoreceptor pathways (blue light → ipRGC → arousal) and psychological associations. The CNFA image-tag pipeline can now operationalize color computationally.'
+  },
+  {
+    id:'crowding', cat:'Environmental', n:19, voi:0.70,
+    name:'Crowding & Social Density',
+    desc:'Social density in open offices affects noise exposure, privacy, and perceived control. Most evidence is survey-based; physiological studies (cortisol, EDA) under controlled density conditions are sparse but high-value for KA.'
+  },
+  {
+    id:'light_circ', cat:'Physiological', n:38, voi:0.71,
+    name:'Lighting & Circadian Rhythms',
+    desc:'Correlated colour temperature and illuminance affect melanopsin-ipRGC excitation, circadian phase, and next-day cognitive performance. A relatively large KA corpus (n=38) but high variance in study quality creates substantial residual uncertainty.'
+  },
+  {
+    id:'exercise', cat:'Physiological', n:23, voi:0.66,
+    name:'Physical Activity & Cognition',
+    desc:'Acute bouts of moderate aerobic exercise improve executive function, working memory, and sustained attention for 30–90 minutes post-exercise. Dose-response curves and optimal timing for workspace contexts remain underspecified.'
+  },
+  {
+    id:'vdt_fatigue', cat:'Physiological', n:27, voi:0.62,
+    name:'VDT Fatigue & Visual Ergonomics',
+    desc:'Extended screen work induces visual fatigue via accommodation demand, blue-light exposure, and reduced blink rate. Neurophysiological correlates (pupil dynamics, EEG alpha power) provide objective measures not yet well-represented in KA.'
+  },
+  {
+    id:'multitask', cat:'Cognitive', n:22, voi:0.58,
+    name:'Multitasking & Task Switching',
+    desc:'Frequent task-switching in open offices depletes executive resources and increases error rates. KA has moderate coverage of behavioural studies; the neuroimaging literature on task-switching costs in naturalistic settings is underrepresented.'
+  },
+  {
+    id:'open_noise', cat:'Environmental', n:34, voi:0.55,
+    name:'Open Office & Noise Distraction',
+    desc:'Irrelevant background speech is among the most robustly replicated impairments of verbal working memory and reading comprehension. KA has reasonable coverage but most studies are lab-based; field studies using physiological measures are scarce.'
+  },
+  {
+    id:'exec_fn', cat:'Cognitive', n:31, voi:0.53,
+    name:'Executive Function & Environment',
+    desc:'Environmental complexity, clutter, and disorder drain executive resources via sustained orientation reflex activation. Kaplan\'s complexity dimension of restorative environments can now be operationalized computationally via edge density and clutter index.'
+  },
+  {
+    id:'nature_stress', cat:'Environmental', n:41, voi:0.48,
+    name:'Nature Views & Stress Recovery',
+    desc:'Nature views (windows, images) accelerate autonomic recovery from acute stress as measured by cortisol and HRV. KA\'s largest body of coherent evidence; remaining uncertainty concerns dose and exposure duration thresholds.'
+  },
+  {
+    id:'biophilia', cat:'Environmental', n:29, voi:0.68,
+    name:'Biophilic Design',
+    desc:'Biophilic design incorporates natural elements (materials, patterns, forms, fractals) beyond vegetation into built environments. The mechanistic link from fractal dimension and green fraction to autonomic response is a key theoretical target for CNFA.'
+  },
+  {
+    id:'wayfinding', cat:'Cognitive', n:24, voi:0.46,
+    name:'Wayfinding & Spatial Cognition',
+    desc:'Spatial layout complexity and legibility affect cognitive load, stress, and navigation efficiency. Relevant to workspace design and CNFA experiments comparing regular vs. irregular floor plans.'
+  },
+  {
+    id:'replication', cat:'Methodology', n:31, voi:0.44,
+    name:'Replication & Effect Sizes',
+    desc:'A substantial portion of CNFA findings show small-to-moderate effect sizes with high variance across sites. KA\'s credence engine explicitly tracks replication status; this cluster catalogues meta-analytic and replication studies.'
+  },
+  {
+    id:'cogload', cat:'Cognitive', n:52, voi:0.38,
+    name:'Cognitive Load & Workspace Design',
+    desc:'The most densely populated KA cluster (n=52). Cognitive load theory predicts that high environmental complexity increases extraneous cognitive load, degrading learning and task performance. Strong corpus but largely lab-based; ecological validity is an ongoing concern.'
+  },
+  {
+    id:'art', cat:'Cognitive', n:47, voi:0.42,
+    name:'Attention Restoration Theory',
+    desc:'ART (Kaplan & Kaplan 1989) distinguishes directed from involuntary attention and predicts that natural environments restore directed-attention capacity. The second-largest KA cluster with a well-developed theoretical structure and relatively lower residual uncertainty.'
+  },
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
+function voiClass(v) {
+  if (v >= 0.85) return 'voi-critical';
+  if (v >= 0.65) return 'voi-high';
+  if (v >= 0.45) return 'voi-medium';
+  return 'voi-low';
+}
+
+function voiBarColor(v) {
+  if (v >= 0.85) return '#D63B3B';
+  if (v >= 0.65) return '#E8872A';
+  if (v >= 0.45) return '#D4A820';
+  return '#A0B8B0';
+}
+
+function catClass(cat) {
+  return 'cat-' + cat.toLowerCase();
+}
+
+function buildCard(c) {
+  const pct = Math.round(c.voi * 100);
+  const askQ = encodeURIComponent('What does KA know about ' + c.name + '?');
+  return `
+    <div class="topic-card" data-cat="${c.cat}" data-id="${c.id}">
+      <div class="tc-top">
+        <div class="tc-name">${c.name}</div>
+        <div class="cat-badge ${catClass(c.cat)}">${c.cat}</div>
+      </div>
+      <div class="tc-desc">${c.desc}</div>
+      <div class="tc-metrics">
+        <div class="tc-metric">
+          <div class="tc-metric-label">Papers</div>
+          <div class="tc-metric-val">n = ${c.n}</div>
+        </div>
+        <div class="tc-metric" style="flex:1;gap:8px;">
+          <div class="tc-metric-label">VOI</div>
+          <div class="voi-dot ${voiClass(c.voi)}"></div>
+          <div class="voi-bar-bg">
+            <div class="voi-bar-fill" style="width:${pct}%;background:${voiBarColor(c.voi)};"></div>
+          </div>
+          <div class="tc-metric-val">${c.voi.toFixed(2)}</div>
+        </div>
+      </div>
+      <div class="tc-actions">
+        <a class="tc-btn tc-btn-ask"
+           href="ka_demo_v04.html?q=${askQ}">
+          🔍 Ask KA
+        </a>
+        <a class="tc-btn tc-btn-articles"
+           href="ka_article_search.html">
+          📄 Articles
+        </a>
+        <a class="tc-btn tc-btn-question"
+           href="ka_question_maker.html">
+          ❓ Make a Question
+        </a>
+        <a class="tc-btn tc-btn-build"
+           href="ka_hypothesis_builder.html">
+          🧪 Design Study
+        </a>
+      </div>
+    </div>`;
+}
+
+function buildPriorityCard(c) {
+  return `
+    <div class="priority-card" onclick="filterByCluster('${c.id}')">
+      <div class="pc-voi">VOI ${c.voi.toFixed(2)}</div>
+      <div class="pc-name">${c.name}</div>
+      <div class="pc-meta">${c.n} papers · ${c.cat}</div>
+    </div>`;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER
+// ─────────────────────────────────────────────────────────────────────────────
+let currentCat = 'all';
+let currentSort = 'voi';
+
+function sorted(arr) {
+  const a = [...arr];
+  if (currentSort === 'voi')    return a.sort((x,y) => y.voi - x.voi);
+  if (currentSort === 'papers') return a.sort((x,y) => y.n - x.n);
+  if (currentSort === 'name')   return a.sort((x,y) => x.name.localeCompare(y.name));
+  return a;
+}
+
+function renderGrid() {
+  const filtered = CLUSTERS.filter(c => currentCat === 'all' || c.cat === currentCat);
+  const ordered  = sorted(filtered);
+  const grid = document.getElementById('topic-grid');
+  const empty = document.getElementById('empty-state');
+  const label = document.getElementById('count-label');
+
+  if (ordered.length === 0) {
+    grid.innerHTML = '';
+    empty.classList.add('visible');
+  } else {
+    grid.innerHTML = ordered.map(buildCard).join('');
+    empty.classList.remove('visible');
+  }
+  label.textContent = `Showing ${ordered.length} of ${CLUSTERS.length}`;
+}
+
+function filterBy(cat, btn) {
+  currentCat = cat;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  btn.classList.add('active');
+  renderGrid();
+}
+
+function sortBy(val) {
+  currentSort = val;
+  renderGrid();
+}
+
+function filterByCluster(id) {
+  // Scroll to the card and briefly highlight it
+  currentCat = 'all';
+  currentSort = 'voi';
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  document.querySelector('[data-cat="all"]').classList.add('active');
+  renderGrid();
+  setTimeout(() => {
+    const card = document.querySelector(`[data-id="${id}"]`);
+    if (card) {
+      card.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      card.style.outline = '2.5px solid #E8872A';
+      setTimeout(() => { card.style.outline = ''; }, 2000);
+    }
+  }, 80);
+}
+
+// Build priority panel — top 4 by VOI
+function renderPriority() {
+  const top = [...CLUSTERS].sort((a,b) => b.voi - a.voi).slice(0,4);
+  document.getElementById('priority-grid').innerHTML = top.map(buildPriorityCard).join('');
+}
+
+// Init
+renderPriority();
+renderGrid();
+</script>
+
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

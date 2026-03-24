@@ -1,0 +1,1358 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tag Images – Knowledge Atlas Contributor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F7F4EF;
+            color: #2C2C2C;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: #1C3D3A;
+            border-bottom: 1px solid #0f2423;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .nav-wordmark {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: #A8C8BF;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23A8C8BF" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="6" x2="12" y2="18"/><line x1="18" y1="6" x2="12" y2="18"/></svg>') no-repeat center;
+            background-size: contain;
+        }
+
+        .nav-title {
+            color: #FFFFFF;
+        }
+
+        .nav-title-accent {
+            color: #F5A623;
+        }
+
+        .nav-center {
+            flex: 1;
+            text-align: center;
+            color: #A8C8BF;
+            font-size: 13px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mode-pill {
+            background-color: #5AC8AA;
+            color: #FFFFFF;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #2A7868;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Main Layout */
+        .page-container {
+            display: flex;
+            margin-top: 56px;
+            min-height: calc(100vh - 56px);
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #FFFFFF;
+            border-right: 1px solid #E0DAD3;
+            padding: 24px 0;
+            overflow-y: auto;
+            position: fixed;
+            height: calc(100vh - 56px);
+            left: 0;
+            top: 56px;
+        }
+
+        .sidebar-section {
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+
+        .sidebar-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8C8C8C;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-nav-item {
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            color: #2C2C2C;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: #F7F4EF;
+        }
+
+        .sidebar-nav-item.active {
+            border-left: 3px solid #E8872A;
+            background-color: #FFF4E6;
+            color: #C05A1F;
+            padding-left: 9px;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background-color: #E0DAD3;
+            margin: 24px 0;
+        }
+
+        .progress-panel {
+            padding: 16px;
+            background-color: #F7F4EF;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .progress-label {
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 12px;
+            display: block;
+            font-size: 12px;
+        }
+
+        .progress-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #E0DAD3;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .progress-stat:last-child {
+            border-bottom: none;
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 220px;
+            padding: 40px;
+            flex: 1;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 15px;
+            color: #666;
+        }
+
+        .panel-layout {
+            display: grid;
+            grid-template-columns: 55% 45%;
+            gap: 32px;
+            align-items: start;
+        }
+
+        /* Left Panel */
+        .image-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .panel-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px;
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+        }
+
+        .panel-header-left {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+            flex: 1;
+            font-size: 14px;
+        }
+
+        .batch-label {
+            font-weight: 700;
+            color: #2C2C2C;
+        }
+
+        .image-counter {
+            color: #666;
+            font-size: 13px;
+        }
+
+        .status-pill {
+            background-color: #FFF3CD;
+            color: #8B6F00;
+            padding: 6px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .button-small {
+            background-color: transparent;
+            border: 1px solid #2A7868;
+            color: #2A7868;
+            padding: 8px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .button-small:hover {
+            background-color: #E0F2EE;
+        }
+
+        .image-viewer {
+            background-color: #E8E0D8;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            aspect-ratio: 16 / 9;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            text-align: center;
+            font-size: 14px;
+            color: #999;
+            line-height: 1.6;
+        }
+
+        .thumbnail-strip {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 8px;
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+        }
+
+        .thumbnail {
+            width: 56px;
+            height: 56px;
+            background-color: #E8E0D8;
+            border: 2px solid #E0DAD3;
+            border-radius: 4px;
+            flex-shrink: 0;
+            cursor: pointer;
+            position: relative;
+            transition: all 0.2s ease;
+        }
+
+        .thumbnail:hover {
+            border-color: #E8872A;
+        }
+
+        .thumbnail.active {
+            border-color: #E8872A;
+        }
+
+        .thumbnail.completed::after {
+            content: '✓';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            color: #2A7868;
+            font-size: 20px;
+            font-weight: 700;
+        }
+
+        .image-controls {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px;
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+        }
+
+        .nav-buttons {
+            display: flex;
+            gap: 12px;
+        }
+
+        .button-nav {
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            color: #2C2C2C;
+            transition: all 0.2s ease;
+        }
+
+        .button-nav:hover {
+            border-color: #E8872A;
+            color: #E8872A;
+        }
+
+        .skip-link {
+            color: #2A7868;
+            text-decoration: none;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: color 0.2s ease;
+        }
+
+        .skip-link:hover {
+            color: #1D5450;
+        }
+
+        /* Right Panel */
+        .tagging-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 24px;
+        }
+
+        .checkout-strip {
+            background-color: #E0F2EE;
+            border-left: 3px solid #2A7868;
+            padding: 12px 14px;
+            border-radius: 4px;
+            font-size: 12px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .checkout-info {
+            color: #2A7868;
+            font-weight: 600;
+        }
+
+        .return-batch {
+            color: #2A7868;
+            text-decoration: none;
+            font-weight: 600;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .form-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .form-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 8px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .form-header-link {
+            color: #2A7868;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .form-header-link:hover {
+            color: #E8872A;
+        }
+
+        .search-box {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 10px 12px;
+            margin-bottom: 20px;
+        }
+
+        .search-box input {
+            flex: 1;
+            border: none;
+            outline: none;
+            font-size: 13px;
+            background: transparent;
+        }
+
+        .search-box input::placeholder {
+            color: #999;
+        }
+
+        .search-icon {
+            color: #2A7868;
+            font-size: 14px;
+        }
+
+        .tag-categories {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .category-section {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            overflow: hidden;
+        }
+
+        .category-section.phase0 {
+            border-left: 3px solid #2A7868;
+        }
+
+        .category-summary {
+            padding: 12px;
+            background-color: #F7F4EF;
+            cursor: pointer;
+            font-weight: 600;
+            font-size: 13px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+            transition: background-color 0.2s ease;
+        }
+
+        .category-summary:hover {
+            background-color: #F0E8DF;
+        }
+
+        .category-toggle {
+            color: #666;
+            font-size: 14px;
+        }
+
+        .category-content {
+            padding: 16px;
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .category-content.hidden {
+            display: none;
+        }
+
+        .category-section.disabled {
+            opacity: 0.5;
+            pointer-events: none;
+        }
+
+        .category-note {
+            font-size: 11px;
+            color: #999;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        .form-select {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 13px;
+            background-color: #FFFFFF;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .form-input {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            background-color: #F0E8DF;
+            border: 1px solid #E0DAD3;
+            padding: 8px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .chip:hover {
+            border-color: #E8872A;
+            background-color: #FFF4E6;
+        }
+
+        .chip.active {
+            background-color: #E8872A;
+            border-color: #E8872A;
+            color: #FFFFFF;
+        }
+
+        .form-textarea {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            resize: none;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .form-notes {
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #E0DAD3;
+        }
+
+        .submit-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 24px;
+            padding-top: 20px;
+            border-top: 1px solid #E0DAD3;
+        }
+
+        .button-primary {
+            background-color: #E8872A;
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            flex: 1;
+        }
+
+        .button-primary:hover {
+            background-color: #C05A1F;
+        }
+
+        .button-primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .button-secondary {
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            color: #2C2C2C;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .button-secondary:hover {
+            border-color: #E8872A;
+            color: #E8872A;
+        }
+
+        /* Version Badge */
+        .version-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1C3D3A;
+            color: #A8C8BF;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F7F4EF;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D0CCBF;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8B0A0;
+        }
+
+        /* Modal Styles */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: rgba(0, 0, 0, 0.55);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            z-index: 2000;
+        }
+
+        .modal-overlay.visible {
+            display: flex;
+        }
+
+        .modal-container {
+            background-color: #FFFFFF;
+            border-radius: 12px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            max-width: 500px;
+            width: 90%;
+            max-height: 85vh;
+            overflow-y: auto;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .modal-header {
+            padding: 24px;
+            border-bottom: 1px solid #E0DAD3;
+            flex-shrink: 0;
+        }
+
+        .modal-header-title {
+            font-size: 18px;
+            font-weight: 700;
+            color: #2C2C2C;
+        }
+
+        .modal-header.header-amber {
+            background: linear-gradient(135deg, #E8872A 0%, #C05A1F 100%);
+            border-bottom: none;
+        }
+
+        .modal-header.header-amber .modal-header-title {
+            color: #FFFFFF;
+        }
+
+        .modal-header.header-teal {
+            background: linear-gradient(135deg, #2A7868 0%, #1D5450 100%);
+            border-bottom: none;
+        }
+
+        .modal-header.header-teal .modal-header-title {
+            color: #FFFFFF;
+        }
+
+        .modal-body {
+            padding: 24px;
+            flex: 1;
+            overflow-y: auto;
+        }
+
+        .modal-footer {
+            padding: 20px 24px;
+            border-top: 1px solid #E0DAD3;
+            display: flex;
+            gap: 12px;
+            justify-content: flex-end;
+            flex-shrink: 0;
+        }
+
+        .modal-text {
+            font-size: 14px;
+            color: #2C2C2C;
+            line-height: 1.6;
+            margin-bottom: 16px;
+        }
+
+        .modal-section {
+            margin-bottom: 20px;
+        }
+
+        .modal-section-label {
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8C8C8C;
+            margin-bottom: 8px;
+            display: block;
+        }
+
+        .modal-section-content {
+            font-size: 13px;
+            color: #2C2C2C;
+        }
+
+        .modal-checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+        }
+
+        .modal-checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+        }
+
+        .modal-checkbox-item input[type="checkbox"] {
+            margin-top: 4px;
+            accent-color: #2A7868;
+            width: 16px;
+            height: 16px;
+            cursor: pointer;
+            flex-shrink: 0;
+        }
+
+        .modal-checkbox-item label {
+            font-size: 13px;
+            color: #2C2C2C;
+            cursor: pointer;
+            flex: 1;
+        }
+
+        .modal-textarea {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+            min-height: 80px;
+            width: 100%;
+            transition: border-color 0.2s ease;
+        }
+
+        .modal-textarea:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232, 135, 42, 0.14);
+        }
+
+        .modal-button {
+            padding: 10px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            border: none;
+        }
+
+        .modal-button.btn-confirm {
+            background-color: #1C3D3A;
+            color: #FFFFFF;
+        }
+
+        .modal-button.btn-confirm:hover {
+            background-color: #0f2423;
+        }
+
+        .modal-button.btn-confirm-teal {
+            background-color: #2A7868;
+            color: #FFFFFF;
+        }
+
+        .modal-button.btn-confirm-teal:hover {
+            background-color: #1D5450;
+        }
+
+        .modal-button.btn-cancel {
+            background-color: #FFFFFF;
+            color: #2C2C2C;
+            border: 1px solid #E0DAD3;
+        }
+
+        .modal-button.btn-cancel:hover {
+            border-color: #E8872A;
+            color: #E8872A;
+        }
+
+        /* Toast notification */
+        .toast-notification {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #2A7868;
+            color: #FFFFFF;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            display: none;
+            z-index: 2100;
+            animation: slideIn 0.3s ease;
+        }
+
+        .toast-notification.visible {
+            display: block;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(400px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .acronym-small {
+            font-size: 0.78em;
+            color: #8A7A68;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div class="nav-wordmark">
+            <div class="nav-icon"></div>
+            <span>KNOWLEDGE</span>
+            <span class="nav-title">/ <span class="nav-title-accent">Atlas</span></span>
+        </div>
+        <div class="nav-center">Contributor Workspace</div>
+        <div class="nav-right">
+            <div class="mode-pill">CONTRIBUTOR</div>
+            <div class="profile-avatar">DK</div>
+        </div>
+    </div>
+
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <span class="sidebar-label">Contributor Tasks</span>
+                <div class="sidebar-nav">
+                    <div class="sidebar-nav-item active">Tag Images</div>
+                    <div class="sidebar-nav-item">Data Capture</div>
+                    <div class="sidebar-nav-item">Find Articles</div>
+                    <div class="sidebar-nav-item">My Submissions</div>
+                </div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-label">My Progress This Week</span>
+                <div class="progress-panel">
+                    <span class="progress-label">Status</span>
+                    <div class="progress-stat">
+                        <span>Tags submitted:</span>
+                        <span class="progress-value">14 / 20</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span>Hours logged:</span>
+                        <span class="progress-value">6.5 hrs</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span>Batches checked:</span>
+                        <span class="progress-value">3 of 5</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Tag Images</h1>
+                <p class="page-subtitle">Check out an image batch, apply CNFA tags, and submit for review.</p>
+            </div>
+
+            <div class="panel-layout">
+                <!-- Left Panel: Image Viewer -->
+                <div class="image-panel">
+                    <div class="panel-header">
+                        <div class="panel-header-left">
+                            <span class="batch-label">Batch KA-IMG-0042</span>
+                            <span class="image-counter">Image 3 of 12</span>
+                            <span class="status-pill">IN PROGRESS</span>
+                        </div>
+                        <button class="button-small">Check In Batch</button>
+                    </div>
+
+                    <div class="image-viewer">
+                        Image: workspace_photo_042_003.jpg<br>
+                        1440×960px
+                    </div>
+
+                    <div class="thumbnail-strip">
+                        <div class="thumbnail"></div>
+                        <div class="thumbnail"></div>
+                        <div class="thumbnail active"></div>
+                        <div class="thumbnail completed"></div>
+                        <div class="thumbnail completed"></div>
+                        <div class="thumbnail"></div>
+                        <div class="thumbnail"></div>
+                        <div class="thumbnail"></div>
+                        <div class="thumbnail"></div>
+                        <div class="thumbnail"></div>
+                        <div class="thumbnail"></div>
+                        <div class="thumbnail"></div>
+                    </div>
+
+                    <div class="image-controls">
+                        <div class="nav-buttons">
+                            <button class="button-nav">← Previous</button>
+                            <button class="button-nav">Next →</button>
+                        </div>
+                        <a class="skip-link">Skip (flag for review)</a>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Tagging Form -->
+                <div class="tagging-panel">
+                    <div class="checkout-strip">
+                        <span class="checkout-info">Checked out: Batch KA-IMG-0042 · 12 images · Expires in 47:23</span>
+                        <a class="return-batch">Return Batch</a>
+                    </div>
+
+                    <div class="form-card">
+                        <div class="form-header">
+                            <span>Apply CNFA Tags</span>
+                            <a class="form-header-link">Tag Schema Reference ↗</a>
+                        </div>
+
+                        <div class="search-box">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" placeholder="Filter tags...">
+                        </div>
+
+                        <div class="tag-categories">
+                            <!-- Phase 0 -->
+                            <details class="category-section phase0" open>
+                                <summary class="category-summary">
+                                    <span>PHASE 0 — 2D IMAGE TAGS</span>
+                                    <span class="category-toggle">−</span>
+                                </summary>
+                                <div class="category-content">
+                                    <div class="form-group">
+                                        <label class="form-label">Workspace Type</label>
+                                        <select class="form-select">
+                                            <option>Select workspace type</option>
+                                            <option>Office</option>
+                                            <option>Lab</option>
+                                            <option>Classroom</option>
+                                            <option>Outdoor</option>
+                                            <option>Other</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Lighting Condition</label>
+                                        <select class="form-select">
+                                            <option>Select lighting condition</option>
+                                            <option>Natural</option>
+                                            <option>Artificial</option>
+                                            <option>Mixed</option>
+                                            <option>Unknown</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Occupancy Count</label>
+                                        <input type="number" class="form-input" min="0" max="50" placeholder="0-50">
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Posture (Primary)</label>
+                                        <select class="form-select">
+                                            <option>Select primary posture</option>
+                                            <option>Seated</option>
+                                            <option>Standing</option>
+                                            <option>Walking</option>
+                                            <option>Reclined</option>
+                                        </select>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Display Visible</label>
+                                        <div class="chip-group">
+                                            <div class="chip active">Yes</div>
+                                            <div class="chip">No</div>
+                                        </div>
+                                    </div>
+
+                                    <div class="form-group">
+                                        <label class="form-label">Equipment Type</label>
+                                        <div class="chip-group">
+                                            <div class="chip active">Computer</div>
+                                            <div class="chip">Tablet</div>
+                                            <div class="chip">Phone</div>
+                                            <div class="chip">Paper</div>
+                                            <div class="chip">Whiteboard</div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </details>
+
+                            <!-- Phase 1 -->
+                            <details class="category-section disabled">
+                                <summary class="category-summary">
+                                    <div>
+                                        <span>PHASE 1 — 3D / DEPTH TAGS</span><br>
+                                        <span class="category-note">Requires depth sensor data</span>
+                                    </div>
+                                    <span class="category-toggle">+</span>
+                                </summary>
+                                <div class="category-content hidden">
+                                    <div class="form-group">
+                                        <label class="form-label">Depth Available</label>
+                                        <select class="form-select" disabled>
+                                            <option>No data</option>
+                                        </select>
+                                    </div>
+                                </div>
+                            </details>
+                        </div>
+
+                        <div class="form-notes">
+                            <div class="form-group">
+                                <label class="form-label">Notes for Reviewer</label>
+                                <textarea class="form-textarea" rows="2" placeholder="Add any notes or observations..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="submit-row">
+                            <button class="button-primary">Submit & Next →</button>
+                            <button class="button-secondary">Save Draft</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Version Badge -->
+    <div class="version-badge">KA UI · v0.4</div>
+
+    <!-- Submit Batch Modal -->
+    <div id="submitModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header header-amber">
+                <div class="modal-header-title">Submit Batch for Review</div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-text">
+                    You are submitting <strong id="submitTagCount">23</strong> image tags in this batch.
+                </div>
+                <div class="modal-section">
+                    <span class="modal-section-label">Construct Tagged</span>
+                    <div class="modal-section-content" id="submitConstruct">Sustained Attention</div>
+                </div>
+                <div class="modal-section">
+                    <span class="modal-section-label">Confidence Level</span>
+                    <div class="modal-section-content" id="submitConfidence">High</div>
+                </div>
+                <div class="modal-section" id="submitWarningsSection" style="display:none;">
+                    <span class="modal-section-label">⚠ Missing Required Fields</span>
+                    <div class="modal-section-content" style="color:#C05A1F;" id="submitWarnings"></div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button btn-cancel" onclick="closeSubmitModal()">Cancel</button>
+                <button class="modal-button btn-confirm" onclick="confirmBatchSubmit()">Confirm Submission</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Return Batch Modal -->
+    <div id="returnModal" class="modal-overlay">
+        <div class="modal-container">
+            <div class="modal-header header-teal">
+                <div class="modal-header-title">Return Batch</div>
+            </div>
+            <div class="modal-body">
+                <div class="modal-text">
+                    Please explain why you are returning this batch:
+                </div>
+                <textarea id="returnReason" class="modal-textarea" placeholder="e.g., Images are too blurry to tag confidently..."></textarea>
+                <div class="modal-section" style="margin-top: 20px;">
+                    <span class="modal-section-label">Common Reasons</span>
+                    <div class="modal-checkbox-group">
+                        <div class="modal-checkbox-item">
+                            <input type="checkbox" id="returnReason1" value="Images unclear / low quality">
+                            <label for="returnReason1">Images unclear / low quality</label>
+                        </div>
+                        <div class="modal-checkbox-item">
+                            <input type="checkbox" id="returnReason2" value="Insufficient context for construct">
+                            <label for="returnReason2">Insufficient context for construct</label>
+                        </div>
+                        <div class="modal-checkbox-item">
+                            <input type="checkbox" id="returnReason3" value="Possible mislabeling in source">
+                            <label for="returnReason3">Possible mislabeling in source</label>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer">
+                <button class="modal-button btn-cancel" onclick="closeReturnModal()">Cancel</button>
+                <button class="modal-button btn-confirm-teal" onclick="confirmBatchReturn()">Return Batch</button>
+            </div>
+        </div>
+    </div>
+
+    <!-- Toast Notification -->
+    <div id="toast" class="toast-notification"></div>
+
+    <script>
+        // Handle category toggle
+        document.querySelectorAll('.category-section').forEach(section => {
+            const summary = section.querySelector('.category-summary');
+            const toggle = section.querySelector('.category-toggle');
+
+            summary.addEventListener('click', () => {
+                if (section.classList.contains('disabled')) return;
+                const isOpen = section.hasAttribute('open');
+                toggle.textContent = isOpen ? '+' : '−';
+            });
+        });
+
+        // Handle chip selection
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Modal functions
+        function openSubmitModal() {
+            const modal = document.getElementById('submitModal');
+            // Update counts and fields in modal
+            const formCard = document.querySelector('.form-card');
+            const selectedChips = formCard.querySelectorAll('.chip.active').length;
+            document.getElementById('submitTagCount').textContent = selectedChips || '23';
+            document.getElementById('submitConstruct').textContent = 'Sustained Attention';
+            document.getElementById('submitConfidence').textContent = 'High';
+
+            // Check for missing fields
+            const warnings = [];
+            if (!document.querySelector('.form-select').value || document.querySelector('.form-select').value === 'Select workspace type') {
+                warnings.push('Workspace Type');
+            }
+
+            const warningsSection = document.getElementById('submitWarningsSection');
+            if (warnings.length > 0) {
+                document.getElementById('submitWarnings').textContent = warnings.join(', ');
+                warningsSection.style.display = 'block';
+            } else {
+                warningsSection.style.display = 'none';
+            }
+
+            modal.classList.add('visible');
+        }
+
+        function closeSubmitModal() {
+            document.getElementById('submitModal').classList.remove('visible');
+        }
+
+        function confirmBatchSubmit() {
+            closeSubmitModal();
+            showToast('Batch submitted successfully — Thank you!');
+        }
+
+        function openReturnModal() {
+            document.getElementById('returnModal').classList.add('visible');
+        }
+
+        function closeReturnModal() {
+            document.getElementById('returnModal').classList.remove('visible');
+            document.getElementById('returnReason').value = '';
+            document.querySelectorAll('#returnModal input[type="checkbox"]').forEach(cb => cb.checked = false);
+        }
+
+        function confirmBatchReturn() {
+            closeReturnModal();
+            showToast('Batch returned for reassignment');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('visible');
+            setTimeout(() => {
+                toast.classList.remove('visible');
+            }, 3000);
+        }
+
+        // Wire up buttons
+        document.addEventListener('DOMContentLoaded', function() {
+            // Submit buttons
+            const submitButtons = document.querySelectorAll('.button-primary');
+            submitButtons.forEach(btn => {
+                if (btn.textContent.includes('Submit')) {
+                    btn.onclick = function(e) {
+                        e.preventDefault();
+                        openSubmitModal();
+                    };
+                }
+            });
+
+            // Return button
+            const returnBatchLink = document.querySelector('.return-batch');
+            if (returnBatchLink) {
+                returnBatchLink.onclick = function(e) {
+                    e.preventDefault();
+                    openReturnModal();
+                };
+            }
+        });
+
+        // Close modals on overlay click
+        document.getElementById('submitModal').addEventListener('click', function(e) {
+            if (e.target === this) closeSubmitModal();
+        });
+
+        document.getElementById('returnModal').addEventListener('click', function(e) {
+            if (e.target === this) closeReturnModal();
+        });
+    </script>
+<script src="ka_acronyms.js"></script>
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_tagger',
+  title: 'Image Tagger — Contributor Tool',
+  audience: 'Track 1 contributors: students assigned to tag images with CNFA [Cognitive Neuroscience of Functional Architecture] construct labels',
+  purpose: 'The primary data contribution interface for Track 1 contributors. Presents a batch of architectural images; the contributor tags each image with the construct(s) it likely evokes (e.g., Awe, Stress, Restorative Attention) and the confidence level of the tag. Tags feed the image corpus that eventually trains construct-predictive models. In the live system this reads assigned batches from image_batches and writes tags to image_tags.',
+  workflowPos: 'Contributor workflow: log in → dashboard → assigned batch appears → tag images → submit batch → dashboard updates progress bar. Reached only by Track 1 contributors with an assigned batch.',
+  notFor: 'Research browsing or hypothesis building. Viewing previously submitted tags (separate review interface not yet built). Tagging articles (different workflow — use Articles page).',
+  phase: 'Phase 3 — User Management + Contributor Pipeline (batch assignment logic and tag DB writes)',
+  evalQuestions: [
+    'Is the construct selection clear enough — do contributors understand the difference between, e.g., Awe and Emotional Arousal?',
+    'Is the confidence level selector calibrated — do contributors understand what Low vs. High confidence means for a subjective judgment?',
+    'Is the batch size appropriate — is submitting 20+ images in one session realistic and motivating?',
+    'Are the submit and return-batch modals giving enough information to make the action feel safe (not irreversible)?',
+    'Does the page give contributors enough context about why their tags matter to the overall research system?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

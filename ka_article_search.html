@@ -1,0 +1,720 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Article Search · Knowledge Atlas</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: #1C3D3A; height: 56px;
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 0 24px; box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.nav-left { display: flex; align-items: center; gap: 28px; }
+.wordmark { font-size: 1.25rem; font-weight: 700; color: #F5A623; letter-spacing: -0.3px; }
+.wordmark-sub { font-size: 0.62rem; color: #7AACA0; letter-spacing: 1.5px; text-transform: uppercase; }
+nav ul { display: flex; gap: 20px; list-style: none; }
+nav a { color: #B8D4CE; font-size: 0.88rem; text-decoration: none; transition: color 0.15s; }
+nav a:hover { color: #fff; }
+nav a.active { color: #F5A623; }
+.nav-right { display: flex; align-items: center; gap: 12px; }
+.mode-pill {
+  background: rgba(42,120,104,0.3); color: #7AACA0;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  padding: 4px 12px; border-radius: 20px;
+}
+
+/* ── PAGE HEADER ── */
+.page-header {
+  background: linear-gradient(135deg, #1C3D3A 0%, #163230 100%);
+  padding: 40px 24px 32px; text-align: center;
+}
+.page-header-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.18em;
+  text-transform: uppercase; color: #7AACA0; margin-bottom: 10px;
+}
+.page-header h1 {
+  font-family: Georgia, serif; font-size: 2rem; color: #fff; margin-bottom: 10px; font-weight: 600;
+}
+.page-header-sub {
+  font-size: 0.92rem; color: #9ABFB8; max-width: 560px; margin: 0 auto; line-height: 1.55;
+}
+
+/* ── SEARCH MODE SELECTOR ── */
+.mode-selector-section {
+  max-width: 860px; margin: 36px auto 0; padding: 0 24px;
+}
+.mode-selector-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #B0A090; margin-bottom: 14px; text-align: center;
+}
+.mode-tabs {
+  display: flex; gap: 0; border: 2px solid #1C3D3A; border-radius: 8px; overflow: hidden;
+}
+.mode-tab {
+  flex: 1; padding: 13px 18px; cursor: pointer;
+  background: #fff; color: #4A3E32;
+  font-size: 0.88rem; font-weight: 600; text-align: center;
+  border: none; border-right: 1px solid #E0DAD3;
+  transition: background 0.15s, color 0.15s;
+  display: flex; flex-direction: column; align-items: center; gap: 4px;
+}
+.mode-tab:last-child { border-right: none; }
+.mode-tab:hover { background: #F7F4EF; }
+.mode-tab.active { background: #1C3D3A; color: #fff; }
+.mode-tab.active .mode-tab-sub { color: #9ABFB8; }
+.mode-tab .mode-tab-icon { font-size: 1.2rem; }
+.mode-tab .mode-tab-label { font-weight: 700; font-size: 0.86rem; }
+.mode-tab .mode-tab-sub { font-size: 0.74rem; color: #8A7A68; font-weight: 400; }
+
+/* ── SEARCH PANEL ── */
+.search-panel {
+  max-width: 860px; margin: 24px auto 0; padding: 0 24px;
+}
+.search-box {
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 10px;
+  padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.search-box-row {
+  display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
+}
+.search-field { flex: 1; min-width: 200px; }
+.search-field-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #B0A090; margin-bottom: 7px;
+}
+.search-field select, .search-field input {
+  width: 100%; padding: 10px 13px; border: 1px solid #D0C8BE;
+  border-radius: 6px; font-size: 0.88rem; font-family: Arial, sans-serif;
+  color: #2D2D2D; background: #FAFAF8;
+  appearance: none; -webkit-appearance: none;
+}
+.search-field select:focus, .search-field input:focus {
+  outline: none; border-color: #2A7868;
+}
+.search-field-hint {
+  font-size: 0.74rem; color: #B0A090; margin-top: 5px; line-height: 1.45;
+}
+.search-join-label {
+  padding-top: 28px; font-size: 0.78rem; font-weight: 700;
+  color: #B0A090; letter-spacing: 0.06em; text-transform: uppercase;
+  flex-shrink: 0;
+}
+.btn-search-primary {
+  background: #E8872A; color: #fff; border: none;
+  padding: 10px 28px; border-radius: 6px;
+  font-size: 0.9rem; font-weight: 700; letter-spacing: 0.04em;
+  cursor: pointer; transition: background 0.15s; white-space: nowrap;
+  align-self: flex-end;
+}
+.btn-search-primary:hover { background: #C56A12; }
+.btn-search-primary:disabled {
+  background: #D0C8BE; cursor: not-allowed; color: #9A8A78;
+}
+
+/* ── CHIPS / QUICK SELECT ── */
+.chips-section { margin-top: 16px; }
+.chips-label {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #B0A090; margin-bottom: 8px;
+}
+.chips { display: flex; flex-wrap: wrap; gap: 7px; }
+.chip {
+  padding: 5px 12px; border-radius: 20px; font-size: 0.78rem; font-weight: 600;
+  border: 1px solid #D0C8BE; background: #fff; color: #4A3E32; cursor: pointer;
+  transition: background 0.12s, border-color 0.12s, color 0.12s;
+}
+.chip:hover { border-color: #2A7868; color: #1C3D3A; }
+.chip.selected { background: #1C3D3A; color: #fff; border-color: #1C3D3A; }
+
+/* ── RESULTS AREA ── */
+.results-section {
+  max-width: 860px; margin: 28px auto 0; padding: 0 24px;
+}
+.results-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 14px; flex-wrap: wrap; gap: 8px;
+}
+.results-count {
+  font-size: 0.84rem; color: #8A7A68;
+}
+.results-count strong { color: #2D2D2D; }
+.results-sort {
+  font-size: 0.82rem; color: #6A5C50;
+}
+.results-sort select {
+  font-size: 0.82rem; border: 1px solid #D0C8BE; border-radius: 4px;
+  padding: 3px 8px; background: #fff; color: #2D2D2D;
+}
+.result-list { display: flex; flex-direction: column; gap: 12px; }
+.result-card {
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 8px;
+  padding: 16px 18px; cursor: pointer;
+  border-left: 4px solid transparent;
+  transition: border-color 0.12s, box-shadow 0.12s;
+}
+.result-card:hover { border-left-color: #2A7868; box-shadow: 0 2px 12px rgba(0,0,0,0.07); }
+.result-title {
+  font-family: Georgia, serif; font-size: 0.96rem; color: #1C3D3A;
+  font-weight: 600; line-height: 1.4; margin-bottom: 5px;
+}
+.result-authors {
+  font-size: 0.8rem; color: #8A7A68; margin-bottom: 6px;
+}
+.result-abstract {
+  font-size: 0.83rem; color: #4A3E32; line-height: 1.55;
+  display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.result-meta {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;
+}
+.result-tag {
+  padding: 3px 9px; border-radius: 20px; font-size: 0.73rem; font-weight: 600;
+  background: #E0F2EE; color: #1C3D3A;
+}
+.result-tag.instrument { background: #FFF0CC; color: #7A4400; }
+.result-tag.year { background: #F0EDEA; color: #6A5C50; }
+.result-tag.rct { background: #D6EDD9; color: #1A5032; }
+
+/* ── EMPTY / PROMPT STATES ── */
+.search-prompt {
+  text-align: center; padding: 48px 20px;
+  color: #B0A090;
+}
+.search-prompt-icon { font-size: 2.8rem; margin-bottom: 12px; }
+.search-prompt p {
+  font-size: 0.92rem; font-family: Georgia, serif; color: #9A8A78; line-height: 1.6;
+}
+
+/* ── PAGE PURPOSE NOTE ── */
+.page-purpose {
+  max-width: 860px; margin: 32px auto 56px; padding: 0 24px;
+}
+.page-purpose-inner {
+  border-top: 1px dashed #D8D2CA; padding-top: 16px;
+  font-family: Georgia, serif; font-size: 0.82rem; font-style: italic;
+  color: #9A8A78; line-height: 1.65; text-align: center;
+}
+
+/* ── VERSION BADGE ── */
+.version-badge {
+  position: fixed; bottom: 16px; right: 20px;
+  background: #1C3D3A; color: #7AACA0;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+  padding: 3px 10px; border-radius: 10px; pointer-events: none; opacity: 0.85;
+}
+
+@media (max-width: 680px) {
+  .mode-tabs { flex-direction: column; }
+  .mode-tab { border-right: none; border-bottom: 1px solid #E0DAD3; }
+  .mode-tab:last-child { border-bottom: none; }
+  .search-box-row { flex-direction: column; }
+  .search-join-label { padding-top: 0; }
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-left">
+    <div>
+      <div class="wordmark">Knowledge Atlas</div>
+      <div class="wordmark-sub">COGS 160</div>
+    </div>
+    <ul>
+      <li><a href="ka_demo_v04.html">Ask</a></li>
+      <li><a href="ka_evidence.html">Evidence</a></li>
+      <li><a href="ka_hypothesis_builder.html">Build</a></li>
+      <li><a href="ka_tagger.html">Tag</a></li>
+      <li><a href="ka_article_search.html" class="active">Articles</a></li>
+      <li><a href="ka_sensors.html">Signals</a></li>
+      <li><a href="ka_gaps.html">Gaps</a></li>
+    </ul>
+  </div>
+  <div class="nav-right">
+    <div class="mode-pill">RESEARCHER</div>
+  </div>
+</nav>
+
+<!-- PAGE HEADER -->
+<div class="page-header">
+  <div class="page-header-label">Knowledge Atlas · Literature Search</div>
+  <h1>Article Search</h1>
+  <p class="page-header-sub">
+    Find published studies by the cognitive or affective construct they investigate,
+    by the measuring instrument <span style="font-size:0.88em;opacity:0.8;">[signal / measuring instrument]</span> they use, or by both together.
+  </p>
+</div>
+
+<!-- SEARCH MODE TABS -->
+<div class="mode-selector-section">
+  <div class="mode-selector-label">Search by …</div>
+  <div class="mode-tabs">
+    <button class="mode-tab active" data-mode="construct" onclick="setMode('construct', this)">
+      <span class="mode-tab-icon">🧠</span>
+      <span class="mode-tab-label">Construct</span>
+      <span class="mode-tab-sub">Sustained Attention, Stress, Awe…</span>
+    </button>
+    <button class="mode-tab" data-mode="instrument" onclick="setMode('instrument', this)">
+      <span class="mode-tab-icon">📡</span>
+      <span class="mode-tab-label">Measuring Instrument</span>
+      <span class="mode-tab-sub">EDA, EEG, NASA-TLX, PVT…</span>
+    </button>
+    <button class="mode-tab" data-mode="both" onclick="setMode('both', this)">
+      <span class="mode-tab-icon">🔍</span>
+      <span class="mode-tab-label">Both Together</span>
+      <span class="mode-tab-sub">Construct + Instrument combined</span>
+    </button>
+  </div>
+</div>
+
+<!-- SEARCH PANEL — renders differently per mode -->
+<div class="search-panel">
+  <div class="search-box">
+
+    <!-- MODE: Construct only -->
+    <div id="panel-construct">
+      <div class="search-box-row">
+        <div class="search-field">
+          <div class="search-field-label">Construct</div>
+          <select id="sel-construct" onchange="updateSearch()">
+            <option value="">— Select a construct —</option>
+            <option>Sustained Attention</option>
+            <option>Working Memory Load</option>
+            <option>Emotional Arousal</option>
+            <option>Stress</option>
+            <option>Cognitive Load</option>
+            <option>Awe</option>
+            <option>Flow State</option>
+            <option>Fatigue / Mental Fatigue</option>
+            <option>Vigilance Decrement</option>
+            <option>Spatial Navigation</option>
+            <option>Social Engagement</option>
+            <option>Sensory Overload</option>
+            <option>Restorative Attention</option>
+            <option>Hedonic Valence</option>
+          </select>
+          <div class="search-field-hint">Selects all articles tagged to this construct in the KA <span style="font-size:0.88em;">[Knowledge Atlas]</span> evidence corpus</div>
+        </div>
+        <button class="btn-search-primary" id="btn-search-c" onclick="runSearch()" disabled>Search →</button>
+      </div>
+      <div class="chips-section">
+        <div class="chips-label">Quick select</div>
+        <div class="chips" id="chips-construct">
+          <span class="chip" onclick="quickSelectConstruct(this)">Sustained Attention</span>
+          <span class="chip" onclick="quickSelectConstruct(this)">Stress</span>
+          <span class="chip" onclick="quickSelectConstruct(this)">Cognitive Load</span>
+          <span class="chip" onclick="quickSelectConstruct(this)">Awe</span>
+          <span class="chip" onclick="quickSelectConstruct(this)">Flow State</span>
+          <span class="chip" onclick="quickSelectConstruct(this)">Emotional Arousal</span>
+          <span class="chip" onclick="quickSelectConstruct(this)">Fatigue / Mental Fatigue</span>
+          <span class="chip" onclick="quickSelectConstruct(this)">Working Memory Load</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODE: Instrument only -->
+    <div id="panel-instrument" style="display:none;">
+      <div class="search-box-row">
+        <div class="search-field">
+          <div class="search-field-label">Measuring Instrument <span style="font-size:0.86em;color:#B0A090;font-weight:400;">[Signal]</span></div>
+          <select id="sel-instrument" onchange="updateSearchI()">
+            <option value="">— Select an instrument —</option>
+            <optgroup label="Physiological">
+              <option>EDA [Electrodermal Activity] — Skin conductance</option>
+              <option>HR / HRV [Heart Rate / Heart Rate Variability]</option>
+              <option>PPG [Photoplethysmography]</option>
+              <option>Salivary Cortisol</option>
+              <option>EMG [Electromyography] — Facial muscle</option>
+              <option>Respiration Rate / Depth</option>
+            </optgroup>
+            <optgroup label="Neural">
+              <option>EEG — Full-cap [Electroencephalography]</option>
+              <option>EEG — Wearable headband</option>
+              <option>fNIRS [Functional Near-Infrared Spectroscopy]</option>
+              <option>fMRI [Functional Magnetic Resonance Imaging]</option>
+            </optgroup>
+            <optgroup label="Ocular">
+              <option>Pupil Diameter</option>
+              <option>Eye-Tracking — Fixation patterns</option>
+              <option>Saccade latency</option>
+              <option>Blink rate / PERCLOS [Percentage Eye Closure]</option>
+            </optgroup>
+            <optgroup label="Behavioral">
+              <option>PVT [Psychomotor Vigilance Task]</option>
+              <option>N-Back Task</option>
+              <option>Response Time / Accuracy</option>
+              <option>FACS [Facial Action Coding System]</option>
+            </optgroup>
+            <optgroup label="Self-Report">
+              <option>NASA-TLX [NASA Task Load Index]</option>
+              <option>PANAS [Positive and Negative Affect Schedule]</option>
+              <option>SAM [Self-Assessment Manikin]</option>
+              <option>STAI [State-Trait Anxiety Inventory]</option>
+              <option>DSSQ [Dundee Stress State Questionnaire]</option>
+            </optgroup>
+          </select>
+          <div class="search-field-hint">Finds all articles in the corpus that use this instrument as a primary or auxiliary measure. Click the arrow next to an instrument name on the Signal Catalogue page to jump here directly.</div>
+        </div>
+        <button class="btn-search-primary" id="btn-search-i" onclick="runSearch()" disabled>Search →</button>
+      </div>
+      <div class="chips-section">
+        <div class="chips-label">Common instruments</div>
+        <div class="chips" id="chips-instrument">
+          <span class="chip" onclick="quickSelectInstrument(this)">EDA</span>
+          <span class="chip" onclick="quickSelectInstrument(this)">HR / HRV</span>
+          <span class="chip" onclick="quickSelectInstrument(this)">EEG — Wearable</span>
+          <span class="chip" onclick="quickSelectInstrument(this)">Pupil Diameter</span>
+          <span class="chip" onclick="quickSelectInstrument(this)">PVT</span>
+          <span class="chip" onclick="quickSelectInstrument(this)">NASA-TLX</span>
+          <span class="chip" onclick="quickSelectInstrument(this)">PANAS</span>
+          <span class="chip" onclick="quickSelectInstrument(this)">fNIRS</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- MODE: Both -->
+    <div id="panel-both" style="display:none;">
+      <div class="search-box-row">
+        <div class="search-field">
+          <div class="search-field-label">Construct</div>
+          <select id="sel-both-construct" onchange="updateSearchB()">
+            <option value="">— Select a construct —</option>
+            <option>Sustained Attention</option>
+            <option>Working Memory Load</option>
+            <option>Emotional Arousal</option>
+            <option>Stress</option>
+            <option>Cognitive Load</option>
+            <option>Awe</option>
+            <option>Flow State</option>
+            <option>Fatigue / Mental Fatigue</option>
+            <option>Vigilance Decrement</option>
+            <option>Spatial Navigation</option>
+            <option>Social Engagement</option>
+            <option>Sensory Overload</option>
+            <option>Restorative Attention</option>
+            <option>Hedonic Valence</option>
+          </select>
+        </div>
+        <div class="search-join-label">+</div>
+        <div class="search-field">
+          <div class="search-field-label">Measuring Instrument</div>
+          <select id="sel-both-instrument" onchange="updateSearchB()">
+            <option value="">— Select an instrument —</option>
+            <optgroup label="Physiological">
+              <option>EDA [Electrodermal Activity]</option>
+              <option>HR / HRV</option>
+              <option>PPG [Photoplethysmography]</option>
+              <option>Salivary Cortisol</option>
+              <option>EMG [Electromyography]</option>
+            </optgroup>
+            <optgroup label="Neural">
+              <option>EEG — Full-cap</option>
+              <option>EEG — Wearable</option>
+              <option>fNIRS</option>
+              <option>fMRI</option>
+            </optgroup>
+            <optgroup label="Ocular">
+              <option>Pupil Diameter</option>
+              <option>Eye-Tracking — Fixation patterns</option>
+              <option>Blink rate / PERCLOS</option>
+            </optgroup>
+            <optgroup label="Behavioral">
+              <option>PVT [Psychomotor Vigilance Task]</option>
+              <option>N-Back Task</option>
+              <option>FACS [Facial Action Coding System]</option>
+            </optgroup>
+            <optgroup label="Self-Report">
+              <option>NASA-TLX</option>
+              <option>PANAS</option>
+              <option>SAM [Self-Assessment Manikin]</option>
+              <option>STAI [State-Trait Anxiety Inventory]</option>
+            </optgroup>
+          </select>
+        </div>
+        <button class="btn-search-primary" id="btn-search-b" onclick="runSearch()" disabled>Search →</button>
+      </div>
+      <div class="search-field-hint" style="margin-top:10px;">
+        Returns only articles that address both the selected construct <em>and</em> use the selected measuring instrument — the most targeted search mode. Leave one blank to broaden the search.
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- RESULTS AREA -->
+<div class="results-section" id="results-section">
+  <div class="search-prompt" id="search-prompt">
+    <div class="search-prompt-icon">📄</div>
+    <p>Select a construct, measuring instrument, or both above,<br>then click <strong>Search</strong> to find relevant articles in the KA corpus.</p>
+    <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;">
+      <em>Note (demo mode): Results shown are representative examples. Live search requires the article corpus database — see the Critical Path document for Phase 2 data-seeding details.</em>
+    </p>
+  </div>
+  <div id="results-container" style="display:none;">
+    <div class="results-header">
+      <div class="results-count" id="results-count"><strong>0</strong> articles found</div>
+      <div class="results-sort">
+        Sort by: <select onchange="sortResults(this.value)">
+          <option value="relevance">Relevance</option>
+          <option value="year">Year (newest)</option>
+          <option value="credence">Credence score</option>
+        </select>
+      </div>
+    </div>
+    <div class="result-list" id="result-list"></div>
+  </div>
+</div>
+
+<!-- PROPOSE ARTICLE CTA -->
+<div style="max-width:860px;margin:28px auto 0;padding:0 24px;">
+  <div style="background:#fff;border:1.5px solid #2A7868;border-radius:10px;
+              padding:18px 24px;display:flex;align-items:center;gap:20px;">
+    <div style="font-size:2rem;flex-shrink:0;">📥</div>
+    <div style="flex:1;">
+      <div style="font-size:0.78rem;font-weight:700;letter-spacing:0.12em;
+                  text-transform:uppercase;color:#2A7868;margin-bottom:4px;">
+        Can't find a paper you know exists?
+      </div>
+      <p style="font-size:0.9rem;color:#444;line-height:1.5;margin:0;">
+        Propose it for the KA corpus — paste a DOI and our pipeline will fetch the abstract,
+        check for duplicates, and queue it for extraction.
+      </p>
+    </div>
+    <a href="ka_article_propose.html"
+       style="flex-shrink:0;background:#2A7868;color:#fff;font-size:0.84rem;
+              font-weight:700;padding:10px 20px;border-radius:7px;text-decoration:none;
+              white-space:nowrap;transition:background .15s;"
+       onmouseover="this.style.background='#1C3D3A'"
+       onmouseout="this.style.background='#2A7868'">
+      Propose an Article →
+    </a>
+  </div>
+</div>
+
+<!-- PAGE PURPOSE NOTE -->
+<div class="page-purpose">
+  <p class="page-purpose-inner">
+    <em>Page purpose (for workflow and interface designers):</em> This is the article discovery page. It is distinct from the Signal / Measuring Instrument Catalogue (which explains what instruments measure and how to choose them) and from the Evidence Browser (which shows processed evidence nodes with warrant chains). This page is for students and researchers who want to find the primary literature: which studies used EDA <span style="font-size:0.88em;">[Electrodermal Activity]</span> to measure stress, which studies used EEG <span style="font-size:0.88em;">[Electroencephalography]</span> and PVT <span style="font-size:0.88em;">[Psychomotor Vigilance Task]</span> together for sustained attention, and so on. The three search modes (by construct, by instrument, by both) implement progressive specificity: a student exploring a new construct starts broad; a student who has already chosen their instruments searches by both. The results link to full article records, abstract, DOI <span style="font-size:0.88em;">[Digital Object Identifier]</span>, and (when available) the extracted evidence nodes in the Evidence Browser.
+  </p>
+</div>
+
+<!-- VERSION BADGE -->
+<div class="version-badge">KA UI · v0.4</div>
+
+<script>
+/* ── DEMO ARTICLE DATA ── */
+const DEMO_ARTICLES = [
+  {
+    title: "Blue-enriched white light in the workplace improves self-reported alertness, performance and sleep quality",
+    authors: "Viola, A.U., James, L.M., Schlangen, L.J., & Dijk, D.J.",
+    year: 2008,
+    journal: "Scandinavian Journal of Work, Environment & Health",
+    abstract: "A randomized crossover study in an office setting compared blue-enriched white light to standard cool-white fluorescent. Workers reported significantly higher vitality, alertness, and positive mood, and showed faster median reaction time on PVT blocks during the post-lunch dip. Effect sizes were moderate.",
+    constructs: ["Sustained Attention", "Fatigue / Mental Fatigue"],
+    instruments: ["PVT [Psychomotor Vigilance Task]", "HR / HRV"],
+    studyType: "RCT",
+    doi: "10.5271/sjweh.1268"
+  },
+  {
+    title: "Mental workload and driving: A headband EEG study in real traffic",
+    authors: "Hauber, W., Sander, T., & Falkenstein, M.",
+    year: 2020,
+    journal: "Frontiers in Human Neuroscience",
+    abstract: "Thirty-two participants drove in real traffic while wearing a consumer-grade EEG headband. Alpha-band suppression and theta-band elevation were sensitive to lane-change maneuver difficulty. NASA-TLX confirmed subjective load increase. Wearable EEG showed similar sensitivity to full-cap in this naturalistic context.",
+    constructs: ["Cognitive Load", "Working Memory Load"],
+    instruments: ["EEG — Wearable", "NASA-TLX"],
+    studyType: "Within-subjects",
+    doi: "10.3389/fnhum.2020.00156"
+  },
+  {
+    title: "Electrodermal activity during architectural movement: Arousal correlates of spatial transition",
+    authors: "Sussman, A., & Hollander, J.B.",
+    year: 2015,
+    journal: "Environment and Behavior",
+    abstract: "EDA and HR were recorded while participants navigated a sequence of architectural spaces in a field study. Phasic EDA peaks correlated with spatial transitions (threshold crossings, view openings), suggesting constitutive arousal signal for moment-to-moment emotional response to spatial experience.",
+    constructs: ["Emotional Arousal", "Stress", "Awe"],
+    instruments: ["EDA [Electrodermal Activity]", "HR / HRV"],
+    studyType: "Field study",
+    doi: "10.1177/0013916514536519"
+  },
+  {
+    title: "Pupillometry reveals cognitive resource depletion in sustained attention tasks",
+    authors: "van der Meer, E., Beyer, R., & Heinze, H.-J.",
+    year: 2010,
+    journal: "Psychophysiology",
+    abstract: "Pupil diameter was recorded during a 45-minute sustained visual attention task. Diameter declined systematically across the session, particularly in the third quartile, consistent with locus coeruleus–norepinephrine models of vigilance decrement. Pupil slope predicted self-reported fatigue at debriefing.",
+    constructs: ["Sustained Attention", "Vigilance Decrement", "Fatigue / Mental Fatigue"],
+    instruments: ["Pupil Diameter", "PVT [Psychomotor Vigilance Task]"],
+    studyType: "Within-subjects",
+    doi: "10.1111/j.1469-8986.2009.00926.x"
+  },
+  {
+    title: "fNIRS as a neuroergonomic measure during simulated flight: Prefrontal workload under high-demand conditions",
+    authors: "Causse, M., Alonso, A., & Roy, R.N.",
+    year: 2021,
+    journal: "Frontiers in Neuroergonomics",
+    abstract: "Portable fNIRS monitored prefrontal oxygenation in 24 pilots during a flight simulator task varying in air traffic control load. Oxyhemoglobin increase in DLPFC correlated with NASA-TLX composite scores and RT on a secondary task. fNIRS showed comparable sensitivity to full-cap EEG for this application.",
+    constructs: ["Cognitive Load", "Working Memory Load", "Sustained Attention"],
+    instruments: ["fNIRS", "NASA-TLX"],
+    studyType: "Within-subjects",
+    doi: "10.3389/fnrgo.2021.619836"
+  },
+  {
+    title: "Salivary cortisol and STAI as dual indices of acute stress in built environment transitions",
+    authors: "Lederbogen, F., Haddad, L., & Meyer-Lindenberg, A.",
+    year: 2019,
+    journal: "Neuropsychobiology",
+    abstract: "Cortisol samples were collected at baseline and 20 minutes post-entry into dense urban vs. low-density contexts. STAI state scale was administered in parallel. Urban context raised both cortisol and STAI scores significantly; dissociations between measures were observed in participants with high dispositional stress reactivity, highlighting the independent information content of endocrine vs. subjective measures.",
+    constructs: ["Stress", "Emotional Arousal"],
+    instruments: ["Salivary Cortisol", "STAI [State-Trait Anxiety Inventory]"],
+    studyType: "Between-subjects",
+    doi: "10.1159/000490559"
+  }
+];
+
+/* ── MODE SWITCHING ── */
+let currentMode = 'construct';
+
+function setMode(mode, btn) {
+  currentMode = mode;
+  document.querySelectorAll('.mode-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  ['construct','instrument','both'].forEach(m => {
+    document.getElementById('panel-' + m).style.display = m === mode ? 'block' : 'none';
+  });
+  hideResults();
+}
+
+/* ── SELECT ENABLE/DISABLE ── */
+function updateSearch() {
+  const v = document.getElementById('sel-construct').value;
+  document.getElementById('btn-search-c').disabled = !v;
+}
+function updateSearchI() {
+  const v = document.getElementById('sel-instrument').value;
+  document.getElementById('btn-search-i').disabled = !v;
+}
+function updateSearchB() {
+  const c = document.getElementById('sel-both-construct').value;
+  const i = document.getElementById('sel-both-instrument').value;
+  document.getElementById('btn-search-b').disabled = !(c || i);
+}
+
+/* ── QUICK CHIPS ── */
+function quickSelectConstruct(chip) {
+  document.querySelectorAll('#chips-construct .chip').forEach(c => c.classList.remove('selected'));
+  chip.classList.add('selected');
+  const sel = document.getElementById('sel-construct');
+  sel.value = chip.textContent;
+  updateSearch();
+}
+function quickSelectInstrument(chip) {
+  document.querySelectorAll('#chips-instrument .chip').forEach(c => c.classList.remove('selected'));
+  chip.classList.add('selected');
+  // try partial match
+  const sel = document.getElementById('sel-instrument');
+  const term = chip.textContent.toLowerCase();
+  for (const opt of sel.options) {
+    if (opt.value.toLowerCase().includes(term)) { sel.value = opt.value; break; }
+  }
+  updateSearchI();
+}
+
+/* ── SEARCH ── */
+function runSearch() {
+  let construct = '', instrument = '';
+  if (currentMode === 'construct') {
+    construct = document.getElementById('sel-construct').value;
+  } else if (currentMode === 'instrument') {
+    instrument = document.getElementById('sel-instrument').value;
+  } else {
+    construct   = document.getElementById('sel-both-construct').value;
+    instrument  = document.getElementById('sel-both-instrument').value;
+  }
+
+  let results = DEMO_ARTICLES.filter(a => {
+    const cMatch = !construct  || a.constructs.some(c => c.toLowerCase().includes(construct.toLowerCase().split(' ')[0]));
+    const iMatch = !instrument || a.instruments.some(i => i.toLowerCase().includes(instrument.split(' ')[0].toLowerCase().replace(/\[.*\]/,'').trim()));
+    return cMatch && iMatch;
+  });
+
+  renderResults(results, construct, instrument);
+}
+
+function renderResults(articles, construct, instrument) {
+  const prompt = document.getElementById('search-prompt');
+  const container = document.getElementById('results-container');
+  const countEl = document.getElementById('results-count');
+  const listEl = document.getElementById('result-list');
+
+  if (articles.length === 0) {
+    prompt.innerHTML = `<div class="search-prompt-icon">🔍</div><p>No articles found for the current selection.<br><span style="font-size:0.86rem;color:#C0B0A0;">Try broadening your search — remove one filter, or switch to a single-criterion mode.</span></p>`;
+    prompt.style.display = 'block';
+    container.style.display = 'none';
+    return;
+  }
+
+  prompt.style.display = 'none';
+  container.style.display = 'block';
+  countEl.innerHTML = `<strong>${articles.length}</strong> article${articles.length !== 1 ? 's' : ''} found${construct ? ' — construct: <em>' + construct + '</em>' : ''}${instrument ? ' — instrument: <em>' + instrument.split('[')[0].trim() + '</em>' : ''}`;
+
+  listEl.innerHTML = articles.map(a => `
+    <div class="result-card" onclick="this.querySelector('.result-abstract').style['-webkit-line-clamp'] = this.querySelector('.result-abstract').style['-webkit-line-clamp'] === 'none' ? '3' : 'none'">
+      <div class="result-title">${a.title}</div>
+      <div class="result-authors">${a.authors} (${a.year}) · <em>${a.journal}</em></div>
+      <div class="result-abstract">${a.abstract}</div>
+      <div class="result-meta">
+        ${a.constructs.map(c => `<span class="result-tag">${c}</span>`).join('')}
+        ${a.instruments.map(i => `<span class="result-tag instrument">${i.split('[')[0].trim()}</span>`).join('')}
+        <span class="result-tag year">${a.year}</span>
+        <span class="result-tag rct">${a.studyType}</span>
+        ${a.doi ? `<span class="result-tag" style="background:#F0EDEA;color:#2A7868;cursor:pointer;" onclick="window.open('https://doi.org/${a.doi}','_blank')">DOI ↗</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function hideResults() {
+  document.getElementById('search-prompt').style.display = 'block';
+  document.getElementById('search-prompt').innerHTML = `
+    <div class="search-prompt-icon">📄</div>
+    <p>Select a construct, measuring instrument, or both above,<br>then click <strong>Search</strong> to find relevant articles in the KA corpus.</p>
+    <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;"><em>Note (demo mode): Results shown are representative examples. Live search requires the article corpus database.</em></p>
+  `;
+  document.getElementById('results-container').style.display = 'none';
+}
+
+function sortResults(val) {
+  // stub — in real version this would re-query the API with sort param
+}
+</script>
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_article_search',
+  title: 'Article Search — Literature Discovery',
+  audience: 'Researchers and students who want to find published studies by construct or measuring instrument',
+  purpose: 'A researcher-facing literature search page. Supports three search modes: by construct (find all studies addressing a cognitive or affective construct), by measuring instrument (find all studies using a given signal), and by both together (most targeted search). Results link to article records, abstracts, DOIs [Digital Object Identifiers], and — when available — the extracted evidence nodes in the Evidence Browser. Distinct from ka_articles.html (contributor management) and the Evidence Browser (processed warrant chains).',
+  workflowPos: 'Used at the literature review stage (Stage 2 of the six-stage model) before forming a hypothesis, or during hypothesis revision when more evidence is needed. Also reached from the Signal / Measuring Instrument Catalogue via the CTA [Call to Action] button at the bottom of that page.',
+  notFor: 'Managing or evaluating articles as a contributor (use ka_articles.html). Browsing processed evidence nodes with warrant chains (use Evidence Browser). Formulating or saving a hypothesis (use Hypothesis Builder).',
+  phase: 'Phase 4 — Core Tool Backends (requires full-text search on articles table from Phase 2 data seeding)',
+  evalQuestions: [
+    'Are the three search modes (by construct / by instrument / by both) clearly differentiated and is "Both Together" the obviously most powerful option?',
+    'Do the quick-select chips speed up the workflow or clutter the interface?',
+    'Is the distinction between Article Search and Evidence Browser legible without reading the purpose note at the bottom?',
+    'Are the result cards giving enough information to decide whether to click through, or too little?',
+    'Is it clear that results are from a curated corpus, not the open web?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

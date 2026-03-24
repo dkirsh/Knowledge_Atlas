@@ -1,0 +1,651 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>KA Site Map · Knowledge Atlas</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
+
+nav {
+  background: #1C3D3A; height: 56px;
+  display: flex; align-items: center; padding: 0 28px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+}
+.wordmark { font-size: 1.25rem; font-weight: 700; color: #F5A623; }
+.wordmark-sub { font-size: 0.62rem; color: #7AACA0; letter-spacing: 1.5px; }
+.nav-tag {
+  margin-left: 20px; background: rgba(232,135,42,0.18); color: #E8872A;
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; padding: 4px 12px; border-radius: 20px;
+  border: 1px solid rgba(232,135,42,0.35);
+}
+
+.page-hero {
+  background: linear-gradient(135deg, #1C3D3A 0%, #163230 100%);
+  padding: 36px 32px 28px; text-align: center;
+}
+.page-hero h1 {
+  font-family: Georgia, serif; font-size: 1.75rem; color: #fff;
+  font-weight: 600; margin-bottom: 8px;
+}
+.page-hero p {
+  font-size: 0.9rem; color: #9ABFB8; max-width: 540px; margin: 0 auto; line-height: 1.55;
+}
+
+.container { max-width: 1100px; margin: 0 auto; padding: 32px 28px 80px; }
+
+/* ── SECTION HEADINGS ── */
+.section-heading {
+  display: flex; align-items: center; gap: 12px; margin: 32px 0 14px;
+}
+.section-heading-line {
+  flex: 1; height: 1px; background: #D8D2CA;
+}
+.section-heading-text {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.14em;
+  text-transform: uppercase; color: #B0A090; white-space: nowrap;
+}
+.section-heading-count {
+  font-size: 0.68rem; color: #C8B8A8;
+}
+
+/* ── PAGE CARDS ── */
+.page-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 14px;
+}
+.page-card {
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 10px;
+  overflow: hidden; display: flex; flex-direction: column;
+  transition: box-shadow 0.15s, transform 0.12s;
+  text-decoration: none; color: inherit;
+}
+.page-card:hover {
+  box-shadow: 0 6px 24px rgba(0,0,0,0.11);
+  transform: translateY(-2px);
+}
+.page-card-accent { height: 5px; }
+.page-card-accent.auth      { background: #7AACA0; }
+.page-card-accent.core      { background: #E8872A; }
+.page-card-accent.research  { background: #2A7868; }
+.page-card-accent.contrib   { background: #6B5EA8; }
+.page-card-accent.admin     { background: #C0392B; }
+.page-card-accent.student   { background: #1C7C54; }
+.page-card-accent.meta      { background: #F5A623; }
+
+.page-card-body { padding: 14px 16px 12px; flex: 1; }
+.page-card-header { display: flex; align-items: flex-start; gap: 10px; margin-bottom: 8px; }
+.page-card-icon { font-size: 1.5rem; flex-shrink: 0; }
+.page-card-title {
+  font-family: Georgia, serif; font-size: 0.98rem; font-weight: 600;
+  color: #1C3D3A; line-height: 1.3;
+}
+.page-card-file {
+  font-size: 0.71rem; font-family: monospace; color: #9A8A78;
+  background: #F0EDE8; padding: 1px 6px; border-radius: 3px;
+  display: inline-block; margin-top: 3px;
+}
+.page-card-audience {
+  font-size: 0.78rem; color: #6A5C50; line-height: 1.45; margin-bottom: 8px;
+  border-left: 2px solid #E0DAD3; padding-left: 8px;
+}
+.page-card-purpose {
+  font-family: Georgia, serif; font-size: 0.83rem; color: #2D2D2D;
+  line-height: 1.6;
+}
+
+.page-card-footer {
+  padding: 9px 16px 11px;
+  border-top: 1px solid #EEE9E3;
+  display: flex; align-items: center; justify-content: space-between;
+  gap: 8px;
+}
+.phase-pill {
+  font-size: 0.68rem; font-weight: 700; padding: 3px 9px;
+  border-radius: 20px; white-space: nowrap;
+}
+.phase-pill.p0  { background: #FDECEA; color: #8B1A1A; border: 1px solid #F5C6C3; }
+.phase-pill.p1  { background: #FFF3CC; color: #7A4400; border: 1px solid #F5DFA0; }
+.phase-pill.p2  { background: #E0F2EE; color: #1C3D3A; border: 1px solid #B8DDD5; }
+.phase-pill.p3  { background: #EEE9F5; color: #4A2080; border: 1px solid #D0C0E8; }
+.phase-pill.p4  { background: #EDF7ED; color: #1A5032; border: 1px solid #B0D8B8; }
+.status-pill {
+  font-size: 0.68rem; font-weight: 700; padding: 3px 9px;
+  border-radius: 20px; white-space: nowrap;
+}
+.status-pill.live { background: #E0F2EE; color: #1C3D3A; }
+.status-pill.static { background: #F7F4EF; color: #8A7A68; border: 1px solid #D8D2CA; }
+.open-link {
+  font-size: 0.75rem; font-weight: 700; color: #2A7868;
+  text-decoration: none; letter-spacing: 0.04em;
+  transition: color 0.12s;
+}
+.open-link:hover { color: #E8872A; }
+
+/* ── LEGEND ── */
+.legend {
+  display: flex; flex-wrap: wrap; gap: 10px;
+  margin-bottom: 28px;
+}
+.legend-item {
+  display: flex; align-items: center; gap: 6px;
+  font-size: 0.76rem; color: #6A5C50;
+}
+.legend-dot {
+  width: 10px; height: 10px; border-radius: 50%;
+}
+
+/* ── WORKFLOW DIAGRAM ── */
+.workflow-strip {
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 10px;
+  padding: 18px 20px; margin-bottom: 28px;
+  display: flex; align-items: center; gap: 0; flex-wrap: wrap;
+  overflow: hidden;
+}
+.wf-step {
+  flex: 1; min-width: 100px; text-align: center; padding: 10px 6px;
+  position: relative;
+}
+.wf-step:not(:last-child)::after {
+  content: "→"; position: absolute; right: -8px; top: 50%;
+  transform: translateY(-50%); color: #C8B8A8; font-size: 1rem; z-index: 1;
+}
+.wf-num {
+  width: 26px; height: 26px; border-radius: 50%;
+  background: #1C3D3A; color: #F5A623;
+  font-size: 0.78rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 5px;
+}
+.wf-label {
+  font-size: 0.72rem; font-weight: 700; color: #1C3D3A; line-height: 1.3;
+}
+.wf-pages {
+  font-size: 0.66rem; color: #9A8A78; margin-top: 3px; line-height: 1.4;
+}
+
+.version-badge {
+  position: fixed; bottom: 16px; right: 20px;
+  background: #1C3D3A; color: #7AACA0;
+  font-size: 0.65rem; font-weight: 700; letter-spacing: 0.12em;
+  padding: 3px 10px; border-radius: 10px; pointer-events: none; opacity: 0.85;
+}
+</style>
+</head>
+<body>
+
+<nav>
+  <div>
+    <div class="wordmark">Knowledge Atlas</div>
+    <div class="wordmark-sub">COGS 160</div>
+  </div>
+  <span class="nav-tag">Site Map · v0.4</span>
+</nav>
+
+<div class="page-hero">
+  <h1>KA GUI — Complete Site Map</h1>
+  <p>All 14 pages of the Knowledge Atlas prototype. Click any card to open that page. Each card shows the page's audience, purpose summary, and which critical path phase is needed to make it live.</p>
+</div>
+
+<div class="container">
+
+  <!-- Workflow strip -->
+  <div class="section-heading">
+    <div class="section-heading-line"></div>
+    <div class="section-heading-text">Six-Stage Student Workflow</div>
+    <div class="section-heading-line"></div>
+  </div>
+
+  <div class="workflow-strip">
+    <div class="wf-step">
+      <div class="wf-num">1</div>
+      <div class="wf-label">Question</div>
+      <div class="wf-pages">Ask · Gap Explorer</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">2</div>
+      <div class="wf-label">Literature</div>
+      <div class="wf-pages">Article Search · Evidence Browser</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">3</div>
+      <div class="wf-label">Hypothesis</div>
+      <div class="wf-pages">Hypothesis Builder (stages 1–3)</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">4</div>
+      <div class="wf-label">Operationalize</div>
+      <div class="wf-pages">Signal Catalogue · Hypothesis Builder (stage 4)</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">5</div>
+      <div class="wf-label">Predictions</div>
+      <div class="wf-pages">Hypothesis Builder (stage 5)</div>
+    </div>
+    <div class="wf-step">
+      <div class="wf-num">6</div>
+      <div class="wf-label">VOI</div>
+      <div class="wf-pages">Hypothesis Builder (stage 6) · Gap Explorer</div>
+    </div>
+  </div>
+
+  <!-- Legend -->
+  <div class="legend">
+    <div class="legend-item"><div class="legend-dot" style="background:#7AACA0"></div> Authentication</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#E8872A"></div> Core research tools</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#2A7868"></div> Research discovery</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#6B5EA8"></div> Contributor tools</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#C0392B"></div> Admin / instructor</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#1C7C54"></div> Student hub</div>
+    <div class="legend-item"><div class="legend-dot" style="background:#F5A623"></div> Meta / navigation</div>
+  </div>
+
+  <!-- ── AUTHENTICATION ── -->
+  <div class="section-heading">
+    <div class="section-heading-line"></div>
+    <div class="section-heading-text">Authentication &amp; Onboarding</div>
+    <div class="section-heading-count">3 pages</div>
+    <div class="section-heading-line"></div>
+  </div>
+  <div class="page-grid">
+
+    <a class="page-card" href="ka_home.html" target="_blank">
+      <div class="page-card-accent auth"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">🏠</span>
+          <div>
+            <div class="page-card-title">Home</div>
+            <span class="page-card-file">ka_home.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">New visitors, prospective contributors</div>
+        <div class="page-card-purpose">Entry point. Communicates what KA is, routes visitors to Register, Login, or the demo. Conversion and orientation only.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p0">Phase 1 — Infra</span>
+        <span class="status-pill static">Static</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+
+    <a class="page-card" href="ka_login.html" target="_blank">
+      <div class="page-card-accent auth"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">🔐</span>
+          <div>
+            <div class="page-card-title">Login</div>
+            <span class="page-card-file">ka_login.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Returning contributors, students, instructors, admins</div>
+        <div class="page-card-purpose">Authenticates returning users and routes them by role. Sets the ka_logged_in flag that makes Page Function Spec buttons visible on all other pages.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p0">Phase 1 — Infra (P0)</span>
+        <span class="status-pill static">Static</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+
+    <a class="page-card" href="ka_register.html" target="_blank">
+      <div class="page-card-accent auth"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">📝</span>
+          <div>
+            <div class="page-card-title">Register</div>
+            <span class="page-card-file">ka_register.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">New contributors and students applying to join a track</div>
+        <div class="page-card-purpose">New user registration form. Collects name, institution, ORCID, skills, and track preference. Submission creates a pending user record for instructor review.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p0">Phase 1 — Infra</span>
+        <span class="status-pill static">Static</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── ADMIN ── -->
+  <div class="section-heading">
+    <div class="section-heading-line"></div>
+    <div class="section-heading-text">Admin &amp; Instructor</div>
+    <div class="section-heading-count">1 page</div>
+    <div class="section-heading-line"></div>
+  </div>
+  <div class="page-grid">
+    <a class="page-card" href="ka_approve.html" target="_blank">
+      <div class="page-card-accent admin"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">✅</span>
+          <div>
+            <div class="page-card-title">Track Assignment Approval</div>
+            <span class="page-card-file">ka_approve.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Instructors and administrators only</div>
+        <div class="page-card-purpose">Instructor review queue for pending contributor applications. Approve or reject with reason; shows bio, skills, ORCID, and track capacity. Approve/Reject modals built.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p1">Phase 3 — User Mgmt</span>
+        <span class="status-pill static">Static + Modals</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── STUDENT HUB ── -->
+  <div class="section-heading">
+    <div class="section-heading-line"></div>
+    <div class="section-heading-text">Student Hub</div>
+    <div class="section-heading-count">1 page</div>
+    <div class="section-heading-line"></div>
+  </div>
+  <div class="page-grid">
+    <a class="page-card" href="ka_dashboard.html" target="_blank">
+      <div class="page-card-accent student"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">📊</span>
+          <div>
+            <div class="page-card-title">Student Dashboard</div>
+            <span class="page-card-file">ka_dashboard.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">COGS 160 students post-login</div>
+        <div class="page-card-purpose">Personal hub: assignment progress bars, upcoming deadlines, links to all contributor tools. The page a student returns to after completing each task. Requires per-student DB queries to go live.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p1">Phase 3 — User Mgmt</span>
+        <span class="status-pill static">Static</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── CORE RESEARCH TOOLS ── -->
+  <div class="section-heading">
+    <div class="section-heading-line"></div>
+    <div class="section-heading-text">Core Research Tools</div>
+    <div class="section-heading-count">3 pages</div>
+    <div class="section-heading-line"></div>
+  </div>
+  <div class="page-grid">
+
+    <a class="page-card" href="ka_demo_v04.html" target="_blank">
+      <div class="page-card-accent core"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">💬</span>
+          <div>
+            <div class="page-card-title">Ask — KA Query Interface</div>
+            <span class="page-card-file">ka_demo_v04.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Researchers and advanced students</div>
+        <div class="page-card-purpose">The flagship tool. Natural-language questions answered from evidence nodes with warrant chains and credence scores. Science Summary modals now wired to two studies. Requires KA query engine (Phase 4).</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p3">Phase 4 — Core Backends (P0)</span>
+        <span class="status-pill static">Demo + Modals</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+
+    <a class="page-card" href="ka_hypothesis_builder.html" target="_blank">
+      <div class="page-card-accent core"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">🔬</span>
+          <div>
+            <div class="page-card-title">Hypothesis Builder</div>
+            <span class="page-card-file">ka_hypothesis_builder.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">COGS 160 students (stages 3–6 of the scientific thinking model)</div>
+        <div class="page-card-purpose">Six-stage step-flow: Question → Construct → Hypothesis → Operationalize → Predictions → VOI. Export / OSF pre-registration modal built. Save/load requires hypotheses DB table.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p1">Phase 3–4</span>
+        <span class="status-pill static">Static + Export Modal</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+
+    <a class="page-card" href="ka_gaps.html" target="_blank">
+      <div class="page-card-accent core"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">🕳️</span>
+          <div>
+            <div class="page-card-title">Gap Explorer</div>
+            <span class="page-card-file">ka_gaps.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Students and researchers looking for research questions</div>
+        <div class="page-card-purpose">Detected research gaps — untested predictions, low-credence clusters, measurement gaps, conflicts, context gaps — with VOI ratings. "Start Hypothesis" links into the builder. Gap detection algorithm is Phase 4.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p3">Phase 4 — Core Backends</span>
+        <span class="status-pill static">Static (16 demo gaps)</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── RESEARCH DISCOVERY ── -->
+  <div class="section-heading">
+    <div class="section-heading-line"></div>
+    <div class="section-heading-text">Research Discovery</div>
+    <div class="section-heading-count">3 pages</div>
+    <div class="section-heading-line"></div>
+  </div>
+  <div class="page-grid">
+
+    <a class="page-card" href="ka_evidence.html" target="_blank">
+      <div class="page-card-accent research"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">📋</span>
+          <div>
+            <div class="page-card-title">Evidence Browser</div>
+            <span class="page-card-file">ka_evidence.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Researchers drilling into individual evidence nodes</div>
+        <div class="page-card-purpose">Filterable table of processed evidence nodes with construct tags, warrant types, and credence scores. Distinct from Article Search (raw literature) and Ask (synthesized answers). Requires evidence DB (Phase 2+4).</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p3">Phase 4 — Core Backends</span>
+        <span class="status-pill static">Static (20 demo nodes)</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+
+    <a class="page-card" href="ka_article_search.html" target="_blank">
+      <div class="page-card-accent research"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">🔍</span>
+          <div>
+            <div class="page-card-title">Article Search</div>
+            <span class="page-card-file">ka_article_search.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Researchers and students finding literature</div>
+        <div class="page-card-purpose">Three search modes: by construct, by measuring instrument, by both. Quick-select chips. Returns demo results filtered from 6 sample studies. New page — replaces the old ka_articles.html for the researcher workflow.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p3">Phase 4 — Core Backends</span>
+        <span class="status-pill static">Static (demo results)</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+
+    <a class="page-card" href="ka_sensors.html" target="_blank">
+      <div class="page-card-accent research"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">📡</span>
+          <div>
+            <div class="page-card-title">Signal / Measuring Instrument Catalogue</div>
+            <span class="page-card-file">ka_sensors.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Students selecting instruments; researchers comparing signal options</div>
+        <div class="page-card-purpose">Reference page: 27 instruments across 6 categories, with tier (PRIMARY / AUXILIARY / COMPLEMENTARY), setup time, artifact risk, cost, and key reference. Not a search page. Article Search CTA at bottom.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p2">Phase 2 — Data Seeding</span>
+        <span class="status-pill live">Mostly self-contained</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── CONTRIBUTOR TOOLS ── -->
+  <div class="section-heading">
+    <div class="section-heading-line"></div>
+    <div class="section-heading-text">Contributor Tools</div>
+    <div class="section-heading-count">3 pages</div>
+    <div class="section-heading-line"></div>
+  </div>
+  <div class="page-grid">
+
+    <a class="page-card" href="ka_tagger.html" target="_blank">
+      <div class="page-card-accent contrib"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">🏷️</span>
+          <div>
+            <div class="page-card-title">Image Tagger</div>
+            <span class="page-card-file">ka_tagger.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Track 1 contributors — image tagging assignment</div>
+        <div class="page-card-purpose">Tags architectural images with CNFA construct labels and confidence levels. Submit batch and Return batch modals built. Requires image pipeline and tag DB writes (Phase 3).</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p1">Phase 3 — User Mgmt</span>
+        <span class="status-pill static">Static + Modals</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+
+    <a class="page-card" href="ka_articles.html" target="_blank">
+      <div class="page-card-accent contrib"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">📄</span>
+          <div>
+            <div class="page-card-title">Article Management</div>
+            <span class="page-card-file">ka_articles.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Track 2 contributors — article evaluation assignment</div>
+        <div class="page-card-purpose">Contributor interface for evaluating and annotating assigned articles. Distinct from Article Search (researcher discovery). Feeds the articles table and evidence node pipeline. Requires assignment allocation (Phase 3).</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p1">Phase 3 — User Mgmt</span>
+        <span class="status-pill static">Static</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+
+    <a class="page-card" href="ka_datacapture.html" target="_blank">
+      <div class="page-card-accent contrib"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">📥</span>
+          <div>
+            <div class="page-card-title">Data Capture</div>
+            <span class="page-card-file">ka_datacapture.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">Contributors submitting structured study records</div>
+        <div class="page-card-purpose">Structured form for submitting complete experimental data records directly into the evidence node pipeline — study metadata, construct, signals, sample size, key findings, effect sizes. Requires evidence_nodes DB write (Phase 3).</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p1">Phase 3 — User Mgmt</span>
+        <span class="status-pill static">Static</span>
+        <span class="open-link">Open →</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- ── META ── -->
+  <div class="section-heading">
+    <div class="section-heading-line"></div>
+    <div class="section-heading-text">Meta &amp; Navigation</div>
+    <div class="section-heading-count">1 page (this page)</div>
+    <div class="section-heading-line"></div>
+  </div>
+  <div class="page-grid">
+    <a class="page-card" href="ka_sitemap.html" target="_blank">
+      <div class="page-card-accent meta"></div>
+      <div class="page-card-body">
+        <div class="page-card-header">
+          <span class="page-card-icon">🗺️</span>
+          <div>
+            <div class="page-card-title">Site Map</div>
+            <span class="page-card-file">ka_sitemap.html</span>
+          </div>
+        </div>
+        <div class="page-card-audience">GUI track evaluators, designers, instructors</div>
+        <div class="page-card-purpose">This page. Complete clickable overview of all 14 KA pages with audience, purpose summary, critical path phase, and workflow position. Entry point for GUI evaluation sessions.</div>
+      </div>
+      <div class="page-card-footer">
+        <span class="phase-pill p4">Always available</span>
+        <span class="status-pill live">Self-contained</span>
+        <span class="open-link">You're here</span>
+      </div>
+    </a>
+  </div>
+
+  <!-- Summary stats -->
+  <div style="
+    margin-top: 36px; padding: 18px 20px; background: #fff;
+    border: 1px solid #E0DAD3; border-radius: 10px;
+    display: grid; grid-template-columns: repeat(auto-fill, minmax(160px, 1fr));
+    gap: 14px; text-align: center;
+  ">
+    <div>
+      <div style="font-size:1.6rem;font-weight:700;color:#1C3D3A;">14</div>
+      <div style="font-size:0.75rem;color:#8A7A68;margin-top:2px;">Total pages</div>
+    </div>
+    <div>
+      <div style="font-size:1.6rem;font-weight:700;color:#E8872A;">0</div>
+      <div style="font-size:0.75rem;color:#8A7A68;margin-top:2px;">With real backend</div>
+    </div>
+    <div>
+      <div style="font-size:1.6rem;font-weight:700;color:#2A7868;">5</div>
+      <div style="font-size:0.75rem;color:#8A7A68;margin-top:2px;">With working modals</div>
+    </div>
+    <div>
+      <div style="font-size:1.6rem;font-weight:700;color:#6B5EA8;">14</div>
+      <div style="font-size:0.75rem;color:#8A7A68;margin-top:2px;">With function spec</div>
+    </div>
+    <div>
+      <div style="font-size:1.6rem;font-weight:700;color:#C0392B;">5</div>
+      <div style="font-size:0.75rem;color:#8A7A68;margin-top:2px;">Critical path phases</div>
+    </div>
+    <div>
+      <div style="font-size:1.6rem;font-weight:700;color:#1C7C54;">~20</div>
+      <div style="font-size:0.75rem;color:#8A7A68;margin-top:2px;">Person-weeks to live system</div>
+    </div>
+  </div>
+
+</div>
+
+<div class="version-badge">KA UI · v0.4 · Site Map</div>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

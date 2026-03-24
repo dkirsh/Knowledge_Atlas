@@ -1,0 +1,1097 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>COGS 160 — Designing Experiments: AI &amp; VR for Science</title>
+<style>
+/* ═══════════════════════════════════════════════════════════════════
+   COGS 160 Pilot Course Site — Design System
+   ═══════════════════════════════════════════════════════════════════ */
+*{margin:0;padding:0;box-sizing:border-box}
+:root{
+  --teal-600:#0891B2; --teal-700:#0E7490; --teal-50:#ECFEFF;
+  --emerald-600:#059669; --emerald-50:#ECFDF5;
+  --amber-500:#F59E0B; --amber-50:#FFFBEB; --amber-100:#FEF3C7;
+  --rose-500:#F43F5E; --rose-50:#FFF1F2;
+  --violet-600:#7C3AED; --violet-50:#F5F3FF;
+  --slate-50:#F8FAFC; --slate-100:#F1F5F9; --slate-200:#E2E8F0;
+  --slate-300:#CBD5E1; --slate-400:#94A3B8; --slate-500:#64748B;
+  --slate-600:#475569; --slate-700:#334155; --slate-800:#1E293B;
+  --slate-900:#0F172A;
+  --radius:8px; --radius-lg:12px;
+  --shadow-sm:0 1px 2px rgba(0,0,0,.05);
+  --shadow:0 1px 3px rgba(0,0,0,.1),0 1px 2px rgba(0,0,0,.06);
+  --shadow-md:0 4px 6px rgba(0,0,0,.07),0 2px 4px rgba(0,0,0,.06);
+  --shadow-lg:0 10px 15px rgba(0,0,0,.1),0 4px 6px rgba(0,0,0,.05);
+  --track-vr:#7C3AED; --track-vr-bg:#F5F3FF;
+  --track-acoustics:#D97706; --track-acoustics-bg:#FFFBEB;
+  --track-space:#059669; --track-space-bg:#ECFDF5;
+}
+html{scroll-behavior:smooth}
+body{font-family:system-ui,-apple-system,BlinkMacSystemFont,'Segoe UI',Roboto,sans-serif;background:#fff;color:var(--slate-800);line-height:1.6}
+
+/* ─── Top Navigation ─────────────────────────────────────────── */
+.topnav{position:sticky;top:0;z-index:1000;background:#fff;border-bottom:1px solid var(--slate-200);height:60px;display:flex;align-items:center;padding:0 24px;gap:8px}
+.topnav .logo{font-size:1rem;font-weight:700;color:var(--teal-600);white-space:nowrap;cursor:pointer;margin-right:16px}
+.topnav .logo span{color:var(--slate-400);font-weight:400;font-size:.85rem;margin-left:6px}
+.nav-group{display:flex;gap:2px;align-items:center}
+.nav-group-label{font-size:.7rem;font-weight:600;text-transform:uppercase;letter-spacing:.06em;color:var(--slate-400);padding:4px 8px;margin-right:2px}
+.nav-btn{background:none;border:none;padding:6px 12px;font-size:.88rem;color:var(--slate-600);cursor:pointer;font-weight:500;border-radius:6px;transition:all .15s;white-space:nowrap}
+.nav-btn:hover{background:var(--slate-100);color:var(--teal-600)}
+.nav-btn.active{background:var(--teal-50);color:var(--teal-700);font-weight:600}
+.nav-sep{width:1px;height:28px;background:var(--slate-200);margin:0 8px}
+.nav-track{font-size:.75rem;padding:4px 10px;border-radius:99px;font-weight:600;cursor:pointer;border:2px solid transparent;transition:all .15s}
+.nav-track[data-track="vr"]{color:var(--track-vr);background:var(--track-vr-bg);border-color:transparent}
+.nav-track[data-track="acoustics"]{color:var(--track-acoustics);background:var(--track-acoustics-bg);border-color:transparent}
+.nav-track[data-track="space"]{color:var(--track-space);background:var(--track-space-bg);border-color:transparent}
+.nav-track.active[data-track="vr"]{border-color:var(--track-vr)}
+.nav-track.active[data-track="acoustics"]{border-color:var(--track-acoustics)}
+.nav-track.active[data-track="space"]{border-color:var(--track-space)}
+
+/* ─── Page Shell ─────────────────────────────────────────────── */
+.page-shell{display:flex;min-height:calc(100vh - 60px)}
+.sidebar{width:240px;min-width:240px;background:var(--slate-50);border-right:1px solid var(--slate-200);padding:20px 0;overflow-y:auto;position:sticky;top:60px;height:calc(100vh - 60px)}
+.sidebar h4{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.08em;color:var(--slate-400);padding:8px 20px 4px}
+.sidebar a{display:block;padding:6px 20px;font-size:.88rem;color:var(--slate-600);text-decoration:none;cursor:pointer;border-left:3px solid transparent;transition:all .12s}
+.sidebar a:hover{background:var(--slate-100);color:var(--teal-600)}
+.sidebar a.active{color:var(--teal-700);border-left-color:var(--teal-600);background:var(--teal-50);font-weight:600}
+.sidebar .track-badge{display:inline-block;font-size:.65rem;padding:1px 6px;border-radius:99px;margin-left:6px;font-weight:600;vertical-align:middle}
+.sidebar .track-badge.vr{background:var(--track-vr-bg);color:var(--track-vr)}
+.sidebar .track-badge.acoustics{background:var(--track-acoustics-bg);color:var(--track-acoustics)}
+.sidebar .track-badge.space{background:var(--track-space-bg);color:var(--track-space)}
+
+.main-content{flex:1;max-width:900px;margin:0 auto;padding:32px 40px 80px}
+.main-content h1{font-size:1.8rem;font-weight:700;color:var(--slate-900);margin-bottom:8px}
+.main-content .subtitle{font-size:1rem;color:var(--slate-500);margin-bottom:28px}
+.main-content h2{font-size:1.25rem;font-weight:700;color:var(--slate-800);margin:32px 0 12px;padding-bottom:8px;border-bottom:2px solid var(--slate-200)}
+.main-content h3{font-size:1.05rem;font-weight:600;color:var(--slate-700);margin:24px 0 8px}
+.main-content p{margin-bottom:14px;color:var(--slate-700)}
+.main-content ul,.main-content ol{margin:0 0 14px 20px;color:var(--slate-700)}
+.main-content li{margin-bottom:6px}
+
+/* ─── Cards & Components ─────────────────────────────────────── */
+.card-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));gap:16px;margin:20px 0}
+.card{background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius-lg);padding:20px;transition:all .15s;cursor:pointer}
+.card:hover{border-color:var(--teal-600);box-shadow:var(--shadow-md);transform:translateY(-2px)}
+.card .card-icon{font-size:1.6rem;margin-bottom:8px}
+.card h3{font-size:1rem;font-weight:600;color:var(--slate-800);margin:0 0 6px}
+.card p{font-size:.88rem;color:var(--slate-500);margin:0}
+.card .card-tag{display:inline-block;font-size:.7rem;padding:2px 8px;border-radius:99px;margin-top:8px;font-weight:600}
+
+.info-box{background:var(--teal-50);border:1px solid #B2F5EA;border-radius:var(--radius);padding:16px 20px;margin:16px 0}
+.info-box.amber{background:var(--amber-50);border-color:var(--amber-100)}
+.info-box.rose{background:var(--rose-50);border-color:#FECDD3}
+.info-box.violet{background:var(--violet-50);border-color:#DDD6FE}
+.info-box h4{font-size:.9rem;font-weight:700;margin-bottom:6px;color:var(--slate-800)}
+.info-box p{font-size:.88rem;margin:0;color:var(--slate-700)}
+
+/* ─── Self-Check Questions ───────────────────────────────────── */
+.self-check{background:var(--amber-50);border:1px solid var(--amber-100);border-radius:var(--radius-lg);padding:20px;margin:20px 0}
+.self-check .label{font-size:.7rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--amber-500);margin-bottom:8px}
+.self-check .question{font-size:.95rem;font-weight:600;color:var(--slate-800);margin-bottom:12px}
+.self-check .options{display:flex;flex-direction:column;gap:6px}
+.self-check .option{padding:10px 14px;background:#fff;border:1px solid var(--slate-200);border-radius:var(--radius);cursor:pointer;font-size:.88rem;color:var(--slate-700);transition:all .15s}
+.self-check .option:hover{border-color:var(--teal-600);background:var(--teal-50)}
+.self-check .option.selected{border-color:var(--teal-600);background:var(--teal-50);font-weight:600}
+.self-check .option.correct{border-color:var(--emerald-600);background:var(--emerald-50)}
+.self-check .option.incorrect{border-color:var(--rose-500);background:var(--rose-50)}
+.self-check .feedback{margin-top:12px;padding:12px;border-radius:var(--radius);font-size:.88rem;display:none}
+.self-check .feedback.show{display:block}
+.self-check .feedback.correct{background:var(--emerald-50);color:#065F46;border:1px solid #6EE7B7}
+.self-check .feedback.incorrect{background:var(--rose-50);color:#9F1239;border:1px solid #FECDD3}
+
+/* ─── Track Selector ─────────────────────────────────────────── */
+.track-selector{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin:24px 0}
+.track-card{border:2px solid var(--slate-200);border-radius:var(--radius-lg);padding:24px;cursor:pointer;transition:all .2s;text-align:center}
+.track-card:hover{transform:translateY(-3px);box-shadow:var(--shadow-lg)}
+.track-card[data-track="vr"]:hover,.track-card[data-track="vr"].selected{border-color:var(--track-vr);background:var(--track-vr-bg)}
+.track-card[data-track="acoustics"]:hover,.track-card[data-track="acoustics"].selected{border-color:var(--track-acoustics);background:var(--track-acoustics-bg)}
+.track-card[data-track="space"]:hover,.track-card[data-track="space"].selected{border-color:var(--track-space);background:var(--track-space-bg)}
+.track-card .track-icon{font-size:2.5rem;margin-bottom:12px}
+.track-card h3{font-size:1.1rem;margin-bottom:6px}
+.track-card p{font-size:.85rem;color:var(--slate-500)}
+
+/* ─── Wizard Step Indicator ──────────────────────────────────── */
+.wizard-steps{display:flex;gap:4px;align-items:center;margin:24px 0;flex-wrap:wrap}
+.wstep{display:flex;align-items:center;gap:8px;padding:8px 16px;border-radius:99px;font-size:.85rem;font-weight:600;cursor:pointer;transition:all .15s;border:2px solid transparent}
+.wstep .num{width:24px;height:24px;border-radius:50%;background:var(--slate-200);color:var(--slate-500);display:flex;align-items:center;justify-content:center;font-size:.75rem;flex-shrink:0}
+.wstep.active{background:var(--teal-50);border-color:var(--teal-600);color:var(--teal-700)}
+.wstep.active .num{background:var(--teal-600);color:#fff}
+.wstep.completed .num{background:var(--emerald-600);color:#fff}
+.wstep.completed{color:var(--emerald-600)}
+.wstep-arrow{color:var(--slate-300);font-size:.8rem}
+
+/* ─── Measure Table ──────────────────────────────────────────── */
+table.measures{width:100%;border-collapse:collapse;margin:16px 0;font-size:.88rem}
+table.measures th{text-align:left;padding:10px 12px;background:var(--slate-100);border-bottom:2px solid var(--slate-200);font-weight:600;color:var(--slate-700);font-size:.8rem;text-transform:uppercase;letter-spacing:.04em}
+table.measures td{padding:10px 12px;border-bottom:1px solid var(--slate-100);color:var(--slate-700);vertical-align:top}
+table.measures tr:hover{background:var(--slate-50)}
+.cost-badge{display:inline-block;padding:2px 8px;border-radius:99px;font-size:.75rem;font-weight:600}
+.cost-badge.free{background:var(--emerald-50);color:var(--emerald-600)}
+.cost-badge.low{background:var(--amber-50);color:var(--amber-500)}
+.cost-badge.med{background:var(--rose-50);color:var(--rose-500)}
+
+/* ─── Flow Diagram ───────────────────────────────────────────── */
+.flow-diagram{background:var(--slate-50);border:1px solid var(--slate-200);border-radius:var(--radius-lg);padding:32px;margin:24px 0;overflow-x:auto}
+.flow-row{display:flex;align-items:center;justify-content:center;gap:8px;margin-bottom:16px;flex-wrap:wrap}
+.flow-box{padding:10px 18px;border-radius:var(--radius);font-size:.85rem;font-weight:600;text-align:center;min-width:120px;border:2px solid}
+.flow-box.core{background:var(--teal-50);border-color:var(--teal-600);color:var(--teal-700)}
+.flow-box.vr{background:var(--track-vr-bg);border-color:var(--track-vr);color:var(--track-vr)}
+.flow-box.acoustics{background:var(--track-acoustics-bg);border-color:var(--track-acoustics);color:var(--track-acoustics)}
+.flow-box.space{background:var(--track-space-bg);border-color:var(--track-space);color:var(--track-space)}
+.flow-box.shared{background:var(--slate-100);border-color:var(--slate-400);color:var(--slate-600)}
+.flow-arrow{font-size:1.2rem;color:var(--slate-400)}
+.flow-arrow.down{display:block;text-align:center;margin:4px 0}
+
+/* ─── Progress Tracker (right sidebar) ───────────────────────── */
+.progress-rail{width:220px;min-width:220px;border-left:1px solid var(--slate-200);padding:20px;position:sticky;top:60px;height:calc(100vh - 60px);overflow-y:auto;background:var(--slate-50)}
+.progress-rail h4{font-size:.75rem;font-weight:700;text-transform:uppercase;letter-spacing:.06em;color:var(--slate-400);margin-bottom:12px}
+.progress-item{display:flex;align-items:center;gap:8px;padding:4px 0;font-size:.82rem;color:var(--slate-500)}
+.progress-item .dot{width:10px;height:10px;border-radius:50%;border:2px solid var(--slate-300);flex-shrink:0}
+.progress-item.done .dot{background:var(--emerald-600);border-color:var(--emerald-600)}
+.progress-item.current .dot{background:var(--teal-600);border-color:var(--teal-600);box-shadow:0 0 0 3px rgba(8,145,178,.2)}
+.progress-item.current{color:var(--teal-700);font-weight:600}
+
+/* ─── Responsive ─────────────────────────────────────────────── */
+@media(max-width:1100px){.progress-rail{display:none}}
+@media(max-width:900px){.sidebar{display:none}.main-content{padding:24px 20px}}
+@media(max-width:600px){.track-selector{grid-template-columns:1fr}.card-grid{grid-template-columns:1fr}.topnav{overflow-x:auto}}
+
+/* ─── Page Transitions ───────────────────────────────────────── */
+.page{display:none;animation:fadeIn .25s ease}
+.page.active{display:block}
+@keyframes fadeIn{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:translateY(0)}}
+</style>
+</head>
+<body>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     TOP NAVIGATION
+     ══════════════════════════════════════════════════════════════════ -->
+<nav class="topnav" id="topnav">
+  <div class="logo" onclick="showPage('home')">COGS 160 <span>Designing Experiments</span></div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">Learn</span>
+    <button class="nav-btn" onclick="showPage('foundations')">Foundations</button>
+    <button class="nav-btn" onclick="showPage('power')">Power Analysis</button>
+    <button class="nav-btn" onclick="showPage('data-prep')">Data Prep</button>
+    <button class="nav-btn" onclick="showPage('analysis')">Analysis</button>
+  </div>
+
+  <div class="nav-sep"></div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">Design</span>
+    <button class="nav-btn" onclick="showPage('wizard')">Wizard</button>
+    <button class="nav-btn" onclick="showPage('hypothesis')">Hypotheses</button>
+  </div>
+
+  <div class="nav-sep"></div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">Track</span>
+    <button class="nav-track" data-track="vr" onclick="selectTrack('vr')">VR Lab</button>
+    <button class="nav-track" data-track="acoustics" onclick="selectTrack('acoustics')">Acoustics</button>
+    <button class="nav-track" data-track="space" onclick="selectTrack('space')">Phys. Space</button>
+  </div>
+
+  <div class="nav-sep"></div>
+
+  <div class="nav-group">
+    <span class="nav-group-label">Explore</span>
+    <button class="nav-btn" onclick="showPage('knowledge')">Topics</button>
+    <button class="nav-btn" onclick="showPage('measures')">Measures</button>
+    <button class="nav-btn" onclick="showPage('sensors')">Sensors</button>
+  </div>
+</nav>
+
+<!-- ══════════════════════════════════════════════════════════════════
+     PAGE SHELL: Sidebar + Content + Progress
+     ══════════════════════════════════════════════════════════════════ -->
+<div class="page-shell">
+
+<!-- ─── Left Sidebar ──────────────────────────────────────────── -->
+<aside class="sidebar" id="sidebar">
+  <h4>Common Core</h4>
+  <a onclick="showPage('home')" class="active">Course Home</a>
+  <a onclick="showPage('foundations')">Experimental Foundations</a>
+  <a onclick="showPage('traps')">Misconception Traps</a>
+  <a onclick="showPage('hypothesis')">Hypothesis Builder</a>
+  <a onclick="showPage('power')">Power Analysis</a>
+  <a onclick="showPage('wizard')">Experiment Wizard</a>
+  <a onclick="showPage('replication')">Replication Exercise</a>
+
+  <h4>Specialization Tracks</h4>
+  <a onclick="showPage('track-select')">Choose Your Track</a>
+  <a onclick="showPage('vr-design')">VR Experiment Design <span class="track-badge vr">VR</span></a>
+  <a onclick="showPage('acoustics-lab')">Acoustic Methods <span class="track-badge acoustics">AC</span></a>
+  <a onclick="showPage('space-lab')">Physical Space Methods <span class="track-badge space">PS</span></a>
+
+  <h4>Data &amp; Analysis</h4>
+  <a onclick="showPage('data-prep')">Data Preparation</a>
+  <a onclick="showPage('signal-quality')">Signal Quality Training</a>
+  <a onclick="showPage('analysis')">Analysis Basics</a>
+  <a onclick="showPage('assumptions')">Assumption Checking</a>
+
+  <h4>Tools &amp; Output</h4>
+  <a onclick="showPage('prereg')">Pre-Registration</a>
+  <a onclick="showPage('open-materials')">Open Materials Package</a>
+  <a onclick="showPage('ethics')">Ethics &amp; IRB</a>
+
+  <h4>Explore</h4>
+  <a onclick="showPage('knowledge')">Knowledge Navigator</a>
+  <a onclick="showPage('measures')">Measurement Instruments</a>
+  <a onclick="showPage('sensors')">Sensor Catalogue</a>
+  <a onclick="showPage('methods')">Methods Taxonomy</a>
+</aside>
+
+<!-- ─── Main Content Area ─────────────────────────────────────── -->
+<div style="flex:1;display:flex;min-width:0">
+<main class="main-content" id="content-area">
+
+<!-- ═══════ HOME PAGE ═══════════════════════════════════════════ -->
+<div class="page active" id="page-home">
+  <h1>Designing Experiments</h1>
+  <p class="subtitle">COGS 160 — AI &amp; VR for Science &nbsp;·&nbsp; UC San Diego &nbsp;·&nbsp; Prof. David Kirsh</p>
+
+  <p>This course teaches you to design, run, and analyze behavioral experiments studying how built environments affect human cognition, emotion, and performance. You will work with real VR systems, physiological sensors, and computational analysis tools.</p>
+
+  <h2>How This Course Works</h2>
+
+  <div class="flow-diagram">
+    <div class="flow-row">
+      <div class="flow-box core">Module 0<br><small>Foundations</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box core">Hypothesis<br><small>Builder</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box core">Power<br><small>Analysis</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box core">Wizard<br><small>Steps 1–3</small></div>
+    </div>
+    <div class="flow-arrow down">▼ Choose Your Track</div>
+    <div class="flow-row">
+      <div class="flow-box vr">VR Lab<br><small>Track A</small></div>
+      <div class="flow-box acoustics">Acoustics<br><small>Track B</small></div>
+      <div class="flow-box space">Physical Space<br><small>Track C</small></div>
+    </div>
+    <div class="flow-arrow down">▼ All Tracks Reconverge</div>
+    <div class="flow-row">
+      <div class="flow-box shared">Data<br><small>Preparation</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box shared">Analysis<br><small>Basics</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box shared">Pre-Reg &amp;<br><small>Open Materials</small></div>
+      <span class="flow-arrow">→</span>
+      <div class="flow-box core">Protocol<br><small>Summary</small></div>
+    </div>
+  </div>
+
+  <h2>Common Core (Everyone)</h2>
+  <div class="card-grid">
+    <div class="card" onclick="showPage('foundations')">
+      <div class="card-icon">🧪</div>
+      <h3>Experimental Foundations</h3>
+      <p>What makes something an experiment. Causation, control, random assignment, internal validity.</p>
+      <span class="card-tag" style="background:var(--teal-50);color:var(--teal-600)">Start Here</span>
+    </div>
+    <div class="card" onclick="showPage('traps')">
+      <div class="card-icon">🪤</div>
+      <h3>Misconception Traps</h3>
+      <p>Five scenarios that catch your most stubborn wrong intuitions — and correct them on the spot.</p>
+    </div>
+    <div class="card" onclick="showPage('hypothesis')">
+      <div class="card-icon">💡</div>
+      <h3>Hypothesis Builder</h3>
+      <p>Go from a vague idea to a testable, directional, operationalized hypothesis.</p>
+    </div>
+    <div class="card" onclick="showPage('power')">
+      <div class="card-icon">📊</div>
+      <h3>Power Analysis</h3>
+      <p>How many participants do you actually need? Effect sizes, power, and the "small telescopes" principle.</p>
+    </div>
+    <div class="card" onclick="showPage('wizard')">
+      <div class="card-icon">🔬</div>
+      <h3>Experiment Wizard</h3>
+      <p>The 5-step guided workflow: Topic → Paradigm → Confounds → Stimulus → Protocol.</p>
+    </div>
+    <div class="card" onclick="showPage('replication')">
+      <div class="card-icon">🔄</div>
+      <h3>Replication Exercise</h3>
+      <p>Replicate an existing finding. Discover what published methods leave out.</p>
+    </div>
+  </div>
+
+  <h2>Choose Your Track</h2>
+  <div class="track-selector">
+    <div class="track-card" data-track="vr" onclick="selectTrack('vr');showPage('vr-design')">
+      <div class="track-icon">🥽</div>
+      <h3>Track A: VR Laboratory</h3>
+      <p>Design experiments using VR headsets and rendered environments. Presence, simulator sickness, VR-specific confounds.</p>
+    </div>
+    <div class="track-card" data-track="acoustics" onclick="selectTrack('acoustics');showPage('acoustics-lab')">
+      <div class="track-icon">🔊</div>
+      <h3>Track B: Acoustics Lab</h3>
+      <p>Study sound perception, noise effects, auditory cognition. Calibrated measurement, psychoacoustic methods.</p>
+    </div>
+    <div class="track-card" data-track="space" onclick="selectTrack('space');showPage('space-lab')">
+      <div class="track-icon">🏗️</div>
+      <h3>Track C: Physical Space</h3>
+      <p>Test effects of lighting, layout, thermal conditions in real built environments.</p>
+    </div>
+  </div>
+
+  <h2>Data, Analysis &amp; Output</h2>
+  <div class="card-grid">
+    <div class="card" onclick="showPage('data-prep')">
+      <div class="card-icon">🧹</div>
+      <h3>Data Preparation</h3>
+      <p>From raw sensor output to analysis-ready data. Cleaning, outliers, missing data, tidy format.</p>
+    </div>
+    <div class="card" onclick="showPage('signal-quality')">
+      <div class="card-icon">📈</div>
+      <h3>Signal Quality Training</h3>
+      <p>Learn to distinguish clean physiological signals from artifacts. Interactive classification exercise.</p>
+    </div>
+    <div class="card" onclick="showPage('analysis')">
+      <div class="card-icon">📐</div>
+      <h3>Analysis Basics</h3>
+      <p>Which test to run, how to check assumptions, and how to report results in APA format.</p>
+    </div>
+    <div class="card" onclick="showPage('prereg')">
+      <div class="card-icon">📝</div>
+      <h3>Pre-Registration Generator</h3>
+      <p>Your wizard output → a complete pre-registration document, ready for OSF.</p>
+    </div>
+    <div class="card" onclick="showPage('measures')">
+      <div class="card-icon">🎛️</div>
+      <h3>Measurement Instruments</h3>
+      <p>Surveys, scales, and behavioral tasks — with scoring protocols and reliability data.</p>
+    </div>
+    <div class="card" onclick="showPage('sensors')">
+      <div class="card-icon">📡</div>
+      <h3>Sensor Catalogue</h3>
+      <p>EmotiBit, Polar H10, webcam tools, Arduino sensors — what each captures and how to use it.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ FOUNDATIONS PAGE ═══════════════════════════════════════ -->
+<div class="page" id="page-foundations">
+  <h1>Module 0: Foundations of Experimental Logic</h1>
+  <p class="subtitle">Common Core &nbsp;·&nbsp; ~45 minutes &nbsp;·&nbsp; 8 self-check questions</p>
+
+  <div class="info-box">
+    <h4>Before You Begin</h4>
+    <p>This module covers the conceptual foundations every experimenter must understand. Complete it before entering the Experiment Wizard. No statistics required — just clear thinking about cause and effect.</p>
+  </div>
+
+  <h2>1. What Makes Something an Experiment?</h2>
+  <p>An experiment has three defining features: the researcher <strong>manipulates</strong> at least one variable (the independent variable), <strong>randomly assigns</strong> participants to conditions, and <strong>measures</strong> the outcome (the dependent variable) while holding other variables constant. If any of these three is missing, you have a useful study — but not an experiment, and you cannot draw causal conclusions from it with the same confidence.</p>
+
+  <p>Consider a researcher who measures stress levels in people who chose to work in open-plan versus private offices. She finds that open-plan workers report higher stress. Can she conclude that open-plan offices <em>cause</em> stress? No — because no one was randomly assigned. The people who chose open-plan offices may differ systematically from those who chose private offices in personality, seniority, job type, or a dozen other variables. This is a quasi-experiment, and it has a <strong>selection threat</strong> to internal validity.</p>
+
+  <div class="self-check" id="sc-exp-1">
+    <div class="label">Self-Check Question</div>
+    <div class="question">A researcher measures cortisol levels in students who chose to study in a library versus a café. She finds café students have lower cortisol. Is this an experiment?</div>
+    <div class="options">
+      <div class="option" onclick="checkAnswer(this,'sc-exp-1',false)">Yes — she measured a biological outcome (cortisol), so it's an experiment.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-exp-1',true)">No — participants chose their own study location, so there's no random assignment.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-exp-1',false)">Yes — there are two comparison groups (library vs. café), which makes it an experiment.</div>
+    </div>
+    <div class="feedback correct">Correct. Without random assignment, this is a quasi-experiment. Students who prefer cafés may differ from library-goers in sociability, caffeine habits, or noise tolerance — any of which could explain the cortisol difference.</div>
+    <div class="feedback incorrect">Not quite. Having two groups or a biological measure does not make something an experiment. The defining feature is random assignment — and here, students chose their own condition.</div>
+  </div>
+
+  <h2>2. The Counterfactual Logic of Causation</h2>
+  <p>When we say "X caused Y," we mean that Y would not have occurred (or would have occurred differently) if X had not been present. This is the <strong>counterfactual definition</strong> (Holland, 1986; Rubin, 1974). The fundamental problem of causal inference is that we can never observe the same person in both the treatment and control conditions at the same time. Random assignment solves this problem statistically: it creates groups that are, on average, identical on all variables except the one we manipulated.</p>
+
+  <h2>3. Internal vs. External Validity</h2>
+  <p><strong>Internal validity</strong> asks: "Did the manipulation actually cause the observed difference?" Threats to internal validity include confounds, demand characteristics, experimenter effects, maturation, history, and selection bias (Shadish, Cook & Campbell, 2002).</p>
+  <p><strong>External validity</strong> asks: "Would this finding generalize to other people, places, and times?" A study can be internally valid (the manipulation really caused the effect) but externally limited (it only worked in this specific lab with these specific undergraduates).</p>
+  <p>The key insight: <strong>internal validity takes priority</strong>. A study that generalizes beautifully but has a confound tells you nothing reliable. A study with perfect internal validity but a narrow sample tells you something real about that sample — and you can always replicate with other populations.</p>
+
+  <h2>4. Designs: Between, Within, and Mixed</h2>
+  <p>In a <strong>between-subjects</strong> design, different people experience different conditions. In a <strong>within-subjects</strong> design, the same people experience all conditions. In a <strong>mixed</strong> design, some factors are between and some are within.</p>
+
+  <div class="info-box amber">
+    <h4>Example from Research Front: Ceiling Height &amp; Creativity</h4>
+    <p><strong>Between-subjects</strong>: 60 people are randomly assigned to a high-ceiling room (N=30) or a low-ceiling room (N=30) and take the Remote Associates Test. <strong>Within-subjects</strong>: 30 people take the RAT in both rooms, counterbalanced. The within-subjects version is more powerful (each person serves as their own control) but creates a risk of <strong>order effects</strong>.</p>
+  </div>
+
+  <h2>5. The Role of the Control Condition</h2>
+  <p>A control condition is not "nothing happens." It is a <strong>comparison standard</strong> that isolates the effect of the manipulation. Without it, you cannot tell whether the treatment caused the outcome or whether participants would have shown the same outcome anyway.</p>
+
+  <h2>6. Why Sample Size Matters</h2>
+  <p>Small samples are noisy. With N = 10 per group, even a real effect of moderate size has a high probability of being missed (a Type II error). This is not a statistical nicety — it means that if you run an underpowered study and find "no effect," you cannot conclude the effect does not exist. You simply did not have enough data to detect it.</p>
+
+  <h2>7. Confounds, Demand, and Experimenter Effects</h2>
+  <p>A <strong>confound</strong> is a variable that changes systematically along with the IV. If you compare a room with windows to a windowless room, daylight and view both change — you cannot attribute mood differences to either one alone. <strong>Demand characteristics</strong> occur when participants figure out the hypothesis and adjust their behavior. <strong>Experimenter effects</strong> occur when the researcher's expectations unconsciously influence the outcome (Rosenthal, 1966).</p>
+
+  <h2>8. Pre-Registration</h2>
+  <p>Pre-registration means writing down your hypotheses, design, and analysis plan <em>before</em> collecting data, and posting it on a public repository like OSF or AsPredicted. This prevents two problems: HARKing (Hypothesizing After Results are Known) and p-hacking (running multiple analyses until one is significant). Pre-registration does not prevent exploratory analysis — it distinguishes confirmatory from exploratory clearly (Nosek et al., 2018).</p>
+
+  <div class="self-check" id="sc-exp-2">
+    <div class="label">Self-Check Question</div>
+    <div class="question">A student pre-registers the hypothesis that noise reduces attention (measured by Stroop RT). After collecting data, she also discovers that noise increases error rate on the Stroop task. Can she report this?</div>
+    <div class="options">
+      <div class="option" onclick="checkAnswer(this,'sc-exp-2',false)">No — she only pre-registered RT, so she cannot analyze error rate.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-exp-2',true)">Yes — but she must label the error-rate analysis as exploratory, not confirmatory.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-exp-2',false)">Yes — pre-registration is just a formality and doesn't restrict what you report.</div>
+    </div>
+    <div class="feedback correct">Correct. Pre-registration does not forbid exploratory analysis. It requires transparency: the RT analysis is confirmatory (pre-registered), the error-rate analysis is exploratory (discovered post-hoc). Both can be reported, clearly labeled.</div>
+    <div class="feedback incorrect">Not quite. Pre-registration does not lock you into a single analysis, nor is it merely a formality. Its purpose is to clearly separate what you predicted from what you discovered after looking at the data.</div>
+  </div>
+
+  <div style="margin-top:32px;padding:20px;background:var(--emerald-50);border-radius:var(--radius-lg);border:1px solid #A7F3D0">
+    <strong>Foundations complete.</strong> You now understand the logic of experiments, the priority of internal validity, and why pre-registration matters. Next step: <a href="#" onclick="showPage('hypothesis');return false" style="color:var(--teal-600);font-weight:600">Build Your Hypothesis →</a>
+  </div>
+</div>
+
+<!-- ═══════ MISCONCEPTION TRAPS PAGE ═════════════════════════════ -->
+<div class="page" id="page-traps">
+  <h1>Misconception Traps</h1>
+  <p class="subtitle">Common Core &nbsp;·&nbsp; 5 scenarios &nbsp;·&nbsp; Based on Simons &amp; Chabris (2012); Butterfield &amp; Metcalfe (2001)</p>
+
+  <p>These five scenarios target the most common wrong intuitions students bring to experimental design. Each one lets you commit to your answer before revealing the error — because research on the <strong>hypercorrection effect</strong> shows that high-confidence errors, once corrected, are remembered better than low-confidence ones.</p>
+
+  <h2>Trap 1: "Correlation Proves Causation If the Effect Is Large"</h2>
+  <div class="info-box violet">
+    <h4>The Scenario</h4>
+    <p>A large study (N = 5,000) finds a correlation of r = 0.65 between office plants and employee wellbeing. Employees in offices with more plants report substantially higher job satisfaction. An executive concludes: "Plants cause happiness — let's put plants in every office."</p>
+  </div>
+
+  <div class="self-check" id="sc-trap-1">
+    <div class="label">Trap Question</div>
+    <div class="question">Is the executive's causal conclusion justified?</div>
+    <div class="options">
+      <div class="option" onclick="checkAnswer(this,'sc-trap-1',false)">Yes — r = 0.65 is a large correlation and the sample is huge. This is strong evidence for causation.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-trap-1',true)">No — no matter how large the correlation, this is observational data and cannot establish causation.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-trap-1',false)">Maybe — it depends on whether r = 0.65 is statistically significant.</div>
+    </div>
+    <div class="feedback correct">Correct. The size of the correlation is irrelevant to causation. Companies that invest in office plants may also invest in better lighting, ergonomic furniture, and higher salaries. Any of these confounds could fully account for the wellbeing difference. Only random assignment (e.g., randomly assigning some offices to receive plants) can establish that plants <em>caused</em> the improvement.</div>
+    <div class="feedback incorrect">The trap here is thinking that a large correlation or a large sample establishes causation. It never does. Correlation quantifies the linear relationship between two variables, but says nothing about which one causes the other or whether a third variable explains both.</div>
+  </div>
+
+  <h2>Trap 2: "More Participants Is Always Better"</h2>
+  <div class="info-box violet">
+    <h4>The Scenario</h4>
+    <p>A study with N = 5,000 finds that blue walls reduce anxiety by 0.2 points on a 100-point scale (p = 0.001, d = 0.04). A reviewer calls this "a highly significant finding with robust statistical evidence."</p>
+  </div>
+
+  <div class="self-check" id="sc-trap-2">
+    <div class="label">Trap Question</div>
+    <div class="question">Is this an impressive, practically meaningful result?</div>
+    <div class="options">
+      <div class="option" onclick="checkAnswer(this,'sc-trap-2',false)">Yes — p = 0.001 means there's only a 0.1% chance this is a fluke.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-trap-2',true)">No — d = 0.04 is a trivially small effect. Statistical significance ≠ practical significance.</div>
+    </div>
+    <div class="feedback correct">Correct. With N = 5,000, you can detect effects so small they have no practical relevance. A d of 0.04 means blue walls reduce anxiety by four hundredths of a standard deviation — a difference no human could notice. The p-value tells you the effect is probably <em>real</em>, but "real" and "meaningful" are different questions.</div>
+    <div class="feedback incorrect">This is the trap: confusing statistical significance with practical importance. A tiny p-value means the effect is unlikely to be zero, but it says nothing about whether the effect matters. Always look at the effect size (d), not just p.</div>
+  </div>
+
+  <h2>Trap 3: "A Non-Significant Result Means No Effect"</h2>
+  <div class="info-box violet">
+    <h4>The Scenario</h4>
+    <p>A pilot study with N = 12 per group tests whether natural light improves task performance. The result: d = 0.45, p = 0.18. The student writes: "The manipulation had no effect on performance."</p>
+  </div>
+
+  <div class="self-check" id="sc-trap-3">
+    <div class="label">Trap Question</div>
+    <div class="question">Is the student correct that the manipulation "had no effect"?</div>
+    <div class="options">
+      <div class="option" onclick="checkAnswer(this,'sc-trap-3',true)">No — the study was underpowered. With N = 12, you have only ~20% power to detect a medium effect. Absence of evidence is not evidence of absence.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-trap-3',false)">Yes — p = 0.18 is not significant, so we accept the null hypothesis.</div>
+    </div>
+    <div class="feedback correct">Correct. A d of 0.45 is a medium effect — not nothing. But with only 12 participants per group, the study had roughly 20% power to detect this effect at α = 0.05. That means there's an 80% chance of <em>missing</em> a real effect of this size. The correct conclusion: "This study was too small to detect the observed effect."</div>
+    <div class="feedback incorrect">We never "accept the null hypothesis." A non-significant result means the data are consistent with the null, but they may also be consistent with a meaningful effect that the study was too small to detect. You need a power analysis to know whether your null result is informative.</div>
+  </div>
+
+  <p style="margin-top:24px"><em>Traps 4 (Random Assignment ≠ No Confounds) and 5 (VR ≠ Automatic Ecological Validity) continue in the full module...</em></p>
+
+  <div style="margin-top:32px;padding:20px;background:var(--emerald-50);border-radius:var(--radius-lg);border:1px solid #A7F3D0">
+    <strong>Good.</strong> The errors you caught here will stay corrected. Next: <a href="#" onclick="showPage('hypothesis');return false" style="color:var(--teal-600);font-weight:600">Build a Hypothesis →</a>
+  </div>
+</div>
+
+<!-- ═══════ WIZARD PAGE ═══════════════════════════════════════════ -->
+<div class="page" id="page-wizard">
+  <h1>Experiment Builder Wizard</h1>
+  <p class="subtitle">5 steps from research question to complete protocol</p>
+
+  <div class="wizard-steps">
+    <div class="wstep active"><span class="num">1</span> Topic &amp; Question</div>
+    <span class="wstep-arrow">→</span>
+    <div class="wstep"><span class="num">2</span> Paradigm</div>
+    <span class="wstep-arrow">→</span>
+    <div class="wstep"><span class="num">3</span> Confounds</div>
+    <span class="wstep-arrow">→</span>
+    <div class="wstep"><span class="num">4</span> Operationalize</div>
+    <span class="wstep-arrow">→</span>
+    <div class="wstep"><span class="num">5</span> Protocol</div>
+  </div>
+
+  <div class="info-box">
+    <h4>Two Pathways</h4>
+    <p>You can start from scratch (choose a topic and build a novel design) or use the <a href="#" onclick="showPage('replication');return false" style="color:var(--teal-600);font-weight:600">Replication Exercise</a> to replicate an existing finding first. Both paths use the same 5-step workflow.</p>
+  </div>
+
+  <h2>Step 1: Choose Your Research Topic</h2>
+  <p>Browse 25 research fronts on how built environments affect human cognition and behavior. Each front is ranked by <strong>Value of Information (VOI)</strong> — how much a new experiment would add to what we already know.</p>
+
+  <div class="card-grid">
+    <div class="card">
+      <h3>Lighting &amp; Circadian Rhythm</h3>
+      <p>How light color temperature and intensity affect alertness, mood, and cognitive performance.</p>
+      <span class="card-tag" style="background:var(--emerald-50);color:var(--emerald-600)">High VOI</span>
+    </div>
+    <div class="card">
+      <h3>Ceiling Height &amp; Creativity</h3>
+      <p>Does spatial volume affect creative thinking? Replication status: contested.</p>
+      <span class="card-tag" style="background:var(--amber-50);color:var(--amber-500)">Medium VOI</span>
+    </div>
+    <div class="card">
+      <h3>Noise &amp; Concentration</h3>
+      <p>Background sound effects on sustained attention, working memory, and reading comprehension.</p>
+      <span class="card-tag" style="background:var(--emerald-50);color:var(--emerald-600)">High VOI</span>
+    </div>
+    <div class="card">
+      <h3>Biophilic Design &amp; Stress</h3>
+      <p>Natural elements (plants, water, wood) and their effects on physiological stress markers.</p>
+      <span class="card-tag" style="background:var(--emerald-50);color:var(--emerald-600)">High VOI</span>
+    </div>
+  </div>
+
+  <p style="margin-top:12px;color:var(--slate-400);font-size:.88rem">Showing 4 of 25 research fronts. The full wizard loads all fronts with filtering by domain, VOI score, and VR adaptability.</p>
+
+  <h2>Step 2: Select Your Paradigm</h2>
+  <p>Based on your topic and your track, the wizard recommends experimental paradigms. Each paradigm card shows its <strong>causal inference strength</strong> and <strong>VR adaptability</strong> rating.</p>
+
+  <h2>Step 3: Confound Analysis</h2>
+  <p>The wizard surfaces paradigm-specific confounds — not a generic list, but the exact threats that apply to <em>your</em> design. You must address each one before proceeding.</p>
+
+  <h2>Step 4: Operationalize IV &amp; DV</h2>
+  <p>Guided operationalization: for your IV, the wizard provides standard manipulation parameters from the literature. For your DV, it links to scoring protocols in the <a href="#" onclick="showPage('measures');return false" style="color:var(--teal-600)">Measurement Instruments</a> page.</p>
+
+  <h2>Step 5: Protocol Summary &amp; Output</h2>
+  <p>The wizard generates your complete protocol, including: design summary, materials list, procedure script, IRB checklist, and power analysis. From here, you can generate a <a href="#" onclick="showPage('prereg');return false" style="color:var(--teal-600)">Pre-Registration</a> or an <a href="#" onclick="showPage('open-materials');return false" style="color:var(--teal-600)">Open Materials Package</a>.</p>
+</div>
+
+<!-- ═══════ TRACK SELECTION PAGE ═══════════════════════════════════ -->
+<div class="page" id="page-track-select">
+  <h1>Choose Your Track</h1>
+  <p class="subtitle">All tracks share the same Common Core. Your track determines the modality-specific methods, confounds, data preparation recipes, and analysis techniques you learn.</p>
+
+  <div class="track-selector">
+    <div class="track-card" data-track="vr" onclick="selectTrack('vr');showPage('vr-design')">
+      <div class="track-icon">🥽</div>
+      <h3>Track A: VR Laboratory</h3>
+      <p>Design experiments using VR headsets and rendered environments. Learn about presence, simulator sickness, VR-specific confounds, and multi-modal synchronization.</p>
+    </div>
+    <div class="track-card" data-track="acoustics" onclick="selectTrack('acoustics');showPage('acoustics-lab')">
+      <div class="track-icon">🔊</div>
+      <h3>Track B: Acoustics Lab</h3>
+      <p>Study sound perception, noise effects, and auditory cognition. Learn calibrated measurement, psychoacoustic methods, and acoustic confound control.</p>
+    </div>
+    <div class="track-card" data-track="space" onclick="selectTrack('space');showPage('space-lab')">
+      <div class="track-icon">🏗️</div>
+      <h3>Track C: Physical Space</h3>
+      <p>Test effects of lighting, room layout, thermal conditions in real built environments. Learn environmental measurement, field methods, and ecological validity.</p>
+    </div>
+  </div>
+
+  <div class="info-box">
+    <h4>Track assignment is not permanent</h4>
+    <p>Your track is recommended based on your paradigm choice in Step 2 of the Wizard, but you can switch tracks at any time. All students complete the Common Core regardless of track.</p>
+  </div>
+</div>
+
+<!-- ═══════ VR DESIGN PAGE ════════════════════════════════════════ -->
+<div class="page" id="page-vr-design">
+  <h1>VR Experiment Design</h1>
+  <p class="subtitle">Track A &nbsp;·&nbsp; 7 topics &nbsp;·&nbsp; Based on Slater (2009), Bailenson (2018)</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--track-vr)">
+      <h3>1. VR as Experimental Tool</h3>
+      <p>Why use VR? Parametric control of ecological stimuli. When VR is better and worse than physical labs.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-vr)">
+      <h3>2. Presence &amp; Immersion</h3>
+      <p>Place illusion, plausibility illusion, body ownership. The Slater framework. Measuring presence (IPQ, SUS).</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-vr)">
+      <h3>3. Simulator Sickness</h3>
+      <p>SSQ, common causes, mitigation strategies. Sickness as confound and ethical concern.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-vr)">
+      <h3>4. VR Stimulus Design</h3>
+      <p>Resolution, lighting models, avatar realism, spatial audio. Perceptual fidelity ≠ geometric accuracy.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-vr)">
+      <h3>5. Within-VR Measurement</h3>
+      <p>Head tracking, gaze dwell, controller input, spatial memory. Physiological measurement under headsets.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-vr)">
+      <h3>6. VR-Specific Confounds</h3>
+      <p>Novelty effect, order effects, the presence confound, rendering inconsistencies across HMDs.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-vr)">
+      <h3>7. Example Walkthrough</h3>
+      <p>Ceiling height → creativity in VR: every design decision, worked end-to-end.</p>
+    </div>
+  </div>
+
+  <h2>Presence Design Checklist</h2>
+  <p>Before finalizing your VR protocol, complete Slater's three-component presence checklist:</p>
+
+  <table class="measures">
+    <thead><tr><th>Component</th><th>Design Question</th><th>You Must Specify</th></tr></thead>
+    <tbody>
+      <tr><td><strong>Place Illusion (PI)</strong></td><td>Will participants feel "there"?</td><td>HMD model, FOV, tracking (6DoF/3DoF), rendering quality, frame rate</td></tr>
+      <tr><td><strong>Plausibility (Psi)</strong></td><td>Will events feel real?</td><td>Interactive elements, NPC behavior, physics simulation</td></tr>
+      <tr><td><strong>Body Ownership</strong></td><td>Will the virtual body feel like theirs?</td><td>Avatar type, motion mapping, mirror exposure, visuomotor synchrony</td></tr>
+    </tbody>
+  </table>
+
+  <h2>VR Ethics Framework</h2>
+  <p>Standard IRB training does not cover VR-specific risks (Madary & Metzinger, 2016). Complete all six domains before submitting your protocol:</p>
+  <ol>
+    <li><strong>Simulator Sickness Risk Assessment</strong> — Rate expected level, plan SSQ administration and stopping rules</li>
+    <li><strong>Psychological Intensity Screening</strong> — Pre-screen for phobias if stimuli are threatening</li>
+    <li><strong>Body Representation Ethics</strong> — Informed consent for avatar embodiment, especially cross-identity</li>
+    <li><strong>VR Data Privacy</strong> — Eye tracking and head kinematics are biometric identifiers</li>
+    <li><strong>Aftereffects Protocol</strong> — 5-minute post-VR acclimation, brief perceptual check</li>
+    <li><strong>Withdrawal Protocol</strong> — Easy exit mechanism, monitoring for distress</li>
+  </ol>
+</div>
+
+<!-- ═══════ ACOUSTICS LAB PAGE ════════════════════════════════════ -->
+<div class="page" id="page-acoustics-lab">
+  <h1>Acoustic Methods</h1>
+  <p class="subtitle">Track B &nbsp;·&nbsp; Sound measurement, stimulus design, psychoacoustic paradigms</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--track-acoustics)">
+      <h3>Acoustic Environment Measurement</h3>
+      <p>SPL (dB/dBA/dBC), frequency spectrum, reverberation time (RT60). Calibration protocols. Which meter to use.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-acoustics)">
+      <h3>Sound Stimulus Design</h3>
+      <p>Recording, editing, calibration. Headphone vs. speaker presentation. Controlling for spectral content.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-acoustics)">
+      <h3>Psychoacoustic Methods</h3>
+      <p>Adaptive staircases, signal detection theory (d-prime), threshold estimation, auditory scene analysis.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-acoustics)">
+      <h3>Acoustic Confounds</h3>
+      <p>Background noise contamination, headphone variability, habituation, cross-modal masking, room acoustics.</p>
+    </div>
+  </div>
+
+  <div class="info-box amber">
+    <h4>Required Equipment</h4>
+    <p>All acoustics track students need: a calibrated SPL meter (NIOSH app or standalone), standardized headphones or speakers, and the ability to record ambient noise levels in every session. These readings go in your Methods section.</p>
+  </div>
+</div>
+
+<!-- ═══════ PHYSICAL SPACE LAB PAGE ═══════════════════════════════ -->
+<div class="page" id="page-space-lab">
+  <h1>Physical Space Methods</h1>
+  <p class="subtitle">Track C &nbsp;·&nbsp; Environmental measurement, field methods, ecological validity</p>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--track-space)">
+      <h3>Environmental Variables</h3>
+      <p>Illuminance (lux), CCT, temperature, humidity, CO₂. Measurement protocols and equipment.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-space)">
+      <h3>Space Documentation</h3>
+      <p>Photography protocols, floor plans, measurement logs. Reproducible descriptions of physical environments.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-space)">
+      <h3>Ecological Validity</h3>
+      <p>Field vs. lab tradeoffs. When real environments are better than simulations. Hawthorne effects.</p>
+    </div>
+    <div class="card" style="border-left:3px solid var(--track-space)">
+      <h3>Physical Space Confounds</h3>
+      <p>Time-of-day, seasonal daylight, social density, non-additive interactions (lighting × temperature).</p>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════ DATA PREPARATION PAGE ═════════════════════════════════ -->
+<div class="page" id="page-data-prep">
+  <h1>Data Preparation</h1>
+  <p class="subtitle">From raw sensor output to analysis-ready data</p>
+
+  <h2>Section A: General Principles (All Tracks)</h2>
+  <p>Before analyzing anything, your data must be clean, formatted correctly, and documented. This section covers the principles that apply regardless of what you measured.</p>
+
+  <div class="card-grid">
+    <div class="card"><h3>Tidy Data</h3><p>One observation per row, one variable per column. Long vs. wide format. Why this matters (Wickham, 2014).</p></div>
+    <div class="card"><h3>Missing Data</h3><p>MCAR, MAR, MNAR — what they mean, how to detect them, when to drop vs. impute.</p></div>
+    <div class="card"><h3>Outlier Detection</h3><p>Z-scores, IQR method, Mahalanobis distance. When to exclude vs. winsorize.</p></div>
+    <div class="card"><h3>Assumption Checking</h3><p>Normality, homogeneity, sphericity. What to check, how to check it, what to do when it fails.</p></div>
+  </div>
+
+  <h2>Section B: Behavioral Data</h2>
+
+  <h3>IAT D-Score Computation</h3>
+  <p>The Implicit Association Test uses a specific scoring algorithm (Greenwald, Nosek & Banaji, 2003): remove practice blocks, apply 300–10,000 ms latency trimming, compute D = (Mean_incongruent – Mean_congruent) / SD_all_trials, apply the built-in exclusion criteria (>10% trials <300ms).</p>
+
+  <h3>Adaptive Preference</h3>
+  <p>Staircase procedures converge on a threshold. Fit a psychometric function (logistic or Weibull) to the response data. Exclude non-convergent staircases (those where the staircase has not reversed at least 6 times).</p>
+
+  <h3>Survey Composites</h3>
+  <p>Check for reverse-scored items, compute composite means, verify reliability (target: α ≥ 0.70 or ω ≥ 0.70).</p>
+
+  <h2>Section C: Physiological Data — EmotiBit</h2>
+  <p>EmotiBit records PPG (→HR), EDA, accelerometer, gyroscope, temperature. This section covers extraction and cleaning for each signal.</p>
+
+  <h2>Section D: Physiological Data — Polar H10</h2>
+  <p>Polar H10 provides single-lead ECG. R-peak detection, RR interval extraction, ectopic beat correction, and export from Polar Sensor Logger.</p>
+
+  <h2>Section E: Multi-Modal Synchronization</h2>
+  <p>EmotiBit, Polar H10, VR system, and behavioral responses all have different clocks. Learn time-stamping strategies (LSL, NTP, event markers) and post-hoc alignment.</p>
+</div>
+
+<!-- ═══════ SIGNAL QUALITY PAGE ═══════════════════════════════════ -->
+<div class="page" id="page-signal-quality">
+  <h1>Signal Quality Training</h1>
+  <p class="subtitle">Common Core &nbsp;·&nbsp; Interactive exercise &nbsp;·&nbsp; Based on Allen (2002), Berntson et al. (1997)</p>
+
+  <p>The difference between publishable physiological data and garbage is signal quality. You cannot learn this from text alone — you need to <em>see</em> clean signals and artifacts. This module shows you real examples and tests your ability to classify them.</p>
+
+  <h2>Gallery: Clean vs. Artifact</h2>
+
+  <div class="card-grid">
+    <div class="card" style="border-left:3px solid var(--emerald-600)">
+      <h3>Clean ECG</h3>
+      <p>Clear R-peaks, stable baseline, consistent QRS morphology. This is what you want.</p>
+      <div style="font-family:monospace;font-size:12px;color:var(--emerald-600);margin-top:8px;line-height:1.2;letter-spacing:2px">⎽⎽∧⎽⎽⎽⎽∧⎽⎽⎽⎽∧⎽⎽⎽⎽∧⎽⎽</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--rose-500)">
+      <h3>Motion Artifact (ECG)</h3>
+      <p>Sudden baseline shift, high-frequency noise, distorted R-peaks. Caused by movement.</p>
+      <div style="font-family:monospace;font-size:12px;color:var(--rose-500);margin-top:8px;line-height:1.2;letter-spacing:2px">⎽∧⎽⎽⌇⌇⌇⌇⌇⌇⎽⎽∧⎽⎽∧⎽⎽</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--emerald-600)">
+      <h3>Clean EDA</h3>
+      <p>Slow tonic drift with clear phasic SCR peaks 1–4s after stimuli. Stable baseline.</p>
+      <div style="font-family:monospace;font-size:12px;color:var(--emerald-600);margin-top:8px;line-height:1.2;letter-spacing:2px">⎽⎽⎽╱╲⎽⎽⎽╱╲⎽⎽⎽⎽╱╲⎽⎽</div>
+    </div>
+    <div class="card" style="border-left:3px solid var(--rose-500)">
+      <h3>Electrode Drift (EDA)</h3>
+      <p>Gradual unidirectional drift unrelated to stimuli. Caused by sweat accumulation or temperature.</p>
+      <div style="font-family:monospace;font-size:12px;color:var(--rose-500);margin-top:8px;line-height:1.2;letter-spacing:2px">⎽⎽╱⎽⎽╱⎽╱⎽╱╱╱╱╱╱╱╱╱</div>
+    </div>
+  </div>
+
+  <div class="self-check" id="sc-signal">
+    <div class="label">Classification Exercise</div>
+    <div class="question">A PPG signal shows regular pulse peaks for 30 seconds, then 5 seconds of flat line, then peaks resume. How do you classify this segment?</div>
+    <div class="options">
+      <div class="option" onclick="checkAnswer(this,'sc-signal',false)">Clean — the signal returned to normal, so the flat section was just a rest period.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-signal',true)">Electrode contact failure — exclude the flat segment, do not interpolate PPG morphology.</div>
+      <div class="option" onclick="checkAnswer(this,'sc-signal',false)">Minor artifact — interpolate across the gap using surrounding peak intervals.</div>
+    </div>
+    <div class="feedback correct">Correct. A flat line in PPG means the sensor lost contact with skin. Unlike ECG where you can interpolate short gaps, PPG morphology changes fundamentally with contact loss. Exclude the segment entirely.</div>
+    <div class="feedback incorrect">A flat line in PPG is not a rest period or a minor artifact. It indicates loss of sensor contact. The correct approach is to exclude these epochs — interpolation would invent data that never existed.</div>
+  </div>
+</div>
+
+<!-- ═══════ ANALYSIS BASICS PAGE ══════════════════════════════════ -->
+<div class="page" id="page-analysis">
+  <h1>Analysis Basics</h1>
+  <p class="subtitle">Which test to run, how to check assumptions, how to report results</p>
+
+  <h2>Section A: Choosing Your Test (All Tracks)</h2>
+  <div class="flow-diagram" style="padding:20px">
+    <p style="text-align:center;font-weight:600;margin-bottom:12px">Statistical Test Decision Tree</p>
+    <div class="flow-row">
+      <div class="flow-box core" style="min-width:200px">How many groups?</div>
+    </div>
+    <div class="flow-row" style="margin-top:8px">
+      <div class="flow-box shared" style="min-width:140px">2 groups<br><small>→ t-test</small></div>
+      <div class="flow-box shared" style="min-width:140px">3+ groups<br><small>→ ANOVA</small></div>
+    </div>
+    <div class="flow-row" style="margin-top:8px">
+      <div class="flow-box shared" style="min-width:140px;font-size:.8rem">Between-subj → independent t<br>Within-subj → paired t</div>
+      <div class="flow-box shared" style="min-width:140px;font-size:.8rem">Between → one-way ANOVA<br>Within → RM-ANOVA<br>Mixed → mixed ANOVA</div>
+    </div>
+  </div>
+
+  <h3>Always Report Effect Sizes</h3>
+  <p>For t-tests, report Cohen's d. For ANOVA, report η² (eta-squared). Never report only p-values — they tell you whether an effect exists, not how large it is.</p>
+
+  <h2>Section B: Analysis Recipes by Measure</h2>
+  <table class="measures">
+    <thead><tr><th>Measure</th><th>Analysis</th><th>Report</th></tr></thead>
+    <tbody>
+      <tr><td>IAT D-score</td><td>One-sample t (vs. 0) or between-group t</td><td>Mean D, SD, t, df, p, d</td></tr>
+      <tr><td>Adaptive threshold</td><td>ANOVA across conditions</td><td>Mean threshold, F, df, p, η²</td></tr>
+      <tr><td>Survey composite</td><td>ANOVA or mixed ANOVA (check α ≥ .70 first)</td><td>Mean composite, F, df, p, η²</td></tr>
+      <tr><td>Heart rate / HRV</td><td>RM-ANOVA (within) or independent ANOVA (between)</td><td>Mean HR or RMSSD, F, df, p, η²</td></tr>
+      <tr><td>EDA (SCL)</td><td>Change scores (condition − baseline) → ANOVA</td><td>Mean ΔSCL, F, df, p, η²</td></tr>
+      <tr><td>Motion / sway</td><td>RMS acceleration or path length → ANOVA</td><td>Mean RMS, F, df, p, η²</td></tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- ═══════ MEASURES / SENSORS PAGES ═════════════════════════════ -->
+<div class="page" id="page-measures">
+  <h1>Measurement Instruments &amp; Low-Cost Measures</h1>
+  <p class="subtitle">Surveys, behavioral tasks, physiological tools — with costs and validation status</p>
+
+  <h2>Tier 1: Zero-Cost (Software Only)</h2>
+  <table class="measures">
+    <thead><tr><th>Measure</th><th>What It Captures</th><th>Tool</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Facial action units</td><td>FACS emotion coding (AU1, AU4, AU6, AU12, etc.)</td><td>Py-Feat / OpenFace 3.0</td><td><span class="cost-badge free">Free</span></td></tr>
+      <tr><td>Vocal prosody</td><td>Pitch (F0), speech rate, pause duration, HNR</td><td>openSMILE / Parselmouth</td><td><span class="cost-badge free">Free</span></td></tr>
+      <tr><td>Webcam gaze</td><td>Fixation location (~4° accuracy), saccade frequency</td><td>WebGazer.js</td><td><span class="cost-badge free">Free</span></td></tr>
+      <tr><td>Reaction time</td><td>Response latency (<3.5 ms precision), accuracy</td><td>PsychoPy / jsPsych</td><td><span class="cost-badge free">Free</span></td></tr>
+      <tr><td>Posture / movement</td><td>25 body keypoints, velocity, postural sway</td><td>OpenPose / MoveNet</td><td><span class="cost-badge free">Free</span></td></tr>
+      <tr><td>Typing dynamics</td><td>Keystroke latency, inter-key interval, error rate</td><td>Custom JavaScript</td><td><span class="cost-badge free">Free</span></td></tr>
+      <tr><td>Mouse dynamics</td><td>Cursor trajectory, velocity, decision conflict</td><td>MouseTracker</td><td><span class="cost-badge free">Free</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Tier 2: Low-Cost Hardware ($7–$50)</h2>
+  <table class="measures">
+    <thead><tr><th>Measure</th><th>What It Captures</th><th>Hardware</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Grip force</td><td>Isometric force, effort, frustration</td><td>FSR + Arduino</td><td><span class="cost-badge low">$7–15</span></td></tr>
+      <tr><td>Skin conductance (DIY)</td><td>SCL, phasic SCRs (basic quality)</td><td>Grove GSR Sensor</td><td><span class="cost-badge low">$10–40</span></td></tr>
+      <tr><td>Ambient sound</td><td>dB(A) environmental noise</td><td>NIOSH app or meter</td><td><span class="cost-badge free">Free–$40</span></td></tr>
+      <tr><td>Ambient light</td><td>Illuminance (lux)</td><td>Lux meter or phone app</td><td><span class="cost-badge free">Free–$25</span></td></tr>
+      <tr><td>Temperature / humidity</td><td>Thermal environment</td><td>USB logger (Elitech RC-5)</td><td><span class="cost-badge low">$15–30</span></td></tr>
+    </tbody>
+  </table>
+
+  <h2>Tier 3: Core Devices ($85–$250)</h2>
+  <table class="measures">
+    <thead><tr><th>Measure</th><th>What It Captures</th><th>Hardware</th><th>Cost</th></tr></thead>
+    <tbody>
+      <tr><td>Multi-modal physiology</td><td>PPG→HR, EDA, accelerometer, gyroscope, temp</td><td>EmotiBit</td><td><span class="cost-badge med">~$225</span></td></tr>
+      <tr><td>ECG / HRV</td><td>Single-lead ECG, R-R intervals, HRV</td><td>Polar H10</td><td><span class="cost-badge low">~$90</span></td></tr>
+      <tr><td>Respiration</td><td>Breathing rate, depth, inspiration/expiration</td><td>Vernier Go Direct</td><td><span class="cost-badge med">~$135</span></td></tr>
+      <tr><td>Postural sway</td><td>Center of pressure, balance</td><td>Wii Balance Board (used)</td><td><span class="cost-badge low">~$25</span></td></tr>
+    </tbody>
+  </table>
+</div>
+
+<div class="page" id="page-sensors">
+  <h1>Sensor Catalogue</h1>
+  <p class="subtitle">Hardware specifications, data output formats, and "I want to measure X → use sensor Y" decision matrix</p>
+  <p>This page provides technical details for each sensor: sampling rates, data formats, common artifacts, and links to the relevant <a href="#" onclick="showPage('data-prep');return false" style="color:var(--teal-600)">Data Preparation</a> recipes.</p>
+
+  <div class="info-box">
+    <h4>Decision Matrix: What Do You Want to Measure?</h4>
+    <p><strong>Heart rate / HRV</strong> → Polar H10 (best) or EmotiBit PPG (good). <strong>Skin conductance</strong> → EmotiBit EDA (best) or Grove GSR (budget). <strong>Movement</strong> → EmotiBit accelerometer or OpenPose via webcam. <strong>Facial expression</strong> → Py-Feat + webcam. <strong>Gaze</strong> → WebGazer.js (approximate) or VR headset eye tracking (if available).</p>
+  </div>
+</div>
+
+<!-- ═══════ REMAINING STUB PAGES ══════════════════════════════════ -->
+<div class="page" id="page-power">
+  <h1>Power Analysis</h1>
+  <p class="subtitle">Common Core &nbsp;·&nbsp; Based on Cohen (1988), Simonsohn (2015), Lakens (2017)</p>
+  <p>How many participants do you need? This module teaches you to answer that question using effect sizes from the literature, the concept of statistical power, and the "small telescopes" safeguard principle.</p>
+  <h2>Interactive Power Calculator</h2>
+  <div class="info-box">
+    <h4>Try it</h4>
+    <p>Expected effect size (d): <input type="number" value="0.50" style="width:60px;padding:4px;border:1px solid var(--slate-300);border-radius:4px"> &nbsp; Desired power: <input type="number" value="0.80" style="width:60px;padding:4px;border:1px solid var(--slate-300);border-radius:4px"> &nbsp; Alpha: <input type="number" value="0.05" style="width:60px;padding:4px;border:1px solid var(--slate-300);border-radius:4px"> &nbsp; → <strong>Required N per group: ~64</strong></p>
+  </div>
+  <p>For VR experiments, recruit 1.25× the calculated N to account for simulator sickness attrition (10–20% of participants). If the literature shows d = 0.50, plan for d = 0.35 — the "small telescopes" principle (Simonsohn, 2015).</p>
+</div>
+
+<div class="page" id="page-hypothesis">
+  <h1>Hypothesis Builder</h1>
+  <p class="subtitle">Common Core &nbsp;·&nbsp; From vague idea to testable prediction</p>
+  <p>A good hypothesis is specific, directional, and operationalized. This tool walks you through three levels:</p>
+  <div class="card-grid">
+    <div class="card"><h3>Research Hypothesis</h3><p>"High ceilings increase creative thinking."<br><em>Clear but not yet testable.</em></p></div>
+    <div class="card"><h3>Statistical Hypothesis</h3><p>"Mean RAT scores will be higher in the 4m ceiling condition than the 2.5m condition."<br><em>Testable and directional.</em></p></div>
+    <div class="card"><h3>Equivalence Hypothesis</h3><p>"If ceiling height has no meaningful effect, the difference will fall within ±2 RAT points."<br><em>For non-inferiority designs.</em></p></div>
+  </div>
+</div>
+
+<div class="page" id="page-replication">
+  <h1>Replication Exercise</h1>
+  <p class="subtitle">Common Core &nbsp;·&nbsp; Pashler's "Replicate First" pathway</p>
+  <p>Before designing a novel experiment, replicate an existing finding. This teaches you more about experimental design than any lecture — because you will discover exactly where published methods are underspecified.</p>
+  <h2>How It Works</h2>
+  <ol>
+    <li><strong>Select a published finding</strong> from the V5 claims database (5,027 claims with DOIs and effect sizes)</li>
+    <li><strong>Read the original protocol</strong> — the system surfaces design metadata and the original paper</li>
+    <li><strong>Identify specification gaps</strong> — a checklist reveals what the authors did not report</li>
+    <li><strong>Build the replication protocol</strong> — fill every gap using Steps 2–5 of the wizard</li>
+    <li><strong>Generate a deviation report</strong> — the system flags every point where your protocol differs from the original</li>
+  </ol>
+</div>
+
+<div class="page" id="page-assumptions">
+  <h1>Assumption Checking Walkthrough</h1>
+  <p class="subtitle">Common Core &nbsp;·&nbsp; Tabachnick &amp; Fidell (2019)</p>
+  <p>Complete this walkthrough <em>before</em> running any statistical test. For each test type, you will check the relevant assumptions and learn what to do when they are violated.</p>
+  <div class="card-grid">
+    <div class="card"><h3>Normality</h3><p>Shapiro-Wilk (N < 50) or Q-Q plot (N ≥ 50). Visual gallery of "normal enough" vs. "clearly non-normal."</p></div>
+    <div class="card"><h3>Homogeneity</h3><p>Levene's test. What "p < .05 means you have a problem" means. Solution: Welch's version.</p></div>
+    <div class="card"><h3>Sphericity</h3><p>Mauchly's test (within-subjects only). Fix: Greenhouse-Geisser correction.</p></div>
+    <div class="card"><h3>When Assumptions Fail</h3><p>Decision tree: transform, use robust alternative, or switch to non-parametric test.</p></div>
+  </div>
+</div>
+
+<div class="page" id="page-prereg">
+  <h1>Pre-Registration Generator</h1>
+  <p class="subtitle">Tools &amp; Output &nbsp;·&nbsp; Based on Nosek et al. (2018)</p>
+  <p>This tool takes your wizard output and generates a complete AsPredicted-format pre-registration document. Every field maps directly to data you already entered:</p>
+  <table class="measures">
+    <thead><tr><th>AsPredicted Field</th><th>Wizard Source</th></tr></thead>
+    <tbody>
+      <tr><td>Research question</td><td>Step 1 topic + Hypothesis Builder</td></tr>
+      <tr><td>Dependent variable(s)</td><td>Step 4 DV operationalization</td></tr>
+      <tr><td>Conditions</td><td>Step 2 paradigm + Step 4 IV operationalization</td></tr>
+      <tr><td>Analyses</td><td>Analysis Basics recipe</td></tr>
+      <tr><td>Outlier handling</td><td>Data Preparation selections</td></tr>
+      <tr><td>Sample size</td><td>Power Analysis output</td></tr>
+    </tbody>
+  </table>
+  <p>The generator also includes track-specific fields: VR students must specify HMD model and rendering engine; acoustics students must specify playback equipment; physical-space students must specify environmental monitoring equipment.</p>
+</div>
+
+<div class="page" id="page-open-materials">
+  <h1>Open Materials Package</h1>
+  <p class="subtitle">Tools &amp; Output &nbsp;·&nbsp; FAIR-compliant research package</p>
+  <p>Generate a shareable package containing: protocol document, pre-registration, stimulus description file, codebook, analysis script skeleton, and README — all in a standardized ZIP matching OSF project organization.</p>
+</div>
+
+<div class="page" id="page-ethics">
+  <h1>Ethics &amp; IRB</h1>
+  <p class="subtitle">Tools &amp; Output &nbsp;·&nbsp; Experiment ethics and protocol review</p>
+  <p>Every experiment requires ethical review. This module generates an IRB-ready checklist covering: informed consent, debriefing script, risk assessment, data storage plan, and (for VR experiments) the VR-specific ethics addendum from the VR Experiment Design module.</p>
+</div>
+
+<div class="page" id="page-knowledge">
+  <h1>Knowledge Navigator</h1>
+  <p class="subtitle">Explore &nbsp;·&nbsp; Browse 25 research fronts with findings, meta-reviews, and experiment ideas</p>
+  <p>This links to the existing <code>knowledge_navigator.html</code> with its mega-menu navigation, topic cards, Fun Findings teasers, and cross-links to the Experiment Wizard.</p>
+</div>
+
+<div class="page" id="page-methods">
+  <h1>Methods Taxonomy</h1>
+  <p class="subtitle">Explore &nbsp;·&nbsp; 14 paradigm families with causal inference ratings</p>
+  <p>Each paradigm now includes a <strong>causal inference strength</strong> rating (Strong / Moderate / Weak / Descriptive) and links to the relevant track content.</p>
+</div>
+
+</main>
+
+<!-- ─── Right Progress Rail ───────────────────────────────────── -->
+<aside class="progress-rail" id="progress-rail">
+  <h4>Your Progress</h4>
+  <div class="progress-item current"><span class="dot"></span> Foundations</div>
+  <div class="progress-item"><span class="dot"></span> Misconception Traps</div>
+  <div class="progress-item"><span class="dot"></span> Hypothesis Builder</div>
+  <div class="progress-item"><span class="dot"></span> Power Analysis</div>
+  <div class="progress-item"><span class="dot"></span> Wizard Steps 1–3</div>
+  <div class="progress-item"><span class="dot"></span> Track Selection</div>
+  <div class="progress-item"><span class="dot"></span> Track Module</div>
+  <div class="progress-item"><span class="dot"></span> Data Preparation</div>
+  <div class="progress-item"><span class="dot"></span> Signal Quality</div>
+  <div class="progress-item"><span class="dot"></span> Analysis Basics</div>
+  <div class="progress-item"><span class="dot"></span> Assumptions</div>
+  <div class="progress-item"><span class="dot"></span> Pre-Registration</div>
+  <div class="progress-item"><span class="dot"></span> Open Materials</div>
+</aside>
+
+</div><!-- flex wrapper -->
+</div><!-- page-shell -->
+
+<!-- ══════════════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ══════════════════════════════════════════════════════════════════ -->
+<script>
+// Page navigation
+const pages = {};
+document.querySelectorAll('.page').forEach(p => {
+  pages[p.id.replace('page-','')] = p;
+});
+
+function showPage(id) {
+  Object.values(pages).forEach(p => p.classList.remove('active'));
+  if (pages[id]) pages[id].classList.add('active');
+
+  // Update sidebar active state
+  document.querySelectorAll('.sidebar a').forEach(a => a.classList.remove('active'));
+  document.querySelectorAll('.sidebar a').forEach(a => {
+    if (a.getAttribute('onclick') && a.getAttribute('onclick').includes("'" + id + "'")) {
+      a.classList.add('active');
+    }
+  });
+
+  // Update nav buttons
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => {
+    if (b.getAttribute('onclick') && b.getAttribute('onclick').includes("'" + id + "'")) {
+      b.classList.add('active');
+    }
+  });
+
+  // Update progress rail
+  updateProgress(id);
+
+  // Scroll to top
+  document.querySelector('.main-content').scrollTop = 0;
+  window.scrollTo(0, 0);
+}
+
+// Track selection
+let currentTrack = null;
+function selectTrack(track) {
+  currentTrack = track;
+  document.querySelectorAll('.nav-track').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.track-card').forEach(t => t.classList.remove('selected'));
+  document.querySelectorAll(`.nav-track[data-track="${track}"]`).forEach(t => t.classList.add('active'));
+  document.querySelectorAll(`.track-card[data-track="${track}"]`).forEach(t => t.classList.add('selected'));
+}
+
+// Self-check questions
+function checkAnswer(el, scId, correct) {
+  const sc = document.getElementById(scId);
+  if (!sc) return;
+  // Reset previous selections
+  sc.querySelectorAll('.option').forEach(o => {
+    o.classList.remove('selected','correct','incorrect');
+  });
+  // Mark selected
+  el.classList.add('selected');
+  el.classList.add(correct ? 'correct' : 'incorrect');
+  // Show feedback
+  sc.querySelectorAll('.feedback').forEach(f => f.classList.remove('show'));
+  if (correct) {
+    sc.querySelector('.feedback.correct').classList.add('show');
+  } else {
+    sc.querySelector('.feedback.incorrect').classList.add('show');
+  }
+}
+
+// Progress tracking
+const progressOrder = ['foundations','traps','hypothesis','power','wizard','track-select',
+  'vr-design','acoustics-lab','space-lab','data-prep','signal-quality','analysis',
+  'assumptions','prereg','open-materials'];
+
+function updateProgress(currentId) {
+  const items = document.querySelectorAll('.progress-item');
+  const idx = progressOrder.indexOf(currentId);
+  items.forEach((item, i) => {
+    item.classList.remove('done','current');
+    if (i < idx) item.classList.add('done');
+    if (i === idx) item.classList.add('current');
+  });
+}
+</script>
+</body>
+</html>

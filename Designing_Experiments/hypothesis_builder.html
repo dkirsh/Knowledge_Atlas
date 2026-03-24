@@ -1,0 +1,1288 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hypothesis Builder — COGS 160</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #FFFFFF;
+    color: #1E293B;
+    line-height: 1.7;
+  }
+
+  /* ─── Global Navigation ─────────────────────────────────── */
+  nav.global-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 32px;
+    height: 64px;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0891B2;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .logo:hover { color: #0369A1; }
+
+  .nav-links {
+    display: flex;
+    gap: 4px;
+    align-items: center;
+  }
+
+  .nav-links a {
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    color: #475569;
+    text-decoration: none;
+    font-weight: 500;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .nav-links a:hover {
+    background: #F1F5F9;
+    color: #0891B2;
+  }
+
+  .nav-links a.active {
+    background: #E0F2FE;
+    color: #0891B2;
+    font-weight: 600;
+  }
+
+  /* ─── Page Layout ───────────────────────────────────────── */
+  .page-wrapper {
+    max-width: 960px;
+    margin: 0 auto;
+    padding: 40px 24px 80px;
+  }
+
+  .page-hero {
+    margin-bottom: 40px;
+  }
+
+  .page-hero h1 {
+    font-size: 2.2rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 12px;
+    line-height: 1.25;
+  }
+
+  .page-hero .subtitle {
+    font-size: 1.1rem;
+    color: #475569;
+    max-width: 780px;
+    line-height: 1.7;
+  }
+
+  /* ─── Flow Indicator ────────────────────────────────────── */
+  .flow-indicator {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    margin-bottom: 40px;
+    padding: 16px 20px;
+    background: #F8FAFC;
+    border-radius: 8px;
+    border: 1px solid #E2E8F0;
+    overflow-x: auto;
+  }
+
+  .flow-step {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #94A3B8;
+    white-space: nowrap;
+    padding: 4px 12px;
+    border-radius: 12px;
+  }
+
+  .flow-step.completed {
+    color: #059669;
+    background: #ECFDF5;
+  }
+
+  .flow-step.current {
+    color: #0891B2;
+    background: #E0F2FE;
+    font-weight: 700;
+  }
+
+  .flow-step.upcoming {
+    color: #94A3B8;
+  }
+
+  .flow-arrow {
+    color: #CBD5E1;
+    font-size: 0.9rem;
+  }
+
+  /* ─── Section Headers ───────────────────────────────────── */
+  .section-header {
+    margin: 48px 0 20px;
+    padding-bottom: 12px;
+    border-bottom: 2px solid #E2E8F0;
+  }
+
+  .section-header:first-of-type {
+    margin-top: 0;
+  }
+
+  .section-header h2 {
+    font-size: 1.5rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin: 0 0 4px;
+  }
+
+  .section-header .section-number {
+    font-size: 0.82rem;
+    font-weight: 700;
+    color: #0891B2;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+  }
+
+  p {
+    margin-bottom: 16px;
+    font-size: 1rem;
+    color: #334155;
+  }
+
+  /* ─── Level Selector ────────────────────────────────────── */
+  .level-selector {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    margin: 24px 0 32px;
+  }
+
+  .level-option {
+    cursor: pointer;
+    border: 2px solid #E2E8F0;
+    border-radius: 10px;
+    padding: 16px;
+    text-align: center;
+    transition: all 0.2s;
+    background: white;
+  }
+
+  .level-option:hover {
+    border-color: #94A3B8;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+  }
+
+  .level-option.selected {
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+  }
+
+  .level-option .level-num {
+    font-size: 1.6rem;
+    font-weight: 700;
+    display: block;
+    margin-bottom: 4px;
+  }
+
+  .level-option .level-name {
+    font-size: 0.82rem;
+    font-weight: 600;
+    display: block;
+    margin-bottom: 6px;
+  }
+
+  .level-option .level-desc {
+    font-size: 0.78rem;
+    color: #64748B;
+    line-height: 1.4;
+  }
+
+  .level-1-opt.selected { border-color: #64748B; background: #F8FAFC; }
+  .level-1-opt.selected .level-num { color: #64748B; }
+  .level-2-opt.selected { border-color: #0891B2; background: #F0F9FF; }
+  .level-2-opt.selected .level-num { color: #0891B2; }
+  .level-3-opt.selected { border-color: #7C3AED; background: #F5F3FF; }
+  .level-3-opt.selected .level-num { color: #7C3AED; }
+  .level-4-opt.selected { border-color: #DC2626; background: #FEF2F2; }
+  .level-4-opt.selected .level-num { color: #DC2626; }
+
+  /* ─── Scaffold Panels ───────────────────────────────────── */
+  .scaffold-panel {
+    display: none;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 24px 0;
+  }
+
+  .scaffold-panel.active {
+    display: block;
+  }
+
+  .scaffold-panel h3 {
+    font-size: 1.15rem;
+    font-weight: 600;
+    color: #0F172A;
+    margin: 0 0 16px;
+  }
+
+  .scaffold-panel .instruction {
+    font-size: 0.95rem;
+    color: #475569;
+    margin-bottom: 16px;
+    line-height: 1.7;
+  }
+
+  /* ─── Form Elements ─────────────────────────────────────── */
+  .form-group {
+    margin-bottom: 20px;
+  }
+
+  .form-group label {
+    display: block;
+    font-size: 0.92rem;
+    font-weight: 600;
+    color: #1E293B;
+    margin-bottom: 6px;
+  }
+
+  .form-group .hint {
+    display: block;
+    font-size: 0.82rem;
+    color: #64748B;
+    margin-bottom: 8px;
+    line-height: 1.5;
+  }
+
+  .form-group textarea,
+  .form-group input[type="text"] {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid #D1D5DB;
+    border-radius: 6px;
+    font-size: 0.95rem;
+    font-family: inherit;
+    line-height: 1.6;
+    resize: vertical;
+    transition: border-color 0.2s;
+  }
+
+  .form-group textarea:focus,
+  .form-group input[type="text"]:focus {
+    outline: none;
+    border-color: #0891B2;
+    box-shadow: 0 0 0 3px rgba(8,145,178,0.12);
+  }
+
+  .form-group textarea {
+    min-height: 72px;
+  }
+
+  /* ─── Sentence Frame ────────────────────────────────────── */
+  .sentence-frame {
+    background: #F8FAFC;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 20px 0;
+    font-size: 0.95rem;
+    line-height: 2.0;
+    color: #334155;
+  }
+
+  .sentence-frame .blank {
+    display: inline-block;
+    min-width: 180px;
+    border-bottom: 2px solid #0891B2;
+    padding: 0 4px;
+    color: #0891B2;
+    font-weight: 500;
+    cursor: text;
+  }
+
+  .sentence-frame .blank:empty::before {
+    content: attr(data-placeholder);
+    color: #94A3B8;
+    font-weight: 400;
+  }
+
+  .sentence-frame .blank:focus {
+    outline: none;
+    border-bottom-color: #0369A1;
+    background: #E0F2FE;
+  }
+
+  .sentence-frame .connector {
+    color: #64748B;
+    font-style: italic;
+  }
+
+  /* ─── Example Callout ───────────────────────────────────── */
+  .example-callout {
+    background: #F0FDF4;
+    border-left: 3px solid #16A34A;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+  }
+
+  .example-callout .example-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #16A34A;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+
+  .example-callout p {
+    font-size: 0.92rem;
+    color: #334155;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ─── Warning Callout ───────────────────────────────────── */
+  .warning-callout {
+    background: #FFFBEB;
+    border-left: 3px solid #D97706;
+    padding: 16px 20px;
+    border-radius: 0 8px 8px 0;
+    margin: 16px 0;
+  }
+
+  .warning-callout .warning-label {
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #D97706;
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 6px;
+  }
+
+  .warning-callout p {
+    font-size: 0.92rem;
+    color: #78350F;
+    margin: 0;
+    line-height: 1.6;
+  }
+
+  /* ─── Insight Box ───────────────────────────────────────── */
+  .insight-box {
+    background: #EFF6FF;
+    border: 1px solid #BFDBFE;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 24px 0;
+  }
+
+  .insight-box .speaker {
+    font-weight: 700;
+    color: #1E40AF;
+    font-size: 0.88rem;
+    margin-bottom: 4px;
+  }
+
+  .insight-box .quote {
+    font-style: italic;
+    color: #1E3A5F;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .insight-box .gloss {
+    font-size: 0.88rem;
+    color: #475569;
+  }
+
+  /* ─── Measurement Table ─────────────────────────────────── */
+  .measure-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 20px 0;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    overflow: hidden;
+    font-size: 0.92rem;
+  }
+
+  .measure-table th {
+    background: #F8FAFC;
+    padding: 10px 14px;
+    text-align: left;
+    font-weight: 600;
+    color: #0F172A;
+    border-bottom: 2px solid #E2E8F0;
+  }
+
+  .measure-table td {
+    padding: 10px 14px;
+    border-bottom: 1px solid #F1F5F9;
+    color: #334155;
+    vertical-align: top;
+  }
+
+  .measure-table tr:last-child td { border-bottom: none; }
+  .measure-table tr:hover td { background: #F8FAFC; }
+
+  .measure-table .role-tag {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 0.78rem;
+    font-weight: 600;
+    color: white;
+  }
+
+  .tag-iv { background: #0891B2; }
+  .tag-dv { background: #7C3AED; }
+  .tag-mediator { background: #D97706; }
+  .tag-moderator { background: #059669; }
+  .tag-control { background: #64748B; }
+  .tag-divergence { background: #DC2626; }
+
+  /* ─── Motivation Panel ──────────────────────────────────── */
+  .motivation-panel {
+    background: #FEFCE8;
+    border: 1px solid #FDE68A;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 32px 0;
+  }
+
+  .motivation-panel h3 {
+    color: #92400E;
+    font-size: 1.1rem;
+    margin: 0 0 16px;
+  }
+
+  /* ─── Hypothesis Preview ────────────────────────────────── */
+  .hypothesis-preview {
+    background: #0F172A;
+    color: #E2E8F0;
+    border-radius: 12px;
+    padding: 28px 32px;
+    margin: 32px 0;
+    font-family: 'Georgia', 'Times New Roman', serif;
+    line-height: 1.8;
+  }
+
+  .hypothesis-preview .preview-label {
+    font-family: system-ui, sans-serif;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #0891B2;
+    text-transform: uppercase;
+    letter-spacing: 0.08em;
+    margin-bottom: 12px;
+  }
+
+  .hypothesis-preview .hyp-text {
+    font-size: 1.1rem;
+    color: #F1F5F9;
+  }
+
+  .hypothesis-preview .hyp-text .placeholder {
+    color: #64748B;
+    font-style: italic;
+  }
+
+  .hypothesis-preview .hyp-level {
+    font-family: system-ui, sans-serif;
+    margin-top: 16px;
+    display: flex;
+    gap: 12px;
+    align-items: center;
+  }
+
+  .hypothesis-preview .hyp-level .level-badge {
+    padding: 4px 10px;
+    border-radius: 12px;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: white;
+  }
+
+  .badge-l1 { background: #64748B; }
+  .badge-l2 { background: #0891B2; }
+  .badge-l3 { background: #7C3AED; }
+  .badge-l4 { background: #DC2626; }
+
+  /* ─── Think Box ─────────────────────────────────────────── */
+  .think-box {
+    background: #FEFCE8;
+    border: 1px solid #FDE68A;
+    border-radius: 8px;
+    padding: 20px 24px;
+    margin: 32px 0;
+  }
+
+  .think-box .think-header {
+    font-weight: 700;
+    color: #92400E;
+    font-size: 0.95rem;
+    margin-bottom: 8px;
+  }
+
+  .think-box p {
+    color: #78350F;
+    font-size: 0.95rem;
+    margin-bottom: 0;
+  }
+
+  /* ─── Button Row ────────────────────────────────────────── */
+  .button-row {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: 40px;
+    flex-wrap: wrap;
+    gap: 12px;
+  }
+
+  .btn {
+    padding: 10px 24px;
+    border-radius: 8px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    cursor: pointer;
+    border: none;
+    text-decoration: none;
+    display: inline-block;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: #0891B2;
+    color: white;
+  }
+
+  .btn-primary:hover { background: #0369A1; }
+
+  .btn-secondary {
+    background: white;
+    color: #475569;
+    border: 1px solid #D1D5DB;
+  }
+
+  .btn-secondary:hover { background: #F8FAFC; border-color: #94A3B8; }
+
+  /* ─── Footer ────────────────────────────────────────────── */
+  .page-footer {
+    margin-top: 64px;
+    padding: 32px 0;
+    border-top: 1px solid #E2E8F0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 16px;
+  }
+
+  .page-footer a {
+    color: #0891B2;
+    text-decoration: none;
+    font-weight: 500;
+    font-size: 0.95rem;
+  }
+
+  .page-footer a:hover { text-decoration: underline; }
+
+  /* ─── Responsive ────────────────────────────────────────── */
+  @media (max-width: 768px) {
+    .level-selector { grid-template-columns: repeat(2, 1fr); }
+    .page-hero h1 { font-size: 1.6rem; }
+    .flow-indicator { flex-wrap: wrap; }
+  }
+
+  @media (max-width: 480px) {
+    .level-selector { grid-template-columns: 1fr; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════════
+     GLOBAL NAVIGATION
+     ═══════════════════════════════════════════════════════════ -->
+<nav class="global-nav">
+  <a class="logo" href="knowledge_navigator.html">COGS 160</a>
+  <div class="nav-links">
+    <a href="knowledge_navigator.html">Knowledge Navigator</a>
+    <a href="theory_and_experiment_design.html">Theory &amp; Design</a>
+    <a href="hypothesis_builder.html" class="active">Hypothesis Builder</a>
+    <a href="methods_taxonomy.html">Methods Taxonomy</a>
+    <a href="measurement_instruments.html">Measurement Instruments</a>
+    <a href="sensor_catalogue.html">Sensor Catalogue</a>
+    <a href="en_navigator.html">Epistemic Network</a>
+    <a href="bn_navigator.html">Bayesian Network</a>
+    <a href="experiment_wizard.html">Experiment Builder</a>
+    <a href="system_inventory.html">System Inventory</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════════════════════════════════════════════
+     FLOW INDICATOR
+     ═══════════════════════════════════════════════════════════ -->
+<div class="page-wrapper">
+
+  <div class="flow-indicator">
+    <span class="flow-step completed">1. Explore Research Fronts</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step completed">2. Learn the Theories</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step current">3. Formulate Hypothesis</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step upcoming">4. Choose Method</span>
+    <span class="flow-arrow">→</span>
+    <span class="flow-step upcoming">5. Design Protocol</span>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       HERO
+       ═══════════════════════════════════════════════════════ -->
+  <div class="page-hero">
+    <h1>Formulate Your Hypothesis</h1>
+    <p class="subtitle">
+      A hypothesis is not a guess. It is a <em>specific, falsifiable set of predictions</em> about what you will observe — grounded in what you know about the system you are studying. That grounding can come from deep theory, from measurement science, or from well-established empirical regularities. In the behavioral sciences, all three are legitimate starting points.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       PREAMBLE: FROM INTEREST TO HYPOTHESIS
+       ═══════════════════════════════════════════════════════ -->
+  <div class="section-header" style="margin-top: 0;">
+    <div class="section-number">Before You Begin</div>
+    <h2>From Interest to Testable Predictions</h2>
+  </div>
+
+  <p>
+    Students often arrive at this step with a <em>topic of interest</em> and call it a hypothesis. "I'm interested in how nature affects mood" is not a hypothesis — it is the starting point of a journey that ends with one. Understanding the stages between an interest and a set of testable predictions is essential, because each stage represents a different degree of intellectual commitment, and experiments can only test the final form.
+  </p>
+
+  <p>
+    The journey from interest to testable predictions passes through several stages, each more specific than the last:
+  </p>
+
+  <!-- Stage progression -->
+  <div style="margin: 28px 0;">
+
+    <!-- Stage 1: Interest -->
+    <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;">
+      <div style="min-width: 64px; height: 64px; border-radius: 50%; background: #F1F5F9; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700; color: #94A3B8; flex-shrink: 0;">1</div>
+      <div>
+        <h3 style="margin: 0 0 4px; font-size: 1.05rem; color: #475569;">Interest or Topic</h3>
+        <p style="margin: 0 0 8px; font-size: 0.95rem; color: #334155; line-height: 1.7;">
+          An interest is a domain you find compelling. It has no structure, no commitment, no testable content. It is where curiosity begins — and where many students stop.
+        </p>
+        <div style="background: #F8FAFC; border-left: 3px solid #94A3B8; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 0.92rem; color: #64748B;">
+          <strong>Example:</strong> "I'm interested in how plants affect people in offices."
+        </div>
+        <p style="margin: 8px 0 0; font-size: 0.88rem; color: #94A3B8; font-style: italic;">
+          This is not wrong — it is simply not yet scientific. It names a domain but commits to nothing testable.
+        </p>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="text-align: center; color: #CBD5E1; font-size: 1.2rem; margin: 8px 0 8px 28px;">↓  <span style="font-size: 0.82rem; color: #94A3B8; font-style: italic;">narrow the scope</span></div>
+
+    <!-- Stage 2: Question -->
+    <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;">
+      <div style="min-width: 64px; height: 64px; border-radius: 50%; background: #E0F2FE; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700; color: #0891B2; flex-shrink: 0;">2</div>
+      <div>
+        <h3 style="margin: 0 0 4px; font-size: 1.05rem; color: #0891B2;">Research Question</h3>
+        <p style="margin: 0 0 8px; font-size: 0.95rem; color: #334155; line-height: 1.7;">
+          A research question narrows the interest to a specific relationship between variables. It asks something concrete about the world — but it does not yet commit to an expected answer. A well-formed research question specifies the environmental variable (what you will manipulate), the human outcome (what you will measure), and the population (whom you will study).
+        </p>
+        <div style="background: #F0F9FF; border-left: 3px solid #0891B2; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 0.92rem; color: #334155;">
+          <strong>Example:</strong> "Does the presence of living plants in a VR-simulated office environment affect directed attention capacity in undergraduate students who have performed a cognitively demanding task?"
+        </div>
+        <p style="margin: 8px 0 0; font-size: 0.88rem; color: #64748B; font-style: italic;">
+          This is a genuine question — it could be answered either way. It specifies the IV (plants vs. no plants), the DV (directed attention), and the context (VR office, post-fatigue). But it does not predict the answer.
+        </p>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="text-align: center; color: #CBD5E1; font-size: 1.2rem; margin: 8px 0 8px 28px;">↓  <span style="font-size: 0.82rem; color: #94A3B8; font-style: italic;">commit to specific, observable predictions</span></div>
+
+    <!-- Stage 3: Predictions grounded in measurement science -->
+    <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;">
+      <div style="min-width: 64px; height: 64px; border-radius: 50%; background: #F5F3FF; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700; color: #7C3AED; flex-shrink: 0;">3</div>
+      <div>
+        <h3 style="margin: 0 0 4px; font-size: 1.05rem; color: #7C3AED;">Predictions Grounded in Measurement Science</h3>
+        <p style="margin: 0 0 8px; font-size: 0.95rem; color: #334155; line-height: 1.7;">
+          A set of predictions specifies what you <em>expect</em> to observe and <em>how</em> you will observe it. In the behavioral and biological sciences, this grounding often comes not from deep causal theory but from <em>measurement science</em> — the accumulated empirical knowledge of how to detect and quantify the phenomena you care about. You know that stress shows up in salivary cortisol ~20 minutes after onset, because endocrinology has established this. You know that directed attention can be measured by the Attention Network Test, because cognitive psychologists have validated it. You do not need a complete theory of <em>why</em> the HPA axis responds the way it does — you need the well-established empirical fact that cortisol tracks stress.
+        </p>
+        <p style="margin: 0 0 8px; font-size: 0.95rem; color: #334155; line-height: 1.7;">
+          This is an important distinction from how prediction works in physics or chemistry, where predictions typically follow deductively from fundamental theory. In our science, the systems are complex, and findings are typically about the <em>behavior</em> of that complex system. The theoretical account of <em>how</em> it works comes later — after you have established what happens and how to detect it. A set of well-grounded predictions based on measurement science and empirical regularities is perfectly legitimate science. It is not a lesser form of hypothesis.
+        </p>
+        <div style="background: #F5F3FF; border-left: 3px solid #7C3AED; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 0.92rem; color: #334155;">
+          <strong>Example:</strong> "I predict that nature exposure will reduce physiological stress, measured by salivary cortisol at T+20 minutes and by increased HRV measured continuously via chest-strap monitor. I also predict improved directed attention, measured by the ANT. I know cortisol tracks HPA-axis stress response and HRV tracks parasympathetic activation because the measurement literature establishes this — not because I have a theory of <em>why</em> nature affects these systems."
+        </div>
+        <p style="margin: 8px 0 0; font-size: 0.88rem; color: #64748B; font-style: italic;">
+          This is testable, falsifiable, and grounded in empirical measurement science. It specifies what to measure, when to measure it, and what outcome would disconfirm the prediction. It is a legitimate hypothesis even though the grounding is empirical rather than theoretical.
+        </p>
+      </div>
+    </div>
+
+    <!-- Arrow -->
+    <div style="text-align: center; color: #CBD5E1; font-size: 1.2rem; margin: 8px 0 8px 28px;">↓  <span style="font-size: 0.82rem; color: #94A3B8; font-style: italic;">optionally: ground it in a theory of <em>why</em></span></div>
+
+    <!-- Stage 4: Theory-grounded hypothesis -->
+    <div style="display: flex; gap: 16px; margin-bottom: 20px; align-items: flex-start;">
+      <div style="min-width: 64px; height: 64px; border-radius: 50%; background: #FEF2F2; display: flex; align-items: center; justify-content: center; font-size: 1.4rem; font-weight: 700; color: #DC2626; flex-shrink: 0;">4</div>
+      <div>
+        <h3 style="margin: 0 0 4px; font-size: 1.05rem; color: #DC2626;">Theory-Grounded Hypothesis</h3>
+        <p style="margin: 0 0 8px; font-size: 0.95rem; color: #334155; line-height: 1.7;">
+          A theory-grounded hypothesis goes beyond measurement-based predictions by adding a causal explanation: <em>why</em> you expect what you expect. It says: "Theory T claims mechanism M. If M operates under conditions C, then we should observe outcome O." This is the form of hypothesis familiar from philosophy of science textbooks, and it is especially powerful because a negative result challenges the theory — not just the prediction. But it is important to understand that this level of theoretical commitment is an ambition, not a prerequisite. Most environmental psychology operates with well-grounded predictions, and theoretical explanations are built up gradually from empirical findings.
+        </p>
+        <div style="background: #FEF2F2; border-left: 3px solid #DC2626; padding: 10px 14px; border-radius: 0 6px 6px 0; font-size: 0.92rem; color: #334155;">
+          <strong>Example:</strong> "Attention Restoration Theory (Kaplan, 1995) holds that natural environments restore directed attention capacity by engaging involuntary attention through 'soft fascination.' This predicts that participants who spend 15 minutes in a VR office with living plants will score higher on the Attention Network Test than those in a matched VR office without plants, <em>specifically because</em> the plants engage involuntary attention and allow the directed attention system to recover from induced fatigue."
+        </div>
+        <p style="margin: 8px 0 0; font-size: 0.88rem; color: #64748B; font-style: italic;">
+          Now the prediction is embedded in a causal story. We know which theory generated it, what mechanism it proposes, and what would count as evidence against the theory. A negative result here does not just tell us "plants didn't help" — it tells us something about ART's claim that soft fascination is the active ingredient.
+        </p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- The two kinds of grounding -->
+  <div class="insight-box">
+    <div class="speaker">Two Legitimate Kinds of Grounding</div>
+    <div class="quote" style="font-style: normal; font-size: 0.95rem; color: #1E3A5F;">
+      In the hard sciences, Popper's picture — derive a prediction from theory, then test it — works fairly cleanly. But environmental psychology studies complex systems whose behavior we can characterize empirically long before we understand the mechanisms producing that behavior. There are two fully legitimate ways to ground a prediction:
+    </div>
+    <div style="margin-top: 12px; display: grid; grid-template-columns: 1fr 1fr; gap: 16px;">
+      <div style="background: #F5F3FF; border-radius: 8px; padding: 14px;">
+        <div style="font-weight: 700; color: #7C3AED; font-size: 0.85rem; margin-bottom: 6px;">MEASUREMENT GROUNDING</div>
+        <p style="margin: 0; font-size: 0.88rem; color: #334155; line-height: 1.6;">"I know stress shows up in cortisol levels ~20 minutes later, and in respiration patterns, because I looked up how to detect stress. I don't have a deep theory of why the system produces these signals — but I have well-validated ways to measure what I care about."</p>
+      </div>
+      <div style="background: #FEF2F2; border-radius: 8px; padding: 14px;">
+        <div style="font-weight: 700; color: #DC2626; font-size: 0.85rem; margin-bottom: 6px;">THEORETICAL GROUNDING</div>
+        <p style="margin: 0; font-size: 0.88rem; color: #334155; line-height: 1.6;">"ART predicts attention restoration <em>specifically</em> through involuntary attention engagement. I predict improved ANT scores because the theory's mechanism — soft fascination engaging the ventral attention network — should produce this specific pattern."</p>
+      </div>
+    </div>
+    <div class="gloss" style="margin-top: 12px;">Both are scientific. Measurement grounding tells you <em>what to look for</em> and <em>how to detect it</em>. Theoretical grounding additionally tells you <em>why</em> to expect it and what a failure would mean for our understanding. The former is where most environmental psychology operates; the latter is what the field aspires to build over time.</div>
+  </div>
+
+  <div class="think-box">
+    <div class="think-header">Check Yourself</div>
+    <p>
+      Look at what you wrote in the Experiment Builder's "Think About It" box for Step 1. Is it an interest, a question, or a set of predictions? If it's still a question, the purpose of this module is to help you convert it into specific, measurable predictions — either grounded in measurement science ("I know how to detect this") or in theory ("theory X predicts this because of mechanism Y"). If you want to connect your predictions to theory, see the <a href="theory_and_experiment_design.html#theories" style="color: #92400E; font-weight: 600;">Theory &amp; Design module</a>.
+    </p>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION A: CHOOSE YOUR LEVEL
+       ═══════════════════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-number">Section A</div>
+    <h2>What Level of Hypothesis Are You Aiming For?</h2>
+  </div>
+
+  <p>
+    Now that you understand what a hypothesis is, the next question is: how ambitious should yours be? Your answer shapes everything that follows — the form of your hypothesis, what you need to measure, and how informative your experiment will be. There is no shame in Level 1 or 2; much of the best environmental psychology operates there. But you should choose deliberately, not by default.
+  </p>
+
+  <div class="level-selector">
+    <div class="level-option level-1-opt" onclick="selectLevel(1)">
+      <span class="level-num">1</span>
+      <span class="level-name">Descriptive</span>
+      <span class="level-desc">Does the effect exist? How large is it?</span>
+    </div>
+    <div class="level-option level-2-opt" onclick="selectLevel(2)">
+      <span class="level-num">2</span>
+      <span class="level-name">Effect-Hunting</span>
+      <span class="level-desc">Does the theory's specific prediction hold?</span>
+    </div>
+    <div class="level-option level-3-opt" onclick="selectLevel(3)">
+      <span class="level-num">3</span>
+      <span class="level-name">Mechanism-Probing</span>
+      <span class="level-desc">Does the proposed mechanism actually operate?</span>
+    </div>
+    <div class="level-option level-4-opt" onclick="selectLevel(4)">
+      <span class="level-num">4</span>
+      <span class="level-name">Critical</span>
+      <span class="level-desc">Which competing theory is right?</span>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LEVEL 1 SCAFFOLD
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scaffold-panel" id="scaffold-1">
+    <h3>Level 1 — Documenting the Phenomenon</h3>
+    <p class="instruction">
+      At Level 1, you are establishing whether an effect exists, estimating its size, and specifying how to measure it. You ground your predictions in <em>measurement science</em> — what you know about how to detect and quantify the outcomes you care about — rather than in a deep theory of why the system behaves this way. This is how most empirical research in the behavioral sciences begins, and it is perfectly legitimate. You are studying a complex system; characterizing what it does comes before explaining why.
+    </p>
+
+    <div class="example-callout">
+      <div class="example-label">Example — with measurement grounding</div>
+      <p>"Participants will show lower physiological stress after 15 minutes in a VR nature environment compared to a matched urban VR environment, measured by salivary cortisol collected at T+20 minutes (cortisol tracks HPA-axis stress response with a ~15–20 minute lag; Kirschbaum &amp; Hellhammer, 1994) and by increased high-frequency HRV during exposure (HF-HRV indexes parasympathetic cardiac control; Task Force, 1996). They will also report higher positive affect on the PANAS."</p>
+    </div>
+
+    <p class="instruction">
+      Notice that this prediction is grounded — not in a theory of <em>why</em> nature reduces stress, but in well-established measurement science about <em>how to detect</em> stress. You know cortisol tracks the HPA axis because endocrinology established this. You know HRV tracks parasympathetic activation because cardiac physiology established this. That is your grounding.
+    </p>
+
+    <p class="instruction">
+      Use the sentence frame below. Fill in each underlined blank with your specifics.
+    </p>
+
+    <div class="sentence-frame" id="frame-1">
+      <span class="connector">Participants who experience</span>
+      <span class="blank" contenteditable="true" data-placeholder="[environmental condition]" data-field="condition_1" oninput="updatePreview()"></span>
+      <span class="connector">will show</span>
+      <span class="blank" contenteditable="true" data-placeholder="[higher / lower / different]" data-field="direction_1" oninput="updatePreview()"></span>
+      <span class="blank" contenteditable="true" data-placeholder="[outcome measure and how it's validated]" data-field="outcome_1" oninput="updatePreview()"></span>
+      <span class="connector">compared to those who experience</span>
+      <span class="blank" contenteditable="true" data-placeholder="[comparison condition]" data-field="comparison_1" oninput="updatePreview()"></span>.
+    </div>
+
+    <div class="form-group">
+      <label>What is your measurement grounding?</label>
+      <span class="hint">For each outcome measure, explain briefly why it detects what you claim it detects. This is not a theory of why nature works — it is an account of why your measure is valid. Cite the measurement literature if you can.</span>
+      <textarea id="measurement_grounding_1" placeholder="e.g., 'Salivary cortisol is a validated biomarker of HPA-axis stress response. Cortisol rises 15–20 minutes after a stressor and declines during recovery (Kirschbaum & Hellhammer, 1994). HF-HRV indexes parasympathetic cardiac control (Task Force, 1996). The PANAS is a validated self-report measure of momentary affect (Watson et al., 1988). I chose these three to triangulate: biological stress, autonomic regulation, and subjective experience.'" oninput="updatePreview()"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>What competing explanations could produce the same result?</label>
+      <span class="hint">Even without committing to a theory, it is useful to know which theoretical accounts exist. This will help you later if you want to upgrade to a Level 2 or 3 experiment.</span>
+      <textarea id="competing_1" placeholder="e.g., 'ART would attribute this to attentional restoration via soft fascination; SRT would attribute it to parasympathetic activation; arousal theory would say the nature environment simply reduces over-arousal. At Level 1, I am not distinguishing between these — I am establishing whether the effect is measurable at all in VR.'" oninput="updatePreview()"></textarea>
+    </div>
+
+    <div style="background: #F0FDF4; border-left: 3px solid #16A34A; padding: 14px 18px; border-radius: 0 8px 8px 0; margin: 16px 0;">
+      <div style="font-size: 0.78rem; font-weight: 700; color: #16A34A; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 6px;">What Level 1 gives you</div>
+      <p style="margin: 0; font-size: 0.92rem; color: #334155; line-height: 1.6;">Level 1 tells you <em>whether</em> something happens and how big it is. If confirmed, you now have a phenomenon that demands explanation — and multiple theories will compete to provide one. You are mapping the territory. That is how science of complex systems works: first characterize the behavior, then explain the mechanism.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LEVEL 2 SCAFFOLD
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scaffold-panel" id="scaffold-2">
+    <h3>Level 2 — Theory-Derived Effect Prediction</h3>
+    <p class="instruction">
+      At Level 2, you go beyond documenting the phenomenon and measuring it well — you now derive a <em>specific prediction</em> from a named theory. You are asking: "Does the world behave as Theory T says it should?" This requires you to (a) name the theory, (b) state its relevant mechanism, and (c) derive a prediction that <em>follows</em> from that mechanism. The prediction must be specific enough that a negative result would count against the theory, not just against the bare prediction.
+    </p>
+    <p class="instruction">
+      The difference from Level 1 is not that Level 1 is "ungrounded" — Level 1 predictions are grounded in measurement science. The difference is that Level 2 adds a <em>causal story</em>: an account of <em>why</em> the effect occurs, via what mechanism, which produces additional testable commitments.
+    </p>
+
+    <div class="insight-box">
+      <div class="speaker">Deborah Mayo</div>
+      <div class="quote">"A hypothesis passes a severe test if it would very probably have been found wanting if it were false or incorrect."</div>
+      <div class="gloss">Your Level 2 hypothesis is severe to the extent that a false theory would <em>probably</em> have produced a result different from what you predict.</div>
+    </div>
+
+    <div class="example-callout">
+      <div class="example-label">Example</div>
+      <p>"Attention Restoration Theory predicts that directed attention capacity (measured by the Attention Network Test, alerting and executive networks) will improve significantly after 20 minutes of exposure to a VR nature environment high in soft fascination, compared to a VR urban environment, in participants who have been pre-fatigued by 40 minutes of sustained-attention task performance."</p>
+    </div>
+
+    <div class="sentence-frame" id="frame-2">
+      <span class="blank" contenteditable="true" data-placeholder="[Theory name]" data-field="theory_2" oninput="updatePreview()"></span>
+      <span class="connector">predicts that</span>
+      <span class="blank" contenteditable="true" data-placeholder="[specific outcome measure]" data-field="outcome_2" oninput="updatePreview()"></span>
+      <span class="connector">will</span>
+      <span class="blank" contenteditable="true" data-placeholder="[increase / decrease / change]" data-field="direction_2" oninput="updatePreview()"></span>
+      <span class="connector">following exposure to</span>
+      <span class="blank" contenteditable="true" data-placeholder="[treatment condition]" data-field="treatment_2" oninput="updatePreview()"></span>
+      <span class="connector">compared to</span>
+      <span class="blank" contenteditable="true" data-placeholder="[control condition]" data-field="control_2" oninput="updatePreview()"></span>,
+      <span class="connector">because the theory holds that</span>
+      <span class="blank" contenteditable="true" data-placeholder="[mechanism — what the theory says causes the effect]" data-field="mechanism_2" oninput="updatePreview()"></span>.
+    </div>
+
+    <div class="form-group">
+      <label>What result would disconfirm this prediction?</label>
+      <span class="hint">This is the most important question. If you cannot specify what would count as evidence <em>against</em> the theory, the hypothesis is not falsifiable. Be specific: what pattern of results would you need to observe?</span>
+      <textarea id="disconfirm_2" placeholder="e.g., 'If directed attention does not improve after nature exposure — or if it improves equally in the urban control — the ART prediction is not supported. If general mood improves but directed attention specifically does not, the effect may be due to arousal reduction rather than attentional restoration.'" oninput="updatePreview()"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>What boundary conditions does the theory specify?</label>
+      <span class="hint">Most theories do not predict universal effects. ART requires prior cognitive fatigue; SRT requires prior physiological stress; arousal theory's inverted-U depends on task complexity. State the boundary conditions that must hold for the prediction to apply.</span>
+      <textarea id="boundary_2" placeholder="e.g., 'ART predicts restoration only after prior directed attention fatigue. If participants are not fatigued, there is nothing to restore. The experiment therefore must include a fatigue induction phase.'" oninput="updatePreview()"></textarea>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LEVEL 3 SCAFFOLD
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scaffold-panel" id="scaffold-3">
+    <h3>Level 3 — Mechanism Hypothesis</h3>
+    <p class="instruction">
+      At Level 3, you are not merely testing whether the predicted effect occurs — you are testing whether it occurs <em>through the mechanism the theory proposes</em>. This requires decomposing the theoretical mechanism into measurable steps and designing measures that can distinguish the proposed causal pathway from alternative pathways that could produce the same endpoint.
+    </p>
+
+    <div class="insight-box">
+      <div class="speaker">Peter Machamer</div>
+      <div class="quote">"Mechanisms are entities and activities organized such that they are productive of regular changes."</div>
+      <div class="gloss">A Level 3 hypothesis decomposes the mechanism into entities (attention systems, physiological regulators) and activities (fatigue, fascination, recovery) — then tests each link in the chain.</div>
+    </div>
+
+    <div class="example-callout">
+      <div class="example-label">Example</div>
+      <p>"If ART's mechanism is correct, then nature-induced attention restoration should be <em>mediated</em> by involuntary attention engagement. Specifically: (a) nature environments will increase involuntary attention engagement (measured by eye-tracking gaze dispersion and EEG ventral attention network activation); (b) involuntary attention engagement will predict subsequent directed attention recovery (ANT scores); and (c) when involuntary attention engagement is statistically controlled, the direct effect of nature exposure on directed attention recovery will be significantly reduced (mediation test)."</p>
+    </div>
+
+    <div class="sentence-frame" id="frame-3">
+      <span class="connector">If</span>
+      <span class="blank" contenteditable="true" data-placeholder="[Theory name]" data-field="theory_3" oninput="updatePreview()"></span>'s
+      <span class="connector">proposed mechanism is correct, then the effect of</span>
+      <span class="blank" contenteditable="true" data-placeholder="[environmental condition]" data-field="condition_3" oninput="updatePreview()"></span>
+      <span class="connector">on</span>
+      <span class="blank" contenteditable="true" data-placeholder="[final outcome]" data-field="outcome_3" oninput="updatePreview()"></span>
+      <span class="connector">should be mediated by</span>
+      <span class="blank" contenteditable="true" data-placeholder="[intermediate mechanism variable]" data-field="mediator_3" oninput="updatePreview()"></span>.
+      <span class="connector">Specifically: (a) the condition should increase</span>
+      <span class="blank" contenteditable="true" data-placeholder="[mediator measure]" data-field="mediator_measure_3" oninput="updatePreview()"></span>;
+      <span class="connector">(b) the mediator should predict</span>
+      <span class="blank" contenteditable="true" data-placeholder="[outcome measure]" data-field="outcome_measure_3" oninput="updatePreview()"></span>;
+      <span class="connector">and (c) controlling for the mediator should reduce the direct effect of the condition on the outcome.</span>
+    </div>
+
+    <div class="form-group">
+      <label>What alternative mechanism could produce the same endpoint?</label>
+      <span class="hint">Name a different causal pathway — through a different mediating variable — that could explain the same final outcome. Your experiment should include measures that distinguish the two pathways.</span>
+      <textarea id="alt_mechanism_3" placeholder="e.g., 'SRT proposes that nature's benefit operates through parasympathetic activation (measurable via HRV), not involuntary attention. If HRV increase mediates the effect but gaze dispersion does not, SRT's mechanism is operating, not ART's.'" oninput="updatePreview()"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>How will you measure the intermediate step(s)?</label>
+      <span class="hint">The mechanism must be operationalized into measurable quantities. What specific instruments, physiological signals, or behavioral indicators will you use?</span>
+      <textarea id="measures_3" placeholder="e.g., 'Involuntary attention engagement: eye-tracking gaze entropy in the VR scene (higher entropy = more distributed gaze = more involuntary attention engagement); EEG alpha power in ventral attention network. Physiological stress: cortisol from saliva samples at 3 timepoints; HRV from chest-strap monitor.'" oninput="updatePreview()"></textarea>
+    </div>
+
+    <div class="warning-callout">
+      <div class="warning-label">The temporal decomposition requirement</div>
+      <p>To test a mechanism, you typically need to measure the mediating variable <em>between</em> the treatment and the outcome — not just at the same time as the outcome. If you only measure the mediator and the outcome simultaneously, you cannot establish temporal ordering. Plan your measurement timeline: treatment → mediator measure → outcome measure.</p>
+    </div>
+  </div>
+
+  <!-- ═══════════════════════════════════════════════════════
+       LEVEL 4 SCAFFOLD
+       ═══════════════════════════════════════════════════════ -->
+  <div class="scaffold-panel" id="scaffold-4">
+    <h3>Level 4 — Critical Hypothesis (Theory Competition)</h3>
+    <p class="instruction">
+      At Level 4, you have found a condition where two theories make <em>incompatible</em> predictions — and you are testing which one holds. This is the most informative kind of experiment because, regardless of the result, at least one theory's prediction fails. The key intellectual challenge is identifying the point of genuine divergence: most theories agree on most predictions, and finding where they part company requires deep understanding of both.
+    </p>
+
+    <div class="insight-box">
+      <div class="speaker">Imre Lakatos</div>
+      <div class="quote">"A 'crucial experiment' is one whose outcome is inconsistent with one of two competing research programmes while being predicted by the other."</div>
+      <div class="gloss">Level 4 experiments produce progress regardless of outcome — they either vindicate one programme or refute the other. This is why they are the gold standard.</div>
+    </div>
+
+    <div class="example-callout">
+      <div class="example-label">Example</div>
+      <p>"ART predicts that nature exposure restores directed attention even in non-stressed participants (because the mechanism is cognitive, not physiological). SRT predicts that nature exposure produces wellbeing benefits <em>only</em> in stressed participants (because the mechanism is parasympathetic recovery). In a 2×2 design crossing stress induction (yes/no) with environment (nature/urban), these theories make opposing predictions about the non-stressed + nature cell: ART predicts attention restoration, SRT predicts no benefit."</p>
+    </div>
+
+    <div class="sentence-frame" id="frame-4">
+      <span class="blank" contenteditable="true" data-placeholder="[Theory A]" data-field="theory_a_4" oninput="updatePreview()"></span>
+      <span class="connector">predicts that under the condition of</span>
+      <span class="blank" contenteditable="true" data-placeholder="[specific divergence condition]" data-field="divergence_cond_4" oninput="updatePreview()"></span>,
+      <span class="blank" contenteditable="true" data-placeholder="[outcome]" data-field="outcome_a_4" oninput="updatePreview()"></span>
+      <span class="connector">will occur.</span>
+      <span class="blank" contenteditable="true" data-placeholder="[Theory B]" data-field="theory_b_4" oninput="updatePreview()"></span>
+      <span class="connector">predicts that under the same condition,</span>
+      <span class="blank" contenteditable="true" data-placeholder="[different or opposite outcome]" data-field="outcome_b_4" oninput="updatePreview()"></span>
+      <span class="connector">will occur instead. The result will support the theory whose prediction holds and undermine the other.</span>
+    </div>
+
+    <div class="form-group">
+      <label>Why are these predictions genuinely incompatible?</label>
+      <span class="hint">It is not enough that the theories "emphasize different things." You must show that they make <em>opposite</em> predictions about the same observable outcome in the same condition. Spell out the logical chain from each theory's core commitment to its specific prediction in the divergence condition.</span>
+      <textarea id="incompatibility_4" placeholder="e.g., 'ART's core commitment is that directed attention is a depletable cognitive resource restored by involuntary attention engagement. This requires cognitive fatigue but NOT physiological stress. SRT's core commitment is that nature triggers an evolved parasympathetic response to reduce physiological stress. This requires stress. Therefore: in the fatigue-without-stress condition, ART predicts benefit and SRT predicts no benefit. These predictions cannot both be true.'" oninput="updatePreview()"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>What if the result is ambiguous?</label>
+      <span class="hint">Critical experiments rarely produce clean wins. What result would be indeterminate — supporting neither theory cleanly? How would you interpret partial support (e.g., attention improves somewhat, stress physiology also changes somewhat)?</span>
+      <textarea id="ambiguity_4" placeholder="e.g., 'If both attention recovery AND stress reduction occur in the fatigue-only condition, this might indicate that both mechanisms can be triggered by cognitive fatigue alone, which would challenge SRT's stress-specificity claim without fully supporting ART (since stress reduction would be unexpected under ART).'" oninput="updatePreview()"></textarea>
+    </div>
+
+    <div class="warning-callout">
+      <div class="warning-label">The auxiliary hypothesis problem</div>
+      <p>Critical experiments test theories <em>plus their auxiliary assumptions</em>. If SRT's prediction fails, a defender could argue that the stress induction was insufficient, the cortisol measure was unreliable, or the nature stimulus was not "natural enough." You cannot avoid this — Lakatos and Quine showed that no single experiment definitively refutes a core theory. But you can minimize escape routes by using validated measures, established induction procedures, and preregistered analysis plans.</p>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION B: WHAT TO MEASURE
+       ═══════════════════════════════════════════════════════ -->
+  <div class="section-header" id="section-measures">
+    <div class="section-number">Section B</div>
+    <h2>What to Measure</h2>
+  </div>
+
+  <p>
+    Your hypothesis specifies <em>what</em> you predict. Now you must specify <em>how</em> you will observe it. The measurement plan follows from your hypothesis level: Level 1 needs an independent variable and a dependent variable. Level 3 adds mediating variables. Level 4 adds divergence measures that are diagnostic for one theory but not the other.
+  </p>
+
+  <p>
+    Fill in the table below. Start with the rows that apply to your level and add more as needed.
+  </p>
+
+  <table class="measure-table" id="measureTable">
+    <thead>
+      <tr>
+        <th style="width: 140px;">Role</th>
+        <th>Variable</th>
+        <th>How Measured</th>
+        <th style="width: 100px;">When</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td><span class="role-tag tag-iv">IV</span> Independent Variable</td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., VR nature vs. urban environment" oninput="updatePreview()"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Between-subjects manipulation in Meta Quest 3"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="Treatment"></td>
+      </tr>
+      <tr>
+        <td><span class="role-tag tag-dv">DV</span> Dependent Variable</td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Directed attention capacity" oninput="updatePreview()"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Attention Network Test (ANT), backward digit span"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="Post-exposure"></td>
+      </tr>
+      <tr id="mediator-row" style="display: none;">
+        <td><span class="role-tag tag-mediator">MED</span> Mediator</td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Involuntary attention engagement"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Eye-tracking gaze entropy + EEG alpha power"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="During exposure"></td>
+      </tr>
+      <tr id="moderator-row" style="display: none;">
+        <td><span class="role-tag tag-moderator">MOD</span> Moderator</td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Baseline fatigue level"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Pre-experiment cognitive fatigue scale"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="Pre-treatment"></td>
+      </tr>
+      <tr>
+        <td><span class="role-tag tag-control">CTL</span> Control Variable</td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Time of day, prior sleep, VR experience"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., All sessions 10am-2pm; demographics questionnaire"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="Pre-treatment"></td>
+      </tr>
+      <tr id="divergence-row" style="display: none;">
+        <td><span class="role-tag tag-divergence">DIV</span> Divergence Measure</td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Cortisol (SRT) vs. ANT scores (ART)"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="e.g., Salivary cortisol at 3 timepoints + ANT post-exposure"></td>
+        <td><input type="text" style="width:100%; border:1px solid #D1D5DB; border-radius:4px; padding:6px 10px; font-size:0.88rem;" placeholder="Pre/During/Post"></td>
+      </tr>
+    </tbody>
+  </table>
+
+  <div class="think-box">
+    <div class="think-header">Think About It</div>
+    <p>
+      For each measure in your table, ask: <em>What would a skeptic say?</em> Could the measure be confounded by demand characteristics (participants guessing what you expect)? Could it be affected by the testing environment rather than the treatment? Would a different operationalization of the same construct give you a different answer?
+    </p>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       SECTION C: MOTIVATE YOUR HYPOTHESIS
+       ═══════════════════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-number">Section C</div>
+    <h2>Why Does This Hypothesis Matter?</h2>
+  </div>
+
+  <p>
+    A hypothesis is not worth testing just because it is testable. It matters because confirming or disconfirming it would teach the field something it does not already know. The motivation for a hypothesis draws on three sources: what the literature has already established, what the theory predicts but nobody has yet tested, and what practical consequences follow from the answer.
+  </p>
+
+  <div class="motivation-panel">
+    <h3>Motivate Your Hypothesis</h3>
+
+    <div class="form-group">
+      <label>What does the existing literature establish?</label>
+      <span class="hint">Summarize the 2–3 most relevant findings from the research front you are working in. What do we already know? What is the state of evidence? Use the Knowledge Navigator to review the claims in your front.</span>
+      <textarea id="lit_review" placeholder="e.g., 'Multiple studies show that nature exposure improves mood and reduces stress (Ulrich, 1991; Berman et al., 2008). However, most studies measure only self-reported mood, not directed attention specifically. The few that test attention (Berman et al., 2008) use 2D images, not immersive environments.'" rows="4"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>What gap does your hypothesis address?</label>
+      <span class="hint">Identify the specific gap in knowledge that your experiment fills. This should follow logically from the literature review: "We know X, but we do not yet know Y."</span>
+      <textarea id="gap" placeholder="e.g., 'No study has tested whether ART's specific mechanism — involuntary attention engagement — mediates the restorative effect in immersive VR environments. Existing mediation studies use 2D stimuli and behavioral measures only.'" rows="3"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>What practical or theoretical consequence follows from the answer?</label>
+      <span class="hint">Who would care about this result, and what would they do differently? Think about both theoretical implications (which theory is supported?) and practical applications (how should architects design spaces?).</span>
+      <textarea id="consequence" placeholder="e.g., 'If ART's mechanism is confirmed in VR, designers could use eye-tracking data to optimize nature environments for maximal soft fascination — not just any nature, but nature that specifically engages involuntary attention. If SRT's mechanism dominates instead, the design priority shifts to calming stimuli rather than engaging ones.'" rows="4"></textarea>
+    </div>
+
+    <div class="form-group">
+      <label>How does VR make this testable in a way that real-world experiments cannot?</label>
+      <span class="hint">COGS 160 emphasizes VR as a scientific instrument. What does VR let you manipulate or control that a field experiment cannot? Be specific about the methodological advantage.</span>
+      <textarea id="vr_advantage" placeholder="e.g., 'VR allows parametric manipulation of soft fascination (varying the amount of gently moving vegetation while holding all other scene properties constant) — impossible in real nature, where fascination covaries with complexity, openness, and many other variables.'" rows="3"></textarea>
+    </div>
+  </div>
+
+  <div class="insight-box">
+    <div class="speaker">Nancy Cartwright</div>
+    <div class="quote">"Theories describe capacities — real powers that operate under specific local conditions."</div>
+    <div class="gloss">Your motivation section should make clear what capacity you are testing, under what conditions, and why establishing those conditions in VR is scientifically advantageous.</div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       HYPOTHESIS PREVIEW
+       ═══════════════════════════════════════════════════════ -->
+  <div class="section-header">
+    <div class="section-number">Preview</div>
+    <h2>Your Hypothesis</h2>
+  </div>
+
+  <p>
+    Below is a live preview of your hypothesis as it will appear in your experiment protocol. Review it for completeness and clarity. Does it specify a prediction? Does it name the theory? Does it state what would count as disconfirmation?
+  </p>
+
+  <div class="hypothesis-preview" id="hypothesisPreview">
+    <div class="preview-label">Hypothesis</div>
+    <div class="hyp-text" id="previewText">
+      <span class="placeholder">Select a level above and fill in the sentence frame to see your hypothesis here.</span>
+    </div>
+    <div class="hyp-level" id="previewLevel" style="display: none;">
+      <span class="level-badge" id="previewBadge">Level ?</span>
+      <span style="font-family: system-ui; font-size: 0.85rem; color: #94A3B8;" id="previewLevelName"></span>
+    </div>
+  </div>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+       NAVIGATION
+       ═══════════════════════════════════════════════════════ -->
+  <div class="button-row">
+    <a href="theory_and_experiment_design.html" class="btn btn-secondary">← Back to Theory &amp; Design</a>
+    <a href="methods_taxonomy.html" class="btn btn-primary">Continue to Methods &amp; Measures →</a>
+  </div>
+
+  <div class="page-footer">
+    <a href="knowledge_navigator.html">Knowledge Navigator</a>
+    <a href="theory_and_experiment_design.html">Theory &amp; Design</a>
+    <a href="methods_taxonomy.html">Methods Taxonomy</a>
+    <a href="measurement_instruments.html">Measurement Instruments</a>
+    <a href="sensor_catalogue.html">Sensor Catalogue</a>
+    <a href="en_navigator.html">Epistemic Network</a>
+    <a href="bn_navigator.html">Bayesian Network</a>
+    <a href="experiment_wizard.html">Experiment Builder</a>
+    <a href="system_inventory.html">System Inventory</a>
+  </div>
+
+</div><!-- /page-wrapper -->
+
+
+<!-- ═══════════════════════════════════════════════════════════
+     JAVASCRIPT
+     ═══════════════════════════════════════════════════════════ -->
+<script>
+  let selectedLevel = 0;
+
+  function selectLevel(level) {
+    selectedLevel = level;
+
+    // Update selector visuals
+    document.querySelectorAll('.level-option').forEach(el => el.classList.remove('selected'));
+    document.querySelector('.level-' + level + '-opt').classList.add('selected');
+
+    // Show corresponding scaffold, hide others
+    document.querySelectorAll('.scaffold-panel').forEach(el => el.classList.remove('active'));
+    document.getElementById('scaffold-' + level).classList.add('active');
+
+    // Show/hide measurement rows based on level
+    document.getElementById('mediator-row').style.display = (level >= 3) ? '' : 'none';
+    document.getElementById('moderator-row').style.display = (level >= 2) ? '' : 'none';
+    document.getElementById('divergence-row').style.display = (level >= 4) ? '' : 'none';
+
+    // Update preview
+    updatePreview();
+
+    // Scroll to scaffold
+    document.getElementById('scaffold-' + level).scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+
+  function updatePreview() {
+    if (selectedLevel === 0) return;
+
+    const previewText = document.getElementById('previewText');
+    const previewLevel = document.getElementById('previewLevel');
+    const previewBadge = document.getElementById('previewBadge');
+    const previewLevelName = document.getElementById('previewLevelName');
+
+    // Collect text from active sentence frame
+    const frame = document.getElementById('frame-' + selectedLevel);
+    if (!frame) return;
+
+    const blanks = frame.querySelectorAll('.blank');
+    let allFilled = true;
+    let hypothesis = '';
+
+    frame.childNodes.forEach(node => {
+      if (node.classList && node.classList.contains('blank')) {
+        const text = node.textContent.trim();
+        if (!text || text === node.getAttribute('data-placeholder')) {
+          hypothesis += '<span class="placeholder">[' + node.getAttribute('data-placeholder').replace(/[\[\]]/g, '') + ']</span>';
+          allFilled = false;
+        } else {
+          hypothesis += '<strong>' + text + '</strong>';
+        }
+      } else if (node.classList && node.classList.contains('connector')) {
+        hypothesis += ' ' + node.textContent + ' ';
+      } else if (node.nodeType === Node.TEXT_NODE) {
+        hypothesis += node.textContent;
+      }
+    });
+
+    previewText.innerHTML = hypothesis.trim();
+
+    // Show level badge
+    previewLevel.style.display = 'flex';
+    const levelNames = { 1: 'Descriptive', 2: 'Effect-Hunting', 3: 'Mechanism-Probing', 4: 'Critical' };
+    const levelColors = { 1: 'badge-l1', 2: 'badge-l2', 3: 'badge-l3', 4: 'badge-l4' };
+    previewBadge.textContent = 'Level ' + selectedLevel;
+    previewBadge.className = 'level-badge ' + levelColors[selectedLevel];
+    previewLevelName.textContent = levelNames[selectedLevel];
+  }
+
+  // Handle URL hash for direct linking
+  window.addEventListener('load', function() {
+    const hash = window.location.hash.replace('#', '');
+    if (hash.startsWith('level-')) {
+      const level = parseInt(hash.replace('level-', ''));
+      if (level >= 1 && level <= 4) {
+        selectLevel(level);
+      }
+    }
+  });
+</script>
+
+</body>
+</html>

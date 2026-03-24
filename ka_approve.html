@@ -1,0 +1,1189 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Track Assignment - Knowledge Atlas (Admin)</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F7F4EF;
+            color: #4A3E32;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: #1C3D3A;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .ka-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .ka-wordmark {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .ka-wordmark-top {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #A8C8BF;
+            line-height: 1;
+        }
+
+        .ka-wordmark-bottom {
+            font-size: 13px;
+            font-weight: 700;
+            color: #F5A623;
+            line-height: 1;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .mode-pill {
+            background-color: #E8872A;
+            color: white;
+            padding: 6px 16px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+        }
+
+        .nav-link {
+            color: #A8C8BF;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: #F5A623;
+            background-color: rgba(232,135,42,0.1);
+        }
+
+        /* Layout */
+        .admin-wrapper {
+            margin-top: 56px;
+            display: grid;
+            grid-template-columns: 200px 1fr;
+            min-height: calc(100vh - 56px);
+        }
+
+        /* Sidebar */
+        .sidebar {
+            background-color: white;
+            border-right: 1px solid #E0DAD3;
+            padding: 24px 0;
+            padding-top: 32px;
+            position: sticky;
+            top: 56px;
+            max-height: calc(100vh - 56px);
+            overflow-y: auto;
+        }
+
+        .sidebar-section {
+            padding: 0 16px;
+            margin-bottom: 8px;
+        }
+
+        .sidebar-title {
+            font-size: 10px;
+            font-weight: 700;
+            color: #8A7A68;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+            padding: 0 4px;
+        }
+
+        .sidebar-link {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 10px 12px;
+            color: #4A3E32;
+            text-decoration: none;
+            font-size: 13px;
+            border-radius: 6px;
+            transition: all 0.2s ease;
+            position: relative;
+        }
+
+        .sidebar-link:hover {
+            background-color: #F7F4EF;
+            color: #1C3D3A;
+        }
+
+        .sidebar-link.active {
+            background-color: #E8872A;
+            color: white;
+            font-weight: 600;
+        }
+
+        .badge {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            width: 20px;
+            height: 20px;
+            background-color: #E8872A;
+            color: white;
+            border-radius: 10px;
+            font-size: 10px;
+            font-weight: 700;
+            margin-left: auto;
+        }
+
+        /* Main content */
+        .main-content {
+            padding: 40px;
+            overflow-y: auto;
+        }
+
+        .page-header {
+            margin-bottom: 32px;
+        }
+
+        .page-header h1 {
+            font-size: 28px;
+            font-weight: 700;
+            color: #1C3D3A;
+            margin-bottom: 4px;
+        }
+
+        .page-header p {
+            font-size: 14px;
+            color: #8A7A68;
+        }
+
+        /* Filter bar */
+        .filter-bar {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 32px;
+            align-items: center;
+            flex-wrap: wrap;
+        }
+
+        .filter-control {
+            display: flex;
+            gap: 8px;
+            align-items: center;
+        }
+
+        select {
+            padding: 8px 12px;
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #4A3E32;
+            background-color: white;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        select:hover {
+            border-color: #E8872A;
+        }
+
+        select:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .search-box {
+            position: relative;
+            flex: 1;
+            min-width: 200px;
+        }
+
+        .search-box input {
+            width: 100%;
+            padding: 8px 12px;
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            font-size: 13px;
+            color: #4A3E32;
+        }
+
+        .search-box input:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .export-btn {
+            padding: 8px 16px;
+            background-color: #2A7868;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .export-btn:hover {
+            background-color: #1C3D3A;
+        }
+
+        /* Table */
+        .table-container {
+            background: white;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            font-size: 13px;
+        }
+
+        thead {
+            background-color: #F7F4EF;
+            border-bottom: 1px solid #E0DAD3;
+        }
+
+        th {
+            padding: 14px 16px;
+            text-align: left;
+            font-weight: 700;
+            color: #1C3D3A;
+            text-transform: uppercase;
+            font-size: 11px;
+            letter-spacing: 0.5px;
+        }
+
+        td {
+            padding: 14px 16px;
+            border-bottom: 1px solid #E0DAD3;
+        }
+
+        tbody tr {
+            transition: all 0.2s ease;
+        }
+
+        tbody tr:hover {
+            background-color: #F7F4EF;
+            cursor: pointer;
+        }
+
+        tbody tr:last-child td {
+            border-bottom: none;
+        }
+
+        .name-cell {
+            font-weight: 600;
+            color: #1C3D3A;
+        }
+
+        .skills-truncate {
+            max-width: 200px;
+            overflow: hidden;
+            text-overflow: ellipsis;
+            white-space: nowrap;
+            color: #8A7A68;
+        }
+
+        .track-badge {
+            display: inline-block;
+            padding: 4px 8px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            background-color: #E8EAE7;
+            color: #4A3E32;
+        }
+
+        .action-buttons {
+            display: flex;
+            gap: 6px;
+            flex-wrap: nowrap;
+        }
+
+        .btn-small {
+            padding: 4px 10px;
+            border: none;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .btn-approve-t1 {
+            background-color: #4CAF50;
+            color: white;
+        }
+
+        .btn-approve-t1:hover {
+            background-color: #45a049;
+        }
+
+        .btn-approve-t2 {
+            background-color: #2A7868;
+            color: white;
+        }
+
+        .btn-approve-t2:hover {
+            background-color: #1C3D3A;
+        }
+
+        .btn-reject {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+        .btn-reject:hover {
+            background-color: #f5c6cb;
+        }
+
+        /* Expansion panel */
+        .detail-panel {
+            display: none;
+            background-color: #F7F4EF;
+            padding: 20px 16px;
+            border-top: 1px solid #E0DAD3;
+        }
+
+        .detail-panel.expanded {
+            display: block;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            font-size: 13px;
+        }
+
+        .detail-field {
+            margin-bottom: 12px;
+        }
+
+        .detail-label {
+            font-weight: 700;
+            color: #1C3D3A;
+            font-size: 11px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .detail-value {
+            color: #4A3E32;
+            line-height: 1.5;
+        }
+
+        /* Capacity cards */
+        .capacity-section {
+            margin-top: 40px;
+        }
+
+        .capacity-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1C3D3A;
+            margin-bottom: 20px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .capacity-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            gap: 16px;
+        }
+
+        .capacity-card {
+            background: white;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            padding: 16px;
+        }
+
+        .capacity-card-title {
+            font-size: 13px;
+            font-weight: 700;
+            color: #1C3D3A;
+            margin-bottom: 12px;
+        }
+
+        .capacity-bar {
+            background-color: #E0DAD3;
+            height: 8px;
+            border-radius: 4px;
+            overflow: hidden;
+            margin-bottom: 8px;
+        }
+
+        .capacity-fill {
+            height: 100%;
+            background-color: #E8872A;
+            transition: width 0.3s ease;
+        }
+
+        .capacity-text {
+            font-size: 12px;
+            color: #8A7A68;
+        }
+
+        /* Version badge */
+        .version-badge {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #1C3D3A;
+            color: #A8C8BF;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            z-index: 100;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .admin-wrapper {
+                grid-template-columns: 160px 1fr;
+            }
+
+            .sidebar {
+                padding: 16px 0;
+            }
+
+            .main-content {
+                padding: 24px;
+            }
+
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .capacity-grid {
+                grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+            }
+        }
+
+        @media (max-width: 768px) {
+            .admin-wrapper {
+                grid-template-columns: 1fr;
+            }
+
+            .sidebar {
+                position: relative;
+                top: auto;
+                max-height: none;
+                border-right: none;
+                border-bottom: 1px solid #E0DAD3;
+                padding: 12px;
+                display: none;
+            }
+
+            .sidebar.mobile-open {
+                display: block;
+            }
+
+            .main-content {
+                padding: 16px;
+            }
+
+            .filter-bar {
+                flex-direction: column;
+                align-items: stretch;
+            }
+
+            .search-box {
+                min-width: unset;
+            }
+
+            .action-buttons {
+                flex-direction: column;
+            }
+
+            .btn-small {
+                width: 100%;
+            }
+
+            .capacity-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .version-badge {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+
+        /* ── APPROVE / REJECT MODALS ── */
+        .ar-overlay {
+            display: none; position: fixed; inset: 0; z-index: 9999;
+            background: rgba(0,0,0,0.55); backdrop-filter: blur(3px);
+            align-items: center; justify-content: center;
+        }
+        .ar-overlay.open { display: flex; }
+        .ar-modal {
+            background: #fff; border-radius: 12px; width: 520px; max-width: 95vw;
+            box-shadow: 0 20px 60px rgba(0,0,0,0.3);
+            animation: arIn 0.18s ease; overflow: hidden;
+        }
+        @keyframes arIn {
+            from { transform: translateY(16px); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+        .ar-header {
+            padding: 18px 22px 14px;
+            display: flex; align-items: flex-start; gap: 10px;
+        }
+        .ar-header.approve-hdr { background: linear-gradient(135deg, #1C3D3A, #2A7868); }
+        .ar-header.reject-hdr  { background: linear-gradient(135deg, #7A1F1F, #C0392B); }
+        .ar-header-icon { font-size: 1.5rem; flex-shrink: 0; }
+        .ar-header-text { flex: 1; }
+        .ar-header-label {
+            font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+            text-transform: uppercase; color: rgba(255,255,255,0.65); margin-bottom: 3px;
+        }
+        .ar-header-name { font-size: 1.1rem; font-weight: 700; color: #fff; }
+        .ar-header-sub  { font-size: 0.82rem; color: rgba(255,255,255,0.75); margin-top: 2px; }
+        .ar-close {
+            background: rgba(255,255,255,0.15); border: none; color: #fff;
+            width: 28px; height: 28px; border-radius: 50%; font-size: 1rem;
+            cursor: pointer; flex-shrink: 0;
+        }
+        .ar-close:hover { background: rgba(255,255,255,0.28); }
+        .ar-body { padding: 20px 22px; }
+        .ar-detail-grid {
+            display: grid; grid-template-columns: 1fr 1fr; gap: 10px 18px; margin-bottom: 16px;
+        }
+        .ar-detail-item { }
+        .ar-detail-lbl { font-size: 0.7rem; font-weight: 700; color: #B0A090;
+            letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 3px; }
+        .ar-detail-val { font-size: 0.88rem; color: #2D2D2D; }
+        .ar-track-confirm {
+            background: #F7F4EF; border: 1px solid #E0DAD3; border-radius: 8px;
+            padding: 12px 14px; margin-bottom: 16px;
+        }
+        .ar-track-confirm-label {
+            font-size: 0.7rem; font-weight: 700; color: #B0A090;
+            letter-spacing: 0.09em; text-transform: uppercase; margin-bottom: 8px;
+        }
+        .ar-track-row {
+            display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
+        }
+        .ar-track-badge {
+            padding: 5px 12px; border-radius: 20px; font-size: 0.8rem; font-weight: 600;
+            background: #1C3D3A; color: #fff; cursor: pointer; transition: opacity 0.15s;
+        }
+        .ar-track-badge.inactive { background: #E0DAD3; color: #8A7A68; }
+        .ar-reject-label {
+            font-size: 0.84rem; color: #2D2D2D; margin-bottom: 8px; font-weight: 600;
+        }
+        .ar-reject-textarea {
+            width: 100%; min-height: 90px; padding: 10px 12px;
+            border: 1px solid #D0C8BE; border-radius: 6px; font-size: 0.86rem;
+            font-family: Arial, sans-serif; resize: vertical; color: #2D2D2D;
+            background: #FAFAF8;
+        }
+        .ar-reject-textarea:focus { outline: none; border-color: #2A7868; }
+        .ar-reject-reasons {
+            display: flex; flex-direction: column; gap: 6px; margin: 10px 0 14px;
+        }
+        .ar-reject-reason {
+            display: flex; align-items: center; gap: 8px; font-size: 0.84rem; color: #4A3E32;
+        }
+        .ar-footer {
+            padding: 14px 22px; background: #F7F4EF; border-top: 1px solid #E0DAD3;
+            display: flex; gap: 10px; justify-content: flex-end;
+        }
+        .btn-modal-cancel {
+            background: none; border: 1px solid #D0C8BE; color: #6A5C50;
+            padding: 8px 18px; border-radius: 6px; font-size: 0.84rem; font-weight: 600;
+            cursor: pointer;
+        }
+        .btn-modal-cancel:hover { border-color: #8A7A68; }
+        .btn-modal-approve {
+            background: #1C3D3A; color: #fff; border: none;
+            padding: 8px 20px; border-radius: 6px; font-size: 0.84rem; font-weight: 700;
+            cursor: pointer; transition: background 0.15s;
+        }
+        .btn-modal-approve:hover { background: #2A7868; }
+        .btn-modal-reject {
+            background: #C0392B; color: #fff; border: none;
+            padding: 8px 20px; border-radius: 6px; font-size: 0.84rem; font-weight: 700;
+            cursor: pointer; transition: background 0.15s;
+        }
+        .btn-modal-reject:hover { background: #962d22; }
+        .ar-toast {
+            display: none; position: fixed; bottom: 24px; right: 24px; z-index: 99999;
+            padding: 12px 20px; border-radius: 8px; font-size: 0.86rem; font-weight: 600;
+            color: #fff; box-shadow: 0 4px 18px rgba(0,0,0,0.22);
+            animation: toastIn 0.2s ease;
+        }
+        @keyframes toastIn {
+            from { transform: translateY(10px); opacity: 0; }
+            to   { transform: translateY(0);    opacity: 1; }
+        }
+        .ar-toast.approve { background: #1C3D3A; }
+        .ar-toast.reject  { background: #C0392B; }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="/" class="nav-brand">
+            <svg class="ka-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#A8C8BF;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="40" fill="url(#grad1)" opacity="0.1"/>
+                <circle cx="30" cy="30" r="4" fill="#F5A623"/>
+                <circle cx="70" cy="30" r="4" fill="#A8C8BF"/>
+                <circle cx="50" cy="70" r="4" fill="#2A7868"/>
+                <line x1="30" y1="30" x2="70" y2="30" stroke="#F5A623" stroke-width="1.5" opacity="0.6"/>
+                <line x1="30" y1="30" x2="50" y2="70" stroke="#A8C8BF" stroke-width="1.5" opacity="0.6"/>
+                <line x1="70" y1="30" x2="50" y2="70" stroke="#2A7868" stroke-width="1.5" opacity="0.6"/>
+                <circle cx="50" cy="50" r="3" fill="#2A7868"/>
+            </svg>
+            <div class="ka-wordmark">
+                <div class="ka-wordmark-top">KNOWLEDGE</div>
+                <div class="ka-wordmark-bottom">Atla<span style="color: #A8C8BF;">s</span></div>
+            </div>
+        </a>
+        <div class="nav-right">
+            <div class="mode-pill">ADMIN</div>
+            <a href="ka_login.html" class="nav-link">Log out</a>
+        </div>
+    </nav>
+
+    <!-- Admin layout -->
+    <div class="admin-wrapper">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-section">
+                <div class="sidebar-title">Requests</div>
+                <a href="#" class="sidebar-link active">
+                    Pending Requests
+                    <span class="badge">7</span>
+                </a>
+                <a href="#" class="sidebar-link">Approved</a>
+                <a href="#" class="sidebar-link">Rejected</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Users</div>
+                <a href="#" class="sidebar-link">All Users</a>
+                <a href="#" class="sidebar-link">Track Roster</a>
+            </div>
+
+            <div class="sidebar-section">
+                <div class="sidebar-title">Configuration</div>
+                <a href="#" class="sidebar-link">Settings</a>
+            </div>
+        </aside>
+
+        <!-- Main content -->
+        <main class="main-content">
+            <!-- Page header -->
+            <div class="page-header">
+                <h1>Track Assignment Requests</h1>
+                <p>Review pending registration requests and assign students to tracks.</p>
+            </div>
+
+            <!-- Filter bar -->
+            <div class="filter-bar">
+                <div class="filter-control">
+                    <select>
+                        <option>All Tracks</option>
+                        <option>Track 1 — Image Tagging</option>
+                        <option>Track 2 — Article Finding</option>
+                        <option>Track 3 — VR Production</option>
+                        <option>Track 4 — Use Case Evaluation</option>
+                    </select>
+                </div>
+                <div class="filter-control">
+                    <select>
+                        <option>All Status</option>
+                        <option>Pending</option>
+                        <option>Approved</option>
+                        <option>Rejected</option>
+                    </select>
+                </div>
+                <div class="search-box">
+                    <input type="text" placeholder="Search by name or institution...">
+                </div>
+                <button class="export-btn">Export CSV</button>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Student Name</th>
+                            <th>Institution</th>
+                            <th>First Choice</th>
+                            <th>Second Choice</th>
+                            <th>Skills Summary</th>
+                            <th>Submitted</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr onclick="expandRow(this)">
+                            <td class="name-cell">Maria Santos</td>
+                            <td>UC San Diego</td>
+                            <td><span class="track-badge">Track 1 — Image Tagging</span></td>
+                            <td><span class="track-badge">Track 2 — Article Finding</span></td>
+                            <td><span class="skills-truncate">3 years anatomy lab work, ImageJ experience...</span></td>
+                            <td>Mar 20</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-small btn-approve-t1">Approve T1</button>
+                                    <button class="btn-small btn-approve-t2">Approve T2</button>
+                                    <button class="btn-small btn-reject">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="detail-panel">
+                            <td colspan="7">
+                                <div class="detail-grid">
+                                    <div class="detail-field">
+                                        <div class="detail-label">Full Bio</div>
+                                        <div class="detail-value">Biomedical engineering student with focus on medical imaging. Strong background in anatomy and visual recognition. Completed three internships in medical research labs.</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">Full Skills</div>
+                                        <div class="detail-value">3 years anatomy lab work, ImageJ experience, proficient with annotation software, strong spatial reasoning, familiar with medical terminology</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">ORCID</div>
+                                        <div class="detail-value">0000-0002-1234-5678</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">Why Interested</div>
+                                        <div class="detail-value">Excited to contribute to cognitive science research. This work aligns with my interest in how visual cognition and spatial memory intersect with medical imaging.</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr onclick="expandRow(this)">
+                            <td class="name-cell">James Okafor</td>
+                            <td>UCSD</td>
+                            <td><span class="track-badge">Track 2 — Article Finding</span></td>
+                            <td><span class="track-badge">Track 4 — Use Case Eval</span></td>
+                            <td><span class="skills-truncate">Strong PubMed search skills, Python for scraping...</span></td>
+                            <td>Mar 21</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-small btn-approve-t1">Approve T1</button>
+                                    <button class="btn-small btn-approve-t2">Approve T2</button>
+                                    <button class="btn-small btn-reject">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="detail-panel">
+                            <td colspan="7">
+                                <div class="detail-grid">
+                                    <div class="detail-field">
+                                        <div class="detail-label">Full Bio</div>
+                                        <div class="detail-value">Computer science PhD candidate specializing in information retrieval and NLP. Published work on biomedical text mining. Experienced with database systems and search optimization.</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">Full Skills</div>
+                                        <div class="detail-value">Strong PubMed search skills, Python for scraping, SQL databases, NLP techniques, bibliographic management, familiar with DOI systems and academic search APIs</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">ORCID</div>
+                                        <div class="detail-value">0000-0003-8765-4321</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">Why Interested</div>
+                                        <div class="detail-value">Perfect opportunity to apply my IR expertise to cognitive science literature. I want to help build better discovery systems for evidence-based research.</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr onclick="expandRow(this)">
+                            <td class="name-cell">Priya Nair</td>
+                            <td>UCLA</td>
+                            <td><span class="track-badge">Track 4 — Use Case Eval</span></td>
+                            <td><span class="track-badge">Track 2 — Article Finding</span></td>
+                            <td><span class="skills-truncate">UX research background, familiar with Figma...</span></td>
+                            <td>Mar 21</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-small btn-approve-t1">Approve T1</button>
+                                    <button class="btn-small btn-approve-t2">Approve T2</button>
+                                    <button class="btn-small btn-reject">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="detail-panel">
+                            <td colspan="7">
+                                <div class="detail-grid">
+                                    <div class="detail-field">
+                                        <div class="detail-label">Full Bio</div>
+                                        <div class="detail-value">Psychology graduate student with focus on human-computer interaction. 2 years experience in user research and evaluation studies. Familiar with experimental design and statistical analysis.</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">Full Skills</div>
+                                        <div class="detail-value">UX research background, familiar with Figma and design tools, user testing methodology, statistical analysis, psychology experiment design, qualitative research methods</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">ORCID</div>
+                                        <div class="detail-value">0000-0001-2222-3333</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">Why Interested</div>
+                                        <div class="detail-value">I'm interested in how people evaluate information and make judgments. This work seems directly relevant to my research on evidence evaluation and belief formation.</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+
+                        <tr onclick="expandRow(this)">
+                            <td class="name-cell">Alex Chen</td>
+                            <td>UCSD</td>
+                            <td><span class="track-badge">Track 3 — VR Production</span></td>
+                            <td><span class="track-badge">Track 1 — Image Tagging</span></td>
+                            <td><span class="skills-truncate">Unity experience, 2 VR projects, C# proficient...</span></td>
+                            <td>Mar 22</td>
+                            <td>
+                                <div class="action-buttons">
+                                    <button class="btn-small btn-approve-t1">Approve T1</button>
+                                    <button class="btn-small btn-approve-t2">Approve T2</button>
+                                    <button class="btn-small btn-reject">Reject</button>
+                                </div>
+                            </td>
+                        </tr>
+                        <tr class="detail-panel">
+                            <td colspan="7">
+                                <div class="detail-grid">
+                                    <div class="detail-field">
+                                        <div class="detail-label">Full Bio</div>
+                                        <div class="detail-value">Computer science senior with specialization in game development and VR. Completed two independent VR projects: a medical training simulator and a spatial cognition experiment platform. Strong technical foundation in 3D graphics and user interaction design.</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">Full Skills</div>
+                                        <div class="detail-value">Unity experience, 2 VR projects (Meta Quest platform), C# proficient, 3D modeling basics, spatial navigation design, real-time rendering, user interaction patterns in VR</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">ORCID</div>
+                                        <div class="detail-value">Not provided</div>
+                                    </div>
+                                    <div class="detail-field">
+                                        <div class="detail-label">Why Interested</div>
+                                        <div class="detail-value">VR is a powerful medium for cognitive research. I want to develop more sophisticated visualization and interaction paradigms for knowledge representation, especially for spatial reasoning tasks.</div>
+                                    </div>
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Capacity section -->
+            <div class="capacity-section">
+                <div class="capacity-title">Track Capacity</div>
+                <div class="capacity-grid">
+                    <div class="capacity-card">
+                        <div class="capacity-card-title">Track 1: Image Tagging</div>
+                        <div class="capacity-bar">
+                            <div class="capacity-fill" style="width: 60%;"></div>
+                        </div>
+                        <div class="capacity-text">3 approved / 5 target</div>
+                    </div>
+                    <div class="capacity-card">
+                        <div class="capacity-card-title">Track 2: Article Finding</div>
+                        <div class="capacity-bar">
+                            <div class="capacity-fill" style="width: 80%;"></div>
+                        </div>
+                        <div class="capacity-text">4 approved / 5 target</div>
+                    </div>
+                    <div class="capacity-card">
+                        <div class="capacity-card-title">Track 3: VR Production</div>
+                        <div class="capacity-bar">
+                            <div class="capacity-fill" style="width: 33%;"></div>
+                        </div>
+                        <div class="capacity-text">1 approved / 3 target</div>
+                    </div>
+                    <div class="capacity-card">
+                        <div class="capacity-card-title">Track 4: Use Case Eval</div>
+                        <div class="capacity-bar">
+                            <div class="capacity-fill" style="width: 0%;"></div>
+                        </div>
+                        <div class="capacity-text">0 approved / TBD</div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Version badge -->
+    <div class="version-badge">KA UI · v0.4</div>
+
+    <!-- ── APPROVE MODAL ── -->
+    <div class="ar-overlay" id="approve-overlay" onclick="closeApproveModal(event)">
+      <div class="ar-modal" onclick="event.stopPropagation()">
+        <div class="ar-header approve-hdr">
+          <span class="ar-header-icon">✅</span>
+          <div class="ar-header-text">
+            <div class="ar-header-label">Confirm Approval</div>
+            <div class="ar-header-name" id="approve-name">—</div>
+            <div class="ar-header-sub" id="approve-inst">—</div>
+          </div>
+          <button class="ar-close" onclick="closeApproveModal()">✕</button>
+        </div>
+        <div class="ar-body">
+          <div class="ar-detail-grid">
+            <div class="ar-detail-item">
+              <div class="ar-detail-lbl">Email</div>
+              <div class="ar-detail-val" id="approve-email">—</div>
+            </div>
+            <div class="ar-detail-item">
+              <div class="ar-detail-lbl">Applied</div>
+              <div class="ar-detail-val" id="approve-date">—</div>
+            </div>
+            <div class="ar-detail-item">
+              <div class="ar-detail-lbl">Primary Track</div>
+              <div class="ar-detail-val" id="approve-t1">—</div>
+            </div>
+            <div class="ar-detail-item">
+              <div class="ar-detail-lbl">Secondary Track</div>
+              <div class="ar-detail-val" id="approve-t2">—</div>
+            </div>
+          </div>
+          <div class="ar-track-confirm">
+            <div class="ar-track-confirm-label">Approve for which track?</div>
+            <div class="ar-track-row" id="approve-track-btns">
+              <span class="ar-track-badge" data-track="t1" onclick="toggleApproveTrack(this)">Primary Track</span>
+              <span class="ar-track-badge inactive" data-track="t2" onclick="toggleApproveTrack(this)">Secondary Track</span>
+              <span class="ar-track-badge inactive" data-track="both" onclick="toggleApproveTrack(this)">Both Tracks</span>
+            </div>
+          </div>
+        </div>
+        <div class="ar-footer">
+          <button class="btn-modal-cancel" onclick="closeApproveModal()">Cancel</button>
+          <button class="btn-modal-approve" onclick="confirmApprove()">Confirm Approval →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- ── REJECT MODAL ── -->
+    <div class="ar-overlay" id="reject-overlay" onclick="closeRejectModal(event)">
+      <div class="ar-modal" onclick="event.stopPropagation()">
+        <div class="ar-header reject-hdr">
+          <span class="ar-header-icon">✕</span>
+          <div class="ar-header-text">
+            <div class="ar-header-label">Decline Application</div>
+            <div class="ar-header-name" id="reject-name">—</div>
+            <div class="ar-header-sub" id="reject-inst">—</div>
+          </div>
+          <button class="ar-close" onclick="closeRejectModal()">✕</button>
+        </div>
+        <div class="ar-body">
+          <div class="ar-reject-label">Reason for declining (shown to applicant):</div>
+          <div class="ar-reject-reasons">
+            <label class="ar-reject-reason">
+              <input type="checkbox" id="rr-capacity"> Track capacity currently full
+            </label>
+            <label class="ar-reject-reason">
+              <input type="checkbox" id="rr-skills"> Skills do not match track requirements
+            </label>
+            <label class="ar-reject-reason">
+              <input type="checkbox" id="rr-incomplete"> Application incomplete — please reapply
+            </label>
+            <label class="ar-reject-reason">
+              <input type="checkbox" id="rr-timing"> Intake closed for this cohort
+            </label>
+          </div>
+          <div class="ar-reject-label">Additional note (optional):</div>
+          <textarea class="ar-reject-textarea" id="reject-note"
+            placeholder="Add a specific note for the applicant, e.g. 'We may have openings in Track 3 — check back next quarter.'"></textarea>
+        </div>
+        <div class="ar-footer">
+          <button class="btn-modal-cancel" onclick="closeRejectModal()">Cancel</button>
+          <button class="btn-modal-reject" onclick="confirmReject()">Send Decline Notice</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Toast notification -->
+    <div class="ar-toast" id="ar-toast"></div>
+
+    <script>
+        // ── ROW EXPAND ──
+        function expandRow(rowElement) {
+            const nextRow = rowElement.nextElementSibling;
+            if (nextRow && nextRow.classList.contains('detail-panel')) {
+                nextRow.classList.toggle('expanded');
+                rowElement.classList.toggle('expanded');
+            }
+        }
+
+        // ── STUDENT DATA (demo) ──
+        const STUDENT_DATA = {
+            'Maya Rodriguez':  { inst:'UC San Diego', email:'m.rodriguez@ucsd.edu', date:'Mar 20', t1:'Track 1 — Image Tagging', t2:'Track 2 — Article Finding' },
+            'James Okafor':    { inst:'UC San Diego', email:'j.okafor@ucsd.edu',    date:'Mar 21', t1:'Track 2 — Article Finding', t2:'Track 4 — Use Case Eval' },
+            'Priya Nair':      { inst:'UCLA',          email:'p.nair@ucla.edu',       date:'Mar 21', t1:'Track 4 — Use Case Eval',  t2:'Track 2 — Article Finding' },
+            'Alex Chen':       { inst:'UC San Diego', email:'a.chen@ucsd.edu',       date:'Mar 22', t1:'Track 3 — VR Production',  t2:'Track 1 — Image Tagging' }
+        };
+
+        let _pendingApprovalName = '';
+        let _pendingRejectName   = '';
+
+        // ── APPROVE MODAL ──
+        function openApproveModal(name) {
+            _pendingApprovalName = name;
+            const d = STUDENT_DATA[name] || { inst:'—', email:'—', date:'—', t1:'—', t2:'—' };
+            document.getElementById('approve-name').textContent  = name;
+            document.getElementById('approve-inst').textContent  = d.inst;
+            document.getElementById('approve-email').textContent = d.email;
+            document.getElementById('approve-date').textContent  = d.date;
+            document.getElementById('approve-t1').textContent    = d.t1;
+            document.getElementById('approve-t2').textContent    = d.t2;
+            document.getElementById('approve-overlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeApproveModal(e) {
+            if (e && e.target !== document.getElementById('approve-overlay')) return;
+            document.getElementById('approve-overlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        function toggleApproveTrack(el) {
+            document.querySelectorAll('#approve-track-btns .ar-track-badge')
+                .forEach(b => b.classList.add('inactive'));
+            el.classList.remove('inactive');
+        }
+        function confirmApprove() {
+            const trackEl = document.querySelector('#approve-track-btns .ar-track-badge:not(.inactive)');
+            const track = trackEl ? trackEl.textContent : 'Primary Track';
+            closeApproveModal();
+            showARToast(`✅ ${_pendingApprovalName} approved for ${track}`, 'approve');
+        }
+
+        // ── REJECT MODAL ──
+        function openRejectModal(name) {
+            _pendingRejectName = name;
+            document.getElementById('reject-name').textContent = name;
+            const d = STUDENT_DATA[name] || { inst:'—' };
+            document.getElementById('reject-inst').textContent = d.inst;
+            document.getElementById('reject-note').value = '';
+            ['rr-capacity','rr-skills','rr-incomplete','rr-timing'].forEach(id => {
+                const el = document.getElementById(id);
+                if (el) el.checked = false;
+            });
+            document.getElementById('reject-overlay').classList.add('open');
+            document.body.style.overflow = 'hidden';
+        }
+        function closeRejectModal(e) {
+            if (e && e.target !== document.getElementById('reject-overlay')) return;
+            document.getElementById('reject-overlay').classList.remove('open');
+            document.body.style.overflow = '';
+        }
+        function confirmReject() {
+            closeRejectModal();
+            showARToast(`Decline notice sent to ${_pendingRejectName}`, 'reject');
+        }
+
+        function showARToast(msg, type) {
+            const t = document.getElementById('ar-toast');
+            t.textContent = msg;
+            t.className = `ar-toast ${type}`;
+            t.style.display = 'block';
+            clearTimeout(t._timer);
+            t._timer = setTimeout(() => { t.style.display = 'none'; }, 3200);
+        }
+
+        // ── WIRE UP BUTTONS ──
+        document.querySelectorAll('.btn-small').forEach(btn => {
+            btn.addEventListener('click', function(e) {
+                e.stopPropagation();
+                const row = this.closest('tr');
+                const studentName = row.querySelector('.name-cell').textContent.trim();
+                if (this.classList.contains('btn-reject')) {
+                    openRejectModal(studentName);
+                } else {
+                    openApproveModal(studentName);
+                }
+            });
+        });
+
+        document.addEventListener('keydown', e => {
+            if (e.key === 'Escape') {
+                document.getElementById('approve-overlay').classList.remove('open');
+                document.getElementById('reject-overlay').classList.remove('open');
+                document.body.style.overflow = '';
+            }
+        });
+    </script>
+
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_approve',
+  title: 'Instructor: Track Assignment & Registration Approval',
+  audience: 'Instructors and administrators only — not visible or useful to students',
+  purpose: 'The instructor review queue. Shows pending contributor applications with full bio, skills, and ORCID [Open Researcher and Contributor ID]; allows the instructor to approve applicants to specific tracks or decline with a reason. Also shows track capacity. In the live system this page queries the users table for status=pending and writes approval records.',
+  workflowPos: 'Runs in parallel to student registration — an instructor visits this page whenever a batch of new applications needs reviewing, typically at the start of each cohort.',
+  notFor: 'Student use of any kind. Grade management (separate system). Real-time monitoring of contributor activity (separate analytics page not yet built).',
+  phase: 'Phase 3 — User Management (requires pending users queue and approve/reject API endpoints)',
+  evalQuestions: [
+    'Can an instructor approve 10 applications in under 5 minutes without leaving this page?',
+    'Is the distinction between primary track and secondary track approval clear?',
+    'Does the rejection flow communicate enough information for the applicant to understand what to do next?',
+    'Is track capacity information visible at the point of decision, not just at the bottom of the page?',
+    'Is there any risk of accidentally approving the wrong student (e.g., two students with similar names)?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+
+</body>
+</html>

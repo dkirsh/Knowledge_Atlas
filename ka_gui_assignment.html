@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track 4 — GUI & Use-Case Evaluation · COGS 160</title>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --navy:     #1C3D3A;
+      --teal:     #2A7868;
+      --teal-lt:  #5AC8AA;
+      --teal-bg:  #E6F5F0;
+      --amber:    #E8872A;
+      --amber-lt: #FFF3E0;
+      --amber-dk: #9a5010;
+      --cream:    #F7F4EF;
+      --ink:      #2C2C2C;
+      --muted:    #6B6B6B;
+      --border:   #D8D0C5;
+      --white:    #FFFFFF;
+      --purple:   #6B4FA8;
+      --purple-lt:#F0EBF8;
+      --rose:     #A84F6B;
+      --rose-lt:  #F8EBF0;
+      --blue:     #3A6EA8;
+      --blue-lt:  #EBF2F8;
+      --gold:     #A89B3A;
+      --gold-lt:  #F8F5EB;
+      --phase1:   #2A7868;
+      --phase2:   #6B4FA8;
+      --phase3:   #A84F6B;
+      --phase4:   #E8872A;
+    }
+    body { font-family: Arial, sans-serif; background: var(--cream); color: var(--ink); }
+
+    /* ── Nav ── */
+    .top-nav {
+      position: fixed; top:0; left:0; right:0; height:56px;
+      background: var(--navy); border-bottom: 1px solid #0f2423;
+      display:flex; align-items:center; justify-content:space-between;
+      padding: 0 24px; z-index: 1000; box-shadow: 0 1px 3px rgba(0,0,0,.12);
+    }
+    .nav-wordmark { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; letter-spacing:.1em; color:#A8C8BF; }
+    .nav-icon { width:20px; height:20px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23A8C8BF" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="6" x2="12" y2="18"/><line x1="18" y1="6" x2="12" y2="18"/></svg>') no-repeat center / contain; }
+    .nav-title { color:#fff; }
+    .nav-title-accent { color:#F5A623; }
+    .nav-center { flex:1; text-align:center; color:#A8C8BF; font-size:13px; }
+    .nav-right { display:flex; align-items:center; gap:14px; }
+    .mode-pill { background:var(--purple); color:#fff; padding:5px 13px; border-radius:14px; font-size:11px; font-weight:600; letter-spacing:.06em; }
+    .nav-avatar { width:30px; height:30px; border-radius:50%; background:#3A6B62; color:#A8C8BF; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; cursor:pointer; }
+
+    /* ── Page layout ── */
+    .page-wrap { max-width:1140px; margin: 80px auto 120px; padding: 0 28px; }
+    .breadcrumb { font-size:11px; color:var(--muted); margin-bottom:12px; }
+    .breadcrumb a { color:var(--teal); text-decoration:none; }
+
+    /* ── Hero header ── */
+    .hero {
+      background: var(--navy); color:#fff; border-radius:12px;
+      padding: 32px 36px; margin-bottom: 32px; position:relative; overflow:hidden;
+    }
+    .hero::after {
+      content:''; position:absolute; right:-60px; top:-40px;
+      width:280px; height:280px; border-radius:50%;
+      background: rgba(90,200,170,.07); pointer-events:none;
+    }
+    .hero-track-label { font-size:11px; letter-spacing:.12em; color:var(--teal-lt); text-transform:uppercase; margin-bottom:8px; font-weight:600; }
+    .hero h1 { font-family:Georgia,serif; font-size:1.7rem; font-weight:400; margin-bottom:10px; }
+    .hero-sub { font-size:0.9rem; color:#b8d8d4; max-width:700px; line-height:1.65; margin-bottom:18px; }
+    .hero-meta { display:flex; gap:24px; flex-wrap:wrap; }
+    .hero-pill { background:rgba(255,255,255,.1); border:1px solid rgba(255,255,255,.15); color:#d0ece8; font-size:11px; padding:4px 12px; border-radius:12px; }
+
+    /* ── Section titles ── */
+    .section-title {
+      font-family:Georgia,serif; font-size:1.1rem; font-weight:400;
+      color:var(--navy); border-bottom:2px solid var(--teal);
+      padding-bottom:6px; margin: 36px 0 6px;
+    }
+    .section-intro { font-size:0.86rem; color:var(--muted); line-height:1.6; margin-bottom:18px; }
+
+    /* ── Phase progress bar ── */
+    .phase-bar { display:flex; gap:4px; margin-bottom:28px; }
+    .phase-step {
+      flex:1; padding:10px 12px; border-radius:6px; background:var(--white);
+      border:1px solid var(--border); cursor:pointer; transition:all .15s;
+      display:flex; align-items:center; gap:8px;
+    }
+    .phase-step:hover { border-color:var(--teal); }
+    .phase-step.active { border-color:var(--teal); background:var(--teal-bg); }
+    .phase-step.done { border-color:#b2ddd4; background:var(--teal-bg); }
+    .phase-num { width:22px; height:22px; border-radius:50%; background:var(--border); color:var(--muted); font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .phase-step.active .phase-num { background:var(--teal); color:#fff; }
+    .phase-step.done .phase-num { background:var(--teal-lt); color:#fff; }
+    .phase-step.done .phase-num::after { content:'✓'; }
+    .phase-step.done .phase-num { font-size:0; }
+    .phase-step.done .phase-num::after { font-size:12px; }
+    .phase-label { font-size:11px; font-weight:600; color:var(--ink); }
+    .phase-sub { font-size:10px; color:var(--muted); }
+
+    /* ── Phase panels ── */
+    .phase-panel { display:none; }
+    .phase-panel.active { display:block; }
+
+    /* ── User type cards ── */
+    .user-type-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(280px,1fr)); gap:16px; margin-bottom:24px; }
+    .ut-card {
+      background:var(--white); border:2px solid var(--border); border-radius:10px;
+      padding:18px; cursor:pointer; transition:all .15s;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .ut-card:hover { border-color:var(--teal); box-shadow:0 2px 10px rgba(42,120,104,.10); }
+    .ut-card.selected { border-color:var(--teal); background:var(--teal-bg); }
+    .ut-card-top { display:flex; align-items:flex-start; gap:12px; }
+    .ut-icon { width:36px; height:36px; border-radius:8px; display:flex; align-items:center; justify-content:center; font-size:18px; flex-shrink:0; }
+    .ut-meta h3 { font-family:Georgia,serif; font-size:0.95rem; color:var(--navy); margin-bottom:3px; }
+    .ut-meta .ut-tag { font-size:10px; text-transform:uppercase; font-weight:600; letter-spacing:.07em; }
+    .ut-desc { font-size:0.81rem; color:var(--muted); line-height:1.55; }
+    .ut-scenarios { margin-top:6px; }
+    .ut-scenarios-label { font-size:10px; text-transform:uppercase; font-weight:600; letter-spacing:.07em; color:var(--teal); margin-bottom:6px; }
+    .ut-scenario-item { font-size:0.79rem; color:var(--ink); background:#F0EBE3; border-radius:4px; padding:5px 9px; margin-bottom:4px; line-height:1.4; }
+    .ut-select-note { font-size:11px; color:var(--teal); font-weight:600; margin-top:4px; }
+    .ut-new-card {
+      border: 2px dashed var(--border); background:var(--cream);
+      display:flex; flex-direction:column; align-items:center; justify-content:center;
+      gap:8px; min-height:180px;
+    }
+    .ut-new-card:hover { border-color:var(--amber); background:var(--amber-lt); }
+    .ut-new-icon { font-size:26px; color:var(--border); }
+    .ut-new-label { font-size:0.84rem; color:var(--muted); text-align:center; max-width:180px; line-height:1.5; }
+
+    /* ── Phase 2: Scenario builder ── */
+    .scenario-workspace { background:var(--white); border:1px solid var(--border); border-radius:10px; padding:22px; margin-bottom:16px; }
+    .scenario-workspace h3 { font-family:Georgia,serif; font-size:0.95rem; color:var(--navy); margin-bottom:12px; }
+    .scenario-row { display:grid; grid-template-columns:1fr 1fr 1fr; gap:14px; margin-bottom:14px; }
+    .field-group { display:flex; flex-direction:column; gap:5px; }
+    .field-label { font-size:11px; font-weight:600; color:var(--teal); text-transform:uppercase; letter-spacing:.06em; }
+    .field-input, .field-textarea, .field-select {
+      border:1px solid var(--border); border-radius:6px; padding:8px 10px;
+      font-family:Arial,sans-serif; font-size:0.83rem; color:var(--ink);
+      background:var(--cream); resize:vertical;
+    }
+    .field-input:focus, .field-textarea:focus { outline:none; border-color:var(--teal); background:#fff; }
+    .field-hint { font-size:10px; color:var(--muted); }
+    .add-scenario-btn {
+      border:1px dashed var(--teal); background:none; color:var(--teal);
+      padding:8px 16px; border-radius:6px; cursor:pointer; font-size:0.84rem;
+      font-family:Arial,sans-serif; transition:all .12s;
+    }
+    .add-scenario-btn:hover { background:var(--teal-bg); }
+    .use-case-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-top:8px; }
+    .uc-item { background:#FAF7F2; border:1px solid var(--border); border-radius:6px; padding:10px 12px; }
+    .uc-num { font-size:10px; color:var(--teal); font-weight:600; margin-bottom:4px; }
+
+    /* ── Phase 3: Walkthrough workbook ── */
+    .workbook-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:14px; }
+    .workbook-title { font-family:Georgia,serif; font-size:1.0rem; color:var(--navy); }
+    .shoot-btn {
+      background:var(--amber); color:#fff; border:none; padding:7px 16px;
+      border-radius:6px; font-size:0.82rem; font-weight:600; cursor:pointer;
+      font-family:Arial,sans-serif; transition:background .12s;
+    }
+    .shoot-btn:hover { background:#c97020; }
+    .workbook-scenario-select { margin-bottom:16px; }
+    .workbook-steps { display:flex; flex-direction:column; gap:10px; }
+    .wb-step { background:var(--white); border:1px solid var(--border); border-radius:8px; padding:14px 16px; }
+    .wb-step-header { display:flex; align-items:center; gap:10px; margin-bottom:8px; }
+    .wb-step-num { width:22px; height:22px; border-radius:50%; background:var(--navy); color:#fff; font-size:11px; font-weight:700; display:flex; align-items:center; justify-content:center; flex-shrink:0; }
+    .wb-step-title { font-size:0.88rem; font-weight:600; color:var(--navy); }
+    .wb-step-prompt { font-size:0.81rem; color:var(--muted); margin-bottom:8px; line-height:1.5; }
+    .wb-entry { width:100%; }
+    .ai-prompt-box {
+      background:var(--purple-lt); border:1px solid #c8b4e8; border-radius:8px;
+      padding:14px 16px; margin-top:14px;
+    }
+    .ai-prompt-label { font-size:10px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--purple); margin-bottom:8px; }
+    .ai-prompt-text { font-size:0.82rem; color:#3d2e6b; line-height:1.6; font-family:Georgia,serif; font-style:italic; }
+    .copy-prompt-btn {
+      margin-top:8px; border:1px solid var(--purple); background:none; color:var(--purple);
+      padding:4px 12px; border-radius:4px; font-size:11px; cursor:pointer; font-family:Arial,sans-serif;
+    }
+    .copy-prompt-btn:hover { background:var(--purple); color:#fff; }
+
+    /* ── Phase 4: Shared spec wall ── */
+    .spec-wall { display:grid; grid-template-columns:repeat(auto-fill,minmax(300px,1fr)); gap:14px; }
+    .spec-card {
+      background:var(--white); border:1px solid var(--border); border-radius:8px;
+      padding:14px 16px;
+    }
+    .spec-card-header { display:flex; align-items:center; justify-content:space-between; margin-bottom:8px; }
+    .spec-type-pill { font-size:10px; font-weight:600; padding:2px 8px; border-radius:10px; }
+    .spec-contributor { font-size:10px; color:var(--muted); }
+    .spec-scenario-name { font-family:Georgia,serif; font-size:0.9rem; color:var(--navy); margin-bottom:6px; }
+    .spec-uc-list { list-style:none; }
+    .spec-uc-list li { font-size:0.8rem; color:var(--ink); padding:3px 0; border-bottom:1px solid #F0EBE3; }
+    .spec-uc-list li:last-child { border-bottom:none; }
+    .spec-uc-list li::before { content:'↳ '; color:var(--teal); font-size:10px; }
+    .spec-friction { margin-top:8px; background:#FFF3E0; border-radius:4px; padding:6px 9px; font-size:0.78rem; color:var(--amber-dk); }
+    .spec-friction-label { font-size:9px; font-weight:700; text-transform:uppercase; letter-spacing:.07em; margin-bottom:2px; }
+
+    .submit-new-btn {
+      background:var(--teal); color:#fff; border:none; padding:10px 24px;
+      border-radius:6px; font-size:0.88rem; font-weight:600; cursor:pointer;
+      font-family:Arial,sans-serif; margin-bottom:20px; transition:background .12s;
+    }
+    .submit-new-btn:hover { background:#1a5c4e; }
+
+    /* ── Submit strip ── */
+    .submit-strip {
+      position:fixed; bottom:0; left:0; right:0; background:var(--white);
+      border-top:2px solid var(--teal); padding:14px 28px;
+      display:flex; align-items:center; justify-content:space-between;
+      box-shadow: 0 -3px 12px rgba(0,0,0,.08); z-index:100;
+    }
+    .strip-info { font-size:0.85rem; color:var(--muted); }
+    .strip-info strong { color:var(--navy); }
+    .strip-actions { display:flex; gap:10px; }
+    .btn-save { background:none; border:1px solid var(--border); color:var(--muted); padding:9px 18px; border-radius:6px; font-size:0.86rem; cursor:pointer; font-family:Arial,sans-serif; }
+    .btn-next { background:var(--teal); color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:0.86rem; font-weight:600; cursor:pointer; font-family:Arial,sans-serif; }
+    .btn-next:hover { background:#1a5c4e; }
+    .btn-next:disabled { background:#ccc; cursor:not-allowed; }
+
+    /* ── Modals ── */
+    .modal-overlay { display:none; position:fixed; inset:0; background:rgba(0,0,0,.45); z-index:2000; align-items:center; justify-content:center; }
+    .modal-overlay.open { display:flex; }
+    .modal-box { background:var(--white); border-radius:12px; max-width:700px; width:94vw; max-height:86vh; overflow:hidden; display:flex; flex-direction:column; box-shadow:0 8px 40px rgba(0,0,0,.22); }
+    .modal-head { background:var(--navy); color:#fff; padding:18px 24px; display:flex; align-items:center; justify-content:space-between; }
+    .modal-head-title { font-family:Georgia,serif; font-size:1.05rem; }
+    .modal-close { background:none; border:none; color:#A8C8BF; font-size:1.3rem; cursor:pointer; padding:4px 8px; border-radius:4px; }
+    .modal-close:hover { color:#fff; background:rgba(255,255,255,.12); }
+    .modal-body { padding:22px 24px; overflow-y:auto; flex:1; font-size:0.87rem; line-height:1.65; }
+    .modal-foot { padding:14px 24px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:10px; }
+    .btn-modal-ok { background:var(--teal); color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:0.86rem; font-weight:600; cursor:pointer; font-family:Arial,sans-serif; }
+    .form-row { display:grid; grid-template-columns:1fr 1fr; gap:14px; margin-bottom:12px; }
+    .form-full { margin-bottom:12px; }
+
+    .version-badge { position:fixed; bottom:68px; right:16px; background:var(--navy); color:#A8C8BF; font-size:10px; padding:3px 8px; border-radius:4px; opacity:.6; z-index:50; }
+
+    /* ── Misc ── */
+    .callout { padding:12px 16px; border-radius:6px; font-size:0.84rem; line-height:1.6; margin-bottom:14px; }
+    .callout-teal { background:var(--teal-bg); border-left:3px solid var(--teal); color:#1a4a3f; }
+    .callout-amber { background:var(--amber-lt); border-left:3px solid var(--amber); color:var(--amber-dk); }
+    .callout-purple { background:var(--purple-lt); border-left:3px solid var(--purple); color:#3d2e6b; }
+    .tag { display:inline-block; font-size:10px; font-weight:600; padding:2px 7px; border-radius:10px; letter-spacing:.05em; }
+    .tag-teal { background:var(--teal-bg); color:var(--teal); }
+    .tag-purple { background:var(--purple-lt); color:var(--purple); }
+    .tag-amber { background:var(--amber-lt); color:var(--amber-dk); }
+    .tag-rose { background:var(--rose-lt); color:var(--rose); }
+    .tag-blue { background:var(--blue-lt); color:var(--blue); }
+    .tag-gold { background:var(--gold-lt); color:var(--gold); }
+  </style>
+</head>
+<body>
+
+<!-- Nav -->
+<nav class="top-nav">
+  <div class="nav-wordmark">
+    <span class="nav-icon"></span>
+    <span class="nav-title">Knowledge <span class="nav-title-accent">Atlas</span></span>
+  </div>
+  <div class="nav-center">COGS 160 · Track 4 Assignment</div>
+  <div class="nav-right">
+    <span class="mode-pill">TRACK 4</span>
+    <div class="nav-avatar" title="Profile">JL</div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="breadcrumb"><a href="ka_home.html">Home</a> &nbsp;/&nbsp; <a href="ka_dashboard.html">Dashboard</a> &nbsp;/&nbsp; GUI &amp; Use-Case Evaluation</div>
+
+  <!-- Hero -->
+  <div class="hero">
+    <div class="hero-track-label">COGS 160 · Spring 2026 · Track 4 of 4</div>
+    <h1>GUI Evaluation &amp; Experiment-Maker Usability</h1>
+    <p class="hero-sub">Your task is to understand who uses Knowledge Atlas, what they are trying to accomplish, and whether the system actually serves those goals — then test those findings by walking through the experiment-maker workflow yourself and contributing your observations to the class specification.</p>
+    <div class="hero-meta">
+      <span class="hero-pill">📅 Weeks 3–10</span>
+      <span class="hero-pill">👥 Collaborative spec wall</span>
+      <span class="hero-pill">🔬 Walkthrough + AI-assisted analysis</span>
+      <span class="hero-pill">📋 4 deliverable phases</span>
+    </div>
+  </div>
+
+  <!-- Phase progress bar -->
+  <div class="phase-bar" id="phaseBar">
+    <div class="phase-step active" onclick="gotoPhase(1)">
+      <div class="phase-num">1</div>
+      <div><div class="phase-label">User Types</div><div class="phase-sub">Who uses KA?</div></div>
+    </div>
+    <div class="phase-step" onclick="gotoPhase(2)">
+      <div class="phase-num">2</div>
+      <div><div class="phase-label">Scenarios &amp; Use Cases</div><div class="phase-sub">What do they want to do?</div></div>
+    </div>
+    <div class="phase-step" onclick="gotoPhase(3)">
+      <div class="phase-num">3</div>
+      <div><div class="phase-label">Site Walkthrough</div><div class="phase-sub">Does the system serve them?</div></div>
+    </div>
+    <div class="phase-step" onclick="gotoPhase(4)">
+      <div class="phase-num">4</div>
+      <div><div class="phase-label">Shared Spec Wall</div><div class="phase-sub">Class knowledge base</div></div>
+    </div>
+  </div>
+
+  <!-- ════════════ PHASE 1 ════════════ -->
+  <div class="phase-panel active" id="phase1">
+    <div class="section-title">Phase 1 — Who Uses Knowledge Atlas?</div>
+    <p class="section-intro">Start with the user types already proposed below. Your job is to evaluate them, extend them, and assign yourself one or more types to develop in depth. A user type is defined by what that person is trying to accomplish in their professional or personal context — not by their job title alone. Use the AI prompt at the bottom of this section to generate additional candidate types.</p>
+
+    <div class="callout callout-amber">
+      <strong>Your deliverable for Phase 1:</strong> Select at least one user type to develop in depth. If you believe an important user type is missing from the list below, add it with a description and at least two starter scenarios. Submit your selection before beginning Phase 2.
+    </div>
+
+    <div class="user-type-grid" id="utGrid">
+      <!-- rendered by JS -->
+    </div>
+
+    <div class="section-title" style="margin-top:28px;">Phase 1 · AI Brainstorm Prompt</div>
+    <div class="ai-prompt-box">
+      <div class="ai-prompt-label">🤖 Suggested prompt for Claude or another LLM</div>
+      <div class="ai-prompt-text" id="phase1Prompt">
+        "I am a student in a cognitive science course designing a research tool called Knowledge Atlas (KA). KA is an AI-powered evidence-synthesis system for human-factors research on cognitive performance in workplace environments. It stores claims extracted from peer-reviewed articles, weights them by epistemic quality, and lets users query them using natural language. I have identified the following user types so far: [paste the six types from the assignment page]. Please suggest additional user types I may have missed, focusing on people who would have a plausible reason to interact with such a system — including non-research users. For each new type you suggest, provide: a one-sentence description of who they are, what primary goal brings them to KA, and two concrete scenarios (larger tasks they would be trying to accomplish). Think carefully about system architects, funders, regulators, science journalists, and members of the general public."
+      </div>
+      <button class="copy-prompt-btn" onclick="copyPrompt('phase1Prompt')">Copy prompt</button>
+    </div>
+  </div>
+
+  <!-- ════════════ PHASE 2 ════════════ -->
+  <div class="phase-panel" id="phase2">
+    <div class="section-title">Phase 2 — User Scenarios &amp; Use Cases</div>
+    <p class="section-intro">A <strong>user scenario</strong> is the larger task a person is trying to accomplish — a coherent episode of purposeful activity that may span multiple sessions. A <strong>use case</strong> is a specific subgoal or step within that scenario: a discrete thing the user needs to do that the system must support. For each user type you selected, define at least two scenarios and three use cases per scenario.</p>
+
+    <div class="callout callout-teal">
+      <strong>Worked example.</strong> User type: <em>Undergraduate Student Researcher (fall course)</em>. Scenario S1: <em>Choosing a research question</em> — the student must identify a plausible CNFA topic, assess whether there is genuine uncertainty in the literature, and converge on a question their experiment could address within a quarter. Use cases within S1: (1) Browse the KA concept map to see which constructs are clustered near their intuitive topic; (2) Ask KA "what are the open questions in attention and lighting?"; (3) Check the Value of Information score to confirm the question is genuinely uncertain; (4) Save candidate questions to a personal draft list.
+    </div>
+
+    <div id="scenarioWorkspaceContainer">
+      <!-- Dynamically populated -->
+    </div>
+
+    <button class="add-scenario-btn" onclick="addScenario()">+ Add another scenario</button>
+
+    <div class="section-title" style="margin-top:28px;">Phase 2 · AI Use-Case Expansion Prompt</div>
+    <div class="ai-prompt-box">
+      <div class="ai-prompt-label">🤖 Round 1 — Seed generation</div>
+      <div class="ai-prompt-text" id="phase2PromptA">
+        "I am designing use cases for Knowledge Atlas, an AI evidence-synthesis system for human-factors research. My user type is [USER TYPE] and the scenario I am analysing is [SCENARIO NAME AND DESCRIPTION]. A use case has three parts: (1) a trigger — what situation or question makes this user want to interact with the system; (2) a query or action — exactly what they would type, click, or request; (3) a success criterion — what a satisfying system response looks like, and what would constitute a frustrating or misleading one. Please generate 10 use cases for this user type in this scenario. Do not list generic tasks — think about what this user genuinely cares about, what would surprise them, what would delight them, and what would make them abandon the system."
+      </div>
+      <button class="copy-prompt-btn" onclick="copyPrompt('phase2PromptA')">Copy Round 1 prompt</button>
+    </div>
+    <div class="ai-prompt-box" style="margin-top:12px;">
+      <div class="ai-prompt-label">🤖 Round 2 — Self-reflection: where does KA fall short?</div>
+      <div class="ai-prompt-text" id="phase2PromptB">
+        "Now I want you to evaluate your own output. Looking at the 10 use cases you generated, please assess each one: can the current version of Knowledge Atlas handle this use case well, partially, or not at all? For those it cannot handle well, what would need to change — in the data, the interface, the reasoning engine, or the API — to close the gap? Be specific. Think about what kinds of queries KA structurally cannot answer, and why."
+      </div>
+      <button class="copy-prompt-btn" onclick="copyPrompt('phase2PromptB')">Copy Round 2 prompt</button>
+    </div>
+  </div>
+
+  <!-- ════════════ PHASE 3 ════════════ -->
+  <div class="phase-panel" id="phase3">
+    <div class="section-title">Phase 3 — Site Walkthrough &amp; Workbook</div>
+    <p class="section-intro">Pick one of the scenarios you defined in Phase 2. Walk through it on the live KA site, pretending to be the user type you chose. Before you start, ask an AI to suggest an optimal navigation path through the system for that scenario. Then try the path yourself. Record your observations, friction points, and questions below. You will shoot your key findings to the shared specification wall at the end.</p>
+
+    <div class="callout callout-purple">
+      <strong>Before you begin your walkthrough:</strong> Use the AI path-planning prompt below to generate a suggested strategy, then compare what the AI predicts with what you actually experience. Discrepancies are especially valuable findings.
+    </div>
+
+    <div id="walkthroughWorkbook">
+      <div class="workbook-header">
+        <div class="workbook-title">Walkthrough Workbook</div>
+        <button class="shoot-btn" onclick="shootToWall()">⬆ Shoot to Spec Wall</button>
+      </div>
+      <div class="workbook-scenario-select">
+        <div class="field-group">
+          <label class="field-label">Scenario you are walking through</label>
+          <input type="text" class="field-input" id="wbScenarioName" placeholder="e.g. Undergraduate student choosing a research question">
+        </div>
+      </div>
+      <div class="workbook-steps" id="wbSteps">
+        <!-- Rendered by JS -->
+      </div>
+    </div>
+
+    <div class="section-title" style="margin-top:28px;">Phase 3 · AI Path-Planning Prompt</div>
+    <div class="ai-prompt-box">
+      <div class="ai-prompt-label">🤖 Ask the AI to plan your walkthrough path first</div>
+      <div class="ai-prompt-text" id="phase3Prompt">
+        "I am about to walk through Knowledge Atlas pretending to be [USER TYPE]. My scenario is: [SCENARIO DESCRIPTION]. The KA site has the following pages: Home, Ask a Question (natural-language Q&amp;A), Evidence Table, Gap Explorer, Experiment Maker (Hypothesis Builder), Sensor Selection, Dashboard, and Image Tagger. Given this scenario, what is the optimal path through the system? At each step, tell me: which page the user would visit, what action they would take, what they would hope to get from the system, and what could go wrong. Then tell me: which parts of this scenario do you think the current system handles well, and which are likely to feel incomplete or frustrating for the user, based on your understanding of the system's current capabilities?"
+      </div>
+      <button class="copy-prompt-btn" onclick="copyPrompt('phase3Prompt')">Copy path-planning prompt</button>
+    </div>
+  </div>
+
+  <!-- ════════════ PHASE 4 ════════════ -->
+  <div class="phase-panel" id="phase4">
+    <div class="section-title">Phase 4 — Shared Specification Wall</div>
+    <p class="section-intro">This is the class knowledge base — the emerging usability specification for Knowledge Atlas built from every student's walkthrough findings. Each card below represents one student's scenario, use cases, and key friction observations. Your submissions from Phases 1–3 appear here once you shoot them to the wall. Read your classmates' entries and look for patterns: which user types keep appearing, which use cases cluster together, where does friction concentrate?</p>
+
+    <button class="submit-new-btn" onclick="openSubmitModal()">+ Contribute My Findings to the Wall</button>
+
+    <div class="spec-wall" id="specWall">
+      <!-- Seeded entries rendered by JS -->
+    </div>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- Submit strip -->
+<div class="submit-strip">
+  <div class="strip-info">
+    <strong id="stripPhaseLabel">Phase 1 — User Types</strong>
+    &nbsp;·&nbsp; <span id="stripStatus">Select at least one user type to continue</span>
+  </div>
+  <div class="strip-actions">
+    <button class="btn-save" onclick="saveDraft()">Save Draft</button>
+    <button class="btn-next" id="btnNext" onclick="advancePhase()">Continue to Phase 2 →</button>
+  </div>
+</div>
+
+<div class="version-badge">KA UI · v0.4</div>
+
+<!-- ── New user type modal ── -->
+<div class="modal-overlay" id="newUtModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-title">Propose a New User Type</div>
+      <button class="modal-close" onclick="closeModal('newUtModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <p style="margin-bottom:16px;color:var(--muted);font-size:0.85rem;">Describe a user type you believe is missing from the current taxonomy. Your proposal will appear on the spec wall and may be incorporated into the class taxonomy.</p>
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Type Name</label>
+          <input type="text" class="field-input" id="newUtName" placeholder="e.g. Science Journalist">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Category</label>
+          <select class="field-input field-select" id="newUtCategory">
+            <option>Research User</option>
+            <option>Contributor</option>
+            <option>Developer / Technical</option>
+            <option>Architect / Planner</option>
+            <option>Public / Casual</option>
+            <option>Institutional</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-full field-group">
+        <label class="field-label">One-sentence description</label>
+        <input type="text" class="field-input" id="newUtDesc" placeholder="Who this person is and why they would use KA">
+      </div>
+      <div class="form-full field-group">
+        <label class="field-label">Starter Scenario 1</label>
+        <textarea class="field-input field-textarea" id="newUtS1" rows="2" placeholder="A realistic larger task this user would try to accomplish using KA"></textarea>
+      </div>
+      <div class="form-full field-group">
+        <label class="field-label">Starter Scenario 2</label>
+        <textarea class="field-input field-textarea" id="newUtS2" rows="2" placeholder="Another realistic scenario for this user type"></textarea>
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-save" onclick="closeModal('newUtModal')">Cancel</button>
+      <button class="btn-modal-ok" onclick="submitNewUserType()">Add to Taxonomy</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Submit findings modal ── -->
+<div class="modal-overlay" id="submitModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div class="modal-head-title">Contribute Findings to Spec Wall</div>
+      <button class="modal-close" onclick="closeModal('submitModal')">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-row">
+        <div class="field-group">
+          <label class="field-label">Your User Type</label>
+          <input type="text" class="field-input" id="subUtName" placeholder="e.g. Undergraduate Student Researcher">
+        </div>
+        <div class="field-group">
+          <label class="field-label">Scenario Name</label>
+          <input type="text" class="field-input" id="subScenName" placeholder="e.g. Choosing a research question">
+        </div>
+      </div>
+      <div class="form-full field-group">
+        <label class="field-label">Use Cases (one per line)</label>
+        <textarea class="field-input field-textarea" id="subUCs" rows="4" placeholder="Browse concept map for relevant constructs&#10;Query KA for open questions in their topic&#10;Check VOI score to confirm uncertainty&#10;Save candidate questions to draft list"></textarea>
+      </div>
+      <div class="form-full field-group">
+        <label class="field-label">Key Friction Point Observed</label>
+        <textarea class="field-input field-textarea" id="subFriction" rows="2" placeholder="The most significant place where the system did not serve the user's goal well"></textarea>
+      </div>
+      <div class="form-full field-group">
+        <label class="field-label">Your Initials / Pseudonym</label>
+        <input type="text" class="field-input" id="subName" placeholder="e.g. J.L." style="max-width:120px;">
+      </div>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-save" onclick="closeModal('submitModal')">Cancel</button>
+      <button class="btn-modal-ok" onclick="submitToWall()">Post to Spec Wall</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Confirmation modal ── -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box" style="max-width:440px;">
+    <div class="modal-head">
+      <div class="modal-head-title" id="confirmTitle">Saved</div>
+      <button class="modal-close" onclick="closeModal('confirmModal')">✕</button>
+    </div>
+    <div class="modal-body" id="confirmBody"></div>
+    <div class="modal-foot">
+      <button class="btn-modal-ok" onclick="closeModal('confirmModal')">OK</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// DATA
+// ─────────────────────────────────────────────────────────────────────────────
+const USER_TYPES = [
+  {
+    id: 'student_researcher',
+    name: 'Undergraduate Student Researcher',
+    category: 'Research User',
+    tagClass: 'tag-teal',
+    icon: '🎓',
+    iconBg: '#E6F5F0',
+    desc: 'A COGS 160 student (or equivalent) with a genuine research question in human factors, using KA to find evidence, identify gaps, and design a pre-registered experiment — often for the first time.',
+    scenarios: [
+      'Choose a research question: identify a CNFA topic, assess literature uncertainty, converge on a question their experiment could address within a quarter.',
+      'Narrow to a hypothesis: move from a broad question to a testable prediction with a plausible mechanism, using KA\'s VOI and gap explorer.',
+      'Conduct a literature review: find the most relevant claims in KA, trace their provenance to source articles, and identify what remains contested.',
+      'Design and pre-register an experiment: work through the experiment maker to select sensors, specify a hypothesis, and produce a pre-registration document.'
+    ]
+  },
+  {
+    id: 'research_scientist',
+    name: 'Research Scientist / Faculty',
+    category: 'Research User',
+    tagClass: 'tag-blue',
+    icon: '🔬',
+    iconBg: '#EBF2F8',
+    desc: 'A faculty member, postdoc, or independent researcher who uses KA for rapid evidence synthesis on a contested claim, to identify the highest-VOI open questions in a subdomain, or to cross-reference KA\'s belief network with their own data.',
+    scenarios: [
+      'Synthesise evidence on a contested causal claim: ask KA to assemble the strongest pro and con evidence for a specific mechanism, weighted by methodological quality.',
+      'Map the frontier: identify the three or four open questions in a subdomain where a well-powered study would most shift the field\'s credences.',
+      'Validate a new result: compare a newly collected finding against KA\'s prior distribution for that claim and check for coherence or anomaly.'
+    ]
+  },
+  {
+    id: 'contributor',
+    name: 'Knowledge Contributor',
+    category: 'Contributor',
+    tagClass: 'tag-purple',
+    icon: '✍️',
+    iconBg: '#F0EBF8',
+    desc: 'A trained annotator — typically a student in the image-tagging or article-finding track — who adds, verifies, or disputes claims in the knowledge graph; tags images; or implements computational features.',
+    scenarios: [
+      'Find and ingest new articles: search for papers on a target construct, screen them for relevance, and submit them for claim extraction.',
+      'Verify or dispute existing claims: review an extracted claim against the source article, flag errors, and propose corrections.',
+      'Implement and test a computational tag: write code to compute a new image property (e.g., fractal dimension), run it over a batch of images, and submit results for review.'
+    ]
+  },
+  {
+    id: 'developer',
+    name: 'Software Developer / Engineer',
+    category: 'Developer / Technical',
+    tagClass: 'tag-rose',
+    icon: '⚙️',
+    iconBg: '#F8EBF0',
+    desc: 'A developer building on, extending, or integrating KA — consuming its API, adding new reasoning services, or maintaining the front-end UI.',
+    scenarios: [
+      'Consume the KA query API: integrate KA\'s natural-language Q&A endpoint into a third-party research dashboard or course management system.',
+      'Add a new evidence type: extend the claim schema to support a new kind of methodological warrant and update the belief propagation logic accordingly.',
+      'Debug a reasoning failure: trace why a specific query returns low-confidence output, inspecting the claim graph and warrant weights.'
+    ]
+  },
+  {
+    id: 'architect',
+    name: 'Platform Architect / Planner',
+    category: 'Architect / Planner',
+    tagClass: 'tag-gold',
+    icon: '🗺️',
+    iconBg: '#F8F5EB',
+    desc: 'A senior stakeholder — faculty, PI, or system designer — responsible for KA\'s knowledge schema, epistemic principles, and long-term research roadmap.',
+    scenarios: [
+      'Evaluate the completeness of the current construct library: check which human-factors constructs are well-covered versus sparsely populated, and prioritise ingestion effort.',
+      'Audit the epistemic foundations: review the warrant taxonomy and coherence weights against current philosophy-of-science standards, and propose revisions.',
+      'Define the fall-course scope: decide which features of KA must be functional and tested before COGS 160 runs in the fall.'
+    ]
+  },
+  {
+    id: 'public',
+    name: 'Curious General-Public Reader',
+    category: 'Public / Casual',
+    tagClass: 'tag-amber',
+    icon: '🌐',
+    iconBg: '#FFF3E0',
+    desc: 'A non-specialist — an office manager, employer, journalist, or interested lay person — who has encountered a claim about workplace design and wants to know whether the science supports it.',
+    scenarios: [
+      'Fact-check a popular claim: look up whether "plants in offices increase productivity" has scientific support, and understand how confident the system is.',
+      'Get actionable recommendations: ask KA what the best-supported workplace changes are for a given goal (e.g., reducing afternoon fatigue), expressed in plain language.'
+    ]
+  }
+];
+
+const WALKTHROUGH_STEPS = [
+  {
+    title: 'Plan your path (before you start)',
+    prompt: 'Before touching the site, use the AI path-planning prompt from Phase 3 (copy it above) to ask Claude to suggest the optimal route through KA for your chosen scenario. Paste or summarise the AI\'s suggested path here. What did it say you should do first? What did it predict would be hard?',
+    placeholder: 'Paste the AI\'s suggested navigation path and its predictions about friction points…'
+  },
+  {
+    title: 'Walk through the scenario (first contact)',
+    prompt: 'Open the KA site and follow your scenario as naturally as you can. Record your first impressions: what was immediately clear? What was confusing? Did you find what you expected to find on the first page you visited?',
+    placeholder: 'First page visited, first action taken, whether the system responded as expected…'
+  },
+  {
+    title: 'Middle steps — where did you get stuck?',
+    prompt: 'Continue working through the scenario. Note every point where you paused, had to backtrack, were unsure which page to visit next, or found the system\'s response incomplete or confusing. Be specific — record the exact query or action, and what you expected vs. what you got.',
+    placeholder: 'List the friction moments in order. For each: what you tried, what the system returned, how you felt about it…'
+  },
+  {
+    title: 'Completing the scenario (or stopping point)',
+    prompt: 'Did you complete the scenario? If yes, what did success feel like, and how long did it take? If no, at what point did you give up, and why? What would the system need to do differently for you to have succeeded?',
+    placeholder: 'Outcome of the walkthrough, time taken, sense of completion or incompleteness…'
+  },
+  {
+    title: 'AI prediction vs. your experience',
+    prompt: 'Go back to the AI\'s predicted path from Step 1. Which parts were accurate? Which parts were wrong or missing? Did the AI correctly identify the friction points, or did it miss the real problems? What does this tell you about the AI\'s model of the system?',
+    placeholder: 'Compare the AI\'s predicted path against what you actually experienced. Note the gaps…'
+  },
+  {
+    title: 'Top three friction findings (for the Spec Wall)',
+    prompt: 'Synthesise your walkthrough into the three most important findings for the usability specification. For each finding, state: (a) the user goal that was not well served, (b) the specific system behaviour that caused the friction, and (c) what a fix would look like.',
+    placeholder: 'Finding 1:\nFinding 2:\nFinding 3:'
+  }
+];
+
+const SEED_WALL = [
+  {
+    ut: 'Undergraduate Student Researcher',
+    tagClass: 'tag-teal',
+    scenario: 'Choosing a research question',
+    contributor: 'A.P.',
+    ucs: [
+      'Browse concept map to find constructs near "lighting and focus"',
+      'Ask KA "what are open questions in attention and artificial light?"',
+      'Check VOI score to confirm question is uncertain enough to study',
+      'Save 3 candidate questions to a personal draft list'
+    ],
+    friction: 'No way to "save" a question mid-session — all state is lost on page refresh. Student had to copy-paste to a separate document.'
+  },
+  {
+    ut: 'Research Scientist / Faculty',
+    tagClass: 'tag-blue',
+    scenario: 'Mapping the frontier of a subdomain',
+    contributor: 'R.C.',
+    ucs: [
+      'Query for the highest-VOI open questions in "nature exposure + cognitive restoration"',
+      'Inspect evidence quality for top 5 cited claims',
+      'Export evidence table for offline analysis',
+      'Identify which claims have the highest methodological variance across studies'
+    ],
+    friction: 'Evidence table lacks column sorting and does not show replication status. Scientist resorted to manual Google Scholar check to verify.'
+  },
+  {
+    ut: 'Curious General-Public Reader',
+    tagClass: 'tag-amber',
+    scenario: 'Fact-checking a popular workplace claim',
+    contributor: 'S.L.',
+    ucs: [
+      'Type "do plants in offices improve concentration?" in plain English',
+      'Understand the confidence level of the system\'s answer',
+      'See which studies the answer is based on',
+      'Distinguish between "probably true" and "strongly established"'
+    ],
+    friction: 'System answer is technically accurate but uses academic language ("VOI", "posterior credence") that a lay reader cannot parse. No plain-language mode.'
+  }
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// STATE
+// ─────────────────────────────────────────────────────────────────────────────
+let currentPhase = 1;
+let selectedUTs = new Set();
+let wallEntries = [...SEED_WALL];
+let scenarioCount = 0;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// PHASE NAVIGATION
+// ─────────────────────────────────────────────────────────────────────────────
+function gotoPhase(n) {
+  document.querySelectorAll('.phase-panel').forEach(p => p.classList.remove('active'));
+  document.getElementById('phase' + n).classList.add('active');
+  document.querySelectorAll('.phase-step').forEach((s, i) => {
+    s.classList.remove('active');
+    if (i < n - 1) s.classList.add('done');
+    else s.classList.remove('done');
+    if (i === n - 1) s.classList.add('active');
+  });
+  currentPhase = n;
+  updateStrip();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function advancePhase() {
+  if (currentPhase < 4) gotoPhase(currentPhase + 1);
+}
+
+function updateStrip() {
+  const labels = ['User Types', 'Scenarios & Use Cases', 'Site Walkthrough', 'Shared Spec Wall'];
+  const statuses = [
+    selectedUTs.size === 0 ? 'Select at least one user type to continue'
+      : selectedUTs.size === 1 ? '1 user type selected'
+      : selectedUTs.size + ' user types selected',
+    'Define at least 2 scenarios and 3 use cases per scenario',
+    'Work through Steps 1–6 in your walkthrough workbook',
+    'All phases complete — contribute your findings below'
+  ];
+  document.getElementById('stripPhaseLabel').textContent = 'Phase ' + currentPhase + ' — ' + labels[currentPhase - 1];
+  document.getElementById('stripStatus').textContent = statuses[currentPhase - 1];
+  const btn = document.getElementById('btnNext');
+  btn.textContent = currentPhase < 4 ? 'Continue to Phase ' + (currentPhase + 1) + ' →' : 'All phases complete ✓';
+  btn.disabled = currentPhase === 4;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// RENDER USER TYPE GRID
+// ─────────────────────────────────────────────────────────────────────────────
+function renderUTGrid() {
+  const grid = document.getElementById('utGrid');
+  grid.innerHTML = '';
+  USER_TYPES.forEach(ut => {
+    const card = document.createElement('div');
+    card.className = 'ut-card' + (selectedUTs.has(ut.id) ? ' selected' : '');
+    card.id = 'utcard-' + ut.id;
+    card.innerHTML = `
+      <div class="ut-card-top" onclick="toggleUT('${ut.id}')">
+        <div class="ut-icon" style="background:${ut.iconBg}">${ut.icon}</div>
+        <div class="ut-meta">
+          <h3>${ut.name}</h3>
+          <span class="ut-tag ${ut.tagClass}">${ut.category}</span>
+        </div>
+      </div>
+      <div class="ut-desc">${ut.desc}</div>
+      <div class="ut-scenarios">
+        <div class="ut-scenarios-label">Starter scenarios</div>
+        ${ut.scenarios.slice(0,2).map(s => `<div class="ut-scenario-item">${s}</div>`).join('')}
+        ${ut.scenarios.length > 2 ? `<div class="ut-scenario-item" style="color:var(--muted);font-style:italic">+ ${ut.scenarios.length - 2} more scenario${ut.scenarios.length > 3 ? 's' : ''}</div>` : ''}
+      </div>
+      ${selectedUTs.has(ut.id) ? '<div class="ut-select-note">✓ Selected for development</div>' : ''}`;
+    grid.appendChild(card);
+  });
+  // Add "propose new" card
+  const newCard = document.createElement('div');
+  newCard.className = 'ut-card ut-new-card';
+  newCard.onclick = () => openModal('newUtModal');
+  newCard.innerHTML = `<div class="ut-new-icon">＋</div><div class="ut-new-label">Propose a user type not listed here</div>`;
+  grid.appendChild(newCard);
+}
+
+function toggleUT(id) {
+  if (selectedUTs.has(id)) selectedUTs.delete(id);
+  else selectedUTs.add(id);
+  renderUTGrid();
+  updateStrip();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SCENARIO BUILDER (Phase 2)
+// ─────────────────────────────────────────────────────────────────────────────
+function addScenario() {
+  scenarioCount++;
+  const n = scenarioCount;
+  const container = document.getElementById('scenarioWorkspaceContainer');
+  const ws = document.createElement('div');
+  ws.className = 'scenario-workspace';
+  ws.id = 'scenario-' + n;
+  ws.innerHTML = `
+    <h3>Scenario ${n}</h3>
+    <div class="scenario-row">
+      <div class="field-group">
+        <label class="field-label">User Type</label>
+        <input type="text" class="field-input" placeholder="Which user type is this for?">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Scenario Name</label>
+        <input type="text" class="field-input" placeholder="Short descriptive name">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Context / Trigger</label>
+        <input type="text" class="field-input" placeholder="What situation brings this user to KA?">
+      </div>
+    </div>
+    <div class="field-group" style="margin-bottom:12px;">
+      <label class="field-label">Full scenario description</label>
+      <textarea class="field-input field-textarea" rows="3" placeholder="Describe the larger task: what the user is trying to accomplish, what success looks like for them, and roughly how long or complex the task is."></textarea>
+    </div>
+    <div class="ut-scenarios-label">Use cases within this scenario</div>
+    <div class="use-case-row" id="ucrow-${n}">
+      ${[1,2,3,4].map(i => `
+      <div class="uc-item">
+        <div class="uc-num">USE CASE ${i}</div>
+        <div class="field-group" style="margin-bottom:6px;">
+          <label class="field-label" style="font-size:9px;">Trigger</label>
+          <input type="text" class="field-input" style="font-size:0.78rem;" placeholder="What makes the user want to do this?">
+        </div>
+        <div class="field-group" style="margin-bottom:6px;">
+          <label class="field-label" style="font-size:9px;">Action / Query</label>
+          <input type="text" class="field-input" style="font-size:0.78rem;" placeholder="What does the user actually do?">
+        </div>
+        <div class="field-group">
+          <label class="field-label" style="font-size:9px;">Success criterion</label>
+          <input type="text" class="field-input" style="font-size:0.78rem;" placeholder="What does a good response look like?">
+        </div>
+      </div>`).join('')}
+    </div>`;
+  container.appendChild(ws);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// WALKTHROUGH WORKBOOK
+// ─────────────────────────────────────────────────────────────────────────────
+function renderWBSteps() {
+  const container = document.getElementById('wbSteps');
+  container.innerHTML = '';
+  WALKTHROUGH_STEPS.forEach((step, i) => {
+    const div = document.createElement('div');
+    div.className = 'wb-step';
+    div.innerHTML = `
+      <div class="wb-step-header">
+        <div class="wb-step-num">${i + 1}</div>
+        <div class="wb-step-title">${step.title}</div>
+      </div>
+      <div class="wb-step-prompt">${step.prompt}</div>
+      <textarea class="field-input field-textarea wb-entry" rows="3" placeholder="${step.placeholder}" id="wb-entry-${i}"></textarea>`;
+    container.appendChild(div);
+  });
+}
+
+function shootToWall() {
+  openModal('submitModal');
+  const scen = document.getElementById('wbScenarioName').value.trim();
+  if (scen) document.getElementById('subScenName').value = scen;
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// SPEC WALL
+// ─────────────────────────────────────────────────────────────────────────────
+function renderWall() {
+  const wall = document.getElementById('specWall');
+  wall.innerHTML = '';
+  wallEntries.forEach(entry => {
+    const card = document.createElement('div');
+    card.className = 'spec-card';
+    card.innerHTML = `
+      <div class="spec-card-header">
+        <span class="tag ${entry.tagClass}" style="font-size:10px;">${entry.ut}</span>
+        <span class="spec-contributor">${entry.contributor}</span>
+      </div>
+      <div class="spec-scenario-name">${entry.scenario}</div>
+      <ul class="spec-uc-list">
+        ${entry.ucs.map(u => `<li>${u}</li>`).join('')}
+      </ul>
+      ${entry.friction ? `<div class="spec-friction"><div class="spec-friction-label">Friction observed</div>${entry.friction}</div>` : ''}`;
+    wall.appendChild(card);
+  });
+}
+
+function openSubmitModal() { openModal('submitModal'); }
+
+function submitToWall() {
+  const ut = document.getElementById('subUtName').value.trim();
+  const scen = document.getElementById('subScenName').value.trim();
+  const ucsRaw = document.getElementById('subUCs').value.trim();
+  const friction = document.getElementById('subFriction').value.trim();
+  const name = document.getElementById('subName').value.trim() || 'Anonymous';
+  if (!ut || !scen || !ucsRaw) {
+    alert('Please fill in user type, scenario name, and at least one use case.');
+    return;
+  }
+  wallEntries.unshift({
+    ut, tagClass: 'tag-teal', scenario: scen,
+    contributor: name,
+    ucs: ucsRaw.split('\n').filter(u => u.trim()),
+    friction
+  });
+  closeModal('submitModal');
+  gotoPhase(4);
+  renderWall();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// NEW USER TYPE
+// ─────────────────────────────────────────────────────────────────────────────
+function submitNewUserType() {
+  const name = document.getElementById('newUtName').value.trim();
+  const cat = document.getElementById('newUtCategory').value;
+  const desc = document.getElementById('newUtDesc').value.trim();
+  const s1 = document.getElementById('newUtS1').value.trim();
+  const s2 = document.getElementById('newUtS2').value.trim();
+  if (!name || !desc) { alert('Please provide at least a name and description.'); return; }
+  const id = 'custom_' + Date.now();
+  USER_TYPES.push({
+    id, name, category: cat, tagClass: 'tag-teal', icon: '➕', iconBg: '#E6F5F0',
+    desc, scenarios: [s1, s2].filter(Boolean)
+  });
+  closeModal('newUtModal');
+  renderUTGrid();
+  showConfirm('User Type Added', `"${name}" has been added to the taxonomy. You can now select it in Phase 1.`);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// HELPERS
+// ─────────────────────────────────────────────────────────────────────────────
+function openModal(id) { document.getElementById(id).classList.add('open'); }
+function closeModal(id) { document.getElementById(id).classList.remove('open'); }
+
+function showConfirm(title, body) {
+  document.getElementById('confirmTitle').textContent = title;
+  document.getElementById('confirmBody').innerHTML = `<p style="color:var(--muted);font-size:0.87rem;">${body}</p>`;
+  openModal('confirmModal');
+}
+
+function saveDraft() {
+  showConfirm('Draft Saved', 'Your progress has been saved to your browser session. It will be available when you return to this page. To persist findings permanently, use "Shoot to Spec Wall" in Phase 3 or "Contribute My Findings" in Phase 4.');
+}
+
+function copyPrompt(id) {
+  const text = document.getElementById(id).textContent.trim();
+  navigator.clipboard.writeText(text).then(() => {
+    showConfirm('Prompt Copied', 'The prompt has been copied to your clipboard. Paste it into Claude or another LLM to begin your analysis.');
+  }).catch(() => {
+    showConfirm('Copy Prompt', text);
+  });
+}
+
+// Close modals on overlay click
+['newUtModal','submitModal','confirmModal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target === this) closeModal(id);
+  });
+});
+
+// ─────────────────────────────────────────────────────────────────────────────
+// INIT
+// ─────────────────────────────────────────────────────────────────────────────
+renderUTGrid();
+addScenario();   // seed one blank scenario
+renderWBSteps();
+renderWall();
+updateStrip();
+</script>
+
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

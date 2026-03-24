@@ -1,0 +1,875 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Dashboard · Knowledge Atlas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #F7F4EF;
+            color: #2C2C2C;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            height: 56px;
+            background-color: #1C3D3A;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .wordmark {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #F5A623;
+            letter-spacing: -0.5px;
+        }
+
+        .wordmark-sub {
+            font-size: 0.65rem;
+            color: #A0A0A0;
+            margin-top: -4px;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        nav a {
+            color: #E8E4DC;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #2A7868;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mode-pill {
+            background-color: rgba(42, 120, 104, 0.3);
+            color: #2A7868;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .version-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1C3D3A;
+            color: #F5A623;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+            z-index: 99;
+        }
+
+        /* Main Layout */
+        .container {
+            display: grid;
+            grid-template-columns: 200px 1fr 200px;
+            gap: 24px;
+            padding: 24px;
+            max-width: 1600px;
+            margin: 0 auto;
+            min-height: calc(100vh - 56px);
+        }
+
+        @media (max-width: 1200px) {
+            .container {
+                grid-template-columns: 180px 1fr;
+                gap: 20px;
+                padding: 20px;
+            }
+            .right-panel {
+                display: none;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                grid-template-columns: 1fr;
+                gap: 16px;
+                padding: 16px;
+            }
+            .left-sidebar {
+                display: none;
+            }
+        }
+
+        /* Left Sidebar */
+        .left-sidebar {
+            background-color: white;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            padding: 16px;
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+
+        .user-block {
+            margin-bottom: 20px;
+            padding-bottom: 16px;
+            border-bottom: 1px solid #E0DAD3;
+        }
+
+        .avatar-placeholder {
+            width: 48px;
+            height: 48px;
+            background-color: #E0F2EE;
+            border-radius: 50%;
+            margin-bottom: 8px;
+        }
+
+        .user-name {
+            font-weight: bold;
+            font-size: 0.95rem;
+            color: #1C3D3A;
+            margin-bottom: 4px;
+        }
+
+        .user-email {
+            font-size: 0.8rem;
+            color: #666;
+            margin-bottom: 8px;
+        }
+
+        .track-badge {
+            display: inline-block;
+            background-color: #FFF4E6;
+            color: #C05A1F;
+            padding: 3px 8px;
+            border-radius: 12px;
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            font-weight: bold;
+            margin-bottom: 4px;
+        }
+
+        .status-label {
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            color: #2A7868;
+            font-weight: bold;
+        }
+
+        .sidebar-nav {
+            list-style: none;
+        }
+
+        .sidebar-nav li {
+            margin-bottom: 8px;
+        }
+
+        .sidebar-nav a {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            color: #2A7868;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            padding: 6px 8px;
+            border-radius: 4px;
+            transition: background-color 0.2s;
+        }
+
+        .sidebar-nav a:hover {
+            background-color: #E0F2EE;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            background-color: #2A7868;
+            border-radius: 3px;
+        }
+
+        /* Main Content Area */
+        .main-area {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        /* Card Styling */
+        .card {
+            background-color: white;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .card h2 {
+            font-size: 1.1rem;
+            color: #1C3D3A;
+            margin-bottom: 12px;
+        }
+
+        /* Welcome Card */
+        .welcome-card {
+            background: linear-gradient(135deg, #2A7868 0%, #1C3D3A 100%);
+            color: white;
+            border: none;
+        }
+
+        .welcome-card h2 {
+            color: #F5A623;
+            font-size: 1.2rem;
+        }
+
+        .welcome-card p {
+            margin-bottom: 8px;
+            font-size: 0.95rem;
+        }
+
+        .progress-meta {
+            font-size: 0.85rem;
+            color: #E0DAD3;
+            margin-top: 8px;
+        }
+
+        /* Assignment Progress Card */
+        .progress-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .progress-table tr {
+            border-bottom: 1px solid #E0DAD3;
+        }
+
+        .progress-table tr:last-child {
+            border-bottom: none;
+        }
+
+        .progress-table td {
+            padding: 12px 0;
+            font-size: 0.9rem;
+        }
+
+        .progress-label {
+            font-weight: 500;
+            color: #1C3D3A;
+            width: 140px;
+        }
+
+        .progress-bar-container {
+            flex: 1;
+            height: 6px;
+            background-color: #E0DAD3;
+            border-radius: 3px;
+            margin: 0 12px;
+            overflow: hidden;
+        }
+
+        .progress-bar {
+            height: 100%;
+            background-color: #E8872A;
+            border-radius: 3px;
+        }
+
+        .progress-text {
+            color: #666;
+            font-size: 0.85rem;
+            width: 50px;
+            text-align: right;
+        }
+
+        .progress-link {
+            color: #2A7868;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            margin-left: 8px;
+            transition: color 0.2s;
+        }
+
+        .progress-link:hover {
+            color: #E8872A;
+        }
+
+        /* Activity Card */
+        .activity-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 12px;
+            padding: 12px 0;
+            border-bottom: 1px solid #E0DAD3;
+        }
+
+        .activity-item:last-child {
+            border-bottom: none;
+        }
+
+        .activity-icon {
+            width: 32px;
+            height: 32px;
+            background-color: #FFF4E6;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .activity-content {
+            flex: 1;
+        }
+
+        .activity-type {
+            font-weight: 500;
+            color: #1C3D3A;
+            font-size: 0.9rem;
+        }
+
+        .activity-date {
+            font-size: 0.8rem;
+            color: #999;
+        }
+
+        .activity-badge {
+            display: inline-block;
+            background-color: #E0F2EE;
+            color: #2A7868;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: Arial, sans-serif;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-top: 4px;
+        }
+
+        /* Track Card */
+        .track-card {
+            padding: 16px;
+        }
+
+        .track-card h3 {
+            font-size: 0.95rem;
+            color: #1C3D3A;
+            margin-bottom: 8px;
+        }
+
+        .track-card p {
+            font-size: 0.85rem;
+            color: #666;
+            margin-bottom: 12px;
+        }
+
+        .card-links {
+            display: flex;
+            gap: 12px;
+        }
+
+        .card-link {
+            color: #2A7868;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: color 0.2s;
+        }
+
+        .card-link:hover {
+            color: #E8872A;
+        }
+
+        /* Hypothesis Card */
+        .hypothesis-card {
+            background-color: #F3EEF9;
+            border-color: #5C3A7E;
+        }
+
+        .hypothesis-card h2 {
+            color: #5C3A7E;
+        }
+
+        .stage-bar {
+            background-color: white;
+            border: 1px solid #E0DAD3;
+            border-radius: 4px;
+            padding: 8px;
+            margin: 12px 0;
+            font-size: 0.85rem;
+            color: #666;
+        }
+
+        .stage-progress {
+            height: 6px;
+            background-color: #E0DAD3;
+            border-radius: 3px;
+            margin-top: 6px;
+            overflow: hidden;
+        }
+
+        .stage-fill {
+            height: 100%;
+            background-color: #5C3A7E;
+            border-radius: 3px;
+        }
+
+        .cta-button {
+            display: inline-block;
+            background-color: #E8872A;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 4px;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            font-weight: bold;
+            transition: background-color 0.2s;
+            margin-top: 12px;
+        }
+
+        .cta-button:hover {
+            background-color: #C05A1F;
+        }
+
+        /* Leaderboard Card */
+        .leaderboard-table {
+            width: 100%;
+            font-size: 0.85rem;
+            border-collapse: collapse;
+        }
+
+        .leaderboard-table th {
+            text-align: left;
+            padding: 8px 0;
+            border-bottom: 1px solid #E0DAD3;
+            font-weight: bold;
+            color: #1C3D3A;
+        }
+
+        .leaderboard-table td {
+            padding: 8px 0;
+            border-bottom: 1px solid #E0DAD3;
+        }
+
+        .leaderboard-rank {
+            font-weight: bold;
+            color: #2A7868;
+        }
+
+        .leaderboard-name {
+            color: #666;
+        }
+
+        .leaderboard-your-row {
+            background-color: #FFF4E6;
+            font-weight: bold;
+        }
+
+        /* Right Panel */
+        .right-panel {
+            background-color: white;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            padding: 16px;
+            height: fit-content;
+            position: sticky;
+            top: 80px;
+        }
+
+        .right-panel h3 {
+            font-size: 0.95rem;
+            color: #1C3D3A;
+            margin-bottom: 12px;
+        }
+
+        .deadline-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 8px;
+            padding: 10px 0;
+            border-bottom: 1px solid #E0DAD3;
+        }
+
+        .deadline-item:last-child {
+            border-bottom: none;
+        }
+
+        .deadline-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 50%;
+            flex-shrink: 0;
+            margin-top: 4px;
+        }
+
+        .deadline-critical {
+            background-color: #E74C3C;
+        }
+
+        .deadline-warning {
+            background-color: #E8872A;
+        }
+
+        .deadline-safe {
+            background-color: #27AE60;
+        }
+
+        .deadline-text {
+            flex: 1;
+        }
+
+        .deadline-name {
+            font-weight: 500;
+            color: #1C3D3A;
+            font-size: 0.85rem;
+        }
+
+        .deadline-date {
+            font-size: 0.75rem;
+            color: #999;
+            margin-top: 2px;
+        }
+
+        .deadline-days {
+            font-size: 0.75rem;
+            color: #666;
+            font-weight: bold;
+        }
+
+        /* Grid for multi-column cards */
+        .card-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        @media (max-width: 1024px) {
+            .card-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-left">
+            <div>
+                <div class="wordmark">Knowledge Atlas</div>
+                <div class="wordmark-sub">COGS 160</div>
+            </div>
+            <ul>
+                <li><a href="ka_demo_v04.html">Ask</a></li>
+                <li><a href="ka_evidence.html">Evidence</a></li>
+                <li><a href="ka_hypothesis_builder.html">Build</a></li>
+                <li><a href="ka_tagger.html">Tag</a></li>
+                <li><a href="ka_articles.html">Articles</a></li>
+                <li><a href="ka_datacapture.html">Capture</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <div class="mode-pill">CONTRIBUTOR</div>
+        </div>
+    </nav>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Left Sidebar -->
+        <aside class="left-sidebar">
+            <div class="user-block">
+                <div class="avatar-placeholder"></div>
+                <div class="user-name">Alex Chen</div>
+                <div class="user-email">a.chen@ucsd.edu</div>
+                <span class="track-badge">Track 2</span>
+                <div style="margin-top: 8px;">
+                    <span class="status-label">Approved</span>
+                </div>
+            </div>
+            <ul class="sidebar-nav">
+                <li><a href="ka_demo_v04.html"><div class="nav-icon"></div>Ask</a></li>
+                <li><a href="ka_evidence.html"><div class="nav-icon"></div>Evidence</a></li>
+                <li><a href="ka_hypothesis_builder.html"><div class="nav-icon"></div>Build</a></li>
+                <li><a href="ka_tagger.html"><div class="nav-icon"></div>Tag</a></li>
+                <li><a href="ka_articles.html"><div class="nav-icon"></div>Articles</a></li>
+                <li><a href="ka_datacapture.html"><div class="nav-icon"></div>Capture</a></li>
+            </ul>
+        </aside>
+
+        <!-- Main Content Area -->
+        <main class="main-area">
+            <!-- Welcome Card -->
+            <div class="welcome-card card">
+                <h2>Welcome back, Alex</h2>
+                <p><strong>Track 2</strong> · Week 4 of 10</p>
+                <p>Your next assignment is due in <strong>3 days</strong>.</p>
+                <div class="progress-meta">Keep up the momentum — you're on track with submissions.</div>
+            </div>
+
+            <!-- Assignment Progress Card -->
+            <div class="card">
+                <h2>Assignment Progress</h2>
+                <table class="progress-table">
+                    <tr>
+                        <td class="progress-label">APA submissions</td>
+                        <td style="display: flex; align-items: center;">
+                            <div class="progress-bar-container" style="flex: 1;">
+                                <div class="progress-bar" style="width: 35%;"></div>
+                            </div>
+                        </td>
+                        <td class="progress-text">7/20</td>
+                        <td><a href="ka_datacapture.html" class="progress-link">Continue →</a></td>
+                    </tr>
+                    <tr>
+                        <td class="progress-label">PDFs uploaded</td>
+                        <td style="display: flex; align-items: center;">
+                            <div class="progress-bar-container" style="flex: 1;">
+                                <div class="progress-bar" style="width: 30%;"></div>
+                            </div>
+                        </td>
+                        <td class="progress-text">3/10</td>
+                        <td><a href="ka_articles.html" class="progress-link">Continue →</a></td>
+                    </tr>
+                    <tr>
+                        <td class="progress-label">Images tagged</td>
+                        <td style="display: flex; align-items: center;">
+                            <div class="progress-bar-container" style="flex: 1;">
+                                <div class="progress-bar" style="width: 48%;"></div>
+                            </div>
+                        </td>
+                        <td class="progress-text">24/50</td>
+                        <td><a href="ka_tagger.html" class="progress-link">Continue →</a></td>
+                    </tr>
+                    <tr>
+                        <td class="progress-label">Articles evaluated</td>
+                        <td style="display: flex; align-items: center;">
+                            <div class="progress-bar-container" style="flex: 1;">
+                                <div class="progress-bar" style="width: 40%;"></div>
+                            </div>
+                        </td>
+                        <td class="progress-text">6/15</td>
+                        <td><a href="ka_evidence.html" class="progress-link">Continue →</a></td>
+                    </tr>
+                </table>
+            </div>
+
+            <!-- Two Column Section -->
+            <div class="card-grid">
+                <!-- Recent Activity Card -->
+                <div class="card">
+                    <h2>Recent Activity</h2>
+                    <div class="activity-item">
+                        <div class="activity-icon"></div>
+                        <div class="activity-content">
+                            <div class="activity-type">PDF uploaded: Chen et al. 2022</div>
+                            <div class="activity-date">March 21, 2:30 PM</div>
+                            <span class="activity-badge">PROCESSING</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon"></div>
+                        <div class="activity-content">
+                            <div class="activity-type">Images tagged (batch 4)</div>
+                            <div class="activity-date">March 20, 11:15 AM</div>
+                            <span class="activity-badge">COMPLETE</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon"></div>
+                        <div class="activity-content">
+                            <div class="activity-type">Article evaluated: Spohn Warrant Theory</div>
+                            <div class="activity-date">March 19, 3:45 PM</div>
+                            <span class="activity-badge">COMPLETE</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon"></div>
+                        <div class="activity-content">
+                            <div class="activity-type">Hypothesis brief started</div>
+                            <div class="activity-date">March 18, 9:20 AM</div>
+                            <span class="activity-badge">IN PROGRESS</span>
+                        </div>
+                    </div>
+                    <div class="activity-item">
+                        <div class="activity-icon"></div>
+                        <div class="activity-content">
+                            <div class="activity-type">APA submission (batch 2)</div>
+                            <div class="activity-date">March 17, 2:00 PM</div>
+                            <span class="activity-badge">COMPLETE</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Track Overview Card -->
+                <div class="card track-card">
+                    <h3>Track 2: Article Feeding</h3>
+                    <p>Extract evidence-backed rules from scientific articles using Quinean coherentist epistemology. Build hypotheses grounded in warrant theory.</p>
+                    <div class="card-links">
+                        <a href="#" class="card-link">Track overview</a>
+                        <a href="#" class="card-link">Week 4 assignment</a>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Hypothesis Brief Card -->
+            <div class="hypothesis-card card">
+                <h2>Your Hypothesis Brief</h2>
+                <p>Stage 3 of 6: Warrant Qualification</p>
+                <div class="stage-bar">
+                    <strong>Progress: 50%</strong>
+                    <div class="stage-progress">
+                        <div class="stage-fill" style="width: 50%;"></div>
+                    </div>
+                </div>
+                <p style="font-size: 0.9rem; color: #666; margin-bottom: 12px;">
+                    You're currently qualifying warrant types for your selected coherence set. Next step: rebutting vs. undercutting defeat asymmetry.
+                </p>
+                <a href="ka_hypothesis_builder.html" class="cta-button">Continue Hypothesis →</a>
+            </div>
+
+            <!-- Leaderboard Card -->
+            <div class="card">
+                <h2>Track 2 Leaderboard (Submissions)</h2>
+                <table class="leaderboard-table">
+                    <thead>
+                        <tr>
+                            <th>Rank</th>
+                            <th>Contributor</th>
+                            <th>Count</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td class="leaderboard-rank">1</td>
+                            <td class="leaderboard-name">Jordan M.</td>
+                            <td>18</td>
+                        </tr>
+                        <tr>
+                            <td class="leaderboard-rank">2</td>
+                            <td class="leaderboard-name">Taylor R.</td>
+                            <td>15</td>
+                        </tr>
+                        <tr class="leaderboard-your-row">
+                            <td class="leaderboard-rank">3</td>
+                            <td class="leaderboard-name">You (Alex Chen)</td>
+                            <td>12</td>
+                        </tr>
+                        <tr>
+                            <td class="leaderboard-rank">4</td>
+                            <td class="leaderboard-name">Morgan K.</td>
+                            <td>11</td>
+                        </tr>
+                        <tr>
+                            <td class="leaderboard-rank">5</td>
+                            <td class="leaderboard-name">Casey S.</td>
+                            <td>9</td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </main>
+
+        <!-- Right Panel -->
+        <aside class="right-panel">
+            <h3>Upcoming Deadlines</h3>
+            <div class="deadline-item">
+                <div class="deadline-dot deadline-critical"></div>
+                <div class="deadline-text">
+                    <div class="deadline-name">APA Batch 3</div>
+                    <div class="deadline-days">2 days</div>
+                    <div class="deadline-date">March 25</div>
+                </div>
+            </div>
+            <div class="deadline-item">
+                <div class="deadline-dot deadline-warning"></div>
+                <div class="deadline-text">
+                    <div class="deadline-name">Hypothesis Stage 4</div>
+                    <div class="deadline-days">5 days</div>
+                    <div class="deadline-date">March 28</div>
+                </div>
+            </div>
+            <div class="deadline-item">
+                <div class="deadline-dot deadline-warning"></div>
+                <div class="deadline-text">
+                    <div class="deadline-name">Image Tagging Goal</div>
+                    <div class="deadline-days">6 days</div>
+                    <div class="deadline-date">March 29</div>
+                </div>
+            </div>
+            <div class="deadline-item">
+                <div class="deadline-dot deadline-safe"></div>
+                <div class="deadline-text">
+                    <div class="deadline-name">Week 5 Assignment</div>
+                    <div class="deadline-days">9 days</div>
+                    <div class="deadline-date">April 1</div>
+                </div>
+            </div>
+            <div class="deadline-item">
+                <div class="deadline-dot deadline-safe"></div>
+                <div class="deadline-text">
+                    <div class="deadline-name">Track 2 Milestone</div>
+                    <div class="deadline-days">12 days</div>
+                    <div class="deadline-date">April 4</div>
+                </div>
+            </div>
+        </aside>
+    </div>
+
+    <!-- Version Badge -->
+    <div class="version-badge">KA UI · v0.4</div>
+
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_dashboard',
+  title: 'Student Dashboard',
+  audience: 'Students enrolled in COGS 160 [Cognitive Science 160 — Experimental Design in Human Factors] after login',
+  purpose: 'The personal hub for a student contributor. Shows their progress on assigned tasks (image tagging quota, article evaluations, APA [American Psychological Association] bibliography entries, hypothesis submission), upcoming deadlines, and links to all contributor tools. In the live system this page is driven entirely by real database queries per student ID.',
+  workflowPos: 'Immediately post-login for student users. The student returns here after completing each contributor task to see progress updated and discover what to do next.',
+  notFor: 'Instructor-level views (see ka_approve.html), research queries, or browsing evidence. Should not show data from other students.',
+  phase: 'Phase 3 — User Management (requires per-student DB queries and assignment tracking)',
+  evalQuestions: [
+    'Can a student immediately see what they should do today without reading any instructions?',
+    'Are deadlines communicated with appropriate urgency (not alarmist, not invisible)?',
+    'Is the progress bar system legible — does it show absolute numbers as well as percentages?',
+    'Are links to contributor tools (Tag, Articles, Capture) prominent enough?',
+    'Does the page distinguish clearly between completed, in-progress, and not-started assignments?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+
+<script src="ka_acronyms.js"></script>
+</body>
+</html>

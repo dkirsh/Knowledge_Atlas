@@ -1,0 +1,998 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>System Inventory &amp; Overseer — ATLAS Knowledge System</title>
+  <style>
+    :root {
+      --bg: #fafafa;
+      --surface: #ffffff;
+      --text: #1a1a2e;
+      --text-secondary: #555;
+      --border: #e0e0e0;
+      --accent: #0891B2;
+      --accent-light: #e0f7fa;
+      --pipeline-extract: #2e7d32;
+      --pipeline-extract-bg: #e8f5e9;
+      --pipeline-bn: #1565c0;
+      --pipeline-bn-bg: #e3f2fd;
+      --pipeline-epistemic: #6a1b9a;
+      --pipeline-epistemic-bg: #f3e5f5;
+      --pipeline-experiment: #e65100;
+      --pipeline-experiment-bg: #fff3e0;
+      --pipeline-monitor: #c62828;
+      --pipeline-monitor-bg: #ffebee;
+      --pipeline-sensor: #00695c;
+      --pipeline-sensor-bg: #e0f2f1;
+      --pipeline-theory: #4527a0;
+      --pipeline-theory-bg: #ede7f6;
+      --pipeline-finder: #37474f;
+      --pipeline-finder-bg: #eceff1;
+      --status-go: #2e7d32;
+      --status-partial: #f9a825;
+      --status-notready: #c62828;
+      --status-stub: #9e9e9e;
+    }
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+    header {
+      background: linear-gradient(135deg, #0c4a6e, #0891B2);
+      color: white;
+      padding: 2rem 2rem 1.5rem;
+    }
+    header h1 { font-size: 1.8rem; font-weight: 600; margin-bottom: 0.3rem; }
+    header p { opacity: 0.9; font-size: 0.95rem; max-width: 800px; }
+    .controls {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+      padding: 1rem 2rem;
+      background: var(--surface);
+      border-bottom: 1px solid var(--border);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+    .controls button {
+      padding: 0.4rem 0.9rem;
+      border: 1px solid var(--border);
+      border-radius: 6px;
+      background: var(--surface);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: all 0.15s;
+    }
+    .controls button:hover { background: var(--accent-light); border-color: var(--accent); }
+    .controls button.active { background: var(--accent); color: white; border-color: var(--accent); }
+    .view-toggle { margin-left: auto; display: flex; gap: 0.3rem; }
+    .view-toggle button { font-size: 0.8rem; }
+
+    main { max-width: 1400px; margin: 0 auto; padding: 1.5rem 2rem; }
+
+    /* Summary Stats */
+    .stats-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+    .stat-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      text-align: center;
+    }
+    .stat-card .num { font-size: 2rem; font-weight: 700; color: var(--accent); }
+    .stat-card .label { font-size: 0.8rem; color: var(--text-secondary); }
+
+    /* Pipeline sections */
+    .pipeline-section {
+      margin-bottom: 2rem;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      background: var(--surface);
+    }
+    .pipeline-header {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      padding: 1rem 1.5rem;
+      cursor: pointer;
+      user-select: none;
+    }
+    .pipeline-header:hover { filter: brightness(0.97); }
+    .pipeline-badge {
+      display: inline-block;
+      padding: 0.2rem 0.6rem;
+      border-radius: 4px;
+      font-size: 0.75rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.03em;
+    }
+    .pipeline-header h2 { font-size: 1.15rem; flex: 1; }
+    .pipeline-header .count {
+      font-size: 0.85rem;
+      color: var(--text-secondary);
+      background: var(--bg);
+      padding: 0.2rem 0.6rem;
+      border-radius: 12px;
+    }
+    .pipeline-header .chevron {
+      transition: transform 0.2s;
+      font-size: 1.2rem;
+      color: var(--text-secondary);
+    }
+    .pipeline-header.collapsed .chevron { transform: rotate(-90deg); }
+    .pipeline-body { padding: 0 1.5rem 1.5rem; }
+    .pipeline-desc {
+      font-size: 0.9rem;
+      color: var(--text-secondary);
+      margin-bottom: 1rem;
+      padding-bottom: 0.8rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    /* GUI cards */
+    .gui-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+      gap: 1rem;
+    }
+    .gui-card {
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      transition: box-shadow 0.15s;
+      position: relative;
+    }
+    .gui-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); }
+    .gui-card h3 { font-size: 0.95rem; margin-bottom: 0.3rem; }
+    .gui-card .filepath {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 0.75rem;
+      color: var(--text-secondary);
+      margin-bottom: 0.5rem;
+      word-break: break-all;
+    }
+    .gui-card .desc { font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 0.6rem; }
+    .gui-card .tags { display: flex; flex-wrap: wrap; gap: 0.3rem; }
+    .tag {
+      display: inline-block;
+      padding: 0.15rem 0.5rem;
+      border-radius: 4px;
+      font-size: 0.7rem;
+      font-weight: 500;
+    }
+    .tag-tech { background: #e3f2fd; color: #1565c0; }
+    .tag-user { background: #fce4ec; color: #c62828; }
+    .tag-status { border: 1px solid; padding: 0.1rem 0.4rem; }
+
+    .status-go { color: var(--status-go); border-color: var(--status-go); }
+    .status-partial { color: var(--status-partial); border-color: var(--status-partial); }
+    .status-notready { color: var(--status-notready); border-color: var(--status-notready); }
+    .status-stub { color: var(--status-stub); border-color: var(--status-stub); }
+
+    /* Table view */
+    .table-view { display: none; }
+    .table-view.active { display: block; }
+    .card-view.active { display: grid; }
+    .card-view { display: none; }
+
+    table.inventory {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.85rem;
+    }
+    table.inventory th {
+      background: var(--bg);
+      padding: 0.6rem 0.8rem;
+      text-align: left;
+      font-weight: 600;
+      border-bottom: 2px solid var(--border);
+      position: sticky;
+      top: 52px;
+      z-index: 10;
+    }
+    table.inventory td {
+      padding: 0.5rem 0.8rem;
+      border-bottom: 1px solid var(--border);
+      vertical-align: top;
+    }
+    table.inventory tr:hover { background: var(--accent-light); }
+    table.inventory .mono {
+      font-family: 'SF Mono', 'Consolas', monospace;
+      font-size: 0.75rem;
+    }
+
+    /* Architecture diagram */
+    .arch-diagram {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      padding: 1.5rem;
+      margin-bottom: 2rem;
+    }
+    .arch-diagram h2 { font-size: 1.2rem; margin-bottom: 1rem; }
+    .arch-flow {
+      display: flex;
+      align-items: center;
+      gap: 0.3rem;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1rem 0;
+    }
+    .arch-node {
+      padding: 0.6rem 1rem;
+      border-radius: 8px;
+      font-size: 0.8rem;
+      font-weight: 600;
+      text-align: center;
+      min-width: 100px;
+      cursor: pointer;
+      transition: transform 0.15s;
+    }
+    .arch-node:hover { transform: scale(1.05); }
+    .arch-arrow { font-size: 1.2rem; color: var(--text-secondary); }
+    .arch-row { display: flex; align-items: center; gap: 0.3rem; flex-wrap: wrap; justify-content: center; margin-bottom: 0.8rem; }
+    .arch-label { font-size: 0.75rem; color: var(--text-secondary); text-align: center; margin-bottom: 0.3rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em; }
+
+    /* User perspective badges */
+    .perspective-row {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+      flex-wrap: wrap;
+    }
+    .perspective-card {
+      flex: 1;
+      min-width: 200px;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      background: var(--surface);
+    }
+    .perspective-card h3 { font-size: 0.95rem; margin-bottom: 0.4rem; }
+    .perspective-card ul { list-style: none; font-size: 0.85rem; }
+    .perspective-card li { padding: 0.2rem 0; color: var(--text-secondary); }
+    .perspective-card li::before { content: "→ "; color: var(--accent); }
+
+    /* Health cards */
+    .health-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      padding: 1rem;
+      transition: box-shadow 0.15s, transform 0.1s;
+    }
+    .health-card:hover { box-shadow: 0 2px 12px rgba(0,0,0,0.08); transform: translateY(-1px); }
+    .health-header { display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem; }
+    .health-name { font-weight: 600; font-size: 0.95rem; }
+    .health-badge { padding: 0.15rem 0.5rem; border-radius: 4px; font-size: 0.7rem; font-weight: 700; }
+    .health-detail { font-size: 0.8rem; color: var(--text-secondary); margin-bottom: 0.6rem; line-height: 1.4; }
+    .health-bar { height: 6px; background: var(--bg); border-radius: 3px; overflow: hidden; margin-bottom: 0.4rem; }
+    .health-fill { height: 100%; border-radius: 3px; transition: width 0.5s ease; }
+    .health-metric { font-size: 0.75rem; color: var(--text-secondary); }
+
+    footer {
+      text-align: center;
+      padding: 2rem;
+      color: var(--text-secondary);
+      font-size: 0.8rem;
+      border-top: 1px solid var(--border);
+      margin-top: 2rem;
+    }
+  </style>
+</head>
+<body>
+
+<nav style="background: #0c4a6e; padding: 0.6rem 2rem; display: flex; gap: 1.5rem; align-items: center; flex-wrap: wrap;">
+  <a href="knowledge_navigator.html" style="color: #e0f7fa; text-decoration: none; font-size: 0.85rem;">Knowledge Navigator</a>
+  <a href="theory_and_experiment_design.html" style="color: #e0f7fa; text-decoration: none; font-size: 0.85rem;">Theory &amp; Design</a>
+  <a href="hypothesis_builder.html" style="color: #e0f7fa; text-decoration: none; font-size: 0.85rem;">Hypothesis Builder</a>
+  <a href="methods_taxonomy.html" style="color: #e0f7fa; text-decoration: none; font-size: 0.85rem;">Methods</a>
+  <a href="measurement_instruments.html" style="color: #e0f7fa; text-decoration: none; font-size: 0.85rem;">Instruments</a>
+  <a href="sensor_catalogue.html" style="color: #e0f7fa; text-decoration: none; font-size: 0.85rem;">Sensors</a>
+  <a href="en_navigator.html" style="color: #e0f7fa; text-decoration: none; font-size: 0.85rem;">EN Navigator</a>
+  <a href="bn_navigator.html" style="color: #e0f7fa; text-decoration: none; font-size: 0.85rem;">BN Navigator</a>
+  <a href="experiment_wizard.html" style="color: #e0f7fa; text-decoration: none; font-size: 0.85rem;">Experiment Wizard</a>
+  <a href="system_inventory.html" style="color: #fff; text-decoration: none; font-size: 0.85rem; font-weight: 600; border-bottom: 2px solid #e0f7fa;">Inventory</a>
+</nav>
+
+<header>
+  <h1>ATLAS Knowledge System — GUI Inventory &amp; Pipeline Map</h1>
+  <p>Comprehensive registry of all web-facing interfaces organized by pipeline, function, and user perspective. This page serves as the entry point for contributors to understand what exists and where it lives.</p>
+</header>
+
+<div class="controls">
+  <button class="active" onclick="filterPipeline('all', this)">All Pipelines</button>
+  <button onclick="filterPipeline('extraction', this)" style="border-left: 3px solid var(--pipeline-extract)">Extraction</button>
+  <button onclick="filterPipeline('bn', this)" style="border-left: 3px solid var(--pipeline-bn)">Bayesian Network</button>
+  <button onclick="filterPipeline('epistemic', this)" style="border-left: 3px solid var(--pipeline-epistemic)">Epistemic Network</button>
+  <button onclick="filterPipeline('experiment', this)" style="border-left: 3px solid var(--pipeline-experiment)">Experiment Design</button>
+  <button onclick="filterPipeline('monitor', this)" style="border-left: 3px solid var(--pipeline-monitor)">Monitoring</button>
+  <button onclick="filterPipeline('sensor', this)" style="border-left: 3px solid var(--pipeline-sensor)">Sensors &amp; Measures</button>
+  <button onclick="filterPipeline('theory', this)" style="border-left: 3px solid var(--pipeline-theory)">Theory Guides</button>
+  <button onclick="filterPipeline('finder', this)" style="border-left: 3px solid var(--pipeline-finder)">Article Finder</button>
+  <div class="view-toggle">
+    <button class="active" onclick="setView('card', this)">Cards</button>
+    <button onclick="setView('table', this)">Table</button>
+  </div>
+</div>
+
+<main>
+
+  <!-- Summary Statistics -->
+  <div class="stats-row">
+    <div class="stat-card"><div class="num" id="total-count">0</div><div class="label">Total GUIs</div></div>
+    <div class="stat-card"><div class="num" id="html-count">0</div><div class="label">HTML Pages</div></div>
+    <div class="stat-card"><div class="num" id="streamlit-count">0</div><div class="label">Streamlit Apps</div></div>
+    <div class="stat-card"><div class="num" id="react-count">0</div><div class="label">React Apps</div></div>
+    <div class="stat-card"><div class="num" id="pipeline-count">0</div><div class="label">Pipelines</div></div>
+    <div class="stat-card"><div class="num" id="repo-count">0</div><div class="label">Repositories</div></div>
+  </div>
+
+  <!-- Pipeline Health Status (Overseer Summary) -->
+  <div class="arch-diagram" id="health-panel">
+    <h2>Pipeline Health Status — Overseer Summary</h2>
+    <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
+      Readiness assessment based on the system audit of 2026-03-05. Click any pipeline to filter the inventory below.
+    </p>
+    <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
+
+      <div class="health-card" onclick="filterPipeline('extraction')" style="border-left: 4px solid var(--pipeline-extract); cursor: pointer;">
+        <div class="health-header">
+          <span class="health-name">Evidence Extraction</span>
+          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+        </div>
+        <div class="health-detail">20 HTML + Streamlit interfaces. Full pipeline: ingest &rarr; classify &rarr; extract &rarr; synthesize. 2,800 LOC QA handler, 142/142 card tests pass. Overseer wired.</div>
+        <div class="health-bar"><div class="health-fill" style="width: 95%; background: var(--pipeline-extract);"></div></div>
+        <div class="health-metric">Readiness: 95% &middot; 20 GUIs &middot; All tests pass</div>
+      </div>
+
+      <div class="health-card" onclick="filterPipeline('bn')" style="border-left: 4px solid var(--pipeline-bn); cursor: pointer;">
+        <div class="health-header">
+          <span class="health-name">Bayesian Network</span>
+          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+        </div>
+        <div class="health-detail">8 interfaces across 3 repos (BN, BN_graphical, Designing_Experiments). Causal graph explorer, image analyzer, D3 navigator. React v2 in development.</div>
+        <div class="health-bar"><div class="health-fill" style="width: 85%; background: var(--pipeline-bn);"></div></div>
+        <div class="health-metric">Readiness: 85% &middot; 8 GUIs &middot; React v2 partial</div>
+      </div>
+
+      <div class="health-card" onclick="filterPipeline('epistemic')" style="border-left: 4px solid var(--pipeline-epistemic); cursor: pointer;">
+        <div class="health-header">
+          <span class="health-name">Epistemic Network</span>
+          <span class="health-badge" style="background: #fff3cd; color: #856404;">PARTIAL</span>
+        </div>
+        <div class="health-detail">6 interfaces. Backend orchestrator + 5 services (Pollock, Spohn, Haack, Pearl, Cartwright) are implemented. Gaps: &omega; not persisted, EN Navigator hardcoded (not wired to DB), no warrant query API, no recomputation scheduler.</div>
+        <div class="health-bar"><div class="health-fill" style="width: 72%; background: var(--pipeline-epistemic);"></div></div>
+        <div class="health-metric">Readiness: 72% &middot; 6 GUIs &middot; Backend solid, frontend disconnected</div>
+      </div>
+
+      <div class="health-card" onclick="filterPipeline('experiment')" style="border-left: 4px solid var(--pipeline-experiment); cursor: pointer;">
+        <div class="health-header">
+          <span class="health-name">Experiment Design</span>
+          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+        </div>
+        <div class="health-detail">9 interfaces: knowledge navigator, theory &amp; design, hypothesis builder, methods taxonomy, experiment wizard. HTML versions complete; Streamlit alternatives partial.</div>
+        <div class="health-bar"><div class="health-fill" style="width: 80%; background: var(--pipeline-experiment);"></div></div>
+        <div class="health-metric">Readiness: 80% &middot; 9 GUIs &middot; Streamlit versions partial</div>
+      </div>
+
+      <div class="health-card" onclick="filterPipeline('monitor')" style="border-left: 4px solid var(--pipeline-monitor); cursor: pointer;">
+        <div class="health-header">
+          <span class="health-name">Monitoring &amp; Operations</span>
+          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+        </div>
+        <div class="health-detail">6 interfaces. Dashboard, queue, usage (2 views), control room, overseer health, admin. All operational. No unified start script yet.</div>
+        <div class="health-bar"><div class="health-fill" style="width: 90%; background: var(--pipeline-monitor);"></div></div>
+        <div class="health-metric">Readiness: 90% &middot; 6 GUIs &middot; Unified orchestrator pending</div>
+      </div>
+
+      <div class="health-card" onclick="filterPipeline('sensor')" style="border-left: 4px solid var(--pipeline-sensor); cursor: pointer;">
+        <div class="health-header">
+          <span class="health-name">Sensors &amp; Measurement</span>
+          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+        </div>
+        <div class="health-detail">3 interfaces. Measurement instruments, sensor catalogue (18 sensors, 9 constructs), EmotiBit/Polar React app. All functional.</div>
+        <div class="health-bar"><div class="health-fill" style="width: 90%; background: var(--pipeline-sensor);"></div></div>
+        <div class="health-metric">Readiness: 90% &middot; 3 GUIs &middot; All functional</div>
+      </div>
+
+      <div class="health-card" onclick="filterPipeline('theory')" style="border-left: 4px solid var(--pipeline-theory); cursor: pointer;">
+        <div class="health-header">
+          <span class="health-name">Theory Guides</span>
+          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+        </div>
+        <div class="health-detail">12 HTML pages (index + 11 guides). Progressive disclosure at 3 reading levels. Consistent academic styling. All complete.</div>
+        <div class="health-bar"><div class="health-fill" style="width: 95%; background: var(--pipeline-theory);"></div></div>
+        <div class="health-metric">Readiness: 95% &middot; 12 GUIs &middot; All 11 theories covered</div>
+      </div>
+
+      <div class="health-card" onclick="filterPipeline('finder')" style="border-left: 4px solid var(--pipeline-finder); cursor: pointer;">
+        <div class="health-header">
+          <span class="health-name">Article Finder</span>
+          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+        </div>
+        <div class="health-detail">8 Streamlit pages. Corpus management: search, triage, paper detail, citation network, import wizard, discovery dashboard. Feeds Article Eater.</div>
+        <div class="health-bar"><div class="health-fill" style="width: 90%; background: var(--pipeline-finder);"></div></div>
+        <div class="health-metric">Readiness: 90% &middot; 8 GUIs &middot; All operational</div>
+      </div>
+
+    </div>
+
+    <div style="margin-top: 1.2rem; padding: 0.8rem; background: #fff3cd; border-radius: 6px; font-size: 0.85rem;">
+      <strong>Critical gaps for go-live:</strong> (1) Warrant strength (&omega;) computed but not persisted &mdash; need audit table for transparency. (2) EN Navigator hardcoded; not wired to database or warrant query service. (3) No warrant query API unifying scattered warrant data (Pollock status in JSON blob, types in constraints, bridges in free text). (4) No scheduled warrant recomputation for system-wide coherence maintenance. See <code>TASKS.md</code> for remediation phases.
+    </div>
+  </div>
+
+  <!-- Architecture Overview -->
+  <div class="arch-diagram">
+    <h2>System Architecture — Data Flow</h2>
+    <div class="arch-label">Discovery &amp; Ingestion Layer</div>
+    <div class="arch-row">
+      <div class="arch-node" style="background: var(--pipeline-finder-bg); color: var(--pipeline-finder);" onclick="filterPipeline('finder')">Article Finder<br><small>Search &amp; Triage</small></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node" style="background: var(--pipeline-extract-bg); color: var(--pipeline-extract);" onclick="filterPipeline('extraction')">Article Eater<br><small>Extract &amp; Classify</small></div>
+      <div class="arch-arrow">→</div>
+      <div class="arch-node" style="background: var(--pipeline-epistemic-bg); color: var(--pipeline-epistemic);" onclick="filterPipeline('epistemic')">Epistemic Network<br><small>Warrants &amp; Beliefs</small></div>
+    </div>
+    <div class="arch-label">Model Construction Layer</div>
+    <div class="arch-row">
+      <div class="arch-node" style="background: var(--pipeline-bn-bg); color: var(--pipeline-bn);" onclick="filterPipeline('bn')">Bayesian Network<br><small>Causal Structure</small></div>
+      <div class="arch-arrow">↔</div>
+      <div class="arch-node" style="background: var(--pipeline-theory-bg); color: var(--pipeline-theory);" onclick="filterPipeline('theory')">Theory Guides<br><small>11 Theories</small></div>
+      <div class="arch-arrow">↔</div>
+      <div class="arch-node" style="background: var(--pipeline-sensor-bg); color: var(--pipeline-sensor);" onclick="filterPipeline('sensor')">Sensors &amp; Measures<br><small>18 Instruments</small></div>
+    </div>
+    <div class="arch-label">Application Layer</div>
+    <div class="arch-row">
+      <div class="arch-node" style="background: var(--pipeline-experiment-bg); color: var(--pipeline-experiment);" onclick="filterPipeline('experiment')">Experiment Design<br><small>COGS 160</small></div>
+      <div class="arch-arrow">←</div>
+      <div class="arch-node" style="background: var(--pipeline-monitor-bg); color: var(--pipeline-monitor);" onclick="filterPipeline('monitor')">Monitoring<br><small>Overseer &amp; Health</small></div>
+    </div>
+  </div>
+
+  <!-- User Perspectives -->
+  <div class="perspective-row">
+    <div class="perspective-card">
+      <h3>Students (COGS 160)</h3>
+      <ul>
+        <li>Knowledge Navigator</li>
+        <li>Theory &amp; Experiment Design</li>
+        <li>Hypothesis Builder</li>
+        <li>Experiment Wizard</li>
+        <li>Methods Taxonomy</li>
+        <li>Sensor Catalogue</li>
+        <li>Theory Guides (11)</li>
+      </ul>
+    </div>
+    <div class="perspective-card">
+      <h3>Faculty / Researchers</h3>
+      <ul>
+        <li>BN Navigator (causal structure)</li>
+        <li>EN Navigator (warrant structure)</li>
+        <li>Evidence Explorer (network graph)</li>
+        <li>Belief Network Explorer (Streamlit)</li>
+        <li>Communities Browser</li>
+        <li>Query Interface (researcher role)</li>
+        <li>Entrenchment Monitor</li>
+      </ul>
+    </div>
+    <div class="perspective-card">
+      <h3>System Operators</h3>
+      <ul>
+        <li>Dashboard (Article Eater)</li>
+        <li>Overseer Health Dashboard</li>
+        <li>Control Room</li>
+        <li>Processing Queue</li>
+        <li>Usage &amp; Costs</li>
+        <li>Admin Dashboard</li>
+        <li>Ingestion UI</li>
+      </ul>
+    </div>
+    <div class="perspective-card">
+      <h3>Contributors / Developers</h3>
+      <ul>
+        <li>This inventory page</li>
+        <li>Article Annotator</li>
+        <li>Tag Registry (Tagging Contractor)</li>
+        <li>Reports Generator</li>
+        <li>Attack Review UI</li>
+        <li>Research Queue Dashboard</li>
+      </ul>
+    </div>
+  </div>
+
+  <!-- Pipeline Sections (rendered by JS) -->
+  <div id="pipeline-container"></div>
+
+  <!-- Full Table View -->
+  <div id="table-container" class="table-view">
+    <table class="inventory">
+      <thead>
+        <tr>
+          <th>Page</th>
+          <th>Pipeline</th>
+          <th>Repo</th>
+          <th>Tech</th>
+          <th>User Perspective</th>
+          <th>Status</th>
+          <th>Path</th>
+        </tr>
+      </thead>
+      <tbody id="table-body"></tbody>
+    </table>
+  </div>
+
+</main>
+
+<footer>
+  ATLAS Knowledge System — GUI Inventory — Generated 2026-03-14<br>
+  8 pipelines &middot; 6 repositories &middot; 70+ web interfaces
+</footer>
+
+<script>
+// ============================================================
+// MASTER DATA: Every GUI in the system
+// ============================================================
+const GUIS = [
+  // ── EXTRACTION PIPELINE (Article Eater) ──
+  { id: "ae-index", name: "Article Eater Landing", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/index.html", status: "go",
+    users: ["operator","contributor"], desc: "Entry portal to the Article Eater system. Showcases features and links to all modules." },
+  { id: "ae-dashboard", name: "Dashboard", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/dashboard.html", status: "go",
+    users: ["operator"], desc: "Central hub showing paper counts, findings, rules, costs, processing queue status, and recent activity." },
+  { id: "ae-ingestion", name: "Ingestion UI", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/ingestion.html", status: "go",
+    users: ["operator"], desc: "Upload and batch-process papers. Manages document onboarding into the extraction pipeline." },
+  { id: "ae-library", name: "Library", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/library.html", status: "go",
+    users: ["operator","researcher"], desc: "Browse, search, and organize all ingested papers. Metadata display and filtering." },
+  { id: "ae-search", name: "New Search", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/search.html", status: "go",
+    users: ["operator"], desc: "Search Semantic Scholar for papers to add to library. Initiates discovery queries." },
+  { id: "ae-annotator", name: "Article Annotator", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/article-annotator.html", status: "go",
+    users: ["contributor"], desc: "Manual annotation tool: theory tags, quality ratings (gold/high/moderate/low/training), metadata editing." },
+  { id: "ae-findings", name: "Findings Browser", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/findings.html", status: "go",
+    users: ["researcher","operator"], desc: "Browse extracted findings from processed papers. Multi-panel layout with sidebar navigation." },
+  { id: "ae-rules", name: "Rule Inspector", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/rules.html", status: "go",
+    users: ["researcher"], desc: "Inspect synthesized rules from coherence analysis. Confidence scores, export capability." },
+  { id: "ae-interactions", name: "Rule Interactions", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/interactions.html", status: "go",
+    users: ["researcher"], desc: "Review and resolve conflicts between synthesized rules. Structured conflict resolution." },
+  { id: "ae-evidence", name: "Evidence Explorer", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/evidence-explorer.html", status: "go",
+    users: ["researcher","faculty"], desc: "Cytoscape.js network graph of evidence relationships. Support/contradiction connections, traffic-light indicators." },
+  { id: "ae-claims", name: "Claim Gallery", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/claim-gallery.html", status: "go",
+    users: ["researcher"], desc: "Visual evidence viewer. Claims with supporting images, quality bars (design strength, consistency, portability)." },
+  { id: "ae-images", name: "Image Collector", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/image-collector.html", status: "go",
+    users: ["operator"], desc: "Collect and organize figures from articles. Preset filters, gallery management." },
+  { id: "ae-inspector", name: "Image Inspector", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/image-inspector.html", status: "go",
+    users: ["operator","contributor"], desc: "Inspect, tag, and filter collected images. Three-panel layout (filters/main/details)." },
+  { id: "ae-entrenchment", name: "Entrenchment Monitor", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/entrenchment-monitor.html", status: "go",
+    users: ["researcher","faculty"], desc: "Track belief evolution over time. System vs. scholarly entrenchment timelines, divergence indicators." },
+  { id: "ae-reports", name: "Reports Generator", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/reports.html", status: "go",
+    users: ["researcher","contributor"], desc: "Generate and export synthesis reports from collected evidence and rules." },
+  { id: "ae-help", name: "Help & Tutorials", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/help.html", status: "go",
+    users: ["student","operator","researcher"], desc: "Tutorials, guides, and documentation for system users." },
+  { id: "ae-profile", name: "Profile", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/profile.html", status: "go",
+    users: ["operator"], desc: "Account settings, API key management." },
+
+  // ── EXTRACTION PIPELINE (Streamlit) ──
+  { id: "st-app", name: "Article Eater Streamlit", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/app.py", status: "go",
+    users: ["operator","researcher"], desc: "Main Streamlit app landing page. Navigation hub to BibTeX import, query, explore, export, admin." },
+  { id: "st-corpus", name: "Corpus Statistics", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/0_corpus_stats.py", status: "go",
+    users: ["operator"], desc: "Paper counts, processing status, extraction results, triage decisions from Article Finder DB." },
+  { id: "st-bibtex", name: "BibTeX Import Wizard", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/1_bibtex_import.py", status: "go",
+    users: ["operator"], desc: "3-step wizard: upload BibTeX, match PDFs (auto-discovers from Zotero), ingest papers." },
+  { id: "st-query", name: "Query Interface", pipeline: "epistemic", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/1_query.py", status: "go",
+    users: ["researcher","student","faculty"], desc: "Role-based natural language query engine. Theory background via TheoryGuideService." },
+  { id: "st-explore", name: "Belief Network Explorer", pipeline: "epistemic", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/2_explore.py", status: "go",
+    users: ["researcher","faculty"], desc: "Interactive network visualization of belief graph. Force-directed/hierarchical layouts, cluster/filter by status/level/credence/theory." },
+  { id: "st-communities", name: "Communities Browser", pipeline: "epistemic", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/3_communities.py", status: "go",
+    users: ["researcher","faculty"], desc: "Browse epistemic communities: network viz, belief counts, researchers, methodologies, contested relationships." },
+  { id: "st-export", name: "Export Dashboard", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/4_export.py", status: "go",
+    users: ["researcher"], desc: "Purpose-driven export bundles: practitioner briefing, lit review, systematic review, data pipeline, presentation." },
+  { id: "st-admin", name: "Admin Dashboard", pipeline: "monitor", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/5_admin.py", status: "go",
+    users: ["operator"], desc: "Real system statistics from WebOfBelief API: beliefs, constraints, papers, communities, coherence." },
+  { id: "st-queue", name: "Research Queue Dashboard", pipeline: "extraction", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/6_research_queue.py", status: "go",
+    users: ["operator","contributor"], desc: "Queue visualization, research target assignment, collection progress, VOI scoring." },
+  { id: "st-attack", name: "Attack Review UI", pipeline: "epistemic", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/7_attack_review.py", status: "go",
+    users: ["contributor","researcher"], desc: "Review argument-attack patterns in extracted claims from JSON/JSONL files." },
+  { id: "st-health", name: "OVERSEER Health Dashboard", pipeline: "monitor", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/8_system_health.py", status: "go",
+    users: ["operator"], desc: "Cartwright multi-metric coherence monitoring: operational status, integrity violations, template coverage, quarantine queue." },
+  { id: "st-kb", name: "Knowledge Base Home", pipeline: "epistemic", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/9_knowledge_base.py", status: "go",
+    users: ["student","researcher","faculty"], desc: "Full-text search across templates/molecules/sections/papers. Domain browse grid, featured topics." },
+  { id: "st-topic", name: "Topic Page", pipeline: "epistemic", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "streamlit_app/pages/10_topic.py", status: "go",
+    users: ["student","researcher","faculty"], desc: "Wikipedia-style article view: infobox, progressive disclosure, DOI references, mechanism chain diagrams, related topics." },
+  { id: "st-control", name: "Control Room", pipeline: "monitor", repo: "Article_Eater_PostQuinean_v1",
+    tech: "Streamlit", path: "scripts/ae_streamlit_control_room.py", status: "go",
+    users: ["operator"], desc: "Pipeline monitoring: job queue, recent findings, library stats, database diagnostics." },
+
+  // ── MONITORING PIPELINE ──
+  { id: "ae-queue", name: "Processing Queue", pipeline: "monitor", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/queue.html", status: "go",
+    users: ["operator"], desc: "Real-time job monitor: active/completed counts, auto-refresh, queue listing." },
+  { id: "ae-usage", name: "Usage & Costs", pipeline: "monitor", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/usage.html", status: "go",
+    users: ["operator"], desc: "API usage tracking, cost breakdown by operation, budget management, alerts." },
+  { id: "ae-usage-hud", name: "Usage HUD", pipeline: "monitor", repo: "Article_Eater_PostQuinean_v1",
+    tech: "HTML", path: "frontend/usage_dashboard.html", status: "go",
+    users: ["operator"], desc: "Compact usage summary. Lightweight alternative to full usage page." },
+
+  // ── BAYESIAN NETWORK PIPELINE ──
+  { id: "bn-landing", name: "BN System Landing", pipeline: "bn", repo: "BN_graphical",
+    tech: "HTML", path: "frontend/index.html", status: "go",
+    users: ["researcher","faculty"], desc: "Portal to Image-to-Psychology system: Graph Explorer, Image Analyzer, Admin." },
+  { id: "bn-explorer", name: "Graph Explorer", pipeline: "bn", repo: "BN_graphical",
+    tech: "HTML", path: "frontend/graph-explorer/index.html", status: "go",
+    users: ["researcher","faculty"], desc: "Interactive causal graph visualization (dark theme). Zoom/pan, node tooltips, legend, stats, detail panels." },
+  { id: "bn-admin", name: "BN Admin Dashboard", pipeline: "bn", repo: "BN_graphical",
+    tech: "HTML", path: "frontend/admin/index.html", status: "go",
+    users: ["operator"], desc: "System health, database stats, model info, admin actions for the BN system." },
+  { id: "bn-v2", name: "BN System v2 (React)", pipeline: "bn", repo: "BN_graphical",
+    tech: "React/TSX", path: "frontend-v2/", status: "partial",
+    users: ["researcher","faculty"], desc: "React/TypeScript rewrite of BN system. Modern component architecture. In development." },
+  { id: "bn-old-landing", name: "BN Landing (Legacy)", pipeline: "bn", repo: "BN",
+    tech: "HTML", path: "frontend/index.html", status: "go",
+    users: ["researcher"], desc: "Earlier version of BN system portal. Same structure as BN_graphical." },
+  { id: "bn-old-explorer", name: "BN Graph Explorer (Legacy)", pipeline: "bn", repo: "BN",
+    tech: "HTML", path: "frontend/graph-explorer/index.html", status: "go",
+    users: ["researcher"], desc: "Earlier version of causal graph explorer." },
+  { id: "bn-old-analyzer", name: "Image Analyzer", pipeline: "bn", repo: "BN",
+    tech: "HTML", path: "frontend/image-analyzer/index.html", status: "go",
+    users: ["researcher"], desc: "Input form for predicting psychological outcomes from 6 architectural attributes. Unique to BN (not in BN_graphical)." },
+  { id: "de-bn-nav", name: "BN Navigator (COGS 160)", pipeline: "bn", repo: "Designing_Experiments",
+    tech: "HTML/D3", path: "frontend/bn_navigator.html", status: "go",
+    users: ["student","faculty","researcher"], desc: "D3.js force-directed graph of causal-probabilistic structure. Directed edges, effect sizes, paper provenance." },
+
+  // ── EPISTEMIC NETWORK PIPELINE ──
+  { id: "de-en-nav", name: "EN Navigator (COGS 160)", pipeline: "epistemic", repo: "Designing_Experiments",
+    tech: "HTML/D3", path: "frontend/en_navigator.html", status: "go",
+    users: ["student","faculty","researcher"], desc: "D3.js force-directed graph of warrant/justification structure. Typed warrants (empirical, theoretical, mechanistic, measurement)." },
+
+  // ── EXPERIMENT DESIGN PIPELINE ──
+  { id: "de-knowledge", name: "Knowledge Navigator", pipeline: "experiment", repo: "Designing_Experiments",
+    tech: "HTML", path: "frontend/knowledge_navigator.html", status: "go",
+    users: ["student"], desc: "Interactive decision-support tool for experiment design. Canvas-based graph, dropdown mega-menus." },
+  { id: "de-theory", name: "Theory & Experiment Design", pipeline: "experiment", repo: "Designing_Experiments",
+    tech: "HTML", path: "frontend/theory_and_experiment_design.html", status: "go",
+    users: ["student"], desc: "Educational interface for foundational theory concepts and experimental methods. Collapsible taxonomy." },
+  { id: "de-hypothesis", name: "Hypothesis Builder", pipeline: "experiment", repo: "Designing_Experiments",
+    tech: "HTML", path: "frontend/hypothesis_builder.html", status: "go",
+    users: ["student"], desc: "Guided multi-step wizard for constructing testable hypotheses (IV, DV, moderators)." },
+  { id: "de-wizard", name: "Experiment Wizard", pipeline: "experiment", repo: "Designing_Experiments",
+    tech: "HTML", path: "frontend/experiment_wizard.html", status: "go",
+    users: ["student"], desc: "Multi-step builder wizard for designing complete experiments. 5+ steps with progress tracking." },
+  { id: "de-methods", name: "Methods Taxonomy", pipeline: "experiment", repo: "Designing_Experiments",
+    tech: "HTML", path: "frontend/methods_taxonomy.html", status: "go",
+    users: ["student"], desc: "Reference guide for research methods classification. Card-based grid, searchable categories." },
+  { id: "st-de-wizard", name: "Experiment Wizard (Streamlit)", pipeline: "experiment", repo: "Designing_Experiments",
+    tech: "Streamlit", path: "streamlit_apps/experiment_wizard_dynamic.py", status: "partial",
+    users: ["student"], desc: "Dynamic Streamlit version of experiment builder. Alternative to HTML wizard." },
+  { id: "st-de-evidence", name: "Evidence Browser (Streamlit)", pipeline: "experiment", repo: "Designing_Experiments",
+    tech: "Streamlit", path: "streamlit_apps/evidence_browser.py", status: "partial",
+    users: ["student","researcher"], desc: "Streamlit evidence browsing interface for Designing Experiments context." },
+  { id: "st-de-learn", name: "Experiment Learning App", pipeline: "experiment", repo: "Designing_Experiments",
+    tech: "Streamlit", path: "streamlit_apps/experiment_learning_app.py", status: "partial",
+    users: ["student"], desc: "Interactive learning application for experiment design concepts." },
+  { id: "st-de-kn", name: "Knowledge Navigator (Streamlit)", pipeline: "experiment", repo: "Designing_Experiments",
+    tech: "Streamlit", path: "streamlit_apps/knowledge_navigator.py", status: "partial",
+    users: ["student"], desc: "Streamlit version of the knowledge navigator." },
+
+  // ── SENSOR & MEASUREMENT PIPELINE ──
+  { id: "de-instruments", name: "Measurement Instruments", pipeline: "sensor", repo: "Designing_Experiments",
+    tech: "HTML", path: "frontend/measurement_instruments.html", status: "go",
+    users: ["student","researcher"], desc: "Catalogue and selector for measurement tools and sensor types. Filter by capability." },
+  { id: "de-sensors", name: "Sensor Catalogue", pipeline: "sensor", repo: "Designing_Experiments",
+    tech: "HTML", path: "frontend/sensor_catalogue.html", status: "go",
+    users: ["student","researcher"], desc: "18 instruments across 9 constructs. Strength ratings, construct-ranked tables, reusable modal for cross-page use." },
+  { id: "emotibit", name: "EmotiBit/Polar Data System", pipeline: "sensor", repo: "emotibit_polar_data_system",
+    tech: "React/TSX", path: "frontend/src/App.tsx", status: "go",
+    users: ["researcher","student"], desc: "React SPA for sensor data capture: 5-step wizard (lab setup, sensor setup, data collection, validation, analysis)." },
+
+  // ── THEORY GUIDES PIPELINE ──
+  { id: "tg-index", name: "Theory Guides Index", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "index.html", status: "go",
+    users: ["student","researcher","faculty"], desc: "Catalogue of 11 theories with originator, year, citation count, ATLAS status. Three reading levels." },
+  { id: "tg-chrono", name: "Chronobiology Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "chronobiology_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Progressive-disclosure theory guide. Quick/Standard/Technical reading levels." },
+  { id: "tg-cogmap", name: "Cognitive Map Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "cognitive_map_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Theory guide for cognitive mapping theory." },
+  { id: "tg-cpted", name: "CPTED Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "cpted_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Crime Prevention Through Environmental Design theory guide." },
+  { id: "tg-episodic", name: "Episodic Memory Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "episodic_memory_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Theory guide for episodic memory in environmental cognition." },
+  { id: "tg-flow", name: "Flow Theory Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "flow_theory_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Csikszentmihalyi's flow theory guide." },
+  { id: "tg-goldilocks", name: "Goldilocks Principle Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "goldilocks_principle_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Goldilocks principle in environmental preference." },
+  { id: "tg-kaplan", name: "Kaplan Preference Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "kaplan_preference_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Kaplan's Information Processing Theory of preference." },
+  { id: "tg-pad", name: "PAD Model Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "pad_model_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Pleasure-Arousal-Dominance model guide." },
+  { id: "tg-place", name: "Place Attachment Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "place_attachment_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Place attachment theory guide." },
+  { id: "tg-privacy", name: "Privacy Regulation Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "privacy_regulation_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Privacy regulation theory guide." },
+  { id: "tg-proxemics", name: "Proxemics Guide", pipeline: "theory", repo: "theory_guides",
+    tech: "HTML", path: "proxemics_guide.html", status: "go",
+    users: ["student","researcher"], desc: "Hall's spatial theory (proxemics) guide." },
+
+  // ── ARTICLE FINDER PIPELINE ──
+  { id: "af-app", name: "Article Finder Home", pipeline: "finder", repo: "Article_Finder_v3_2_3",
+    tech: "Streamlit", path: "ui/app.py", status: "go",
+    users: ["operator"], desc: "Corpus management hub: paper counts, claims extracted, rules extracted, expansion queue, quick actions." },
+  { id: "af-dashboard", name: "AF Dashboard", pipeline: "finder", repo: "Article_Finder_v3_2_3",
+    tech: "Streamlit", path: "ui/pages/1_dashboard.py", status: "go",
+    users: ["operator"], desc: "Corpus analytics: DOI coverage, abstract coverage, PDF coverage, API performance metrics." },
+  { id: "af-search", name: "AF Search", pipeline: "finder", repo: "Article_Finder_v3_2_3",
+    tech: "Streamlit", path: "ui/pages/2_search.py", status: "go",
+    users: ["operator","researcher"], desc: "Faceted keyword/semantic search with status filters, year range, result display." },
+  { id: "af-triage", name: "Triage Queue", pipeline: "finder", repo: "Article_Finder_v3_2_3",
+    tech: "Streamlit", path: "ui/pages/3_triage.py", status: "go",
+    users: ["operator","contributor"], desc: "Review/candidate/send-to-eater queues. Approve/reject papers with batch operations." },
+  { id: "af-paper", name: "Paper Detail", pipeline: "finder", repo: "Article_Finder_v3_2_3",
+    tech: "Streamlit", path: "ui/pages/4_paper.py", status: "go",
+    users: ["operator","researcher"], desc: "Full paper view: title, authors, DOI, abstract, facet scores, extracted claims." },
+  { id: "af-citations", name: "Citation Network", pipeline: "finder", repo: "Article_Finder_v3_2_3",
+    tech: "Streamlit", path: "ui/pages/5_citations.py", status: "go",
+    users: ["researcher"], desc: "Interactive citation graph. Configurable depth, center paper focus." },
+  { id: "af-import", name: "Import Wizard", pipeline: "finder", repo: "Article_Finder_v3_2_3",
+    tech: "Streamlit", path: "ui/pages/6_import.py", status: "go",
+    users: ["operator"], desc: "Smart CSV/BibTeX import with automatic column detection, preview, PDF support." },
+  { id: "af-discovery", name: "Discovery Dashboard", pipeline: "finder", repo: "Article_Finder_v3_2_3",
+    tech: "Streamlit", path: "ui/pages/7_discovery.py", status: "go",
+    users: ["operator"], desc: "Corpus expansion monitoring: papers by status/source, expansion queue, acquisition tracking." },
+
+  // ── TAGGING PIPELINE ──
+  { id: "tag-app", name: "Tag Registry Service", pipeline: "extraction", repo: "Tagging_Contractor",
+    tech: "Streamlit", path: "frontend_streamlit/app.py", status: "go",
+    users: ["contributor"], desc: "Tag browser, inspector, term search/resolution, proposal submission, pending review, release dashboard, audit log." },
+];
+
+// ============================================================
+// PIPELINE METADATA
+// ============================================================
+const PIPELINES = {
+  extraction: {
+    name: "Evidence Extraction Pipeline",
+    color: "var(--pipeline-extract)",
+    bg: "var(--pipeline-extract-bg)",
+    desc: "Ingests academic papers, classifies them, extracts claims/findings/rules, assesses quality, and builds the evidence corpus. Spans Article Eater (HTML + Streamlit) and Tagging Contractor."
+  },
+  bn: {
+    name: "Bayesian Network Pipeline",
+    color: "var(--pipeline-bn)",
+    bg: "var(--pipeline-bn-bg)",
+    desc: "Constructs and visualizes causal-probabilistic models linking environmental features to psychological outcomes. Conditional probability tables, effect sizes, directed edges. Spans BN, BN_graphical, and Designing_Experiments."
+  },
+  epistemic: {
+    name: "Epistemic Network Pipeline",
+    color: "var(--pipeline-epistemic)",
+    bg: "var(--pipeline-epistemic-bg)",
+    desc: "Manages the warrant and justification structure: WHY you should believe each causal link. Typed warrants (empirical, theoretical, mechanistic, measurement), belief evolution, communities, knowledge base."
+  },
+  experiment: {
+    name: "Experiment Design Pipeline",
+    color: "var(--pipeline-experiment)",
+    bg: "var(--pipeline-experiment-bg)",
+    desc: "Student-facing tools for COGS 160. Guides students through hypothesis construction, methods selection, and full experiment design using the knowledge model."
+  },
+  monitor: {
+    name: "Monitoring & Operations Pipeline",
+    color: "var(--pipeline-monitor)",
+    bg: "var(--pipeline-monitor-bg)",
+    desc: "System health, processing queues, API costs, overseer invariant checking, admin dashboards. The operational nervous system of ATLAS."
+  },
+  sensor: {
+    name: "Sensors & Measurement Pipeline",
+    color: "var(--pipeline-sensor)",
+    bg: "var(--pipeline-sensor-bg)",
+    desc: "Catalogues measurement instruments (18 sensors, 9 psychological constructs), rates their strength for each construct, and provides data capture tooling (EmotiBit/Polar)."
+  },
+  theory: {
+    name: "Theory Guides Pipeline",
+    color: "var(--pipeline-theory)",
+    bg: "var(--pipeline-theory-bg)",
+    desc: "Progressive-disclosure guides for the 11 foundational theories in environmental psychology/cognitive science that underpin the ATLAS knowledge model."
+  },
+  finder: {
+    name: "Article Finder Pipeline",
+    color: "var(--pipeline-finder)",
+    bg: "var(--pipeline-finder-bg)",
+    desc: "Upstream corpus management: discovers papers via Semantic Scholar, triages for relevance, manages citations, and feeds approved papers into Article Eater."
+  }
+};
+
+const USER_LABELS = {
+  student: "Student",
+  researcher: "Researcher",
+  faculty: "Faculty",
+  operator: "Operator",
+  contributor: "Contributor"
+};
+
+const STATUS_LABELS = {
+  go: "GO",
+  partial: "PARTIAL",
+  notready: "NOT READY",
+  stub: "STUB"
+};
+
+// ============================================================
+// RENDER
+// ============================================================
+let currentView = 'card';
+let currentPipeline = 'all';
+
+function renderStats() {
+  const visible = getFilteredGuis();
+  document.getElementById('total-count').textContent = visible.length;
+  document.getElementById('html-count').textContent = visible.filter(g => g.tech === 'HTML' || g.tech === 'HTML/D3').length;
+  document.getElementById('streamlit-count').textContent = visible.filter(g => g.tech === 'Streamlit').length;
+  document.getElementById('react-count').textContent = visible.filter(g => g.tech === 'React/TSX').length;
+  document.getElementById('pipeline-count').textContent = Object.keys(PIPELINES).length;
+  document.getElementById('repo-count').textContent = new Set(visible.map(g => g.repo)).size;
+}
+
+function getFilteredGuis() {
+  if (currentPipeline === 'all') return GUIS;
+  return GUIS.filter(g => g.pipeline === currentPipeline);
+}
+
+function renderPipelineSections() {
+  const container = document.getElementById('pipeline-container');
+  container.innerHTML = '';
+  const pipelines = currentPipeline === 'all' ? Object.keys(PIPELINES) : [currentPipeline];
+
+  pipelines.forEach(pKey => {
+    const p = PIPELINES[pKey];
+    const guis = GUIS.filter(g => g.pipeline === pKey);
+    if (guis.length === 0) return;
+
+    const section = document.createElement('div');
+    section.className = 'pipeline-section';
+    section.dataset.pipeline = pKey;
+
+    section.innerHTML = `
+      <div class="pipeline-header" onclick="toggleSection(this)" style="background: ${p.bg}">
+        <span class="pipeline-badge" style="background: ${p.color}; color: white;">${pKey.toUpperCase()}</span>
+        <h2>${p.name}</h2>
+        <span class="count">${guis.length} interfaces</span>
+        <span class="chevron">▼</span>
+      </div>
+      <div class="pipeline-body">
+        <div class="pipeline-desc">${p.desc}</div>
+        <div class="gui-grid card-view ${currentView === 'card' ? 'active' : ''}">
+          ${guis.map(g => renderCard(g, p)).join('')}
+        </div>
+      </div>
+    `;
+    container.appendChild(section);
+  });
+}
+
+function renderCard(g, p) {
+  return `
+    <div class="gui-card">
+      <h3>${g.name}</h3>
+      <div class="filepath">${g.repo}/${g.path}</div>
+      <div class="desc">${g.desc}</div>
+      <div class="tags">
+        <span class="tag tag-tech">${g.tech}</span>
+        ${g.users.map(u => `<span class="tag tag-user">${USER_LABELS[u] || u}</span>`).join('')}
+        <span class="tag tag-status status-${g.status}">${STATUS_LABELS[g.status]}</span>
+      </div>
+    </div>
+  `;
+}
+
+function renderTable() {
+  const tbody = document.getElementById('table-body');
+  const guis = getFilteredGuis();
+  tbody.innerHTML = guis.map(g => {
+    const p = PIPELINES[g.pipeline];
+    return `<tr>
+      <td><strong>${g.name}</strong><br><small style="color: var(--text-secondary)">${g.desc.substring(0, 80)}${g.desc.length > 80 ? '...' : ''}</small></td>
+      <td><span class="pipeline-badge" style="background: ${p.bg}; color: ${p.color};">${g.pipeline}</span></td>
+      <td>${g.repo}</td>
+      <td>${g.tech}</td>
+      <td>${g.users.map(u => USER_LABELS[u] || u).join(', ')}</td>
+      <td><span class="tag tag-status status-${g.status}">${STATUS_LABELS[g.status]}</span></td>
+      <td class="mono">${g.path}</td>
+    </tr>`;
+  }).join('');
+}
+
+function toggleSection(header) {
+  header.classList.toggle('collapsed');
+  const body = header.nextElementSibling;
+  body.style.display = header.classList.contains('collapsed') ? 'none' : 'block';
+}
+
+function filterPipeline(pipeline, btn) {
+  currentPipeline = pipeline;
+  document.querySelectorAll('.controls button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  else {
+    document.querySelectorAll('.controls button').forEach(b => {
+      if (b.textContent.toLowerCase().includes(pipeline) || (pipeline === 'all' && b.textContent === 'All Pipelines'))
+        b.classList.add('active');
+    });
+  }
+  renderStats();
+  renderPipelineSections();
+  renderTable();
+}
+
+function setView(view, btn) {
+  currentView = view;
+  document.querySelectorAll('.view-toggle button').forEach(b => b.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+
+  const pipelineContainer = document.getElementById('pipeline-container');
+  const tableContainer = document.getElementById('table-container');
+
+  if (view === 'table') {
+    pipelineContainer.style.display = 'none';
+    tableContainer.classList.add('active');
+  } else {
+    pipelineContainer.style.display = 'block';
+    tableContainer.classList.remove('active');
+  }
+  renderPipelineSections();
+  renderTable();
+}
+
+// Initial render
+renderStats();
+renderPipelineSections();
+renderTable();
+</script>
+</body>
+</html>

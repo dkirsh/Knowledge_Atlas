@@ -1,0 +1,547 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Propose an Article – Knowledge Atlas</title>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --navy:#1C3D3A;--teal:#2A7868;--teal-lt:#5AC8AA;--teal-bg:#E6F5F0;
+      --amber:#E8872A;--amber-lt:#FFF3E0;--amber-dk:#9a5010;
+      --cream:#F7F4EF;--ink:#2C2C2C;--muted:#6B6B6B;--border:#D8D0C5;
+      --white:#FFFFFF;--rose:#A84F6B;--rose-lt:#F8EBF0;
+      --blue:#3A6EA8;--blue-lt:#EBF2F8;--green:#2A7868;
+    }
+    body{font-family:Arial,sans-serif;background:var(--cream);color:var(--ink)}
+    .top-nav{position:fixed;top:0;left:0;right:0;height:56px;background:var(--navy);border-bottom:1px solid #0f2423;display:flex;align-items:center;justify-content:space-between;padding:0 24px;z-index:1000;box-shadow:0 1px 3px rgba(0,0,0,.12)}
+    .nav-wordmark{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.1em;color:#A8C8BF}
+    .nav-icon{width:20px;height:20px;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23A8C8BF" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="6" x2="12" y2="18"/><line x1="18" y1="6" x2="12" y2="18"/></svg>') no-repeat center/contain}
+    .nav-title{color:#fff}.nav-title-accent{color:#F5A623}
+    .nav-center{flex:1;text-align:center;color:#A8C8BF;font-size:13px}
+    .nav-right{display:flex;align-items:center;gap:14px}
+    .mode-pill{background:rgba(42,120,104,.3);color:#7AACA0;font-size:11px;font-weight:700;letter-spacing:.1em;padding:4px 12px;border-radius:20px}
+    .page-wrap{max-width:1080px;margin:80px auto 60px;padding:0 28px;display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start}
+    .breadcrumb{font-size:11px;color:var(--muted);margin-bottom:14px;grid-column:1/-1}
+    .breadcrumb a{color:var(--teal);text-decoration:none}
+
+    /* ── Main form ── */
+    .main-col{}
+    .section-card{background:var(--white);border:1px solid var(--border);border-radius:10px;padding:22px;margin-bottom:18px}
+    .card-title{font-family:Georgia,serif;font-size:1.0rem;color:var(--navy);margin-bottom:4px}
+    .card-sub{font-size:0.82rem;color:var(--muted);margin-bottom:16px;line-height:1.5}
+    .field-group{display:flex;flex-direction:column;gap:4px;margin-bottom:12px}
+    .field-label{font-size:11px;font-weight:600;color:var(--teal);text-transform:uppercase;letter-spacing:.06em}
+    .field-input,.field-textarea,.field-select{border:1px solid var(--border);border-radius:6px;padding:9px 11px;font-family:Arial,sans-serif;font-size:0.84rem;color:var(--ink);background:var(--cream);resize:vertical;width:100%}
+    .field-input:focus,.field-textarea:focus,.field-select:focus{outline:none;border-color:var(--teal);background:#fff}
+    .field-hint{font-size:10px;color:var(--muted);line-height:1.4}
+    .field-row{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+    /* DOI lookup */
+    .doi-row{display:flex;gap:8px;align-items:flex-end}
+    .doi-row .field-input{flex:1}
+    .btn-lookup{background:var(--teal);color:#fff;border:none;padding:9px 16px;border-radius:6px;font-size:0.83rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;white-space:nowrap;flex-shrink:0;transition:background .12s}
+    .btn-lookup:hover{background:#1a5c4e}
+    .doi-status{font-size:11px;margin-top:5px;padding:6px 10px;border-radius:5px;display:none}
+    .doi-status.found{background:var(--teal-bg);color:var(--teal);display:block}
+    .doi-status.error{background:var(--rose-lt);color:var(--rose);display:block}
+    .doi-status.loading{background:#EEE8E0;color:var(--muted);display:block}
+    .doi-status.exists{background:var(--amber-lt);color:var(--amber-dk);display:block}
+
+    /* Abstract preview */
+    .abstract-preview{background:#FAFAF8;border:1px solid var(--border);border-radius:8px;padding:14px;margin-top:10px;display:none}
+    .abstract-preview.visible{display:block}
+    .abstract-title{font-family:Georgia,serif;font-size:0.92rem;color:var(--navy);margin-bottom:6px}
+    .abstract-meta{font-size:11px;color:var(--muted);margin-bottom:10px}
+    .abstract-text{font-size:0.82rem;color:var(--ink);line-height:1.6;max-height:160px;overflow-y:auto;padding-right:4px}
+
+    /* Relevance decision */
+    .relevance-chips{display:flex;gap:10px;flex-wrap:wrap}
+    .rel-chip{padding:8px 16px;border-radius:6px;border:2px solid var(--border);background:var(--white);cursor:pointer;font-size:0.84rem;font-weight:600;transition:all .15s;display:flex;align-items:center;gap:6px}
+    .rel-chip:hover{border-color:var(--teal)}
+    .rel-chip.selected-include{border-color:var(--teal);background:var(--teal-bg);color:var(--teal)}
+    .rel-chip.selected-exclude{border-color:var(--rose);background:var(--rose-lt);color:var(--rose)}
+    .rel-chip.selected-uncertain{border-color:var(--amber);background:var(--amber-lt);color:var(--amber-dk)}
+
+    /* PDF upload */
+    .upload-zone{border:2px dashed var(--border);border-radius:8px;padding:28px;text-align:center;cursor:pointer;transition:all .15s;background:var(--cream)}
+    .upload-zone:hover,.upload-zone.dragover{border-color:var(--teal);background:var(--teal-bg)}
+    .upload-zone.has-file{border-color:var(--teal);background:var(--teal-bg)}
+    .upload-icon{font-size:28px;margin-bottom:8px}
+    .upload-label{font-size:0.84rem;color:var(--muted);margin-bottom:4px}
+    .upload-hint{font-size:11px;color:var(--muted)}
+    .upload-filename{font-size:0.84rem;color:var(--teal);font-weight:600;margin-top:6px}
+    .file-checks{margin-top:12px;display:none}
+    .file-checks.visible{display:block}
+    .file-check-item{display:flex;align-items:center;gap:8px;font-size:0.81rem;margin-bottom:4px;color:var(--ink)}
+    .check-icon{width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:10px;flex-shrink:0}
+    .check-pass{background:var(--teal-bg);color:var(--teal);border:1px solid #b2ddd4}
+    .check-fail{background:var(--rose-lt);color:var(--rose);border:1px solid #e8b8c8}
+    .check-pending{background:#EEE8E0;color:var(--muted);border:1px solid var(--border)}
+
+    /* Submit */
+    .btn-submit{background:var(--amber);color:#fff;border:none;padding:12px 28px;border-radius:7px;font-size:0.92rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;width:100%;margin-top:4px;transition:background .12s}
+    .btn-submit:hover{background:#c97020}
+    .btn-submit:disabled{background:#ccc;cursor:not-allowed}
+
+    /* ── Right: Queue sidebar ── */
+    .queue-col{}
+    .queue-card{background:var(--white);border:1px solid var(--border);border-radius:10px;overflow:hidden;position:sticky;top:80px}
+    .queue-header{background:var(--navy);color:#fff;padding:14px 18px;display:flex;align-items:center;justify-content:space-between}
+    .queue-title{font-family:Georgia,serif;font-size:0.95rem}
+    .queue-badge{background:var(--teal);color:#fff;font-size:10px;font-weight:700;padding:2px 7px;border-radius:10px}
+    .queue-tabs{display:flex;border-bottom:1px solid var(--border)}
+    .queue-tab{flex:1;padding:8px;text-align:center;font-size:11px;font-weight:600;cursor:pointer;color:var(--muted);transition:all .12s;border-bottom:2px solid transparent}
+    .queue-tab.active{color:var(--teal);border-bottom-color:var(--teal)}
+    .queue-item{padding:12px 14px;border-bottom:1px solid var(--border)}
+    .queue-item:last-child{border-bottom:none}
+    .qi-title{font-size:0.82rem;font-weight:600;color:var(--navy);margin-bottom:3px;line-height:1.4}
+    .qi-meta{font-size:10px;color:var(--muted);margin-bottom:4px}
+    .qi-status{display:inline-block;font-size:10px;font-weight:600;padding:2px 7px;border-radius:10px;margin-top:2px}
+    .qi-pending{background:var(--amber-lt);color:var(--amber-dk);border:1px solid #f0c080}
+    .qi-approved{background:var(--teal-bg);color:var(--teal);border:1px solid #b2ddd4}
+    .qi-reviewing{background:var(--blue-lt);color:var(--blue);border:1px solid #b0c8e8}
+    .qi-extracting{background:var(--purple-lt,#F0EBF8);color:#6B4FA8;border:1px solid #c8b4e8}
+    .callout{padding:11px 14px;border-radius:6px;font-size:0.82rem;line-height:1.55;margin-bottom:14px}
+    .callout-teal{background:var(--teal-bg);border-left:3px solid var(--teal);color:#1a4a3f}
+    .callout-amber{background:var(--amber-lt);border-left:3px solid var(--amber);color:var(--amber-dk)}
+    .callout-rose{background:var(--rose-lt);border-left:3px solid var(--rose);color:#5a1a30}
+    .version-badge{position:fixed;bottom:12px;right:16px;background:var(--navy);color:#A8C8BF;font-size:10px;padding:3px 8px;border-radius:4px;opacity:.6;z-index:50}
+
+    /* Modal */
+    .modal-overlay{display:none;position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:2000;align-items:center;justify-content:center}
+    .modal-overlay.open{display:flex}
+    .modal-box{background:var(--white);border-radius:12px;max-width:500px;width:92vw;overflow:hidden;box-shadow:0 8px 40px rgba(0,0,0,.22)}
+    .modal-head{background:var(--navy);color:#fff;padding:16px 22px;font-family:Georgia,serif;font-size:1.0rem}
+    .modal-body{padding:18px 22px;font-size:0.86rem;color:var(--ink);line-height:1.65}
+    .modal-foot{padding:14px 22px;border-top:1px solid var(--border);display:flex;justify-content:flex-end}
+    .btn-ok{background:var(--teal);color:#fff;border:none;padding:9px 22px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif}
+    .success-card{background:var(--teal-bg);border:2px solid var(--teal);border-radius:12px;padding:28px;text-align:center;display:none}
+    .success-card.visible{display:block}
+    .success-icon{font-size:40px;margin-bottom:12px}
+    .success-title{font-family:Georgia,serif;font-size:1.2rem;color:var(--navy);margin-bottom:8px}
+    .success-msg{font-size:0.85rem;color:var(--muted);max-width:400px;margin:0 auto;line-height:1.6}
+    .success-queue-note{margin-top:16px;background:var(--white);border-radius:8px;padding:12px;font-size:0.82rem;color:var(--ink)}
+    .btn-another{background:var(--teal);color:#fff;border:none;padding:9px 22px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif;margin-top:16px}
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-wordmark"><span class="nav-icon"></span><span class="nav-title">Knowledge <span class="nav-title-accent">Atlas</span></span></div>
+  <div class="nav-center">Propose an Article</div>
+  <div class="nav-right"><span class="mode-pill">CONTRIBUTOR</span></div>
+</nav>
+
+<div class="page-wrap">
+  <div class="breadcrumb"><a href="ka_article_search.html">← Article Search</a> &nbsp;/&nbsp; Propose New Article</div>
+
+  <!-- ── LEFT: Form ── -->
+  <div class="main-col">
+
+    <!-- Step 1: DOI + citation -->
+    <div class="section-card" id="step1card">
+      <div class="card-title">Step 1 — Identify the Article</div>
+      <div class="card-sub">Enter the DOI to automatically fetch the abstract and citation details from CrossRef. If the DOI is unknown, fill in the APA citation manually.</div>
+
+      <div class="callout callout-teal">If the article is already in KA, the system will tell you immediately — no duplicate submissions needed. If it is not, you will be guided through the relevance check.</div>
+
+      <div class="field-group">
+        <label class="field-label">DOI (preferred)</label>
+        <div class="doi-row">
+          <input type="text" class="field-input" id="doiInput" placeholder="e.g. 10.1016/j.enbuild.2014.01.020" oninput="resetDOIState()">
+          <button class="btn-lookup" onclick="lookupDOI()">Fetch from CrossRef →</button>
+        </div>
+        <div class="doi-status" id="doiStatus"></div>
+        <span class="field-hint">CrossRef resolves most DOIs to full citation metadata. If your DOI fails, enter the citation manually below.</span>
+      </div>
+
+      <div class="abstract-preview" id="abstractPreview">
+        <div class="abstract-title" id="previewTitle"></div>
+        <div class="abstract-meta" id="previewMeta"></div>
+        <div class="abstract-text" id="previewAbstract"></div>
+      </div>
+
+      <div id="manualFields" style="margin-top:16px">
+        <div class="field-group">
+          <label class="field-label">Full APA Citation</label>
+          <textarea class="field-textarea" id="apaCitation" rows="3" placeholder="Boubekri, M., Cheung, I. N., Reid, K. J., Wang, C. H., & Zee, P. C. (2014). Impact of windows and daylight exposure on overall health and sleep quality of office workers. Journal of Clinical Sleep Medicine, 10(6), 603–611. https://doi.org/10.5664/jcsm.3780"></textarea>
+          <span class="field-hint">Use APA 7th edition. Include DOI as a URL at the end if available.</span>
+        </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">Year</label>
+            <input type="number" class="field-input" id="pubYear" placeholder="2014" min="1990" max="2030">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Journal</label>
+            <input type="text" class="field-input" id="journal" placeholder="Journal of Clinical Sleep Medicine">
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Step 2: Relevance check -->
+    <div class="section-card" id="step2card" style="opacity:.5;pointer-events:none">
+      <div class="card-title">Step 2 — Relevance Decision</div>
+      <div class="card-sub">Read the abstract above (or below) and decide whether this article is relevant to KA's scope: environmental factors affecting cognitive performance, wellbeing, or physiological state in workplace or learning environments. Peer-reviewed, empirical, published 1990–present.</div>
+
+      <div class="callout callout-amber"><strong>KA inclusion criteria:</strong> peer-reviewed · empirical (has data) · relevant to at least one KA concept node (attention, fatigue, stress, lighting, thermal comfort, noise, crowding, biophilic design, wayfinding, or spatial cognition) · published 1990 or later · not a review article (unless it is a meta-analysis with pooled effect sizes).</div>
+
+      <div class="field-group">
+        <label class="field-label">Your relevance decision</label>
+        <div class="relevance-chips">
+          <div class="rel-chip" id="chip-include" onclick="setRelevance('include')">✓ Include — clearly relevant</div>
+          <div class="rel-chip" id="chip-uncertain" onclick="setRelevance('uncertain')">? Uncertain — marginal</div>
+          <div class="rel-chip" id="chip-exclude" onclick="setRelevance('exclude')">✕ Exclude — not relevant</div>
+        </div>
+      </div>
+
+      <div class="field-group" id="relevanceNoteGroup" style="display:none">
+        <label class="field-label">Reason for decision (optional)</label>
+        <textarea class="field-textarea" id="relevanceNote" rows="2" placeholder="Briefly explain your reasoning, especially for Uncertain or Exclude decisions…"></textarea>
+      </div>
+
+      <div class="field-group" id="clusterGroup" style="display:none">
+        <label class="field-label">Primary topic cluster (your best guess)</label>
+        <select class="field-select" id="clusterSelect">
+          <option value="">— Select cluster —</option>
+          <option>Attention Restoration Theory</option>
+          <option>Lighting & Circadian Rhythms</option>
+          <option>Cognitive Load & Workspace Design</option>
+          <option>Biophilic Design</option>
+          <option>Open Office & Noise Distraction</option>
+          <option>Nature Views & Stress Recovery</option>
+          <option>VDT Fatigue & Visual Ergonomics</option>
+          <option>Temperature & Thermal Comfort</option>
+          <option>Executive Function & Environment</option>
+          <option>Physical Activity & Cognition</option>
+          <option>Neuroscience of Attention Pathways</option>
+          <option>Default Mode Network & Fatigue</option>
+          <option>LC-NE System & Sustained Attention</option>
+          <option>Indoor Plants & Air Quality</option>
+          <option>Crowding & Social Density</option>
+          <option>Replication & Effect Sizes</option>
+          <option>Other / New Area</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Step 3: PDF upload -->
+    <div class="section-card" id="step3card" style="opacity:.5;pointer-events:none">
+      <div class="card-title">Step 3 — Upload PDF (optional but strongly encouraged)</div>
+      <div class="card-sub">Upload the PDF only if you have legitimate access to it through UCSD library, open access, or direct author copy. Do not upload pirated PDFs. The system verifies that the file is a genuine PDF before accepting it.</div>
+
+      <div class="callout callout-rose"><strong>PDF acquisition methods (in order of reliability):</strong> (1) Elicit direct library link — fastest; (2) Unpaywall / open access version; (3) Google Scholar "All versions"; (4) Zotero browser connector; (5) Email the author. UCSD library access covers the majority of journals in this domain.</div>
+
+      <div class="upload-zone" id="uploadZone" onclick="triggerUpload()" ondragover="dragOver(event)" ondragleave="dragLeave()" ondrop="dropFile(event)">
+        <div class="upload-icon">📄</div>
+        <div class="upload-label">Click to upload or drag &amp; drop PDF</div>
+        <div class="upload-hint">PDF files only · max 25 MB</div>
+        <div class="upload-filename" id="uploadFilename" style="display:none"></div>
+      </div>
+      <input type="file" id="hiddenFileInput" accept=".pdf" style="display:none" onchange="fileSelected(this.files[0])">
+
+      <div class="file-checks" id="fileChecks">
+        <div class="file-check-item"><div class="check-icon check-pending" id="chkType">?</div>File is a valid PDF</div>
+        <div class="file-check-item"><div class="check-icon check-pending" id="chkSize">?</div>File size under 25 MB</div>
+        <div class="file-check-item"><div class="check-icon check-pending" id="chkName">?</div>Filename does not suggest pirated source</div>
+        <div class="file-check-item"><div class="check-icon check-pending" id="chkYear">?</div>Publication year matches DOI metadata</div>
+      </div>
+    </div>
+
+    <!-- Submit -->
+    <div class="section-card" id="step4card" style="opacity:.5;pointer-events:none">
+      <div class="card-title">Step 4 — Submit for Review</div>
+      <div class="card-sub">Your submission will be reviewed by a KA maintainer within 48 hours. If approved and the PDF is present, the article enters the extraction queue for claim parsing. Citation-level records (no PDF) still count toward the article target.</div>
+
+      <div class="field-group">
+        <label class="field-label">Your name or contributor ID</label>
+        <input type="text" class="field-input" id="contributorName" placeholder="e.g. J. Liu or student ID">
+      </div>
+      <div class="field-group">
+        <label class="field-label">Additional notes for reviewer</label>
+        <textarea class="field-textarea" id="reviewerNotes" rows="2" placeholder="Anything the reviewer should know: access issues, partial relevance, methodological concerns…"></textarea>
+      </div>
+      <button class="btn-submit" id="submitBtn" onclick="submitProposal()">Submit Article Proposal →</button>
+    </div>
+
+    <!-- Success state -->
+    <div class="success-card" id="successCard">
+      <div class="success-icon">✅</div>
+      <div class="success-title">Proposal submitted</div>
+      <div class="success-msg">Your article citation has been added to the review queue. A KA maintainer will check relevance, verify the PDF if present, and either approve it for extraction or flag it for discussion within 48 hours.</div>
+      <div class="success-queue-note">
+        <strong>Your submission ID:</strong> <span id="submissionId">KA-PROP-<span id="propId"></span></span><br>
+        <span style="color:var(--muted);font-size:11px">You can track this proposal in the Intake Queue panel on the right.</span>
+      </div>
+      <button class="btn-another" onclick="resetForm()">Propose another article</button>
+    </div>
+
+  </div>
+
+  <!-- ── RIGHT: Intake queue ── -->
+  <div class="queue-col">
+    <div class="queue-card">
+      <div class="queue-header">
+        <div class="queue-title">Intake Queue</div>
+        <span class="queue-badge" id="queueBadge">4</span>
+      </div>
+      <div class="queue-tabs">
+        <div class="queue-tab active" onclick="showTab('pending')">Pending</div>
+        <div class="queue-tab" onclick="showTab('approved')">Approved</div>
+        <div class="queue-tab" onclick="showTab('extracting')">Extracting</div>
+      </div>
+      <div id="queueItems"></div>
+    </div>
+  </div>
+
+</div>
+
+<div class="version-badge">KA UI · v0.4</div>
+
+<div class="modal-overlay" id="confirmModal">
+  <div class="modal-box">
+    <div class="modal-head" id="confirmTitle">Done</div>
+    <div class="modal-body" id="confirmBody"></div>
+    <div class="modal-foot"><button class="btn-ok" onclick="closeModal()">OK</button></div>
+  </div>
+</div>
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// Simulated CrossRef lookup with realistic example records
+// ─────────────────────────────────────────────────────────────────────────────
+const MOCK_DOIS = {
+  '10.5664/jcsm.3780': {
+    title: 'Impact of windows and daylight exposure on overall health and sleep quality of office workers',
+    authors: 'Boubekri, M., Cheung, I. N., Reid, K. J., Wang, C. H., & Zee, P. C.',
+    year: 2014, journal: 'Journal of Clinical Sleep Medicine', vol: '10(6)', pp: '603–611',
+    abstract: 'Office workers with windows slept an average of 46 minutes more per night than those without window access. Workers in windowless offices reported poorer sleep quality, poorer physical activity, and more daytime dysfunction. This study demonstrates the important role of light exposure in the workplace on sleep health and quality of life.',
+    inKA: false
+  },
+  '10.1002/jae.2656': {
+    title: 'Does electricity consumption cause economic growth? Evidence from 17 Taiwanese industries',
+    authors: 'Huang et al.',
+    year: 2017, journal: 'Journal of Applied Econometrics', vol: '32(4)', pp: '900–910',
+    abstract: 'Econometric analysis of Taiwanese industrial electricity consumption.',
+    inKA: false, outOfScope: true
+  },
+  '10.1037/0033-2909.132.6.833': {
+    title: 'The restorative benefits of nature: toward an integrative framework',
+    authors: 'Kaplan, S.',
+    year: 1995, journal: 'Journal of Environmental Psychology', vol: '15(3)', pp: '169–182',
+    abstract: 'Attention Restoration Theory posits that natural environments provide stimuli that engage involuntary attention, allowing directed attention to rest and recover. Four components of restorative environments are identified: being away, extent, fascination, and compatibility.',
+    inKA: true
+  }
+};
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Queue data
+// ─────────────────────────────────────────────────────────────────────────────
+let QUEUE = [
+  {id:'KA-PROP-0041',title:'Thermal comfort and cognitive performance in climate-controlled offices',authors:'Kim & de Dear',year:2013,status:'pending',hasPDF:true},
+  {id:'KA-PROP-0040',title:'Noise annoyance and sustained attention: a within-subjects study',authors:'Banbury & Berry',year:2005,status:'approved',hasPDF:true},
+  {id:'KA-PROP-0039',title:'Effects of plants on indoor air quality and worker wellbeing',authors:'Fjeld et al.',year:1998,status:'extracting',hasPDF:true},
+  {id:'KA-PROP-0038',title:'Locus coeruleus activity modulates vigilance performance in fatigued participants',authors:'Aston-Jones & Cohen',year:2005,status:'approved',hasPDF:false},
+];
+let currentTab = 'pending';
+let relevanceDecision = null;
+let uploadedFile = null;
+let doiFetched = false;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// DOI lookup (simulated)
+// ─────────────────────────────────────────────────────────────────────────────
+function resetDOIState() { doiFetched=false; }
+
+function lookupDOI() {
+  const doi = document.getElementById('doiInput').value.trim();
+  if (!doi) return;
+  const status = document.getElementById('doiStatus');
+  status.className='doi-status loading'; status.style.display='block';
+  status.textContent='Fetching from CrossRef…';
+
+  setTimeout(() => {
+    const record = MOCK_DOIS[doi];
+    if (!record) {
+      // Simulate a successful unknown DOI
+      status.className='doi-status found'; status.textContent='✓ DOI resolved — please verify the citation details and fill in the abstract manually if needed.';
+      document.getElementById('abstractPreview').classList.remove('visible');
+      doiFetched=true; activateStep2(); return;
+    }
+    if (record.inKA) {
+      status.className='doi-status exists';
+      status.textContent='This article is already in Knowledge Atlas (DOI match). No submission needed.';
+      return;
+    }
+    if (record.outOfScope) {
+      status.className='doi-status error';
+      status.textContent='⚠ This article appears to be outside KA\'s scope based on the journal and abstract. Check the inclusion criteria before proceeding.';
+    } else {
+      status.className='doi-status found';
+      status.textContent='✓ Citation retrieved from CrossRef.';
+    }
+    document.getElementById('previewTitle').textContent = record.title;
+    document.getElementById('previewMeta').textContent = `${record.authors} (${record.year}). ${record.journal}, ${record.vol}, ${record.pp}.`;
+    document.getElementById('previewAbstract').textContent = record.abstract;
+    document.getElementById('abstractPreview').classList.add('visible');
+    document.getElementById('apaCitation').value = `${record.authors} (${record.year}). ${record.title}. ${record.journal}, ${record.vol}, ${record.pp}. https://doi.org/${doi}`;
+    document.getElementById('pubYear').value = record.year;
+    document.getElementById('journal').value = record.journal;
+    doiFetched=true;
+    if (!record.outOfScope) activateStep2();
+  }, 900);
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Step activation
+// ─────────────────────────────────────────────────────────────────────────────
+function activateStep2() {
+  const card=document.getElementById('step2card');
+  card.style.opacity='1'; card.style.pointerEvents='';
+  card.scrollIntoView({behavior:'smooth',block:'nearest'});
+}
+function activateStep3() {
+  const card=document.getElementById('step3card');
+  card.style.opacity='1'; card.style.pointerEvents='';
+}
+function activateStep4() {
+  const card=document.getElementById('step4card');
+  card.style.opacity='1'; card.style.pointerEvents='';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Relevance decision
+// ─────────────────────────────────────────────────────────────────────────────
+function setRelevance(val) {
+  relevanceDecision=val;
+  ['include','uncertain','exclude'].forEach(v=>{
+    document.getElementById('chip-'+v).className='rel-chip';
+  });
+  document.getElementById('chip-'+val).classList.add('selected-'+val);
+  document.getElementById('relevanceNoteGroup').style.display='block';
+  if(val==='include'||val==='uncertain') {
+    document.getElementById('clusterGroup').style.display='block';
+    activateStep3();
+    activateStep4();
+  } else {
+    document.getElementById('clusterGroup').style.display='none';
+    activateStep4();
+  }
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// File upload
+// ─────────────────────────────────────────────────────────────────────────────
+function triggerUpload(){document.getElementById('hiddenFileInput').click();}
+function dragOver(e){e.preventDefault();document.getElementById('uploadZone').classList.add('dragover');}
+function dragLeave(){document.getElementById('uploadZone').classList.remove('dragover');}
+function dropFile(e){e.preventDefault();dragLeave();if(e.dataTransfer.files[0])fileSelected(e.dataTransfer.files[0]);}
+
+function fileSelected(file) {
+  uploadedFile=file;
+  const zone=document.getElementById('uploadZone');
+  zone.classList.add('has-file');
+  const fn=document.getElementById('uploadFilename');
+  fn.style.display='block'; fn.textContent='📎 '+file.name;
+  const checks=document.getElementById('fileChecks');
+  checks.classList.add('visible');
+  // Run checks
+  setTimeout(()=>{
+    setCheck('chkType', file.type==='application/pdf'||file.name.endsWith('.pdf'));
+    setCheck('chkSize', file.size<25*1024*1024);
+    const suspicious=/z?lib|pirat|libgen|sci.hub/i;
+    setCheck('chkName', !suspicious.test(file.name));
+    const year=parseInt(document.getElementById('pubYear').value)||0;
+    setCheck('chkYear', year===0 || (year>=1990&&year<=2030));
+  },300);
+}
+
+function setCheck(id,pass){
+  const el=document.getElementById(id);
+  el.className='check-icon '+(pass?'check-pass':'check-fail');
+  el.textContent=pass?'✓':'✕';
+  el.parentElement.querySelector('span')?.remove();
+  el.parentElement.style.color=pass?'var(--ink)':'var(--rose)';
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Submit
+// ─────────────────────────────────────────────────────────────────────────────
+function submitProposal() {
+  const doi=document.getElementById('doiInput').value.trim();
+  const apa=document.getElementById('apaCitation').value.trim();
+  if(!apa&&!doi){showConfirm('Citation required','Please enter a DOI or fill in the APA citation before submitting.');return;}
+  if(!relevanceDecision){showConfirm('Relevance required','Please make a relevance decision (Step 2) before submitting.');return;}
+  const id='KA-PROP-'+String(QUEUE.length+42).padStart(4,'0');
+  const title=document.getElementById('previewTitle').textContent||apa.slice(0,80)+'…';
+  QUEUE.unshift({id,title,authors:'You',year:new Date().getFullYear(),status:'pending',hasPDF:!!uploadedFile});
+  document.getElementById('propId').textContent=id.split('-').pop();
+  document.getElementById('submissionId').textContent=id;
+  // Hide form, show success
+  ['step1card','step2card','step3card','step4card'].forEach(c=>{document.getElementById(c).style.display='none'});
+  document.getElementById('successCard').classList.add('visible');
+  renderQueue();
+}
+
+function resetForm() {
+  document.getElementById('successCard').classList.remove('visible');
+  ['step1card','step2card','step3card','step4card'].forEach(c=>{
+    const el=document.getElementById(c);
+    el.style.display='';
+    el.style.opacity=c==='step1card'?'1':'0.5';
+    el.style.pointerEvents=c==='step1card'?'':'none';
+  });
+  document.getElementById('doiInput').value='';
+  document.getElementById('apaCitation').value='';
+  document.getElementById('doiStatus').style.display='none';
+  document.getElementById('abstractPreview').classList.remove('visible');
+  relevanceDecision=null;
+  uploadedFile=null;
+  ['include','uncertain','exclude'].forEach(v=>{document.getElementById('chip-'+v).className='rel-chip'});
+  document.getElementById('relevanceNoteGroup').style.display='none';
+  document.getElementById('clusterGroup').style.display='none';
+  document.getElementById('uploadZone').classList.remove('has-file');
+  document.getElementById('uploadFilename').style.display='none';
+  document.getElementById('fileChecks').classList.remove('visible');
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Queue render
+// ─────────────────────────────────────────────────────────────────────────────
+function showTab(tab){
+  currentTab=tab;
+  document.querySelectorAll('.queue-tab').forEach((t,i)=>{
+    t.classList.toggle('active',['pending','approved','extracting'][i]===tab);
+  });
+  renderQueue();
+}
+
+function renderQueue(){
+  const filtered=QUEUE.filter(q=>q.status===currentTab||(currentTab==='approved'&&q.status==='approved'));
+  document.getElementById('queueBadge').textContent=QUEUE.filter(q=>q.status==='pending').length;
+  const statusMap={pending:'qi-pending',approved:'qi-approved',extracting:'qi-extracting'};
+  const labelMap={pending:'Awaiting review',approved:'Approved — PDF requested',extracting:'Extracting claims'};
+  document.getElementById('queueItems').innerHTML=filtered.map(q=>`
+    <div class="queue-item">
+      <div class="qi-title">${q.title.length>60?q.title.slice(0,60)+'…':q.title}</div>
+      <div class="qi-meta">${q.authors} · ${q.year} ${q.hasPDF?'· PDF ✓':'· citation only'}</div>
+      <span class="qi-status ${statusMap[q.status]}">${labelMap[q.status]}</span>
+    </div>`).join('')||
+    `<div style="padding:18px;text-align:center;font-size:0.82rem;color:var(--muted)">No items in this queue</div>`;
+}
+
+function showConfirm(title,body){
+  document.getElementById('confirmTitle').textContent=title;
+  document.getElementById('confirmBody').innerHTML=`<p style="color:var(--muted);font-size:0.85rem;">${body}</p>`;
+  document.getElementById('confirmModal').classList.add('open');
+}
+function closeModal(){document.getElementById('confirmModal').classList.remove('open');}
+document.getElementById('confirmModal').addEventListener('click',function(e){if(e.target===this)closeModal();});
+
+renderQueue();
+</script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

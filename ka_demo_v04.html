@@ -1,0 +1,1657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Atlas — UI Demo v0.4</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
+
+/* ── TOP NAV ── */
+.topnav {
+  position: sticky; top: 0; z-index: 9999;
+  background: #1C3D3A;
+  height: 56px;
+  display: flex; align-items: center; padding: 0 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.28);
+}
+
+/* ── WORDMARK ── */
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  margin-right: 36px; flex-shrink: 0; text-decoration: none;
+}
+.wordmark-icon { width: 32px; height: 32px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wordmark-text .wm-top {
+  font-size: 0.68rem; font-weight: 400; letter-spacing: 0.24em;
+  text-transform: uppercase; color: #A8C8BF;
+}
+.wordmark-text .wm-bottom {
+  font-size: 1.1rem; font-weight: 700; letter-spacing: 0.03em; color: #FFFFFF;
+}
+.wordmark-text .wm-bottom span { color: #F5A623; }
+
+/* ── RIGHT NAV (mode switcher + profile) ── */
+.nav-right {
+  display: flex; align-items: center; gap: 10px;
+  margin-left: auto; flex-shrink: 0;
+}
+
+/* Mode switcher pill */
+.mode-switcher { position: relative; }
+.mode-pill {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 13px 5px 10px; border-radius: 20px; cursor: pointer;
+  font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; border: 2px solid transparent;
+  transition: all 0.15s; user-select: none;
+}
+.mode-pill.researcher {
+  background: rgba(245,166,35,0.18); color: #F5A623; border-color: rgba(245,166,35,0.4);
+}
+.mode-pill.researcher:hover { background: rgba(245,166,35,0.28); border-color: #F5A623; }
+.mode-pill.contributor {
+  background: rgba(90,200,170,0.18); color: #5AC8AA; border-color: rgba(90,200,170,0.4);
+}
+.mode-pill.contributor:hover { background: rgba(90,200,170,0.28); border-color: #5AC8AA; }
+.mode-pill .mode-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+.mode-pill.researcher .mode-dot { background: #F5A623; }
+.mode-pill.contributor .mode-dot { background: #5AC8AA; }
+.mode-pill .mode-caret { font-size: 0.58rem; opacity: 0.75; margin-left: 1px; }
+
+/* Mode switcher dropdown */
+.mode-dropdown {
+  display: none; position: absolute; top: calc(100% + 8px); right: 0;
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.18); min-width: 240px; z-index: 9998;
+  overflow: hidden;
+}
+.mode-switcher:hover .mode-dropdown { display: block; }
+.mode-dropdown-header {
+  padding: 10px 14px 7px; font-size: 0.69rem; font-weight: 700;
+  color: #B0A090; letter-spacing: 0.08em; text-transform: uppercase;
+  border-bottom: 1px solid #EEE9E3;
+}
+.mode-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; cursor: pointer; transition: background 0.1s;
+  text-decoration: none;
+}
+.mode-option:hover { background: #F7F4EF; }
+.mode-option-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.mode-option-text .mo-label {
+  font-size: 0.83rem; font-weight: 700; color: #2D2D2D; letter-spacing: 0.04em;
+}
+.mode-option-text .mo-sub { font-size: 0.76rem; color: #8A7A68; margin-top: 1px; }
+.mode-option.current { background: #F7F4EF; }
+.mode-option.current .mo-label::after {
+  content: " ✓"; color: #2A7868; font-size: 0.78rem;
+}
+
+/* Profile avatar */
+.profile-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #2A7868; color: #fff; font-size: 0.78rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; letter-spacing: 0.04em; border: 2px solid rgba(255,255,255,0.2);
+  transition: border-color 0.15s; flex-shrink: 0; position: relative;
+}
+.profile-btn:hover { border-color: rgba(255,255,255,0.5); }
+.profile-nav { position: relative; }
+.profile-dropdown {
+  display: none; position: absolute; top: calc(100% + 10px); right: 0;
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.16); min-width: 200px; z-index: 9998;
+  padding: 6px 0;
+}
+.profile-nav:hover .profile-dropdown { display: block; }
+.profile-dropdown-header {
+  padding: 10px 14px 8px; border-bottom: 1px solid #EEE9E3;
+}
+.profile-dropdown-header .pd-name { font-size: 0.85rem; font-weight: 700; color: #1C3D3A; }
+.profile-dropdown-header .pd-role { font-size: 0.75rem; color: #8A7A68; margin-top: 1px; }
+.profile-dropdown a {
+  display: block; padding: 7px 14px; font-size: 0.83rem; color: #3A3028;
+  text-decoration: none; transition: background 0.1s;
+}
+.profile-dropdown a:hover { background: #FFF4E6; color: #C05A1F; }
+.profile-dropdown .signout {
+  border-top: 1px solid #EEE9E3; margin-top: 4px; padding-top: 4px; color: #8A7A68;
+}
+.profile-dropdown .signout:hover { color: #C05A1F; background: #FFF4E6; }
+
+/* ── NAV LINKS ── */
+.nav-items { display: flex; gap: 2px; }
+.nav-item { position: relative; }
+.nav-link {
+  color: #B8D4CE; font-size: 0.87rem; font-weight: 600;
+  padding: 0 14px; height: 56px; display: flex; align-items: center;
+  cursor: pointer; white-space: nowrap; text-decoration: none;
+  transition: background 0.15s, color 0.15s; border-radius: 4px 4px 0 0;
+}
+.nav-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.nav-link.active { background: rgba(245,166,35,0.15); color: #fff; border-bottom: 3px solid #F5A623; }
+.nav-link .caret { margin-left: 5px; font-size: 0.62rem; opacity: 0.65; }
+
+/* ── DROPDOWNS ── */
+.dropdown {
+  display: none; position: absolute; top: 56px; left: 0;
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 6px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.16); min-width: 210px; z-index: 9998; padding: 8px 0;
+}
+.dropdown.two-col { min-width: 420px; }
+.nav-item:hover .dropdown { display: block; }
+.dropdown-inner { display: flex; }
+.dropdown-col { flex: 1; padding: 4px 0; }
+.dropdown-col + .dropdown-col { border-left: 1px solid #EEE9E3; }
+.dropdown-col-header {
+  font-size: 0.69rem; font-weight: 700; color: #A89880; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 6px 14px 4px;
+}
+.dropdown a {
+  display: block; padding: 7px 14px; font-size: 0.84rem; color: #3A3028;
+  text-decoration: none; white-space: nowrap; transition: background 0.1s;
+}
+.dropdown a:hover { background: #FFF4E6; color: #C05A1F; }
+
+/* ── PAGE BODY ── */
+.page-body { display: flex; min-height: calc(100vh - 56px); }
+
+/* ── SIDE NAV ── */
+.sidenav {
+  width: 220px; min-width: 220px; background: #FFFEF9;
+  border-right: 1px solid #E0DAD3;
+  position: sticky; top: 56px; height: calc(100vh - 56px);
+  overflow-y: auto; display: flex; flex-direction: column;
+}
+.sidenav-nav { padding: 18px 0 12px; }
+.sidenav-section-header {
+  font-size: 0.68rem; font-weight: 700; color: #B0A090;
+  letter-spacing: 0.09em; text-transform: uppercase; padding: 10px 16px 4px;
+}
+.sidenav a {
+  display: block; padding: 7px 16px; font-size: 0.85rem;
+  color: #4A3E32; text-decoration: none;
+  border-left: 3px solid transparent; transition: background 0.12s, color 0.12s;
+}
+.sidenav a:hover { background: #FFF4E6; color: #C05A1F; }
+.sidenav a.active {
+  border-left: 3px solid #E8872A; background: #FFF4E6; color: #C05A1F; font-weight: 600;
+}
+.sidenav-divider { height: 1px; background: #E0DAD3; margin: 8px 16px; }
+.sidenav-panel { padding: 12px 0 20px; flex: 1; }
+.panel-section-header {
+  font-size: 0.67rem; font-weight: 700; color: #B0A090;
+  letter-spacing: 0.09em; text-transform: uppercase; padding: 10px 16px 6px;
+}
+.panel-card {
+  margin: 4px 12px; padding: 9px 11px; border-radius: 6px;
+  font-size: 0.81rem; border-left: 3px solid #2A7868;
+  background: #F7F4EF; cursor: pointer; transition: background 0.12s;
+}
+.panel-card:hover { background: #FFF4E6; }
+.panel-card .pc-title { font-weight: 600; color: #1C3D3A; margin-bottom: 2px; }
+.panel-card .pc-meta { color: #8A7A68; font-size: 0.74rem; }
+.panel-card.gap-card { border-left-color: #D4860A; }
+.panel-card.gap-card .pc-title { color: #7A4400; }
+.credence-block { padding: 4px 16px 8px; }
+.cbar-track { background: #EDE8E0; border-radius: 2px; height: 4px; margin: 2px 0 6px; }
+.cbar { height: 4px; border-radius: 2px; }
+.cbar-fill-high { background: #2A8C60; }
+.cbar-fill-mid  { background: #D4860A; }
+.cbar-fill-low  { background: #B0A090; }
+
+/* ── MAIN CONTENT ── */
+.main-content { flex: 1; padding: 28px 36px; max-width: 860px; min-width: 0; }
+.page-title { color: #1C3D3A; font-size: 1.5rem; font-weight: 700; margin-bottom: 3px; }
+.page-caption { color: #7A6A58; font-size: 0.88rem; margin-bottom: 22px; }
+
+/* Query row */
+.query-row { display: flex; gap: 10px; margin-bottom: 18px; }
+.query-input {
+  flex: 1; padding: 10px 14px; border: 1.5px solid #D4C8B8; border-radius: 6px;
+  font-size: 0.93rem; font-family: Arial, sans-serif; background: #fff; color: #2D2D2D;
+}
+.query-input:focus { outline: none; border-color: #E8872A; box-shadow: 0 0 0 3px rgba(232,135,42,0.14); }
+.btn-ask {
+  background: #E8872A; color: #fff; border: none; border-radius: 6px;
+  padding: 10px 24px; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+  letter-spacing: 0.02em; transition: background 0.15s;
+}
+.btn-ask:hover { background: #C05A1F; }
+
+/* Persona chips */
+.persona-row { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
+.persona-label { font-size: 0.8rem; color: #B0A090; margin-right: 2px; }
+.persona-chip {
+  padding: 5px 13px; border-radius: 20px; font-size: 0.79rem;
+  border: 1.5px solid #D4C8B8; background: #fff; cursor: pointer;
+  color: #6A5A48; transition: all 0.13s;
+}
+.persona-chip.active { background: #E8872A; color: #fff; border-color: #E8872A; }
+.persona-chip:hover:not(.active) { border-color: #E8872A; color: #C05A1F; }
+
+/* Answer card */
+.answer-card {
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 8px;
+  padding: 20px 22px; margin-bottom: 18px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.07);
+}
+.answer-card h3 { color: #1C3D3A; font-size: 0.98rem; margin-bottom: 10px; }
+.answer-text { font-size: 0.91rem; line-height: 1.7; color: #2D2D2D; margin-bottom: 14px; }
+
+/* Uncertainty strips */
+.strip {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 7px 11px; border-radius: 5px; font-size: 0.82rem;
+  margin-bottom: 7px; line-height: 1.45;
+}
+.strip-strong { background: #D6EDD9; }
+.strip-mixed  { background: #FFF0CC; }
+.strip-weak   { background: #F8D7DA; }
+.strip-theory { background: #E0F2EE; }
+.strip-icon   { font-size: 0.98rem; flex-shrink: 0; margin-top: 1px; }
+
+/* Pivot tabs */
+.tabs { display: flex; border-bottom: 2px solid #E0DAD3; margin-bottom: 14px; }
+.tab {
+  padding: 8px 16px; font-size: 0.85rem; cursor: pointer; color: #8A7A68;
+  border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.12s;
+}
+.tab.active { color: #C05A1F; border-bottom-color: #E8872A; font-weight: 600; }
+.tab:hover:not(.active) { color: #C05A1F; }
+
+/* Evidence rows */
+.evidence-row {
+  border-left: 3px solid #2A7868; padding: 10px 13px;
+  margin-bottom: 10px; background: #fff; border-radius: 0 5px 5px 0;
+  font-size: 0.85rem;
+}
+.evidence-row .study-ref { font-weight: 600; color: #1C3D3A; margin-bottom: 4px; }
+.evidence-row .study-text { color: #4A3E32; line-height: 1.55; margin-bottom: 6px; }
+.study-link { color: #1C3D3A; font-weight: 600; text-decoration: underline; text-decoration-color: #A8C8BF; }
+.study-link:hover { color: #2A7868; }
+.summary-link {
+  display: inline-block; margin-left: 10px;
+  color: #E8872A; font-size: 0.78rem; font-weight: 600;
+  text-decoration: none; border-bottom: 1px dashed #E8872A;
+  letter-spacing: 0.01em;
+}
+.summary-link:hover { color: #C05A1F; border-bottom-color: #C05A1F; }
+.evidence-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.meta-pill {
+  background: #EDF5F2; color: #1C5A48; font-size: 0.74rem;
+  padding: 2px 9px; border-radius: 12px;
+}
+
+/* Provenance expander */
+.provenance {
+  background: #EDF5F2; border-left: 3px solid #2A7868;
+  padding: 8px 12px; font-size: 0.81rem; border-radius: 0 5px 5px 0;
+  margin-top: 7px; color: #1C3D3A;
+}
+.provenance summary { cursor: pointer; font-weight: 600; list-style: none; user-select: none; }
+.provenance summary::before { content: "📎 "; }
+.provenance-body { margin-top: 8px; }
+.provenance-body .quote { font-style: italic; color: #4A3E32; margin-bottom: 6px; font-size: 0.82rem; }
+.provenance-meta { display: flex; gap: 20px; font-size: 0.77rem; color: #6A5A48; }
+
+/* Follow-up chips */
+.followup-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.followup-chip {
+  border: 1.5px solid #D4C8B8; color: #6A5A48; background: #fff;
+  border-radius: 20px; padding: 5px 13px; font-size: 0.79rem; cursor: pointer;
+  transition: all 0.13s;
+}
+.followup-chip:hover { background: #FFF4E6; border-color: #E8872A; color: #C05A1F; }
+
+/* ── COLOR PALETTE ── */
+.palette-section { margin-top: 32px; padding-top: 20px; border-top: 1px solid #E0DAD3; }
+.palette-section h4 { color: #1C3D3A; font-size: 0.88rem; font-weight: 700; margin-bottom: 12px; }
+.swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+.swatch { width: 90px; border: 1px solid #D4C8B8; border-radius: 6px; overflow: hidden; font-size: 0.7rem; }
+.swatch-color { height: 38px; }
+.swatch-label { padding: 5px 7px; background: #fff; color: #4A3E32; line-height: 1.5; }
+
+/* ── VERSION BADGE ── */
+.version-badge {
+  position: fixed; bottom: 14px; right: 18px; z-index: 9990;
+  background: #1C3D3A; color: #A8C8BF; font-size: 0.68rem;
+  font-weight: 700; letter-spacing: 0.1em; padding: 4px 10px;
+  border-radius: 12px; pointer-events: none; opacity: 0.85;
+}
+
+/* ── SCIENCE SUMMARY MODAL ── */
+.ss-overlay {
+  display: none; position: fixed; inset: 0; z-index: 99999;
+  background: rgba(0,0,0,0.58); backdrop-filter: blur(3px);
+  align-items: center; justify-content: center;
+}
+.ss-overlay.open { display: flex; }
+.ss-modal {
+  background: #fff; border-radius: 12px; width: 680px; max-width: 95vw;
+  max-height: 88vh; overflow: hidden; display: flex; flex-direction: column;
+  box-shadow: 0 24px 64px rgba(0,0,0,0.32);
+  animation: ssSlideIn 0.2s ease;
+}
+@keyframes ssSlideIn {
+  from { transform: translateY(20px); opacity: 0; }
+  to   { transform: translateY(0);    opacity: 1; }
+}
+.ss-header {
+  background: linear-gradient(135deg, #1C3D3A 0%, #2A7868 100%);
+  padding: 20px 24px 16px; display: flex; align-items: flex-start; gap: 12px;
+}
+.ss-header-text { flex: 1; }
+.ss-label {
+  font-size: 0.68rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #A8C8BF; margin-bottom: 4px;
+}
+.ss-title {
+  font-family: Georgia, serif; font-size: 1.05rem; color: #fff;
+  line-height: 1.4; font-weight: 600;
+}
+.ss-close {
+  background: rgba(255,255,255,0.15); border: none; color: #fff;
+  width: 32px; height: 32px; border-radius: 50%; font-size: 1.1rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; transition: background 0.15s;
+}
+.ss-close:hover { background: rgba(255,255,255,0.28); }
+.ss-body { overflow-y: auto; padding: 0; flex: 1; }
+.ss-section { padding: 16px 24px; border-bottom: 1px solid #EEE9E3; }
+.ss-section:last-child { border-bottom: none; }
+.ss-section-label {
+  font-size: 0.67rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: #B0A090; margin-bottom: 8px;
+}
+.ss-plain-text {
+  font-family: Georgia, serif; font-size: 0.92rem; color: #2D2D2D;
+  line-height: 1.65;
+}
+.ss-method-strip {
+  display: flex; flex-wrap: wrap; gap: 7px; align-items: center;
+}
+.ss-method-pill {
+  padding: 4px 10px; border-radius: 20px; font-size: 0.76rem; font-weight: 600;
+  background: #E0F2EE; color: #1C3D3A;
+}
+.ss-method-pill.rct  { background: #D6EDD9; color: #1A5032; }
+.ss-method-pill.n    { background: #EEE9E3; color: #4A3E32; }
+.ss-method-pill.d    { background: #FFF0CC; color: #7A4400; }
+.ss-quote {
+  background: #F7F4EF; border-left: 4px solid #2A7868;
+  padding: 12px 16px; border-radius: 0 6px 6px 0;
+  font-family: Georgia, serif; font-size: 0.89rem; color: #2D2D2D;
+  font-style: italic; line-height: 1.6;
+}
+.ss-quote cite {
+  display: block; font-style: normal; font-size: 0.76rem;
+  color: #8A7A68; margin-top: 7px;
+}
+.ss-warrant-row { display: flex; gap: 10px; flex-wrap: wrap; }
+.ss-warrant-chip {
+  padding: 5px 12px; border-radius: 6px; font-size: 0.77rem; font-weight: 600;
+  border: 1px solid; display: flex; align-items: center; gap: 5px;
+}
+.ss-warrant-chip.constitutive { border-color: #2A7868; color: #1C3D3A; background: #E0F2EE; }
+.ss-warrant-chip.probabilistic { border-color: #E8872A; color: #7A3A0E; background: #FFF0CC; }
+.ss-warrant-chip.rebuttal      { border-color: #C0392B; color: #7A0000; background: #FDECEA; }
+.ss-credence-row { display: flex; gap: 20px; flex-wrap: wrap; }
+.ss-cred-item { flex: 1; min-width: 130px; }
+.ss-cred-label { font-size: 0.77rem; color: #4A3E32; margin-bottom: 3px; }
+.ss-cred-bar { height: 7px; background: #EEE9E3; border-radius: 4px; margin-bottom: 3px; }
+.ss-cred-fill { height: 100%; border-radius: 4px; }
+.ss-cred-val { font-size: 0.77rem; font-weight: 700; }
+.ss-caveat-list { display: flex; flex-direction: column; gap: 6px; }
+.ss-caveat-item {
+  display: flex; gap: 8px; align-items: flex-start;
+  font-size: 0.84rem; color: #4A3E32; line-height: 1.5;
+}
+.ss-caveat-icon { flex-shrink: 0; font-size: 0.9rem; margin-top: 1px; }
+.ss-footer {
+  padding: 14px 24px; background: #F7F4EF;
+  border-top: 1px solid #E0DAD3; display: flex; align-items: center;
+  gap: 10px; flex-wrap: wrap;
+}
+.ss-cite-line {
+  flex: 1; font-size: 0.77rem; color: #8A7A68; font-style: italic;
+}
+.btn-add-answer {
+  background: #E8872A; color: #fff; border: none;
+  padding: 8px 18px; border-radius: 20px; font-size: 0.82rem; font-weight: 700;
+  cursor: pointer; letter-spacing: 0.04em; transition: background 0.15s;
+  white-space: nowrap;
+}
+.btn-add-answer:hover { background: #C56A12; }
+.btn-ss-secondary {
+  background: none; border: 1px solid #D0C8BE; color: #6A5C50;
+  padding: 8px 16px; border-radius: 20px; font-size: 0.82rem; font-weight: 600;
+  cursor: pointer; transition: border-color 0.15s;
+}
+.btn-ss-secondary:hover { border-color: #8A7A68; color: #2D2D2D; }
+.acr-small { font-size: 0.76em; color: #8A7A68; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="wordmark" href="#">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#FFFFFF" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#FFFFFF" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#FFFFFF" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
+    </div>
+  </a>
+
+  <!-- NAV ITEMS: swapped by JS on mode change -->
+  <div class="nav-items" id="nav-items">
+    <!-- Researcher nav (default) rendered by JS -->
+  </div>
+
+  <!-- RIGHT: mode switcher + profile -->
+  <div class="nav-right">
+
+    <div class="mode-switcher" id="mode-switcher">
+      <div class="mode-pill researcher" id="mode-pill" onclick="cycleModes()">
+        <span class="mode-dot"></span>
+        <span id="mode-label">RESEARCHER</span>
+        <span class="mode-caret">▾</span>
+      </div>
+      <div class="mode-dropdown">
+        <div class="mode-dropdown-header">Switch View</div>
+        <a class="mode-option current" href="#" onclick="setMode('researcher'); return false;">
+          <span class="mode-option-dot" style="background:#F5A623;"></span>
+          <div class="mode-option-text">
+            <div class="mo-label">RESEARCHER</div>
+            <div class="mo-sub">Ask, Evidence, Knowledge, Gaps</div>
+          </div>
+        </a>
+        <a class="mode-option" href="#" onclick="setMode('contributor'); return false;">
+          <span class="mode-option-dot" style="background:#5AC8AA;"></span>
+          <div class="mode-option-text">
+            <div class="mo-label">CONTRIBUTOR</div>
+            <div class="mo-sub">Tag Images, Find Articles, Capture</div>
+          </div>
+        </a>
+        <a class="mode-option" href="#" onclick="setMode('admin'); return false;">
+          <span class="mode-option-dot" style="background:#E8872A;"></span>
+          <div class="mode-option-text">
+            <div class="mo-label">ADMIN</div>
+            <div class="mo-sub">Users, System, Pipeline</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="profile-nav">
+      <div class="profile-btn">DK</div>
+      <div class="profile-dropdown">
+        <div class="profile-dropdown-header">
+          <div class="pd-name">David Kirsh</div>
+          <div class="pd-role">Researcher · UCSD Cognitive Science</div>
+        </div>
+        <a href="#">👤 My Profile</a>
+        <a href="#">⭐ Saved Evidence</a>
+        <a href="#">📋 My Queries</a>
+        <a href="#">🔔 Notifications</a>
+        <a href="#">⚙️ Settings</a>
+        <a href="#" class="signout">← Sign Out</a>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<!-- PAGE BODY -->
+<div class="page-body">
+
+  <!-- LEFT SIDEBAR -->
+  <nav class="sidenav">
+    <div class="sidenav-nav">
+      <div class="sidenav-section-header">Ask</div>
+      <a href="#" class="active">💬 Ask a Question</a>
+      <a href="#">🔄 Compare Answers</a>
+      <a href="#">📋 Session History</a>
+      <div class="sidenav-section-header" style="margin-top:8px;">Tools</div>
+      <a href="#">🧭 Question Guide</a>
+      <a href="#">📐 Scope Check</a>
+      <a href="#">⚙️ Answer Settings</a>
+    </div>
+
+    <div class="sidenav-divider"></div>
+
+    <div class="sidenav-panel">
+      <div class="panel-section-header">Related Topics</div>
+      <div class="panel-card">
+        <div class="pc-title">Circadian Rhythm &amp; Alertness</div>
+        <div class="pc-meta">12 nodes · Strong support</div>
+      </div>
+      <div class="panel-card">
+        <div class="pc-title">Attention Restoration</div>
+        <div class="pc-meta">8 nodes · Mixed evidence</div>
+      </div>
+      <div class="panel-card">
+        <div class="pc-title">Biophilic Design</div>
+        <div class="pc-meta">5 nodes · Limited evidence</div>
+      </div>
+
+      <div class="panel-section-header" style="margin-top:10px;">Research Gaps</div>
+      <div class="panel-card gap-card">
+        <div class="pc-title">Long-term cognitive outcomes</div>
+        <div class="pc-meta">VOI = 0.78 · High priority</div>
+      </div>
+      <div class="panel-card gap-card">
+        <div class="pc-title">Age-moderated effects</div>
+        <div class="pc-meta">VOI = 0.61 · Moderate</div>
+      </div>
+
+      <div class="panel-section-header" style="margin-top:10px;">Credence</div>
+      <div class="credence-block">
+        <div style="font-size:0.74rem; color:#B0A090; margin-bottom:6px;">For this answer</div>
+
+        <div style="font-size:0.78rem; color:#4A3E32; margin-bottom:1px;">Alertness improvement</div>
+        <div class="cbar-track"><div class="cbar cbar-fill-high" style="width:81%;"></div></div>
+        <div style="font-size:0.78rem; font-weight:700; color:#1A6042; margin-bottom:8px;">0.81</div>
+
+        <div style="font-size:0.78rem; color:#4A3E32; margin-bottom:1px;">WM improvement</div>
+        <div class="cbar-track"><div class="cbar cbar-fill-mid" style="width:58%;"></div></div>
+        <div style="font-size:0.78rem; font-weight:700; color:#7A4400; margin-bottom:8px;">0.58</div>
+
+        <div style="font-size:0.78rem; color:#4A3E32; margin-bottom:1px;">Circadian mechanism</div>
+        <div class="cbar-track"><div class="cbar cbar-fill-low" style="width:44%;"></div></div>
+        <div style="font-size:0.78rem; font-weight:700; color:#8A7A68;">0.44</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <h1 class="page-title">Ask Knowledge Atlas</h1>
+    <p class="page-caption">Pose a research question — Knowledge Atlas returns evidence-grounded answers with explicit uncertainty and provenance.</p>
+
+    <div class="persona-row">
+      <span class="persona-label">Viewing as:</span>
+      <div class="persona-chip active">🔬 Researcher / PI</div>
+      <div class="persona-chip">📚 Student</div>
+      <div class="persona-chip">🏗️ Practitioner</div>
+      <div class="persona-chip">⚙️ KA Developer</div>
+    </div>
+
+    <div class="query-row">
+      <input class="query-input" id="query-input" type="text" value="Does natural light exposure improve cognitive performance in office workers?" />
+      <button class="btn-ask">Ask</button>
+    </div>
+
+    <div class="answer-card" id="answer-card">
+      <h3 id="answer-title">Answer: Natural Light and Cognitive Performance</h3>
+      <p class="answer-text">
+        Controlled exposure to natural or naturalistic daylight (windows, daylight-spectrum fixtures) is associated with
+        improvements in alertness, working memory performance, and sustained attention in office workers, particularly
+        during afternoon hours. Effect sizes are moderate (d ≈ 0.35–0.55) and replicate across laboratory and field
+        settings. Underlying mechanisms are plausibly linked to circadian regulation via ipRGC-mediated melanopsin
+        pathways, though direct mechanistic evidence in office populations remains limited.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong support</strong> — Alertness and sustained attention benefits replicate across 4+ independent studies</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Mixed evidence</strong> — Working memory effects vary by task type and time-of-day; not always significant</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Theory-linked inference</strong> — Circadian mechanism plausible but not directly tested in these populations</span></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">Supporting Evidence</div>
+      <div class="tab">Conflicting Findings</div>
+      <div class="tab">Mechanism Chain</div>
+      <div class="tab">Design Implications</div>
+    </div>
+
+    <div id="evidence-section">
+    <div class="evidence-row">
+      <div class="study-ref">
+        <a href="#" class="study-link">Viola et al. (2008)</a> — Loughborough University field study
+        <a href="#" class="summary-link" onclick="openSciSummary('viola2008');return false;">→ Science Summary</a>
+      </div>
+      <div class="study-text">Office workers with daylight-optimized fixtures showed significantly higher alertness ratings and
+      better performance on the Psychomotor Vigilance Task <span class="acr-small">[Psychomotor Vigilance Task]</span> vs. standard fluorescent condition. Randomized crossover, n = 94.</div>
+      <div class="evidence-meta">
+        <span class="meta-pill">RCT · Field</span>
+        <span class="meta-pill">d = 0.48</span>
+        <span class="meta-pill">✅ Strong support</span>
+      </div>
+      <details class="provenance">
+        <summary>Source: Viola et al. (2008) — Ergonomics 51(7)</summary>
+        <div class="provenance-body">
+          <div class="quote">"Participants in the daylight-spectrum condition reported significantly higher vitality scores (p &lt; .01) and showed faster median RT on PVT blocks 3 and 4."</div>
+          <div class="provenance-meta">
+            <span><strong>Method:</strong> Randomized crossover, 4-week washout</span>
+            <span><strong>Caveat:</strong> Single workplace; possible seasonal confound</span>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="evidence-row">
+      <div class="study-ref">
+        <a href="#" class="study-link">Edwards &amp; Torcellini (2002)</a> — NREL <span class="acr-small">[National Renewable Energy Laboratory]</span> review, 13 daylighting studies
+        <a href="#" class="summary-link" onclick="openSciSummary('edwards2002');return false;">→ Science Summary</a>
+      </div>
+      <div class="study-text">Narrative review of workplace daylighting interventions; 10/13 studies reported positive
+      productivity or wellbeing outcomes. Direct cognitive performance measures available in only 4 studies.</div>
+      <div class="evidence-meta">
+        <span class="meta-pill">Review</span>
+        <span class="meta-pill">n = 13 studies</span>
+        <span class="meta-pill">⚠️ Mixed evidence</span>
+      </div>
+    </div>
+
+    <div class="strip strip-weak">
+      <span class="strip-icon">⚡</span>
+      <span><strong>Limited evidence</strong> — Long-term (&gt;6 month) cognitive outcomes unstudied; most trials run 1–4 weeks</span>
+    </div>
+    </div><!-- /evidence-section -->
+
+    <div style="font-size:0.78rem; color:#B0A090; margin: 16px 0 6px;" id="followup-label">Suggested follow-on questions:</div>
+    <div class="followup-row" id="followup-row">
+      <div class="followup-chip">What are the circadian mechanisms?</div>
+      <div class="followup-chip">How large is the alertness effect?</div>
+      <div class="followup-chip">Does the effect differ by age?</div>
+      <div class="followup-chip">What's the VOI for a new field study?</div>
+    </div>
+
+    <!-- COLOR PALETTE -->
+    <div class="palette-section">
+      <h4>Color Palette — for your confirmation</h4>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#1C3D3A;"></div><div class="swatch-label">#1C3D3A<br>Forest Teal<br><em>Top nav</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#2A7868;"></div><div class="swatch-label">#2A7868<br>Med Teal<br><em>Borders, links</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#E8872A;"></div><div class="swatch-label">#E8872A<br>Amber<br><em>CTA, active</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F5A623;"></div><div class="swatch-label">#F5A623<br>Gold<br><em>Wordmark</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F7F4EF; border:1px solid #D4C8B8;"></div><div class="swatch-label">#F7F4EF<br>Warm Cream<br><em>Page BG</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#D6EDD9;"></div><div class="swatch-label">#D6EDD9<br>Sage Green<br><em>Strong evidence</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FFF0CC;"></div><div class="swatch-label">#FFF0CC<br>Warm Amber<br><em>Mixed evidence</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F8D7DA;"></div><div class="swatch-label">#F8D7DA<br>Blush<br><em>Weak / error</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#E0F2EE;"></div><div class="swatch-label">#E0F2EE<br>Soft Teal<br><em>Theory-linked</em></div></div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /page-body -->
+<!-- ── SCIENCE SUMMARY MODAL ── -->
+<div class="ss-overlay" id="ss-overlay" onclick="closeSciSummary(event)">
+  <div class="ss-modal" onclick="event.stopPropagation()">
+    <div class="ss-header">
+      <div class="ss-header-text">
+        <div class="ss-label">Science Summary</div>
+        <div class="ss-title" id="ss-modal-title">Loading…</div>
+      </div>
+      <button class="ss-close" onclick="closeSciSummary()">✕</button>
+    </div>
+
+    <div class="ss-body">
+      <!-- Plain-language summary -->
+      <div class="ss-section">
+        <div class="ss-section-label">Plain-Language Summary</div>
+        <p class="ss-plain-text" id="ss-plain"></p>
+      </div>
+
+      <!-- Methodology strip -->
+      <div class="ss-section">
+        <div class="ss-section-label">Methodology</div>
+        <div class="ss-method-strip" id="ss-methods"></div>
+      </div>
+
+      <!-- Extracted quote -->
+      <div class="ss-section">
+        <div class="ss-section-label">Key Finding (verbatim)</div>
+        <blockquote class="ss-quote" id="ss-quote"></blockquote>
+      </div>
+
+      <!-- Warrant chain -->
+      <div class="ss-section">
+        <div class="ss-section-label">Warrant Chain <span class="acr-small">[Toulmin warrant structure: grounds → claim backing]</span></div>
+        <div class="ss-warrant-row" id="ss-warrants"></div>
+      </div>
+
+      <!-- Credence contributions -->
+      <div class="ss-section">
+        <div class="ss-section-label">Credence Contribution</div>
+        <div class="ss-credence-row" id="ss-credence"></div>
+      </div>
+
+      <!-- Caveat flags -->
+      <div class="ss-section">
+        <div class="ss-section-label">Caveats &amp; Limitations</div>
+        <div class="ss-caveat-list" id="ss-caveats"></div>
+      </div>
+    </div>
+
+    <div class="ss-footer">
+      <span class="ss-cite-line" id="ss-cite"></span>
+      <button class="btn-ss-secondary" onclick="closeSciSummary()">Close</button>
+      <button class="btn-add-answer" onclick="addToAnswer()">+ Add to My Answer</button>
+    </div>
+  </div>
+</div>
+
+<div class="version-badge">KA UI · v0.4</div>
+
+<script>
+/* ── SCIENCE SUMMARY DATA ── */
+const SS_DATA = {
+  viola2008: {
+    title: 'Viola et al. (2008) — Blue-enriched white light improves alertness and performance',
+    plain: 'Researchers at Loughborough University fitted an office with daylight-spectrum (blue-enriched) fluorescent lighting and compared workers\' alertness, mood, and cognitive performance against standard cool-white fluorescent conditions over a 4-week randomized crossover period. Workers in the daylight-spectrum condition reported significantly higher vitality, alertness, and positive mood, and performed faster on the Psychomotor Vigilance Task (PVT) <span class="acr-small">[Psychomotor Vigilance Task — a sustained attention measure sensitive to fatigue]</span>, especially during the afternoon dip. Effect sizes were moderate (Cohen\'s d ≈ 0.48 for PVT median RT).',
+    methods: [
+      { label: 'RCT · Crossover', cls: 'rct' },
+      { label: 'n = 94', cls: 'n' },
+      { label: 'Field study', cls: '' },
+      { label: 'd = 0.48', cls: 'd' },
+      { label: '4-week washout', cls: '' }
+    ],
+    quote: '"Participants in the daylight-spectrum condition reported significantly higher vitality scores (p &lt; .01) and showed faster median RT on PVT blocks 3 and 4, consistent with enhanced circadian alerting during the post-lunch dip."',
+    quoteCite: 'Viola, A.U., James, L.M., Schlangen, L.J., & Dijk, D.J. (2008). Blue-enriched white light in the workplace improves self-reported alertness, performance and sleep quality. Scandinavian Journal of Work, Environment & Health, 34(4), 297–306.',
+    warrants: [
+      { label: '✅ Constitutive', cls: 'constitutive', tip: 'Alertness → PVT performance (direct measurement)' },
+      { label: '⚡ Probabilistic', cls: 'probabilistic', tip: 'Circadian pathway (plausible, not directly measured)' },
+      { label: '⚠️ Rebuttal condition', cls: 'rebuttal', tip: 'Single workplace; seasonal confound possible' }
+    ],
+    credence: [
+      { label: 'Alertness improvement', val: 0.81, color: '#1A6042' },
+      { label: 'PVT performance', val: 0.75, color: '#1A6042' },
+      { label: 'Circadian mechanism', val: 0.44, color: '#7A4400' }
+    ],
+    caveats: [
+      { icon: '⚠️', text: 'Single workplace — generalizability to diverse office environments unknown' },
+      { icon: '⚠️', text: 'Possible seasonal confound: study ran across seasons with varying natural light ingress' },
+      { icon: '🔵', text: 'Circadian mechanism inferred from literature; not directly measured in this study' },
+      { icon: '✅', text: 'Randomized crossover design with 4-week washout substantially reduces order effects' }
+    ],
+    cite: 'Viola et al. (2008). Scand J Work Environ Health, 34(4), 297–306. DOI: 10.5271/sjweh.1268'
+  },
+  edwards2002: {
+    title: 'Edwards & Torcellini (2002) — A Literature Review of the Effects of Natural Light on Building Occupants',
+    plain: 'This National Renewable Energy Laboratory (NREL) <span class="acr-small">[National Renewable Energy Laboratory — US federal research lab]</span> technical report synthesized 13 workplace daylighting intervention studies. The review found that 10 of 13 studies reported positive productivity, wellbeing, or health outcomes associated with access to natural light. However, direct cognitive performance measures (rather than self-reported wellbeing or productivity proxies) were available in only 4 of the 13 studies, limiting the strength of causal inferences about cognitive effects specifically.',
+    methods: [
+      { label: 'Narrative Review', cls: '' },
+      { label: '13 studies', cls: 'n' },
+      { label: 'Workplace settings', cls: '' },
+      { label: 'Mixed methodology', cls: 'd' }
+    ],
+    quote: '"Of the 13 studies reviewed, 10 reported improvements in at least one productivity or wellbeing measure associated with increased daylighting. However, the variability in outcome measures and study designs precludes strong quantitative synthesis."',
+    quoteCite: 'Edwards, L., & Torcellini, P. (2002). A literature review of the effects of natural light on building occupants. NREL Technical Report NREL/TP-550-30769.',
+    warrants: [
+      { label: '⚡ Probabilistic', cls: 'probabilistic', tip: 'Convergent across studies but methodologically heterogeneous' },
+      { label: '⚠️ Rebuttal condition', cls: 'rebuttal', tip: 'Narrative review; no meta-analytic effect size; publication bias possible' }
+    ],
+    credence: [
+      { label: 'Wellbeing benefit', val: 0.62, color: '#7A4400' },
+      { label: 'Cognitive performance', val: 0.42, color: '#8A3A00' },
+      { label: 'Mechanism', val: 0.31, color: '#9A2A00' }
+    ],
+    caveats: [
+      { icon: '⚠️', text: 'Narrative review only — no meta-analytic pooling; publication bias likely' },
+      { icon: '⚠️', text: 'Cognitive performance measures available in only 4/13 studies; remainder used wellbeing proxies' },
+      { icon: '🔵', text: 'Studies varied widely in daylighting definition, outcome measures, and study populations' },
+      { icon: '✅', text: 'Breadth of coverage (13 independent studies) provides useful convergent validity despite limitations' }
+    ],
+    cite: 'Edwards, L., & Torcellini, P. (2002). NREL Technical Report NREL/TP-550-30769.'
+  },
+  boubekri2014: {
+    title: 'Boubekri et al. (2014) — Daylight exposure and sleep quality in the workplace',
+    plain: 'Mohamed Boubekri and colleagues at the University of Illinois at Urbana-Champaign matched 49 day-shift office workers across two comparable workplaces: one with windows, one without. Workers in windowed offices received significantly more light exposure during work hours and, measured via actigraphy and validated sleep questionnaires, showed meaningfully longer sleep duration (46 minutes per night on average), better sleep quality, and fewer sleep disturbances. They also reported higher wellbeing and greater physical activity outside work hours. The study is notable for using objective light dosimetry via actigraph-mounted light sensors rather than relying on self-reported window proximity.',
+    methods: [
+      { label: 'Matched cohort', cls: 'rct' },
+      { label: 'n = 49', cls: 'n' },
+      { label: 'Actigraphy + PSQI', cls: '' },
+      { label: 'Objective light dosimetry', cls: '' }
+    ],
+    quote: '"Workers in windowless offices slept an average of 46 minutes less per night and reported significantly poorer sleep quality, more physical inactivity, and lower vitality scores compared to workers with window access."',
+    quoteCite: 'Boubekri, M., Cheung, I.N., Reid, K.J., Wang, C., & Zee, P.C. (2014). Impact of windows and daylight exposure on overall health and sleep quality of office workers. Journal of Clinical Sleep Medicine, 10(6), 603–611.',
+    warrants: [
+      { label: '✅ Constitutive', cls: 'constitutive', tip: 'Light exposure → circadian phase setting (melanopsin pathway, well-established in photobiology)' },
+      { label: '⚡ Probabilistic', cls: 'probabilistic', tip: 'Window access → sleep duration: mediated by light dose and circadian entrainment' },
+      { label: '⚠️ Rebuttal condition', cls: 'rebuttal', tip: 'Matched observational design — self-selection into windowed vs. windowless office may introduce unmeasured confounds; n = 49' }
+    ],
+    credence: [
+      { label: 'Sleep duration benefit', val: 0.77, color: '#1A6042' },
+      { label: 'Sleep quality benefit', val: 0.72, color: '#1A6042' },
+      { label: 'Wellbeing benefit', val: 0.65, color: '#7A4400' },
+      { label: 'Circadian mechanism', val: 0.55, color: '#7A4400' }
+    ],
+    caveats: [
+      { icon: '⚠️', text: 'Matched observational design — cannot rule out residual confounding (seniority, job type, floor level, self-selection)' },
+      { icon: '⚠️', text: 'Single study, n = 49; replication in larger and more diverse office populations is needed' },
+      { icon: '🔵', text: 'Circadian mediation is photobiologically plausible but not directly traced in this study' },
+      { icon: '✅', text: 'Objective actigraphy provides stronger evidence than self-reported sleep duration alone' }
+    ],
+    cite: 'Boubekri, M., Cheung, I.N., Reid, K.J., Wang, C., & Zee, P.C. (2014). J Clin Sleep Med, 10(6), 603–611. DOI: 10.5664/jcsm.3780'
+  },
+  osc2015: {
+    title: 'Open Science Collaboration (2015) — Estimating the reproducibility of psychological science',
+    plain: 'The Open Science Collaboration coordinated 270 contributing researchers who independently replicated 100 studies from three leading psychology journals. Of the 97 original studies reporting statistically significant results, only 36 of the replication attempts also reached significance. Mean effect sizes in the replications were approximately half those in the original studies. The project did not conclude that any specific original finding was false — rather, it revealed systematic inflation of effect sizes and inconsistency across research contexts, providing the largest quantitative baseline to date for the scale of the replication problem in psychology.',
+    methods: [
+      { label: 'Large-scale replication', cls: 'rct' },
+      { label: 'k = 100 studies', cls: 'n' },
+      { label: '270 researchers', cls: '' },
+      { label: 'Pre-registered protocols', cls: '' }
+    ],
+    quote: '"A large portion of replications produced weaker evidence for the original findings. In this dataset, 36% of replications had statistically significant results, and the mean effect size in replications was half the magnitude of the original."',
+    quoteCite: 'Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. Science, 349(6251), aac4716.',
+    warrants: [
+      { label: '✅ Constitutive', cls: 'constitutive', tip: 'Direct replication: same hypothesis, same validated protocol, independent sample — the gold standard for evidential strength assessment' },
+      { label: '⚠️ Rebuttal condition', cls: 'rebuttal', tip: 'Replication failure is necessary but not sufficient to disconfirm any individual original finding; context moderators matter' }
+    ],
+    credence: [
+      { label: 'Field-level replication ~36%', val: 0.90, color: '#1A6042' },
+      { label: 'Effect size inflation in originals', val: 0.87, color: '#1A6042' },
+      { label: 'Any specific study is false', val: 0.22, color: '#8A3A00' }
+    ],
+    caveats: [
+      { icon: '⚠️', text: 'Replication failure does not prove the original effect is absent — sample, context, or protocol differences may explain divergence' },
+      { icon: '⚠️', text: 'Study selection was not random: three high-prestige journals may over-represent originally high false-positive rates' },
+      { icon: '🔵', text: 'Gilbert et al. (2016) contested methodology; the OSC rebuttal largely upheld original conclusions' },
+      { icon: '✅', text: 'Largest and most systematically organized replication effort in psychology to date, with pre-registered protocols' }
+    ],
+    cite: 'Open Science Collaboration. (2015). Science, 349(6251), aac4716. DOI: 10.1126/science.aac4716'
+  }
+};
+
+function openSciSummary(key) {
+  const d = SS_DATA[key];
+  if (!d) return;
+  document.getElementById('ss-modal-title').innerHTML = d.title;
+  document.getElementById('ss-plain').innerHTML = d.plain;
+  document.getElementById('ss-methods').innerHTML = d.methods
+    .map(m => `<span class="ss-method-pill ${m.cls}">${m.label}</span>`).join('');
+  document.getElementById('ss-quote').innerHTML =
+    d.quote + `<cite>${d.quoteCite}</cite>`;
+  document.getElementById('ss-warrants').innerHTML = d.warrants
+    .map(w => `<span class="ss-warrant-chip ${w.cls}" title="${w.tip}">${w.label}</span>`).join('');
+  document.getElementById('ss-credence').innerHTML = d.credence.map(c => {
+    const pct = Math.round(c.val * 100);
+    return `<div class="ss-cred-item">
+      <div class="ss-cred-label">${c.label}</div>
+      <div class="ss-cred-bar"><div class="ss-cred-fill" style="width:${pct}%;background:${c.color};"></div></div>
+      <div class="ss-cred-val" style="color:${c.color};">${c.val.toFixed(2)}</div>
+    </div>`;
+  }).join('');
+  document.getElementById('ss-caveats').innerHTML = d.caveats
+    .map(c => `<div class="ss-caveat-item"><span class="ss-caveat-icon">${c.icon}</span><span>${c.text}</span></div>`).join('');
+  document.getElementById('ss-cite').textContent = d.cite;
+  document.getElementById('ss-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+
+function closeSciSummary(e) {
+  if (e && e.target !== document.getElementById('ss-overlay')) return;
+  document.getElementById('ss-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+function addToAnswer() {
+  const title = document.getElementById('ss-modal-title').textContent;
+  closeSciSummary();
+  showModeBanner('Added to answer: ' + title.split('—')[0].trim());
+}
+
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') {
+    document.getElementById('ss-overlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+});
+
+/* ── QUERY BANK — topic-keyed content for ?q= URL parameter ── */
+const QUERY_BANK = {
+  light: null,  // null = use default hardcoded content (no-op)
+  sleep: {
+    queryText: 'Do workers with window access sleep better than those in windowless offices?',
+    title: 'Answer: Daylight Exposure and Sleep Quality',
+    bodyHTML: `
+      <p class="answer-text">
+        Office workers with access to windows and daylight during working hours sleep significantly more
+        and report better sleep quality than colleagues in windowless environments. The best-controlled
+        evidence (Boubekri et al., 2014) found a 46-minute per night difference in sleep duration,
+        objectively measured by actigraphy. The mechanism is well-established in photobiology: daytime
+        light exposure entrains the circadian clock via ipRGC <span class="acr-small">[intrinsically photosensitive Retinal Ganglion Cells]</span>-mediated
+        melanopsin signalling, advancing or stabilising melatonin onset timing.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong support</strong> — Sleep duration and quality benefit replicated across actigraphy and questionnaire measures</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanism well-established</strong> — Circadian entrainment via light is among the most robustly supported pathways in chronobiology</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Design limit</strong> — Observational matching only; experimental manipulation (reassigning windows) not ethically feasible in field settings</span></div>`,
+    stripsEnd: '',
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref">
+          <a href="#" class="study-link">Boubekri et al. (2014)</a> — University of Illinois, matched workplace cohort
+          <a href="#" class="summary-link" onclick="openSciSummary('boubekri2014');return false;">→ Science Summary</a>
+        </div>
+        <div class="study-text">49 day-shift workers matched across windowed vs. windowless offices. Window-side workers showed
+        46 min/night longer sleep, better PSQI <span class="acr-small">[Pittsburgh Sleep Quality Index]</span> scores, and greater actigraph-measured physical activity.
+        Objective light dosimetry confirmed the differential light exposure.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Matched cohort</span>
+          <span class="meta-pill">n = 49</span>
+          <span class="meta-pill">✅ Strong support</span>
+        </div>
+        <details class="provenance">
+          <summary>Source: Boubekri et al. (2014) — J Clin Sleep Med 10(6)</summary>
+          <div class="provenance-body">
+            <div class="quote">"Workers in windowless offices slept an average of 46 minutes less per night and reported significantly poorer sleep quality compared to workers with window access."</div>
+            <div class="provenance-meta">
+              <span><strong>Method:</strong> Actigraphy + PSQI questionnaire, matched cohort design</span>
+              <span><strong>Caveat:</strong> Self-selection into windowed office; n = 49 limits statistical power</span>
+            </div>
+          </div>
+        </details>
+      </div>
+      <div class="strip strip-weak">
+        <span class="strip-icon">⚡</span>
+        <span><strong>Replication needed</strong> — Single matched study; experimental RCT not feasible; larger observational samples would strengthen evidence</span>
+      </div>`,
+    followups: ['What is the circadian mechanism?', 'Does sleep quality affect next-day performance?', 'How much light is needed to entrain the clock?', 'What is the VOI for an intervention study?']
+  },
+  replication: {
+    queryText: 'How reproducible are published psychology findings?',
+    title: 'Answer: The Replication Crisis in Psychology',
+    bodyHTML: `
+      <p class="answer-text">
+        The most systematic evidence to date — the Open Science Collaboration's 2015 project — replicated
+        100 published psychology studies and found that only 36% reached statistical significance in the
+        replication attempt. Mean effect sizes were approximately half those reported originally.
+        This does not imply that any specific finding is false: effect size inflation, contextual moderators,
+        and sampling variability all contribute. However, it does establish that the field's published
+        literature substantially overestimates population effect sizes, with consequences for theory-building
+        and application.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong support</strong> — 36% replication rate is the largest and most systematic estimate available</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Interpretation contested</strong> — Gilbert et al. (2016) challenged methodology; OSC's rebuttal maintained the core finding</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Structural causes</strong> — Publication bias, p-hacking, small samples, and low pre-registration rates are the most supported explanations</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref">
+          <a href="#" class="study-link">Open Science Collaboration (2015)</a> — Science, 349(6251)
+          <a href="#" class="summary-link" onclick="openSciSummary('osc2015');return false;">→ Science Summary</a>
+        </div>
+        <div class="study-text">270 researchers independently replicated 100 psychology studies. 36% of replications
+        were statistically significant; mean effect sizes were approximately half the originals across all
+        replication attempts. Pre-registered protocols reduced experimenter degrees of freedom.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Large-scale replication</span>
+          <span class="meta-pill">k = 100</span>
+          <span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>
+      <div class="strip strip-weak">
+        <span class="strip-icon">⚡</span>
+        <span><strong>Field-level estimate only</strong> — Replication rates vary substantially by subfield; social priming and ego depletion replicate poorly; cognitive paradigms replicate better</span>
+      </div>`,
+    followups: ['Which subfields have the worst replication rates?', 'What is pre-registration and does it help?', 'How does KA handle low-replication findings?', 'What is the VOI for a replication study?']
+  },
+
+  attention: {
+    queryText: 'Does splitting attention between two tasks degrade performance even when they use different senses?',
+    title: 'Answer: Dual-Task Interference and the Central Bottleneck',
+    bodyHTML: `
+      <p class="answer-text">
+        Yes — even when two tasks use entirely different sensory modalities (e.g., one visual, one auditory),
+        concurrent performance degrades relative to single-task baselines. The dominant theoretical account
+        invokes a <em>central bottleneck</em> at the response-selection stage: the brain cannot select two
+        responses in parallel, causing the second task to queue behind the first (Pashler, 1994).
+        The resulting delay is known as the Psychological Refractory Period (PRP <span class="acr-small">[Psychological Refractory Period]</span>).
+        A competing account — the shared resource model (Kahneman, 1973) — proposes a unitary pool of attentional
+        capacity allocated across tasks; both accounts are consistent with observed interference effects, and
+        distinguishing them remains an active research question.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong support</strong> — PRP effect is one of the most replicated findings in cognitive psychology; observed across modalities and age groups</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Theory contested</strong> — Central bottleneck vs. capacity-sharing vs. task-set reconfiguration accounts make similar predictions in most paradigms</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Practice reduces but does not eliminate cost</strong> — Extensive practice can nearly abolish dual-task cost for highly automatised skill combinations (Spelke et al., 1976)</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Pashler (1994)</a> — Psychological Bulletin, 116(2), 220–244.</div>
+        <div class="study-text">Comprehensive review of dual-task experiments using the PRP paradigm. Demonstrated
+        that response-selection cannot proceed in parallel for two tasks regardless of whether they involve
+        different sensory channels. The bottleneck localises to a central, amodal decision stage, not to
+        perceptual encoding or motor execution.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Review</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Kahneman (1973)</a> — Attention and Effort. Prentice-Hall.</div>
+        <div class="study-text">Proposed the unitary capacity model: a limited general-purpose resource shared
+        across simultaneously performed tasks. When total demand exceeds capacity, performance on one or both
+        tasks degrades. Predicts greater interference for capacity-demanding tasks than for automatic ones.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Theoretical monograph</span><span class="meta-pill">🔵 Theory-linked</span>
+        </div>
+      </div>`,
+    followups: ['Can training eliminate dual-task costs?', 'What does this mean for open-plan office interruptions?', 'How does the PRP model map to CNFA attention measures?', 'What is the VOI for a neuroimaging dual-task study?']
+  },
+
+  temperature: {
+    queryText: 'What is the optimal office temperature for knowledge-work performance?',
+    title: 'Answer: Temperature, Thermal Comfort, and Cognitive Performance',
+    bodyHTML: `
+      <p class="answer-text">
+        The evidence converges on a thermal comfort optimum for complex cognitive work between approximately
+        21–23°C. Laboratory studies using proofreading, arithmetic, and executive-function tasks consistently
+        show performance costs at both cooler (&lt;18°C) and warmer (&gt;25°C) extremes. The ASHRAE 55
+        <span class="acr-small">[American Society of Heating, Refrigerating and Air-Conditioning Engineers Standard 55]</span>
+        comfort zone (typically 20–26°C with standard metabolic and clothing assumptions) partially captures
+        this range. The mechanisms include thermoregulatory load (warm environments divert cognitive resources
+        toward physiological regulation) and arousal level (cold environments modestly increase alertness up to
+        a point, with extreme cold becoming aversive). Field studies using natural temperature variance in offices
+        generally confirm the lab pattern, though confounds with season and weather are difficult to exclude.
+      </p>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Mixed evidence on precise optimum</strong> — Studies differ on whether 21°C or 22°C is the peak; individual differences in metabolic rate and cold/heat sensitivity are substantial</span></div>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Direction of effects robust</strong> — Both very hot and very cold environments reliably impair complex cognitive tasks; the inverted-U pattern is well-replicated</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanism partially understood</strong> — Arousal and thermoregulatory resource competition are plausible but not definitively isolated; CNFA neurophysiological measures (HRV, EDA) could test this directly</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Seppänen, Fisk & Faulkner (2003)</a> — Indoor Air, 14(S7), 74–81.</div>
+        <div class="study-text">Meta-analysis of 24 field and lab studies relating temperature to call-centre
+        productivity and office task performance. Found a 2% decrease in performance per degree Celsius above
+        25°C, and a threshold effect: performance was roughly flat across 21–23°C then declined at higher
+        temperatures.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Meta-analysis</span><span class="meta-pill">k = 24</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Wyon (2004)</a> — Indoor Air, 14(S7), 56–64.</div>
+        <div class="study-text">Review of controlled chamber experiments examining text-typing speed, creative
+        thinking tasks, and simulated office work under varied temperatures. Identified 22°C as the approximate
+        performance optimum for complex tasks; simpler tasks (vigilance, data entry) showed less temperature
+        sensitivity.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Review / chamber studies</span><span class="meta-pill">⚠️ Mixed evidence</span>
+        </div>
+      </div>`,
+    followups: ['Does the optimum differ for creative vs. analytic tasks?', 'How does humidity interact with temperature?', 'What CNFA instruments are most temperature-sensitive?', 'What is the VOI for a temperature × task-type interaction study?']
+  },
+
+  spacing: {
+    queryText: 'Why does distributing study across sessions improve long-term retention compared to massed practice?',
+    title: 'Answer: The Spacing Effect in Learning and Memory',
+    bodyHTML: `
+      <p class="answer-text">
+        The spacing effect — the finding that distributed practice produces better long-term retention than
+        an equal amount of massed practice — is among the oldest and most robustly replicated findings in
+        cognitive psychology, documented since Ebbinghaus (1885). Typical experiments show retention advantages
+        of d ≈ 0.60–0.80 for spaced over massed practice at delays of one week or longer.
+        Two theoretical accounts have garnered most empirical support. The <em>desirable difficulties</em>
+        account (Bjork, 1994) proposes that spacing introduces retrieval difficulty that strengthens memory
+        encoding. The <em>study-phase retrieval</em> account (Thios & D'Agostino, 1976; Kornell &amp; Bjork, 2008)
+        holds that distributed repetitions trigger retrieval of the prior encoding, and this retrieval effort
+        itself is the memory-strengthening mechanism. In applied settings, distributed practice improves
+        acquisition of motor skills, vocabulary, and factual knowledge across all age groups tested.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Exceptionally strong support</strong> — Spacing effect replicates across materials, ages, retention intervals, and laboratory and classroom settings</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Optimal spacing interval uncertain</strong> — The best spacing schedule depends on the target retention interval; no single formula generalises across all domains</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanism debated</strong> — Desirable difficulties, study-phase retrieval, and consolidation-window accounts each have empirical support; no consensus on which is primary</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Cepeda et al. (2006)</a> — Psychological Bulletin, 132(3), 354–380.</div>
+        <div class="study-text">Meta-analysis of 254 spacing-effect studies. Found a robust advantage of distributed
+        over massed practice across virtually all studies, with the magnitude increasing with retention interval.
+        The optimal spacing gap (inter-study interval) scales with the intended retention interval — a key
+        practical finding for instructional design.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Meta-analysis</span><span class="meta-pill">k = 254</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>`,
+    followups: ['What is the optimal spacing schedule for a 10-week course?', 'Does interleaving different topics amplify the spacing benefit?', 'How does the testing effect combine with spacing?', 'What is the relevance of spacing to COGS 160 study design?']
+  },
+
+  noise: {
+    queryText: 'Does ambient background noise affect creativity in workspace settings?',
+    title: 'Answer: Noise, Moderate Distraction, and Creative Performance',
+    bodyHTML: `
+      <p class="answer-text">
+        The relationship between ambient noise and cognitive performance follows an inverted-U for divergent
+        creative thinking but a monotonically decreasing function for focused analytic work. Mehta, Zhu, &amp;
+        Cheema (2012, JPSP) showed that moderate ambient noise (~70 dB) enhanced performance on creative
+        tasks (remote associates, product innovation ideas) relative to near-silence (~50 dB) or loud
+        conditions (~85 dB). The proposed mechanism is moderate distraction: low-level noise produces a
+        slightly diffuse processing mode that promotes wider associative search, consistent with Martindale's
+        (1981) reduced cortical arousal account of creativity. By contrast, irrelevant speech — particularly
+        speech intelligibility above approximately 50% — reliably impairs verbal working memory and reading
+        comprehension (Banbury &amp; Berry, 1998), indicating that speech content and noise level are
+        distinct dimensions with different cognitive consequences.
+      </p>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Mixed evidence on mechanism</strong> — The Mehta et al. creativity finding has not been uniformly replicated; effect sizes are small and the optimal noise level varies across studies</span></div>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong support for speech intelligibility harm</strong> — Irrelevant speech impairment of verbal WM is one of the most replicated environment-cognition findings</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Open-plan context</strong> — In open offices, noise sources are typically intelligible speech, not white noise — which predicts impairment, not enhancement, for most knowledge-work tasks</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Mehta, Zhu & Cheema (2012)</a> — Journal of Consumer Research, 39(4), 784–799.</div>
+        <div class="study-text">Five experiments manipulated ambient coffee-shop noise levels and measured
+        divergent creative thinking, product preference novelty, and abstract thinking. Moderate noise (~70 dB)
+        improved creative performance vs. quiet (~50 dB) and loud (~85 dB) conditions. Effect sizes were small
+        (d ≈ 0.20–0.35). A commercially released ambient-noise app was the applied outcome.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Within-subjects experiments</span><span class="meta-pill">⚠️ Mixed evidence</span>
+        </div>
+      </div>
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Banbury & Berry (1998)</a> — Journal of Experimental Psychology: Applied, 4(3), 216–232.</div>
+        <div class="study-text">Showed that intelligible irrelevant speech degrades serial recall and reading
+        comprehension in proportion to its intelligibility. White noise of equal loudness does not produce the
+        same impairment — indicating the harm is in the linguistic content, not the acoustic energy per se.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Within-subjects lab study</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>`,
+    followups: ['What noise levels are typical in open-plan offices?', 'Does noise-cancelling headphone use help?', 'How do EDA and HRV respond to intelligible vs. non-intelligible background speech?', 'What is the VOI for a noise × task-type field study?']
+  },
+
+  color: {
+    queryText: 'Does the color of a workspace environment affect cognitive performance?',
+    title: 'Answer: Color, Motivation, and Cognitive Performance',
+    bodyHTML: `
+      <p class="answer-text">
+        The evidence for color effects on cognition is real but substantially more modest and moderated than
+        popular coverage implies. The most influential study — Mehta &amp; Zhu (2009, Science) — showed that
+        exposure to a red background improved performance on detail-oriented accuracy tasks (proofreading,
+        anagram solving), while a blue background improved performance on creative and insight tasks (remote
+        associates, innovative product uses). The proposed mechanism invokes color-motivation associations:
+        red activates avoidance motivation and threat vigilance (promoting careful, precise processing), while
+        blue activates approach motivation associated with exploration and novelty. The effect size was moderate
+        (d ≈ 0.40–0.55) across six experiments. Independent replications have been partial — some labs
+        confirm the direction of effects, others do not — suggesting the effect is real but sensitive to
+        task framing, cultural associations, and the particular shade of red or blue used.
+      </p>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Mixed replication record</strong> — Mehta &amp; Zhu effects replicated in some but not all independent labs; cultural and stimulus specifics matter</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanistic account plausible</strong> — Color-affect-cognition pathway is consistent with broader literature on emotion and cognitive style (Forgas, 1995)</span></div>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Best support for achromatic contrast effects</strong> — High contrast and brightness reliably affect arousal and legibility; these effects are more robustly replicated than hue-specific effects</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Mehta & Zhu (2009)</a> — Science, 323(5918), 1226–1229.</div>
+        <div class="study-text">Six experiments across two studies using red, blue, and neutral (white/grey) background
+        colors. Red improved performance on tasks requiring accuracy and caution (e.g., recall of error-prone
+        strings); blue improved performance on divergent creative tasks. Effects held across computer-based
+        and paper-based task presentations.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Experimental</span><span class="meta-pill">k = 6</span><span class="meta-pill">⚠️ Mixed evidence</span>
+        </div>
+      </div>`,
+    followups: ['Can CNFA image tagging quantify workspace color effects?', 'Does color temperature (CCT) have different effects than hue?', 'What is the relationship between green fraction and biophilic color benefit?', 'What is the VOI for a color × task field experiment?']
+  },
+
+  standing: {
+    queryText: 'Do standing desks improve cognitive performance in office workers?',
+    title: 'Answer: Sit-Stand Desks — Sedentary Behaviour vs. Cognitive Effects',
+    bodyHTML: `
+      <p class="answer-text">
+        The evidence is strongly favourable for sit-stand desks as a tool to reduce sedentary time, but
+        largely null or trivially small for cognitive performance improvement. Multiple randomised controlled
+        trials (RCTs) show that adjustable sit-stand workstations cut sitting time by approximately 60–120
+        minutes per day (Neuhaus et al., 2014; Edwardson et al., 2018). However, the same trials — and
+        meta-analyses of them — find no consistent improvement in objective measures of working memory,
+        executive function, or processing speed, though subjective energy and wellbeing scores often improve.
+        A plausible interpretation is that standing desks achieve their principal benefit through reduced
+        metabolic and cardiovascular risk associated with prolonged sitting, not through acute cognitive
+        enhancement. The distinction matters for design: a sit-stand desk is a sedentary-behaviour
+        intervention, not a cognitive performance intervention.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong evidence for sedentary time reduction</strong> — Multiple RCTs confirm 1–2 hour/day reduction in sitting; cardiovascular benefit plausible</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Cognitive effects mostly null</strong> — RCT evidence does not support improvement in objective cognitive task performance; subjective energy reports are positive but susceptible to demand effects</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Distinction: acute vs. chronic</strong> — Brief standing may increase arousal acutely; long-term standing introduces fatigue and musculoskeletal load — temporal dynamics matter</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Edwardson et al. (2018)</a> — BMJ, 357, j2047.</div>
+        <div class="study-text">Cluster RCT of 146 office workers randomly assigned to height-adjustable desks
+        plus behaviour change support versus control. The intervention group reduced sitting time by 1.28 hours/day
+        at 12 months. No significant differences in cognitive performance (Trail Making, Digit Symbol Coding)
+        were detected. Positive self-reported work engagement and energy were observed.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Cluster RCT</span><span class="meta-pill">n = 146</span><span class="meta-pill">✅ Strong support (sedentary) / ⚠️ Null (cognitive)</span>
+        </div>
+      </div>`,
+    followups: ['What cognitive measures were used in sit-stand desk trials?', 'Does movement frequency (alternating) matter more than standing per se?', 'What CNFA physiological signals best capture the standing vs. sitting difference?', 'What is the VOI for a sit-stand desk cognition study?']
+  },
+
+  multitasking: {
+    queryText: 'Do heavy media multitaskers have better attentional control than light multitaskers?',
+    title: 'Answer: The Multitasking Paradox — Frequent Multitaskers Perform Worse on Attention Tests',
+    bodyHTML: `
+      <p class="answer-text">
+        Counter-intuitively, people who self-identify as skilled or frequent multitaskers — particularly
+        those classified as heavy media multitaskers — perform significantly worse on laboratory tests of
+        focused attention and cognitive control than those who multitask rarely. Ophir, Nass, &amp; Wagner
+        (2009, PNAS) showed that heavy media multitaskers (HMMs) were more susceptible to distraction by
+        irrelevant stimuli, less able to filter irrelevant information from working memory, and slower to
+        switch between task sets. The effect sizes were moderate (d ≈ 0.43–0.68). The authors proposed
+        that HMMs may chronically maintain a broader attentional stance that is adaptive for monitoring
+        multiple information streams but maladaptive in single-focused tasks. Subsequent replications
+        have confirmed the attentional sensitivity finding (Uncapher et al., 2016), though the causal
+        direction remains debated: HMMs may select media multitasking partly because they have weaker
+        inhibitory control, rather than acquiring it through practice.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong support</strong> — Attentional sensitivity advantage for HMMs replicated across multiple labs; the direction of the group difference is clear</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Causality contested</strong> — Selection vs. training effect debate is unresolved; longitudinal data are scarce</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Ecological relevance</strong> — Open-office workers face media multitasking environments continuously; this finding has direct implications for workspace design and digital interruption policy</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Ophir, Nass & Wagner (2009)</a> — PNAS, 106(37), 15583–15587.</div>
+        <div class="study-text">Classified 100 Stanford undergraduates as heavy vs. light media multitaskers via
+        the Media Multitasking Index. HMMs showed worse performance on a filtering task (visual arrays),
+        a task-switching paradigm, and a working memory letter-number task. The pattern held across all
+        three executive-function measures.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Cross-sectional lab study</span><span class="meta-pill">n = 100</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>`,
+    followups: ['What is the Media Multitasking Index?', 'Does open-plan office layout increase media multitasking habits?', 'What EEG signatures distinguish HMMs from light multitaskers?', 'What is the VOI for a longitudinal media multitasking study?']
+  },
+
+  nature: {
+    queryText: 'Does a brief nature micro-break restore attention capacity during a sustained work session?',
+    title: 'Answer: Nature Micro-Breaks and Attention Restoration Theory',
+    bodyHTML: `
+      <p class="answer-text">
+        Yes — and the evidence is more specific than simply "looking at something pleasant." Attention
+        Restoration Theory (ART; Kaplan &amp; Kaplan, 1989) predicts that natural environments replenish
+        directed attention capacity by engaging <em>involuntary attention</em> (fascination without effort),
+        allowing voluntary directed attention to recover. Lee et al. (2015) provided the most controlled
+        direct test: participants completed a sustained attention task with a 40-second micro-break midway,
+        during which they viewed either a green roof (flowering meadow design) or a concrete rooftop. The
+        green-break group showed significantly higher post-break vigilance scores; the concrete-break group
+        did not. Physiological evidence (EEG alpha power during the break) supported greater cognitive
+        idling — and therefore restoration — during the green-scene break. Effect sizes were moderate
+        (d ≈ 0.40 for post-break attention performance). Subsequent work by Berto (2014) and van den Berg
+        et al. (2015) confirms the ART prediction using both lab images and field window views.
+      </p>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Theory-linked</strong> — ART provides a precise mechanistic prediction tested here; fascination-without-effort is the key operative dimension</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Image generalisability</strong> — Effects demonstrated with specific stimulus sets; fractal dimension, green fraction, and spatial complexity of the nature scene may moderate effectiveness</span></div>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Direction well-supported</strong> — Multiple labs confirm that nature images/views outperform built scenes on post-exposure attention measures</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Lee et al. (2015)</a> — Journal of Environmental Psychology, 42, 182–189.</div>
+        <div class="study-text">Participants completed a sustained-attention task (SART) with a 40-second
+        micro-break. Break view condition (green rooftop vs. concrete rooftop) was experimentally assigned.
+        EEG alpha suppression during the break confirmed greater restorative idling for the green condition.
+        Post-break commission errors were lower for green-break participants.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Within-subjects experiment</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>`,
+    followups: ['What visual properties of the nature scene drive the restoration effect?', 'How does fractal dimension correlate with restorative quality?', 'Can CNFA image tags predict restorative potential?', 'What is the VOI for a VR nature-break study?']
+  },
+
+  plants: {
+    queryText: 'Do indoor plants in the workplace reduce stress and improve wellbeing?',
+    title: 'Answer: Indoor Plants, Biophilic Design, and Workplace Wellbeing',
+    bodyHTML: `
+      <p class="answer-text">
+        The evidence for indoor plants improving subjective wellbeing and reducing self-reported stress in
+        office settings is moderately consistent, with effect sizes in the small-to-moderate range. Knight &amp;
+        Haslam (2010) showed that enriched office environments (plants plus art) improved self-reported
+        wellbeing and productivity compared to both bare and manager-designed enriched offices, primarily
+        through the mechanism of perceived control and identification with the workspace. Lohr et al. (1996)
+        showed that participants completing a computer task in a room with plants exhibited lower systolic
+        blood pressure and rated the task as less stressful. Bringslimark, Hartig, &amp; Patil (2009)
+        reviewed 17 studies and found consistent positive associations between plant presence and self-reported
+        wellbeing. The mechanisms are multiple and partially confounded: biophilic visual stimulation, air
+        quality improvement, and humidity regulation may all contribute. Studies that isolate the visual
+        channel (using artificial plants or plant photographs) generally find reduced but still positive
+        effects, suggesting the visual pathway is real but not the sole mechanism.
+      </p>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Moderate and mixed support</strong> — Effects are reliable for subjective wellbeing but smaller and less consistent for objective cognitive performance measures</span></div>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Stress reduction consistent</strong> — Physiological stress measures (blood pressure, cortisol) show reliable reductions in plant-present conditions across multiple labs</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Multiple pathways</strong> — Visual biophilia, air quality, and perceived control may each contribute; controlled designs isolating each pathway are sparse</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Lohr et al. (1996)</a> — HortScience, 31(1), 47–51.</div>
+        <div class="study-text">Participants completed a computerised task in a room with or without plants.
+        Those in the plant room showed lower systolic blood pressure readings and rated the task as less
+        stressful. A third condition (blank walls) fell between, providing a dose-response hint.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Experimental</span><span class="meta-pill">⚠️ Mixed evidence</span>
+        </div>
+      </div>
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Knight & Haslam (2010)</a> — Journal of Experimental Psychology: Applied, 16(2), 158–172.</div>
+        <div class="study-text">Office workers were assigned to bare, enriched (plants + art), or worker-enriched
+        conditions. Enriched conditions improved wellbeing and self-reported productivity; worker-chosen enrichment
+        produced larger effects than manager-imposed enrichment, emphasising the mediating role of perceived control.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Field experiment</span><span class="meta-pill">✅ Strong support (for enrichment)</span>
+        </div>
+      </div>`,
+    followups: ['Is it the visual channel or the air quality that drives plant effects?', 'Can green fraction from CNFA image tags predict wellbeing ratings?', 'What is the optimal plant coverage in a workspace?', 'What is the VOI for a plant × air quality isolation study?']
+  },
+
+  circadian: {
+    queryText: 'How does evening screen use affect sleep and next-day cognitive performance?',
+    title: 'Answer: Blue Light, Circadian Disruption, and Cognitive Consequences',
+    bodyHTML: `
+      <p class="answer-text">
+        Light-emitting screens emit a high proportion of short-wavelength (blue, ~480 nm) radiation that
+        directly stimulates the melanopsin-containing intrinsically photosensitive retinal ganglion cells
+        (ipRGCs <span class="acr-small">[intrinsically photosensitive Retinal Ganglion Cells]</span>).
+        These cells project to the suprachiasmatic nucleus (SCN <span class="acr-small">[Suprachiasmatic Nucleus — the master circadian clock in the hypothalamus]</span>)
+        and suppress melatonin secretion from the pineal gland. Chang et al. (2015, PNAS) — the most carefully
+        controlled study to date — showed that reading from a light-emitting device for four hours before bed,
+        compared to reading a printed book under dim light, delayed melatonin onset by approximately 1.5 hours,
+        reduced REM sleep by 10 minutes, and impaired next-morning alertness and performance on the PVT
+        <span class="acr-small">[Psychomotor Vigilance Task]</span>. The effect is comparable in magnitude
+        to ~100 mg of caffeine taken in the afternoon. Importantly, the effect depends on melanopsin
+        sensitivity to the ~480 nm peak, not simply to lux level — meaning it cannot be mitigated by
+        reducing screen brightness alone without spectral filtering.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong mechanistic and behavioural support</strong> — ipRGC-melatonin-circadian pathway is well-established; Chang et al. 2015 provides the most controlled behavioural demonstration</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Spectral specificity</strong> — The effect is driven by ~480 nm wavelengths, not overall brightness; standard dimming does not mitigate melatonin suppression</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Ecological validity</strong> — Chang et al. used extreme exposure (4 hours, maximum brightness); typical evening screen use may produce smaller shifts</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Chang et al. (2015)</a> — PNAS, 112(4), 1232–1237.</div>
+        <div class="study-text">12 participants in a within-subjects crossover read from a light-emitting e-reader
+        vs. a printed book for 4 hours before bed for 5 consecutive nights each. The e-reader condition delayed
+        melatonin onset by ~1.5 hours, reduced sleepiness, shortened REM sleep, and impaired morning alertness
+        (PVT). Salivary melatonin was suppressed on all 5 nights of screen exposure.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Crossover experiment</span><span class="meta-pill">n = 12</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>`,
+    followups: ['Do blue-light filtering glasses or Night Mode settings help?', 'What is the CCT of typical office lighting vs. evening screens?', 'How does chronic sleep phase delay affect next-day PVT performance?', 'What is the VOI for a circadian disruption × workspace intervention study?']
+  },
+
+  crowding: {
+    queryText: 'How does social density in open-plan offices affect concentration and cognitive performance?',
+    title: 'Answer: Crowding, Open-Plan Offices, and Concentration Impairment',
+    bodyHTML: `
+      <p class="answer-text">
+        The evidence consistently shows that high social density in open-plan offices is associated with
+        reduced concentration, increased noise disruption, and lower satisfaction, primarily through the
+        mechanisms of irrelevant speech exposure, reduced privacy, and loss of perceived control. Kim &amp;
+        de Dear (2013, JEP:G) analysed the BOSTI occupant satisfaction database covering over 42,000 US
+        office employees across multiple building types. Open-plan workers reported significantly higher
+        rates of noise disturbance, concentration loss, and privacy violation relative to private-office
+        workers; these disadvantages were not compensated by the expected communication and interaction
+        benefits. Evans &amp; Johnson (2000) showed in a controlled lab study that even low-level, uncontrollable
+        noise (replicating open-plan conditions) produced elevated urinary epinephrine, reduced proofreading
+        motivation, and a preference to avoid difficult tasks — effects that appeared even when participants
+        were not consciously reporting the noise as bothersome. The density-concentration relationship appears
+        to be mediated primarily by noise rather than by visual crowding per se.
+      </p>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Mixed field evidence</strong> — Open-plan effects vary by office design, task type, and individual noise sensitivity; not all open-plan workers report performance decrements</span></div>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Direction of harm well-supported</strong> — Meta-analyses and large surveys consistently find open-plan workers report higher noise disruption and concentration loss than private-office workers</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanism: uncontrollable noise</strong> — The harm is specifically from uncontrollable, intelligible speech — a feature of social density, not of openness per se</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Kim & de Dear (2013)</a> — Journal of Environmental Psychology, 36, 18–26.</div>
+        <div class="study-text">Cross-sectional analysis of 42,764 respondents across open-plan, cubicle,
+        and private office layouts. Open-plan workers were significantly more dissatisfied with noise and
+        privacy than cubicle or private-office workers. The paper found no compensating advantage in
+        interaction or communication for most workers.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Large-scale survey</span><span class="meta-pill">n = 42,764</span><span class="meta-pill">⚠️ Mixed evidence</span>
+        </div>
+      </div>
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Evans & Johnson (2000)</a> — Journal of Applied Psychology, 85(5), 779–783.</div>
+        <div class="study-text">40 clerical workers exposed to 3 hours of open-plan noise (low-level, uncontrollable
+        speech noise). Compared to a quiet condition, noise workers showed higher urinary epinephrine, made
+        fewer ergonomic adjustments, and chose fewer difficult puzzles in a post-task motivation measure.
+        The noise was below the threshold of subjective annoyance.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Controlled lab study</span><span class="meta-pill">n = 40</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>`,
+    followups: ['What are the most effective design interventions for noise in open offices?', 'Does speech intelligibility matter more than noise level?', 'What CNFA physiological signals best capture the crowding-stress response?', 'What is the VOI for a density × noise source × task study?']
+  },
+
+  exercise: {
+    queryText: 'Does a brief bout of aerobic exercise before work improve cognitive performance?',
+    title: 'Answer: Acute Aerobic Exercise and Cognitive Enhancement',
+    bodyHTML: `
+      <p class="answer-text">
+        A single bout of moderate aerobic exercise (typically 20–40 minutes at 60–75% of maximum heart
+        rate) reliably improves executive function, working memory, and attention for approximately 30–120
+        minutes post-exercise. The effect is most consistently observed for tasks demanding prefrontal
+        cognitive control — task switching, response inhibition, verbal fluency — which are precisely the
+        capacities most relevant to sustained knowledge work. Two meta-analyses (Chang et al., 2012; Lambourne
+        &amp; Tomporowski, 2010) synthesising over 100 experiments place the acute exercise benefit at d ≈ 0.30–0.60
+        for executive function outcomes. The most supported mechanistic account invokes prefrontal catecholamine
+        release: exercise increases dopamine and norepinephrine (NE) availability in the prefrontal cortex,
+        enhancing signal-to-noise in the networks supporting working memory and cognitive flexibility. Hillman
+        et al. (2008) provided direct EEG evidence: post-exercise P3 amplitude (a marker of attentional
+        resource allocation) was increased relative to rest conditions.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong support</strong> — Acute exercise benefit for executive function is the most robustly replicated exercise-cognition finding; meta-analyses confirm across age, exercise type, and outcome measure</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Duration of benefit uncertain</strong> — Enhancement window of 30–120 minutes has wide confidence intervals; optimal dose and timing for workspace scheduling remain underspecified</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanism converging</strong> — Catecholamine release and increased cerebral blood flow are the most supported pathways; direct pharmacological evidence (Arnsten, 2011) supports the NE-PFC link</span></div>`,
+    evidenceHTML: `
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Chang et al. (2012)</a> — British Journal of Sports Medicine, 46(6), 443–450.</div>
+        <div class="study-text">Meta-analysis of 79 experimental studies examining acute aerobic exercise effects
+        on cognition. Overall d = 0.52 for cognitive performance, strongest for executive function (d ≈ 0.60)
+        and concentration tasks. Effects were present immediately post-exercise and persisted for up to 60
+        minutes. Exercise intensity of 60–70% VO₂max showed optimal effects.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">Meta-analysis</span><span class="meta-pill">k = 79</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>
+      <div class="evidence-row">
+        <div class="study-ref"><a href="#" class="study-link">Hillman et al. (2008)</a> — Neuroscience, 155(4), 1044–1051.</div>
+        <div class="study-text">Preadolescents completed cognitive tasks before and after 20 minutes of aerobic
+        exercise or seated rest. Post-exercise P3 amplitude increased and task accuracy improved, particularly
+        for executive function tasks. EEG findings support enhanced attentional resource allocation as
+        the neural signature of the acute exercise benefit.</div>
+        <div class="evidence-meta">
+          <span class="meta-pill">EEG experiment</span><span class="meta-pill">✅ Strong support</span>
+        </div>
+      </div>`,
+    followups: ['What is the optimal exercise duration and intensity for a work-break intervention?', 'Does HRV after exercise predict the size of cognitive benefit?', 'Can wearable EEG track the cognitive window after exercise?', 'What is the VOI for an exercise × workspace design study?']
+  }
+};
+
+function applyQuery(key) {
+  const cfg = QUERY_BANK[key];
+  if (!cfg) return; // null or missing = use defaults
+  const qi = document.getElementById('query-input');
+  if (qi) qi.value = cfg.queryText;
+  const ac = document.getElementById('answer-card');
+  if (ac) {
+    document.getElementById('answer-title').textContent = cfg.title;
+    // Replace everything inside answer-card except the h3
+    const h3 = ac.querySelector('h3');
+    ac.innerHTML = '';
+    ac.appendChild(h3);
+    const tmp = document.createElement('div');
+    tmp.innerHTML = cfg.bodyHTML;
+    while (tmp.firstChild) ac.appendChild(tmp.firstChild);
+  }
+  const es = document.getElementById('evidence-section');
+  if (es) es.innerHTML = cfg.evidenceHTML;
+  const fr = document.getElementById('followup-row');
+  if (fr && cfg.followups) {
+    fr.innerHTML = cfg.followups.map(f => `<div class="followup-chip">${f}</div>`).join('');
+  }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+  var params = new URLSearchParams(window.location.search);
+  var topic = params.get('q');
+  if (topic && QUERY_BANK.hasOwnProperty(topic)) {
+    applyQuery(topic);
+  }
+});
+</script>
+
+<script>
+const NAV_CONFIGS = {
+  researcher: {
+    pillClass: 'researcher',
+    label: 'RESEARCHER',
+    items: [
+      { label: 'Ask', active: true, links: [
+        ['💬 Ask a Question','#'],['🔄 Compare Answers','#'],['📋 Session History','#']
+      ]},
+      { label: 'Evidence', twoCol: true, cols: [
+        { header:'Browse', links:[['📊 Evidence Table','#'],['🔬 By Study Type','#'],['📅 Chronological','#'],['⭐ Curated Sets','#']] },
+        { header:'Analyze', links:[['📈 Effect Sizes','#'],['🔁 Meta-Analysis','#'],['⚖️ Contradictions','#'],['📤 Export','#']] }
+      ]},
+      { label: 'Knowledge', twoCol: true, cols: [
+        { header:'Concepts', links:[['🧩 Belief Network','#'],['🔗 Relations','#'],['🏷️ Entity Index','#']] },
+        { header:'Mechanisms', links:[['⚙️ Tier 2 Mechanisms','#'],['🧠 Neuroscience Layer','#'],['📐 Warrants','#']] }
+      ]},
+      { label: 'Research Gaps', links:[['🔍 Gap Explorer','#'],['🧪 Experiment Maker','#'],['📊 VOI Rankings','#'],['🗂️ Topic Browser','#']] },
+      { label: 'Design Study',  links:[['📝 Pre-Registration','#'],['🎯 Sensor Selection','#'],['📋 Protocol Template','#']] }
+    ]
+  },
+  contributor: {
+    pillClass: 'contributor',
+    label: 'CONTRIBUTOR',
+    items: [
+      { label: 'Dashboard', active: true, links: [
+        ['📊 My Overview','#'],['📈 My Stats','#'],['🏆 Leaderboard','#']
+      ]},
+      { label: 'Tag Images', twoCol: true, cols: [
+        { header:'Tagging', links:[['🏷️ Open Queue','#'],['📦 Tag Bundles','#'],['✅ Quality Check','#']] },
+        { header:'Reference', links:[['📋 Tag Schema','#'],['🗂️ CNFA Registry','#'],['❓ Tag Guide','#']] }
+      ]},
+      { label: 'Find Articles', twoCol: true, cols: [
+        { header:'Search', links:[['🔎 Run Search','#'],['❓ Question Maker','#'],['📂 My Queries','#']] },
+        { header:'Contribute', links:[['📝 Propose Article','#'],['📄 Pending Review','#'],['✅ Accepted','#']] }
+      ]},
+      { label: 'Data Capture', links:[['📡 New Capture','#'],['📋 Active Sessions','#'],['🗄️ Archive','#']] },
+      { label: 'My Work',      links:[['📜 History','#'],['⭐ Flagged','#'],['💬 Feedback','#']] }
+    ]
+  },
+  admin: {
+    pillClass: 'contributor',
+    label: 'ADMIN',
+    items: [
+      { label: 'System', active: true, links:[['📊 Dashboard','#'],['⚙️ Configuration','#'],['📋 Audit Log','#']] },
+      { label: 'Users', links:[['👥 All Users','#'],['➕ Invite','#'],['🔐 Roles','#']] },
+      { label: 'Pipeline', twoCol: true, cols: [
+        { header:'Extraction', links:[['🔄 Job Queue','#'],['❌ Failures','#'],['📊 Stats','#']] },
+        { header:'Quality', links:[['✅ QA Review','#'],['⚠️ Flagged','#'],['📈 Accuracy','#']] }
+      ]},
+      { label: 'Content',  links:[['📚 Articles','#'],['🖼️ Images','#'],['🗄️ Archive','#']] },
+      { label: 'Reports',  links:[['📈 Usage','#'],['💾 Export','#'],['📬 Scheduled','#']] }
+    ]
+  }
+};
+
+function buildNavItem(item) {
+  const activeClass = item.active ? ' active' : '';
+  if (item.twoCol) {
+    const cols = item.cols.map(c =>
+      `<div class="dropdown-col">
+        <div class="dropdown-col-header">${c.header}</div>
+        ${c.links.map(([t,h]) => `<a href="${h}">${t}</a>`).join('')}
+      </div>`
+    ).join('');
+    return `<div class="nav-item">
+      <a class="nav-link${activeClass}" href="#">${item.label} <span class="caret">▾</span></a>
+      <div class="dropdown two-col"><div class="dropdown-inner">${cols}</div></div>
+    </div>`;
+  }
+  const links = (item.links||[]).map(([t,h]) => `<a href="${h}">${t}</a>`).join('');
+  const dropdown = links ? `<div class="dropdown">${links}</div>` : '';
+  const caret = links ? ` <span class="caret">▾</span>` : '';
+  return `<div class="nav-item">
+    <a class="nav-link${activeClass}" href="#">${item.label}${caret}</a>
+    ${dropdown}
+  </div>`;
+}
+
+let currentMode = 'researcher';
+
+function setMode(mode) {
+  currentMode = mode;
+  const cfg = NAV_CONFIGS[mode];
+
+  // Swap nav items
+  document.getElementById('nav-items').innerHTML = cfg.items.map(buildNavItem).join('');
+
+  // Swap mode pill
+  const pill = document.getElementById('mode-pill');
+  pill.className = 'mode-pill ' + cfg.pillClass;
+  document.getElementById('mode-label').textContent = cfg.label;
+
+  // Update checkmarks in mode dropdown
+  document.querySelectorAll('.mode-option').forEach(el => {
+    el.classList.remove('current');
+    const lbl = el.querySelector('.mo-label');
+    if (lbl && lbl.textContent.replace(' ✓','').trim().toLowerCase() === mode) {
+      el.classList.add('current');
+    }
+  });
+
+  // Banner feedback
+  showModeBanner(cfg.label);
+}
+
+function cycleModes() {
+  const modes = ['researcher','contributor','admin'];
+  const next = modes[(modes.indexOf(currentMode) + 1) % modes.length];
+  setMode(next);
+}
+
+function showModeBanner(label) {
+  let b = document.getElementById('mode-banner');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = 'mode-banner';
+    b.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'+
+      'background:#1C3D3A;color:#fff;padding:10px 22px;border-radius:24px;font-size:0.83rem;'+
+      'font-weight:700;letter-spacing:0.06em;box-shadow:0 4px 16px rgba(0,0,0,0.3);'+
+      'z-index:99999;transition:opacity 0.3s;pointer-events:none;';
+    document.body.appendChild(b);
+  }
+  b.textContent = 'Switched to ' + label + ' view';
+  b.style.opacity = '1';
+  clearTimeout(b._t);
+  b._t = setTimeout(() => { b.style.opacity = '0'; }, 1800);
+}
+
+// Init on load
+setMode('researcher');
+</script>
+
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_demo_v04',
+  title: 'Ask — KA Research Query Interface',
+  audience: 'Researchers and advanced students using KA as a literature synthesis tool',
+  purpose: 'The core research interface. A user poses a natural-language question about a cognitive or affective construct (e.g., "What does the evidence say about awe in built environments?") and receives a structured answer assembled from evidence nodes, warrant chains, and credence-weighted claims. In the live system this requires the KA query engine (Phase 4). Currently a static demo with hardcoded responses.',
+  workflowPos: 'Available post-login to researcher-mode users. Entry point for evidence-based question answering; links out to the Evidence Browser for drilling into individual studies and to the Hypothesis Builder for formalizing a research question.',
+  notFor: 'General web search (this is not Google). Browsing the evidence corpus (use Evidence Browser). Building or saving hypotheses (use Hypothesis Builder).',
+  phase: 'Phase 4 — Core Tool Backends (P0 — requires query planner, evidence retrieval, and answer assembly engine)',
+  evalQuestions: [
+    'Does the interface make clear that answers are evidence-based and cite specific studies — not generated text?',
+    'Is the credence score visible and legible enough to calibrate the user\'s confidence in the answer?',
+    'Are the "→ Science Summary" links prominent enough — do users notice they can drill into each study?',
+    'Does the mode-switching between Researcher and Contributor create confusion?',
+    'Is the construct selector (the sidebar chips) clearly connected to the answer that appears?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+
+<script src="ka_acronyms.js"></script>
+</body>
+</html>

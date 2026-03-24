@@ -1,0 +1,1172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Signal / Measuring Instrument Catalogue · Knowledge Atlas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Georgia', serif;
+            background-color: #F7F4EF;
+            color: #2C2C2C;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        nav {
+            position: sticky;
+            top: 0;
+            height: 56px;
+            background-color: #1C3D3A;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+            z-index: 100;
+        }
+
+        .nav-left {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
+        .wordmark {
+            font-size: 1.3rem;
+            font-weight: bold;
+            color: #F5A623;
+            letter-spacing: -0.5px;
+        }
+
+        .wordmark-sub {
+            font-size: 0.65rem;
+            color: #A0A0A0;
+            margin-top: -4px;
+            letter-spacing: 1px;
+        }
+
+        nav ul {
+            display: flex;
+            gap: 24px;
+            list-style: none;
+        }
+
+        nav a {
+            color: #E8E4DC;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+        }
+
+        nav a:hover {
+            color: #2A7868;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mode-pill {
+            background-color: rgba(42, 120, 104, 0.3);
+            color: #2A7868;
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            font-weight: bold;
+            letter-spacing: 0.5px;
+        }
+
+        .version-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1C3D3A;
+            color: #F5A623;
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 0.7rem;
+            letter-spacing: 0.5px;
+            z-index: 99;
+        }
+
+        /* Header Section */
+        .header {
+            background-color: white;
+            border-bottom: 1px solid #E0DAD3;
+            padding: 32px 24px;
+        }
+
+        .header-content {
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .header h1 {
+            color: #1C3D3A;
+            font-size: 1.8rem;
+            margin-bottom: 4px;
+        }
+
+        .header-subtitle {
+            color: #666;
+            font-size: 0.95rem;
+            margin-bottom: 20px;
+        }
+
+        /* Search and Filter */
+        .search-container {
+            margin-bottom: 20px;
+        }
+
+        .search-input {
+            width: 100%;
+            padding: 10px 14px;
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            background-color: #FAFAF8;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #2A7868;
+            background-color: white;
+        }
+
+        .filter-container {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 16px;
+        }
+
+        .filter-pill {
+            background-color: #F0EEE8;
+            color: #666;
+            border: 1px solid #E0DAD3;
+            padding: 6px 14px;
+            border-radius: 20px;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .filter-pill:hover {
+            background-color: #E0DAD3;
+        }
+
+        .filter-pill.active {
+            background-color: #2A7868;
+            color: white;
+            border-color: #2A7868;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 24px;
+        }
+
+        /* Measure Grid */
+        .measure-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(380px, 1fr));
+            gap: 20px;
+        }
+
+        @media (max-width: 1024px) {
+            .measure-grid {
+                grid-template-columns: repeat(2, 1fr);
+            }
+        }
+
+        @media (max-width: 640px) {
+            .measure-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        /* Measure Cards */
+        .measure-card {
+            background-color: white;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            overflow: hidden;
+            transition: all 0.3s;
+        }
+
+        .measure-card:hover {
+            box-shadow: 0 4px 12px rgba(0,0,0,0.08);
+            border-color: #2A7868;
+        }
+
+        .measure-card-header {
+            display: flex;
+            gap: 0;
+            height: 100%;
+            padding: 16px;
+            position: relative;
+        }
+
+        .measure-color-strip {
+            width: 4px;
+            margin: -16px 0 -16px -16px;
+        }
+
+        .measure-color-strip.physio { background-color: #2A7868; }
+        .measure-color-strip.neural { background-color: #5C3A7E; }
+        .measure-color-strip.ocular { background-color: #E8872A; }
+        .measure-color-strip.behavioral { background-color: #1C3D3A; }
+        .measure-color-strip.selfreport { background-color: #27AE60; }
+        .measure-color-strip.composite { background-color: #F5A623; }
+
+        .measure-name {
+            font-size: 1.05rem;
+            font-weight: bold;
+            color: #1C3D3A;
+            margin-bottom: 4px;
+        }
+
+        .measure-abbrev {
+            display: inline-block;
+            background-color: #E0F2EE;
+            color: #1C3D3A;
+            padding: 2px 8px;
+            border-radius: 3px;
+            font-family: Arial, sans-serif;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-bottom: 8px;
+        }
+
+        .measure-description {
+            font-size: 0.85rem;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 12px;
+        }
+
+        /* Tier Badges */
+        .tier-container {
+            margin-bottom: 12px;
+        }
+
+        .tier-badge {
+            display: inline-block;
+            background-color: #FFF4E6;
+            color: #C05A1F;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-family: Arial, sans-serif;
+            font-size: 0.7rem;
+            font-weight: bold;
+            margin-right: 6px;
+            margin-bottom: 4px;
+        }
+
+        .tier-primary {
+            background-color: #FFF4E6;
+            color: #C05A1F;
+        }
+
+        .tier-auxiliary {
+            background-color: #F0EEE8;
+            color: #666;
+        }
+
+        /* Bottom Row Pills */
+        .measure-meta {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-bottom: 12px;
+        }
+
+        .meta-pill {
+            background-color: #E0F2EE;
+            color: #1C3D3A;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-family: Arial, sans-serif;
+            font-size: 0.7rem;
+            font-weight: bold;
+        }
+
+        .meta-pill.cost-low { background-color: #E0F2EE; color: #2A7868; }
+        .meta-pill.cost-med { background-color: #FFF4E6; color: #C05A1F; }
+        .meta-pill.cost-high { background-color: #FFF4E6; color: #C05A1F; }
+
+        .artifact-green { background-color: #E8F5E9; color: #27AE60; }
+        .artifact-amber { background-color: #FFF4E6; color: #E8872A; }
+        .artifact-red { background-color: #FFEBEE; color: #E74C3C; }
+
+        /* Expand/Learn More */
+        .measure-card-footer {
+            padding: 12px 16px;
+            border-top: 1px solid #E0DAD3;
+            background-color: #FAFAF8;
+        }
+
+        .learn-more {
+            color: #2A7868;
+            text-decoration: none;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: color 0.2s;
+            display: flex;
+            align-items: center;
+            gap: 6px;
+        }
+
+        .learn-more:hover {
+            color: #E8872A;
+        }
+
+        .expand-icon {
+            display: inline-block;
+            transition: transform 0.3s;
+        }
+
+        .expand-icon.open {
+            transform: rotate(180deg);
+        }
+
+        /* Expanded Content */
+        .measure-expanded {
+            padding: 16px;
+            border-top: 1px solid #E0DAD3;
+            display: none;
+            background-color: #FAFAF8;
+        }
+
+        .measure-expanded.show {
+            display: block;
+        }
+
+        .expand-section {
+            margin-bottom: 12px;
+        }
+
+        .expand-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .expand-label {
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            font-weight: bold;
+            color: #1C3D3A;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 4px;
+        }
+
+        .expand-content {
+            font-size: 0.8rem;
+            color: #666;
+            line-height: 1.4;
+        }
+
+        /* Composite Card Styling */
+        .measure-card.composite .measure-color-strip {
+            background-color: #F5A623;
+        }
+
+        .measure-card.composite {
+            border-left: 4px solid #F5A623;
+            position: relative;
+        }
+
+        .measure-card.composite::after {
+            content: "COMPOSITE";
+            position: absolute;
+            top: 8px;
+            right: 8px;
+            background-color: #F5A623;
+            color: white;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: Arial, sans-serif;
+            font-size: 0.65rem;
+            font-weight: bold;
+        }
+
+        /* Empty State */
+        .no-results {
+            grid-column: 1 / -1;
+            text-align: center;
+            padding: 40px 20px;
+        }
+
+        .no-results p {
+            color: #999;
+            font-size: 0.95rem;
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <div class="nav-left">
+            <div>
+                <div class="wordmark">Knowledge Atlas</div>
+                <div class="wordmark-sub">COGS 160</div>
+            </div>
+            <ul>
+                <li><a href="ka_demo_v04.html">Ask</a></li>
+                <li><a href="ka_evidence.html">Evidence</a></li>
+                <li><a href="ka_hypothesis_builder.html">Build</a></li>
+                <li><a href="ka_tagger.html">Tag</a></li>
+                <li><a href="ka_article_search.html">Articles</a></li>
+                <li><a href="ka_datacapture.html">Capture</a></li>
+                <li><a href="ka_gaps.html">Gaps</a></li>
+            </ul>
+        </div>
+        <div class="nav-right">
+            <div class="mode-pill">CONTRIBUTOR</div>
+        </div>
+    </nav>
+
+    <!-- Header -->
+    <div class="header">
+        <div class="header-content">
+            <h1>Signal / Measuring Instrument Catalogue</h1>
+            <p class="header-subtitle">A reference guide to physiological, neural, ocular, behavioral, and self-report measuring instruments used in CNFA <span style="font-size:0.78em;opacity:0.8;">[Cognitive Neuroscience of Functional Architecture]</span> research — for students and researchers choosing instruments for their experiments</p>
+
+            <div class="search-container">
+                <input
+                    type="text"
+                    class="search-input"
+                    id="searchInput"
+                    placeholder="Search measures by name or abbreviation…"
+                >
+            </div>
+
+            <div class="filter-container">
+                <div class="filter-pill active" data-filter="all">All</div>
+                <div class="filter-pill" data-filter="physio">Physiological</div>
+                <div class="filter-pill" data-filter="neural">Neural</div>
+                <div class="filter-pill" data-filter="ocular">Ocular</div>
+                <div class="filter-pill" data-filter="behavioral">Behavioral</div>
+                <div class="filter-pill" data-filter="selfreport">Self-Report</div>
+                <div class="filter-pill" data-filter="composite">Composite</div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="measure-grid" id="measureGrid">
+            <!-- Cards will be inserted here by JavaScript -->
+        </div>
+    </div>
+
+    <!-- Article Search CTA -->
+    <div style="
+        max-width: 900px; margin: 32px auto 24px; padding: 0 24px;
+        display: flex; flex-direction: column; align-items: center; gap: 14px;
+    ">
+        <div style="
+            width: 100%; border-top: 1px solid #D8D2CA; padding-top: 28px;
+            display: flex; flex-direction: column; align-items: center; gap: 10px;
+        ">
+            <p style="
+                font-family: Arial, sans-serif; font-size: 0.88rem; color: #8A7A68;
+                text-align: center; max-width: 560px; line-height: 1.55;
+            ">
+                Want to find published studies that use a particular measuring instrument or construct?
+            </p>
+            <a href="ka_article_search.html" style="
+                display: inline-block;
+                background: #1C3D3A; color: #F5A623;
+                font-family: Arial, sans-serif; font-size: 0.85rem; font-weight: 700;
+                letter-spacing: 0.05em; text-transform: uppercase; text-decoration: none;
+                padding: 11px 28px; border-radius: 6px;
+                border: 2px solid #2A7868;
+                transition: background 0.15s, border-color 0.15s;
+            "
+            onmouseover="this.style.background='#2A7868';this.style.borderColor='#2A7868';"
+            onmouseout="this.style.background='#1C3D3A';this.style.borderColor='#2A7868';">
+                Search Articles by Construct &amp; Measuring Instrument →
+            </a>
+        </div>
+    </div>
+
+    <!-- Page Purpose Note -->
+    <div style="
+        max-width: 900px; margin: 0 auto 64px; padding: 0 24px;
+    ">
+        <p style="
+            font-family: Georgia, serif; font-size: 0.82rem; font-style: italic;
+            color: #9A8A78; line-height: 1.65; text-align: center; max-width: 700px;
+            margin: 0 auto; border-top: 1px dashed #D8D2CA; padding-top: 16px;
+        ">
+            <em>Page purpose (for workflow and interface designers):</em> This is a reference and orientation page. Its audience is students in COGS 160 <span style="font-size:0.88em;">[Experimental Design in Human Factors]</span> and researchers who are selecting or comparing measuring instruments for a study. It explains what each signal / measuring instrument measures, which cognitive or affective constructs it is primary or auxiliary evidence for, what setup effort and artifact risks are involved, and where to find technical guidance. It is not an article search page. Students come here when they are in the Operationalization stage of their hypothesis and need to decide which instruments to use; researchers come here to understand the warrant tier of a signal for a given construct. Article search — finding published studies that use a given instrument or construct — is a distinct workflow reachable via the button above.
+        </p>
+    </div>
+
+    <!-- Version Badge -->
+    <div class="version-badge">KA UI · v0.4</div>
+
+    <script>
+        const measures = [
+            // Physiological
+            {
+                id: 1,
+                name: "Heart Rate",
+                abbrev: "HR",
+                category: "physio",
+                description: "Beats per minute measured via electrocardiography, photoplethysmography, or wearable sensors. Primary indicator of sympathetic arousal.",
+                tiers: [
+                    { construct: "Emotional Arousal", level: "PRIMARY" },
+                    { construct: "Stress", level: "PRIMARY" },
+                    { construct: "Cognitive Load", level: "AUXILIARY" }
+                ],
+                setup: "< 2 min",
+                artifact: "Low",
+                cost: "Low",
+                validation: "Well-validated across hundreds of studies (JSTOR, PubMed Central)",
+                sampleRate: "1–100 Hz (device-dependent)",
+                reference: "Task Force of the European Society of Cardiology and the North American Society of Pacing and Electrophysiology (1996). Heart rate variability. Circulation, 93(5), 1043–1065.",
+                software: "PsychoPy (PyGame), OpenVINO (real-time)"
+            },
+            {
+                id: 2,
+                name: "Heart Rate Variability",
+                abbrev: "HRV",
+                category: "physio",
+                description: "Variation in time intervals between consecutive heartbeats (R-R intervals). Reflects parasympathetic tone and emotional regulation.",
+                tiers: [
+                    { construct: "Stress Recovery", level: "PRIMARY" },
+                    { construct: "Emotional Regulation", level: "PRIMARY" },
+                    { construct: "Parasympathetic Tone", level: "AUXILIARY" }
+                ],
+                setup: "5 min",
+                artifact: "Low",
+                cost: "Medium",
+                validation: "Gold standard in psychophysiology; strong reliability (Intraclass Correlation > 0.80)",
+                sampleRate: "100+ Hz (ECG preferred)",
+                reference: "Shaffer, F., & Ginsberg, J. P. (2017). An overview of heart rate variability metrics and norms. Frontiers in Public Health, 5, 258.",
+                software: "Kubios HRV, LabChart, RHRV (R package)"
+            },
+            {
+                id: 3,
+                name: "Electrodermal Activity",
+                abbrev: "EDA",
+                category: "physio",
+                description: "Changes in electrical conductivity of skin (measured in microSiemens). Highly responsive to attention, emotion, and arousal.",
+                tiers: [
+                    { construct: "Emotional Arousal", level: "PRIMARY" },
+                    { construct: "Stress", level: "PRIMARY" },
+                    { construct: "Working Memory Load", level: "AUXILIARY" }
+                ],
+                setup: "< 1 min",
+                artifact: "Medium",
+                cost: "Low",
+                validation: "Sensitive but subject to motion and environmental artifacts; requires careful preprocessing",
+                sampleRate: "10–100 Hz",
+                reference: "Boucsein, W. (2012). Electrodermal Activity (2nd ed.). Springer Science+Business Media.",
+                software: "Neurokit2 (Python), E4 wristband, Empatica API"
+            },
+            {
+                id: 4,
+                name: "Salivary Cortisol",
+                abbrev: "sC",
+                category: "physio",
+                description: "Cortisol concentration in saliva samples. Biomarker of hypothalamic-pituitary-adrenal (HPA) axis activation and stress response.",
+                tiers: [
+                    { construct: "Stress Response", level: "PRIMARY" },
+                    { construct: "Chronic Stress", level: "PRIMARY" },
+                    { construct: "Physiological Baseline", level: "AUXILIARY" }
+                ],
+                setup: "15 min",
+                artifact: "Medium",
+                cost: "High",
+                validation: "Gold standard for HPA function; requires ELISA or mass spectrometry analysis; ~$50–150/sample",
+                sampleRate: "Point samples (timed collection)",
+                reference: "Kirschbaum, C., & Hellhammer, D. H. (1994). Salivary cortisol in psychoneuroendocrine research. European Journal of Clinical Investigation, 24(5), 319–338.",
+                software: "Lab-based; Salimetrics kits"
+            },
+            {
+                id: 5,
+                name: "Respiration Rate",
+                abbrev: "RR",
+                category: "physio",
+                description: "Breathing frequency and depth measured via chest/abdominal strain gauges or airflow sensors. Modulated by attention and emotion.",
+                tiers: [
+                    { construct: "Attention", level: "PRIMARY" },
+                    { construct: "Emotional State", level: "AUXILIARY" },
+                    { construct: "Cognitive Load", level: "AUXILIARY" }
+                ],
+                setup: "2 min",
+                artifact: "Medium",
+                cost: "Low",
+                validation: "Sensitive to task engagement; requires manual annotation for reliability",
+                sampleRate: "10–50 Hz",
+                reference: "Porges, S. W. (2011). The Polyvagal Theory. W. W. Norton & Company.",
+                software: "Biopac systems, OpenVINO"
+            },
+            {
+                id: 6,
+                name: "Blood Volume Pulse",
+                abbrev: "BVP",
+                category: "physio",
+                description: "Photoplethysmographic signal derived from infrared light reflection off blood vessels. Proxy for HR and vascular responsiveness.",
+                tiers: [
+                    { construct: "Arousal", level: "PRIMARY" },
+                    { construct: "Cardiovascular Reactivity", level: "AUXILIARY" }
+                ],
+                setup: "< 1 min",
+                artifact: "High",
+                cost: "Low",
+                validation: "Sensitive to motion; requires filtering; correlates with ECG",
+                sampleRate: "50–100 Hz",
+                reference: "Allen, J. (2007). Photoplethysmography and its application in clinical physiology. Physiology & Behavior, 107(4), 572–579.",
+                software: "Shimmer, E4, generic wearables"
+            },
+
+            // Neural
+            {
+                id: 7,
+                name: "EEG Frontal Theta",
+                abbrev: "θ(Frontal)",
+                category: "neural",
+                description: "Theta-band (4–8 Hz) power over frontal electrodes (Fz, FCz). Associated with sustained attention and mental effort.",
+                tiers: [
+                    { construct: "Cognitive Load", level: "PRIMARY" },
+                    { construct: "Attention", level: "PRIMARY" },
+                    { construct: "Working Memory Engagement", level: "AUXILIARY" }
+                ],
+                setup: "10–15 min",
+                artifact: "High",
+                cost: "High",
+                validation: "Reliable within-subject; between-subject variability high; requires careful artifact rejection",
+                sampleRate: "250+ Hz (typically 500 Hz)",
+                reference: "Klimesch, W. (1999). EEG alpha and theta oscillations reflect cognitive and memory performance. Brain Research Reviews, 29(2–3), 169–195.",
+                software: "MNE-Python, EEGLAB, BrainVision Analyzer"
+            },
+            {
+                id: 8,
+                name: "EEG Alpha / Frontal Asymmetry",
+                abbrev: "α Asymmetry (F3–F4)",
+                category: "neural",
+                description: "Alpha-band (8–12 Hz) asymmetry between left (F3) and right (F4) frontal regions. Linked to approach/withdrawal motivation and mood.",
+                tiers: [
+                    { construct: "Emotional Valence", level: "PRIMARY" },
+                    { construct: "Motivation Direction", level: "PRIMARY" },
+                    { construct: "Mood State", level: "AUXILIARY" }
+                ],
+                setup: "10–15 min",
+                artifact: "High",
+                cost: "High",
+                validation: "Theoretically rich; vulnerable to individual differences and baseline shifts",
+                sampleRate: "250+ Hz",
+                reference: "Davidson, R. J. (1998). Affective style and affective disorders. Journal of Personality and Social Psychology, 835–846.",
+                software: "LORETA, source-localization tools"
+            },
+            {
+                id: 9,
+                name: "EEG Event-Related Potentials",
+                abbrev: "ERP (P300/LPC/N200)",
+                category: "neural",
+                description: "Time-locked voltage deflections to stimulus onset: P300 (attention), LPC (memory retrieval), N200 (conflict monitoring). Require stimulus tagging.",
+                tiers: [
+                    { construct: "Attention Allocation", level: "PRIMARY" },
+                    { construct: "Conflict Detection", level: "PRIMARY" },
+                    { construct: "Memory Encoding", level: "AUXILIARY" }
+                ],
+                setup: "15–20 min",
+                artifact: "Very High",
+                cost: "High",
+                validation: "Robust component signatures; requires 30–40 trials per condition minimum",
+                sampleRate: "500+ Hz required",
+                reference: "Polich, J. (2007). Updating P300: An integrative theory of P3a and P3b. Clinical Neurophysiology, 118(10), 2128–2148.",
+                software: "ERPLAB (plugin for EEGLAB), BrainVision"
+            },
+            {
+                id: 10,
+                name: "fNIRS Prefrontal Oxygenation",
+                abbrev: "fNIRS (PFC)",
+                category: "neural",
+                description: "Functional near-infrared spectroscopy measuring oxy- and deoxy-hemoglobin in prefrontal cortex. Non-invasive, motion-robust alternative to fMRI.",
+                tiers: [
+                    { construct: "Executive Function", level: "PRIMARY" },
+                    { construct: "Working Memory", level: "PRIMARY" },
+                    { construct: "Prefrontal Activation", level: "AUXILIARY" }
+                ],
+                setup: "5 min",
+                artifact: "Low",
+                cost: "Very High",
+                validation: "Excellent ecological validity; correlated with fMRI and behavioral performance",
+                sampleRate: "10 Hz typical",
+                reference: "Ferrari, M., & Quaresima, V. (2012). A brief review on the history of human functional near-infrared spectroscopy (fNIRS) development and fields of applications. NeuroImage, 63(2), 921–935.",
+                software: "Hitachi ETG-4000, GOWERLABS Lumo"
+            },
+            {
+                id: 11,
+                name: "EEG Gamma (Creativity)",
+                abbrev: "γ High-Freq",
+                category: "neural",
+                description: "High-frequency gamma oscillations (40–100 Hz) over parietal/central regions. Associated with creative cognition and insight.",
+                tiers: [
+                    { construct: "Creativity / Insight", level: "PRIMARY" },
+                    { construct: "Divergent Thinking", level: "PRIMARY" },
+                    { construct: "Neural Synchronization", level: "AUXILIARY" }
+                ],
+                setup: "10–15 min",
+                artifact: "Very High",
+                cost: "High",
+                validation: "Prone to muscle and EMG contamination; requires advanced artifact rejection",
+                sampleRate: "500+ Hz (preferably 1 kHz)",
+                reference: "Kounios, J., et al. (2006). The prepared mind. Psychological Science, 17(4), 360–366.",
+                software: "EEGLAB with ICA, Morlet wavelet analysis"
+            },
+
+            // Ocular
+            {
+                id: 12,
+                name: "Pupillometry (Task-Evoked Pupil Response)",
+                abbrev: "TEPR",
+                category: "ocular",
+                description: "Pupil diameter changes during task performance. Correlates with cognitive load, arousal, and attention.",
+                tiers: [
+                    { construct: "Cognitive Load", level: "PRIMARY" },
+                    { construct: "Attention", level: "PRIMARY" },
+                    { construct: "Mental Effort", level: "AUXILIARY" }
+                ],
+                setup: "< 2 min",
+                artifact: "Medium",
+                cost: "Medium",
+                validation: "Robust across populations; sensitive to lighting conditions; requires luminance control",
+                sampleRate: "30–120 Hz",
+                reference: "Beatty, J., & Lucero-Wagoner, B. (2000). The pupillary system. Handbook of Psychophysiology, 142–162.",
+                software: "Tobii Pro, SR Research EyeLink, PyGaze"
+            },
+            {
+                id: 13,
+                name: "Fixation Duration & Count",
+                abbrev: "Fixations",
+                category: "ocular",
+                description: "Number and duration of stable gaze points on areas of interest (AOI). Indicates attention allocation and information processing.",
+                tiers: [
+                    { construct: "Visual Attention", level: "PRIMARY" },
+                    { construct: "Information Integration", level: "PRIMARY" },
+                    { construct: "Interest/Engagement", level: "AUXILIARY" }
+                ],
+                setup: "2–3 min",
+                artifact: "Low",
+                cost: "Medium",
+                validation: "Reliable measure; requires AOI definition; calibration essential",
+                sampleRate: "30–120 Hz",
+                reference: "Just, M. A., & Carpenter, P. A. (1976). Eye fixations and cognitive processes. Cognitive Psychology, 8(4), 441–480.",
+                software: "Tobii Studio, SR Research EyeLink Data Viewer"
+            },
+            {
+                id: 14,
+                name: "Saccadic Velocity",
+                abbrev: "Sacc Vel",
+                category: "ocular",
+                description: "Speed of rapid eye movements between fixation points. Increases with arousal and cognitive engagement; slows with fatigue.",
+                tiers: [
+                    { construct: "Arousal Level", level: "PRIMARY" },
+                    { construct: "Fatigue / Vigilance", level: "PRIMARY" },
+                    { construct: "Attentional Control", level: "AUXILIARY" }
+                ],
+                setup: "< 1 min",
+                artifact: "Low",
+                cost: "Medium",
+                validation: "Sensitive to task demands; individual differences moderate; requires calibration",
+                sampleRate: "250+ Hz recommended",
+                reference: "Findlay, J. M., & Walker, R. (1999). A review of the role of saccades in reading. Journal of Vision, 8(14), 3–3.",
+                software: "SR Research EyeLink, Tobii SDK"
+            },
+            {
+                id: 15,
+                name: "Blink Rate",
+                abbrev: "BR",
+                category: "ocular",
+                description: "Frequency of eye blinks per minute. Decreases during visual attention tasks; increases with stress and fatigue.",
+                tiers: [
+                    { construct: "Attention Allocation", level: "PRIMARY" },
+                    { construct: "Fatigue", level: "PRIMARY" },
+                    { construct: "Stress Level", level: "AUXILIARY" }
+                ],
+                setup: "< 1 min",
+                artifact: "Low",
+                cost: "Low",
+                validation: "Robust but modulated by task type; baseline individual differences moderate interpretation",
+                sampleRate: "30+ Hz",
+                reference: "Recarte, M. A., & Nunes, L. M. (2003). Mental workload while driving. Human Factors, 45(1), 96–106.",
+                software: "dlib (Python), OpenFace, standard eye trackers"
+            },
+
+            // Behavioral
+            {
+                id: 16,
+                name: "Psychomotor Vigilance Task",
+                abbrev: "PVT",
+                category: "behavioral",
+                description: "Timed reaction-time task to random visual stimuli. Primary measure of sustained attention and fatigue. Reaction times (RT) and lapses (RT > 500 ms) are key outputs.",
+                tiers: [
+                    { construct: "Vigilance / Attention", level: "PRIMARY" },
+                    { construct: "Fatigue", level: "PRIMARY" },
+                    { construct: "Executive Control", level: "AUXILIARY" }
+                ],
+                setup: "2 min",
+                artifact: "Very Low",
+                cost: "Very Low",
+                validation: "Gold standard in fatigue research; standardized in sleep science; highly reliable",
+                sampleRate: "Task-based (per trial)",
+                reference: "Dinges, D. F., & Powell, J. W. (1985). Microcomputer analyses of performance on a portable, simple visual RT task. Behavior Research Methods, Instruments, & Computers, 17(6), 652–655.",
+                software: "Custom PsychoPy, Matlab, PEBL (Psychology Experiment Building Language)"
+            },
+            {
+                id: 17,
+                name: "N-Back Task",
+                abbrev: "N-Back",
+                category: "behavioral",
+                description: "Working memory task with 1-back, 2-back, or 3-back variants. Accuracy and RT reflect online maintenance and manipulation demands.",
+                tiers: [
+                    { construct: "Working Memory", level: "PRIMARY" },
+                    { construct: "Cognitive Load", level: "PRIMARY" },
+                    { construct: "Attention", level: "AUXILIARY" }
+                ],
+                setup: "3 min",
+                artifact: "Very Low",
+                cost: "Very Low",
+                validation: "Well-validated; practice effects moderate; response pattern sensitive to difficulty",
+                sampleRate: "Task-based",
+                reference: "Kirchner, W. K. (1958). Age differences in short-term retention of rapidly changing information. Journal of Experimental Psychology, 55(4), 352.",
+                software: "PsychoPy, Matlab, PEBL"
+            },
+            {
+                id: 18,
+                name: "Stroop Task",
+                abbrev: "Stroop",
+                category: "behavioral",
+                description: "Color-naming task with congruent and incongruent word-color conditions. Stroop effect (incongruent RT − congruent RT) measures conflict resolution and inhibitory control.",
+                tiers: [
+                    { construct: "Cognitive Control / Inhibition", level: "PRIMARY" },
+                    { construct: "Conflict Monitoring", level: "PRIMARY" },
+                    { construct: "Executive Function", level: "AUXILIARY" }
+                ],
+                setup: "2 min",
+                artifact: "Very Low",
+                cost: "Very Low",
+                validation: "One of the most robust findings in cognitive psychology; high test–retest reliability",
+                sampleRate: "Task-based",
+                reference: "MacLeod, C. M. (1991). Half a century of research on the Stroop effect. Psychological Bulletin, 109(2), 163.",
+                software: "PsychoPy, E-Prime, OpenSesame"
+            },
+            {
+                id: 19,
+                name: "Alternate Uses Task (Divergent Thinking)",
+                abbrev: "AUT",
+                category: "behavioral",
+                description: "Open-ended creativity task asking for novel uses of objects (e.g., brick, newspaper). Scored on fluency (number of ideas), flexibility (variety), and originality (statistical rarity).",
+                tiers: [
+                    { construct: "Divergent Thinking", level: "PRIMARY" },
+                    { construct: "Creativity", level: "PRIMARY" },
+                    { construct: "Cognitive Flexibility", level: "AUXILIARY" }
+                ],
+                setup: "5 min",
+                artifact: "Very Low",
+                cost: "Low",
+                validation: "Standard in creativity research; requires manual or AI-assisted scoring; Guilford norms available",
+                sampleRate: "Task-based",
+                reference: "Guilford, J. P. (1967). The Nature of Human Intelligence. McGraw-Hill.",
+                software: "Custom (paper + manual coding, or AI-assisted scoring)"
+            },
+
+            // Self-Report
+            {
+                id: 20,
+                name: "NASA-TLX",
+                abbrev: "NASA-TLX",
+                category: "selfreport",
+                description: "Six-dimensional subjective workload assessment (Mental Demand, Physical Demand, Temporal Demand, Effort, Performance, Frustration). Weighted multi-dimensional rating.",
+                tiers: [
+                    { construct: "Subjective Workload", level: "PRIMARY" },
+                    { construct: "Cognitive Effort", level: "PRIMARY" },
+                    { construct: "Task Difficulty Perception", level: "AUXILIARY" }
+                ],
+                setup: "3 min",
+                artifact: "Very Low",
+                cost: "Very Low",
+                validation: "Highly cited and validated; correlates with physiological load measures; sensitive to task variation",
+                sampleRate: "Post-task assessment",
+                reference: "Hart, S. G., & Staveland, L. E. (1988). Development of NASA-TLX (Task Load Index). Human Mental Workload, 139–183.",
+                software: "Questionnaire (paper, Qualtrics, custom web form)"
+            },
+            {
+                id: 21,
+                name: "PANAS (Positive and Negative Affect Schedule)",
+                abbrev: "PANAS",
+                category: "selfreport",
+                description: "20-item self-report of momentary affect along two orthogonal dimensions: Positive Affect (PA) and Negative Affect (NA). Quick, reliable mood snapshot.",
+                tiers: [
+                    { construct: "Emotional State", level: "PRIMARY" },
+                    { construct: "Positive Affect", level: "PRIMARY" },
+                    { construct: "Negative Affect", level: "PRIMARY" }
+                ],
+                setup: "1 min",
+                artifact: "Very Low",
+                cost: "Very Low",
+                validation: "Well-validated; high internal consistency (α > 0.84); sensitive to state change",
+                sampleRate: "Pre/post or repeated measures",
+                reference: "Watson, D., Clark, L. A., & Tellegen, A. (1988). Development and validation of brief measures of positive and negative affect. Journal of Personality and Social Psychology, 54(6), 1063.",
+                software: "Questionnaire (paper, digital)"
+            },
+            {
+                id: 22,
+                name: "STAI (State-Trait Anxiety Inventory)",
+                abbrev: "STAI",
+                category: "selfreport",
+                description: "20-item measure of state anxiety (situational nervousness) and 20-item trait anxiety (personality disposition). Distinguishes temporary vs. stable anxiety.",
+                tiers: [
+                    { construct: "State Anxiety", level: "PRIMARY" },
+                    { construct: "Trait Anxiety", level: "PRIMARY" },
+                    { construct: "Stress Response", level: "AUXILIARY" }
+                ],
+                setup: "3 min",
+                artifact: "Very Low",
+                cost: "Very Low",
+                validation: "Gold standard for anxiety assessment; high test–retest for trait; sensitive to task-induced state",
+                sampleRate: "Pre/post or repeated",
+                reference: "Spielberger, C. D., Gorsuch, R. L., Lushene, R., Vagg, P. R., & Jacobs, G. A. (1983). Manual for the State-Trait Anxiety Inventory (Form Y). Mind Garden.",
+                software: "Copyrighted questionnaire (licensing required)"
+            },
+            {
+                id: 23,
+                name: "Karolinska Sleepiness Scale",
+                abbrev: "KSS",
+                category: "selfreport",
+                description: "9-point unidimensional subjective sleepiness measure ('Extremely alert' to 'Very sleepy, fighting sleep'). Rapid, single-item alternative to longer instruments.",
+                tiers: [
+                    { construct: "Fatigue / Sleepiness", level: "PRIMARY" },
+                    { construct: "Vigilance Capacity", level: "AUXILIARY" }
+                ],
+                setup: "< 1 min",
+                artifact: "Very Low",
+                cost: "Very Low",
+                validation: "Fast and practical; correlates with PVT and EEG; limited by single-item structure",
+                sampleRate: "Frequent repeated measures (e.g., every 30 min)",
+                reference: "Åkerstedt, T., & Gillberg, M. (1990). Subjective and objective sleepiness in the active individual. International Journal of Neuroscience, 52(1–2), 29–37.",
+                software: "Questionnaire (simple visual scale)"
+            },
+            {
+                id: 24,
+                name: "SAM (Self-Assessment Manikin)",
+                abbrev: "SAM",
+                category: "selfreport",
+                description: "Non-verbal, pictorial self-report of emotional response along three dimensions: Valence (sad/happy), Arousal (calm/excited), and Dominance (controlled/controlling).",
+                tiers: [
+                    { construct: "Emotional Valence", level: "PRIMARY" },
+                    { construct: "Emotional Arousal", level: "PRIMARY" },
+                    { construct: "Sense of Control", level: "PRIMARY" }
+                ],
+                setup: "1 min",
+                artifact: "Very Low",
+                cost: "Very Low",
+                validation: "Language-independent, cross-culturally valid; quick; widely used in media/UX research",
+                sampleRate: "Post-stimulus or repeated",
+                reference: "Bradley, M. M., & Lang, P. J. (1994). Measuring emotion. Journal of Behavior Therapy and Experimental Psychiatry, 25(1), 49–59.",
+                software: "Questionnaire (visual manikin images)"
+            },
+
+            // Composite
+            {
+                id: 25,
+                name: "Cognitive Load Index",
+                abbrev: "CLI",
+                category: "composite",
+                description: "Composite derived from EEG Theta + Pupil Diameter + NASA-TLX. Integrates neural, physiological, and subjective workload signals for robust load assessment.",
+                tiers: [
+                    { construct: "Overall Cognitive Load", level: "PRIMARY" },
+                    { construct: "Mental Effort", level: "PRIMARY" }
+                ],
+                setup: "15 min",
+                artifact: "High",
+                cost: "High",
+                validation: "Multi-modal integration reduces single-measure bias; requires preprocessing and cross-modal normalization",
+                sampleRate: "Multi-modal (EEG 500 Hz + eye-track 100 Hz + post-task survey)",
+                reference: "Sweller, J. (2011). Cognitive load theory and educational technology. Educational Technology Research and Development, 60(2), 339–352.",
+                software: "Custom integration pipeline (Python: sklearn, scipy)"
+            },
+            {
+                id: 26,
+                name: "Stress Composite",
+                abbrev: "StressComp",
+                category: "composite",
+                description: "Composite of HR + HRV + EDA + Salivary Cortisol + STAI. Multi-modal stress biomarker combining autonomic, endocrine, and subjective axes.",
+                tiers: [
+                    { construct: "Overall Stress Level", level: "PRIMARY" },
+                    { construct: "Physiological Stress Response", level: "PRIMARY" }
+                ],
+                setup: "30 min",
+                artifact: "Very High",
+                cost: "Very High",
+                validation: "Strong evidence from longitudinal cortisol studies and autonomic psychophysiology; requires careful temporal alignment",
+                sampleRate: "Multi-modal (ECG 100+ Hz, EDA 10–100 Hz, cortisol point samples, self-report post-task)",
+                reference: "McEwen, B. S. (2007). Physiology and neurobiology of stress and adaptation. Physiological Reviews, 87(3), 873–904.",
+                software: "Custom pipeline; Neurokit2"
+            },
+            {
+                id: 27,
+                name: "Emotional Arousal Index",
+                abbrev: "EAI",
+                category: "composite",
+                description: "Composite of EDA + Heart Rate + PANAS-NA + SAM Arousal dimension. Indices acute emotional mobilization across physiological, autonomic, and subjective domains.",
+                tiers: [
+                    { construct: "Emotional Arousal", level: "PRIMARY" },
+                    { construct: "Emotional Intensity", level: "PRIMARY" }
+                ],
+                setup: "10 min",
+                artifact: "Medium",
+                cost: "Low-Medium",
+                validation: "Converges across modalities; captures state-level emotional intensity; insensitive to valence direction",
+                sampleRate: "Multi-modal (real-time physio + post-task survey)",
+                reference: "Mauss, I. B., & Robinson, M. D. (2009). Measures of emotion. Cognition and Emotion, 23(2), 209–237.",
+                software: "Custom integration (normalization + PCA)"
+            }
+        ];
+
+        const measureGrid = document.getElementById('measureGrid');
+        const searchInput = document.getElementById('searchInput');
+        const filterPills = document.querySelectorAll('.filter-pill');
+        let activeFilter = 'all';
+
+        // Render measures
+        function renderMeasures(filtered = measures) {
+            measureGrid.innerHTML = '';
+            if (filtered.length === 0) {
+                measureGrid.innerHTML = '<div class="no-results" style="grid-column: 1 / -1;"><p>No measures found. Try adjusting your search or filters.</p></div>';
+                return;
+            }
+            filtered.forEach((measure, idx) => {
+                const card = document.createElement('div');
+                card.className = `measure-card ${measure.category === 'composite' ? 'composite' : ''}`;
+                card.innerHTML = `
+                    <div class="measure-card-header">
+                        <div class="measure-color-strip ${measure.category}"></div>
+                        <div style="flex: 1; padding-left: 12px;">
+                            <div class="measure-name">${measure.name}</div>
+                            <span class="measure-abbrev">${measure.abbrev}</span>
+                            <div class="measure-description">${measure.description}</div>
+                            <div class="tier-container">
+                                ${measure.tiers.map(t => `<span class="tier-badge tier-${t.level.toLowerCase()}">${t.construct} <strong>${t.level}</strong></span>`).join('')}
+                            </div>
+                            <div class="measure-meta">
+                                <span class="meta-pill">${measure.setup}</span>
+                                <span class="meta-pill artifact-${measure.artifact === 'Low' ? 'green' : measure.artifact === 'Medium' ? 'amber' : 'red'}">Artifact: ${measure.artifact}</span>
+                                <span class="meta-pill cost-${measure.cost === 'Low' ? 'low' : 'med'}">Cost: ${measure.cost}</span>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="measure-card-footer">
+                        <span class="learn-more" onclick="toggleExpand(this, ${idx})">
+                            Learn more <span class="expand-icon">▼</span>
+                        </span>
+                    </div>
+                    <div class="measure-expanded" id="expand-${idx}">
+                        <div class="expand-section">
+                            <div class="expand-label">Validation & Robustness</div>
+                            <div class="expand-content">${measure.validation}</div>
+                        </div>
+                        <div class="expand-section">
+                            <div class="expand-label">Sample Rate / Temporal Resolution</div>
+                            <div class="expand-content">${measure.sampleRate}</div>
+                        </div>
+                        <div class="expand-section">
+                            <div class="expand-label">Key Reference</div>
+                            <div class="expand-content">${measure.reference}</div>
+                        </div>
+                        <div class="expand-section">
+                            <div class="expand-label">Software & Implementation</div>
+                            <div class="expand-content">${measure.software}</div>
+                        </div>
+                    </div>
+                `;
+                measureGrid.appendChild(card);
+            });
+        }
+
+        function toggleExpand(button, idx) {
+            const expanded = document.getElementById(`expand-${idx}`);
+            expanded.classList.toggle('show');
+            button.querySelector('.expand-icon').classList.toggle('open');
+        }
+
+        // Filter
+        filterPills.forEach(pill => {
+            pill.addEventListener('click', () => {
+                filterPills.forEach(p => p.classList.remove('active'));
+                pill.classList.add('active');
+                activeFilter = pill.dataset.filter;
+                applyFilters();
+            });
+        });
+
+        // Search
+        searchInput.addEventListener('input', () => {
+            applyFilters();
+        });
+
+        function applyFilters() {
+            let filtered = measures;
+            if (activeFilter !== 'all') {
+                filtered = filtered.filter(m => m.category === activeFilter);
+            }
+            const query = searchInput.value.toLowerCase();
+            if (query) {
+                filtered = filtered.filter(m =>
+                    m.name.toLowerCase().includes(query) ||
+                    m.abbrev.toLowerCase().includes(query) ||
+                    m.description.toLowerCase().includes(query)
+                );
+            }
+            renderMeasures(filtered);
+        }
+
+        // Initial render
+        renderMeasures();
+    </script>
+<script src="ka_acronyms.js"></script>
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_sensors',
+  title: 'Signal / Measuring Instrument Catalogue',
+  audience: 'Students at the operationalization stage selecting measuring instruments; researchers comparing signal options for a construct',
+  purpose: 'A reference and orientation page explaining what each signal / measuring instrument measures, which CNFA [Cognitive Neuroscience of Functional Architecture] constructs it provides primary or auxiliary evidence for, and what its setup requirements, artifact risks, and cost level are. Not a search page. Students arrive here from Stage 4 (Operationalize) of the Hypothesis Builder when they need to make an informed choice of instruments.',
+  workflowPos: 'Between Hypothesis (stage 3) and Operationalize (stage 4) in the six-stage scientific thinking model. Linked from the Hypothesis Builder signal selection table. Article search for studies using a given instrument is a separate page (Article Search).',
+  notFor: 'Finding articles that use a given instrument (use Article Search). Browsing evidence nodes (use Evidence Browser). Credence assessment — credence is a property of evidence nodes, not of instruments themselves.',
+  phase: 'Phase 2 — Data Seeding (instrument metadata already in static JS; live version reads from signals table)',
+  evalQuestions: [
+    'Does the PRIMARY / AUXILIARY / COMPLEMENTARY tier system communicate construct relevance clearly without a statistics background?',
+    'Is the artifact risk information (Low / Medium / High / Very High) calibrated correctly — do students understand what artifacts mean in practice?',
+    'Is the "Learn more" expand section useful, or is it too technical for the intended audience?',
+    'Is the Article Search CTA [Call to Action] at the bottom noticeable and clearly distinct from the catalogue itself?',
+    'Do students understand that this page is for instrument selection, not for finding literature?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

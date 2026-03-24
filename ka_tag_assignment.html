@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Claim a Tag Assignment – Knowledge Atlas</title>
+  <style>
+    *, *::before, *::after { margin:0; padding:0; box-sizing:border-box; }
+    :root {
+      --navy:   #1C3D3A;
+      --teal:   #2A7868;
+      --teal-lt:#5AC8AA;
+      --amber:  #E8872A;
+      --amber-lt:#FFF3E0;
+      --cream:  #F7F4EF;
+      --ink:    #2C2C2C;
+      --muted:  #6B6B6B;
+      --border: #D8D0C5;
+      --white:  #FFFFFF;
+      --green:  #2A7868;
+      --green-lt:#E6F5F0;
+      --disabled-bg: #ECECEC;
+      --disabled-border: #C8C8C8;
+      --disabled-text: #999;
+    }
+    body { font-family: Arial, sans-serif; background: var(--cream); color: var(--ink); }
+
+    /* ── Nav ── */
+    .top-nav {
+      position: fixed; top:0; left:0; right:0; height:56px;
+      background: var(--navy); border-bottom:1px solid #0f2423;
+      display:flex; align-items:center; justify-content:space-between;
+      padding:0 24px; z-index:1000; box-shadow:0 1px 3px rgba(0,0,0,.12);
+    }
+    .nav-wordmark { display:flex; align-items:center; gap:8px; font-size:12px; font-weight:600; letter-spacing:.1em; color:#A8C8BF; }
+    .nav-icon { width:20px; height:20px; background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23A8C8BF" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="6" x2="12" y2="18"/><line x1="18" y1="6" x2="12" y2="18"/></svg>') no-repeat center / contain; }
+    .nav-title { color:#fff; }
+    .nav-title-accent { color:#F5A623; }
+    .nav-center { flex:1; text-align:center; color:#A8C8BF; font-size:13px; }
+    .nav-right { display:flex; align-items:center; gap:14px; }
+    .mode-pill { background:var(--teal-lt); color:#fff; padding:5px 13px; border-radius:14px; font-size:11px; font-weight:600; letter-spacing:.06em; }
+    .nav-avatar { width:30px; height:30px; border-radius:50%; background:#3A6B62; color:#A8C8BF; display:flex; align-items:center; justify-content:center; font-size:12px; font-weight:600; cursor:pointer; }
+
+    /* ── Layout ── */
+    .page-wrap { max-width:1120px; margin:80px auto 48px; padding:0 28px; }
+    .page-header { margin-bottom:32px; }
+    .page-header h1 { font-family:Georgia,serif; font-size:1.7rem; font-weight:400; color:var(--navy); margin-bottom:6px; }
+    .page-header p { font-size:0.92rem; color:var(--muted); max-width:680px; line-height:1.6; }
+    .breadcrumb { font-size:11px; color:var(--muted); margin-bottom:10px; }
+    .breadcrumb a { color:var(--teal); text-decoration:none; }
+    .breadcrumb a:hover { text-decoration:underline; }
+
+    /* ── Section titles ── */
+    .section-title {
+      font-family:Georgia,serif; font-size:1.05rem; font-weight:400;
+      color:var(--navy); border-bottom:2px solid var(--teal); padding-bottom:6px;
+      margin:36px 0 18px;
+    }
+    .section-subtitle { font-size:0.85rem; color:var(--muted); margin:-10px 0 18px; }
+
+    /* ── Bundle grid ── */
+    .bundle-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(310px,1fr)); gap:18px; }
+
+    .bundle-card {
+      background:var(--white); border:2px solid var(--border); border-radius:10px;
+      padding:20px 20px 16px; position:relative; transition:border-color .15s, box-shadow .15s;
+      display:flex; flex-direction:column; gap:10px;
+    }
+    .bundle-card:hover { border-color:var(--teal); box-shadow:0 2px 10px rgba(42,120,104,.12); }
+    .bundle-card.selected { border-color:var(--teal); background:var(--green-lt); }
+    .bundle-card.assigned { border-color:var(--disabled-border); background:var(--disabled-bg); opacity:.75; pointer-events:none; }
+
+    .bundle-top { display:flex; align-items:flex-start; gap:12px; }
+    .bundle-check-wrap { padding-top:2px; }
+    .bundle-check {
+      width:20px; height:20px; border:2px solid var(--border); border-radius:5px;
+      background:var(--white); cursor:pointer; display:flex; align-items:center; justify-content:center;
+      flex-shrink:0; transition:background .12s, border-color .12s;
+    }
+    .bundle-card.selected .bundle-check { background:var(--teal); border-color:var(--teal); }
+    .bundle-check svg { display:none; }
+    .bundle-card.selected .bundle-check svg { display:block; }
+
+    .bundle-meta { flex:1; min-width:0; }
+    .bundle-name { font-family:Georgia,serif; font-size:1.0rem; color:var(--navy); margin-bottom:3px; }
+    .bundle-category { font-size:11px; color:var(--teal); font-weight:600; letter-spacing:.07em; text-transform:uppercase; }
+    .bundle-desc { font-size:0.82rem; color:var(--muted); line-height:1.55; }
+
+    .bundle-footer { display:flex; align-items:center; justify-content:space-between; margin-top:4px; }
+    .bundle-tag-count { font-size:11px; color:var(--muted); }
+    .bundle-detail-btn {
+      font-size:11px; color:var(--teal); border:1px solid var(--teal); background:none;
+      padding:4px 10px; border-radius:4px; cursor:pointer; font-family:Arial,sans-serif;
+      transition:background .12s, color .12s;
+    }
+    .bundle-detail-btn:hover { background:var(--teal); color:var(--white); }
+    .assigned-badge {
+      font-size:10px; color:var(--disabled-text); border:1px solid var(--disabled-border);
+      padding:3px 8px; border-radius:4px;
+    }
+
+    /* ── Operational tags section ── */
+    .operational-table-wrap { overflow-x:auto; }
+    .op-table { width:100%; border-collapse:collapse; font-size:0.84rem; }
+    .op-table th { background:var(--navy); color:var(--white); padding:9px 14px; text-align:left; font-weight:600; font-size:11px; letter-spacing:.06em; }
+    .op-table td { padding:9px 14px; border-bottom:1px solid var(--border); vertical-align:top; }
+    .op-table tr:last-child td { border-bottom:none; }
+    .op-table tr:hover td { background:#F0EBE3; }
+    .op-tag-name { font-family:Georgia,serif; color:var(--navy); font-size:0.88rem; }
+    .op-badge { display:inline-block; background:var(--green-lt); color:var(--teal); font-size:10px; padding:2px 8px; border-radius:10px; font-weight:600; border:1px solid #b2ddd4; }
+
+    /* ── Submit strip ── */
+    .submit-strip {
+      position:sticky; bottom:0; background:var(--white); border-top:2px solid var(--teal);
+      padding:16px 24px; display:flex; align-items:center; justify-content:space-between;
+      box-shadow:0 -3px 12px rgba(0,0,0,.08); z-index:100;
+    }
+    .submit-selection-info { font-size:0.88rem; color:var(--muted); }
+    .submit-selection-info strong { color:var(--navy); }
+    .submit-selection-chips { display:flex; gap:8px; flex-wrap:wrap; margin-top:6px; }
+    .chip-selected { background:var(--teal); color:#fff; font-size:11px; padding:3px 10px; border-radius:12px; }
+    .submit-actions { display:flex; gap:12px; }
+    .btn-submit {
+      background:var(--amber); color:#fff; border:none; padding:10px 28px;
+      border-radius:6px; font-size:0.9rem; font-weight:600; cursor:pointer;
+      font-family:Arial,sans-serif; transition:background .12s;
+    }
+    .btn-submit:hover { background:#c97020; }
+    .btn-submit:disabled { background:#ccc; cursor:not-allowed; }
+    .btn-clear { background:none; color:var(--muted); border:1px solid var(--border); padding:10px 18px; border-radius:6px; font-size:0.9rem; cursor:pointer; font-family:Arial,sans-serif; }
+    .btn-clear:hover { border-color:var(--muted); }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,.45);
+      z-index:2000; align-items:center; justify-content:center;
+    }
+    .modal-overlay.open { display:flex; }
+    .modal-box {
+      background:var(--white); border-radius:12px; max-width:860px; width:94vw;
+      max-height:88vh; overflow:hidden; display:flex; flex-direction:column;
+      box-shadow:0 8px 40px rgba(0,0,0,.22);
+    }
+    .modal-head {
+      background:var(--navy); color:#fff; padding:18px 24px;
+      display:flex; align-items:center; justify-content:space-between;
+    }
+    .modal-head-title { font-family:Georgia,serif; font-size:1.1rem; }
+    .modal-head-sub { font-size:11px; color:#A8C8BF; margin-top:3px; }
+    .modal-close { background:none; border:none; color:#A8C8BF; font-size:1.3rem; cursor:pointer; padding:4px 8px; border-radius:4px; }
+    .modal-close:hover { color:#fff; background:rgba(255,255,255,.12); }
+    .modal-body { padding:22px 24px; overflow-y:auto; flex:1; }
+    .modal-intro { font-size:0.88rem; color:var(--muted); margin-bottom:18px; line-height:1.6; max-width:700px; }
+    .tags-table { width:100%; border-collapse:collapse; font-size:0.83rem; }
+    .tags-table th { background:#f0ebe3; color:var(--navy); padding:10px 14px; text-align:left; font-size:11px; font-weight:600; letter-spacing:.06em; border-bottom:2px solid var(--border); }
+    .tags-table td { padding:11px 14px; border-bottom:1px solid #EEE8E0; vertical-align:top; line-height:1.55; }
+    .tags-table tr:last-child td { border-bottom:none; }
+    .tags-table tr:hover td { background:#FAF7F2; }
+    .tag-name-cell { font-family:Georgia,serif; color:var(--navy); font-size:0.88rem; white-space:nowrap; }
+    .tag-alg { display:block; font-size:10px; color:var(--teal); font-weight:600; margin-top:3px; }
+    .modal-foot { padding:16px 24px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:12px; }
+    .btn-modal-select { background:var(--teal); color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:0.88rem; font-weight:600; cursor:pointer; font-family:Arial,sans-serif; }
+    .btn-modal-cancel { background:none; color:var(--muted); border:1px solid var(--border); padding:9px 18px; border-radius:6px; font-size:0.88rem; cursor:pointer; font-family:Arial,sans-serif; }
+
+    /* ── Confirm modal ── */
+    .confirm-box {
+      background:var(--white); border-radius:12px; max-width:520px; width:92vw;
+      box-shadow:0 8px 40px rgba(0,0,0,.22); overflow:hidden;
+    }
+    .confirm-head { background:var(--amber); color:#fff; padding:16px 22px; font-family:Georgia,serif; font-size:1.05rem; }
+    .confirm-body { padding:20px 22px; font-size:0.88rem; color:var(--ink); line-height:1.65; }
+    .confirm-item-list { margin:14px 0 8px; padding-left:18px; }
+    .confirm-item-list li { margin-bottom:4px; }
+    .confirm-email-note { margin-top:12px; padding:10px 14px; background:var(--amber-lt); border-radius:6px; font-size:0.83rem; color:#7a4510; border:1px solid #f0c080; }
+    .confirm-foot { padding:14px 22px; border-top:1px solid var(--border); display:flex; justify-content:flex-end; gap:10px; }
+    .btn-confirm { background:var(--amber); color:#fff; border:none; padding:9px 22px; border-radius:6px; font-size:0.88rem; font-weight:600; cursor:pointer; font-family:Arial,sans-serif; }
+
+    /* ── Success banner ── */
+    .success-banner {
+      display:none; background:var(--green-lt); border:1px solid #b2ddd4;
+      border-radius:8px; padding:16px 20px; margin-bottom:24px; color:var(--teal);
+      font-size:0.88rem; line-height:1.6;
+    }
+    .success-banner.visible { display:block; }
+
+    /* ── Already-assigned note at top ── */
+    .info-note { background:#EDF7F4; border-left:3px solid var(--teal); padding:12px 16px; font-size:0.84rem; color:var(--muted); border-radius:0 6px 6px 0; margin-bottom:24px; }
+
+    .version-badge { position:fixed; bottom:70px; right:16px; background:var(--navy); color:#A8C8BF; font-size:10px; padding:3px 8px; border-radius:4px; opacity:.6; z-index:50; }
+  </style>
+</head>
+<body>
+
+<!-- Top Nav -->
+<nav class="top-nav">
+  <div class="nav-wordmark">
+    <span class="nav-icon"></span>
+    <span class="nav-title">Knowledge <span class="nav-title-accent">Atlas</span></span>
+  </div>
+  <div class="nav-center">Computational Tag Assignment</div>
+  <div class="nav-right">
+    <span class="mode-pill">CONTRIBUTOR</span>
+    <div class="nav-avatar" title="Profile">JL</div>
+  </div>
+</nav>
+
+<div class="page-wrap">
+  <div class="page-header">
+    <div class="breadcrumb"><a href="ka_tagger.html">← Tag Images</a> &nbsp;/&nbsp; Claim Assignment</div>
+    <h1>Claim a Computational Tag Assignment</h1>
+    <p>Each assignment bundle defines five image-analysis computations you will implement as code, run over a batch of workspace images, and submit for review. Select one or more bundles, then click <strong>Submit Claim</strong>. You will receive a confirmation email and the assignment will appear in your contributor profile.</p>
+  </div>
+
+  <!-- Success banner (shown after submit) -->
+  <div class="success-banner" id="successBanner">
+    <strong>Assignment claimed.</strong> A confirmation email has been sent to your registered address. Your selected bundles now appear under <em>My Tag Assignments</em> in your contributor profile. The Image Tagger will unlock the corresponding tag fields once your implementation has been reviewed.
+  </div>
+
+  <!-- Already-assigned note -->
+  <div class="info-note">
+    Bundles shown with a grey <em>Already assigned</em> badge have been claimed by another contributor in this cohort and are currently locked. They will re-open if the claim expires (14 days without a submission).
+  </div>
+
+  <!-- Section: Computational bundle grid -->
+  <div class="section-title">Available Tag Bundles</div>
+  <p class="section-subtitle">Click <em>View 5 tags</em> on any card to inspect the full technical specification before committing.</p>
+
+  <div class="bundle-grid" id="bundleGrid">
+    <!-- Cards rendered by JS -->
+  </div>
+
+  <!-- Section: Already operational tags -->
+  <div class="section-title" style="margin-top:48px;">Tags Already in the System &amp; Operational</div>
+  <p class="section-subtitle">The following commonsense tags are fully implemented in the Image Tagger (Phase 0). They do not require a student assignment — they are applied directly via the tagger UI on every image.</p>
+  <div class="operational-table-wrap">
+    <table class="op-table">
+      <thead>
+        <tr>
+          <th>Tag Name</th>
+          <th>Type</th>
+          <th>Description</th>
+          <th>Input Method</th>
+          <th>Status</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td><span class="op-tag-name">Workspace Type</span></td>
+          <td>Categorical</td>
+          <td>Primary workspace category: private office, open-plan, cubicle, home office, lab, meeting room, outdoor, transition space.</td>
+          <td>Dropdown select</td>
+          <td><span class="op-badge">✓ Live</span></td>
+        </tr>
+        <tr>
+          <td><span class="op-tag-name">Lighting Condition</span></td>
+          <td>Categorical</td>
+          <td>Dominant light source: daylight-direct, daylight-diffuse, artificial-fluorescent, artificial-LED-warm, artificial-LED-cool, mixed.</td>
+          <td>Dropdown select</td>
+          <td><span class="op-badge">✓ Live</span></td>
+        </tr>
+        <tr>
+          <td><span class="op-tag-name">Occupancy Count</span></td>
+          <td>Integer</td>
+          <td>Number of clearly visible human occupants in the image frame (0–50).</td>
+          <td>Number input</td>
+          <td><span class="op-badge">✓ Live</span></td>
+        </tr>
+        <tr>
+          <td><span class="op-tag-name">Posture (Primary)</span></td>
+          <td>Categorical</td>
+          <td>Dominant worker posture: seated-desk, standing-desk, reclined, walking, absent.</td>
+          <td>Dropdown select</td>
+          <td><span class="op-badge">✓ Live</span></td>
+        </tr>
+        <tr>
+          <td><span class="op-tag-name">Display Visible</span></td>
+          <td>Boolean</td>
+          <td>Whether a monitor, tablet, or projected display is a significant element of the scene.</td>
+          <td>Chip toggle (Yes / No)</td>
+          <td><span class="op-badge">✓ Live</span></td>
+        </tr>
+        <tr>
+          <td><span class="op-tag-name">Equipment Type</span></td>
+          <td>Multi-select</td>
+          <td>Visible equipment categories: Computer, Tablet, Phone, Paper, Whiteboard (up to 5 labels).</td>
+          <td>Chip multi-select</td>
+          <td><span class="op-badge">✓ Live</span></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /page-wrap -->
+
+<!-- Submit strip -->
+<div class="submit-strip">
+  <div class="submit-selection-info">
+    <strong id="selectionCount">No bundles selected</strong>
+    <div class="submit-selection-chips" id="selectionChips"></div>
+  </div>
+  <div class="submit-actions">
+    <button class="btn-clear" id="btnClear" onclick="clearAll()">Clear</button>
+    <button class="btn-submit" id="btnSubmit" disabled onclick="openConfirm()">Submit Claim →</button>
+  </div>
+</div>
+
+<div class="version-badge">KA UI · v0.4</div>
+
+<!-- ── Bundle detail modal ── -->
+<div class="modal-overlay" id="detailModal">
+  <div class="modal-box">
+    <div class="modal-head">
+      <div>
+        <div class="modal-head-title" id="detailModalTitle">Bundle A — Spatial Complexity</div>
+        <div class="modal-head-sub" id="detailModalSub">5 computational tags · click Select to add to your claim</div>
+      </div>
+      <button class="modal-close" onclick="closeDetail()">✕</button>
+    </div>
+    <div class="modal-body">
+      <p class="modal-intro" id="detailModalIntro"></p>
+      <table class="tags-table">
+        <thead>
+          <tr>
+            <th style="width:22%">Tag Name</th>
+            <th style="width:38%">Technical Explanation</th>
+            <th style="width:40%">CNFA Relevance as Stimulus Descriptor</th>
+          </tr>
+        </thead>
+        <tbody id="detailTagRows"></tbody>
+      </table>
+    </div>
+    <div class="modal-foot">
+      <button class="btn-modal-cancel" onclick="closeDetail()">Close</button>
+      <button class="btn-modal-select" id="detailSelectBtn" onclick="selectFromModal()">Select This Bundle</button>
+    </div>
+  </div>
+</div>
+
+<!-- ── Confirm modal ── -->
+<div class="modal-overlay" id="confirmModal">
+  <div class="confirm-box">
+    <div class="confirm-head">Confirm Assignment Claim</div>
+    <div class="confirm-body">
+      <p>You are claiming the following computational tag bundle(s):</p>
+      <ul class="confirm-item-list" id="confirmList"></ul>
+      <p>By submitting, you agree to deliver working Python/NumPy implementations of all tags in your bundle(s) within <strong>14 days</strong>, along with a brief write-up explaining your algorithmic choices.</p>
+      <div class="confirm-email-note">
+        📧 A confirmation email will be sent to <strong id="confirmEmail">j.liu@ucsd.edu</strong> and your assignment will appear in your contributor profile immediately.
+      </div>
+    </div>
+    <div class="confirm-foot">
+      <button class="btn-modal-cancel" onclick="closeConfirm()">Cancel</button>
+      <button class="btn-confirm" onclick="submitClaim()">Confirm &amp; Claim →</button>
+    </div>
+  </div>
+</div>
+
+
+<script>
+// ─────────────────────────────────────────────────────────────────────────────
+// Bundle data — 5 computational tags each
+// ─────────────────────────────────────────────────────────────────────────────
+const BUNDLES = [
+  {
+    id: 'A',
+    name: 'Bundle A — Spatial Complexity',
+    category: 'Fractal & Frequency Analysis',
+    desc: 'Characterises how much structural complexity and detail a scene contains across spatial scales, from fine-grained pixel variation to broad regional patterns.',
+    intro: 'All five tags in this bundle concern the multiscale spatial structure of the image. You will implement power-spectrum analysis (FFT), box-counting, and gradient-histogram methods. Recommended stack: NumPy, SciPy, scikit-image.',
+    assigned: false,
+    tags: [
+      {
+        name: 'fractal_dimension',
+        alg: 'Box-counting / 1/f β slope',
+        explanation: 'Fractal (Hausdorff) dimension D quantifies how pattern detail scales with measurement resolution. Estimated via box-counting (log-log regression of box count vs. box size) or the 1/f^β slope of the radial power spectrum (D = (8−β)/2). Natural scenes cluster around D ≈ 1.3–1.5.',
+        cnfa: 'One of the most replicated predictors of aesthetic preference and stress recovery in nature-vs-built contrasts (Spehar et al. 2003; Hagerhall et al. 2004). Stimuli can be rank-ordered by D to isolate spatial complexity from semantic content.'
+      },
+      {
+        name: 'spatial_frequency_bandwidth',
+        alg: '2-D FFT half-power bandwidth',
+        explanation: 'The range of spatial frequencies (cycles/degree) carrying significant energy in the image power spectrum, estimated as the half-power bandwidth of the 2-D Fourier transform. Natural scenes follow a characteristic 1/f^β amplitude spectrum (β ≈ 1.0–1.2; Field 1987).',
+        cnfa: 'Spatial frequency bandwidth governs cortical channel recruitment (V1 cells are SF-tuned) and early visual fatigue. CNFA experiments can manipulate SF content via band-pass filtering to isolate which spatial scale drives Attention Restoration or stress responses.'
+      },
+      {
+        name: 'spatial_entropy',
+        alg: 'Shannon entropy of grey-level / wavelet histogram',
+        explanation: 'Shannon entropy H = −Σ p_i log₂ p_i computed on the grey-level histogram or wavelet coefficient distribution. High entropy → uniform distribution of intensities (maximum visual information); low entropy → redundant, clustered intensities.',
+        cnfa: 'Operationalizes Kaplan\'s (1995) "complexity" and "mystery" dimensions. Also predicts Lempel-Ziv compressibility. CNFA designs can use spatial entropy to construct high-complexity vs. low-complexity matched pairs.'
+      },
+      {
+        name: 'edge_density',
+        alg: 'Canny / Sobel edge pixel count per unit area',
+        explanation: 'Count of edge pixels per unit area after Canny or Sobel edge detection at a fixed threshold. Correlates with scene clutter, object count, and information load.',
+        cnfa: 'Indexes visual complexity independently of luminance. Kaplan\'s "complexity" dimension can be operationalized via edge density; high edge density in workspaces is linked to increased cognitive load (Vartanian et al. 2013).'
+      },
+      {
+        name: 'edge_orientation_entropy',
+        alg: 'Shannon entropy of HOG histogram',
+        explanation: 'Shannon entropy of the histogram of oriented gradients (HOG): H = −Σ p_i log p_i over 8–18 orientation bins. Uniform HOG → high entropy (isotropic); dominated by verticals/horizontals → low entropy (rectilinear architecture).',
+        cnfa: 'Natural scenes have higher orientation entropy than built environments dominated by cardinal edges (Olshausen & Field 1996). Cleanly separates biophilic from rectilinear stimuli without relying on semantic labels.'
+      }
+    ]
+  },
+  {
+    id: 'B',
+    name: 'Bundle B — Luminance & Contrast',
+    category: 'Photometric Analysis',
+    desc: 'Measures the distribution of light energy across the image — mean brightness, contrast strength, spatial modulation, and apparent depth through blur.',
+    intro: 'Tags in this bundle require linearised luminance computation (sRGB gamma correction), RMS statistics, and local Laplacian filtering. Recommended stack: NumPy, OpenCV, colour-science.',
+    assigned: false,
+    tags: [
+      {
+        name: 'luminance_mean',
+        alg: 'Linearised Y from Y = 0.2126R + 0.7152G + 0.0722B',
+        explanation: 'Spatially averaged pixel luminance (0–255 or cd/m² after gamma correction). Requires conversion to perceptual luminance using the sRGB linearisation and ITU-R BT.709 coefficients before averaging.',
+        cnfa: 'Mean luminance affects arousal via the melanopsin-ipRGC pathway (Berson et al. 2002) and modulates reaction time and vigilance. An essential covariate in CNFA workspace studies; stimuli should be luminance-matched or the value included as a regressor.'
+      },
+      {
+        name: 'luminance_rms_contrast',
+        alg: 'σ_L / μ_L (RMS contrast)',
+        explanation: 'Root-mean-square contrast: standard deviation of linearised luminance divided by the mean. Distinct from Michelson contrast. Predicts perceived contrast strength for broadband images (Peli 1990).',
+        cnfa: 'A key determinant of visual fatigue and cortical excitability. Controlled manipulation allows CNFA studies to separate contrast from complexity, which are confounded in naive nature/office comparisons.'
+      },
+      {
+        name: 'local_contrast_energy',
+        alg: 'Summed squared LoG / DoG filter output across scales',
+        explanation: 'Summed squared output of a bank of Laplacian-of-Gaussian (LoG) or difference-of-Gaussian (DoG) filters across spatial scales. Operationalizes "energy at local edges" and mirrors the response of V1 simple cells.',
+        cnfa: 'Local contrast energy predicts bottom-up salience (Itti & Koch 2001) and gaze density. High local contrast energy regions capture involuntary attention — relevant to ART\'s distinction between fascination and directed-attention demand.'
+      },
+      {
+        name: 'depth_of_field_blur',
+        alg: 'Variance of Laplacian in local patches',
+        explanation: 'Degree of defocus blur estimated by the variance-of-Laplacian metric (Pech-Pacheco et al. 2000) in local image patches. High variance → sharp; low variance → blurred. Provides an indirect index of physical depth and scene openness.',
+        cnfa: 'Blurred (distant) backgrounds are associated with perceived openness and prospect (Appleton 1975; Orians & Heerwagen 1992), relevant to biophilic design. Also affects the spatial frequency content available to cortical channels.'
+      },
+      {
+        name: 'color_temperature_CCT',
+        alg: 'CIE 1976 u′v′ chromaticity → Planckian locus projection',
+        explanation: 'Correlated Color Temperature (CCT, Kelvin) estimated from the chromaticity centroid of the image projected onto the Planckian locus. Warm images (< 4000 K) → orange/yellow cast; cool (> 6500 K) → blue/white cast.',
+        cnfa: 'CCT is the primary variable in circadian and alertness research (Viola et al. 2008; Boubekri et al. 2014). Stimulus CCT should be logged for all workspace images used in CNFA alertness or sleep-quality studies.'
+      }
+    ]
+  },
+  {
+    id: 'C',
+    name: 'Bundle C — Color & Biophilic Cues',
+    category: 'Chromatic & Nature-Presence Analysis',
+    desc: 'Extracts colour properties (saturation, hue distribution) and nature-presence indicators (green fraction, sky fraction, symmetry) that correlate with restorative and biophilic effects.',
+    intro: 'Tags require HSV/HSL colour space conversion, vegetation index computation (ExG), and optional semantic segmentation for sky/vegetation classes. Recommended stack: OpenCV, scikit-image, Pillow.',
+    assigned: true,   // demo: one bundle pre-assigned
+    tags: [
+      {
+        name: 'color_saturation_mean',
+        alg: 'Mean of HSV S channel after RGB → HSV',
+        explanation: 'Mean HSV saturation (S channel, 0–1) across all pixels after RGB → HSV conversion. S = 0 is achromatic; S = 1 is fully saturated. Corresponds approximately to Munsell chroma.',
+        cnfa: 'High saturation in natural scenes (green vegetation, blue sky) is associated with faster autonomic recovery from stress (Ulrich 1991). A cleanly computable property for CNFA nature/built contrasts.'
+      },
+      {
+        name: 'color_hue_distribution',
+        alg: 'Circular hue histogram (10° bins), biophilic fraction 90°–160°',
+        explanation: 'Histogram of hue values (0–360°) binned at 10° resolution, masking achromatic pixels (S < 0.15). Summarised as dominant hue peak, hue spread (circular variance), and proportion of biophilic hue range (90°–160°, yellow-green to cyan-green).',
+        cnfa: 'The proportion of green-to-cyan hues is a proxy for vegetation presence independently of semantic content. Allows graded, parametric CNFA stimulus sets without requiring human semantic judgements.'
+      },
+      {
+        name: 'green_vegetation_fraction',
+        alg: 'ExG index (2G−R−B > threshold) or semantic segmentation',
+        explanation: 'Fraction of pixels classified as vegetation by an Excess Green index (ExG = 2G − R − B > threshold) or a semantic segmentation model (sky, tree, grass classes). Provides a continuous biophilic exposure index.',
+        cnfa: 'The most direct computational proxy for nature exposure in workplace studies. Operationalizes the independent variable in numerous CNFA attention restoration and stress recovery designs (Berto 2014; Bratman et al. 2015).'
+      },
+      {
+        name: 'sky_fraction',
+        alg: 'HSV thresholding (H 195–260°, S < 0.6, V > 0.5) or segmentation',
+        explanation: 'Fraction of pixels classified as sky. Separates open-sky views from enclosed views even when vegetation is absent.',
+        cnfa: 'Correlate of perceived openness, natural light exposure, and prospect. In CNFA window-view studies (Boubekri et al. 2014; Kaplan 2001), sky fraction provides a graded metric for parametric analysis.'
+      },
+      {
+        name: 'symmetry_index',
+        alg: '1 − (normalised pixel-wise difference vs. reflection)',
+        explanation: 'Degree of bilateral or radial symmetry, quantified as 1 − the normalized pixel-wise difference between the image and its vertical/horizontal reflection. Can be computed for multiple axes independently.',
+        cnfa: 'High symmetry is associated with faster grouping, lower cognitive effort, and preference for order (Wagemans 1995). Relevant to CNFA designs contrasting ordered vs. irregular workspaces; symmetry is also a feature of biophilic patterns (leaf venation).'
+      }
+    ]
+  },
+  {
+    id: 'D',
+    name: 'Bundle D — Texture, Clutter & Attention',
+    category: 'Surface Texture & Visual Load',
+    desc: 'Quantifies surface texture character (coarseness, directionality), overall visual load (clutter index), and the spatial map of bottom-up attentional priority.',
+    intro: 'Tags require filter-bank (Tamura) computation, the Rosenholtz Feature Congestion metric, and an implementation of the Itti–Koch (1998) saliency map. Recommended stack: NumPy, SciPy, scikit-image.',
+    assigned: false,
+    tags: [
+      {
+        name: 'texture_coarseness',
+        alg: 'Tamura et al. (1978) optimal neighbourhood size S_best',
+        explanation: 'Tamura et al. (1978) coarseness feature: the optimal filter size S_best that maximises contrast within a neighbourhood, averaged across the image. Coarser textures → larger S_best. Related to spatial scale of dominant surface markings.',
+        cnfa: 'Distinguishes rough natural surfaces (bark, gravel, foliage) from smooth built surfaces (painted drywall, glass). ART and biophilic design theory predict that natural texture coarseness promotes involuntary attention; CNFA can test this directly.'
+      },
+      {
+        name: 'texture_directionality',
+        alg: 'Tamura et al. (1978) gradient direction histogram sharpness',
+        explanation: 'Tamura et al. (1978) directionality: sharpness of the peak in the histogram of gradient directions. High directionality → strong oriented structure (wood grain, brick courses); low directionality → isotropic texture (foam, gravel).',
+        cnfa: 'Related to perceived order and regularity. CNFA workplace stimuli (carpet, ceiling tile, wall panels) vary substantially on this dimension; may partially account for why some rectilinear office elements induce fatigue.'
+      },
+      {
+        name: 'clutter_index',
+        alg: 'Rosenholtz et al. (2007) Feature Congestion metric',
+        explanation: 'Feature Congestion metric (Rosenholtz et al. 2007): local variance in colour, luminance contrast, and orientation summed across the visual field. Predicts visual search time and target conspicuity independently of low-level contrast.',
+        cnfa: 'The computational operationalization of "overstimulating" workspaces (Kaplan 1995 complexity overload; Evans & Johnson 2000 open-plan distraction). High-clutter stimuli should predict worse CNFA performance on directed-attention tasks.'
+      },
+      {
+        name: 'saliency_map_peak',
+        alg: 'Itti–Koch (1998) or Graph-Based Visual Saliency (GBVS)',
+        explanation: 'Peak value and spatial spread of the Itti–Koch (1998) or Graph-Based Visual Saliency (Harel et al. 2007) map: a 2-D map of bottom-up attentional priority combining colour, intensity, and orientation contrast across scales.',
+        cnfa: 'Saliency peak magnitude predicts involuntary gaze capture. In CNFA workspace designs, high-salience distractors draw fixations away from the task, and this can be controlled or manipulated by selecting stimuli matched on saliency distribution.'
+      },
+      {
+        name: 'object_density',
+        alg: 'YOLO / Faster R-CNN detection count per unit area',
+        explanation: 'Count of bounding-box detections per unit area from a YOLO or Faster R-CNN object detector run at a standard confidence threshold. Provides a proxy for scene occupancy and clutter at the object level (distinct from pixel-level edge density).',
+        cnfa: 'Controls for the confound between visual complexity (pixels) and conceptual complexity (object identity and count). Two scenes can have equal spatial entropy but very different object densities; CNFA studies need both to disentangle spatial from conceptual load.'
+      }
+    ]
+  },
+  {
+    id: 'E',
+    name: 'Bundle E — Scene Semantics (in development)',
+    category: 'Deep-Feature & Scene Structure',
+    desc: 'Deep-learning-derived scene-level representations: CNN scene classification, monocular depth, scene openness, object diversity, and luminance asymmetry.',
+    intro: 'This bundle requires access to pre-trained deep models (Places365, MiDaS monocular depth, YOLO). Recommended stack: PyTorch / TensorFlow, torchvision, Hugging Face. Note: this bundle is still being finalized — tag definitions may be revised before the cohort opens.',
+    assigned: false,
+    tags: [
+      {
+        name: 'gist_scene_category_confidence',
+        alg: 'Places365 CNN top-1 confidence score',
+        explanation: 'Confidence score from a deep CNN scene-classification model (Places365; Zhou et al. 2018) for the top-predicted category ("office", "forest", "corridor", etc.). Provides a data-driven semantic label independent of human ratings.',
+        cnfa: 'Gives a continuous measure of how unambiguously a stimulus reads as "natural" vs. "built," allowing stimulus sets to be graded rather than binary. Correlation between CNN confidence and physiological recovery responses tests whether semantic labelling or low-level statistics drive CNFA effects.'
+      },
+      {
+        name: 'monocular_depth_range',
+        alg: 'MiDaS disparity map range (d_max − d_min)',
+        explanation: 'Depth range estimated from a single RGB image using the MiDaS monocular depth model (Ranftl et al. 2020). The range (max − min disparity) indexes perceived spatial openness and depth layering of the scene.',
+        cnfa: 'Deep-feeling spatial openness (high depth range) is a correlate of prospect (Appleton 1975) and restorative potential. Enables parametric CNFA designs with depth as a continuous predictor without requiring stereo or LiDAR data.'
+      },
+      {
+        name: 'object_category_diversity',
+        alg: 'Shannon entropy of YOLO class label histogram',
+        explanation: 'Shannon entropy of the histogram of object category labels returned by YOLO: H = −Σ p_c log p_c. High diversity → many different object types present; low diversity → one or two categories dominate.',
+        cnfa: 'Conceptual complexity (how many distinct object types the brain must individuate) is distinct from visual complexity (edge density, clutter). CNFA designs can use object diversity to manipulate cognitive load at the semantic rather than perceptual level.'
+      },
+      {
+        name: 'scene_openness_index',
+        alg: '(sky_fraction + floor_fraction) / image area',
+        explanation: 'Ratio of sky-plus-floor pixels to total image area, computed from semantic segmentation (sky and floor/ground classes). High values indicate open, unobstructed scenes; low values indicate enclosed or object-filled scenes.',
+        cnfa: 'Combines vertical (sky) and horizontal (floor) openness into a single prospect index. Relevant to environmental preference and ART literature on prospect-refuge balance in restorative environments (Orians & Heerwagen 1992).'
+      },
+      {
+        name: 'visual_weight_balance',
+        alg: 'Left–right luminance asymmetry |μ_L − μ_R| / (μ_L + μ_R)',
+        explanation: 'Absolute difference in mean linearised luminance between the left and right halves of the image, normalised by the sum. High values indicate strong luminance asymmetry (e.g., a bright window on one side); low values indicate balanced illumination.',
+        cnfa: 'Luminance imbalance creates sustained asymmetric eye-movement patterns and has been implicated in visual discomfort in workspace settings. A useful covariate for CNFA studies examining glare and uneven illumination effects on task performance.'
+      }
+    ]
+  }
+];
+
+// ─────────────────────────────────────────────────────────────────────────────
+// State
+// ─────────────────────────────────────────────────────────────────────────────
+const selected = new Set();
+let currentDetailBundle = null;
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Render bundle cards
+// ─────────────────────────────────────────────────────────────────────────────
+function renderGrid() {
+  const grid = document.getElementById('bundleGrid');
+  grid.innerHTML = '';
+  BUNDLES.forEach(b => {
+    const isSelected = selected.has(b.id);
+    const card = document.createElement('div');
+    card.className = 'bundle-card' + (b.assigned ? ' assigned' : '') + (isSelected ? ' selected' : '');
+    card.id = 'card-' + b.id;
+    card.innerHTML = `
+      <div class="bundle-top">
+        <div class="bundle-check-wrap" onclick="toggleBundle('${b.id}')">
+          <div class="bundle-check" id="check-${b.id}">
+            <svg width="12" height="10" viewBox="0 0 12 10" fill="none">
+              <path d="M1.5 5L4.5 8L10.5 1.5" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+          </div>
+        </div>
+        <div class="bundle-meta">
+          <div class="bundle-name">${b.name}</div>
+          <div class="bundle-category">${b.category}</div>
+        </div>
+      </div>
+      <div class="bundle-desc">${b.desc}</div>
+      <div class="bundle-footer">
+        <span class="bundle-tag-count">5 computational tags</span>
+        ${b.assigned
+          ? '<span class="assigned-badge">Already assigned</span>'
+          : `<button class="bundle-detail-btn" onclick="openDetail('${b.id}')">View 5 tags ▾</button>`}
+      </div>`;
+    grid.appendChild(card);
+  });
+}
+
+function toggleBundle(id) {
+  const bundle = BUNDLES.find(b => b.id === id);
+  if (!bundle || bundle.assigned) return;
+  if (selected.has(id)) { selected.delete(id); }
+  else { selected.add(id); }
+  renderGrid();
+  updateSubmitStrip();
+}
+
+function updateSubmitStrip() {
+  const count = selected.size;
+  const info = document.getElementById('selectionCount');
+  const chips = document.getElementById('selectionChips');
+  const btn = document.getElementById('btnSubmit');
+  info.textContent = count === 0 ? 'No bundles selected'
+                   : count === 1 ? '1 bundle selected'
+                   : count + ' bundles selected';
+  chips.innerHTML = '';
+  selected.forEach(id => {
+    const b = BUNDLES.find(x => x.id === id);
+    if (b) {
+      const chip = document.createElement('span');
+      chip.className = 'chip-selected';
+      chip.textContent = 'Bundle ' + b.id;
+      chips.appendChild(chip);
+    }
+  });
+  btn.disabled = count === 0;
+}
+
+function clearAll() {
+  selected.clear();
+  renderGrid();
+  updateSubmitStrip();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Detail modal
+// ─────────────────────────────────────────────────────────────────────────────
+function openDetail(id) {
+  const b = BUNDLES.find(x => x.id === id);
+  if (!b) return;
+  currentDetailBundle = b;
+  document.getElementById('detailModalTitle').textContent = b.name;
+  document.getElementById('detailModalSub').textContent =
+    '5 computational tags · ' + b.category;
+  document.getElementById('detailModalIntro').textContent = b.intro;
+  const tbody = document.getElementById('detailTagRows');
+  tbody.innerHTML = '';
+  b.tags.forEach((t, i) => {
+    const tr = document.createElement('tr');
+    tr.innerHTML = `
+      <td><span class="tag-name-cell">${t.name}</span><span class="tag-alg">${t.alg}</span></td>
+      <td>${t.explanation}</td>
+      <td>${t.cnfa}</td>`;
+    tbody.appendChild(tr);
+  });
+  const selectBtn = document.getElementById('detailSelectBtn');
+  if (selected.has(id)) {
+    selectBtn.textContent = 'Deselect This Bundle';
+    selectBtn.style.background = '#999';
+  } else {
+    selectBtn.textContent = 'Select This Bundle';
+    selectBtn.style.background = '';
+  }
+  document.getElementById('detailModal').classList.add('open');
+}
+
+function closeDetail() {
+  document.getElementById('detailModal').classList.remove('open');
+  currentDetailBundle = null;
+}
+
+function selectFromModal() {
+  if (!currentDetailBundle) return;
+  toggleBundle(currentDetailBundle.id);
+  closeDetail();
+}
+
+// ─────────────────────────────────────────────────────────────────────────────
+// Confirm modal
+// ─────────────────────────────────────────────────────────────────────────────
+function openConfirm() {
+  if (selected.size === 0) return;
+  const list = document.getElementById('confirmList');
+  list.innerHTML = '';
+  selected.forEach(id => {
+    const b = BUNDLES.find(x => x.id === id);
+    if (b) {
+      const li = document.createElement('li');
+      li.innerHTML = `<strong>${b.name}</strong> — ${b.category}`;
+      list.appendChild(li);
+    }
+  });
+  document.getElementById('confirmModal').classList.add('open');
+}
+
+function closeConfirm() {
+  document.getElementById('confirmModal').classList.remove('open');
+}
+
+function submitClaim() {
+  // Mark selected bundles as assigned in state
+  selected.forEach(id => {
+    const b = BUNDLES.find(x => x.id === id);
+    if (b) b.assigned = true;
+  });
+  selected.clear();
+  closeConfirm();
+  renderGrid();
+  updateSubmitStrip();
+  const banner = document.getElementById('successBanner');
+  banner.classList.add('visible');
+  banner.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+// Close modals on overlay click
+document.getElementById('detailModal').addEventListener('click', function(e) {
+  if (e.target === this) closeDetail();
+});
+document.getElementById('confirmModal').addEventListener('click', function(e) {
+  if (e.target === this) closeConfirm();
+});
+
+// Init
+renderGrid();
+updateSubmitStrip();
+</script>
+
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

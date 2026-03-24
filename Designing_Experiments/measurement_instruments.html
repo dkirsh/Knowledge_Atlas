@@ -1,0 +1,1761 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Measurement Instruments & Sensors — COGS 160</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #FFFFFF;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        /* Global Navigation */
+        .global-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1rem 1.5rem;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0891B2;
+            text-decoration: none;
+            margin-right: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 1.5rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #1E293B;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: #0891B2;
+        }
+
+        .nav-links a.active {
+            color: #0891B2;
+            font-weight: 600;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem 1.5rem;
+        }
+
+        .page-header {
+            margin-bottom: 2.5rem;
+        }
+
+        .page-header h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #0F172A;
+        }
+
+        .page-header p {
+            font-size: 1.1rem;
+            color: #64748B;
+            max-width: 800px;
+        }
+
+        /* Tab Navigation */
+        .tab-nav {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 2rem;
+            border-bottom: 2px solid #E2E8F0;
+            overflow-x: auto;
+        }
+
+        .tab-button {
+            background: none;
+            border: none;
+            color: #64748B;
+            cursor: pointer;
+            padding: 1rem 1.5rem;
+            font-size: 0.95rem;
+            font-weight: 500;
+            border-bottom: 3px solid transparent;
+            transition: all 0.2s;
+            white-space: nowrap;
+        }
+
+        .tab-button:hover {
+            color: #0891B2;
+        }
+
+        .tab-button.active {
+            color: #0891B2;
+            border-bottom-color: #0891B2;
+        }
+
+        /* Tab Content */
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+        }
+
+        /* Instrument Cards */
+        .instruments-grid {
+            display: grid;
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .instrument-card {
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            overflow: hidden;
+            transition: box-shadow 0.2s, border-color 0.2s;
+        }
+
+        .instrument-card:hover {
+            border-color: #0891B2;
+            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.08);
+        }
+
+        .card-header {
+            padding: 1.5rem;
+            background-color: #F8FAFC;
+            cursor: pointer;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            user-select: none;
+        }
+
+        .card-header:hover {
+            background-color: #F1F5F9;
+        }
+
+        .card-title-section {
+            flex: 1;
+        }
+
+        .card-title {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-subtitle {
+            font-size: 0.85rem;
+            color: #64748B;
+        }
+
+        .type-badge {
+            display: inline-block;
+            background-color: #E0F2FE;
+            color: #0369A1;
+            padding: 0.35rem 0.75rem;
+            border-radius: 6px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-left: 1rem;
+        }
+
+        .chevron {
+            width: 24px;
+            height: 24px;
+            margin-left: 1rem;
+            color: #94A3B8;
+            transition: transform 0.3s;
+            flex-shrink: 0;
+        }
+
+        .card-header.expanded .chevron {
+            transform: rotate(180deg);
+        }
+
+        .one-liner {
+            font-size: 0.95rem;
+            color: #475569;
+            margin-top: 0.5rem;
+        }
+
+        .card-body {
+            display: none;
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .card-body.expanded {
+            display: block;
+        }
+
+        .detail-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .detail-label {
+            font-weight: 600;
+            color: #0F172A;
+            font-size: 0.9rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: #0891B2;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-content {
+            color: #475569;
+            font-size: 0.95rem;
+            line-height: 1.6;
+        }
+
+        .detail-list {
+            list-style: none;
+            margin-top: 0.5rem;
+        }
+
+        .detail-list li {
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .detail-list li:before {
+            content: "•";
+            position: absolute;
+            left: 0;
+            color: #0891B2;
+            font-weight: bold;
+        }
+
+        /* Tab 4: Choosing Measures */
+        .theory-section {
+            margin-bottom: 2.5rem;
+        }
+
+        .theory-header {
+            background-color: #F8FAFC;
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #0891B2;
+        }
+
+        .theory-name {
+            font-size: 1.2rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .theory-constructs {
+            color: #475569;
+            font-size: 0.95rem;
+        }
+
+        .battery-grid {
+            display: grid;
+            gap: 1rem;
+            margin: 1.5rem 0;
+        }
+
+        .battery-item {
+            background-color: #F1F5F9;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid #0891B2;
+        }
+
+        .battery-label {
+            font-weight: 600;
+            color: #0891B2;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 0.3rem;
+        }
+
+        .battery-content {
+            color: #1E293B;
+            font-size: 0.95rem;
+        }
+
+        .triangulation-box {
+            background: linear-gradient(135deg, #E0F2FE 0%, #F0F9FF 100%);
+            border: 1px solid #BAE6FD;
+            border-radius: 12px;
+            padding: 2rem;
+            margin: 2rem 0;
+        }
+
+        .triangulation-box h3 {
+            color: #0369A1;
+            margin-bottom: 1rem;
+            font-size: 1.2rem;
+        }
+
+        .triangulation-box p {
+            color: #0C4A6E;
+            margin-bottom: 1rem;
+            line-height: 1.7;
+        }
+
+        .triangulation-methods {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1rem;
+            margin-top: 1.5rem;
+        }
+
+        .method-tile {
+            background-color: #FFFFFF;
+            padding: 1.5rem;
+            border-radius: 8px;
+            border: 1px solid #BAE6FD;
+            text-align: center;
+        }
+
+        .method-tile h4 {
+            color: #0369A1;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .method-tile p {
+            color: #475569;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin: 0;
+        }
+
+        .mistake-list {
+            background-color: #FEF2F2;
+            border-left: 3px solid #DC2626;
+            padding: 1rem;
+            border-radius: 8px;
+            margin-top: 1rem;
+        }
+
+        .mistake-list .detail-label {
+            color: #DC2626;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 4rem;
+            padding: 2rem 0;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .footer-nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-nav a {
+            color: #0891B2;
+            text-decoration: none;
+            font-weight: 500;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            transition: color 0.2s;
+        }
+
+        .footer-nav a:hover {
+            color: #06B6D4;
+        }
+
+        .footer-center {
+            flex: 1;
+            text-align: center;
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .page-header h1 {
+                font-size: 1.75rem;
+            }
+
+            .tab-nav {
+                gap: 0.25rem;
+            }
+
+            .tab-button {
+                padding: 0.75rem 1rem;
+                font-size: 0.85rem;
+            }
+
+            .card-header {
+                padding: 1rem;
+            }
+
+            .card-body {
+                padding: 0 1rem 1rem 1rem;
+            }
+
+            .footer-nav {
+                flex-direction: column;
+                align-items: stretch;
+                text-align: center;
+            }
+
+            .footer-nav a {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Global Navigation -->
+    <nav class="global-nav">
+        <div class="nav-container">
+            <a href="knowledge_navigator.html" class="nav-logo">COGS 160</a>
+            <ul class="nav-links">
+                <li><a href="knowledge_navigator.html">Knowledge Navigator</a></li>
+                <li><a href="theory_and_experiment_design.html">Theory &amp; Design</a></li>
+                <li><a href="hypothesis_builder.html">Hypothesis Builder</a></li>
+                <li><a href="methods_taxonomy.html">Methods Taxonomy</a></li>
+                <li><a href="measurement_instruments.html" class="active">Measurement Instruments</a></li>
+                <li><a href="sensor_catalogue.html">Sensor Catalogue</a></li>
+                <li><a href="en_navigator.html">Epistemic Network</a></li>
+                <li><a href="bn_navigator.html">Bayesian Network</a></li>
+                <li><a href="experiment_wizard.html">Experiment Builder</a></li>
+                <li><a href="system_inventory.html">System Inventory</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <div class="page-header">
+            <h1>Measurement Instruments & Sensors</h1>
+            <p>Understand the strengths, weaknesses, and theoretical alignment of each measurement approach. Every instrument is a lens—choose yours carefully.</p>
+        </div>
+
+        <!-- Tab Navigation -->
+        <div class="tab-nav">
+            <button class="tab-button active" onclick="switchTab(event, 'self-report')">Self-Report Measures</button>
+            <button class="tab-button" onclick="switchTab(event, 'behavioral')">Behavioral & Cognitive Tasks</button>
+            <button class="tab-button" onclick="switchTab(event, 'physiological')">Physiological & Neural Measures</button>
+            <button class="tab-button" onclick="switchTab(event, 'choosing')">Choosing Your Measures</button>
+        </div>
+
+        <!-- TAB 1: Self-Report Measures -->
+        <div id="self-report" class="tab-content active">
+            <div class="instruments-grid">
+                <!-- PANAS -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">PANAS</div>
+                            <div class="card-subtitle one-liner">Positive and Negative Affect Schedule — momentary emotional state in ~5 minutes</div>
+                        </div>
+                        <span class="type-badge">Self-Report</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">20 items (10 positive, 10 negative emotions) rated on 5-point Likert scale (1=not at all, 5=extremely). Administered at single timepoint or repeated across sessions.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Captures state affect at moment of administration (~5 min survey). Sensitive to within-session changes if administered pre/post intervention.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Quick administration (≤5 min) — low participant burden</li>
+                                <li>Psychometrically robust (Watson, Clark, & Tellegen 1988) — widely used across studies</li>
+                                <li>Separates valence cleanly (positive vs. negative)</li>
+                                <li>Validated in 30+ languages</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Demand characteristics — participants guess the study hypothesis</li>
+                                <li>Cannot capture unconscious/implicit emotional responses</li>
+                                <li>Retrospective bias — relies on memory and introspection</li>
+                                <li>Floor/ceiling effects in extreme emotional states</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content">Arousal theory (captures valence dimension). Often used as outcome in SRT studies predicting affect improvement after nature exposure.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content"><strong>Administer after removing headset</strong> to avoid response artifacts. In-VR surveys can induce motion sickness and are unreliable.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Watson, D., Clark, L. A., & Tellegen, A. (1988). Development and validation of brief measures of positive and negative affect: The PANAS scales. <em>Journal of Personality and Social Psychology, 54</em>(6), 1063–1070.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- STAI -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">State-Trait Anxiety Inventory (STAI)</div>
+                            <div class="card-subtitle one-liner">Current anxiety level — gold standard for stress measurement</div>
+                        </div>
+                        <span class="type-badge">Self-Report</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">State form: 20 items, 4-point Likert (1=not at all, 4=very much so). Measures current anxiety at moment of administration. Trait form (not used in most experiments) measures dispositional anxiety.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">State anxiety is highly sensitive to immediate environmental changes. Responds to stressors within minutes; baseline recovery typically within 20–30 minutes post-stressor.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Most widely used anxiety measure in psychology (~10,000+ citations)</li>
+                                <li>Massive normative database across ages, cultures, clinical populations</li>
+                                <li>Well-validated, clear psychometric structure</li>
+                                <li>Directly tests SRT predictions about stress reduction</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Transparent to participants — items explicitly mention worry, nervousness (demand characteristics)</li>
+                                <li>Floor effects in low-anxiety settings (many non-anxious participants score 20–21)</li>
+                                <li>Retrospective — relies on introspection, not real-time measurement</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content">Stress Reduction Theory (SRT) — predicts nature exposure reduces state anxiety. Often paired with cortisol for physiological validation.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Administer post-VR (outside headset) for reliable measurement. In-VR measurement confounds VR-induced anxiety (cyber-sickness, motion sickness) with environmental effects.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Spielberger, C. D., Gorsuch, R. L., Lushene, R., Vagg, P. R., & Jacobs, G. A. (1970). <em>Manual for the State-Trait Anxiety Inventory</em>. Consulting Psychologists Press.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- PRS -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Perceived Restorativeness Scale (PRS)</div>
+                            <div class="card-subtitle one-liner">How restorative an environment feels — directly aligns with Attention Restoration Theory</div>
+                        </div>
+                        <span class="type-badge">Self-Report</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">26 items across 4 ART subscales: Being Away (escape from demands), Fascination (involuntary attention capture), Extent (richness of the environment), Compatibility (perceived fit with preferences). 7-point Likert scales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Administered post-exposure. Takes ~8–10 min to complete. Captures retrospective perception of restorativeness.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Directly maps to ART's four core components — no inference needed</li>
+                                <li>Allows subscale analysis (e.g., fascination separate from extent)</li>
+                                <li>Validated in multiple studies of natural environments</li>
+                                <li>Useful for comparing restorativeness across different landscape types</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Explicitly theory-laden — only useful if testing ART</li>
+                                <li>Long for repeated administration (~8 min × 3 timepoints = 24 min)</li>
+                                <li>Demand characteristics — items reveal the theoretical framework</li>
+                                <li>Depends on retrospective judgment (memory bias)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content"><strong>Attention Restoration Theory (ART)</strong> — the instrument operationalizes ART's four components. Mediator variable: if nature increases PRS, and PRS predicts attention recovery, that supports ART mechanisms.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Works in VR environments. Can be administered in-VR (post-immersion, before removal) or post-VR. Useful for comparing virtual vs. real environments on perceived restorativeness.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Hartig, T., Mang, M., & Evans, G. W. (1991). Restorative effects of natural environment experiences. <em>Environment and Behavior, 23</em>(1), 3–26.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- IEQ -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Indoor Environmental Quality (IEQ) Scales</div>
+                            <div class="card-subtitle one-liner">Satisfaction with thermal, acoustic, visual, and air quality</div>
+                        </div>
+                        <span class="type-badge">Self-Report</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Typically 15–30 items covering four dimensions: thermal comfort (temperature), acoustic comfort (noise), visual comfort (lighting, view), air quality (odor, ventilation). 5–7 point rating scales.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Administered post-exposure or at end of session. Captures ambient perception accumulated over the experience.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Multidimensional — captures multiple environmental quality factors</li>
+                                <li>Practical for building/environment studies</li>
+                                <li>Directly actionable for design interventions</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Highly subjective — large individual differences in comfort thresholds</li>
+                                <li>Culture-dependent — thermal and air quality standards vary globally</li>
+                                <li>Confounded with general satisfaction — hard to isolate environmental quality from task satisfaction</li>
+                                <li>Does not distinguish causality (poor air quality or something else causing dissatisfaction?)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content">Arousal theory, environmental psychology. Useful as a control variable (ensure intervention and control conditions don't differ on IEQ) or as a confound check.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Useful for comparing real indoor environments or for VR studies of indoor scenes. Not relevant for outdoor VR scenarios.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Multiple variants; common sources: ASHRAE (thermal standards), ISO 3382 (acoustic), CIE standards (visual). No single gold-standard reference — use domain-specific norms.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- NASA-TLX -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">NASA Task Load Index (NASA-TLX)</div>
+                            <div class="card-subtitle one-liner">Perceived workload and cognitive demand in ~3 minutes</div>
+                        </div>
+                        <span class="type-badge">Self-Report</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">6 subscales: mental demand, physical demand, temporal demand, effort, performance, frustration. Each rated 0–100 (or 1–20 with conversion). Can be weighted or unweighted.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Very quick administration (~3 min). Designed for retrospective assessment post-task. Can be repeated across multiple tasks.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Extremely quick — minimal participant burden</li>
+                                <li>Multidimensional — captures 6 distinct aspects of workload</li>
+                                <li>Well-validated (Hart & Staveland 1988) — widely used in HCI, aviation, VR studies</li>
+                                <li>Sensitive to task differences</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Retrospective — cannot detect moment-to-moment fluctuations</li>
+                                <li>Subjective — relies on participant's metacognitive judgment</li>
+                                <li>Can miss peak workload if overall task is easy</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content">Cognitive load theory. Used to validate that nature exposure reduces mental demand or perception of effort (SRT prediction).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Excellent for VR studies. Administer post-VR to capture perceived cognitive load without breaking immersion. Can also show in-VR on UI overlay.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Hart, S. G., & Staveland, L. E. (1988). Development of NASA-TLX (Task Load Index): Results of empirical and theoretical research. In P. A. Hancock & N. Meshkati (Eds.), <em>Human Mental Workload</em> (pp. 139–183).</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Presence -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Presence Questionnaires (IPQ, SUS, PQ)</div>
+                            <div class="card-subtitle one-liner">Sense of "being there" in VR — essential for immersive technology validation</div>
+                        </div>
+                        <span class="type-badge">Self-Report</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Multiple instruments exist:
+                            <ul class="detail-list" style="margin-top: 0.5rem;">
+                                <li><strong>IPQ (Igroup Presence Questionnaire)</strong>: 14 items, 7-point Likert, covers spatial presence, involvement, experienced realism</li>
+                                <li><strong>SUS (Slater-Usoh-Steed)</strong>: 6 items, measures sense of being in the virtual environment</li>
+                                <li><strong>PQ (Presence Questionnaire)</strong>: 32–36 items, comprehensive (involvement, realism, immediacy)</li>
+                            </ul>
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Administered post-VR immersion. Takes 3–15 min depending on instrument.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Essential validation tool for VR studies — if presence is low, treatment effects may be confounded with immersion quality</li>
+                                <li>Establishes whether the VR environment is credible to participants</li>
+                                <li>Each instrument has validation studies</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>No consensus on which instrument is "best" — IPQ, SUS, and PQ correlate moderately but not perfectly</li>
+                                <li>Demand characteristics — participants may bias responses based on expectations</li>
+                                <li>Presence itself is not a theoretical construct in ART or SRT — it's a manipulation check, not an outcome</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content">VR methodology — not directly tied to ART/SRT but critical for ecological validity of virtual nature environments.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content"><strong>Mandatory for VR studies.</strong> Administer post-VR to measure presence. Used to validate that the VR environment achieved sufficient immersion.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key References</div>
+                            <div class="detail-content">
+                                <div>Schubert, T., Friedmann, F., & Regenbrecht, H. (2001). The experience of presence: Factor analytic structure. <em>Presence, 10</em>(3), 266–281. (IPQ)</div>
+                                <div style="margin-top: 0.5rem;">Slater, M. (1999). Measuring presence: A response to the Witmer and Singer presence questionnaire. <em>Presence, 8</em>(5), 560–565. (SUS)</div>
+                                <div style="margin-top: 0.5rem;">Witmer, B. G., & Singer, M. J. (1998). Measuring presence in virtual environments. <em>Presence, 7</em>(3), 225–240. (PQ)</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 2: Behavioral & Cognitive Tasks -->
+        <div id="behavioral" class="tab-content">
+            <div class="instruments-grid">
+                <!-- ANT -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Attention Network Test (ANT)</div>
+                            <div class="card-subtitle one-liner">Three attention networks (alerting, orienting, executive) — ~20 minute computerized task</div>
+                        </div>
+                        <span class="type-badge">Behavioral</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Flanker task (respond to central arrow direction while ignoring flanking arrows). Three conditions: no cue (baseline alertness), center cue (orienting), spatial cue (executive control needed when conflict between cues). Measures reaction time and accuracy.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">~20 min total (2 blocks, ~200 trials). Captures sustained attention. Fatigue effects possible in second block.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Theoretically motivated — separates three distinct attention processes</li>
+                                <li>Objective measures (RT, accuracy) — not self-reported</li>
+                                <li>Computerized — standardized administration, no experimenter drift</li>
+                                <li>Well-validated in 100+ studies (Fan et al. 2002)</li>
+                                <li>Can detect individual differences in attention networks</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Long administration (~20 min) — participant fatigue, dropout risk</li>
+                                <li>Practice effects — performance improves Block 1 → Block 2</li>
+                                <li>Ceiling/floor effects — some participants perfect, others near-chance</li>
+                                <li>Sensitive to motivation and engagement (hard to standardize)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content"><strong>ART prediction:</strong> Nature exposure should improve executive network efficiency (lower conflict effect). Directed attention recovery is ART's key mechanism.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Can be run in-VR (flanker task rendered in virtual space) or post-VR on computer. In-VR adds ecological validity but may confound motion sickness with attention effects.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Fan, J., McCandliss, B. D., Sommer, T., Raz, A., & Posner, M. I. (2002). Testing the efficiency and independence of attentional networks. <em>Journal of Cognitive Neuroscience, 14</em>(3), 340–347.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Backward Digit Span -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Backward Digit Span</div>
+                            <div class="card-subtitle one-liner">Working memory capacity and directed attention — classic ART measure</div>
+                        </div>
+                        <span class="type-badge">Behavioral</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Experimenter reads digit sequences aloud (e.g., "3–7–2"). Participant repeats in reverse order ("2–7–3"). Sequences increase in length until participant fails 2 consecutive trials. Span = longest correct sequence.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">5–10 min task. Single administration gives baseline; pre/post-nature shows recovery of directed attention.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Simple, quick — minimal equipment (just verbal)</li>
+                                <li>Directly taps directed attention capacity (ART mechanism)</li>
+                                <li>Minimal practice effects compared to other tasks</li>
+                                <li>Historical use in ART studies (Berman et al. 2008)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Limited sensitivity — span typically 5–8 digits; ceiling effects in smart participants</li>
+                                <li>Dependent on linguistic factors and regional accent (especially with nonnative speakers)</li>
+                                <li>Single outcome variable (no detailed breakdown of attention processes)</li>
+                                <li>Requires quiet testing environment</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content"><strong>ART cornerstone:</strong> Backward digit span decline is interpreted as directed attention fatigue. Nature exposure recovery of span = core ART mechanism (involuntary attention restoration).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Administer post-VR outside headset. Verbal task doesn't integrate naturally into VR.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Berman, M. G., Jonides, J., & Kaplan, S. (2008). The cognitive benefits of interacting with nature. <em>Psychological Science, 19</em>(12), 1207–1212. (Classic ART validation)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stroop -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Stroop Task</div>
+                            <div class="card-subtitle one-liner">Cognitive control and inhibition — ~5 minute computerized task</div>
+                        </div>
+                        <span class="type-badge">Behavioral</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Participant names the color of text (ignoring word meaning). Congruent: "RED" in red. Incongruent: "RED" in blue (must say blue). Measures reaction time and accuracy.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">~5 min (100–200 trials). Strong practice effects — performance improves with repetition.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Robust, well-understood task — consistent effects across decades of research</li>
+                                <li>Quick administration</li>
+                                <li>Objective measures</li>
+                                <li>Sensitive to cognitive control differences</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Habituated — most undergraduates have seen Stroop before, reducing sensitivity</li>
+                                <li>Limited nature-effect sizes — recent meta-analyses show small effects on Stroop</li>
+                                <li>High ceiling performance — reduced variance in healthy populations</li>
+                                <li>Narrow measure of control (doesn't capture working memory or sustained attention)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content">Executive function and top-down control (relevant to ART restoration, but not a primary mechanism). Better used as secondary validation.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Can be administered in-VR or post-VR. In-VR Stroop adds immersive context but doesn't improve sensitivity.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Stroop, J. R. (1935). Studies of interference in serial verbal reactions. <em>Journal of Experimental Psychology, 18</em>(6), 643–662.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- SART -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Sustained Attention to Response Task (SART)</div>
+                            <div class="card-subtitle one-liner">Sustained attention and response inhibition — sensitive to attention lapses</div>
+                        </div>
+                        <span class="type-badge">Behavioral</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Series of digits (1–9) appear on screen. Participant responds to all except a target (e.g., all digits except 3). High commission errors (responding to target) = lapses in response inhibition. High omission errors = missing nontarget = lapses in sustained attention.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">~5 min (225 trials typical). Performance declines over time (vigilance decrement) — sensitive to fatigue.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Sensitive to attention lapses — picks up momentary failures</li>
+                                <li>Good for pre/post designs — shows recovery over time</li>
+                                <li>Separates omission vs. commission errors (two distinct mechanisms)</li>
+                                <li>Less habituated than Stroop</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Boring and monotonous — may induce drowsiness or disengagement</li>
+                                <li>Vigilance decrement strong — hard to separate fatigue from treatment effects</li>
+                                <li>Motivation effects large (some participants try harder than others)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content">ART (restoration improves sustained attention). SRT (stress impairs vigilance; nature reduces stress, improving performance).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Can be administered in-VR or post-VR. In-VR SART within a nature environment adds immersive context (ecologically valid).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Robertson, I. H., Manly, T., Andrade, J., Baddeley, B. T., & Yiend, J. (1997). Oops!: Performance correlates of everyday attentional failures in traumatic brain injury. <em>Neuropsychologia, 35</em>(6), 747–758.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Spatial Navigation -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Spatial Navigation Tasks</div>
+                            <div class="card-subtitle one-liner">Wayfinding and spatial memory in VR — ecologically valid for nature environments</div>
+                        </div>
+                        <span class="type-badge">Behavioral</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Participant explores a VR environment (forest, park, campus) with the goal of learning a route or landmarks. Memory test: navigate from point A to point B without guidance, or answer questions about environment layout. Measures: route completion time, path efficiency (actual distance / optimal distance), landmark recognition accuracy.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Exploration phase: 5–15 min. Test phase: 3–5 min. Repeated exposures improve performance (learning curve).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Ecologically valid in VR — captures real-world wayfinding</li>
+                                <li>Objective measures (completion time, path efficiency)</li>
+                                <li>Captures embodied cognition — full-body navigation vs. sitting-based tasks</li>
+                                <li>Integrates attention, working memory, and spatial reasoning</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Large individual differences in spatial ability (confound variable)</li>
+                                <li>Motion sickness in VR reduces performance unrelated to treatment</li>
+                                <li>Environment design affects performance (some layouts inherently harder)</li>
+                                <li>Lengthy protocol (20–30 min total)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content">Affordance theory (environments that afford exploration support spatial learning). ART (fascination predicts deeper engagement, better landmark encoding).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content"><strong>Excellent for VR.</strong> Designed for immersive exploration. Use head tracking + hand controllers for natural interaction.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Maguire, E. A., & Frith, C. D. (2003). Aging affects the engagement of the hippocampus during spatial memory. <em>Nature Neuroscience, 6</em>(5), 528–529. (Spatial memory mechanisms)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Eye Tracking -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Eye-Tracking Measures</div>
+                            <div class="card-subtitle one-liner">Gaze patterns and fixation analysis — objective attention index</div>
+                        </div>
+                        <span class="type-badge">Behavioral</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Eye-tracker records pupil position and gaze direction continuously (60–1000 Hz). Processed into fixations (sustained gaze), saccades (rapid movements), and smooth pursuits. Key metrics: fixation duration, fixation count, gaze entropy (disorganization of gaze patterns), visual scan density.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Continuous during task or scene viewing. Real-time measure — captures moment-to-moment attention allocation without waiting for response.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Objective measure — no self-report bias</li>
+                                <li>Continuous, temporal resolution (millisecond-level)</li>
+                                <li>Reveals involuntary attention capture (implicit, not strategic)</li>
+                                <li>Built into modern VR headsets (Meta Quest Pro, HTC Vive Pro Eye)</li>
+                                <li>Sensitive to cognitive load and engagement</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Calibration drift in VR — eye-tracker loses accuracy over time</li>
+                                <li>Large individual differences (gaze patterns vary by personality, experience)</li>
+                                <li>Requires analysis pipeline (fixation detection, AOI definition) — not automatic</li>
+                                <li>Gaze ≠ attention (looking at something ≠ consciously attending to it)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-code">ART (gaze entropy — disorganized scanning of environment = directed attention fatigue; nature exposure reduces entropy = restoration). Involuntary attention capture by fascinating features.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content"><strong>Native to VR.</strong> Modern headsets have integrated eye-tracking. Minimal calibration overhead.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Kaplan, S., & Kaplan, R. (1989). The experience of nature: A psychological perspective. Cambridge University Press. (Gaze patterns in natural scenes)</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 3: Physiological & Neural Measures -->
+        <div id="physiological" class="tab-content">
+            <div class="instruments-grid">
+                <!-- Cortisol -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Salivary Cortisol</div>
+                            <div class="card-subtitle one-liner">HPA-axis stress response — gold standard biomarker (but slow)</div>
+                        </div>
+                        <span class="type-badge">Physiological</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Participant provides saliva sample via passive drool or Salivette (cotton roll). Stored at −20°C or sent to lab for immunoassay (HPLC, LC-MS). Returns quantified cortisol (nmol/L or μg/dL).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">HPA-axis response: stressor → cortisol peaks 15–20 min later. Half-life: ~30 min. Diurnal variation (peaks at 8am, troughs at 11pm). Minimum 3 samples: baseline (pre-stressor), peak (15–20 min post), recovery (40+ min post).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Objective biomarker — not self-reported</li>
+                                <li>Gold standard for HPA-axis function — most credible stress measure</li>
+                                <li>Non-invasive (saliva collection)</li>
+                                <li>Validated across 30+ years of research (Kirschbaum & Hellhammer 1994)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Delayed response — not real-time. Miss acute effects if sampling not perfectly timed</li>
+                                <li>Diurnal variation — MUST control time of day. 8am sample = 3x higher than 8pm baseline</li>
+                                <li>Diet confounds (caffeine, food within 30 min before sampling) suppress cortisol</li>
+                                <li>Expensive (~$30–50 per sample; assay ~$15–30)</li>
+                                <li>Requires lab resources (freezer, assay capability or shipping)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Collection Protocol</div>
+                            <div class="detail-content">
+                                <strong>Minimum:</strong> 3 samples. <strong>Recommended:</strong> baseline (pre), immediate post, 20 min post, 40 min post (4-point curve).
+                                <strong>Control:</strong> Test time (all participants same time), no food/caffeine 30 min before, no tooth brushing (irritates gums, increases cortisol).
+                            </div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-content"><strong>SRT prediction:</strong> Nature exposure reduces cortisol levels relative to control (stress reduction). Strongest evidence for ART/SRT when cortisol + self-report anxiety both decrease.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Can assess pre/post VR stress. Note: VR can induce stress (cyber-sickness, anxiety); cortisol helps isolate whether the *environment* (not the VR medium itself) caused stress reduction.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Kirschbaum, C., & Hellhammer, D. H. (1994). Salivary cortisol in psychoneuroendocrine research: Recent developments and applications. <em>Psychoneuroendocrinology, 19</em>(4), 313–333.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- HRV -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Heart Rate Variability (HRV)</div>
+                            <div class="card-subtitle one-liner">Autonomic balance (sympathetic vs. parasympathetic) — continuous, real-time</div>
+                        </div>
+                        <span class="type-badge">Physiological</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Chest-strap monitor (Polar H10, gold standard) or wrist-worn device records beat-to-beat heart intervals (R-R intervals, measured in ms). Software calculates time-domain (RMSSD, SDNN) and frequency-domain metrics (HF-HRV = high-frequency vagal tone). HF-HRV = parasympathetic dominance (calm, rest).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Real-time, continuous. Responds to stimuli within seconds. Requires 5-min minimum epoch for stable frequency-domain metrics. Respiration-dependent (breathing rate ~0.1–0.4 Hz affects HF power).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Continuous, objective — captures real-time autonomic state</li>
+                                <li>Sensitive — detects physiological state changes quickly</li>
+                                <li>Non-invasive (chest strap)</li>
+                                <li>Validated extensively (Task Force 1996) — gold standard for vagal tone</li>
+                                <li>Can be used during VR immersion or nature exposure</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Motion artifact (physical activity increases HR, reduces HRV) — confounds with immersion or walking in nature</li>
+                                <li>Breathing rate confound — HF power = respiration-modulated; if breathing rate changes, HRV changes regardless of autonomic state</li>
+                                <li>Requires standardized epoch (5 min minimum) — shorter samples unreliable</li>
+                                <li>Wrist-worn devices (Fitbit, Apple Watch) less accurate than chest strap</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-code"><strong>SRT prediction:</strong> Nature exposure increases HF-HRV (parasympathetic activation, vagal tone). Reduced sympathetic dominance (LF/HF ratio decreases).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Excellent for VR studies. Can wear chest monitor in headset. Continuous data during immersion reveals moment-to-moment autonomic state (e.g., "presence increases HRV during nature VR").</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Task Force of the European Society of Cardiology and the North American Society of Pacing and Electrophysiology. (1996). Heart rate variability: Standards of measurement, physiological interpretation and clinical use. <em>Circulation, 93</em>(5), 1043–1065.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EDA -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Electrodermal Activity (EDA / GSR)</div>
+                            <div class="card-subtitle one-liner">Sympathetic arousal — sensitive, inexpensive, continuous</div>
+                        </div>
+                        <span class="type-badge">Physiological</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Electrodes on finger or wrist measure skin conductance (mho or μS). Two components: skin conductance level (SCL = tonic baseline) and skin conductance responses (SCR = phasic peaks elicited by stimuli). High SCL or frequent SCRs = high arousal.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Real-time, continuous. SCR response: latency 0.5–2 sec post-stimulus, peak 1–2 sec, recovery ~10–60 sec. SCL habituates over time (especially with repeated stimuli).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Highly sensitive to arousal — even subtle emotional changes detected</li>
+                                <li>Continuous, real-time data</li>
+                                <li>Inexpensive (~$200–500 for consumer devices, <$50 for sensors)</li>
+                                <li>Can be measured during VR immersion (finger electrodes under headset control)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Thermoregulation confound — skin conductance increases with temperature (especially hands). Hot environments = high EDA unrelated to emotion</li>
+                                <li>Habituation — SCR amplitude decreases with stimulus repetition</li>
+                                <li>Individual differences large — some people sweat more baseline (trait variation)</li>
+                                <li>Nonspecific (all arousal looks similar: fear, excitement, exercise)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-code"><strong>Arousal theory:</strong> Nature environments reduce EDA (lower sympathetic tone). SRT predicts lower baseline SCL after nature exposure.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Excellent for VR. Sensors can be worn outside headset or integrated via controllers. Real-time arousal tracking during immersion.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Boucsein, W. (2012). <em>Electrodermal Activity</em> (2nd ed.). Springer. (Comprehensive reference on EDA physiology and measurement)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- EEG -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">EEG (Electroencephalography)</div>
+                            <div class="card-subtitle one-liner">Cortical electrical activity — excellent temporal resolution, challenging in VR</div>
+                        </div>
+                        <span class="type-badge">Neural</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Scalp electrodes record voltage fluctuations from cortical populations (standard 64-channel montage or portable 4–8 channel). Analyzed in frequency domains: alpha (8–12 Hz, relaxation), beta (13–30 Hz, attention), theta (4–7 Hz, working memory), gamma (>30 Hz, binding). Asymmetry metrics: frontal alpha asymmetry (left > right = approach; right > left = withdrawal).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Real-time, millisecond resolution. Event-related potentials (ERPs) reflect response to stimuli; spectral changes reflect ongoing state.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Excellent temporal resolution (milliseconds) — captures neural dynamics</li>
+                                <li>Non-invasive, portable</li>
+                                <li>Portable systems (8-channel) feasible for field studies or VR</li>
+                                <li>Validated for meditation, relaxation studies (alpha increase = restoration)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Poor spatial resolution — cannot localize activity beyond broad regions</li>
+                                <li>Severe motion artifact in VR — head movement, jaw clenching ruin data</li>
+                                <li>Expensive setup (~$5,000–30,000 depending on channel count and software)</li>
+                                <li>Complex data processing (artifact removal, source localization) requires expertise</li>
+                                <li>Individual differences in baseline alpha/beta activity (normalizing within-subject)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-code"><strong>ART prediction:</strong> Alpha power increase (especially posterior) during/after nature = restoration. <strong>Arousal theory:</strong> Alpha/beta ratio indicates relaxation vs. alertness. Frontal asymmetry indicates approach (left) vs. withdrawal (right) motivation.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content">Challenging. Portable 4–8 channel systems work in VR with careful motion control (sitting, constrained head movement). Full 64-channel systems incompatible with headsets. Motion artifact is severe issue.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Klimesch, W., Sauseng, P., & Gerloff, C. (2006). Enhancing cognitive performance with repetitive transcranial magnetic stimulation at human individual alpha frequency. <em>European Journal of Neuroscience, 17</em>(5), 1129–1135. (Alpha oscillations and cognition)</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- fMRI -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">fMRI (Functional Magnetic Resonance Imaging)</div>
+                            <div class="card-subtitle one-liner">Brain blood flow (BOLD signal) — gold standard for localization, not feasible for typical studies</div>
+                        </div>
+                        <span class="type-badge">Neural</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Magnetic field measures blood-oxygen-level-dependent (BOLD) signal in brain voxels (~3×3×3 mm). Contrasts activation in response to stimulus or task. Produces whole-brain maps showing regions of statistical significance. fMRI → statistical maps → network identification.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Slow: temporal resolution ~2–4 seconds (BOLD response lags neural activity by 4–6 sec). Typical session 30–60 min; scanning 1–2 min per participant.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Excellent spatial resolution (~3×3×3 mm voxels) — can identify specific brain regions/networks</li>
+                                <li>Whole-brain coverage</li>
+                                <li>Gold standard for neural localization (published in top journals)</li>
+                                <li>Can identify default mode network (DMN), task-positive networks, etc.</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Expensive (~$500–1000 per hour of scanner time)</li>
+                                <li>Immobile — cannot use within VR headset or in real environments</li>
+                                <li>Artificial, sterile scanner environment ≠ natural setting</li>
+                                <li>BOLD is indirect measure of neural activity (depends on hemodynamics, not spikes)</li>
+                                <li>Small sample sizes required (~20–30 per group) — underpowered by modern standards</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-code"><strong>ART prediction:</strong> Nature exposure increases default mode network (DMN) engagement (restorative state). <strong>SRT prediction:</strong> Nature reduces amygdala activation (fear/threat processing).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content"><strong>Not compatible.</strong> Scanner is immobile. Cannot present VR or nature environments during scanning. Limited to showing still images/video.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Buckner, R. L., Andrews-Hanna, J. R., & Schacter, D. L. (2008). The brain's default network: Anatomy, function, and relevance to disease. <em>Annals of the New York Academy of Sciences, 1124</em>, 1–38.</div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Pupillometry -->
+                <div class="instrument-card">
+                    <div class="card-header" onclick="toggleCard(event)">
+                        <div class="card-title-section">
+                            <div class="card-title">Pupillometry</div>
+                            <div class="card-subtitle one-liner">Pupil dilation as cognitive load and arousal index — sensitive, integrated in VR</div>
+                        </div>
+                        <span class="type-badge">Physiological</span>
+                        <svg class="chevron" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <polyline points="18 15 12 9 6 15"></polyline>
+                        </svg>
+                    </div>
+                    <div class="card-body">
+                        <div class="detail-section">
+                            <div class="detail-label">How It Works</div>
+                            <div class="detail-content">Eye-tracker (or VR headset eye-tracker) measures pupil diameter (mm) continuously. Pupil dilation (mydriasis) indicates increased cognitive load or emotional arousal. Analysis: baseline pupil size, peak dilation, recovery rate, pupil oscillations.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Temporal Dynamics</div>
+                            <div class="detail-content">Real-time, continuous. Response latency: 100–500 ms post-stimulus. Sensitive to task difficulty moment-to-moment.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Strengths</div>
+                            <ul class="detail-list">
+                                <li>Continuous, objective measure of cognitive load</li>
+                                <li>Sensitive — detects difficulty manipulations reliably (Beatty 1982)</li>
+                                <li>Built into modern VR headsets (Meta Quest Pro, HTC Vive Pro Eye)</li>
+                                <li>Non-invasive (no additional sensors beyond eye-tracker)</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Weaknesses</div>
+                            <ul class="detail-list">
+                                <li>Light reflex confound — pupil constricts in bright light, dilates in dim light. Must control or normalize for ambient luminance</li>
+                                <li>Individual differences large — baseline pupil size varies by iris pigmentation, age (older = smaller)</li>
+                                <li>Accommodation confound — focusing on near objects constricts pupils (affects screen-based tasks)</li>
+                                <li>Medications (stimulants, antihistamines, antidepressants) affect baseline pupil</li>
+                            </ul>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Theory Connections</div>
+                            <div class="detail-code">Cognitive load theory — pupil size ∝ working memory demand. Arousal theory — pupil dilation during threat or excitement. ART: nature environments should reduce pupil size (lower cognitive demand).</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">VR Compatibility</div>
+                            <div class="detail-content"><strong>Excellent for VR.</strong> Native to VR headsets with eye-tracking. Continuous data during immersion reveals cognitive engagement in real-time.</div>
+                        </div>
+                        <div class="detail-section">
+                            <div class="detail-label">Key Reference</div>
+                            <div class="detail-content">Beatty, J. (1982). Task-evoked pupillary responses, processing load, and the structure of processing. <em>Psychological Bulletin, 91</em>(2), 276–292.</div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- TAB 4: Choosing Your Measures -->
+        <div id="choosing" class="tab-content">
+            <div class="triangulation-box">
+                <h3>Measurement Triangulation: Why Three Modalities Are Better Than One</h3>
+                <p>No single measurement modality captures the full picture. Self-report, behavioral, and physiological measures reveal different aspects of the same phenomenon — and they don't always agree.</p>
+                <p><strong>Why triangulation matters:</strong> A participant might report feeling relaxed (self-report) but show high heart rate (physiology) and slow reaction time (behavior). Triangulation reveals which effects are real and which are artifacts. For example, if nature exposure improves digit span (behavior) AND increases HF-HRV (physiology) AND increases PRS (self-report), the evidence for restoration is strong and convergent.</p>
+                <div class="triangulation-methods">
+                    <div class="method-tile">
+                        <h4>Self-Report</h4>
+                        <p>Conscious, intentional, and articulate — captures subjective experience, perceived benefit, and engagement. Demand characteristics possible.</p>
+                    </div>
+                    <div class="method-tile">
+                        <h4>Behavioral</h4>
+                        <p>Objective, measurable performance. Independent of introspection. Can miss implicit or emotional effects.</p>
+                    </div>
+                    <div class="method-tile">
+                        <h4>Physiological</h4>
+                        <p>Automatic, involuntary — reveals bodily state independent of awareness or motivation. Confounds possible (e.g., temperature on EDA).</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="theory-section">
+                <div class="theory-header">
+                    <div class="theory-name">Attention Restoration Theory (ART)</div>
+                    <div class="theory-constructs"><strong>Key constructs:</strong> Directed attention fatigue, involuntary attention capture, fascination, being away. Core mechanism: restoration of directed attention capacity through engagement with fascinating natural features.</div>
+                </div>
+                <div class="battery-grid">
+                    <div class="battery-item">
+                        <div class="battery-label">Primary Outcome</div>
+                        <div class="battery-content">Backward digit span (behavior) — directly tests directed attention recovery. Or ANT conflict effect (behavior) — executive network efficiency.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Secondary Measures</div>
+                        <div class="battery-content">Perceived Restorativeness Scale (self-report) — validates that fascinatinng features were engaged. Eye-tracking gaze entropy (behavior) — disorder of gaze should decrease post-restoration.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Physiological Validation</div>
+                        <div class="battery-content">Alpha EEG power increase (neural, optional) — indicates relaxed alertness. HRV increase (optional) — parasympathetic engagement during restoration.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Recommended Study Design</div>
+                        <div class="battery-content"><strong>Level 2:</strong> Pre/post digit span + PANAS (10 min). <strong>Level 3:</strong> Add PRS, ANT, HRV monitoring during exposure. <strong>Level 4:</strong> Add EEG or fMRI (expensive).</div>
+                    </div>
+                </div>
+                <div class="mistake-list">
+                    <div class="detail-label">Common ART Measurement Mistakes</div>
+                    <ul class="detail-list">
+                        <li><strong>Measuring the wrong construct:</strong> Using NASA-TLX (workload) instead of digit span (directed attention). ART ≠ reduced workload; it's about attention recovery.</li>
+                        <li><strong>Forgetting the control condition:</strong> Showing digit span improvement post-nature doesn't prove ART — must compare to sitting indoors or tedious task (induced fatigue).</li>
+                        <li><strong>Mistaking arousal for restoration:</strong> Exciting nature (e.g., mountaineering) increases arousal and may impair digit span. PRS should show low "being away" for exciting scenarios (validating non-restorative nature).</li>
+                        <li><strong>Ignoring fascination:</strong> PRS subscale "fascination" should correlate with digit span recovery. If not, the nature wasn't fascinating enough, so ART mechanism didn't activate.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="theory-section">
+                <div class="theory-header">
+                    <div class="theory-name">Stress Reduction Theory (SRT)</div>
+                    <div class="theory-constructs"><strong>Key constructs:</strong> Stress response activation (sympathetic), psychophysiological recovery, safety/non-threat perception. Core mechanism: natural stimuli trigger automatic safety responses (parasympathetic activation, threat appraisal reduction).</div>
+                </div>
+                <div class="battery-grid">
+                    <div class="battery-item">
+                        <div class="battery-label">Primary Outcome</div>
+                        <div class="battery-content">Salivary cortisol (physiology) — gold standard HPA-axis measure. OR State anxiety (STAI; self-report) — quick proxy for stress state.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Secondary Measures</div>
+                        <div class="battery-content">Heart rate variability (HRV; physiology) — parasympathetic tone (HF-HRV increases post-nature). Electrodermal activity (EDA; physiology) — sympathetic arousal should decrease.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Behavioral Validation</div>
+                        <div class="battery-content">NASA-TLX perceived effort (optional) — stress reduction should lower effort perception. Salivary cortisol + STAI agreement validates stress reduction (if both decrease, strong support).</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Recommended Study Design</div>
+                        <div class="battery-content"><strong>Level 1:</strong> STAI pre/post (quick, 10 min). <strong>Level 2:</strong> Add cortisol (3 samples) + HRV (5 min baseline). <strong>Level 3:</strong> Add stressor induction (math task, speech) to measure recovery.</div>
+                    </div>
+                </div>
+                <div class="mistake-list">
+                    <div class="detail-label">Common SRT Measurement Mistakes</div>
+                    <ul class="detail-list">
+                        <li><strong>Forgetting the stressor:</strong> SRT predicts recovery from stress. Without baseline stress induction, you won't see recovery. Pre/post nature alone = not SRT (could be ART).</li>
+                        <li><strong>Timing cortisol samples poorly:</strong> If samples are too early or too late, you miss the HPA response curve. Minimum: pre, peak (15–20 min post), recovery (40+ min post).</li>
+                        <li><strong>Confounding VR stress with environment stress:</strong> VR immersion itself can induce stress (motion sickness, anxiety, unfamiliarity). Use cortisol + HRV to separate VR-medium stress from environment-induced stress.</li>
+                        <li><strong>Single measure overconfidence:</strong> Low STAI alone ≠ SRT support. Need physiological convergence (cortisol down, HRV up, EDA down). Self-report can be faked or biased.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="theory-section">
+                <div class="theory-header">
+                    <div class="theory-name">Biophilia Hypothesis</div>
+                    <div class="theory-constructs"><strong>Key constructs:</strong> Innate affinity for living things, preference for natural features, automatic aesthetic response. Core mechanism: evolutionary adaptation favored organisms that preferred environments with resources (water, plants, prospect).</div>
+                </div>
+                <div class="battery-grid">
+                    <div class="battery-item">
+                        <div class="battery-label">Primary Outcome</div>
+                        <div class="battery-content">Behavioral preference or approach: viewing time, gaze fixation duration on natural features (eye-tracking). Or self-report preference rating (simple 1–7 scale: "How much do you like this environment?").</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Secondary Measures</div>
+                        <div class="battery-content">Affective response (PANAS positive subscale) — preference should correlate with positive affect. Cortisol/HRV post-viewing — biophilia prediction: natural environments lower baseline stress.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Design Note</div>
+                        <div class="battery-content">Biophilia is about automatic, implicit preference — measure it via approach behavior (gaze, dwell time, choice) rather than explicit ratings (less demand characteristics).</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Recommended Study Design</div>
+                        <div class="battery-content"><strong>Level 2:</strong> Eye-tracking gaze time on natural vs. built elements + preference rating. <strong>Level 3:</strong> Add affective response (PANAS). <strong>Level 4:</strong> Add cortisol/HRV.</div>
+                    </div>
+                </div>
+                <div class="mistake-list">
+                    <div class="detail-label">Common Biophilia Measurement Mistakes</div>
+                    <ul class="detail-list">
+                        <li><strong>Relying only on explicit preference:</strong> Biophilia is implicit (automatic). Use eye-tracking dwell time and behavioral approach (gaze toward plants, water) instead of "I like this" ratings.</li>
+                        <li><strong>Comparing preference for different stimulus types:</strong> Natural scenes vs. urban scenes will show different preferences, but that could be familiarity/expertise, not biophilia. Control by showing unfamiliar natural and unfamiliar urban environments.</li>
+                        <li><strong>Ignoring individual differences:</strong> Biophilia varies with development, experience, and culture. Report correlations with age, outdoor experience, or cultural background.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="theory-section">
+                <div class="theory-header">
+                    <div class="theory-name">Arousal Theory / Activation Theory</div>
+                    <div class="theory-constructs"><strong>Key constructs:</strong> Physiological arousal (sympathetic activation), valence (pleasant vs. unpleasant), optimal arousal level. Core mechanism: environments with moderate arousal are preferred; too much or too little arousal is aversive.</div>
+                </div>
+                <div class="battery-grid">
+                    <div class="battery-item">
+                        <div class="battery-label">Primary Outcome</div>
+                        <div class="battery-content">Physiological arousal: HRV (sympathetic/parasympathetic balance), EDA (sympathetic tone), or heart rate. Measure baseline and during exposure — moderate arousal should predict preference.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Secondary Measures</div>
+                        <div class="battery-content">Valence/affect: PANAS positive/negative subscales. Preference rating. Arousal theory: optimal arousal = positive affect + moderate physiology.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Design Note</div>
+                        <div class="battery-content">Create environments varying in arousal: calming (low arousal + positive valence), exciting (high arousal + positive valence), stressful (high arousal + negative valence). Predict preference peaks at moderate arousal + positive valence.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Recommended Study Design</div>
+                        <div class="battery-content"><strong>Level 2:</strong> PANAS + simple preference rating. <strong>Level 3:</strong> Add continuous HRV + EDA during exposure. <strong>Level 4:</strong> Parametrically vary stimulus intensity (sounds, movement, color saturation).</div>
+                    </div>
+                </div>
+                <div class="mistake-list">
+                    <div class="detail-label">Common Arousal Theory Measurement Mistakes</div>
+                    <ul class="detail-list">
+                        <li><strong>Assuming arousal = bad:</strong> Arousal theory is about optimal activation. High arousal can be positive (exciting, engaging). Measure valence alongside arousal.</li>
+                        <li><strong>Confounding arousal with attention:</strong> Attention-capturing stimuli increase arousal, but their effect on preference is moderated by valence. A scary stimulus is high-arousal negative; a thrilling stimulus is high-arousal positive.</li>
+                        <li><strong>Using only self-report affect:</strong> Physiological arousal and subjective affect can dissociate (feel calm but elevated HRV, or feel excited but low EDA). Measure both.</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="theory-section">
+                <div class="theory-header">
+                    <div class="theory-name">Affordance Theory / Ecological Psychology</div>
+                    <div class="theory-constructs"><strong>Key constructs:</strong> Affordances (action possibilities perceived in environment), exploration behavior, embodied interaction. Core mechanism: environments with rich, immediately graspable action possibilities (to climb, hide, investigate, play) afford engagement.</div>
+                </div>
+                <div class="battery-grid">
+                    <div class="battery-item">
+                        <div class="battery-label">Primary Outcome</div>
+                        <div class="battery-content">Behavioral engagement: exploration time, distance traveled, number of distinct locations visited, manual interaction attempts (in VR). Eye-tracking: gaze distribution toward affordance-rich features.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Secondary Measures</div>
+                        <div class="battery-content">Self-reported affordances: "How many ways could you explore/interact with this space?" (open-ended or checklist). Engagement rating. Spatial navigation performance (learning of affordance structure).</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Design Note</div>
+                        <div class="battery-content">Compare high-affordance environments (lots of pathways, varied features, unclear boundaries inviting exploration) to low-affordance (open fields, homogeneous). Predict higher exploration, engagement, gaze entropy in high-affordance environments.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Recommended Study Design</div>
+                        <div class="battery-content"><strong>Level 2:</strong> Spatial navigation task (route learning) + self-reported affordances. <strong>Level 3:</strong> Add eye-tracking (gaze entropy, fixation to affordances). <strong>Level 4:</strong> Add embodied measures (VR controller interactions, walking distance).</div>
+                    </div>
+                </div>
+                <div class="mistake-list">
+                    <div class="detail-label">Common Affordance Theory Measurement Mistakes</div>
+                    <ul class="detail-list">
+                        <li><strong>Confusing perceived with actual affordances:</strong> An affordance is what the environment affords to a specific organism (you can hide in tall grass; deer can too; humans less so). Measure what actions YOUR participants perceive, not objective features.</li>
+                        <li><strong>Ignoring expertise:</strong> Affordance perception is skill-dependent. Climber sees climbing affordances in trees; non-climber doesn't. Report participant experience/expertise.</li>
+                        <li><strong>Overrelying on self-report:</strong> Use behavioral measures (exploration time, spatial memory accuracy, interaction count) over explicit affordance ratings (demand characteristics).</li>
+                    </ul>
+                </div>
+            </div>
+
+            <div class="theory-section">
+                <div class="theory-header">
+                    <div class="theory-name">Prospect-Refuge Theory</div>
+                    <div class="theory-constructs"><strong>Key constructs:</strong> Prospect (ability to see without being seen), refuge (places to hide or feel protected), sensory and temporal depth. Core mechanism: environments balancing safety (refuge) with information (prospect) are preferred.</div>
+                </div>
+                <div class="battery-grid">
+                    <div class="battery-item">
+                        <div class="battery-label">Primary Outcome</div>
+                        <div class="battery-content">Preference ratings for spaces varying in prospect/refuge balance. Or behavioral approach: where do participants position themselves? Do they prefer open or sheltered spots? (Can use spatial tracking in VR.)</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Secondary Measures</div>
+                        <div class="battery-content">Anxiety/threat perception (STAI) — refuge should reduce anxiety. Engagement (PRS or eye-tracking dwell time on prospect features). Comfort rating (e.g., "How safe do you feel here?").</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Design Note</div>
+                        <div class="battery-content">Create 4 conditions: high prospect + high refuge, high prospect + low refuge, low prospect + high refuge, low prospect + low refuge. Predict preference for balanced (high/high) > imbalanced.</div>
+                    </div>
+                    <div class="battery-item">
+                        <div class="battery-label">Recommended Study Design</div>
+                        <div class="battery-content"><strong>Level 2:</strong> Preference ratings + threat perception (STAI). <strong>Level 3:</strong> Add spatial tracking (where do participants move?). <strong>Level 4:</strong> Add physiological stress markers (cortisol, HRV) to validate that refuge reduces threat response.</div>
+                    </div>
+                </div>
+                <div class="mistake-list">
+                    <div class="detail-label">Common Prospect-Refuge Measurement Mistakes</div>
+                    <ul class="detail-list">
+                        <li><strong>Using proxy variables incorrectly:</strong> Light and openness ≠ prospect. Prospect is ability to see (not necessarily through open space; windows count!). Refuge is containment/shelter (darkness alone isn't refuge if exposure is high).</li>
+                        <li><strong>Ignoring cultural differences:</strong> Preference for refuge varies by culture. Open-space preference common in individualistic cultures; shelter preference in collectivist cultures. Report participant background.</li>
+                        <li><strong>Forgetting temporal depth:</strong> Prospect-refuge theory includes "temporal prospect" (ability to see movement/change over time, not just space). Measure engagement with dynamic elements (flowing water, moving animals).</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="container">
+        <div class="footer">
+            <div class="footer-nav">
+                <a href="methods_taxonomy.html">← Methods Taxonomy</a>
+                <div class="footer-center"><a href="sensor_catalogue.html" style="color:#0891B2;">Sensor Catalogue</a> · COGS 160</div>
+                <a href="experiment_wizard.html">Experiment Builder →</a>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        function switchTab(event, tabName) {
+            event.preventDefault();
+
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => {
+                content.classList.remove('active');
+            });
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-button');
+            buttons.forEach(button => {
+                button.classList.remove('active');
+            });
+
+            // Show selected tab content
+            document.getElementById(tabName).classList.add('active');
+
+            // Mark button as active
+            event.target.classList.add('active');
+        }
+
+        function toggleCard(event) {
+            const card = event.currentTarget.closest('.instrument-card');
+            const header = card.querySelector('.card-header');
+            const body = card.querySelector('.card-body');
+
+            header.classList.toggle('expanded');
+            body.classList.toggle('expanded');
+        }
+    </script>
+</body>
+</html>

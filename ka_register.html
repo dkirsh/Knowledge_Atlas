@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Register - Knowledge Atlas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F7F4EF;
+            color: #4A3E32;
+        }
+
+        /* Navigation */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: #1C3D3A;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 32px;
+            z-index: 1000;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.08);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+        }
+
+        .ka-icon {
+            width: 28px;
+            height: 28px;
+        }
+
+        .ka-wordmark {
+            display: flex;
+            flex-direction: column;
+            gap: 2px;
+        }
+
+        .ka-wordmark-top {
+            font-size: 10px;
+            font-weight: 600;
+            letter-spacing: 2px;
+            color: #A8C8BF;
+            line-height: 1;
+        }
+
+        .ka-wordmark-bottom {
+            font-size: 13px;
+            font-weight: 700;
+            color: #F5A623;
+            line-height: 1;
+        }
+
+        .nav-right {
+            display: flex;
+            gap: 16px;
+            align-items: center;
+        }
+
+        .nav-link {
+            color: #A8C8BF;
+            text-decoration: none;
+            font-size: 13px;
+            padding: 6px 12px;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .nav-link:hover {
+            color: #F5A623;
+            background-color: rgba(232,135,42,0.1);
+        }
+
+        /* Main content */
+        main {
+            margin-top: 56px;
+            padding: 40px 32px;
+            min-height: 100vh;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .register-wrapper {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 48px;
+            align-items: start;
+        }
+
+        .left-panel {
+            background: linear-gradient(135deg, #2A7868 0%, #1C3D3A 100%);
+            border-radius: 12px;
+            padding: 48px;
+            color: white;
+            height: fit-content;
+            position: sticky;
+            top: 96px;
+        }
+
+        .left-panel .ka-icon {
+            width: 60px;
+            height: 60px;
+            margin-bottom: 24px;
+            filter: brightness(1.2);
+        }
+
+        .left-panel h1 {
+            font-size: 24px;
+            font-weight: 700;
+            margin-bottom: 12px;
+            line-height: 1.3;
+        }
+
+        .left-panel .subtitle {
+            font-size: 14px;
+            color: #A8C8BF;
+            margin-bottom: 24px;
+            line-height: 1.6;
+        }
+
+        .left-panel ul {
+            list-style: none;
+        }
+
+        .left-panel li {
+            display: flex;
+            gap: 12px;
+            margin-bottom: 14px;
+            font-size: 13px;
+            line-height: 1.5;
+        }
+
+        .left-panel li:before {
+            content: "✓";
+            color: #F5A623;
+            font-weight: bold;
+            flex-shrink: 0;
+        }
+
+        /* Form */
+        .form-card {
+            background: white;
+            border-radius: 12px;
+            padding: 40px;
+            border: 1px solid #E0DAD3;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+        }
+
+        .form-section {
+            margin-bottom: 40px;
+        }
+
+        .form-section:last-of-type {
+            margin-bottom: 0;
+        }
+
+        .form-section h2 {
+            font-size: 16px;
+            font-weight: 700;
+            color: #1C3D3A;
+            margin-bottom: 24px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 16px;
+        }
+
+        label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 6px;
+            color: #4A3E32;
+        }
+
+        label.optional:after {
+            content: " (optional)";
+            font-weight: 400;
+            color: #8A7A68;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        textarea,
+        select {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            font-family: Arial, sans-serif;
+            font-size: 13px;
+            color: #4A3E32;
+            background-color: #fff;
+            transition: all 0.2s ease;
+        }
+
+        input[type="text"]:focus,
+        input[type="email"]:focus,
+        input[type="password"]:focus,
+        textarea:focus,
+        select:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        textarea {
+            resize: vertical;
+            min-height: 80px;
+        }
+
+        textarea::placeholder,
+        input::placeholder {
+            color: #8A7A68;
+        }
+
+        /* Radio buttons as chips */
+        .radio-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+
+        .radio-chip {
+            position: relative;
+        }
+
+        .radio-chip input {
+            position: absolute;
+            opacity: 0;
+            width: 0;
+            height: 0;
+        }
+
+        .radio-chip label {
+            display: inline-block;
+            padding: 10px 16px;
+            border: 1px solid #E0DAD3;
+            border-radius: 20px;
+            background-color: #fff;
+            cursor: pointer;
+            font-weight: 500;
+            font-size: 13px;
+            transition: all 0.2s ease;
+            margin: 0;
+        }
+
+        .radio-chip input:checked + label {
+            background-color: #E8872A;
+            color: white;
+            border-color: #E8872A;
+        }
+
+        .radio-chip label:hover {
+            border-color: #E8872A;
+        }
+
+        /* Callout box */
+        .callout {
+            background-color: #FFF4E6;
+            border-left: 4px solid #E8872A;
+            border-radius: 4px;
+            padding: 16px;
+            margin-bottom: 24px;
+            font-size: 13px;
+            line-height: 1.6;
+            color: #4A3E32;
+        }
+
+        /* Checkboxes */
+        .checkbox-group {
+            margin-bottom: 16px;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 10px;
+            margin-bottom: 14px;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            width: 18px;
+            height: 18px;
+            margin-top: 2px;
+            cursor: pointer;
+            accent-color: #E8872A;
+        }
+
+        .checkbox-item label {
+            margin: 0;
+            cursor: pointer;
+            font-size: 13px;
+            font-weight: 400;
+            line-height: 1.5;
+        }
+
+        /* Buttons */
+        .btn {
+            padding: 12px 24px;
+            border: none;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            text-decoration: none;
+            display: inline-block;
+            text-align: center;
+            font-family: Arial, sans-serif;
+        }
+
+        .btn-primary {
+            width: 100%;
+            background-color: #E8872A;
+            color: white;
+            margin-top: 8px;
+        }
+
+        .btn-primary:hover {
+            background-color: #C05A1F;
+            transform: translateY(-1px);
+            box-shadow: 0 4px 12px rgba(232,135,42,0.3);
+        }
+
+        .btn-primary:active {
+            transform: translateY(0);
+        }
+
+        /* Footer link */
+        .login-link {
+            text-align: center;
+            margin-top: 24px;
+            font-size: 13px;
+            color: #8A7A68;
+        }
+
+        .login-link a {
+            color: #E8872A;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .login-link a:hover {
+            text-decoration: underline;
+        }
+
+        /* Version badge */
+        .version-badge {
+            position: fixed;
+            bottom: 24px;
+            right: 24px;
+            background-color: #1C3D3A;
+            color: #A8C8BF;
+            padding: 8px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            z-index: 100;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .register-wrapper {
+                grid-template-columns: 1fr;
+                gap: 32px;
+            }
+
+            .left-panel {
+                position: relative;
+                top: auto;
+            }
+
+            main {
+                padding: 24px 16px;
+            }
+
+            .form-card {
+                padding: 32px;
+            }
+
+            .form-group-row {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 640px) {
+            nav {
+                padding: 0 16px;
+            }
+
+            main {
+                padding: 16px 12px;
+            }
+
+            .form-card {
+                padding: 24px;
+            }
+
+            .left-panel {
+                padding: 32px;
+            }
+
+            .version-badge {
+                bottom: 16px;
+                right: 16px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav>
+        <a href="/" class="nav-brand">
+            <svg class="ka-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                <defs>
+                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
+                        <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+                        <stop offset="100%" style="stop-color:#A8C8BF;stop-opacity:1" />
+                    </linearGradient>
+                </defs>
+                <circle cx="50" cy="50" r="40" fill="url(#grad1)" opacity="0.1"/>
+                <circle cx="30" cy="30" r="4" fill="#F5A623"/>
+                <circle cx="70" cy="30" r="4" fill="#A8C8BF"/>
+                <circle cx="50" cy="70" r="4" fill="#2A7868"/>
+                <line x1="30" y1="30" x2="70" y2="30" stroke="#F5A623" stroke-width="1.5" opacity="0.6"/>
+                <line x1="30" y1="30" x2="50" y2="70" stroke="#A8C8BF" stroke-width="1.5" opacity="0.6"/>
+                <line x1="70" y1="30" x2="50" y2="70" stroke="#2A7868" stroke-width="1.5" opacity="0.6"/>
+                <circle cx="50" cy="50" r="3" fill="#2A7868"/>
+            </svg>
+            <div class="ka-wordmark">
+                <div class="ka-wordmark-top">KNOWLEDGE</div>
+                <div class="ka-wordmark-bottom">Atla<span style="color: #A8C8BF;">s</span></div>
+            </div>
+        </a>
+        <div class="nav-right">
+            <a href="ka_login.html" class="nav-link">Log in</a>
+        </div>
+    </nav>
+
+    <!-- Main content -->
+    <main>
+        <div class="container">
+            <div class="register-wrapper">
+                <!-- Left panel -->
+                <div class="left-panel">
+                    <svg class="ka-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+                        <defs>
+                            <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
+                                <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
+                                <stop offset="100%" style="stop-color:#A8C8BF;stop-opacity:1" />
+                            </linearGradient>
+                        </defs>
+                        <circle cx="50" cy="50" r="40" fill="url(#grad2)" opacity="0.2"/>
+                        <circle cx="30" cy="30" r="4" fill="#F5A623"/>
+                        <circle cx="70" cy="30" r="4" fill="#A8C8BF"/>
+                        <circle cx="50" cy="70" r="4" fill="#F5A623"/>
+                        <circle cx="20" cy="70" r="3" fill="#A8C8BF"/>
+                        <circle cx="80" cy="70" r="3" fill="#A8C8BF"/>
+                        <line x1="30" y1="30" x2="70" y2="30" stroke="#F5A623" stroke-width="2" opacity="0.7"/>
+                        <line x1="30" y1="30" x2="50" y2="70" stroke="#A8C8BF" stroke-width="2" opacity="0.7"/>
+                        <line x1="70" y1="30" x2="50" y2="70" stroke="#F5A623" stroke-width="2" opacity="0.7"/>
+                        <line x1="50" y1="70" x2="20" y2="70" stroke="#A8C8BF" stroke-width="1.5" opacity="0.6"/>
+                        <line x1="50" y1="70" x2="80" y2="70" stroke="#A8C8BF" stroke-width="1.5" opacity="0.6"/>
+                        <circle cx="50" cy="50" r="3" fill="#F5A623"/>
+                    </svg>
+                    <h1>Join Knowledge Atlas</h1>
+                    <p class="subtitle">Contribute to a living knowledge model built on propositions, warrants, and evidence.</p>
+                    <ul>
+                        <li>Tag images with cognitive science concepts</li>
+                        <li>Find and recommend peer-reviewed articles</li>
+                        <li>Capture data from cognitive science research</li>
+                    </ul>
+                </div>
+
+                <!-- Registration form -->
+                <div class="form-card">
+                    <form id="registerForm">
+                        <!-- Section 1: Account -->
+                        <div class="form-section">
+                            <h2>Create your account</h2>
+                            <div class="form-group-row">
+                                <div class="form-group">
+                                    <label for="firstName">First name</label>
+                                    <input type="text" id="firstName" name="firstName" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="lastName">Last name</label>
+                                    <input type="text" id="lastName" name="lastName" required>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="email">Email address</label>
+                                <input type="email" id="email" name="email" required>
+                            </div>
+                            <div class="form-group-row">
+                                <div class="form-group">
+                                    <label for="password">Password</label>
+                                    <input type="password" id="password" name="password" required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="confirmPassword">Confirm password</label>
+                                    <input type="password" id="confirmPassword" name="confirmPassword" required>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Profile -->
+                        <div class="form-section">
+                            <h2>Your academic profile</h2>
+                            <div class="form-group">
+                                <label for="institution">Institution / University</label>
+                                <input type="text" id="institution" name="institution" placeholder="e.g., University of California, San Diego">
+                            </div>
+                            <div class="form-group">
+                                <label for="department">Department</label>
+                                <input type="text" id="department" name="department" placeholder="e.g., Cognitive Science, Psychology">
+                            </div>
+                            <div class="form-group">
+                                <label for="orcid" class="optional">ORCID iD</label>
+                                <input type="text" id="orcid" name="orcid" placeholder="0000-0000-0000-0000">
+                            </div>
+                            <div class="form-group">
+                                <label>Role</label>
+                                <div class="radio-group">
+                                    <div class="radio-chip">
+                                        <input type="radio" id="roleUG" name="role" value="undergrad">
+                                        <label for="roleUG">Undergraduate</label>
+                                    </div>
+                                    <div class="radio-chip">
+                                        <input type="radio" id="roleGrad" name="role" value="grad">
+                                        <label for="roleGrad">Graduate Student</label>
+                                    </div>
+                                    <div class="radio-chip">
+                                        <input type="radio" id="rolePostdoc" name="role" value="postdoc">
+                                        <label for="rolePostdoc">Postdoc</label>
+                                    </div>
+                                    <div class="radio-chip">
+                                        <input type="radio" id="roleFaculty" name="role" value="faculty">
+                                        <label for="roleFaculty">Faculty</label>
+                                    </div>
+                                    <div class="radio-chip">
+                                        <input type="radio" id="roleOther" name="role" value="other">
+                                        <label for="roleOther">Other</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="form-group">
+                                <label for="bio" class="optional">Brief bio</label>
+                                <textarea id="bio" name="bio" placeholder="Optional: tell us about your research interests"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Track Request -->
+                        <div class="form-section">
+                            <h2>Request a track</h2>
+                            <div class="callout">
+                                Track assignment is not guaranteed. Describe your relevant skills and we will review your request. You may list a second choice.
+                            </div>
+                            <div class="form-group">
+                                <label for="trackChoice1">First choice track</label>
+                                <select id="trackChoice1" name="trackChoice1" required>
+                                    <option value="">Select a track</option>
+                                    <option value="track1">Track 1 — Image Tagging (CNFA Tags)</option>
+                                    <option value="track2">Track 2 — Article Finding</option>
+                                    <option value="track3">Track 3 — VR Production</option>
+                                    <option value="track4">Track 4 — Use Case Evaluation &amp; Experiment Maker</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="skills1">Relevant skills for Track 1</label>
+                                <textarea id="skills1" name="skills1" placeholder="e.g. familiarity with image annotation, anatomy, spatial reasoning"></textarea>
+                            </div>
+                            <div class="form-group">
+                                <label for="trackChoice2">Second choice track</label>
+                                <select id="trackChoice2" name="trackChoice2">
+                                    <option value="">No second choice</option>
+                                    <option value="track1">Track 1 — Image Tagging (CNFA Tags)</option>
+                                    <option value="track2">Track 2 — Article Finding</option>
+                                    <option value="track3">Track 3 — VR Production</option>
+                                    <option value="track4">Track 4 — Use Case Evaluation &amp; Experiment Maker</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
+                                <label for="interest">Why are you interested?</label>
+                                <textarea id="interest" name="interest"></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Section 4: Acknowledgments -->
+                        <div class="form-section">
+                            <h2>Prerequisites acknowledgment</h2>
+                            <div class="checkbox-group">
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="ack1" name="ack1" required>
+                                    <label for="ack1">I understand that track assignment is subject to instructor approval and is not guaranteed by registration.</label>
+                                </div>
+                                <div class="checkbox-item">
+                                    <input type="checkbox" id="ack2" name="ack2" required>
+                                    <label for="ack2">I agree to the Knowledge Atlas contributor guidelines and data use policy.</label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary">Submit Registration Request →</button>
+                        <div class="login-link">
+                            Already have an account? <a href="ka_login.html">Log in →</a>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <!-- Version badge -->
+    <div class="version-badge">KA UI · v0.4</div>
+
+    <script>
+        document.getElementById('registerForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            if (document.getElementById('password').value !== document.getElementById('confirmPassword').value) {
+                alert('Passwords do not match');
+                return;
+            }
+            alert('Registration request submitted! An instructor will review your application.');
+        });
+    </script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

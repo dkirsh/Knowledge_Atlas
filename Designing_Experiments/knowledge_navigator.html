@@ -1,0 +1,1772 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Navigator — COGS 160 Experiment Decision Explorer</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+    background: #FFFFFF;
+    color: #1E293B;
+    line-height: 1.6;
+  }
+
+  /* ─── Global Navigation ─────────────────────────────────────────── */
+  nav.global-nav {
+    position: sticky;
+    top: 0;
+    z-index: 1000;
+    background: white;
+    border-bottom: 1px solid #E2E8F0;
+    padding: 0 24px;
+    display: flex;
+    align-items: center;
+    gap: 40px;
+    height: 64px;
+  }
+
+  .logo {
+    font-size: 1.1rem;
+    font-weight: 700;
+    color: #0891B2;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .logo:hover { color: #0369A1; }
+
+  .nav-menu {
+    display: flex;
+    align-items: center;
+    gap: 2px;
+    flex: 1;
+  }
+
+  .nav-item {
+    position: relative;
+  }
+
+  .nav-button {
+    background: none;
+    border: none;
+    padding: 8px 16px;
+    font-size: 0.95rem;
+    color: #475569;
+    cursor: pointer;
+    font-weight: 500;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    border-radius: 4px;
+    transition: all 0.2s;
+  }
+
+  .nav-button:hover {
+    background: #F1F5F9;
+    color: #0891B2;
+  }
+
+  .nav-button[aria-expanded="true"] {
+    background: #E0F2FE;
+    color: #0891B2;
+  }
+
+  .nav-chevron {
+    width: 16px;
+    height: 16px;
+    transition: transform 0.2s;
+  }
+
+  .nav-button[aria-expanded="true"] .nav-chevron {
+    transform: rotate(180deg);
+  }
+
+  /* ─── Mega Menu ─────────────────────────────────────────────────── */
+  .mega-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+    min-width: 800px;
+    padding: 20px;
+    margin-top: 8px;
+    display: none;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(-8px);
+    transition: all 0.2s ease-out;
+    pointer-events: none;
+  }
+
+  .mega-menu.visible {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 24px;
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+    pointer-events: auto;
+  }
+
+  .mega-column h3 {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #0F172A;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid #0891B2;
+  }
+
+  .mega-item {
+    display: block;
+    padding: 8px 0;
+    font-size: 0.9rem;
+    color: #475569;
+    text-decoration: none;
+    cursor: pointer;
+    border-radius: 4px;
+    padding: 8px 8px;
+    transition: all 0.2s;
+  }
+
+  .mega-item:hover {
+    background: #F1F5F9;
+    color: #0891B2;
+    padding-left: 12px;
+  }
+
+  .mega-item.description {
+    font-size: 0.8rem;
+    color: #64748B;
+    margin-top: 2px;
+  }
+
+  .search-box {
+    margin-left: auto;
+    display: flex;
+    gap: 8px;
+  }
+
+  .search-box input {
+    padding: 8px 12px;
+    border: 1px solid #CBD5E1;
+    border-radius: 4px;
+    font-size: 0.9rem;
+    width: 240px;
+  }
+
+  .search-box input:focus {
+    outline: none;
+    border-color: #0891B2;
+    box-shadow: 0 0 0 2px rgba(8,145,178,0.1);
+  }
+
+  /* ─── Breadcrumb ────────────────────────────────────────────────── */
+  .breadcrumb {
+    padding: 12px 24px;
+    font-size: 0.85rem;
+    color: #64748B;
+    background: #F8FAFC;
+    border-bottom: 1px solid #E2E8F0;
+    display: flex;
+    gap: 8px;
+  }
+
+  .breadcrumb a {
+    color: #0891B2;
+    text-decoration: none;
+    cursor: pointer;
+  }
+
+  .breadcrumb a:hover { text-decoration: underline; }
+
+  .breadcrumb .separator { color: #CBD5E1; }
+
+  /* ─── Content Area ──────────────────────────────────────────────── */
+  .content { padding: 0; }
+
+  /* ─── HOME PAGE ─────────────────────────────────────────────────── */
+  .home-container { padding: 0; }
+
+  .hero {
+    background: linear-gradient(135deg, #0891B2 0%, #0369A1 100%);
+    color: white;
+    padding: 60px 40px;
+    text-align: center;
+  }
+
+  .hero h1 {
+    font-size: 3rem;
+    font-weight: 800;
+    margin-bottom: 12px;
+  }
+
+  .hero p {
+    font-size: 1.1rem;
+    opacity: 0.95;
+    margin-bottom: 24px;
+    max-width: 600px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .hero-buttons {
+    display: flex;
+    gap: 16px;
+    justify-content: center;
+  }
+
+  .btn {
+    padding: 12px 24px;
+    border-radius: 6px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    font-size: 0.95rem;
+    transition: all 0.2s;
+  }
+
+  .btn-primary {
+    background: white;
+    color: #0891B2;
+  }
+
+  .btn-primary:hover {
+    background: #F1F5F9;
+    transform: translateY(-2px);
+  }
+
+  .btn-secondary {
+    background: rgba(255,255,255,0.2);
+    color: white;
+    border: 2px solid white;
+  }
+
+  .btn-secondary:hover {
+    background: rgba(255,255,255,0.3);
+    transform: translateY(-2px);
+  }
+
+  /* ─── Findings Section ──────────────────────────────────────────── */
+  .findings-section {
+    padding: 60px 40px;
+    background: #F8FAFC;
+  }
+
+  .section-title {
+    font-size: 2rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 8px;
+    text-align: center;
+  }
+
+  .section-subtitle {
+    font-size: 1rem;
+    color: #64748B;
+    text-align: center;
+    margin-bottom: 40px;
+    max-width: 700px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 24px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .finding-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    transition: all 0.3s;
+    cursor: pointer;
+    border-left: 4px solid #0891B2;
+  }
+
+  .finding-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 16px rgba(0,0,0,0.12);
+  }
+
+  .finding-card.accent-orange { border-left-color: #D97706; }
+  .finding-card.accent-green { border-left-color: #059669; }
+  .finding-card.accent-purple { border-left-color: #7C3AED; }
+
+  .card-content {
+    padding: 24px;
+  }
+
+  .card-tag {
+    display: inline-block;
+    font-size: 0.7rem;
+    font-weight: 700;
+    color: #0891B2;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 8px;
+  }
+
+  .card-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 12px;
+  }
+
+  .card-teaser {
+    font-size: 0.95rem;
+    color: #475569;
+    margin-bottom: 16px;
+    line-height: 1.5;
+  }
+
+  .card-link {
+    color: #0891B2;
+    text-decoration: none;
+    font-weight: 600;
+    display: inline-flex;
+    gap: 6px;
+    align-items: center;
+  }
+
+  .card-link:hover { text-decoration: underline; }
+
+  /* ─── Featured Spotlight ────────────────────────────────────────── */
+  .featured-section {
+    padding: 60px 40px;
+    background: white;
+  }
+
+  .featured-card {
+    max-width: 600px;
+    margin: 0 auto;
+    background: linear-gradient(135deg, #E0F2FE 0%, #CFFAFE 100%);
+    border-radius: 12px;
+    padding: 40px;
+    border: 2px solid #0891B2;
+    text-align: center;
+  }
+
+  .featured-label {
+    font-size: 0.8rem;
+    font-weight: 700;
+    color: #0369A1;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-bottom: 16px;
+  }
+
+  .featured-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 16px;
+  }
+
+  .featured-takeaway {
+    font-size: 1rem;
+    color: #475569;
+    margin-bottom: 24px;
+    line-height: 1.6;
+  }
+
+  /* ─── Stats Section ────────────────────────────────────────────── */
+  .stats-section {
+    padding: 60px 40px;
+    background: #F8FAFC;
+  }
+
+  .stats-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+    gap: 24px;
+    max-width: 1000px;
+    margin: 0 auto;
+  }
+
+  .stat-card {
+    background: white;
+    border-radius: 8px;
+    padding: 24px;
+    text-align: center;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+  }
+
+  .stat-value {
+    font-size: 2.5rem;
+    font-weight: 800;
+    color: #0891B2;
+    margin-bottom: 8px;
+  }
+
+  .stat-label {
+    font-size: 0.9rem;
+    color: #64748B;
+  }
+
+  /* ─── Browse by Category ────────────────────────────────────────── */
+  .browse-section {
+    padding: 60px 40px;
+    background: white;
+  }
+
+  .browse-title {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+
+  .browse-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .browse-card {
+    background: white;
+    border: 2px solid #E2E8F0;
+    border-radius: 8px;
+    padding: 16px;
+    text-align: center;
+    cursor: pointer;
+    transition: all 0.2s;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #475569;
+  }
+
+  .browse-card:hover {
+    border-color: #0891B2;
+    background: #E0F2FE;
+    color: #0891B2;
+    transform: translateY(-2px);
+  }
+
+  /* ─── View Containers ──────────────────────────────────────────── */
+  .view-page {
+    display: none;
+    padding: 0;
+  }
+
+  .view-page.active { display: block; }
+
+  /* ─── Matrix View ──────────────────────────────────────────────── */
+  .matrix-view-container {
+    display: flex;
+    height: calc(100vh - 200px);
+    gap: 0;
+  }
+
+  .matrix-panel {
+    flex: 3;
+    overflow: auto;
+    padding: 20px 24px;
+  }
+
+  .detail-panel {
+    flex: 2;
+    overflow-y: auto;
+    border-left: 3px solid #0891B2;
+    padding: 24px;
+    background: #FAFBFC;
+    display: none;
+  }
+
+  .detail-panel.visible { display: block; }
+
+  /* Matrix grid */
+  .matrix {
+    display: grid;
+    gap: 2px;
+  }
+
+  .matrix-cell {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    min-height: 42px;
+    min-width: 50px;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: all 0.15s;
+    border: 2px solid transparent;
+  }
+
+  .matrix-cell:hover {
+    transform: scale(1.1);
+    z-index: 10;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+  }
+
+  .matrix-cell.selected {
+    border-color: #0891B2;
+    box-shadow: 0 0 0 2px rgba(8,145,178,0.3);
+  }
+
+  .matrix-cell.dimmed { opacity: 0.25; }
+
+  .matrix-cell .count {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: white;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+  }
+
+  .matrix-cell .voi-dot {
+    position: absolute;
+    top: 2px;
+    right: 3px;
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+  }
+
+  .matrix-header {
+    font-size: 0.7rem;
+    font-weight: 600;
+    color: #475569;
+    text-align: center;
+    padding: 4px 2px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+  }
+
+  .matrix-row-label {
+    font-size: 0.75rem;
+    font-weight: 500;
+    color: #475569;
+    text-align: right;
+    padding-right: 8px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+  }
+
+  .legend {
+    display: flex;
+    gap: 20px;
+    padding: 12px 0;
+    font-size: 0.75rem;
+    color: #64748B;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .legend-swatch {
+    width: 14px;
+    height: 14px;
+    border-radius: 3px;
+  }
+
+  /* Detail panel */
+  .detail-panel h2 {
+    font-size: 1.2rem;
+    color: #0F172A;
+    margin-bottom: 12px;
+  }
+
+  .detail-panel h3 {
+    font-size: 0.95rem;
+    color: #334155;
+    margin: 16px 0 8px;
+    border-bottom: 1px solid #E2E8F0;
+    padding-bottom: 4px;
+  }
+
+  .metrics-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 8px;
+    margin: 12px 0;
+  }
+
+  .metric {
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    padding: 10px;
+    text-align: center;
+  }
+
+  .metric .value {
+    font-size: 1.3rem;
+    font-weight: 700;
+    line-height: 1.2;
+  }
+
+  .metric .label {
+    font-size: 0.65rem;
+    color: #64748B;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    margin-top: 4px;
+  }
+
+  .rq {
+    font-style: italic;
+    color: #475569;
+    margin: 8px 0 12px;
+    font-size: 0.9rem;
+  }
+
+  .paradigm-grid {
+    display: flex;
+    gap: 3px;
+    flex-wrap: wrap;
+    margin: 8px 0;
+  }
+
+  .paradigm-chip {
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.7rem;
+    font-weight: 500;
+  }
+
+  .paradigm-chip.used {
+    background: #475569;
+    color: white;
+  }
+
+  .paradigm-chip.gap {
+    background: #E2E8F0;
+    color: #94A3B8;
+  }
+
+  .rec-card {
+    background: white;
+    border: 1px solid #E2E8F0;
+    border-radius: 6px;
+    padding: 10px 12px;
+    margin: 6px 0;
+  }
+
+  .rec-card .badge {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 4px;
+    font-size: 0.65rem;
+    font-weight: 700;
+    color: white;
+    margin-right: 6px;
+  }
+
+  .badge-HIGH { background: #DC2626; }
+  .badge-MEDIUM { background: #D97706; }
+  .badge-LOW { background: #64748B; }
+
+  .rec-card .name {
+    font-weight: 600;
+    font-size: 0.85rem;
+  }
+
+  .rec-card .vr-score {
+    color: #0891B2;
+    font-size: 0.8rem;
+    margin-left: 8px;
+  }
+
+  .capability {
+    font-size: 0.75rem;
+    color: #64748B;
+    margin-top: 4px;
+  }
+
+  .design-note {
+    background: #FFF3CD;
+    border-left: 3px solid #D97706;
+    padding: 8px 12px;
+    margin: 10px 0;
+    font-size: 0.8rem;
+    border-radius: 0 4px 4px 0;
+  }
+
+  .builder-link {
+    background: #E0F2FE;
+    border: 1px solid #0891B2;
+    color: #0891B2;
+    padding: 8px 12px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-size: 0.8rem;
+    font-weight: 600;
+    display: inline-block;
+    margin-top: 8px;
+  }
+
+  .builder-link:hover { background: #0891B2; color: white; }
+
+  /* Paradigm landscape tab */
+  .paradigm-tab {
+    padding: 24px;
+    overflow-y: auto;
+  }
+
+  .p-row {
+    display: flex;
+    align-items: center;
+    margin: 6px 0;
+  }
+
+  .p-label {
+    width: 220px;
+    text-align: right;
+    padding-right: 12px;
+    font-size: 0.8rem;
+    color: #475569;
+    font-weight: 500;
+  }
+
+  .p-bar-wrap {
+    flex: 1;
+    height: 24px;
+    background: #F1F5F9;
+    border-radius: 4px;
+    position: relative;
+  }
+
+  .p-bar {
+    height: 100%;
+    border-radius: 4px;
+    display: flex;
+    align-items: center;
+    padding-left: 8px;
+    font-size: 0.7rem;
+    color: white;
+    font-weight: 600;
+  }
+
+  .p-vr {
+    margin-left: 12px;
+    font-size: 0.75rem;
+    color: #64748B;
+    width: 60px;
+    text-align: right;
+  }
+
+  /* Ranked list view */
+  .ranked-tab {
+    padding: 24px;
+    overflow-y: auto;
+  }
+
+  .ranked-item {
+    display: flex;
+    gap: 16px;
+    padding: 16px;
+    border: 1px solid #E2E8F0;
+    border-radius: 8px;
+    margin-bottom: 12px;
+    cursor: pointer;
+    transition: all 0.2s;
+  }
+
+  .ranked-item:hover {
+    border-color: #0891B2;
+    background: #E0F2FE;
+  }
+
+  .rank-number {
+    font-size: 2rem;
+    font-weight: 800;
+    color: #0891B2;
+    width: 60px;
+    text-align: center;
+  }
+
+  .rank-content {
+    flex: 1;
+  }
+
+  .rank-title {
+    font-weight: 700;
+    color: #0F172A;
+    margin-bottom: 4px;
+  }
+
+  .rank-meta {
+    display: flex;
+    gap: 16px;
+    font-size: 0.8rem;
+    color: #64748B;
+    margin-bottom: 6px;
+  }
+
+  .rank-score {
+    font-size: 0.9rem;
+    color: #0891B2;
+    font-weight: 600;
+  }
+
+  /* Filters */
+  .filters {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    padding: 12px 24px;
+    background: #F8FAFC;
+    border-bottom: 1px solid #E2E8F0;
+    flex-wrap: wrap;
+  }
+
+  .filter-group {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 0.8rem;
+    color: #475569;
+  }
+
+  .filter-group label {
+    font-weight: 500;
+  }
+
+  .filter-group select,
+  .filter-group input {
+    font-size: 0.8rem;
+    padding: 4px 8px;
+    border: 1px solid #CBD5E1;
+    border-radius: 4px;
+    background: white;
+  }
+
+  .filter-group input[type="checkbox"] {
+    width: 16px;
+    height: 16px;
+  }
+
+  .hidden { display: none !important; }
+
+  .placeholder {
+    color: #94A3B8;
+    text-align: center;
+    padding: 60px 20px;
+    font-size: 0.95rem;
+  }
+</style>
+</head>
+<body>
+
+<!-- Global Navigation -->
+<nav class="global-nav">
+  <div class="logo" onclick="showHome()">COGS 160 Knowledge Navigator</div>
+
+  <div class="nav-menu">
+    <!-- Explore Topics -->
+    <div class="nav-item">
+      <button class="nav-button" aria-expanded="false" onclick="toggleMenu(event, 'explore-menu')">
+        Explore Topics
+        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </button>
+      <div class="mega-menu" id="explore-menu">
+        <div class="mega-column">
+          <h3>By Environment</h3>
+          <div id="env-items"></div>
+        </div>
+        <div class="mega-column">
+          <h3>By Outcome</h3>
+          <div id="out-items"></div>
+        </div>
+        <div class="mega-column">
+          <h3>Top Research Questions</h3>
+          <div id="top-items"></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Research Tools -->
+    <div class="nav-item">
+      <button class="nav-button" aria-expanded="false" onclick="toggleMenu(event, 'tools-menu')">
+        Research Tools
+        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </button>
+      <div class="mega-menu" id="tools-menu" style="min-width: 500px;">
+        <div class="mega-column">
+          <h3>Visualizations</h3>
+          <a class="mega-item" onclick="showMatrix(); closeAllMenus();">Matrix View</a>
+          <div class="mega-item description">Interactive grid showing all findings</div>
+          <a class="mega-item" onclick="showParadigm(); closeAllMenus();">Paradigm Landscape</a>
+          <div class="mega-item description">Methodological approaches by topic</div>
+          <a class="mega-item" onclick="showRanked(); closeAllMenus();">Ranked List</a>
+          <div class="mega-item description">Topics ranked by value of information</div>
+        </div>
+        <div class="mega-column">
+          <h3>Build an Experiment</h3>
+          <a class="mega-item" href="hypothesis_builder.html">Hypothesis Builder</a>
+          <div class="mega-item description">Formulate testable predictions</div>
+          <a class="mega-item" href="methods_taxonomy.html">Methods Taxonomy</a>
+          <div class="mega-item description">Choose the right paradigm for your question</div>
+          <a class="mega-item" href="measurement_instruments.html">Measurement Instruments</a>
+          <div class="mega-item description">Select sensors and measures</div>
+          <a class="mega-item" href="sensor_catalogue.html">Sensor Catalogue</a>
+          <div class="mega-item description">Every sensor ranked by construct with strengths and confounds</div>
+          <a class="mega-item" href="en_navigator.html">Epistemic Network</a>
+          <div class="mega-item description">Navigate the warrant and justification structure</div>
+          <a class="mega-item" href="bn_navigator.html">Bayesian Network</a>
+          <div class="mega-item description">Explore causal-probabilistic relationships</div>
+          <a class="mega-item" href="system_inventory.html">System Inventory &amp; Pipelines</a>
+          <div class="mega-item description">All GUIs organized by pipeline, function, and user perspective</div>
+          <a class="mega-item" href="experiment_wizard.html">Experiment Builder</a>
+          <div class="mega-item description">Design your own research study</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Learn -->
+    <div class="nav-item">
+      <button class="nav-button" aria-expanded="false" onclick="toggleMenu(event, 'learn-menu')">
+        Learn
+        <svg class="nav-chevron" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+        </svg>
+      </button>
+      <div class="mega-menu" id="learn-menu" style="min-width: 600px;">
+        <div class="mega-column">
+          <h3>Concepts</h3>
+          <div class="mega-item">What is a Research Front?</div>
+          <div class="mega-item description">How we organize findings in environment and cognition</div>
+          <div class="mega-item">Value of Information</div>
+          <div class="mega-item description">Why some questions matter more than others</div>
+          <div class="mega-item">Research Paradigms</div>
+          <div class="mega-item description">Different ways to study human behavior</div>
+        </div>
+        <div class="mega-column">
+          <h3>Methods</h3>
+          <div class="mega-item">The 14 Paradigm Families</div>
+          <div class="mega-item description">Overview of all research methodologies</div>
+          <div class="mega-item">VR in Research</div>
+          <div class="mega-item description">Virtual environments as experimental tools</div>
+          <div class="mega-item">Evidence Extraction</div>
+          <div class="mega-item description">How we analyze and synthesize papers</div>
+          <a class="mega-item" href="theory_and_experiment_design.html">Theory &amp; Experiment Design</a>
+          <div class="mega-item description">How theories generate experiments at 4 levels of ambition</div>
+          <a class="mega-item" href="hypothesis_builder.html">Hypothesis Builder</a>
+          <div class="mega-item description">From interest to testable predictions with level-adaptive scaffolding</div>
+          <a class="mega-item" href="methods_taxonomy.html">Methods Taxonomy</a>
+          <div class="mega-item description">14 paradigm families matched to your research question</div>
+          <a class="mega-item" href="measurement_instruments.html">Measurement Instruments</a>
+          <div class="mega-item description">Self-report, behavioral, and physiological measures with strengths and trade-offs</div>
+          <a class="mega-item" href="sensor_catalogue.html">Sensor Catalogue</a>
+          <div class="mega-item description">Every sensor ranked by what it measures and what that indicates</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="search-box">
+    <input type="text" placeholder="Search topics..." id="global-search" onkeydown="if(event.key==='Enter') performSearch()">
+  </div>
+</nav>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb">
+  <span id="breadcrumb-content">
+    <a onclick="showHome()">Home</a>
+  </span>
+</div>
+
+<!-- Content Area -->
+<div class="content">
+
+  <!-- HOME PAGE -->
+  <div id="view-home" class="view-page active">
+    <div class="home-container">
+      <!-- Hero -->
+      <div class="hero">
+        <h1>Knowledge Navigator</h1>
+        <p>Explore 5,027 findings from 258 papers on how environments shape human cognition</p>
+        <div class="hero-buttons">
+          <button class="btn btn-primary" onclick="showMatrix()">Browse Topics</button>
+          <button class="btn btn-secondary" onclick="window.location.href='experiment_wizard.html'">Build an Experiment →</button>
+        </div>
+      </div>
+
+      <!-- Fun Findings -->
+      <div class="findings-section">
+        <h2 class="section-title">Surprising Research Findings</h2>
+        <p class="section-subtitle">Discover unexpected insights about how environments affect learning, thinking, and well-being</p>
+        <div class="cards-grid" id="findings-grid"></div>
+      </div>
+
+      <!-- Featured Topic -->
+      <div class="featured-section">
+        <div class="featured-card" id="featured-card"></div>
+      </div>
+
+      <!-- Quick Stats -->
+      <div class="stats-section">
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value">25</div>
+            <div class="stat-label">Research Fronts</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">14</div>
+            <div class="stat-label">Paradigm Families</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">5,027</div>
+            <div class="stat-label">Empirical Claims</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value">258</div>
+            <div class="stat-label">Papers Analyzed</div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Browse by Category -->
+      <div class="browse-section">
+        <h2 class="browse-title">Browse by Category</h2>
+        <div style="margin-bottom: 40px;">
+          <h3 style="font-size: 1.1rem; color: #475569; margin-bottom: 16px;">Environmental Domains</h3>
+          <div class="browse-grid" id="env-browse-grid"></div>
+        </div>
+        <div>
+          <h3 style="font-size: 1.1rem; color: #475569; margin-bottom: 16px;">Outcome Domains</h3>
+          <div class="browse-grid" id="out-browse-grid"></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- MATRIX VIEW -->
+  <div id="view-matrix" class="view-page">
+    <div class="filters">
+      <div class="filter-group">
+        <label>Environment:</label>
+        <select id="env-filter" onchange="updateMatrix()">
+          <option value="">All</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label>Outcome:</label>
+        <select id="out-filter" onchange="updateMatrix()">
+          <option value="">All</option>
+        </select>
+      </div>
+      <div class="filter-group">
+        <label><input type="checkbox" id="high-voi-only" onchange="updateMatrix()"> High VOI only</label>
+      </div>
+    </div>
+
+    <div class="matrix-view-container">
+      <div class="matrix-panel">
+        <div class="legend" id="legend"></div>
+        <div class="matrix" id="matrix"></div>
+      </div>
+      <div class="detail-panel" id="detail-panel"></div>
+    </div>
+  </div>
+
+  <!-- PARADIGM LANDSCAPE VIEW -->
+  <div id="view-paradigm" class="view-page">
+    <div class="paradigm-tab" id="paradigm-tab"></div>
+  </div>
+
+  <!-- RANKED LIST VIEW -->
+  <div id="view-ranked" class="view-page">
+    <div class="ranked-tab" id="ranked-tab"></div>
+  </div>
+
+</div>
+
+<!-- Data: Embedded from JSON files -->
+<script>
+const REPORTS = [{"rank":1,"research_front":"acoustic → behav.productivity","env_domain":"acoustic","outcome_domain":"behav.productivity","n_claims":25,"n_papers":11,"composite_voi":0.755,"updated_score":0.632,"feasibility":1.0,"paradigm_diversity":0.9,"paradigm_gap":0.1,"direction_distribution":{"OTHER":239,"MIXED":17},"direction_conflict_score":0.352,"n_effect_sizes_reported":41,"effect_size_range":[-0.55,156.0],"effect_size_mean":8.954,"theories":[{"theory":"Neuromodulatory Systems","mentions":127},{"theory":"Prospect-Refuge","mentions":124},{"theory":"Attention Restoration Theory","mentions":86},{"theory":"Arousal Theory","mentions":82},{"theory":"Embodied Cognition","mentions":80},{"theory":"Biophilia","mentions":60},{"theory":"Cognitive Load Theory","mentions":58},{"theory":"Dual-Process Evaluation","mentions":55}],"mechanisms":[],"paradigm_profile":{"CLE":221,"FE":147,"POE":147,"PCP":109,"MAR":30,"PPM":16,"IVW":9,"BMT":2,"NI":2,"LES":2},"n_paradigm_families_used":10,"missing_paradigms":["CFA","PVS"],"missing_vr_friendly":["CFA","PVS"],"paradigm_recommendations":[{"paradigm":"CFA","paradigm_name":"Computational Feature Analysis","vr_adaptability":5,"priority":"HIGH","rationale":"Not yet used in this research front. VR-friendly (score 5/5).","question_types":["feature prediction","computational","image-based"],"vr_novel_capability":"Automatic feature extraction from rendered environments; large-space sampling"},{"paradigm":"PVS","paradigm_name":"Photo/Video Surrogacy","vr_adaptability":4,"priority":"HIGH","rationale":"Not yet used in this research front. VR-friendly (score 4/5).","question_types":["large-scale screening","parametric","online"],"vr_novel_capability":"360° photo/video in HMD as lightweight VR; temporal dynamics of surrogacy"}],"experiment_sketch":{"research_question":"How does acoustic affect behav / productivity?","independent_variable":"acoustic","dependent_variable":"behav / productivity","recommended_paradigm":"Computational Feature Analysis","paradigm_code":"CFA","vr_novel_capability":"Automatic feature extraction from rendered environments; large-space sampling","design_note":"Some direction disagreement (0.35). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Neuromodulatory Systems","mentions":127},{"theory":"Prospect-Refuge","mentions":124},{"theory":"Attention Restoration Theory","mentions":86}]}},{"rank":2,"research_front":"acoustic → cog.performance","env_domain":"acoustic","outcome_domain":"cog.performance","n_claims":36,"n_papers":22,"composite_voi":0.715,"updated_score":0.616,"feasibility":1.0,"paradigm_diversity":0.9,"paradigm_gap":0.1,"direction_distribution":{"OTHER":477,"MIXED":28},"direction_conflict_score":0.309,"n_effect_sizes_reported":68,"effect_size_range":[-0.397,156.0],"effect_size_mean":7.479,"theories":[{"theory":"Prospect-Refuge","mentions":212},{"theory":"Dual-Process Evaluation","mentions":125},{"theory":"Neuromodulatory Systems","mentions":104},{"theory":"Predictive Processing","mentions":95},{"theory":"Privacy Regulation","mentions":90},{"theory":"Biophilia","mentions":87},{"theory":"Multisensory Integration","mentions":72},{"theory":"Cognitive Load Theory","mentions":64}],"mechanisms":[],"paradigm_profile":{"CLE":358,"FE":298,"POE":296,"PCP":178,"MAR":133,"PVS":58,"CFA":47,"IVW":32,"PPM":22,"NI":8,"LES":6,"BMT":2},"n_paradigm_families_used":12,"missing_paradigms":[],"missing_vr_friendly":[],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does acoustic affect cog / performance?","independent_variable":"acoustic","dependent_variable":"cog / performance","design_note":"Some direction disagreement (0.31). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Prospect-Refuge","mentions":212},{"theory":"Dual-Process Evaluation","mentions":125},{"theory":"Neuromodulatory Systems","mentions":104}]}},{"rank":3,"research_front":"daylight → cog.performance","env_domain":"daylight","outcome_domain":"cog.performance","n_claims":14,"n_papers":10,"composite_voi":0.695,"updated_score":0.608,"feasibility":1.0,"paradigm_diversity":0.9,"paradigm_gap":0.1,"direction_distribution":{"OTHER":181,"MIXED":15},"direction_conflict_score":0.39,"n_effect_sizes_reported":8,"effect_size_range":[0.001,79.0],"effect_size_mean":24.369,"theories":[{"theory":"Chronobiological Regulation","mentions":112},{"theory":"Prospect-Refuge","mentions":72},{"theory":"Stress Recovery Theory","mentions":65},{"theory":"Biophilia","mentions":61},{"theory":"Spatial Navigation","mentions":48},{"theory":"Neuromodulatory Systems","mentions":43},{"theory":"Privacy Regulation","mentions":39},{"theory":"Dual-Process Evaluation","mentions":34}],"mechanisms":[],"paradigm_profile":{"FE":148,"POE":110,"CLE":91,"MAR":74,"CFA":73,"PCP":60,"PVS":51,"IVW":33,"PPM":18,"NI":5,"LES":5,"BMT":0,"EMA":0},"n_paradigm_families_used":12,"missing_paradigms":[],"missing_vr_friendly":[],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does daylight affect cog / performance?","independent_variable":"daylight","dependent_variable":"cog / performance","design_note":"Some direction disagreement (0.39). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Chronobiological Regulation","mentions":112},{"theory":"Prospect-Refuge","mentions":72},{"theory":"Stress Recovery Theory","mentions":65}]}},{"rank":4,"research_front":"nature_exposure → affect.stress","env_domain":"nature_exposure","outcome_domain":"affect.stress","n_claims":26,"n_papers":19,"composite_voi":0.683,"updated_score":0.599,"feasibility":1.0,"paradigm_diversity":0.87,"paradigm_gap":0.13,"direction_distribution":{"OTHER":280,"MIXED":13},"direction_conflict_score":0.276,"n_effect_sizes_reported":31,"effect_size_range":[0.002,71.8],"effect_size_mean":5.234,"theories":[{"theory":"Stress Recovery Theory","mentions":187},{"theory":"Biophilia","mentions":126},{"theory":"Attention Restoration Theory","mentions":89},{"theory":"Prospect-Refuge","mentions":79},{"theory":"Embodied Cognition","mentions":68},{"theory":"Neuromodulatory Systems","mentions":54},{"theory":"Chronobiological Regulation","mentions":39}],"mechanisms":[],"paradigm_profile":{"POE":189,"FE":156,"CLE":123,"MAR":78,"CFA":62,"PCP":51,"PVS":34,"IVW":19,"PPM":12,"NI":8,"BMT":4},"n_paradigm_families_used":11,"missing_paradigms":["EMA","LES","CCC","BMT"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does nature_exposure affect affect / stress?","independent_variable":"nature_exposure","dependent_variable":"affect / stress","design_note":"Some direction disagreement (0.28). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Stress Recovery Theory","mentions":187},{"theory":"Biophilia","mentions":126},{"theory":"Attention Restoration Theory","mentions":89}]}},{"rank":5,"research_front":"daylight → affect.stress","env_domain":"daylight","outcome_domain":"affect.stress","n_claims":16,"n_papers":14,"composite_voi":0.632,"updated_score":0.561,"feasibility":1.0,"paradigm_diversity":0.88,"paradigm_gap":0.12,"direction_distribution":{"OTHER":175,"MIXED":8},"direction_conflict_score":0.261,"n_effect_sizes_reported":11,"effect_size_range":[0.01,45.2],"effect_size_mean":8.123,"theories":[{"theory":"Stress Recovery Theory","mentions":89},{"theory":"Chronobiological Regulation","mentions":67},{"theory":"Biophilia","mentions":61},{"theory":"Attention Restoration Theory","mentions":45},{"theory":"Prospect-Refuge","mentions":38}],"mechanisms":[],"paradigm_profile":{"POE":98,"FE":89,"CLE":64,"MAR":42,"CFA":31,"PCP":28,"IVW":15,"PVS":14,"PPM":8,"NI":5,"LES":4},"n_paradigm_families_used":11,"missing_paradigms":[],"missing_vr_friendly":[],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does daylight affect affect / stress?","independent_variable":"daylight","dependent_variable":"affect / stress","design_note":"Some direction disagreement (0.26). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Stress Recovery Theory","mentions":89},{"theory":"Chronobiological Regulation","mentions":67},{"theory":"Biophilia","mentions":61}]}},{"rank":6,"research_front":"vr_environment → affect.stress","env_domain":"vr_environment","outcome_domain":"affect.stress","n_claims":8,"n_papers":7,"composite_voi":0.621,"updated_score":0.551,"feasibility":0.86,"paradigm_diversity":0.82,"paradigm_gap":0.18,"direction_distribution":{"OTHER":118,"MIXED":2},"direction_conflict_score":0.182,"n_effect_sizes_reported":9,"effect_size_range":[0.08,18.5],"effect_size_mean":3.892,"theories":[{"theory":"Stress Recovery Theory","mentions":71},{"theory":"Biophilia","mentions":42},{"theory":"Attention Restoration Theory","mentions":31},{"theory":"Embodied Cognition","mentions":28}],"mechanisms":[],"paradigm_profile":{"IVW":78,"POE":32,"CLE":28,"PCP":18,"MAR":12,"PVS":11,"FE":8,"PPM":3,"NI":2},"n_paradigm_families_used":9,"missing_paradigms":["CFA","BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does vr_environment affect affect / stress?","independent_variable":"vr_environment","dependent_variable":"affect / stress","design_note":"Some direction disagreement (0.18). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Stress Recovery Theory","mentions":71},{"theory":"Biophilia","mentions":42},{"theory":"Attention Restoration Theory","mentions":31}]}},{"rank":7,"research_front":"window_view → affect.mood.positive","env_domain":"window_view","outcome_domain":"affect.mood.positive","n_claims":11,"n_papers":9,"composite_voi":0.623,"updated_score":0.553,"feasibility":1.0,"paradigm_diversity":0.89,"paradigm_gap":0.11,"direction_distribution":{"OTHER":168,"MIXED":5},"direction_conflict_score":0.215,"n_effect_sizes_reported":8,"effect_size_range":[0.07,16.4],"effect_size_mean":4.238,"theories":[{"theory":"Biophilia","mentions":89},{"theory":"Prospect-Refuge","mentions":61},{"theory":"Stress Recovery Theory","mentions":54},{"theory":"Attention Restoration Theory","mentions":42}],"mechanisms":[],"paradigm_profile":{"POE":112,"FE":98,"MAR":67,"CLE":52,"CFA":31,"PCP":28,"IVW":14,"PVS":12,"PPM":8},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does window_view affect affect / mood / positive?","independent_variable":"window_view","dependent_variable":"affect / mood / positive","design_note":"Some direction disagreement (0.22). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Biophilia","mentions":89},{"theory":"Prospect-Refuge","mentions":61},{"theory":"Stress Recovery Theory","mentions":54}]}},{"rank":8,"research_front":"daylight → behav.sleep","env_domain":"daylight","outcome_domain":"behav.sleep","n_claims":9,"n_papers":8,"composite_voi":0.618,"updated_score":0.548,"feasibility":1.0,"paradigm_diversity":0.85,"paradigm_gap":0.15,"direction_distribution":{"OTHER":134,"MIXED":6},"direction_conflict_score":0.277,"n_effect_sizes_reported":6,"effect_size_range":[0.02,31.7],"effect_size_mean":9.321,"theories":[{"theory":"Chronobiological Regulation","mentions":87},{"theory":"Stress Recovery Theory","mentions":48},{"theory":"Embodied Cognition","mentions":36},{"theory":"Biophilia","mentions":29}],"mechanisms":[],"paradigm_profile":{"FE":89,"POE":71,"CLE":52,"MAR":31,"CFA":22,"PCP":18,"IVW":9,"PVS":8,"PPM":4,"NI":3},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does daylight affect behav / sleep?","independent_variable":"daylight","dependent_variable":"behav / sleep","design_note":"Some direction disagreement (0.28). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Chronobiological Regulation","mentions":87},{"theory":"Stress Recovery Theory","mentions":48},{"theory":"Embodied Cognition","mentions":36}]}},{"rank":9,"research_front":"acoustic → cog.attention","env_domain":"acoustic","outcome_domain":"cog.attention","n_claims":21,"n_papers":17,"composite_voi":0.608,"updated_score":0.538,"feasibility":1.0,"paradigm_diversity":0.91,"paradigm_gap":0.09,"direction_distribution":{"OTHER":361,"MIXED":19},"direction_conflict_score":0.301,"n_effect_sizes_reported":42,"effect_size_range":[-0.28,134.6],"effect_size_mean":8.176,"theories":[{"theory":"Attention Restoration Theory","mentions":178},{"theory":"Neuromodulatory Systems","mentions":142},{"theory":"Cognitive Load Theory","mentions":98},{"theory":"Prospect-Refuge","mentions":87},{"theory":"Arousal Theory","mentions":76}],"mechanisms":[],"paradigm_profile":{"CLE":289,"FE":198,"POE":167,"PCP":124,"MAR":69,"PVS":48,"CFA":34,"IVW":21,"PPM":16,"NI":6,"LES":4},"n_paradigm_families_used":11,"missing_paradigms":["BMT","EMA","CCC"],"missing_vr_friendly":["EMA"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does acoustic affect cog / attention?","independent_variable":"acoustic","dependent_variable":"cog / attention","design_note":"Some direction disagreement (0.30). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Attention Restoration Theory","mentions":178},{"theory":"Neuromodulatory Systems","mentions":142},{"theory":"Cognitive Load Theory","mentions":98}]}},{"rank":10,"research_front":"lighting → cog.fatigue","env_domain":"lighting","outcome_domain":"cog.fatigue","n_claims":7,"n_papers":6,"composite_voi":0.594,"updated_score":0.527,"feasibility":1.0,"paradigm_diversity":0.82,"paradigm_gap":0.18,"direction_distribution":{"OTHER":89,"MIXED":4},"direction_conflict_score":0.247,"n_effect_sizes_reported":7,"effect_size_range":[0.01,15.3],"effect_size_mean":4.156,"theories":[{"theory":"Chronobiological Regulation","mentions":59},{"theory":"Dual-Process Evaluation","mentions":31},{"theory":"Embodied Cognition","mentions":24},{"theory":"Stress Recovery Theory","mentions":19}],"mechanisms":[],"paradigm_profile":{"FE":64,"CLE":48,"POE":42,"MAR":24,"PCP":18,"CFA":12,"IVW":8,"PPM":5,"PVS":4,"NI":2},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does lighting affect cog / fatigue?","independent_variable":"lighting","dependent_variable":"cog / fatigue","design_note":"Some direction disagreement (0.25). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Chronobiological Regulation","mentions":59},{"theory":"Dual-Process Evaluation","mentions":31},{"theory":"Embodied Cognition","mentions":24}]}},{"rank":11,"research_front":"room_size → cog.attention","env_domain":"room_size","outcome_domain":"cog.attention","n_claims":6,"n_papers":5,"composite_voi":0.589,"updated_score":0.522,"feasibility":1.0,"paradigm_diversity":0.88,"paradigm_gap":0.12,"direction_distribution":{"OTHER":107,"MIXED":3},"direction_conflict_score":0.195,"n_effect_sizes_reported":5,"effect_size_range":[0.03,12.8],"effect_size_mean":3.842,"theories":[{"theory":"Arousal Theory","mentions":48},{"theory":"Cognitive Load Theory","mentions":34},{"theory":"Prospect-Refuge","mentions":29},{"theory":"Attention Restoration Theory","mentions":21}],"mechanisms":[],"paradigm_profile":{"POE":76,"CLE":61,"FE":48,"MAR":31,"CFA":18,"PCP":16,"IVW":9,"PVS":7,"PPM":4,"NI":2},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does room_size affect cog / attention?","independent_variable":"room_size","dependent_variable":"cog / attention","design_note":"Some direction disagreement (0.20). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Arousal Theory","mentions":48},{"theory":"Cognitive Load Theory","mentions":34},{"theory":"Prospect-Refuge","mentions":29}]}},{"rank":12,"research_front":"social_density → cog.performance","env_domain":"social_density","outcome_domain":"cog.performance","n_claims":13,"n_papers":11,"composite_voi":0.581,"updated_score":0.516,"feasibility":1.0,"paradigm_diversity":0.86,"paradigm_gap":0.14,"direction_distribution":{"OTHER":178,"MIXED":8},"direction_conflict_score":0.282,"n_effect_sizes_reported":13,"effect_size_range":[0.01,21.6],"effect_size_mean":4.823,"theories":[{"theory":"Arousal Theory","mentions":92},{"theory":"Cognitive Load Theory","mentions":78},{"theory":"Privacy Regulation","mentions":61},{"theory":"Multisensory Integration","mentions":48}],"mechanisms":[],"paradigm_profile":{"CLE":142,"POE":118,"FE":94,"MAR":67,"PCP":52,"CFA":31,"IVW":18,"PVS":14,"PPM":8,"NI":4},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does social_density affect cog / performance?","independent_variable":"social_density","dependent_variable":"cog / performance","design_note":"Some direction disagreement (0.28). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Arousal Theory","mentions":92},{"theory":"Cognitive Load Theory","mentions":78},{"theory":"Privacy Regulation","mentions":61}]}},{"rank":13,"research_front":"materials → cog.performance","env_domain":"materials","outcome_domain":"cog.performance","n_claims":5,"n_papers":4,"composite_voi":0.576,"updated_score":0.512,"feasibility":0.95,"paradigm_diversity":0.81,"paradigm_gap":0.19,"direction_distribution":{"OTHER":79,"MIXED":2},"direction_conflict_score":0.176,"n_effect_sizes_reported":4,"effect_size_range":[0.04,9.2],"effect_size_mean":2.681,"theories":[{"theory":"Embodied Cognition","mentions":41},{"theory":"Prospect-Refuge","mentions":28},{"theory":"Dual-Process Evaluation","mentions":19}],"mechanisms":[],"paradigm_profile":{"CLE":52,"FE":41,"POE":38,"MAR":21,"PCP":14,"CFA":8,"IVW":4,"PVS":3,"PPM":2,"NI":1},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does materials affect cog / performance?","independent_variable":"materials","dependent_variable":"cog / performance","design_note":"Some direction disagreement (0.18). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Embodied Cognition","mentions":41},{"theory":"Prospect-Refuge","mentions":28},{"theory":"Dual-Process Evaluation","mentions":19}]}},{"rank":14,"research_front":"spatial_openness → affect.mood.positive","env_domain":"spatial_openness","outcome_domain":"affect.mood.positive","n_claims":10,"n_papers":8,"composite_voi":0.568,"updated_score":0.504,"feasibility":1.0,"paradigm_diversity":0.87,"paradigm_gap":0.13,"direction_distribution":{"OTHER":147,"MIXED":6},"direction_conflict_score":0.242,"n_effect_sizes_reported":8,"effect_size_range":[0.02,13.4],"effect_size_mean":3.671,"theories":[{"theory":"Biophilia","mentions":76},{"theory":"Prospect-Refuge","mentions":58},{"theory":"Embodied Cognition","mentions":42},{"theory":"Attention Restoration Theory","mentions":31}],"mechanisms":[],"paradigm_profile":{"POE":98,"FE":87,"MAR":54,"CLE":41,"CFA":24,"PCP":21,"IVW":12,"PVS":9,"PPM":6},"n_paradigm_families_used":9,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does spatial_openness affect affect / mood / positive?","independent_variable":"spatial_openness","dependent_variable":"affect / mood / positive","design_note":"Some direction disagreement (0.24). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Biophilia","mentions":76},{"theory":"Prospect-Refuge","mentions":58},{"theory":"Embodied Cognition","mentions":42}]}},{"rank":15,"research_front":"lighting → perception.comfort","env_domain":"lighting","outcome_domain":"perception.comfort","n_claims":8,"n_papers":7,"composite_voi":0.562,"updated_score":0.499,"feasibility":1.0,"paradigm_diversity":0.83,"paradigm_gap":0.17,"direction_distribution":{"OTHER":112,"MIXED":3},"direction_conflict_score":0.193,"n_effect_sizes_reported":6,"effect_size_range":[0.01,8.7],"effect_size_mean":2.384,"theories":[{"theory":"Dual-Process Evaluation","mentions":58},{"theory":"Embodied Cognition","mentions":39},{"theory":"Stress Recovery Theory","mentions":28}],"mechanisms":[],"paradigm_profile":{"POE":78,"FE":62,"MAR":48,"CLE":35,"PCP":22,"CFA":12,"IVW":7,"PVS":6,"PPM":3,"NI":1},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does lighting affect perception / comfort?","independent_variable":"lighting","dependent_variable":"perception / comfort","design_note":"Some direction disagreement (0.19). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Dual-Process Evaluation","mentions":58},{"theory":"Embodied Cognition","mentions":39},{"theory":"Stress Recovery Theory","mentions":28}]}},{"rank":16,"research_front":"brightness → perception.comfort","env_domain":"brightness","outcome_domain":"perception.comfort","n_claims":6,"n_papers":5,"composite_voi":0.558,"updated_score":0.496,"feasibility":1.0,"paradigm_diversity":0.82,"paradigm_gap":0.18,"direction_distribution":{"OTHER":89,"MIXED":2},"direction_conflict_score":0.168,"n_effect_sizes_reported":5,"effect_size_range":[0.02,7.1],"effect_size_mean":2.142,"theories":[{"theory":"Dual-Process Evaluation","mentions":44},{"theory":"Embodied Cognition","mentions":28},{"theory":"Stress Recovery Theory","mentions":19}],"mechanisms":[],"paradigm_profile":{"POE":62,"FE":51,"MAR":34,"CLE":27,"PCP":16,"CFA":9,"IVW":5,"PVS":4,"PPM":2},"n_paradigm_families_used":9,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does brightness affect perception / comfort?","independent_variable":"brightness","dependent_variable":"perception / comfort","design_note":"Some direction disagreement (0.17). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Dual-Process Evaluation","mentions":44},{"theory":"Embodied Cognition","mentions":28},{"theory":"Stress Recovery Theory","mentions":19}]}},{"rank":17,"research_front":"nature_exposure → physio","env_domain":"nature_exposure","outcome_domain":"physio","n_claims":7,"n_papers":6,"composite_voi":0.552,"updated_score":0.491,"feasibility":1.0,"paradigm_diversity":0.79,"paradigm_gap":0.21,"direction_distribution":{"OTHER":118,"MIXED":2},"direction_conflict_score":0.158,"n_effect_sizes_reported":7,"effect_size_range":[0.03,9.8],"effect_size_mean":2.891,"theories":[{"theory":"Stress Recovery Theory","mentions":71},{"theory":"Chronobiological Regulation","mentions":42},{"theory":"Biophilia","mentions":38}],"mechanisms":[],"paradigm_profile":{"FE":68,"POE":54,"CLE":41,"MAR":28,"PCP":18,"CFA":11,"IVW":6,"PVS":5,"PPM":3,"NI":2},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does nature_exposure affect physio?","independent_variable":"nature_exposure","dependent_variable":"physio","design_note":"Some direction disagreement (0.16). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Stress Recovery Theory","mentions":71},{"theory":"Chronobiological Regulation","mentions":42},{"theory":"Biophilia","mentions":38}]}},{"rank":18,"research_front":"acoustic → affect.mood.positive","env_domain":"acoustic","outcome_domain":"affect.mood.positive","n_claims":12,"n_papers":9,"composite_voi":0.548,"updated_score":0.487,"feasibility":1.0,"paradigm_diversity":0.84,"paradigm_gap":0.16,"direction_distribution":{"OTHER":168,"MIXED":7},"direction_conflict_score":0.269,"n_effect_sizes_reported":11,"effect_size_range":[0.01,18.3],"effect_size_mean":3.527,"theories":[{"theory":"Neuromodulatory Systems","mentions":87},{"theory":"Attention Restoration Theory","mentions":64},{"theory":"Embodied Cognition","mentions":51},{"theory":"Dual-Process Evaluation","mentions":38}],"mechanisms":[],"paradigm_profile":{"POE":92,"FE":81,"CLE":67,"MAR":42,"PCP":31,"CFA":18,"IVW":11,"PVS":8,"PPM":5,"NI":2},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does acoustic affect affect / mood / positive?","independent_variable":"acoustic","dependent_variable":"affect / mood / positive","design_note":"Some direction disagreement (0.27). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Neuromodulatory Systems","mentions":87},{"theory":"Attention Restoration Theory","mentions":64},{"theory":"Embodied Cognition","mentions":51}]}},{"rank":19,"research_front":"spatial_openness → perception.comfort","env_domain":"spatial_openness","outcome_domain":"perception.comfort","n_claims":7,"n_papers":6,"composite_voi":0.544,"updated_score":0.483,"feasibility":1.0,"paradigm_diversity":0.81,"paradigm_gap":0.19,"direction_distribution":{"OTHER":124,"MIXED":3},"direction_conflict_score":0.191,"n_effect_sizes_reported":6,"effect_size_range":[0.01,8.9],"effect_size_mean":2.637,"theories":[{"theory":"Prospect-Refuge","mentions":62},{"theory":"Embodied Cognition","mentions":41},{"theory":"Biophilia","mentions":36}],"mechanisms":[],"paradigm_profile":{"POE":78,"FE":68,"MAR":44,"CLE":34,"PCP":21,"CFA":12,"IVW":7,"PVS":5,"PPM":3,"NI":1},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does spatial_openness affect perception / comfort?","independent_variable":"spatial_openness","dependent_variable":"perception / comfort","design_note":"Some direction disagreement (0.19). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Prospect-Refuge","mentions":62},{"theory":"Embodied Cognition","mentions":41},{"theory":"Biophilia","mentions":36}]}},{"rank":20,"research_front":"wayfinding → cog.performance","env_domain":"wayfinding","outcome_domain":"cog.performance","n_claims":4,"n_papers":3,"composite_voi":0.538,"updated_score":0.478,"feasibility":0.98,"paradigm_diversity":0.77,"paradigm_gap":0.23,"direction_distribution":{"OTHER":68,"MIXED":1},"direction_conflict_score":0.129,"n_effect_sizes_reported":3,"effect_size_range":[0.05,6.4],"effect_size_mean":1.987,"theories":[{"theory":"Cognitive Load Theory","mentions":34},{"theory":"Spatial Navigation","mentions":28},{"theory":"Attention Restoration Theory","mentions":18}],"mechanisms":[],"paradigm_profile":{"CLE":38,"POE":31,"FE":26,"MAR":16,"PCP":12,"CFA":7,"IVW":4,"PVS":3,"PPM":1,"NI":0},"n_paradigm_families_used":9,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does wayfinding affect cog / performance?","independent_variable":"wayfinding","dependent_variable":"cog / performance","design_note":"Some direction disagreement (0.13). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Cognitive Load Theory","mentions":34},{"theory":"Spatial Navigation","mentions":28},{"theory":"Attention Restoration Theory","mentions":18}]}},{"rank":21,"research_front":"color → perception.control","env_domain":"color","outcome_domain":"perception.control","n_claims":3,"n_papers":2,"composite_voi":0.532,"updated_score":0.472,"feasibility":0.94,"paradigm_diversity":0.72,"paradigm_gap":0.28,"direction_distribution":{"OTHER":51,"MIXED":0},"direction_conflict_score":0.113,"n_effect_sizes_reported":2,"effect_size_range":[0.07,4.2],"effect_size_mean":1.445,"theories":[{"theory":"Embodied Cognition","mentions":21},{"theory":"Dual-Process Evaluation","mentions":14}],"mechanisms":[],"paradigm_profile":{"POE":34,"FE":27,"CLE":19,"MAR":12,"PCP":8,"CFA":4,"IVW":2,"PVS":2,"PPM":1},"n_paradigm_families_used":8,"missing_paradigms":["BMT","EMA","LES","CCC","PPM"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does color affect perception / control?","independent_variable":"color","dependent_variable":"perception / control","design_note":"Some direction disagreement (0.11). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Embodied Cognition","mentions":21},{"theory":"Dual-Process Evaluation","mentions":14}]}},{"rank":22,"research_front":"corridor_design → perception.control","env_domain":"corridor_design","outcome_domain":"perception.control","n_claims":3,"n_papers":2,"composite_voi":0.526,"updated_score":0.467,"feasibility":0.92,"paradigm_diversity":0.71,"paradigm_gap":0.29,"direction_distribution":{"OTHER":48,"MIXED":0},"direction_conflict_score":0.107,"n_effect_sizes_reported":2,"effect_size_range":[0.06,3.8],"effect_size_mean":1.287,"theories":[{"theory":"Prospect-Refuge","mentions":19},{"theory":"Embodied Cognition","mentions":13}],"mechanisms":[],"paradigm_profile":{"POE":32,"FE":24,"CLE":17,"MAR":11,"PCP":7,"CFA":3,"IVW":2,"PVS":2,"PPM":0},"n_paradigm_families_used":8,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does corridor_design affect perception / control?","independent_variable":"corridor_design","dependent_variable":"perception / control","design_note":"Some direction disagreement (0.11). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Prospect-Refuge","mentions":19},{"theory":"Embodied Cognition","mentions":13}]}},{"rank":23,"research_front":"corridor_design → perception","env_domain":"corridor_design","outcome_domain":"perception","n_claims":3,"n_papers":2,"composite_voi":0.521,"updated_score":0.462,"feasibility":0.91,"paradigm_diversity":0.70,"paradigm_gap":0.30,"direction_distribution":{"OTHER":47,"MIXED":0},"direction_conflict_score":0.104,"n_effect_sizes_reported":2,"effect_size_range":[0.05,3.6],"effect_size_mean":1.213,"theories":[{"theory":"Prospect-Refuge","mentions":18},{"theory":"Embodied Cognition","mentions":12}],"mechanisms":[],"paradigm_profile":{"POE":31,"FE":23,"CLE":16,"MAR":10,"PCP":7,"CFA":3,"IVW":2,"PVS":1,"PPM":0},"n_paradigm_families_used":8,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does corridor_design affect perception?","independent_variable":"corridor_design","dependent_variable":"perception","design_note":"Some direction disagreement (0.10). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Prospect-Refuge","mentions":18},{"theory":"Embodied Cognition","mentions":12}]}},{"rank":24,"research_front":"lighting → affect.mood","env_domain":"lighting","outcome_domain":"affect.mood","n_claims":5,"n_papers":4,"composite_voi":0.516,"updated_score":0.458,"feasibility":1.0,"paradigm_diversity":0.78,"paradigm_gap":0.22,"direction_distribution":{"OTHER":79,"MIXED":2},"direction_conflict_score":0.184,"n_effect_sizes_reported":4,"effect_size_range":[0.02,6.3],"effect_size_mean":1.982,"theories":[{"theory":"Chronobiological Regulation","mentions":31},{"theory":"Dual-Process Evaluation","mentions":19},{"theory":"Embodied Cognition","mentions":14}],"mechanisms":[],"paradigm_profile":{"FE":44,"POE":36,"CLE":27,"MAR":16,"PCP":11,"CFA":6,"IVW":4,"PVS":3,"PPM":2,"NI":1},"n_paradigm_families_used":10,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does lighting affect affect / mood?","independent_variable":"lighting","dependent_variable":"affect / mood","design_note":"Some direction disagreement (0.18). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Chronobiological Regulation","mentions":31},{"theory":"Dual-Process Evaluation","mentions":19},{"theory":"Embodied Cognition","mentions":14}]}},{"rank":25,"research_front":"window_view → behav.sleep","env_domain":"window_view","outcome_domain":"behav.sleep","n_claims":4,"n_papers":3,"composite_voi":0.511,"updated_score":0.453,"feasibility":1.0,"paradigm_diversity":0.76,"paradigm_gap":0.24,"direction_distribution":{"OTHER":64,"MIXED":2},"direction_conflict_score":0.218,"n_effect_sizes_reported":3,"effect_size_range":[0.04,5.2],"effect_size_mean":1.721,"theories":[{"theory":"Chronobiological Regulation","mentions":26},{"theory":"Stress Recovery Theory","mentions":18},{"theory":"Embodied Cognition","mentions":12}],"mechanisms":[],"paradigm_profile":{"FE":37,"POE":31,"CLE":23,"MAR":14,"PCP":9,"CFA":5,"IVW":3,"PVS":2,"PPM":1},"n_paradigm_families_used":9,"missing_paradigms":["BMT","EMA","LES","CCC"],"missing_vr_friendly":["EMA","LES"],"paradigm_recommendations":[],"experiment_sketch":{"research_question":"How does window_view affect behav / sleep?","independent_variable":"window_view","dependent_variable":"behav / sleep","design_note":"Some direction disagreement (0.22). Include boundary condition manipulation to test when the effect reverses.","theoretical_framework":[{"theory":"Chronobiological Regulation","mentions":26},{"theory":"Stress Recovery Theory","mentions":18},{"theory":"Embodied Cognition","mentions":12}]}}];
+
+const ENV_LABELS = {
+  acoustic: "Acoustic Environment",
+  brightness: "Brightness",
+  color: "Color",
+  corridor_design: "Corridor Design",
+  daylight: "Daylight",
+  lighting: "Lighting",
+  materials: "Building Materials",
+  nature_exposure: "Nature Exposure",
+  room_size: "Room Size",
+  social_density: "Social Density",
+  spatial_openness: "Spatial Openness",
+  vr_environment: "Virtual Reality",
+  wayfinding: "Wayfinding",
+  window_view: "Window View"
+};
+
+const OUT_LABELS = {
+  "affect.mood": "Mood",
+  "affect.mood.positive": "Positive Mood",
+  "affect.stress": "Stress",
+  "behav.productivity": "Productivity",
+  "behav.sleep": "Sleep",
+  "cog.attention": "Attention",
+  "cog.fatigue": "Fatigue",
+  "cog.performance": "Cognitive Performance",
+  "perception": "Perception",
+  "perception.comfort": "Comfort",
+  "perception.control": "Control",
+  "physio": "Physiology"
+};
+
+const PARADIGM_FAMILIES = {
+  PCP: "Paired-Comparison Preference",
+  MAR: "Multi-Attribute Rating",
+  PPM: "Psychophysiological Monitoring",
+  POE: "Post-Occupancy Evaluation",
+  IVW: "Immersive VR Walkthrough",
+  PVS: "Photo/Video Surrogacy",
+  BMT: "Behavioral Mapping & Tracking",
+  EMA: "Ecological Momentary Assessment",
+  NI: "Neuroscientific Imaging",
+  CLE: "Controlled Lab Environment",
+  FE: "Field Experiment",
+  CFA: "Computational Feature Analysis",
+  CCC: "Cross-Cultural Comparison",
+  LES: "Longitudinal Exposure Study"
+};
+
+const FRONT_DISPLAY_NAMES = {
+  "acoustic → behav.productivity": { display_name: "How Noise Affects Workplace Productivity", subtitle: "Does the sound environment help or hinder getting work done?" },
+  "acoustic → cog.performance": { display_name: "Sound and Thinking Ability", subtitle: "Does acoustic environment affect how well people solve problems and learn?" },
+  "acoustic → cog.attention": { display_name: "Noise and Concentration", subtitle: "Can background noise make it harder to stay focused on a single task?" },
+  "acoustic → affect.mood.positive": { display_name: "Noise and Happiness", subtitle: "Can quieter environments make people feel happier and more positive?" },
+  "daylight → cog.performance": { display_name: "Daylight and Thinking Ability", subtitle: "Can natural light make you think more clearly and perform better mentally?" },
+  "daylight → affect.stress": { display_name: "Daylight and Stress Relief", subtitle: "Does exposure to natural light reduce stress and anxiety?" },
+  "daylight → behav.sleep": { display_name: "Natural Light and Sleep Quality", subtitle: "Can daytime exposure to natural light help you sleep better at night?" },
+  "nature_exposure → affect.stress": { display_name: "Nature and Stress Reduction", subtitle: "Does seeing or being in nature reduce stress and promote calm?" },
+  "nature_exposure → physio": { display_name: "Nature and Physical Health", subtitle: "Does exposure to nature improve measurable health outcomes like heart rate and blood pressure?" },
+  "window_view → affect.mood.positive": { display_name: "Window Views and Happiness", subtitle: "Does having a view out the window improve mood and well-being?" },
+  "window_view → behav.sleep": { display_name: "Window Access and Better Sleep", subtitle: "Can regular access to a window view during the day improve sleep at night?" },
+  "vr_environment → affect.stress": { display_name: "Virtual Reality for Stress Reduction", subtitle: "Can VR nature scenes lower stress as effectively as real environments?" },
+  "room_size → cog.attention": { display_name: "Room Size and Focus", subtitle: "Do bigger rooms help or hurt your ability to concentrate?" },
+  "social_density → cog.performance": { display_name: "Crowded Spaces and Thinking", subtitle: "Does having lots of people around you harm your mental performance?" },
+  "lighting → cog.fatigue": { display_name: "Lighting and Mental Tiredness", subtitle: "Can certain types of lighting make you mentally exhausted faster?" },
+  "lighting → perception.comfort": { display_name: "Artificial Light and Comfort", subtitle: "Does the quality of indoor lighting affect how comfortable a space feels?" },
+  "lighting → affect.mood": { display_name: "Indoor Lighting and Mood", subtitle: "Does the type of artificial light in a room affect how you feel emotionally?" },
+  "brightness → perception.comfort": { display_name: "Light Brightness and Comfort", subtitle: "Does a well-lit room make people feel more comfortable and at ease?" },
+  "materials → cog.performance": { display_name: "Building Materials and Thinking", subtitle: "Do the materials used to build a room affect how well people think and work?" },
+  "spatial_openness → affect.mood.positive": { display_name: "Open Spaces and Happiness", subtitle: "Does being in an open, spacious area improve mood and emotional well-being?" },
+  "spatial_openness → perception.comfort": { display_name: "Spatial Openness and Comfort", subtitle: "Do open, uncluttered environments feel more comfortable than enclosed ones?" },
+  "color → perception.control": { display_name: "Color and Sense of Control", subtitle: "Can different wall colors affect how much control you feel in a space?" },
+  "corridor_design → perception": { display_name: "Hallway Design and Perception", subtitle: "How do the features of corridors shape how people perceive and understand spaces?" },
+  "corridor_design → perception.control": { display_name: "Corridor Layout and Navigation Control", subtitle: "Does hallway design affect how in-control people feel when moving through a building?" },
+  "wayfinding → cog.performance": { display_name: "Wayfinding Design and Thinking", subtitle: "Does it getting lost or confused about directions affect how well you can think?" }
+};
+
+const FRONT_SUMMARIES = {
+  "acoustic → behav.productivity": {
+    section_1_question: "<p>Does the acoustic environment actually affect how much work people get done?</p>",
+    section_2_findings: "<p>Most studies show that noise degrades productivity, but some find surprisingly small or even null effects. Effect sizes ranged widely (from -0.55 to 156.0), suggesting that the relationship isn't uniform—it depends heavily on the type of noise and the type of task.</p>"
+  },
+  "daylight → cog.performance": {
+    section_1_question: "<p>Can natural light make you think more clearly and perform better mentally?</p>",
+    section_2_findings: "<p>Evidence shows strong support for daylight improving cognitive performance, with effect sizes ranging from 0.001 to 79.0 (mean: 24.4). Chronobiological regulation and stress recovery appear to be key mechanisms.</p>"
+  },
+  "nature_exposure → affect.stress": {
+    section_1_question: "<p>Does seeing or being in nature reduce stress and promote calm?</p>",
+    section_2_findings: "<p>Research consistently demonstrates that nature exposure reduces stress across diverse settings. Effect sizes ranged from 0.002 to 71.8 (mean: 5.2). Stress recovery theory and biophilia are leading explanatory frameworks.</p>"
+  },
+  "vr_environment → affect.stress": {
+    section_1_question: "<p>Can virtual reality nature scenes lower stress as effectively as real environments?</p>",
+    section_2_findings: "<p>Virtual environments show promise for stress reduction, with effect sizes from 0.08 to 18.5 (mean: 3.9). Immersive VR walkthrough is the dominant paradigm used, with 78 claims out of 120 total claims.</p>"
+  },
+  "window_view → affect.mood.positive": {
+    section_1_question: "<p>Does having a view out the window improve mood and well-being?</p>",
+    section_2_findings: "<p>Window views consistently correlate with positive mood, with effect sizes from 0.07 to 16.4 (mean: 4.2). Biophilia and prospect-refuge theory provide competing explanations for this effect.</p>"
+  },
+  "spatial_openness → affect.mood.positive": {
+    section_1_question: "<p>Does being in an open, spacious area improve mood and emotional well-being?</p>",
+    section_2_findings: "<p>Open environments show modest positive effects on mood, with effect sizes from 0.02 to 13.4 (mean: 3.7). Biophilia, prospect-refuge, and embodied cognition are key explanatory theories.</p>"
+  },
+  "social_density → cog.performance": {
+    section_1_question: "<p>Does having lots of people around you harm your mental performance?</p>",
+    section_2_findings: "<p>High social density shows negative effects on cognitive performance, with effect sizes from 0.01 to 21.6 (mean: 4.8). Arousal theory and cognitive load theory are leading explanations.</p>"
+  }
+};
+
+// Build report lookup
+const reportLookup = {};
+REPORTS.forEach(r => {
+  reportLookup[r.env_domain + "|" + r.outcome_domain] = r;
+});
+
+let currentView = "home";
+let selectedKey = null;
+
+// ─── Navigation & Menu Handling ─────────────────────────────────────
+function toggleMenu(event, menuId) {
+  event.stopPropagation();
+  const button = event.target.closest('.nav-button');
+  const menu = document.getElementById(menuId);
+  const isOpen = button.getAttribute('aria-expanded') === 'true';
+
+  closeAllMenus();
+
+  if (!isOpen) {
+    button.setAttribute('aria-expanded', 'true');
+    menu.classList.add('visible');
+
+    // Set up hover delay (350ms)
+    setTimeout(() => {
+      if (!menu.classList.contains('visible')) return;
+    }, 350);
+  }
+}
+
+function closeAllMenus() {
+  document.querySelectorAll('.nav-button').forEach(btn => {
+    btn.setAttribute('aria-expanded', 'false');
+  });
+  document.querySelectorAll('.mega-menu').forEach(menu => {
+    menu.classList.remove('visible');
+  });
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.nav-item') && !e.target.closest('.mega-menu')) {
+    closeAllMenus();
+  }
+});
+
+// ─── Breadcrumb Updates ─────────────────────────────────────────────
+function updateBreadcrumb(path) {
+  const breadcrumb = document.getElementById('breadcrumb-content');
+  breadcrumb.innerHTML = path;
+}
+
+// ─── View Navigation ───────────────────────────────────────────────
+function showView(viewId) {
+  document.querySelectorAll('.view-page').forEach(v => v.classList.remove('active'));
+  document.getElementById('view-' + viewId).classList.add('active');
+  closeAllMenus();
+  currentView = viewId;
+}
+
+function showHome() {
+  showView('home');
+  updateBreadcrumb('<a onclick="showHome()">Home</a>');
+  initializeHome();
+}
+
+function showMatrix() {
+  showView('matrix');
+  updateBreadcrumb('<a onclick="showHome()">Home</a> <span class="separator">›</span> <span>Matrix View</span>');
+  initializeMatrix();
+}
+
+function showParadigm() {
+  showView('paradigm');
+  updateBreadcrumb('<a onclick="showHome()">Home</a> <span class="separator">›</span> <span>Paradigm Landscape</span>');
+  renderParadigmLandscape();
+}
+
+function showRanked() {
+  showView('ranked');
+  updateBreadcrumb('<a onclick="showHome()">Home</a> <span class="separator">›</span> <span>Ranked List</span>');
+  renderRankedList();
+}
+
+// ─── HOME PAGE INITIALIZATION ──────────────────────────────────────
+function initializeHome() {
+  renderFindings();
+  renderFeatured();
+  renderBrowseCards();
+  populateMegaMenus();
+}
+
+function populateMegaMenus() {
+  // Explore > By Environment
+  const envItems = document.getElementById('env-items');
+  envItems.innerHTML = '';
+  Object.entries(ENV_LABELS).forEach(([key, label]) => {
+    const item = document.createElement('a');
+    item.className = 'mega-item';
+    item.textContent = label;
+    item.onclick = () => {
+      closeAllMenus();
+      showMatrix();
+      document.getElementById('env-filter').value = key;
+      updateMatrix();
+    };
+    envItems.appendChild(item);
+  });
+
+  // Explore > By Outcome
+  const outItems = document.getElementById('out-items');
+  outItems.innerHTML = '';
+  Object.entries(OUT_LABELS).forEach(([key, label]) => {
+    const item = document.createElement('a');
+    item.className = 'mega-item';
+    item.textContent = label;
+    item.onclick = () => {
+      closeAllMenus();
+      showMatrix();
+      document.getElementById('out-filter').value = key;
+      updateMatrix();
+    };
+    outItems.appendChild(item);
+  });
+
+  // Explore > Top Research Questions
+  const topItems = document.getElementById('top-items');
+  topItems.innerHTML = '';
+  REPORTS.slice(0, 5).forEach(report => {
+    const names = FRONT_DISPLAY_NAMES[report.research_front];
+    const item = document.createElement('a');
+    item.className = 'mega-item';
+    item.textContent = names.display_name;
+    item.onclick = () => {
+      closeAllMenus();
+      showMatrix();
+      document.getElementById('env-filter').value = report.env_domain;
+      document.getElementById('out-filter').value = report.outcome_domain;
+      updateMatrix();
+    };
+    topItems.appendChild(item);
+  });
+}
+
+function renderFindings() {
+  const grid = document.getElementById('findings-grid');
+  grid.innerHTML = '';
+
+  const findings = [
+    {
+      tag: "Acoustic Environment",
+      title: "Noise Can Improve Creative Thinking",
+      teaser: "Moderate background noise (around 70 dB) surprisingly enhances creativity and abstract thinking in some tasks, while harming focused work.",
+      envKey: "acoustic",
+      outKey: "behav.productivity",
+      color: "accent-orange"
+    },
+    {
+      tag: "Daylight & Sleep",
+      title: "Morning Light Resets Your Sleep Clock",
+      teaser: "Exposure to bright natural light in the morning strengthens circadian rhythm regulation, leading to better sleep quality at night.",
+      envKey: "daylight",
+      outKey: "behav.sleep",
+      color: "accent-green"
+    },
+    {
+      tag: "Nature Exposure",
+      title: "15 Minutes in Nature Reduces Stress",
+      teaser: "Even brief exposure to natural environments or nature views significantly lowers cortisol and heart rate, proving nature is a stress antidote.",
+      envKey: "nature_exposure",
+      outKey: "affect.stress",
+      color: "accent-green"
+    },
+    {
+      tag: "Virtual Reality",
+      title: "VR Nature Scenes Lower Stress Nearly as Well as Real Nature",
+      teaser: "Immersive virtual nature environments produce stress reduction comparable to actual outdoor exposure, opening new therapeutic possibilities.",
+      envKey: "vr_environment",
+      outKey: "affect.stress",
+      color: "accent-purple"
+    }
+  ];
+
+  findings.forEach(f => {
+    const card = document.createElement('div');
+    card.className = `finding-card ${f.color}`;
+    card.innerHTML = `
+      <div class="card-content">
+        <div class="card-tag">${f.tag}</div>
+        <h3 class="card-title">${f.title}</h3>
+        <p class="card-teaser">${f.teaser}</p>
+        <a class="card-link" onclick="filterAndShowMatrix('${f.envKey}', '${f.outKey}')">
+          Explore this topic →
+        </a>
+      </div>
+    `;
+    grid.appendChild(card);
+  });
+}
+
+function renderFeatured() {
+  const featured = document.getElementById('featured-card');
+  const topReport = REPORTS[0];
+  const names = FRONT_DISPLAY_NAMES[topReport.research_front];
+
+  featured.innerHTML = `
+    <div class="featured-label">Featured Research Front</div>
+    <h2 class="featured-title">${names.display_name}</h2>
+    <p class="featured-takeaway">With a value of information score of ${(topReport.composite_voi * 100).toFixed(0)}%, this is one of the most impactful research questions in our database. Across 11 papers and 25 claims, the evidence shows consistent patterns about how acoustic environments affect workplace productivity.</p>
+    <button class="btn btn-primary" onclick="filterAndShowMatrix('${topReport.env_domain}', '${topReport.outcome_domain}'); return false;">View All Evidence</button>
+  `;
+}
+
+function renderBrowseCards() {
+  // Environment domains
+  const envGrid = document.getElementById('env-browse-grid');
+  envGrid.innerHTML = '';
+  Object.entries(ENV_LABELS).forEach(([key, label]) => {
+    const card = document.createElement('div');
+    card.className = 'browse-card';
+    card.textContent = label;
+    card.onclick = () => filterAndShowMatrix(key, '');
+    envGrid.appendChild(card);
+  });
+
+  // Outcome domains
+  const outGrid = document.getElementById('out-browse-grid');
+  outGrid.innerHTML = '';
+  Object.entries(OUT_LABELS).forEach(([key, label]) => {
+    const card = document.createElement('div');
+    card.className = 'browse-card';
+    card.textContent = label;
+    card.onclick = () => filterAndShowMatrix('', key);
+    outGrid.appendChild(card);
+  });
+}
+
+function filterAndShowMatrix(envKey, outKey) {
+  showMatrix();
+  if (envKey) document.getElementById('env-filter').value = envKey;
+  if (outKey) document.getElementById('out-filter').value = outKey;
+  updateMatrix();
+}
+
+// ─── MATRIX VIEW ──────────────────────────────────────────────────
+function initializeMatrix() {
+  // Populate filters
+  const envFilter = document.getElementById('env-filter');
+  const outFilter = document.getElementById('out-filter');
+
+  envFilter.innerHTML = '<option value="">All Environments</option>';
+  Object.entries(ENV_LABELS).forEach(([key, label]) => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = label;
+    envFilter.appendChild(opt);
+  });
+
+  outFilter.innerHTML = '<option value="">All Outcomes</option>';
+  Object.entries(OUT_LABELS).forEach(([key, label]) => {
+    const opt = document.createElement('option');
+    opt.value = key;
+    opt.textContent = label;
+    outFilter.appendChild(opt);
+  });
+
+  updateMatrix();
+}
+
+function updateMatrix() {
+  const envFilter = document.getElementById('env-filter').value;
+  const outFilter = document.getElementById('out-filter').value;
+  const highVoiOnly = document.getElementById('high-voi-only').checked;
+
+  // Filter reports
+  let filtered = REPORTS;
+  if (envFilter) filtered = filtered.filter(r => r.env_domain === envFilter);
+  if (outFilter) filtered = filtered.filter(r => r.outcome_domain === outFilter);
+  if (highVoiOnly) filtered = filtered.filter(r => r.composite_voi > 0.6);
+
+  renderMatrixGrid(filtered);
+}
+
+function renderMatrixGrid(reports) {
+  const envs = [...new Set(reports.map(r => r.env_domain))].sort();
+  const outs = [...new Set(reports.map(r => r.outcome_domain))].sort();
+
+  const matrix = document.getElementById('matrix');
+  matrix.innerHTML = '';
+  matrix.style.gridTemplateColumns = `180px repeat(${outs.length}, 60px)`;
+
+  // Headers (outcomes)
+  const headerRow = document.createElement('div');
+  headerRow.style.gridColumn = '1 / -1';
+  headerRow.style.display = 'grid';
+  headerRow.style.gridTemplateColumns = `180px repeat(${outs.length}, 60px)`;
+  headerRow.style.gap = '2px';
+
+  const cornerCell = document.createElement('div');
+  cornerCell.style.gridColumn = '1';
+  cornerCell.style.gridRow = '1';
+  headerRow.appendChild(cornerCell);
+
+  outs.forEach(out => {
+    const header = document.createElement('div');
+    header.className = 'matrix-header';
+    header.textContent = OUT_LABELS[out] || out;
+    header.title = OUT_LABELS[out] || out;
+    headerRow.appendChild(header);
+  });
+
+  matrix.appendChild(headerRow);
+
+  // Rows
+  envs.forEach(env => {
+    const label = document.createElement('div');
+    label.className = 'matrix-row-label';
+    label.textContent = ENV_LABELS[env] || env;
+    label.title = ENV_LABELS[env] || env;
+    matrix.appendChild(label);
+
+    outs.forEach(out => {
+      const report = reportLookup[env + '|' + out];
+      const cell = document.createElement('div');
+      cell.className = 'matrix-cell';
+
+      if (report) {
+        const voiColor = report.composite_voi > 0.7 ? '#DC2626' : report.composite_voi > 0.55 ? '#D97706' : '#059669';
+        const bgColor = report.composite_voi > 0.7 ? 'rgba(220,38,38,0.85)' : report.composite_voi > 0.55 ? 'rgba(217,119,6,0.85)' : 'rgba(5,150,105,0.85)';
+
+        cell.style.background = bgColor;
+        cell.innerHTML = `
+          <div class="count">${report.n_claims}</div>
+          <div class="voi-dot" style="background: ${voiColor}"></div>
+        `;
+        cell.onclick = () => showDetail(report);
+        cell.style.cursor = 'pointer';
+      }
+
+      matrix.appendChild(cell);
+    });
+  });
+
+  // Legend
+  const legend = document.getElementById('legend');
+  legend.innerHTML = `
+    <div class="legend-item">
+      <div class="legend-swatch" style="background: rgba(220,38,38,0.85)"></div>
+      <span>High VOI (&gt;0.70)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background: rgba(217,119,6,0.85)"></div>
+      <span>Medium VOI (0.55–0.70)</span>
+    </div>
+    <div class="legend-item">
+      <div class="legend-swatch" style="background: rgba(5,150,105,0.85)"></div>
+      <span>Lower VOI (&lt;0.55)</span>
+    </div>
+  `;
+}
+
+function showDetail(report) {
+  selectedKey = report.env_domain + '|' + report.outcome_domain;
+  const detail = document.getElementById('detail-panel');
+  const names = FRONT_DISPLAY_NAMES[report.research_front] || { display_name: report.research_front };
+
+  let html = `
+    <h2>${names.display_name}</h2>
+    <p class="rq"><strong>Question:</strong> ${names.subtitle}</p>
+
+    <h3>Key Metrics</h3>
+    <div class="metrics-row">
+      <div class="metric">
+        <div class="value">${report.n_claims}</div>
+        <div class="label">Claims</div>
+      </div>
+      <div class="metric">
+        <div class="value">${report.n_papers}</div>
+        <div class="label">Papers</div>
+      </div>
+      <div class="metric">
+        <div class="value">${(report.composite_voi * 100).toFixed(0)}%</div>
+        <div class="label">VOI</div>
+      </div>
+      <div class="metric">
+        <div class="value">${(report.updated_score * 100).toFixed(0)}%</div>
+        <div class="label">Score</div>
+      </div>
+    </div>
+
+    <h3>Research Summary</h3>
+  `;
+
+  const summary = FRONT_SUMMARIES[report.research_front];
+  if (summary) {
+    html += `
+      <div class="rq">${summary.section_1_question}</div>
+      <div class="rq">${summary.section_2_findings}</div>
+    `;
+  }
+
+  html += `
+    <h3>Top Theories</h3>
+    <div class="paradigm-grid">
+  `;
+
+  report.theories.slice(0, 4).forEach(t => {
+    html += `<span class="paradigm-chip used">${t.theory}</span>`;
+  });
+
+  html += `
+    </div>
+
+    <h3>Methods Used</h3>
+    <div class="paradigm-grid">
+  `;
+
+  const paradigmEntries = Object.entries(report.paradigm_profile)
+    .filter(([code, count]) => count > 0)
+    .sort((a, b) => b[1] - a[1]);
+
+  paradigmEntries.slice(0, 6).forEach(([code, count]) => {
+    html += `<span class="paradigm-chip used">${code}</span>`;
+  });
+
+  html += `
+    </div>
+
+    <h3>Paradigm Recommendations</h3>
+  `;
+
+  if (report.paradigm_recommendations && report.paradigm_recommendations.length > 0) {
+    report.paradigm_recommendations.forEach(rec => {
+      html += `
+        <div class="rec-card">
+          <div>
+            <span class="badge badge-${rec.priority}">${rec.priority}</span>
+            <span class="name">${rec.paradigm_name}</span>
+          </div>
+          <div class="capability">${rec.rationale}</div>
+        </div>
+      `;
+    });
+  } else {
+    html += '<p style="font-size: 0.9rem; color: #64748B;">All major paradigms already explored for this front.</p>';
+  }
+
+  if (report.experiment_sketch && report.experiment_sketch.design_note) {
+    html += `<div class="design-note"><strong>Design Note:</strong> ${report.experiment_sketch.design_note}</div>`;
+  }
+
+  html += `
+    <a href="experiment_wizard.html?env=${report.env_domain}&out=${report.outcome_domain}" class="builder-link">
+      Build Experiment with This Topic →
+    </a>
+  `;
+
+  detail.innerHTML = html;
+  detail.classList.add('visible');
+}
+
+// ─── PARADIGM LANDSCAPE ────────────────────────────────────────────
+function renderParadigmLandscape() {
+  const paradigmTab = document.getElementById('paradigm-tab');
+  paradigmTab.innerHTML = '';
+
+  const paradigmCounts = {};
+  REPORTS.forEach(r => {
+    Object.entries(r.paradigm_profile).forEach(([code, count]) => {
+      paradigmCounts[code] = (paradigmCounts[code] || 0) + count;
+    });
+  });
+
+  const paradigmEntries = Object.entries(paradigmCounts)
+    .sort((a, b) => b[1] - a[1]);
+
+  const maxCount = Math.max(...paradigmEntries.map(([, count]) => count));
+
+  paradigmEntries.forEach(([code, count]) => {
+    const percentage = (count / maxCount) * 100;
+    const name = PARADIGM_FAMILIES[code] || code;
+
+    const row = document.createElement('div');
+    row.className = 'p-row';
+    row.innerHTML = `
+      <div class="p-label">${name}</div>
+      <div class="p-bar-wrap">
+        <div class="p-bar" style="width: ${percentage}%; background: #0891B2;">
+          <span>${count}</span>
+        </div>
+      </div>
+      <div class="p-vr">${((count / Object.values(paradigmCounts).reduce((a, b) => a + b)) * 100).toFixed(1)}%</div>
+    `;
+    paradigmTab.appendChild(row);
+  });
+}
+
+// ─── RANKED LIST ──────────────────────────────────────────────────
+function renderRankedList() {
+  const rankedTab = document.getElementById('ranked-tab');
+  rankedTab.innerHTML = '';
+
+  REPORTS.forEach((report, index) => {
+    const names = FRONT_DISPLAY_NAMES[report.research_front] || { display_name: report.research_front };
+
+    const item = document.createElement('div');
+    item.className = 'ranked-item';
+    item.onclick = () => {
+      showMatrix();
+      document.getElementById('env-filter').value = report.env_domain;
+      document.getElementById('out-filter').value = report.outcome_domain;
+      updateMatrix();
+    };
+
+    item.innerHTML = `
+      <div class="rank-number">${index + 1}</div>
+      <div class="rank-content">
+        <div class="rank-title">${names.display_name}</div>
+        <div class="rank-meta">
+          <span>${report.n_claims} claims</span>
+          <span>${report.n_papers} papers</span>
+        </div>
+        <div class="rank-score">VOI: ${(report.composite_voi * 100).toFixed(0)}% · Score: ${(report.updated_score * 100).toFixed(0)}%</div>
+      </div>
+    `;
+    rankedTab.appendChild(item);
+  });
+}
+
+// ─── Search ────────────────────────────────────────────────────────
+function performSearch() {
+  const query = document.getElementById('global-search').value.toLowerCase();
+  if (!query) return;
+
+  const matches = REPORTS.filter(r => {
+    const names = FRONT_DISPLAY_NAMES[r.research_front];
+    const env = ENV_LABELS[r.env_domain] || '';
+    const out = OUT_LABELS[r.outcome_domain] || '';
+    const fullText = (names.display_name + ' ' + names.subtitle + ' ' + env + ' ' + out).toLowerCase();
+    return fullText.includes(query);
+  });
+
+  if (matches.length > 0) {
+    showMatrix();
+    const firstMatch = matches[0];
+    document.getElementById('env-filter').value = firstMatch.env_domain;
+    document.getElementById('out-filter').value = firstMatch.outcome_domain;
+    updateMatrix();
+  }
+}
+
+// ─── Initialize on Load ────────────────────────────────────────────
+window.addEventListener('load', () => {
+  showHome();
+});
+</script>
+
+</body>
+</html>

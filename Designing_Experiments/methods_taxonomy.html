@@ -1,0 +1,1928 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Methods Taxonomy — COGS 160 Experiment Design</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+            background-color: #FFFFFF;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        /* Global Navigation */
+        .global-nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            padding: 1rem 0;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+        }
+
+        .nav-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .nav-logo {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: #0891B2;
+            text-decoration: none;
+            margin-right: 2rem;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            text-decoration: none;
+            color: #475569;
+            font-size: 0.95rem;
+            font-weight: 500;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 0.25rem;
+        }
+
+        .nav-links a:hover {
+            color: #0891B2;
+        }
+
+        .nav-links a.active {
+            color: #0891B2;
+            border-bottom-color: #0891B2;
+        }
+
+        /* Main Content */
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 2rem;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin-bottom: 0.5rem;
+            color: #0F172A;
+        }
+
+        .page-intro {
+            font-size: 1.1rem;
+            color: #475569;
+            margin-bottom: 2rem;
+            line-height: 1.8;
+        }
+
+        /* Tab System */
+        .tabs-container {
+            margin-bottom: 2rem;
+        }
+
+        .tab-buttons {
+            display: flex;
+            gap: 0.5rem;
+            border-bottom: 1px solid #E2E8F0;
+            margin-bottom: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .tab-btn {
+            padding: 1rem 1.5rem;
+            background: none;
+            border: none;
+            border-bottom: 3px solid transparent;
+            cursor: pointer;
+            font-size: 1rem;
+            font-weight: 600;
+            color: #475569;
+            transition: all 0.2s;
+        }
+
+        .tab-btn:hover {
+            color: #0891B2;
+        }
+
+        .tab-btn.active {
+            color: #0891B2;
+            border-bottom-color: #0891B2;
+        }
+
+        .tab-content {
+            display: none;
+        }
+
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.3s ease-in;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        /* TAB 1: Methods by Question Type */
+        .question-level {
+            margin-bottom: 2.5rem;
+        }
+
+        .level-header {
+            background: linear-gradient(135deg, #E0F2FE 0%, #F0F9FF 100%);
+            padding: 1.5rem;
+            border-radius: 12px;
+            margin-bottom: 1.5rem;
+            border-left: 4px solid #0891B2;
+        }
+
+        .level-title {
+            font-size: 1.4rem;
+            color: #0891B2;
+            font-weight: 700;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-description {
+            font-size: 0.95rem;
+            color: #475569;
+            margin-bottom: 0.5rem;
+        }
+
+        .level-use-case {
+            font-size: 0.9rem;
+            color: #64748B;
+            font-style: italic;
+        }
+
+        .paradigm-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .paradigm-card {
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            background: #FFFFFF;
+            transition: all 0.3s;
+            cursor: pointer;
+        }
+
+        .paradigm-card:hover {
+            border-color: #0891B2;
+            box-shadow: 0 4px 12px rgba(8, 145, 178, 0.1);
+        }
+
+        .paradigm-card.expanded {
+            grid-column: 1 / -1;
+        }
+
+        .paradigm-card.expanded .paradigm-details {
+            display: block;
+        }
+
+        .paradigm-abbr {
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: #0891B2;
+            margin-bottom: 0.25rem;
+        }
+
+        .paradigm-name {
+            font-size: 1.1rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 0.75rem;
+        }
+
+        .paradigm-description {
+            font-size: 0.9rem;
+            color: #475569;
+            margin-bottom: 1rem;
+            line-height: 1.5;
+        }
+
+        .paradigm-details {
+            display: none;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .details-section {
+            margin-bottom: 1rem;
+        }
+
+        .details-label {
+            font-weight: 600;
+            color: #0891B2;
+            font-size: 0.85rem;
+            text-transform: uppercase;
+            margin-bottom: 0.5rem;
+        }
+
+        .details-content {
+            font-size: 0.9rem;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .strength-item, .limitation-item {
+            padding-left: 1.5rem;
+            margin-bottom: 0.5rem;
+            position: relative;
+        }
+
+        .strength-item::before {
+            content: "✓";
+            position: absolute;
+            left: 0;
+            color: #10B981;
+            font-weight: 700;
+        }
+
+        .limitation-item::before {
+            content: "✗";
+            position: absolute;
+            left: 0;
+            color: #EF4444;
+            font-weight: 700;
+        }
+
+        .vr-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .vr-low { background: #FEE2E2; color: #B91C1C; }
+        .vr-medium { background: #FEF3C7; color: #92400E; }
+        .vr-high { background: #DBEAFE; color: #1E40AF; }
+        .vr-native { background: #DCFCE7; color: #15803D; }
+
+        .level-indicators {
+            display: flex;
+            gap: 0.3rem;
+            flex-wrap: wrap;
+            margin-top: 0.5rem;
+        }
+
+        .level-badge {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            background: #F1F5F9;
+            border: 1px solid #CBD5E1;
+            border-radius: 4px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            color: #475569;
+        }
+
+        /* TAB 2: Strengths & Weaknesses */
+        .validity-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-bottom: 2rem;
+        }
+
+        .validity-table th {
+            background: #F8FAFC;
+            padding: 1rem;
+            text-align: left;
+            font-weight: 600;
+            color: #0891B2;
+            border-bottom: 2px solid #E2E8F0;
+            font-size: 0.9rem;
+        }
+
+        .validity-table td {
+            padding: 1rem;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 0.9rem;
+        }
+
+        .validity-table tr:hover {
+            background: #F8FAFC;
+        }
+
+        .validity-indicator {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-weight: 600;
+        }
+
+        .validity-dot {
+            display: inline-block;
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+        }
+
+        .validity-low { background: #EF4444; }
+        .validity-medium { background: #F59E0B; }
+        .validity-high { background: #10B981; }
+
+        .comparison-card {
+            border: 1px solid #E2E8F0;
+            border-radius: 12px;
+            padding: 1.5rem;
+            margin-bottom: 1.5rem;
+            background: #FFFFFF;
+        }
+
+        .comparison-card-title {
+            font-size: 1.1rem;
+            font-weight: 700;
+            color: #0891B2;
+            margin-bottom: 1rem;
+        }
+
+        .comparison-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 1rem;
+            margin-bottom: 1rem;
+            font-size: 0.9rem;
+        }
+
+        .comparison-item {
+            padding: 0.75rem;
+            background: #F8FAFC;
+            border-radius: 8px;
+            border-left: 3px solid #0891B2;
+        }
+
+        .comparison-item-label {
+            font-weight: 600;
+            color: #0891B2;
+            margin-bottom: 0.25rem;
+            font-size: 0.85rem;
+        }
+
+        .comparison-item-value {
+            color: #475569;
+        }
+
+        .mistake-section {
+            background: #FEF3C7;
+            padding: 1rem;
+            border-radius: 8px;
+            border-left: 3px solid #F59E0B;
+            margin-top: 1rem;
+            font-size: 0.9rem;
+            color: #92400E;
+        }
+
+        .mistake-label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+
+        /* TAB 3: Method-Hypothesis Matcher */
+        .matcher-form {
+            background: #F8FAFC;
+            padding: 2rem;
+            border-radius: 12px;
+            margin-bottom: 2rem;
+            border: 1px solid #E2E8F0;
+        }
+
+        .form-group {
+            margin-bottom: 2rem;
+        }
+
+        .form-label {
+            font-weight: 700;
+            color: #0F172A;
+            display: block;
+            margin-bottom: 1rem;
+            font-size: 1rem;
+        }
+
+        .radio-group, .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.75rem;
+        }
+
+        .radio-option, .checkbox-option {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            cursor: pointer;
+            padding: 0.75rem 1rem;
+            background: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            transition: all 0.2s;
+        }
+
+        .radio-option:hover, .checkbox-option:hover {
+            border-color: #0891B2;
+            background: #F0F9FF;
+        }
+
+        input[type="radio"], input[type="checkbox"] {
+            cursor: pointer;
+            width: 18px;
+            height: 18px;
+            accent-color: #0891B2;
+        }
+
+        .radio-label, .checkbox-label {
+            cursor: pointer;
+            color: #475569;
+        }
+
+        .results-container {
+            margin-top: 2rem;
+        }
+
+        .results-intro {
+            font-size: 1.1rem;
+            color: #0891B2;
+            font-weight: 600;
+            margin-bottom: 1.5rem;
+        }
+
+        .recommendation-group {
+            margin-bottom: 2rem;
+        }
+
+        .recommendation-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #0F172A;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .recommendation-badge {
+            display: inline-block;
+            padding: 0.4rem 0.8rem;
+            background: #DBEAFE;
+            color: #0C4A6E;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            font-weight: 600;
+        }
+
+        .recommendation-card {
+            border: 2px solid #0891B2;
+            border-radius: 12px;
+            padding: 1.5rem;
+            background: #F0F9FF;
+            margin-bottom: 1rem;
+        }
+
+        .recommendation-card.dimmed {
+            border-color: #CBD5E1;
+            background: #FFFFFF;
+            opacity: 0.6;
+        }
+
+        .recommendation-card.dimmed .recommendation-name,
+        .recommendation-card.dimmed .recommendation-text {
+            color: #94A3B8;
+        }
+
+        .recommendation-name {
+            font-weight: 700;
+            color: #0891B2;
+            margin-bottom: 0.5rem;
+            font-size: 1rem;
+        }
+
+        .recommendation-text {
+            color: #475569;
+            font-size: 0.9rem;
+            line-height: 1.6;
+        }
+
+        /* Footer */
+        footer {
+            background: #F8FAFC;
+            border-top: 1px solid #E2E8F0;
+            padding: 2rem;
+            margin-top: 3rem;
+        }
+
+        .footer-container {
+            max-width: 1100px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .footer-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .footer-links a {
+            text-decoration: none;
+            color: #0891B2;
+            font-weight: 600;
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: #0369A1;
+        }
+
+        .footer-text {
+            color: #64748B;
+            font-size: 0.9rem;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            .paradigm-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .comparison-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .footer-container {
+                flex-direction: column;
+                text-align: center;
+            }
+
+            h1 {
+                font-size: 1.8rem;
+            }
+
+            .tab-buttons {
+                flex-direction: column;
+            }
+
+            .tab-btn {
+                border-bottom: none;
+                border-left: 3px solid transparent;
+                text-align: left;
+                padding: 0.75rem 1rem;
+            }
+
+            .tab-btn.active {
+                border-bottom: none;
+                border-left-color: #0891B2;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Global Navigation -->
+    <nav class="global-nav">
+        <div class="nav-container">
+            <a href="knowledge_navigator.html" class="nav-logo">COGS 160</a>
+            <ul class="nav-links">
+                <li><a href="knowledge_navigator.html">Knowledge Navigator</a></li>
+                <li><a href="theory_and_experiment_design.html">Theory &amp; Design</a></li>
+                <li><a href="hypothesis_builder.html">Hypothesis Builder</a></li>
+                <li><a href="methods_taxonomy.html" class="active">Methods Taxonomy</a></li>
+                <li><a href="measurement_instruments.html">Measurement Instruments</a></li>
+                <li><a href="sensor_catalogue.html">Sensor Catalogue</a></li>
+                <li><a href="en_navigator.html">Epistemic Network</a></li>
+                <li><a href="bn_navigator.html">Bayesian Network</a></li>
+                <li><a href="experiment_wizard.html">Experiment Builder</a></li>
+                <li><a href="system_inventory.html">System Inventory</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <div class="container">
+        <h1>Methods Taxonomy</h1>
+        <p class="page-intro">
+            Experimental paradigms are tools. Which tool you choose depends on the question you're asking and what you already know.
+            This taxonomy helps you navigate 14 paradigm families by matching them to your research goal, resources, and constraints.
+        </p>
+
+        <!-- Tab System -->
+        <div class="tabs-container">
+            <div class="tab-buttons">
+                <button class="tab-btn active" onclick="switchTab(event, 'tab-questions')">
+                    Methods by Question Type
+                </button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab-strengths')">
+                    Strengths & Weaknesses
+                </button>
+                <button class="tab-btn" onclick="switchTab(event, 'tab-matcher')">
+                    Method-Hypothesis Matcher
+                </button>
+            </div>
+
+            <!-- TAB 1: Methods by Question Type -->
+            <div id="tab-questions" class="tab-content active">
+                <!-- Level 1: What happens? -->
+                <div class="question-level">
+                    <div class="level-header">
+                        <div class="level-title">Level 1: "What happens?" (Descriptive/Exploratory)</div>
+                        <div class="level-description">Establishing phenomena, estimating effect sizes, and understanding ecological validity</div>
+                        <div class="level-use-case">Use when: You need baseline data, population estimates, or real-world behavior patterns</div>
+                    </div>
+
+                    <div class="paradigm-grid">
+                        <!-- POE -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">POE</div>
+                            <div class="paradigm-name">Post-Occupancy Evaluation</div>
+                            <div class="paradigm-description">Surveys of existing building occupants about their actual experiences and satisfaction.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">High ecological validity; real occupants in real spaces</div>
+                                    <div class="strength-item">Can measure long-term adaptation and satisfaction</div>
+                                    <div class="strength-item">Builds direct relationships with practitioners</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">No control over design variables; confounded naturally</div>
+                                    <div class="limitation-item">Retrospective bias and self-report measurement error</div>
+                                    <div class="limitation-item">Cannot infer causation from correlations</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-low">VR: Low</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L1</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Are office workers satisfied with open-plan seating arrangements?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- MAR/EMA -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">MAR/EMA</div>
+                            <div class="paradigm-name">Momentary Assessment / Experience Sampling</div>
+                            <div class="paradigm-description">Real-time capture of experience via smartphone prompts throughout the day.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Minimizes recall bias; captures true in-the-moment experience</div>
+                                    <div class="strength-item">High ecological validity; participants in natural contexts</div>
+                                    <div class="strength-item">Rich temporal dynamics; can model state changes</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Requires participant compliance and sustained engagement</div>
+                                    <div class="limitation-item">Selection bias if drop-out is non-random</div>
+                                    <div class="limitation-item">No experimental control; observational only</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-low">VR: Low</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L1</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">How does indoor air quality correlate with momentary attention and mood throughout the workday?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CCC -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">CCC</div>
+                            <div class="paradigm-name">Cross-Cultural Comparison</div>
+                            <div class="paradigm-description">Behavioral or survey measurements across multiple cultures or geographic regions.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Tests generalizability and cultural boundaries of psychological principles</div>
+                                    <div class="strength-item">Large sample heterogeneity; high external validity</div>
+                                    <div class="strength-item">Reveals culture-dependent vs. universal mechanisms</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Confounds cultural factors with history, economics, climate</div>
+                                    <div class="limitation-item">Measurement equivalence and translation validity are challenging</div>
+                                    <div class="limitation-item">Expensive and logistically complex</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-medium">VR: Medium</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L1</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Do warmth preference ratings for spaces differ systematically between subtropical and arctic-region participants?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- LES -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">LES</div>
+                            <div class="paradigm-name">Longitudinal Study</div>
+                            <div class="paradigm-description">Repeated measurements of the same participants over weeks, months, or years.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Directly measures change trajectories and adaptation over time</div>
+                                    <div class="strength-item">Can model individual growth curves and heterogeneity</div>
+                                    <div class="strength-item">High ecological validity; natural contexts preserved</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Attrition bias; participants drop out non-randomly over time</div>
+                                    <div class="limitation-item">Practice effects and testing reactivity contaminate measures</div>
+                                    <div class="limitation-item">Very time-consuming and resource-intensive</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-low">VR: Low</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L1</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">How do office workers adapt to a newly renovated environment over 6 months?</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 2: Does the predicted effect hold? -->
+                <div class="question-level">
+                    <div class="level-header">
+                        <div class="level-title">Level 2: "Does the predicted effect hold?" (Effect Testing)</div>
+                        <div class="level-description">Testing specific predictions with controlled manipulation and inferring causation</div>
+                        <div class="level-use-case">Use when: You have a hypothesis about cause-effect and want to test it experimentally</div>
+                    </div>
+
+                    <div class="paradigm-grid">
+                        <!-- CLE -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">CLE</div>
+                            <div class="paradigm-name">Controlled Lab Experiment</div>
+                            <div class="paradigm-description">Tight experimental control with random assignment and isolated manipulation.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Gold standard for causal inference; highest internal validity</div>
+                                    <div class="strength-item">Clear cause-effect logic; confounds minimized</div>
+                                    <div class="strength-item">Reproducible and replicable; clean effect sizes</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Low ecological validity; contrived settings and demand characteristics</div>
+                                    <div class="limitation-item">Often uses participant pools (students); limited generalizability</div>
+                                    <div class="limitation-item">Environmental complexity stripped away; mechanisms may not transfer</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-high">VR: High</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L2</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Does warm color temperature in a room causally increase perceived spaciousness?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- FE -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">FE</div>
+                            <div class="paradigm-name">Field Experiment</div>
+                            <div class="paradigm-description">Random assignment and causal manipulation in real-world settings.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Maintains causal inference logic while preserving ecological validity</div>
+                                    <div class="strength-item">Real participants in natural contexts; high external validity</div>
+                                    <div class="strength-item">Effects generalize to target population more reliably</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Hard to control confounds in uncontrolled environments</div>
+                                    <div class="limitation-item">Ethical constraints; cannot assign harmful conditions</div>
+                                    <div class="limitation-item">Expensive and logistically complex; slow data collection</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-low">VR: Low</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L2</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Does adding plants to an actual office causally reduce stress and sick days?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PCP -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">PCP</div>
+                            <div class="paradigm-name">Paired-Comparison Preference</div>
+                            <div class="paradigm-description">Direct pairwise comparison and preference measurement between design alternatives.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Simple and intuitive; reveals direct preference rankings</div>
+                                    <div class="strength-item">Avoids absolute judgment scales; relative preference is more reliable</div>
+                                    <div class="strength-item">Can aggregate preferences into a complete ordering</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Only measures preference, not cognitive mechanisms or reasons</div>
+                                    <div class="limitation-item">Many comparisons needed for full ordering (n choose 2 pairs)</div>
+                                    <div class="limitation-item">Intransitivity and context-dependence common; not truly ordinal</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-high">VR: High</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L2</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Which layout of a room do architects prefer: A vs. B vs. C vs. D?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PVS -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">PVS</div>
+                            <div class="paradigm-name">Perceived Virtual Space</div>
+                            <div class="paradigm-description">Participants view images or videos of designed spaces and rate them or make choices.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Cheap, quick, and scalable; can test many designs at low cost</div>
+                                    <div class="strength-item">Participants can see final designs before construction</div>
+                                    <div class="strength-item">Precise control over visual variables; isolate lighting, color, form</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Missing sensory channels: sound, smell, thermal, haptic</div>
+                                    <div class="limitation-item">2D images lack depth cues; spatial perception differs from 3D</div>
+                                    <div class="limitation-item">Attention patterns shift with screen-based vs. embodied viewing</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-medium">VR: Medium</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L2</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Do variations in ceiling height in rendered images affect perceived crowding ratings?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- IVW -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">IVW</div>
+                            <div class="paradigm-name">Immersive Virtual World</div>
+                            <div class="paradigm-description">Participants interact with fully 3D environments via VR headsets with high sensorimotor fidelity.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">High immersion and presence; closer to real environments than images</div>
+                                    <div class="strength-item">Precise experimental control while maintaining embodiment</div>
+                                    <div class="strength-item">Can measure behavior (navigation, gaze, reach) and psychophysiology simultaneously</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Cybersickness and simulator discomfort in some participants</div>
+                                    <div class="limitation-item">Expensive equipment and development cost</div>
+                                    <div class="limitation-item">Still missing some sensory modalities (smell, full thermal gradient)</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-native">VR: Native</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L2</span>
+                                        <span class="level-badge">L3</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Does wayfinding difficulty in a complex VR building causally increase cortisol and reduce task performance?</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 3: Does the mechanism operate? -->
+                <div class="question-level">
+                    <div class="level-header">
+                        <div class="level-title">Level 3: "Does the mechanism operate?" (Mechanism Probing)</div>
+                        <div class="level-description">Measuring intermediate steps, temporal decomposition, and mediation pathways</div>
+                        <div class="level-use-case">Use when: You want to understand HOW or WHY an effect happens, not just that it does</div>
+                    </div>
+
+                    <div class="paradigm-grid">
+                        <!-- BMT -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">BMT</div>
+                            <div class="paradigm-name">Biometric Tracking</div>
+                            <div class="paradigm-description">Continuous physiological monitoring (heart rate, skin conductance, respiration) throughout an experiment.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Objective, continuous data; no self-report bias</div>
+                                    <div class="strength-item">Reveals temporal dynamics and state transitions in real-time</div>
+                                    <div class="strength-item">Wearable sensors allow field measurement; portable</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Equipment artifacts and drift; requires careful calibration</div>
+                                    <div class="limitation-item">Individual differences in baseline physiology; difficult to standardize</div>
+                                    <div class="limitation-item">Devices are intrusive; awareness can reactivity affect behavior</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-high">VR: High</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L3</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">What is the temporal relationship between window view and parasympathetic activation (HRV)?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- PPM -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">PPM</div>
+                            <div class="paradigm-name">Psychophysiological Measurement</div>
+                            <div class="paradigm-description">Laboratory-based physiological measures: EEG, galvanic skin response, pupil dilation, eye-tracking.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">High temporal and spatial resolution; millisecond precision</div>
+                                    <div class="strength-item">Multiple modalities reveal different mechanisms (attention, emotion, effort)</div>
+                                    <div class="strength-item">Objective and replicable; not subject to demand characteristics</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Equipment is expensive and requires expertise to operate</div>
+                                    <div class="limitation-item">Constrained lab environment reduces ecological validity</div>
+                                    <div class="limitation-item">Biological variability across participants can obscure signals</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-high">VR: High</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L3</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Does asymmetrical architectural framing (golden ratio vs. other) modulate EEG alpha power indicating attention allocation?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- NI -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">NI</div>
+                            <div class="paradigm-name">Neuroimaging</div>
+                            <div class="paradigm-description">Brain imaging (fMRI, PET, or NIRS) to localize neural correlates of spatial perception and emotion.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Reveals neural substrate and brain regions engaged by environmental features</div>
+                                    <div class="strength-item">Can dissociate competing theories via spatial selectivity</div>
+                                    <div class="strength-item">Convergent validity; combines with behavior for complete picture</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Extremely expensive; requires access to shared scanning facilities</div>
+                                    <div class="limitation-item">Reverse inference problem; brain activation ≠ cognitive process</div>
+                                    <div class="limitation-item">Artificial scanning environment; severely limits realistic spatial experience</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-medium">VR: Medium</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L3</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Which brain regions activate differentially when navigating complex vs. simple spatial layouts in fMRI?</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- CFA -->
+                        <div class="paradigm-card" onclick="toggleDetails(this)">
+                            <div class="paradigm-abbr">CFA</div>
+                            <div class="paradigm-name">Computational Feature Analysis</div>
+                            <div class="paradigm-description">Automated quantification of environmental properties (color, luminance, complexity, symmetry) from images or 3D models.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Objective and reproducible; removes observer bias from coding</div>
+                                    <div class="strength-item">Can extract features humans cannot consciously access</div>
+                                    <div class="strength-item">Enables prediction modeling and hypothesis testing via regression</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">May miss perceptually relevant features; feature engineering is hard</div>
+                                    <div class="limitation-item">Requires large datasets for validation; correlations may not be causal</div>
+                                    <div class="limitation-item">Assumes measured features match psychological mechanisms</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-high">VR: High</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L3</span>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Example Question</div>
+                                    <div class="details-content">Is fractal dimension (self-similarity) of room facades a predictor of perceived elegance across diverse architectural styles?</div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Level 4: Which theory is right? -->
+                <div class="question-level">
+                    <div class="level-header">
+                        <div class="level-title">Level 4: "Which theory is right?" (Critical Experiments)</div>
+                        <div class="level-description">Combining multiple methods to achieve diagnostic power and differentiate competing theories</div>
+                        <div class="level-use-case">Use when: Two or more theories make opposite predictions; you need multiple dependent measures</div>
+                    </div>
+
+                    <div class="paradigm-grid">
+                        <div class="paradigm-card">
+                            <div class="paradigm-abbr">Multi-Method</div>
+                            <div class="paradigm-name">Critical Experiment Design</div>
+                            <div class="paradigm-description">Combines methods from Levels 2 and 3 to test predictions that differentiate theories.</div>
+
+                            <div class="paradigm-details">
+                                <div class="details-section">
+                                    <div class="details-label">Typical Combination</div>
+                                    <div class="details-content">
+                                        <strong>Example:</strong> IVW (Level 2) + BMT + PPM (Level 3) + behavioral measures
+                                        <ul style="margin-top: 0.5rem; padding-left: 1.5rem;">
+                                            <li>IVW provides causal manipulation in immersive setting</li>
+                                            <li>BMT measures autonomic response (sympathetic vs. parasympathetic)</li>
+                                            <li>PPM measures attention (eye-tracking) and cognitive effort (EEG)</li>
+                                            <li>Behavior: wayfinding latency, accuracy, help-seeking</li>
+                                        </ul>
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Why Multiple Measures?</div>
+                                    <div class="details-content">
+                                        Theory A predicts: arousal → avoidance (BMT + behavior)<br>
+                                        Theory B predicts: cognitive load → approach-then-frustration (PPM + behavior)<br>
+                                        Only convergent evidence distinguishes them.
+                                    </div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Strengths</div>
+                                    <div class="strength-item">Highest diagnostic power; rules out alternative mechanisms</div>
+                                    <div class="strength-item">Combines internal and external validity</div>
+                                    <div class="strength-item">Results are convincing and publishable in top venues</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="details-label">Limitations</div>
+                                    <div class="limitation-item">Expensive, time-consuming, and technically complex</div>
+                                    <div class="limitation-item">Requires expertise across multiple methods</div>
+                                    <div class="limitation-item">Large sample size needed for power across multiple measures</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="vr-badge vr-native">VR: Native</div>
+                                </div>
+                                <div class="details-section">
+                                    <div class="level-indicators">
+                                        <span class="level-badge">L2</span>
+                                        <span class="level-badge">L3</span>
+                                        <span class="level-badge">L4</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 2: Strengths & Weaknesses -->
+            <div id="tab-strengths" class="tab-content">
+                <p style="margin-bottom: 2rem; color: #475569;">
+                    Compare the validity profiles, time requirements, and limitations of each method. Use this to balance trade-offs for your specific research context.
+                </p>
+
+                <h2 style="font-size: 1.3rem; margin-bottom: 1.5rem; color: #0F172A;">Validity & Resource Comparison</h2>
+
+                <div style="overflow-x: auto;">
+                    <table class="validity-table">
+                        <thead>
+                            <tr>
+                                <th>Method</th>
+                                <th>Internal Validity</th>
+                                <th>External Validity</th>
+                                <th>Ecological Validity</th>
+                                <th>Cost/Complexity</th>
+                                <th>Time</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>POE</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td>Weeks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>MAR/EMA</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td>Weeks–Months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CCC</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td>Months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>LES</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td>Months–Years</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CLE</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td>Days–Weeks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>FE</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td>Months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PCP</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td>Days</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PVS</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td>Days</td>
+                            </tr>
+                            <tr>
+                                <td><strong>IVW</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td>Weeks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>BMT</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td>Days–Weeks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>PPM</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td>Days–Weeks</td>
+                            </tr>
+                            <tr>
+                                <td><strong>NI</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td>Weeks–Months</td>
+                            </tr>
+                            <tr>
+                                <td><strong>CFA</strong></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-high"></span>High</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-medium"></span>Medium</span></td>
+                                <td><span class="validity-indicator"><span class="validity-dot validity-low"></span>Low</span></td>
+                                <td>Days–Weeks</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+
+                <h2 style="font-size: 1.3rem; margin-top: 2rem; margin-bottom: 1.5rem; color: #0F172A;">Method Profiles</h2>
+
+                <!-- POE Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">POE — Post-Occupancy Evaluation</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">Low — observational only</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">CLE, IVW (validation)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">High — real occupants</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">3–6 weeks</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Students treat POE as experimental and claim causation from correlations. It's exploratory. Use POE to identify phenomena that later hypotheses will test causally.
+                    </div>
+                </div>
+
+                <!-- MAR/EMA Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">MAR/EMA — Momentary Assessment</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">Low — confounds abound</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">FE, LES (validation)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">High — natural contexts</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">4–12 weeks</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Assuming smartphone compliance is uniform across all participants. Build attrition analysis and check if drop-out predicts outcome variables.
+                    </div>
+                </div>
+
+                <!-- CCC Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">CCC — Cross-Cultural Comparison</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">Low — culture is aggregate</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">POE, CLE (bounds testing)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">High — diverse populations</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">3–6 months</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Attributing between-culture differences to "culture" rather than climate, economics, or architecture. Always measure confounds explicitly.
+                    </div>
+                </div>
+
+                <!-- LES Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">LES — Longitudinal Study</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">Low — no manipulation</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">FE, CFA (mechanism)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">High — natural change</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">6–24 months</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Ignoring attrition bias. If participants who leave differ systematically, your final sample is no longer representative. Use multiple imputation or selection models.
+                    </div>
+                </div>
+
+                <!-- CLE Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">CLE — Controlled Lab Experiment</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">High — random assignment</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">FE, BMT (replication + mechanism)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">Low — student samples</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">1–3 weeks</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Testing only on undergraduates, then claiming results generalize to all people. A clean lab effect may not appear in the field. Always follow up with FE.
+                    </div>
+                </div>
+
+                <!-- FE Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">FE — Field Experiment</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">High — randomization maintained</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">CLE (theory), PPM (mechanism)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">High — real setting</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">2–4 months</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Underestimating contamination: occupants talk, treatments leak across units. Use cluster randomization at the building level, not the individual.
+                    </div>
+                </div>
+
+                <!-- PCP Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">PCP — Paired-Comparison Preference</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">Medium — controls for scale</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">PVS, IVW (stimuli), PPM (mechanisms)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">Medium — preference context matters</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">3–7 days</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Assuming preferences are transitive or complete. Some participants will prefer A over B, B over C, but C over A. This is real data — don't discard it.
+                    </div>
+                </div>
+
+                <!-- PVS Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">PVS — Perceived Virtual Space</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">Medium — visual control strong</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">IVW (adds immersion), CLE (validation)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">Low — 2D/missing senses</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">1–4 days</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Assuming image-based preference predicts real behavior. A room may look spacious in photos but feel cramped when you walk through it. Validate with IVW or FE.
+                    </div>
+                </div>
+
+                <!-- IVW Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">IVW — Immersive Virtual World</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">High — full experimental control</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">FE (replication), PPM (mechanisms)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">Medium — presence helps, but still lab</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">2–4 weeks</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Assuming all VR effects transfer to reality. Cybersickness, habituation, and affordances differ. Always validate field results with real spaces.
+                    </div>
+                </div>
+
+                <!-- BMT Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">BMT — Biometric Tracking</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">High — objective measurement</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">Behavior measures, PPM (specificity)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">High — mobile, field-ready</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">1–2 weeks</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Assuming one physiology variable (heart rate) tells you the whole story. Different emotions produce similar arousal. Always include multiple measures (HR, HRV, SC, respiration).
+                    </div>
+                </div>
+
+                <!-- PPM Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">PPM — Psychophysiological Measurement</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">High — precise lab control</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">IVW, BMT (field validation)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">Low — lab constraints</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">1–3 weeks</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Over-interpreting brain activation as evidence for a psychological process. fMRI is correlative. Show convergent validity with behavioral and subjective measures.
+                    </div>
+                </div>
+
+                <!-- NI Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">NI — Neuroimaging</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">High — precise localization</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">CLE, PPM (converging evidence)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">Low — scanner environment</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">4–8 weeks</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Attempting scanning-based studies without pilot behavior data. Know your effect size from CLE first; fMRI needs large, reliable effects to resolve.
+                    </div>
+                </div>
+
+                <!-- CFA Profile -->
+                <div class="comparison-card">
+                    <div class="comparison-card-title">CFA — Computational Feature Analysis</div>
+                    <div class="comparison-grid">
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Internal Validity</div>
+                            <div class="comparison-item-value">High — repeatable algorithms</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Best Combined With</div>
+                            <div class="comparison-item-value">POE, PVS (prediction), CLE (mechanism)</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">External Validity</div>
+                            <div class="comparison-item-value">High — applies across spaces</div>
+                        </div>
+                        <div class="comparison-item">
+                            <div class="comparison-item-label">Time to Data</div>
+                            <div class="comparison-item-value">2–4 days</div>
+                        </div>
+                    </div>
+                    <div class="mistake-section">
+                        <span class="mistake-label">Common Mistake:</span>
+                        Using black-box features (deep learning) without understanding what they measure. Validate that algorithmic features correlate with human perception before claiming psychological relevance.
+                    </div>
+                </div>
+            </div>
+
+            <!-- TAB 3: Method-Hypothesis Matcher -->
+            <div id="tab-matcher" class="tab-content">
+                <p style="margin-bottom: 2rem; color: #475569;">
+                    Answer these four questions about your research context. The tool will highlight recommended paradigms and explain why they fit.
+                </p>
+
+                <div class="matcher-form">
+                    <div class="form-group">
+                        <label class="form-label">1. What level is your hypothesis?</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="hypothesis-level" value="L1" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>L1: Descriptive/Exploratory</strong> — "What are the typical values?" (mapping phenomena)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="hypothesis-level" value="L2" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>L2: Effect Testing</strong> — "Does the predicted effect hold?" (causal claim)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="hypothesis-level" value="L3" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>L3: Mechanism Probing</strong> — "Does the proposed mechanism operate?" (mediation/pathway)</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="hypothesis-level" value="L4" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>L4: Critical Experiment</strong> — "Which of two theories is correct?" (diagnostic test)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">2. Do you need causal inference?</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="causal" value="essential" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>Yes, it's essential</strong> — You need to rule out confounds and show causation</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="causal" value="nice" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>Nice to have</strong> — Correlation is acceptable; confounds are expected</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="causal" value="not-needed" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>Not needed</strong> — You're mapping phenomena or validating measures</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">3. What is your primary outcome type?</label>
+                        <div class="radio-group">
+                            <label class="radio-option">
+                                <input type="radio" name="outcome" value="self-report" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>Self-Report</strong> — Satisfaction, preference, perception, emotion</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="outcome" value="behavioral" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>Behavioral</strong> — Wayfinding, task performance, dwell time, approach/avoidance</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="outcome" value="physiological" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>Physiological</strong> — Heart rate, skin conductance, respiration, eye-tracking</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="outcome" value="neural" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>Neural</strong> — Brain activation (fMRI), EEG, hemodynamics</span>
+                            </label>
+                            <label class="radio-option">
+                                <input type="radio" name="outcome" value="environmental" onchange="updateRecommendations()">
+                                <span class="radio-label"><strong>Environmental Features</strong> — Quantified properties (luminance, color, fractal dimension)</span>
+                            </label>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">4. What resources are available? (Check all that apply)</label>
+                        <div class="checkbox-group">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="resources" value="vr-headset" onchange="updateRecommendations()">
+                                <span class="checkbox-label">VR headset(s)</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="resources" value="biometric" onchange="updateRecommendations()">
+                                <span class="checkbox-label">Biometric sensors (wearables: HR, skin conductance)</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="resources" value="neuroimaging" onchange="updateRecommendations()">
+                                <span class="checkbox-label">Neuroimaging access (fMRI, EEG lab)</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="resources" value="buildings" onchange="updateRecommendations()">
+                                <span class="checkbox-label">Access to real buildings (can modify or measure existing spaces)</span>
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="resources" value="large-pool" onchange="updateRecommendations()">
+                                <span class="checkbox-label">Large participant pool (100+) or online recruitment</span>
+                            </label>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="results-container" id="results-container" style="display:none;">
+                    <div class="results-intro">
+                        ✓ Based on your answers, here are the recommended paradigms for your study:
+                    </div>
+                    <div id="recommendations-output"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer>
+        <div class="footer-container">
+            <ul class="footer-links">
+                <li><a href="hypothesis_builder.html">← Hypothesis Builder</a></li>
+                <li><a href="measurement_instruments.html">Measurement Instruments →</a></li>
+                <li><a href="sensor_catalogue.html">Sensor Catalogue</a></li>
+                <li><a href="knowledge_navigator.html">Knowledge Navigator</a></li>
+            </ul>
+            <div class="footer-text">COGS 160 Experiment Design — Methods Taxonomy</div>
+        </div>
+    </footer>
+
+    <script>
+        // Tab switching
+        function switchTab(event, tabName) {
+            event.preventDefault();
+
+            // Hide all tab contents
+            const contents = document.querySelectorAll('.tab-content');
+            contents.forEach(content => content.classList.remove('active'));
+
+            // Remove active class from all buttons
+            const buttons = document.querySelectorAll('.tab-btn');
+            buttons.forEach(button => button.classList.remove('active'));
+
+            // Show selected tab and mark button as active
+            document.getElementById(tabName).classList.add('active');
+            event.target.classList.add('active');
+        }
+
+        // Toggle card details (expand/collapse)
+        function toggleDetails(card) {
+            card.classList.toggle('expanded');
+        }
+
+        // Method-Hypothesis Matcher Logic
+        function updateRecommendations() {
+            const level = document.querySelector('input[name="hypothesis-level"]:checked')?.value || '';
+            const causal = document.querySelector('input[name="causal"]:checked')?.value || '';
+            const outcome = document.querySelector('input[name="outcome"]:checked')?.value || '';
+            const resources = Array.from(document.querySelectorAll('input[name="resources"]:checked')).map(r => r.value);
+
+            // Only show results if all questions are answered
+            if (!level || !causal || !outcome) {
+                document.getElementById('results-container').style.display = 'none';
+                return;
+            }
+
+            // Score each method
+            const scores = scoreRecommendations(level, causal, outcome, resources);
+
+            // Display results
+            displayResults(scores);
+        }
+
+        function scoreRecommendations(level, causal, outcome, resources) {
+            const methods = {
+                'POE': { levels: ['L1'], causal: false, outcomes: ['self-report'], resourceNeeds: [] },
+                'MAR': { levels: ['L1'], causal: false, outcomes: ['self-report', 'behavioral'], resourceNeeds: ['large-pool'] },
+                'CCC': { levels: ['L1'], causal: false, outcomes: ['self-report', 'behavioral'], resourceNeeds: ['large-pool'] },
+                'LES': { levels: ['L1'], causal: false, outcomes: ['self-report', 'behavioral', 'physiological'], resourceNeeds: ['large-pool'] },
+                'CLE': { levels: ['L2'], causal: true, outcomes: ['self-report', 'behavioral', 'physiological'], resourceNeeds: [] },
+                'FE': { levels: ['L2'], causal: true, outcomes: ['self-report', 'behavioral', 'physiological'], resourceNeeds: ['buildings', 'large-pool'] },
+                'PCP': { levels: ['L2'], causal: false, outcomes: ['self-report'], resourceNeeds: ['large-pool'] },
+                'PVS': { levels: ['L2'], causal: false, outcomes: ['self-report', 'behavioral'], resourceNeeds: ['large-pool'] },
+                'IVW': { levels: ['L2', 'L3'], causal: true, outcomes: ['self-report', 'behavioral', 'physiological'], resourceNeeds: ['vr-headset'] },
+                'BMT': { levels: ['L3'], causal: false, outcomes: ['physiological'], resourceNeeds: ['biometric'] },
+                'PPM': { levels: ['L3'], causal: false, outcomes: ['physiological', 'behavioral'], resourceNeeds: [] },
+                'NI': { levels: ['L3'], causal: false, outcomes: ['neural'], resourceNeeds: ['neuroimaging'] },
+                'CFA': { levels: ['L3'], causal: false, outcomes: ['environmental'], resourceNeeds: [] }
+            };
+
+            const scored = {};
+            for (const [method, profile] of Object.entries(methods)) {
+                let score = 0;
+
+                // Check level match
+                if (profile.levels.includes(level)) score += 40;
+
+                // Check causal requirement
+                if (causal === 'essential' && profile.causal) score += 30;
+                else if (causal !== 'essential' && !profile.causal) score += 20;
+                else if (causal === 'nice' || causal === 'not-needed') score += 10;
+
+                // Check outcome match
+                if (profile.outcomes.includes(outcome)) score += 20;
+
+                // Check resource availability
+                const hasResources = profile.resourceNeeds.every(need => resources.includes(need));
+                if (hasResources) score += 10;
+                else if (profile.resourceNeeds.length === 0) score += 10;
+
+                scored[method] = { score, ...profile };
+            }
+
+            return scored;
+        }
+
+        function displayResults(scores) {
+            const sorted = Object.entries(scores).sort((a, b) => b[1].score - a[1].score);
+
+            let html = '';
+            const recommendedThreshold = sorted[0][1].score * 0.7;
+
+            for (const [method, data] of sorted) {
+                const isRecommended = data.score >= recommendedThreshold;
+                const justifications = getJustification(method);
+
+                html += `
+                    <div class="recommendation-card ${isRecommended ? '' : 'dimmed'}">
+                        <div class="recommendation-name">${method}</div>
+                        <div class="recommendation-text">${justifications}</div>
+                    </div>
+                `;
+            }
+
+            document.getElementById('recommendations-output').innerHTML = html;
+            document.getElementById('results-container').style.display = 'block';
+        }
+
+        function getJustification(method) {
+            const justifications = {
+                'POE': 'Excellent for establishing baseline satisfaction and real-world preferences across occupants.',
+                'MAR': 'Captures real-time experience in natural contexts; best for mood and behavior dynamics.',
+                'CCC': 'Maps population differences across cultures; reveals which effects are universal vs. context-dependent.',
+                'LES': 'Tracks adaptation over time; essential for understanding habituation and long-term satisfaction.',
+                'CLE': 'Provides strong causal evidence with tight control; ideal for hypothesis testing in controlled settings.',
+                'FE': 'Combines causal inference with ecological validity; the gold standard for environmental psychology.',
+                'PCP': 'Reveals preference rankings without scale biases; best for design comparison and ranking.',
+                'PVS': 'Quick and scalable; good for testing visual hypotheses before investing in full experiments.',
+                'IVW': 'Immersive causal manipulation with behavioral measurement; bridges lab control and realism.',
+                'BMT': 'Objective physiological tracking; reveals autonomic responses and emotional dynamics.',
+                'PPM': 'High-resolution psychophysiology (EEG, eye-tracking); ideal for attention and effort mechanisms.',
+                'NI': 'Maps neural correlates of spatial perception; diagnostic for mechanistic theories.',
+                'CFA': 'Quantifies environmental features objectively; enables prediction modeling and feature analysis.'
+            };
+            return justifications[method] || '';
+        }
+    </script>
+</body>
+</html>

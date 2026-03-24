@@ -1,0 +1,981 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bayesian Network Navigator | COGS 160</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #FFFFFF;
+            color: #1E293B;
+            line-height: 1.6;
+        }
+
+        /* Navigation Bar */
+        .global-nav {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            height: 60px;
+        }
+
+        .nav-logo {
+            font-size: 1.25rem;
+            font-weight: 600;
+            color: #0891B2;
+            text-decoration: none;
+            margin-right: 3rem;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            color: #475569;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.2s;
+            border-bottom: 2px solid transparent;
+            padding-bottom: 4px;
+        }
+
+        .nav-links a:hover {
+            color: #0891B2;
+        }
+
+        .nav-links a.active {
+            color: #0891B2;
+            border-bottom-color: #0891B2;
+        }
+
+        /* Page Header */
+        .page-header {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 2rem;
+            text-align: center;
+        }
+
+        .page-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #1E293B;
+            margin-bottom: 0.5rem;
+        }
+
+        .page-subtitle {
+            font-size: 1rem;
+            color: #64748B;
+            margin-bottom: 1.5rem;
+            max-width: 900px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cross-link {
+            display: inline-block;
+            color: #0891B2;
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .cross-link:hover {
+            color: #0369A1;
+        }
+
+        /* Main Container */
+        .container {
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 2rem 2rem;
+            display: flex;
+            gap: 2rem;
+            height: calc(100vh - 200px);
+        }
+
+        /* Graph Section */
+        .graph-section {
+            flex: 1;
+            background-color: #F8FAFC;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        #graph-canvas {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Side Panel */
+        .side-panel {
+            width: 400px;
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            overflow-y: auto;
+            padding: 1.5rem;
+            display: none;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.07);
+        }
+
+        .side-panel.open {
+            display: block;
+            animation: slideIn 0.3s ease-out;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateX(420px);
+                opacity: 0;
+            }
+            to {
+                transform: translateX(0);
+                opacity: 1;
+            }
+        }
+
+        .panel-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+            padding-bottom: 1rem;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        .panel-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            color: #1E293B;
+        }
+
+        .panel-close {
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: #64748B;
+            transition: color 0.2s;
+        }
+
+        .panel-close:hover {
+            color: #1E293B;
+        }
+
+        /* Edge Panel Specific */
+        .edge-panel-header {
+            margin-bottom: 1.5rem;
+        }
+
+        .edge-relationship {
+            font-size: 0.95rem;
+            color: #64748B;
+            margin-bottom: 1rem;
+        }
+
+        .direction-indicator {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            margin-bottom: 1rem;
+        }
+
+        .direction-increase {
+            background-color: #DCFCE7;
+            color: #166534;
+        }
+
+        .direction-decrease {
+            background-color: #FEE2E2;
+            color: #991B1B;
+        }
+
+        .direction-mixed {
+            background-color: #FEF08A;
+            color: #854D0E;
+        }
+
+        /* Stats Table */
+        .stats-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin: 1.5rem 0;
+            font-size: 0.9rem;
+        }
+
+        .stats-table th {
+            background-color: #F1F5F9;
+            padding: 0.75rem;
+            text-align: left;
+            font-weight: 600;
+            color: #1E293B;
+            border-bottom: 2px solid #E2E8F0;
+        }
+
+        .stats-table td {
+            padding: 0.75rem;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .stats-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        /* Section Headers */
+        .panel-section-title {
+            font-size: 1rem;
+            font-weight: 600;
+            color: #1E293B;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .panel-section-title:first-of-type {
+            margin-top: 0;
+        }
+
+        /* Content Sections */
+        .interpretation-text {
+            background-color: #F8FAFC;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            line-height: 1.5;
+            margin-bottom: 1rem;
+            color: #475569;
+        }
+
+        .theories-list {
+            list-style: none;
+            margin-bottom: 1rem;
+        }
+
+        .theories-list li {
+            padding: 0.5rem 0;
+            font-size: 0.9rem;
+            color: #475569;
+        }
+
+        .theories-list li::before {
+            content: "→ ";
+            color: #0891B2;
+            font-weight: 600;
+            margin-right: 0.5rem;
+        }
+
+        .papers-list {
+            background-color: #F8FAFC;
+            padding: 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .papers-list div {
+            padding: 0.25rem 0;
+            color: #475569;
+            font-family: 'Courier New', monospace;
+        }
+
+        .papers-list div:hover {
+            background-color: #E0F2FE;
+            padding-left: 0.5rem;
+            cursor: pointer;
+        }
+
+        /* Node Connections Panel */
+        .connections-list {
+            list-style: none;
+        }
+
+        .connections-list li {
+            padding: 0.75rem;
+            background-color: #F8FAFC;
+            border-radius: 4px;
+            margin-bottom: 0.75rem;
+            font-size: 0.9rem;
+            cursor: pointer;
+            transition: background-color 0.2s;
+        }
+
+        .connections-list li:hover {
+            background-color: #E0F2FE;
+        }
+
+        .connection-name {
+            font-weight: 600;
+            color: #1E293B;
+            display: block;
+            margin-bottom: 0.25rem;
+        }
+
+        .connection-meta {
+            font-size: 0.85rem;
+            color: #64748B;
+        }
+
+        /* Tooltips */
+        .tooltip {
+            position: absolute;
+            background-color: #1E293B;
+            color: #FFFFFF;
+            padding: 0.75rem 1rem;
+            border-radius: 4px;
+            font-size: 0.85rem;
+            pointer-events: none;
+            z-index: 200;
+            max-width: 300px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            white-space: pre-wrap;
+            word-wrap: break-word;
+        }
+
+        /* Legend */
+        .legend {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 1.5rem;
+            font-size: 0.85rem;
+            z-index: 50;
+            max-width: 280px;
+        }
+
+        .legend-title {
+            font-weight: 600;
+            color: #1E293B;
+            margin-bottom: 1rem;
+            font-size: 0.95rem;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+            margin-bottom: 0.75rem;
+        }
+
+        .legend-color {
+            width: 20px;
+            height: 20px;
+            border-radius: 50%;
+            flex-shrink: 0;
+        }
+
+        .legend-text {
+            color: #475569;
+        }
+
+        /* Footer */
+        .page-footer {
+            max-width: 1400px;
+            margin: 2rem auto 0;
+            padding: 2rem;
+            border-top: 1px solid #E2E8F0;
+            display: flex;
+            gap: 2rem;
+            justify-content: center;
+            flex-wrap: wrap;
+        }
+
+        .page-footer a {
+            color: #0891B2;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+
+        .page-footer a:hover {
+            color: #0369A1;
+        }
+
+        /* SVG Styling */
+        .node {
+            cursor: pointer;
+            stroke: #FFFFFF;
+            stroke-width: 2px;
+        }
+
+        .node:hover {
+            stroke-width: 3px;
+            filter: brightness(1.1);
+        }
+
+        .node.pinned {
+            stroke: #0891B2;
+            stroke-width: 3px;
+        }
+
+        .link {
+            stroke: #CBD5E1;
+            stroke-opacity: 0.6;
+            fill: none;
+        }
+
+        .link.highlighted {
+            stroke-opacity: 1;
+            stroke-width: 3px;
+        }
+
+        .node-label {
+            font-size: 12px;
+            pointer-events: none;
+            text-anchor: middle;
+            dominant-baseline: middle;
+            font-weight: 500;
+        }
+
+        /* Responsive */
+        @media (max-width: 1024px) {
+            .container {
+                flex-direction: column;
+                height: auto;
+                min-height: 600px;
+            }
+
+            .side-panel {
+                width: 100%;
+                max-height: 400px;
+            }
+
+            .graph-section {
+                height: 600px;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .page-title {
+                font-size: 1.75rem;
+            }
+
+            .nav-container {
+                flex-direction: column;
+                height: auto;
+                gap: 1rem;
+                padding: 1rem;
+            }
+
+            .nav-logo {
+                margin-right: 0;
+            }
+
+            .container {
+                padding: 1rem;
+            }
+
+            .legend {
+                bottom: 1rem;
+                left: 1rem;
+                font-size: 0.75rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Bar -->
+    <nav class="global-nav">
+        <div class="nav-container">
+            <a href="knowledge_navigator.html" class="nav-logo">COGS 160</a>
+            <ul class="nav-links">
+                <li><a href="knowledge_navigator.html">Knowledge Navigator</a></li>
+                <li><a href="theory_and_experiment_design.html">Theory &amp; Design</a></li>
+                <li><a href="hypothesis_builder.html">Hypothesis Builder</a></li>
+                <li><a href="methods_taxonomy.html">Methods Taxonomy</a></li>
+                <li><a href="measurement_instruments.html">Measurement Instruments</a></li>
+                <li><a href="sensor_catalogue.html">Sensor Catalogue</a></li>
+                <li><a href="en_navigator.html">Epistemic Network</a></li>
+                <li><a href="bn_navigator.html" class="active">Bayesian Network</a></li>
+                <li><a href="experiment_wizard.html">Experiment Builder</a>
+    <a href="system_inventory.html">System Inventory</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <h1 class="page-title">Bayesian Network Navigator</h1>
+        <p class="page-subtitle">
+            Explore the causal–probabilistic structure of environment–cognition research. Each directed edge represents a causal pathway from an environmental feature to a psychological outcome, weighted by the strength and consistency of the evidence.
+        </p>
+        <a href="en_navigator.html" class="cross-link">Switch to Epistemic Network view →</a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="container">
+        <!-- Graph Section -->
+        <div class="graph-section">
+            <svg id="graph-canvas"></svg>
+            <div class="legend">
+                <div class="legend-title">Node Types</div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #0891B2;"></div>
+                    <span class="legend-text">Environmental Features</span>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #D97706;"></div>
+                    <span class="legend-text">Psychological Outcomes</span>
+                </div>
+                <div style="margin-top: 1rem; padding-top: 1rem; border-top: 1px solid #E2E8F0;">
+                    <div class="legend-title">Edge Colors</div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #059669;"></div>
+                        <span class="legend-text">Consistent Direction</span>
+                    </div>
+                    <div class="legend-item">
+                        <div class="legend-color" style="background-color: #D97706;"></div>
+                        <span class="legend-text">Mixed Findings</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Side Panel -->
+        <div class="side-panel" id="side-panel">
+            <div class="panel-header">
+                <div class="panel-title" id="panel-title">Select a node or edge</div>
+                <button class="panel-close" onclick="closePanel()">×</button>
+            </div>
+            <div id="panel-content"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+        <a href="en_navigator.html">Epistemic Network Navigator</a>
+        <a href="knowledge_navigator.html">Knowledge Navigator</a>
+        <a href="sensor_catalogue.html">Sensor Catalogue</a>
+        <a href="experiment_wizard.html">Experiment Builder</a>
+    <a href="system_inventory.html">System Inventory</a>
+    </div>
+
+    <script>
+        // Research Data
+        const RESEARCH_FRONTS = [
+            { env: "acoustic", outcome: "behav.productivity", papers: 11, claims: 25, voi: 0.755, direction: "mixed", effect_mean: 0.163, theories: ["Prospect-Refuge","Predictive Processing","Cognitive Load Theory","Arousal Theory","ART"], paperIds: ["PDF-0005","PDF-0064","PDF-0228","PDF-0371","PDF-0519","PDF-0613","PDF-0627","PDF-0655","PDF-0773","PDF-0776","PDF-0819"] },
+            { env: "acoustic", outcome: "cog.performance", papers: 22, claims: 36, voi: 0.855, direction: "mixed", effect_mean: 0.21, theories: ["Prospect-Refuge","Dual-Process Evaluation","Predictive Processing","Biophilia","Cognitive Load Theory"], paperIds: ["PDF-0005","PDF-0006","PDF-0048","PDF-0064","PDF-0066","PDF-0217","PDF-0228","PDF-0331","PDF-0371","PDF-0373","PDF-0442","PDF-0466","PDF-0486","PDF-0519","PDF-0607","PDF-0613","PDF-0623","PDF-0627","PDF-0778","PDF-0780","PDF-0813","PDF-0819"] },
+            { env: "acoustic", outcome: "cog.attention", papers: 14, claims: 20, voi: 0.760, direction: "decrease", effect_mean: -0.35, theories: ["Cognitive Load Theory","ART","Arousal Theory"], paperIds: ["PDF-0005","PDF-0048","PDF-0064","PDF-0066","PDF-0228","PDF-0371","PDF-0442","PDF-0486","PDF-0519","PDF-0607","PDF-0623","PDF-0627","PDF-0778","PDF-0813"] },
+            { env: "acoustic", outcome: "affect.mood.positive", papers: 8, claims: 12, voi: 0.650, direction: "increase", effect_mean: 0.28, theories: ["Biophilia","Arousal Theory","SRT"], paperIds: ["PDF-0005","PDF-0064","PDF-0228","PDF-0519","PDF-0613","PDF-0627","PDF-0773","PDF-0819"] },
+            { env: "brightness", outcome: "perception.comfort", papers: 6, claims: 15, voi: 0.580, direction: "increase", effect_mean: 0.31, theories: ["Arousal Theory","Predictive Processing"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0486","PDF-0607"] },
+            { env: "color", outcome: "perception.control", papers: 5, claims: 10, voi: 0.520, direction: "increase", effect_mean: 0.22, theories: ["Arousal Theory","Embodied Cognition"], paperIds: ["PDF-0048","PDF-0217","PDF-0373","PDF-0486","PDF-0607"] },
+            { env: "corridor_design", outcome: "perception", papers: 8, claims: 14, voi: 0.590, direction: "mixed", effect_mean: 0.18, theories: ["Prospect-Refuge","Embodied Cognition"], paperIds: ["PDF-0002","PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0486","PDF-0607","PDF-0623"] },
+            { env: "corridor_design", outcome: "perception.control", papers: 7, claims: 12, voi: 0.570, direction: "decrease", effect_mean: -0.51, theories: ["Prospect-Refuge","Privacy Regulation"], paperIds: ["PDF-0002","PDF-0048","PDF-0217","PDF-0373","PDF-0486","PDF-0607","PDF-0623"] },
+            { env: "daylight", outcome: "affect.stress", papers: 10, claims: 18, voi: 0.680, direction: "decrease", effect_mean: -0.33, theories: ["SRT","Biophilia","ART"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0371","PDF-0373","PDF-0442","PDF-0486","PDF-0607","PDF-0623","PDF-0778"] },
+            { env: "daylight", outcome: "behav.sleep", papers: 9, claims: 16, voi: 0.720, direction: "increase", effect_mean: 0.41, theories: ["Circadian Regulation","Biophilia"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0442","PDF-0486","PDF-0607","PDF-0623","PDF-0778"] },
+            { env: "daylight", outcome: "cog.performance", papers: 12, claims: 22, voi: 0.740, direction: "increase", effect_mean: 0.29, theories: ["Arousal Theory","Cognitive Load Theory","ART"], paperIds: ["PDF-0005","PDF-0048","PDF-0217","PDF-0331","PDF-0371","PDF-0373","PDF-0442","PDF-0486","PDF-0607","PDF-0623","PDF-0778","PDF-0813"] },
+            { env: "lighting", outcome: "affect.mood", papers: 11, claims: 20, voi: 0.700, direction: "increase", effect_mean: 0.27, theories: ["Arousal Theory","Predictive Processing","SRT"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0371","PDF-0373","PDF-0442","PDF-0466","PDF-0486","PDF-0607","PDF-0623","PDF-0778"] },
+            { env: "lighting", outcome: "cog.fatigue", papers: 8, claims: 14, voi: 0.630, direction: "decrease", effect_mean: -0.25, theories: ["Cognitive Load Theory","Arousal Theory"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0442","PDF-0486","PDF-0607","PDF-0778"] },
+            { env: "lighting", outcome: "perception.comfort", papers: 9, claims: 16, voi: 0.660, direction: "increase", effect_mean: 0.34, theories: ["Arousal Theory","Predictive Processing"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0442","PDF-0466","PDF-0486","PDF-0607","PDF-0778"] },
+            { env: "materials", outcome: "cog.performance", papers: 7, claims: 12, voi: 0.550, direction: "increase", effect_mean: 0.19, theories: ["Biophilia","Embodied Cognition"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0486","PDF-0607","PDF-0623"] },
+            { env: "nature_exposure", outcome: "affect.stress", papers: 33, claims: 64, voi: 0.615, direction: "decrease", effect_mean: -0.42, theories: ["SRT","Biophilia","ART"], paperIds: ["PDF-0005","PDF-0006","PDF-0048","PDF-0064","PDF-0066","PDF-0217","PDF-0228","PDF-0331","PDF-0371","PDF-0373"] },
+            { env: "nature_exposure", outcome: "physio", papers: 16, claims: 24, voi: 0.565, direction: "increase", effect_mean: 0.35, theories: ["SRT","ART","Prospect-Refuge"], paperIds: ["PDF-0005","PDF-0048","PDF-0064","PDF-0217","PDF-0228","PDF-0331","PDF-0371","PDF-0373","PDF-0442","PDF-0486"] },
+            { env: "room_size", outcome: "cog.attention", papers: 6, claims: 10, voi: 0.540, direction: "mixed", effect_mean: 0.15, theories: ["Arousal Theory","Prospect-Refuge"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0486","PDF-0607"] },
+            { env: "social_density", outcome: "cog.performance", papers: 8, claims: 14, voi: 0.600, direction: "decrease", effect_mean: -0.31, theories: ["Cognitive Load Theory","Arousal Theory","Privacy Regulation"], paperIds: ["PDF-0002","PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0486","PDF-0607","PDF-0623"] },
+            { env: "spatial_openness", outcome: "affect.mood.positive", papers: 10, claims: 18, voi: 0.640, direction: "increase", effect_mean: 0.26, theories: ["Prospect-Refuge","Biophilia","ART"], paperIds: ["PDF-0048","PDF-0217","PDF-0228","PDF-0331","PDF-0371","PDF-0373","PDF-0486","PDF-0607","PDF-0623","PDF-0778"] },
+            { env: "spatial_openness", outcome: "perception.comfort", papers: 9, claims: 15, voi: 0.620, direction: "increase", effect_mean: 0.30, theories: ["Prospect-Refuge","Arousal Theory"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0442","PDF-0486","PDF-0607","PDF-0623","PDF-0778"] },
+            { env: "vr_environment", outcome: "affect.stress", papers: 7, claims: 9, voi: 0.530, direction: "mixed", effect_mean: 0.12, theories: ["Biophilia","Prospect-Refuge"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0486","PDF-0607","PDF-0623"] },
+            { env: "wayfinding", outcome: "cog.performance", papers: 8, claims: 13, voi: 0.580, direction: "mixed", effect_mean: 0.20, theories: ["Cognitive Load Theory","Embodied Cognition"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0486","PDF-0607","PDF-0623","PDF-0778"] },
+            { env: "window_view", outcome: "affect.mood.positive", papers: 12, claims: 20, voi: 0.690, direction: "increase", effect_mean: 0.38, theories: ["Biophilia","SRT","ART","Prospect-Refuge"], paperIds: ["PDF-0048","PDF-0064","PDF-0217","PDF-0228","PDF-0331","PDF-0371","PDF-0373","PDF-0442","PDF-0486","PDF-0607","PDF-0623","PDF-0778"] },
+            { env: "window_view", outcome: "behav.sleep", papers: 7, claims: 11, voi: 0.560, direction: "increase", effect_mean: 0.32, theories: ["Circadian Regulation","Biophilia"], paperIds: ["PDF-0048","PDF-0217","PDF-0331","PDF-0373","PDF-0486","PDF-0607","PDF-0778"] }
+        ];
+
+        const DISPLAY_NAMES = {
+            acoustic: "Acoustic Environment", brightness: "Brightness", color: "Color", corridor_design: "Corridor Design",
+            daylight: "Daylight", lighting: "Indoor Lighting", materials: "Building Materials", nature_exposure: "Nature Exposure",
+            room_size: "Room Size", social_density: "Social Density", spatial_openness: "Spatial Openness",
+            vr_environment: "VR Environment", wayfinding: "Wayfinding", window_view: "Window Views",
+            "affect.stress": "Stress", "affect.mood": "Mood", "affect.mood.positive": "Positive Mood",
+            "behav.productivity": "Productivity", "behav.sleep": "Sleep Quality", "cog.attention": "Attention",
+            "cog.performance": "Cognitive Performance", "cog.fatigue": "Mental Fatigue",
+            "perception.comfort": "Comfort", "perception.control": "Sense of Control", "perception": "Perception", physio: "Physiological Health"
+        };
+
+        const ENV_FEATURES = ["acoustic", "brightness", "color", "corridor_design", "daylight", "lighting", "materials", "nature_exposure", "room_size", "social_density", "spatial_openness", "vr_environment", "wayfinding", "window_view"];
+
+        // Build graph data structure
+        function buildGraphData() {
+            const nodes = new Set();
+            const links = [];
+            const nodeStats = {};
+
+            RESEARCH_FRONTS.forEach(front => {
+                nodes.add(front.env);
+                nodes.add(front.outcome);
+                links.push({
+                    source: front.env,
+                    target: front.outcome,
+                    ...front
+                });
+            });
+
+            // Calculate node statistics
+            nodes.forEach(node => {
+                nodeStats[node] = {
+                    id: node,
+                    isEnv: ENV_FEATURES.includes(node),
+                    connections: [],
+                    totalPapers: 0
+                };
+            });
+
+            links.forEach(link => {
+                nodeStats[link.source].connections.push({
+                    target: link.target,
+                    papers: link.papers
+                });
+                nodeStats[link.target].connections.push({
+                    source: link.source,
+                    papers: link.papers
+                });
+                nodeStats[link.source].totalPapers += link.papers;
+                nodeStats[link.target].totalPapers += link.papers;
+            });
+
+            return {
+                nodes: Array.from(nodes).map(id => ({ id, ...nodeStats[id] })),
+                links: links,
+                nodeStats: nodeStats
+            };
+        }
+
+        const graphData = buildGraphData();
+
+        // Set up SVG
+        const svg = d3.select("#graph-canvas");
+        const width = document.querySelector(".graph-section").clientWidth;
+        const height = document.querySelector(".graph-section").clientHeight;
+
+        svg.attr("width", width).attr("height", height);
+
+        // Create arrow marker
+        svg.append("defs").append("marker")
+            .attr("id", "arrowhead")
+            .attr("markerWidth", 10)
+            .attr("markerHeight", 10)
+            .attr("refX", 20)
+            .attr("refY", 3)
+            .attr("orient", "auto")
+            .append("polygon")
+            .attr("points", "0 0, 10 3, 0 6")
+            .attr("fill", "#0891B2");
+
+        // Create simulation
+        const simulation = d3.forceSimulation(graphData.nodes)
+            .force("link", d3.forceLink(graphData.links)
+                .id(d => d.id)
+                .distance(100)
+                .strength(0.1))
+            .force("charge", d3.forceManyBody().strength(-300))
+            .force("collide", d3.forceCollide().radius(d => 25 + d.totalPapers / 3))
+            .force("forceX", d3.forceX(width / 2)
+                .strength(d => d.isEnv ? -0.2 : 0.2))
+            .force("forceY", d3.forceY(height / 2).strength(0.05))
+            .on("tick", ticked);
+
+        // Helper to scale width based on paper count
+        function getEdgeWidth(papers) {
+            const minPapers = 5, maxPapers = 33;
+            const minWidth = 1, maxWidth = 6;
+            return minWidth + ((papers - minPapers) / (maxPapers - minPapers)) * (maxWidth - minWidth);
+        }
+
+        // Helper to get edge color
+        function getEdgeColor(direction) {
+            if (direction === "increase" || direction === "decrease") return "#059669";
+            return "#D97706";
+        }
+
+        // Render links
+        const link = svg.selectAll(".link")
+            .data(graphData.links)
+            .enter()
+            .append("line")
+            .attr("class", "link")
+            .attr("stroke", d => getEdgeColor(d.direction))
+            .attr("stroke-width", d => getEdgeWidth(d.papers))
+            .attr("opacity", d => 0.3 + (d.voi * 0.5))
+            .attr("marker-end", "url(#arrowhead)")
+            .on("mouseenter", function(event, d) {
+                showEdgeTooltip(event, d);
+                highlightEdge(d);
+            })
+            .on("mouseleave", function() {
+                hideTooltip();
+                unhighlightEdge();
+            })
+            .on("click", function(event, d) {
+                showEdgePanel(d);
+            });
+
+        // Render nodes
+        const node = svg.selectAll(".node")
+            .data(graphData.nodes)
+            .enter()
+            .append("circle")
+            .attr("class", "node")
+            .attr("r", d => 12 + (d.totalPapers / 3))
+            .attr("fill", d => d.isEnv ? "#0891B2" : "#D97706")
+            .on("mouseenter", function(event, d) {
+                showNodeTooltip(event, d);
+            })
+            .on("mouseleave", function() {
+                hideTooltip();
+            })
+            .on("click", function(event, d) {
+                showNodePanel(d);
+            })
+            .call(d3.drag()
+                .on("start", dragstarted)
+                .on("drag", dragged)
+                .on("end", dragended))
+            .on("dblclick", function(event, d) {
+                d.pinned = !d.pinned;
+                d3.select(this).classed("pinned", d.pinned);
+            });
+
+        // Node labels
+        const labels = svg.selectAll(".node-label")
+            .data(graphData.nodes)
+            .enter()
+            .append("text")
+            .attr("class", "node-label")
+            .text(d => DISPLAY_NAMES[d.id])
+            .attr("font-size", d => Math.max(10, 12 + (d.totalPapers / 15)))
+            .attr("dy", "0.3em")
+            .attr("pointer-events", "none");
+
+        function ticked() {
+            link
+                .attr("x1", d => d.source.x)
+                .attr("y1", d => d.source.y)
+                .attr("x2", d => d.target.x)
+                .attr("y2", d => d.target.y);
+
+            node
+                .attr("cx", d => Math.max(20, Math.min(width - 20, d.x)))
+                .attr("cy", d => Math.max(20, Math.min(height - 20, d.y)));
+
+            labels
+                .attr("x", d => Math.max(20, Math.min(width - 20, d.x)))
+                .attr("y", d => Math.max(20, Math.min(height - 20, d.y)));
+        }
+
+        // Drag handlers
+        function dragstarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragended(event, d) {
+            if (!d.pinned) {
+                d.fx = null;
+                d.fy = null;
+            }
+            if (!event.active) simulation.alphaTarget(0);
+        }
+
+        // Tooltip functions
+        function showNodeTooltip(event, d) {
+            const tooltip = document.createElement("div");
+            tooltip.className = "tooltip";
+            const connections = d.connections.map(c => {
+                const target = c.target || c.source;
+                return `${DISPLAY_NAMES[target]} (${c.papers} papers)`;
+            }).join("\n");
+            tooltip.textContent = `${DISPLAY_NAMES[d.id]}\n${d.isEnv ? "Environmental Feature" : "Psychological Outcome"}\n\nConnected to:\n${connections}`;
+            document.body.appendChild(tooltip);
+            tooltip.style.left = event.pageX + 10 + "px";
+            tooltip.style.top = event.pageY + 10 + "px";
+            window.currentTooltip = tooltip;
+        }
+
+        function showEdgeTooltip(event, d) {
+            const tooltip = document.createElement("div");
+            tooltip.className = "tooltip";
+            const directionText = d.direction === "increase" ? "Consistent increase" : d.direction === "decrease" ? "Consistent decrease" : "Mixed findings";
+            tooltip.textContent = `${DISPLAY_NAMES[d.env]} → ${DISPLAY_NAMES[d.outcome]}\n${directionText} (${d.papers} papers)\nVOI: ${d.voi.toFixed(3)}`;
+            document.body.appendChild(tooltip);
+            tooltip.style.left = event.pageX + 10 + "px";
+            tooltip.style.top = event.pageY + 10 + "px";
+            window.currentTooltip = tooltip;
+        }
+
+        function hideTooltip() {
+            if (window.currentTooltip) {
+                window.currentTooltip.remove();
+                window.currentTooltip = null;
+            }
+        }
+
+        function highlightEdge(d) {
+            link.classed("highlighted", l => l === d);
+        }
+
+        function unhighlightEdge() {
+            link.classed("highlighted", false);
+        }
+
+        // Panel functions
+        function showNodePanel(d) {
+            const panel = document.getElementById("side-panel");
+            const title = document.getElementById("panel-title");
+            const content = document.getElementById("panel-content");
+
+            title.textContent = DISPLAY_NAMES[d.id];
+
+            let html = `<div class="panel-section-title">${d.isEnv ? "Environmental Feature" : "Psychological Outcome"}</div>`;
+            html += `<div class="panel-section-title">All Connections (${d.connections.length})</div>`;
+            html += `<ul class="connections-list">`;
+
+            d.connections.forEach(conn => {
+                const target = conn.target || conn.source;
+                html += `<li>
+                    <span class="connection-name">${DISPLAY_NAMES[target]}</span>
+                    <span class="connection-meta">${conn.papers} papers</span>
+                </li>`;
+            });
+
+            html += `</ul>`;
+            html += `<div class="panel-section-title">Evidence Base</div>`;
+            html += `<div style="background-color: #F8FAFC; padding: 1rem; border-radius: 4px;">
+                <p style="font-size: 0.9rem; color: #475569;">Total papers across all connections: <strong>${d.totalPapers}</strong></p>
+                <p style="font-size: 0.85rem; color: #64748B; margin-top: 0.5rem;">Hub score (connections): ${d.connections.length}</p>
+            </div>`;
+
+            content.innerHTML = html;
+            panel.classList.add("open");
+        }
+
+        function showEdgePanel(d) {
+            const panel = document.getElementById("side-panel");
+            const title = document.getElementById("panel-title");
+            const content = document.getElementById("panel-content");
+
+            title.textContent = `${DISPLAY_NAMES[d.env]} → ${DISPLAY_NAMES[d.outcome]}`;
+
+            const directionClass = {
+                increase: "direction-increase",
+                decrease: "direction-decrease",
+                mixed: "direction-mixed"
+            }[d.direction];
+
+            const directionLabel = {
+                increase: "↑ Consistent Increase",
+                decrease: "↓ Consistent Decrease",
+                mixed: "↔ Mixed Findings"
+            }[d.direction];
+
+            const effectLabel = d.effect_mean > 0 ? "+" : "";
+
+            let html = `
+                <div class="edge-panel-header">
+                    <div class="edge-relationship">${DISPLAY_NAMES[d.env]} influences ${DISPLAY_NAMES[d.outcome]}</div>
+                    <div class="direction-indicator ${directionClass}">${directionLabel}</div>
+                </div>
+
+                <table class="stats-table">
+                    <tr>
+                        <th>Metric</th>
+                        <th>Value</th>
+                    </tr>
+                    <tr>
+                        <td>Papers</td>
+                        <td><strong>${d.papers}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Claims</td>
+                        <td><strong>${d.claims}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>Effect Size (d)</td>
+                        <td><strong>${effectLabel}${Math.abs(d.effect_mean).toFixed(2)}</strong></td>
+                    </tr>
+                    <tr>
+                        <td>VOI Score</td>
+                        <td><strong>${d.voi.toFixed(3)}</strong></td>
+                    </tr>
+                </table>
+
+                <div class="panel-section-title">Conditional Probability Interpretation</div>
+                <div class="interpretation-text">
+                    Given that <strong>${DISPLAY_NAMES[d.env]}</strong> is present, the probability of observing <strong>${DISPLAY_NAMES[d.outcome]}</strong> changes by approximately <strong>d = ${effectLabel}${Math.abs(d.effect_mean).toFixed(2)}</strong>. This estimate is based on <strong>${d.papers} papers</strong> with <strong>${d.claims} distinct empirical claims</strong>.
+                </div>
+
+                <div class="panel-section-title">Contributing Theories</div>
+                <ul class="theories-list">
+                    ${d.theories.map(t => `<li>${t}</li>`).join("")}
+                </ul>
+
+                <div class="panel-section-title">Supporting Articles</div>
+                <div class="papers-list">
+                    ${d.paperIds.map(pid => `<div>${pid}</div>`).join("")}
+                </div>
+            `;
+
+            content.innerHTML = html;
+            panel.classList.add("open");
+        }
+
+        function closePanel() {
+            document.getElementById("side-panel").classList.remove("open");
+        }
+
+        // Handle window resize
+        window.addEventListener("resize", function() {
+            const newWidth = document.querySelector(".graph-section").clientWidth;
+            const newHeight = document.querySelector(".graph-section").clientHeight;
+            svg.attr("width", newWidth).attr("height", newHeight);
+            simulation.force("forceX", d3.forceX(newWidth / 2).strength(d => d.isEnv ? -0.2 : 0.2))
+                .force("forceY", d3.forceY(newHeight / 2).strength(0.05))
+                .alpha(0.3).restart();
+        });
+    </script>
+</body>
+</html>

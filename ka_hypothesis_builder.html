@@ -1,0 +1,1474 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Hypothesis Builder · Knowledge Atlas</title>
+<style>
+/* ── KA Design System v0.4 ─────────────────────────────────────────────── */
+:root {
+  --navy:  #1C3D3A;
+  --teal:  #2A7868;
+  --teal-light: #E0F2EE;
+  --amber: #E8872A;
+  --amber-dark: #C05A1F;
+  --amber-light: #FFF4E6;
+  --cream: #F7F4EF;
+  --border: #E0DAD3;
+  --gold:  #F5A623;
+  --purple: #5C3A7E;
+  --purple-light: #F3EEF9;
+  --text-dark: #2D2D2D;
+  --text-mid: #555;
+  --text-muted: #888;
+  --green: #1A5C32;
+  --green-light: #D4EDDA;
+  --white: #ffffff;
+  --stage-done: #2A7868;
+  --stage-active: #E8872A;
+  --stage-future: #C5B8AB;
+}
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Georgia', serif; background: var(--cream); color: var(--text-dark); min-height: 100vh; display: flex; flex-direction: column; }
+
+/* ── TOP NAV ────────────────────────────────────────────────────────────── */
+.topnav {
+  background: var(--navy);
+  height: 56px;
+  display: flex;
+  align-items: center;
+  padding: 0 24px;
+  gap: 28px;
+  position: sticky;
+  top: 0;
+  z-index: 100;
+}
+.wordmark { font-family: 'Georgia', serif; font-size: 1.05rem; font-weight: 700; color: var(--gold); letter-spacing: 0.03em; text-decoration: none; white-space: nowrap; }
+.wordmark span { color: rgba(255,255,255,0.6); font-weight: 400; font-size: 0.88rem; margin-left: 8px; }
+.nav-links { display: flex; gap: 4px; flex: 1; }
+.nav-link { color: rgba(255,255,255,0.72); font-family: 'Arial', sans-serif; font-size: 0.82rem; text-decoration: none; padding: 6px 12px; border-radius: 6px; letter-spacing: 0.04em; transition: background 0.15s; }
+.nav-link:hover, .nav-link.active { background: rgba(255,255,255,0.12); color: #fff; }
+.mode-pill { margin-left: auto; font-family: 'Arial', sans-serif; font-size: 0.75rem; font-weight: 700; letter-spacing: 0.06em; padding: 5px 12px; border-radius: 20px; border: 1.5px solid; cursor: pointer; background: rgba(90,200,170,0.15); color: #5AC8AA; border-color: rgba(90,200,170,0.4); }
+.version-badge { font-family: 'Arial', sans-serif; font-size: 0.7rem; color: rgba(255,255,255,0.4); letter-spacing: 0.04em; }
+
+/* ── PAGE LAYOUT ────────────────────────────────────────────────────────── */
+.page-wrap { display: flex; flex: 1; }
+
+/* ── STAGE RAIL (left) ──────────────────────────────────────────────────── */
+.stage-rail {
+  width: 260px;
+  min-width: 260px;
+  background: var(--white);
+  border-right: 1px solid var(--border);
+  padding: 28px 0;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+.rail-title { font-family: 'Arial', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; padding: 0 24px 16px; }
+
+.stage-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 14px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.15s;
+  position: relative;
+  border-left: 3px solid transparent;
+}
+.stage-item:hover { background: var(--cream); }
+.stage-item.active { background: var(--amber-light); border-left-color: var(--amber); }
+.stage-item.done { border-left-color: var(--teal); }
+
+.stage-num {
+  width: 28px; height: 28px;
+  border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-family: 'Arial', sans-serif; font-size: 0.78rem; font-weight: 700;
+  flex-shrink: 0;
+  margin-top: 1px;
+  transition: all 0.2s;
+}
+.stage-item .stage-num { background: var(--cream); color: var(--stage-future); border: 2px solid var(--stage-future); }
+.stage-item.active .stage-num { background: var(--amber); color: #fff; border-color: var(--amber); }
+.stage-item.done .stage-num { background: var(--teal); color: #fff; border-color: var(--teal); }
+.stage-item.done .stage-num::after { content: "✓"; font-size: 0.7rem; }
+
+.stage-label { font-family: 'Arial', sans-serif; }
+.stage-label strong { display: block; font-size: 0.82rem; color: var(--text-dark); line-height: 1.3; }
+.stage-item.active .stage-label strong { color: var(--amber-dark); }
+.stage-item.done .stage-label strong { color: var(--teal); }
+.stage-label span { font-size: 0.72rem; color: var(--text-muted); line-height: 1.4; }
+
+/* Progress bar */
+.rail-progress { padding: 20px 24px 8px; margin-top: auto; }
+.progress-track { height: 4px; background: var(--border); border-radius: 2px; overflow: hidden; }
+.progress-fill { height: 100%; background: var(--teal); border-radius: 2px; transition: width 0.4s ease; }
+.progress-label { font-family: 'Arial', sans-serif; font-size: 0.7rem; color: var(--text-muted); margin-top: 6px; }
+
+/* ── MAIN CONTENT AREA ─────────────────────────────────────────────────── */
+.main-area { flex: 1; padding: 36px 40px; overflow-y: auto; max-width: 900px; }
+
+.stage-header {
+  display: flex;
+  align-items: flex-start;
+  gap: 20px;
+  margin-bottom: 28px;
+}
+.stage-icon {
+  width: 56px; height: 56px;
+  background: var(--navy);
+  border-radius: 12px;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.5rem;
+  flex-shrink: 0;
+}
+.stage-title-block h1 { font-family: 'Georgia', serif; font-size: 1.5rem; font-weight: 700; color: var(--navy); line-height: 1.2; }
+.stage-title-block p { font-family: 'Arial', sans-serif; font-size: 0.88rem; color: var(--teal); margin-top: 4px; }
+
+/* Section cards */
+.section-card {
+  background: var(--white);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 24px 28px;
+  margin-bottom: 20px;
+}
+.section-card h2 {
+  font-family: 'Georgia', serif;
+  font-size: 1.05rem;
+  color: var(--navy);
+  margin-bottom: 12px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.section-card h2 .tag {
+  font-family: 'Arial', sans-serif;
+  font-size: 0.65rem;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  padding: 2px 8px;
+  border-radius: 4px;
+  background: var(--teal-light);
+  color: var(--teal);
+}
+.section-card h2 .tag.required { background: #FEE2E2; color: #991B1B; }
+.section-card p { font-family: 'Georgia', serif; font-size: 0.93rem; line-height: 1.7; color: var(--text-mid); margin-bottom: 14px; }
+
+/* Form elements */
+label { display: block; font-family: 'Arial', sans-serif; font-size: 0.78rem; font-weight: 700; color: var(--text-dark); letter-spacing: 0.03em; margin-bottom: 6px; }
+input[type="text"], textarea, select {
+  width: 100%;
+  padding: 10px 14px;
+  font-family: 'Georgia', serif;
+  font-size: 0.92rem;
+  border: 1.5px solid var(--border);
+  border-radius: 8px;
+  background: var(--cream);
+  color: var(--text-dark);
+  outline: none;
+  transition: border-color 0.15s;
+}
+input[type="text"]:focus, textarea:focus, select:focus { border-color: var(--teal); background: var(--white); }
+textarea { resize: vertical; min-height: 80px; line-height: 1.6; }
+.field-hint { font-family: 'Arial', sans-serif; font-size: 0.73rem; color: var(--text-muted); margin-top: 5px; }
+.field-group { margin-bottom: 18px; }
+
+/* Motivation chips */
+.chip-grid { display: flex; flex-wrap: wrap; gap: 8px; margin-top: 8px; }
+.chip {
+  display: flex; align-items: center; gap: 6px;
+  padding: 7px 14px;
+  border-radius: 20px;
+  border: 1.5px solid var(--border);
+  background: var(--cream);
+  font-family: 'Arial', sans-serif;
+  font-size: 0.78rem;
+  cursor: pointer;
+  transition: all 0.15s;
+  color: var(--text-mid);
+}
+.chip:hover { border-color: var(--teal); color: var(--teal); }
+.chip.selected { background: var(--teal-light); border-color: var(--teal); color: var(--teal); font-weight: 700; }
+.chip .chip-icon { font-size: 1rem; }
+
+/* Signal tier table */
+.signal-table { width: 100%; border-collapse: collapse; font-family: 'Arial', sans-serif; font-size: 0.8rem; margin-top: 12px; }
+.signal-table th { background: var(--navy); color: #fff; padding: 8px 12px; text-align: left; font-size: 0.72rem; letter-spacing: 0.05em; }
+.signal-table td { padding: 8px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+.signal-table tr:nth-child(even) td { background: var(--cream); }
+.tier-pill { display: inline-block; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.04em; padding: 2px 7px; border-radius: 4px; }
+.tier-primary { background: var(--green-light); color: var(--green); }
+.tier-aux { background: var(--amber-light); color: var(--amber-dark); }
+.tier-comp { background: var(--teal-light); color: var(--teal); }
+
+/* Signal selector checkboxes */
+.signal-selector { display: flex; align-items: flex-start; gap: 10px; padding: 10px 12px; border: 1px solid var(--border); border-radius: 8px; margin-bottom: 8px; cursor: pointer; transition: background 0.12s; }
+.signal-selector:hover { background: var(--cream); }
+.signal-selector input[type="checkbox"] { margin-top: 2px; accent-color: var(--teal); flex-shrink: 0; }
+.signal-selector .sig-label { font-family: 'Arial', sans-serif; font-size: 0.82rem; font-weight: 700; color: var(--text-dark); }
+.signal-selector .sig-cost { font-size: 0.72rem; color: var(--text-muted); margin-top: 2px; }
+.signal-selector .sig-tier { margin-top: 4px; }
+
+/* Callout box */
+.callout { border-radius: 8px; padding: 14px 18px; margin-bottom: 16px; font-family: 'Georgia', serif; font-size: 0.88rem; line-height: 1.65; }
+.callout.teal { background: var(--teal-light); border-left: 4px solid var(--teal); }
+.callout.amber { background: var(--amber-light); border-left: 4px solid var(--amber); }
+.callout.purple { background: var(--purple-light); border-left: 4px solid var(--purple); }
+.callout strong { font-family: 'Arial', sans-serif; font-size: 0.75rem; letter-spacing: 0.05em; text-transform: uppercase; display: block; margin-bottom: 5px; }
+.callout.teal strong { color: var(--teal); }
+.callout.amber strong { color: var(--amber-dark); }
+.callout.purple strong { color: var(--purple); }
+
+/* VOI gauge */
+.voi-gauge { margin: 16px 0; }
+.voi-track { height: 12px; background: var(--border); border-radius: 6px; overflow: hidden; position: relative; }
+.voi-fill { height: 100%; border-radius: 6px; transition: width 0.5s ease; }
+.voi-labels { display: flex; justify-content: space-between; font-family: 'Arial', sans-serif; font-size: 0.68rem; color: var(--text-muted); margin-top: 4px; }
+.voi-score { font-family: 'Arial', sans-serif; font-size: 1.6rem; font-weight: 700; color: var(--navy); }
+.voi-score span { font-size: 0.8rem; font-weight: 400; color: var(--text-muted); }
+
+/* Credence slider */
+.credence-area { margin-top: 8px; }
+.credence-track { display: flex; align-items: center; gap: 12px; }
+input[type="range"] { flex: 1; accent-color: var(--teal); }
+.credence-val { font-family: 'Arial', sans-serif; font-size: 1rem; font-weight: 700; color: var(--teal); min-width: 40px; }
+.credence-hint { font-family: 'Arial', sans-serif; font-size: 0.72rem; color: var(--text-muted); margin-top: 4px; }
+
+/* Navigation buttons */
+.nav-buttons { display: flex; justify-content: space-between; align-items: center; margin-top: 28px; padding-top: 20px; border-top: 1px solid var(--border); }
+.btn { font-family: 'Arial', sans-serif; font-size: 0.82rem; font-weight: 700; letter-spacing: 0.04em; padding: 10px 22px; border-radius: 8px; border: none; cursor: pointer; transition: all 0.15s; }
+.btn-primary { background: var(--amber); color: #fff; }
+.btn-primary:hover { background: var(--amber-dark); }
+.btn-secondary { background: transparent; color: var(--teal); border: 1.5px solid var(--teal); }
+.btn-secondary:hover { background: var(--teal-light); }
+.btn-ghost { background: transparent; color: var(--text-muted); }
+.btn-ghost:hover { color: var(--text-dark); }
+
+/* Summary sidebar (right panel when available) */
+.summary-strip {
+  width: 240px;
+  min-width: 240px;
+  background: var(--white);
+  border-left: 1px solid var(--border);
+  padding: 24px 18px;
+  position: sticky;
+  top: 56px;
+  height: calc(100vh - 56px);
+  overflow-y: auto;
+}
+.summary-strip h3 { font-family: 'Arial', sans-serif; font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em; color: var(--text-muted); text-transform: uppercase; margin-bottom: 14px; }
+.summary-item { margin-bottom: 14px; }
+.summary-item .s-label { font-family: 'Arial', sans-serif; font-size: 0.7rem; color: var(--text-muted); margin-bottom: 3px; }
+.summary-item .s-val { font-family: 'Georgia', serif; font-size: 0.82rem; color: var(--text-dark); line-height: 1.45; }
+.summary-item .s-val.empty { color: var(--border); font-style: italic; }
+
+.export-btn { width: 100%; margin-top: 20px; padding: 10px; font-family: 'Arial', sans-serif; font-size: 0.78rem; font-weight: 700; background: var(--navy); color: var(--gold); border: none; border-radius: 8px; cursor: pointer; letter-spacing: 0.04em; }
+.export-btn:hover { background: var(--teal); color: #fff; }
+
+/* Version badge */
+.version-fixed { position: fixed; bottom: 16px; right: 16px; background: rgba(28,61,58,0.88); color: rgba(255,255,255,0.55); font-family: 'Arial', sans-serif; font-size: 0.65rem; padding: 4px 10px; border-radius: 6px; letter-spacing: 0.04em; z-index: 999; }
+
+/* Checklist */
+.checklist { list-style: none; }
+.checklist li { display: flex; align-items: flex-start; gap: 8px; font-family: 'Georgia', serif; font-size: 0.88rem; line-height: 1.55; padding: 6px 0; border-bottom: 1px solid var(--border); color: var(--text-mid); }
+.checklist li:last-child { border-bottom: none; }
+.checklist li .ck { width: 18px; height: 18px; border: 1.5px solid var(--border); border-radius: 4px; flex-shrink: 0; margin-top: 1px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.15s; }
+.checklist li.checked .ck { background: var(--teal); border-color: var(--teal); color: #fff; font-size: 0.65rem; }
+.checklist li.checked span { text-decoration: line-through; color: var(--text-muted); }
+
+/* Toast */
+.toast { position: fixed; bottom: 48px; left: 50%; transform: translateX(-50%); background: var(--navy); color: #fff; font-family: 'Arial', sans-serif; font-size: 0.82rem; padding: 10px 20px; border-radius: 8px; z-index: 9999; opacity: 0; transition: opacity 0.3s; pointer-events: none; }
+.toast.show { opacity: 1; }
+
+/* Responsive: hide right summary on small screens */
+@media (max-width: 1100px) { .summary-strip { display: none; } }
+@media (max-width: 750px) { .stage-rail { display: none; } .main-area { padding: 20px; } }
+
+/* Export Modal Styles */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.55);
+  display: none;
+  align-items: center;
+  justify-content: center;
+  z-index: 2000;
+}
+
+.modal-overlay.visible {
+  display: flex;
+}
+
+.modal-container {
+  background-color: #FFFFFF;
+  border-radius: 12px;
+  box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+  max-width: 600px;
+  width: 90%;
+  max-height: 85vh;
+  overflow-y: auto;
+  display: flex;
+  flex-direction: column;
+}
+
+.modal-header {
+  padding: 28px;
+  border-bottom: none;
+  flex-shrink: 0;
+  background: linear-gradient(135deg, #E8872A 0%, #C05A1F 100%);
+}
+
+.modal-header-title {
+  font-size: 20px;
+  font-weight: 700;
+  color: #FFFFFF;
+  font-family: 'Georgia', serif;
+}
+
+.modal-body {
+  padding: 28px;
+  flex: 1;
+  overflow-y: auto;
+}
+
+.modal-footer {
+  padding: 24px 28px;
+  border-top: 1px solid #E0DAD3;
+  display: flex;
+  gap: 12px;
+  justify-content: flex-end;
+  flex-shrink: 0;
+  background-color: #FAFAF8;
+}
+
+.modal-section {
+  margin-bottom: 24px;
+}
+
+.modal-section:last-of-type {
+  margin-bottom: 0;
+}
+
+.modal-section-label {
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+  color: #8A7A68;
+  margin-bottom: 10px;
+  display: block;
+}
+
+.modal-section-content {
+  font-size: 13px;
+  color: #2D2D2D;
+  line-height: 1.5;
+}
+
+.radio-group {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+.radio-option {
+  display: flex;
+  align-items: flex-start;
+  gap: 12px;
+  padding: 12px;
+  border: 1.5px solid #E0DAD3;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  background-color: #FFFFFF;
+}
+
+.radio-option:hover {
+  border-color: #E8872A;
+  background-color: #FFF9F3;
+}
+
+.radio-option input[type="radio"] {
+  accent-color: #E8872A;
+  width: 18px;
+  height: 18px;
+  margin-top: 2px;
+  cursor: pointer;
+  flex-shrink: 0;
+}
+
+.radio-option.selected {
+  border-color: #E8872A;
+  background-color: #FFF4E6;
+}
+
+.radio-label {
+  flex: 1;
+  font-size: 13px;
+  color: #2D2D2D;
+  cursor: pointer;
+}
+
+.radio-description {
+  font-size: 12px;
+  color: #888;
+  margin-top: 4px;
+}
+
+.modal-select {
+  border: 1.5px solid #E0DAD3;
+  border-radius: 6px;
+  padding: 10px 12px;
+  font-size: 13px;
+  font-family: 'Georgia', serif;
+  background-color: #FFFFFF;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+  width: 100%;
+}
+
+.modal-select:focus {
+  outline: none;
+  border-color: #E8872A;
+  box-shadow: 0 0 0 3px rgba(232, 135, 42, 0.14);
+}
+
+.modal-toggle {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 12px 0;
+}
+
+.modal-toggle input[type="checkbox"] {
+  accent-color: #2A7868;
+  width: 18px;
+  height: 18px;
+  cursor: pointer;
+}
+
+.modal-toggle label {
+  font-size: 13px;
+  color: #2D2D2D;
+  cursor: pointer;
+  flex: 1;
+}
+
+.modal-button {
+  padding: 11px 22px;
+  border-radius: 6px;
+  font-size: 13px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  border: none;
+  font-family: 'Arial', sans-serif;
+  letter-spacing: 0.03em;
+}
+
+.modal-button.btn-confirm {
+  background-color: #E8872A;
+  color: #FFFFFF;
+}
+
+.modal-button.btn-confirm:hover {
+  background-color: #C05A1F;
+}
+
+.modal-button.btn-cancel {
+  background-color: #FFFFFF;
+  color: #2D2D2D;
+  border: 1.5px solid #E0DAD3;
+}
+
+.modal-button.btn-cancel:hover {
+  border-color: #E8872A;
+  color: #E8872A;
+}
+
+.acronym-small {
+  font-size: 0.78em;
+  color: #8A7A68;
+}
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a href="ka_home.html" class="wordmark">Knowledge Atlas<span>COGS 160</span></a>
+  <div class="nav-links">
+    <a href="ka_demo_v04.html" class="nav-link">Ask</a>
+    <a href="#" class="nav-link">Evidence</a>
+    <a href="ka_hypothesis_builder.html" class="nav-link active">Build</a>
+    <a href="ka_tagger.html" class="nav-link">Tag</a>
+    <a href="ka_articles.html" class="nav-link">Articles</a>
+    <a href="ka_datacapture.html" class="nav-link">Capture</a>
+    <a href="ka_gaps.html" class="nav-link">Gaps</a>
+    <a href="ka_sensors.html" class="nav-link">Sensors</a>
+  </div>
+  <span class="mode-pill">CONTRIBUTOR</span>
+  <span class="version-badge">v0.4</span>
+</nav>
+
+<div class="page-wrap">
+
+  <!-- STAGE RAIL -->
+  <aside class="stage-rail">
+    <div class="rail-title">Hypothesis Builder</div>
+
+    <div class="stage-item done" onclick="goTo(1)">
+      <div class="stage-num"></div>
+      <div class="stage-label">
+        <strong>Research Question</strong>
+        <span>Define your empirical target</span>
+      </div>
+    </div>
+    <div class="stage-item done" onclick="goTo(2)">
+      <div class="stage-num"></div>
+      <div class="stage-label">
+        <strong>Literature Map</strong>
+        <span>Live issues &amp; what's settled</span>
+      </div>
+    </div>
+    <div class="stage-item active" onclick="goTo(3)">
+      <div class="stage-num">3</div>
+      <div class="stage-label">
+        <strong>Hypothesis</strong>
+        <span>Claim, mechanism, motivation</span>
+      </div>
+    </div>
+    <div class="stage-item" onclick="goTo(4)">
+      <div class="stage-num">4</div>
+      <div class="stage-label">
+        <strong>Operationalize</strong>
+        <span>Construct → signal selection</span>
+      </div>
+    </div>
+    <div class="stage-item" onclick="goTo(5)">
+      <div class="stage-num">5</div>
+      <div class="stage-label">
+        <strong>Predictions</strong>
+        <span>Direction, magnitude, control</span>
+      </div>
+    </div>
+    <div class="stage-item" onclick="goTo(6)">
+      <div class="stage-num">6</div>
+      <div class="stage-label">
+        <strong>Value of Information</strong>
+        <span>Is this study worth doing?</span>
+      </div>
+    </div>
+
+    <div class="rail-progress">
+      <div class="progress-track"><div class="progress-fill" id="railProgress" style="width:33%"></div></div>
+      <div class="progress-label" id="railLabel">Stage 3 of 6 · 33% complete</div>
+    </div>
+  </aside>
+
+  <!-- MAIN AREA -->
+  <main class="main-area" id="mainArea">
+    <!-- Stages are rendered by JS -->
+  </main>
+
+  <!-- SUMMARY STRIP -->
+  <aside class="summary-strip">
+    <h3>Your Study So Far</h3>
+    <div class="summary-item">
+      <div class="s-label">Research Question</div>
+      <div class="s-val" id="sum-question">Does natural light access reduce PVT lapse rate increase over a 4-hour work session?</div>
+    </div>
+    <div class="summary-item">
+      <div class="s-label">Target Construct</div>
+      <div class="s-val" id="sum-construct">Sustained Attention / Vigilance Decrement</div>
+    </div>
+    <div class="summary-item">
+      <div class="s-label">Live Issue</div>
+      <div class="s-val" id="sum-issue">ART effect in multi-hour work sessions (not just 10–20 min recovery)</div>
+    </div>
+    <div class="summary-item">
+      <div class="s-label">Hypothesis</div>
+      <div class="s-val empty" id="sum-hypothesis">Not yet entered</div>
+    </div>
+    <div class="summary-item">
+      <div class="s-label">Primary Signal(s)</div>
+      <div class="s-val empty" id="sum-signals">Not yet selected</div>
+    </div>
+    <div class="summary-item">
+      <div class="s-label">Expected Effect</div>
+      <div class="s-val empty" id="sum-effect">Not yet specified</div>
+    </div>
+    <div class="summary-item">
+      <div class="s-label">VOI Assessment</div>
+      <div class="s-val empty" id="sum-voi">Not yet assessed</div>
+    </div>
+    <button class="export-btn" onclick="openExportModal()">⬇ Export Study Brief</button>
+  </aside>
+
+</div>
+
+<div class="version-fixed">KA UI · v0.4</div>
+<div class="toast" id="toast"></div>
+
+<!-- Export / OSF Pre-Registration Modal -->
+<div id="exportModal" class="modal-overlay">
+  <div class="modal-container">
+    <div class="modal-header">
+      <div class="modal-header-title">Export Hypothesis / Pre-Register</div>
+    </div>
+    <div class="modal-body">
+      <div class="modal-section">
+        <span class="modal-section-label">Export Format</span>
+        <div class="radio-group">
+          <div class="radio-option selected" onclick="selectExportFormat('json', this)">
+            <input type="radio" name="exportFormat" value="json" checked>
+            <div>
+              <div class="radio-label">Download JSON</div>
+              <div class="radio-description">Structured hypothesis object with all fields</div>
+            </div>
+          </div>
+          <div class="radio-option" onclick="selectExportFormat('osf', this)">
+            <input type="radio" name="exportFormat" value="osf">
+            <div>
+              <div class="radio-label">Copy OSF Pre-Registration Text</div>
+              <div class="radio-description">Formatted markdown for <span class="acronym-small">[Open Science Framework]</span> registration</div>
+            </div>
+          </div>
+          <div class="radio-option" onclick="selectExportFormat('pdf', this)">
+            <input type="radio" name="exportFormat" value="pdf">
+            <div>
+              <div class="radio-label">Download PDF Summary</div>
+              <div class="radio-description">Styled one-page summary for printing or sharing</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-label">Title</div>
+        <input type="text" class="modal-select" id="exportTitle" placeholder="Study title" value="Does natural light access reduce PVT lapse rate increase over a 4-hour work session?">
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-label">Embargo Period</div>
+        <select class="modal-select" id="exportEmbargo">
+          <option value="none">None (publish immediately)</option>
+          <option value="6months">6 months</option>
+          <option value="1year">1 year</option>
+        </select>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-section-label">License</div>
+        <select class="modal-select" id="exportLicense">
+          <option value="cc-by-4">CC-BY 4.0 (open)</option>
+          <option value="cc-by-nc-4">CC-BY-NC 4.0 (non-commercial)</option>
+        </select>
+      </div>
+
+      <div class="modal-section">
+        <div class="modal-toggle">
+          <input type="checkbox" id="exportCredence" checked>
+          <label for="exportCredence">Include credence estimates</label>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="modal-button btn-cancel" onclick="closeExportModal()">Cancel</button>
+      <button class="modal-button btn-confirm" onclick="confirmExport()">Export</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ── State ─────────────────────────────────────────────────────────────────
+const state = {
+  currentStage: 3,
+  completedStages: [1, 2],
+  question: "Does natural light access reduce PVT lapse rate increase over a 4-hour work session?",
+  construct: "Sustained Attention / Vigilance Decrement",
+  liveIssue: "ART effect in multi-hour work sessions (not just 10–20 min recovery)",
+  motivation: "methodological",
+  hypothesisStatement: "",
+  hypothesisMechanism: "",
+  selectedSignals: [],
+  effectDirection: "",
+  effectSize: "",
+  controlCondition: "",
+  credence: 0.5,
+  voiNotes: ""
+};
+
+// ── Stage content ─────────────────────────────────────────────────────────
+const stages = {
+
+  1: () => `
+    <div class="stage-header">
+      <div class="stage-icon">🔍</div>
+      <div class="stage-title-block">
+        <h1>Stage 1: Research Question</h1>
+        <p>Define the empirical target — construct, population, manipulation, outcome</p>
+      </div>
+    </div>
+    <div class="section-card">
+      <h2>Your Question <span class="tag">Completed</span></h2>
+      <div class="callout teal"><strong>Entered Question</strong>${state.question}</div>
+      <div class="field-group"><label>Target Construct</label>
+        <input type="text" value="${state.construct}" onchange="state.construct=this.value; updateSummary()">
+      </div>
+      <div class="field-group"><label>Question Type</label>
+        <select><option>Relational–Causal (manipulation → outcome)</option><option>Purely Relational (association)</option><option>Descriptive (distribution in context)</option><option>Mechanistic (how does X work)</option></select>
+      </div>
+    </div>
+    <div class="section-card">
+      <h2>Question Quality Check</h2>
+      <ul class="checklist" id="qChecklist">
+        <li class="checked" onclick="toggleCheck(this)"><div class="ck">✓</div><span>Specific enough for a single study to answer</span></li>
+        <li class="checked" onclick="toggleCheck(this)"><div class="ck">✓</div><span>Tractable with available methods and equipment</span></li>
+        <li class="checked" onclick="toggleCheck(this)"><div class="ck">✓</div><span>Has at least two distinct possible answers (falsifiable)</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span>Would the answer change researcher or practitioner practice?</span></li>
+      </ul>
+    </div>
+    <div class="nav-buttons">
+      <span></span>
+      <button class="btn btn-primary" onclick="goTo(2)">Next: Literature Map →</button>
+    </div>
+  `,
+
+  2: () => `
+    <div class="stage-header">
+      <div class="stage-icon">📚</div>
+      <div class="stage-title-block">
+        <h1>Stage 2: Literature Map</h1>
+        <p>Identify what is settled, what is live, and where the frontier is</p>
+      </div>
+    </div>
+    <div class="section-card">
+      <h2>Settled Knowledge <span class="tag">Consensus</span></h2>
+      <p>Claims in your domain that have robust, converging evidence from multiple independent labs. A new study will not move these — don't target them.</p>
+      <textarea placeholder="e.g. Nature exposure reliably improves self-reported mood (meta-analytic d ≈ 0.5 across >100 studies; Bratman et al., 2019). The PVT is the gold standard for measuring vigilance decrement (Dinges & Powell, 1985)." rows="3">${state.settledKnowledge||''}</textarea>
+    </div>
+    <div class="section-card">
+      <h2>Live Issue <span class="tag required">Required</span></h2>
+      <p>The contested or untested claim your study addresses. What does the field disagree about, or what is simply unknown in your context?</p>
+      <textarea placeholder="Describe the specific gap or disagreement your study targets..." rows="3" onchange="state.liveIssue=this.value; updateSummary()">${state.liveIssue}</textarea>
+      <div class="field-hint">Useful diagnostic: Does the recent literature contain explicit disagreements? Are recent meta-analyses hedged? Are effect sizes heterogeneous across studies?</div>
+    </div>
+    <div class="section-card">
+      <h2>Atlas Credence Estimate</h2>
+      <p>What is the current field credence for the core claim you are testing? (0 = nobody believes it; 1 = universally accepted)</p>
+      <div class="credence-area">
+        <div class="credence-track">
+          <span style="font-family:Arial;font-size:0.75rem;color:var(--text-muted)">0</span>
+          <input type="range" min="0" max="1" step="0.05" value="${state.credence}" oninput="state.credence=parseFloat(this.value); document.getElementById('credVal').textContent=this.value; updateVOI()">
+          <span class="credence-val" id="credVal">${state.credence}</span>
+          <span style="font-family:Arial;font-size:0.75rem;color:var(--text-muted)">1</span>
+        </div>
+        <div class="credence-hint" id="credHint">${getCredenceHint(state.credence)}</div>
+      </div>
+    </div>
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(1)">← Back</button>
+      <button class="btn btn-primary" onclick="goTo(3)">Next: Hypothesis →</button>
+    </div>
+  `,
+
+  3: () => `
+    <div class="stage-header">
+      <div class="stage-icon">💡</div>
+      <div class="stage-title-block">
+        <h1>Stage 3: Hypothesis</h1>
+        <p>Construct a falsifiable claim with an explicit mechanism and motivation</p>
+      </div>
+    </div>
+
+    <div class="callout amber">
+      <strong>The standard formulation</strong>
+      If [manipulation or condition], then [outcome on measure M], because [mechanism].
+      The mechanism clause connects your hypothesis to theoretical warrant structure — it determines what the result means regardless of which way it goes.
+    </div>
+
+    <div class="section-card">
+      <h2>Motivation <span class="tag required">Required</span></h2>
+      <p>Why are you asking this question? The motivation determines the theoretical ambition of your study.</p>
+      <div class="chip-grid" id="motivChips">
+        <div class="chip ${state.motivation==='methodological'?'selected':''}" onclick="selectMotiv('methodological',this)">
+          <span class="chip-icon">🔬</span> Methodological critique
+        </div>
+        <div class="chip ${state.motivation==='observation'?'selected':''}" onclick="selectMotiv('observation',this)">
+          <span class="chip-icon">👁</span> New observation
+        </div>
+        <div class="chip ${state.motivation==='theoretical'?'selected':''}" onclick="selectMotiv('theoretical',this)">
+          <span class="chip-icon">🧠</span> Theoretical prediction
+        </div>
+        <div class="chip ${state.motivation==='gap'?'selected':''}" onclick="selectMotiv('gap',this)">
+          <span class="chip-icon">🕳</span> Construct gap
+        </div>
+        <div class="chip ${state.motivation==='conflict'?'selected':''}" onclick="selectMotiv('conflict',this)">
+          <span class="chip-icon">⚡</span> Inter-finding conflict
+        </div>
+        <div class="chip ${state.motivation==='technology'?'selected':''}" onclick="selectMotiv('technology',this)">
+          <span class="chip-icon">📡</span> New measurement technology
+        </div>
+      </div>
+      <div class="callout teal" id="motivDesc" style="margin-top:12px">${getMotivDesc(state.motivation)}</div>
+    </div>
+
+    <div class="section-card">
+      <h2>Hypothesis Statement <span class="tag required">Required</span></h2>
+      <div class="field-group">
+        <label>If / In condition... (manipulation or contrast)</label>
+        <textarea placeholder="e.g. In workspaces with direct access to a green outdoor view compared to matched spaces without outdoor view..." rows="2" onchange="state.hypothesisStatement=this.value; updateSummary()">${state.hypothesisStatement}</textarea>
+      </div>
+      <div class="field-group">
+        <label>...then the measure will show... (outcome)</label>
+        <textarea placeholder="e.g. ...the rate of increase in PVT lapse rate over a 4-hour sustained work session will be significantly lower..." rows="2"></textarea>
+      </div>
+      <div class="field-group">
+        <label>...because... (mechanism)</label>
+        <textarea placeholder="e.g. ...because periodic involuntary engagement of the bottom-up attention system by natural stimuli (Kaplan, 1995) interrupts directed attention fatigue and allows partial replenishment of executive attention capacity." rows="3" onchange="state.hypothesisMechanism=this.value; updateSummary()">${state.hypothesisMechanism}</textarea>
+        <div class="field-hint">The mechanism clause is not optional. It is what allows your result — positive or negative — to do theoretical work.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>Evaluating Hypothesis Quality</h2>
+      <ul class="checklist">
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span><strong>Falsifiable:</strong> Can you specify a result that would tell you the hypothesis is false?</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span><strong>Plausible prior:</strong> Given the literature, is this a reasonable prediction (base rate d ≈ 0.2–0.5)?</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span><strong>Mechanistically specific:</strong> Does the mechanism clause name a process, not just a vague causal link?</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span><strong>Disconfirmation scenario:</strong> Written out what a null result would mean theoretically?</span></li>
+      </ul>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(2)">← Back</button>
+      <button class="btn btn-primary" onclick="completeStage(3); goTo(4)">Next: Operationalize →</button>
+    </div>
+  `,
+
+  4: () => `
+    <div class="stage-header">
+      <div class="stage-icon">📊</div>
+      <div class="stage-title-block">
+        <h1>Stage 4: Operationalize</h1>
+        <p>Select signals that constitute or support your target construct, with explicit cost–difficulty reasoning</p>
+      </div>
+    </div>
+
+    <div class="callout teal">
+      <strong>Three-tier warrant structure</strong>
+      Primary signals are close to constitutive of the construct — their absence licenses withdrawal of the attribution. Auxiliary signals provide probabilistic support. Complementary signals measure a distinct facet. Your design should include at least one Primary signal and at least one signal from a different measurement system.
+    </div>
+
+    <div class="section-card">
+      <h2>Construct: ${state.construct || 'Sustained Attention / Vigilance Decrement'}</h2>
+      <p>Select the signals you will use. Consider both measurement validity and practical feasibility in your setting.</p>
+
+      <table class="signal-table">
+        <thead><tr><th></th><th>Signal</th><th>Tier</th><th>Setup</th><th>Artifact Risk</th><th>Cost</th></tr></thead>
+        <tbody>
+          ${renderSignalRows([
+            {id:'pvt', name:'PVT lapse rate (RT > 500 ms)', tier:'primary', setup:'2 min', artifact:'Low', cost:'Free', notes:'10-min standard; 3-min for repeated measures'},
+            {id:'eeg_alpha', name:'EEG frontal alpha power (increase)', tier:'primary', setup:'15 min', artifact:'High', cost:'€200–800', notes:'Wearable (Muse/Emotiv); movement artifacts in field'},
+            {id:'eeg_theta_alpha', name:'EEG theta/alpha ratio decline', tier:'primary', setup:'15 min', artifact:'High', cost:'€200–800', notes:'Compute from same rig; frontal electrode'},
+            {id:'pupil', name:'Pupil diameter decline from baseline', tier:'auxiliary', setup:'8 min', artifact:'High', cost:'€5K–20K', notes:'Critical: stable illumination required'},
+            {id:'blink', name:'Blink rate increase (over session)', tier:'auxiliary', setup:'5 min', artifact:'Low', cost:'€100–500', notes:'Video EOG; 30-second windows'},
+            {id:'kss', name:'KSS self-report (every 10–15 min)', tier:'auxiliary', setup:'1 min', artifact:'None', cost:'Free', notes:'Karolinska Sleepiness Scale'},
+            {id:'eda_scl', name:'EDA tonic SCL decline over session', tier:'complementary', setup:'5 min', artifact:'Low', cost:'€200–600', notes:'Wrist sensor; Empatica E4 or similar'},
+            {id:'hrv', name:'HRV RMSSD decline over session', tier:'complementary', setup:'3 min', artifact:'Low', cost:'€50–200', notes:'Polar chest strap preferred over wrist PPG'},
+          ])}
+        </tbody>
+      </table>
+    </div>
+
+    <div class="section-card">
+      <h2>Operationalization Hazard Check</h2>
+      <ul class="checklist">
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span><strong>Construct–measure match:</strong> Does each selected signal actually track the construct of interest, not a confound?</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span><strong>Temporal resolution:</strong> Do all selected signals have compatible response timescales?</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span><strong>State vs. trait:</strong> Is within-session baseline controlled to separate state from individual differences?</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span><strong>Artifact control:</strong> Is the environment and setup adequate for the artifact vulnerability of each selected signal?</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span><strong>Convergent coverage:</strong> Are signals selected from at least two different measurement systems?</span></li>
+      </ul>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(3)">← Back</button>
+      <button class="btn btn-primary" onclick="completeStage(4); goTo(5)">Next: Predictions →</button>
+    </div>
+  `,
+
+  5: () => `
+    <div class="stage-header">
+      <div class="stage-icon">🎯</div>
+      <div class="stage-title-block">
+        <h1>Stage 5: Predictions</h1>
+        <p>Translate the hypothesis into a falsifiable empirical claim with direction, magnitude, and control conditions</p>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>Directional Prediction <span class="tag required">Required</span></h2>
+      <div class="field-group">
+        <label>Primary outcome measure</label>
+        <input type="text" placeholder="e.g. PVT lapse rate (lapses/10 min)" value="${state.primaryMeasure||''}">
+      </div>
+      <div class="field-group">
+        <label>Expected direction</label>
+        <select onchange="state.effectDirection=this.value">
+          <option value="">— select —</option>
+          <option value="lower" ${state.effectDirection==='lower'?'selected':''}>Lower in experimental vs. control condition</option>
+          <option value="higher" ${state.effectDirection==='higher'?'selected':''}>Higher in experimental vs. control condition</option>
+          <option value="slower_increase">Slower rate of increase over time (less decline)</option>
+          <option value="faster_increase">Faster rate of increase over time (more decline)</option>
+          <option value="null">No difference (null hypothesis / equivalence)</option>
+        </select>
+      </div>
+      <div class="field-group">
+        <label>Expected effect size (Cohen's d or η²)</label>
+        <input type="text" placeholder="e.g. d ≈ 0.4 (based on Kaplan et al., 2014 meta-analysis)" value="${state.effectSize||''}" onchange="state.effectSize=this.value; updateSummary()">
+        <div class="field-hint">If uncertain, state the minimum detectable effect that would be theoretically meaningful and calculate your required N from that.</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>Control Condition</h2>
+      <div class="field-group">
+        <label>Control condition description</label>
+        <textarea placeholder="e.g. Matched workspace identical in size, furniture, task, and acoustic conditions; artificial lighting matched for luminance (lux) and correlated color temperature (CCT) to natural daylight; no outdoor view." rows="3" onchange="state.controlCondition=this.value">${state.controlCondition||''}</textarea>
+        <div class="field-hint">The control condition should differ only in the manipulation of interest. Describe what is held constant.</div>
+      </div>
+      <div class="field-group">
+        <label>Control type</label>
+        <select>
+          <option>Resting baseline (within-participant)</option>
+          <option>Matched comparison condition (between groups)</option>
+          <option>Within-subject counterbalanced (both conditions per participant)</option>
+          <option>Active control (different task, matched demand)</option>
+        </select>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>Pre-Registration Commitment</h2>
+      <ul class="checklist">
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span>Prediction specifies direction (not just "an effect will be found")</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span>Effect-size expectation stated with citation or pilot data justification</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span>Sample size calculation completed for stated effect size and α = 0.05, power = 0.80</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span>Pre-registration submitted to OSF or AsPredicted before data collection begins</span></li>
+        <li onclick="toggleCheck(this)"><div class="ck"></div><span>Disconfirmation scenario written out: what would a null result mean theoretically?</span></li>
+      </ul>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(4)">← Back</button>
+      <button class="btn btn-primary" onclick="completeStage(5); goTo(6)">Next: Value of Information →</button>
+    </div>
+  `,
+
+  6: () => `
+    <div class="stage-header">
+      <div class="stage-icon">⚖️</div>
+      <div class="stage-title-block">
+        <h1>Stage 6: Value of Information</h1>
+        <p>Is this study worth doing? Assess epistemic impact before committing resources.</p>
+      </div>
+    </div>
+
+    <div class="callout purple">
+      <strong>What VOI means in practice</strong>
+      A study has high expected VOI when: (a) the current credence for the target claim is near 0.5 (genuine uncertainty), (b) the result in either direction would substantially update a meaningful network of beliefs, and (c) a practitioner community would change what they build or design as a result. If the credence is already near 0 or 1, or if a null result would be interpreted as 'underpowered' rather than as evidence, the study's VOI is low.
+    </div>
+
+    <div class="section-card">
+      <h2>Current Credence for Your Core Claim</h2>
+      <p>Based on your literature review, what is the field's approximate credence? (This value was entered in Stage 2.)</p>
+      <div class="voi-gauge">
+        <div style="display:flex;align-items:center;gap:16px;margin-bottom:8px">
+          <div class="voi-score" id="voiCredVal">${state.credence} <span>/ 1.0</span></div>
+          <div style="flex:1">
+            <div class="voi-track"><div class="voi-fill" id="voiFill" style="width:${state.credence*100}%;background:${getCredColor(state.credence)}"></div></div>
+            <div class="voi-labels"><span>Near zero (implausible)</span><span>Genuine uncertainty</span><span>Near certain</span></div>
+          </div>
+        </div>
+        <div class="callout ${getCredClass(state.credence)}" id="credInterpret">${getCredInterpretation(state.credence)}</div>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>The Four VOI Questions</h2>
+      <div class="field-group">
+        <label>1. If confirmed — what follows? How much would downstream beliefs update?</label>
+        <textarea placeholder="e.g. Would substantially support ART in multi-hour work contexts; would motivate architectural standards for view access in workplace design; credence for related claims (natural light → cognitive performance) would update upward." rows="3" onchange="state.voiConfirm=this.value"></textarea>
+      </div>
+      <div class="field-group">
+        <label>2. If disconfirmed — what follows? Is the null result interpretively meaningful?</label>
+        <textarea placeholder="e.g. Would constrain ART to short recovery windows (&lt;30 min); would suggest that view access has primarily affective rather than cognitive performance effects; would redirect research toward lighting quality rather than view type." rows="3" onchange="state.voiDisconfirm=this.value"></textarea>
+      </div>
+      <div class="field-group">
+        <label>3. Who cares? Name the research and practitioner communities for whom this matters.</label>
+        <textarea placeholder="e.g. Environmental psychology researchers working on ART; workplace design practitioners and evidence-based design advocates; architects specifying window placement in commercial office buildings." rows="2"></textarea>
+      </div>
+      <div class="field-group">
+        <label>4. Minimum contribution — what does the study establish even if results are null?</label>
+        <textarea placeholder="e.g. Establishes a validated measurement protocol for multi-session CNFA vigilance studies; provides effect-size estimates for future power calculations; demonstrates PVT feasibility in field office settings." rows="2"></textarea>
+      </div>
+    </div>
+
+    <div class="section-card">
+      <h2>VOI Summary Rating</h2>
+      <div class="chip-grid" style="margin-bottom:16px">
+        <div class="chip ${state.voiRating==='high'?'selected':''}" onclick="selectVOI('high',this)" style="${state.voiRating==='high'?'background:var(--green-light);border-color:var(--green);color:var(--green)':''}">
+          <span class="chip-icon">🟢</span> High VOI — proceed
+        </div>
+        <div class="chip ${state.voiRating==='medium'?'selected':''}" onclick="selectVOI('medium',this)">
+          <span class="chip-icon">🟡</span> Medium VOI — refine design
+        </div>
+        <div class="chip ${state.voiRating==='low'?'selected':''}" onclick="selectVOI('low',this)">
+          <span class="chip-icon">🔴</span> Low VOI — reconsider question
+        </div>
+      </div>
+      <div class="field-group">
+        <label>Justification</label>
+        <textarea placeholder="Explain your VOI assessment in one or two sentences." rows="2" onchange="state.voiNotes=this.value; updateSummary()">${state.voiNotes}</textarea>
+      </div>
+    </div>
+
+    <div class="section-card" style="background:var(--teal-light);border-color:var(--teal)">
+      <h2 style="color:var(--navy)">🎉 Hypothesis Brief Complete</h2>
+      <p style="color:var(--text-dark)">Your hypothesis brief captures a six-stage scientific argument from question to value assessment. Export it to share with your instructor or to register on the Open Science Framework.</p>
+      <div style="display:flex;gap:12px;margin-top:16px;flex-wrap:wrap">
+        <button class="btn btn-primary" onclick="openExportModal()">Export Study Brief</button>
+        <button class="btn btn-secondary" onclick="goTo(1)">Review from Stage 1</button>
+        <button class="btn btn-ghost" onclick="showToast('Pre-registration flow coming soon')">Register on OSF →</button>
+      </div>
+    </div>
+
+    <div class="nav-buttons">
+      <button class="btn btn-secondary" onclick="goTo(5)">← Back</button>
+      <span style="font-family:Arial;font-size:0.8rem;color:var(--teal);font-weight:700">✓ All 6 stages complete</span>
+    </div>
+  `
+};
+
+// ── Signal row renderer ────────────────────────────────────────────────────
+function renderSignalRows(signals) {
+  return signals.map(s => {
+    const checked = state.selectedSignals.includes(s.id);
+    const tierCls = s.tier === 'primary' ? 'tier-primary' : s.tier === 'auxiliary' ? 'tier-aux' : 'tier-comp';
+    const tierLabel = s.tier === 'primary' ? 'PRIMARY' : s.tier === 'auxiliary' ? 'AUXILIARY' : 'COMPLEMENTARY';
+    const artifactColor = s.artifact === 'High' ? '#991B1B' : s.artifact === 'Low' ? '#1A5C32' : '#7A3800';
+    return `<tr>
+      <td style="text-align:center"><input type="checkbox" ${checked?'checked':''} onchange="toggleSignal('${s.id}',this)" style="accent-color:var(--teal);width:15px;height:15px"></td>
+      <td><strong style="font-size:0.8rem">${s.name}</strong><br><span style="font-size:0.7rem;color:var(--text-muted)">${s.notes}</span></td>
+      <td><span class="tier-pill ${tierCls}">${tierLabel}</span></td>
+      <td style="font-size:0.78rem">${s.setup}</td>
+      <td style="font-size:0.78rem;color:${artifactColor};font-weight:600">${s.artifact}</td>
+      <td style="font-size:0.78rem">${s.cost}</td>
+    </tr>`;
+  }).join('');
+}
+
+// ── Helpers ───────────────────────────────────────────────────────────────
+function getMotivDesc(m) {
+  const descs = {
+    methodological: '<strong>Methodological critique:</strong> Retesting an existing finding with improved methodology — better measurement fidelity, stricter control, pre-registration to eliminate researcher degrees of freedom. Scientifically conservative but crucial for field health.',
+    observation: '<strong>New observation:</strong> A pattern in environment or pilot data that existing theory does not predict. Carry higher risk — the observation may reflect a specific context or unidentified moderator. Treat initial findings as hypothesis-generating.',
+    theoretical: '<strong>Theoretical prediction:</strong> A novel empirical prediction derived from existing theory, tested in a new domain. When confirmed, extends the theory\'s scope; when disconfirmed, constrains it. Requires explicit connection to the theoretical framework.',
+    gap: '<strong>Construct gap:</strong> An important construct that has no validated measure in your context. Establishing measurability is a real contribution in CNFA, where ecological validity is often challenged.',
+    conflict: '<strong>Inter-finding conflict:</strong> Two well-supported findings that cannot both be true as stated. Resolution may require a moderator variable, artifact explanation, or theoretical revision. Demanding but produces the most consequential findings.',
+    technology: '<strong>New measurement technology:</strong> A construct previously inaccessible (intrusive, lab-only, expensive) is now measurable in ecologically valid conditions. Carries the risk that new instruments are incompletely validated for field use.'
+  };
+  return descs[m] || '';
+}
+
+function getCredenceHint(c) {
+  c = parseFloat(c);
+  if (c < 0.2) return 'Very low credence — the claim is considered implausible. A positive result here would be dramatic but requires exceptional evidence.';
+  if (c < 0.4) return 'Below-average credence — field leans against this claim. A well-executed positive result would be a genuine contribution.';
+  if (c < 0.6) return 'Genuine uncertainty — optimal range for VOI. Either result would meaningfully update field beliefs.';
+  if (c < 0.8) return 'Above-average credence — field leans toward this claim. Confirmatory evidence has moderate VOI; a null result would be surprising and highly informative.';
+  return 'High credence — field largely believes this. Confirmatory evidence has low VOI; consider whether your design can test a more specific or deeper question.';
+}
+
+function getCredColor(c) {
+  c = parseFloat(c);
+  if (c < 0.3 || c > 0.7) return '#C05A1F';
+  if (c < 0.4 || c > 0.6) return '#E8872A';
+  return '#2A7868';
+}
+
+function getCredClass(c) {
+  c = parseFloat(c);
+  if (c >= 0.35 && c <= 0.65) return 'teal';
+  return 'amber';
+}
+
+function getCredInterpretation(c) {
+  c = parseFloat(c);
+  if (c >= 0.35 && c <= 0.65) return '<strong>High VOI Zone:</strong> Genuine uncertainty means either a positive or null result will substantially move field credence. This is the optimal credence range for a new study.';
+  if (c < 0.35) return '<strong>Low Prior:</strong> This claim is currently considered implausible. A well-executed positive result would be highly informative — but the bar for evidence quality is correspondingly high.';
+  return '<strong>High Prior:</strong> Field largely accepts this claim. Confirmatory studies have limited VOI. Consider whether your design can test a more specific version that would update beliefs further.';
+}
+
+// ── Navigation ─────────────────────────────────────────────────────────────
+function goTo(n) {
+  state.currentStage = n;
+  renderStage();
+  updateRail();
+  window.scrollTo({ top: 0, behavior: 'smooth' });
+}
+
+function completeStage(n) {
+  if (!state.completedStages.includes(n)) state.completedStages.push(n);
+  updateRail();
+}
+
+function renderStage() {
+  document.getElementById('mainArea').innerHTML = stages[state.currentStage]();
+}
+
+function updateRail() {
+  const items = document.querySelectorAll('.stage-item');
+  items.forEach((el, i) => {
+    const n = i + 1;
+    el.classList.remove('active', 'done');
+    if (n === state.currentStage) el.classList.add('active');
+    else if (state.completedStages.includes(n)) el.classList.add('done');
+
+    const num = el.querySelector('.stage-num');
+    if (state.completedStages.includes(n) && n !== state.currentStage) {
+      num.textContent = '';
+    } else if (n !== state.currentStage) {
+      num.textContent = n;
+    } else {
+      num.textContent = n;
+    }
+  });
+
+  const pct = Math.round((state.completedStages.length / 6) * 100);
+  document.getElementById('railProgress').style.width = pct + '%';
+  document.getElementById('railLabel').textContent = `Stage ${state.currentStage} of 6 · ${pct}% complete`;
+}
+
+// ── Interaction helpers ────────────────────────────────────────────────────
+function selectMotiv(val, el) {
+  state.motivation = val;
+  document.querySelectorAll('#motivChips .chip').forEach(c => c.classList.remove('selected'));
+  el.classList.add('selected');
+  document.getElementById('motivDesc').innerHTML = getMotivDesc(val);
+}
+
+function toggleSignal(id, checkbox) {
+  if (checkbox.checked) { if (!state.selectedSignals.includes(id)) state.selectedSignals.push(id); }
+  else { state.selectedSignals = state.selectedSignals.filter(s => s !== id); }
+  updateSummary();
+}
+
+function selectVOI(val, el) {
+  state.voiRating = val;
+  document.querySelectorAll('.chip').forEach(c => {
+    c.style.background = '';
+    c.style.borderColor = '';
+    c.style.color = '';
+  });
+  if (val === 'high') { el.style.background = 'var(--green-light)'; el.style.borderColor = 'var(--green)'; el.style.color = 'var(--green)'; }
+  else if (val === 'medium') { el.style.background = 'var(--amber-light)'; el.style.borderColor = 'var(--amber)'; el.style.color = 'var(--amber-dark)'; }
+  else { el.style.background = '#FEE2E2'; el.style.borderColor = '#991B1B'; el.style.color = '#991B1B'; }
+  updateSummary();
+}
+
+function toggleCheck(li) {
+  li.classList.toggle('checked');
+  const ck = li.querySelector('.ck');
+  ck.textContent = li.classList.contains('checked') ? '✓' : '';
+}
+
+function updateVOI() {
+  // Stage 2: credence hint text
+  const el = document.getElementById('credHint');
+  if (el) el.textContent = getCredenceHint(state.credence);
+  // Stage 6: VOI gauge — update if rendered
+  const voiCredVal   = document.getElementById('voiCredVal');
+  const voiFill      = document.getElementById('voiFill');
+  const credInterpret = document.getElementById('credInterpret');
+  if (voiCredVal) voiCredVal.innerHTML = state.credence + ' <span>/ 1.0</span>';
+  if (voiFill) {
+    voiFill.style.width = (state.credence * 100) + '%';
+    voiFill.style.background = getCredColor(state.credence);
+  }
+  if (credInterpret) {
+    credInterpret.className = 'callout ' + getCredClass(state.credence);
+    credInterpret.textContent = getCredInterpretation(state.credence);
+  }
+}
+
+function updateSummary() {
+  const set = (id, val) => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = val || '';
+    el.classList.toggle('empty', !val);
+    if (!val) el.textContent = 'Not yet entered';
+  };
+  set('sum-question', state.question);
+  set('sum-construct', state.construct);
+  set('sum-issue', state.liveIssue);
+  set('sum-hypothesis', state.hypothesisStatement || state.hypothesisMechanism ?
+    (state.hypothesisStatement + (state.hypothesisMechanism ? ' — because ' + state.hypothesisMechanism.slice(0,80) + '…' : '')) : '');
+  set('sum-signals', state.selectedSignals.length ? state.selectedSignals.join(', ')
+      .replace(/eeg_theta_alpha/g,'EEG theta/alpha ratio')
+      .replace(/eeg_alpha/g,'EEG frontal alpha')
+      .replace(/pvt/g,'PVT lapse rate')
+      .replace(/pupil/g,'Pupil diameter')
+      .replace(/blink/g,'Blink rate')
+      .replace(/kss/g,'KSS sleepiness')
+      .replace(/hrv/g,'HRV')
+      .replace(/eda_scl/g,'EDA tonic') : '');
+  set('sum-effect', state.effectSize);
+  set('sum-voi', state.voiRating ? (state.voiRating.toUpperCase() + (state.voiNotes ? ' — ' + state.voiNotes.slice(0,80) : '')) : '');
+}
+
+function exportSummary() {
+  const lines = [
+    '=== KNOWLEDGE ATLAS · HYPOTHESIS BRIEF ===',
+    '',
+    'RESEARCH QUESTION',
+    state.question,
+    '',
+    'TARGET CONSTRUCT: ' + state.construct,
+    'LIVE ISSUE: ' + state.liveIssue,
+    'CURRENT CREDENCE: ' + state.credence,
+    '',
+    'HYPOTHESIS MOTIVATION: ' + state.motivation,
+    '',
+    'HYPOTHESIS STATEMENT',
+    state.hypothesisStatement || '(not entered)',
+    '',
+    'MECHANISM',
+    state.hypothesisMechanism || '(not entered)',
+    '',
+    'SELECTED SIGNALS: ' + (state.selectedSignals.join(', ') || '(none selected)'),
+    'EXPECTED EFFECT SIZE: ' + (state.effectSize || '(not specified)'),
+    '',
+    'VOI ASSESSMENT: ' + (state.voiRating ? state.voiRating.toUpperCase() : '(not assessed)'),
+    state.voiNotes || '',
+    '',
+    '--- Generated by Knowledge Atlas Hypothesis Builder v0.4 ---',
+    new Date().toISOString()
+  ];
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'hypothesis_brief.txt';
+  a.click();
+  showToast('Study brief exported');
+}
+
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2400);
+}
+
+// ── Export Modal Functions ────────────────────────────────────────────────
+function openExportModal() {
+  document.getElementById('exportModal').classList.add('visible');
+}
+
+function closeExportModal() {
+  document.getElementById('exportModal').classList.remove('visible');
+}
+
+function selectExportFormat(format, el) {
+  document.querySelectorAll('.radio-option').forEach(opt => opt.classList.remove('selected'));
+  el.classList.add('selected');
+  el.querySelector('input[type="radio"]').checked = true;
+}
+
+function confirmExport() {
+  const format = document.querySelector('input[name="exportFormat"]:checked').value;
+  const title = document.getElementById('exportTitle').value;
+  const embargo = document.getElementById('exportEmbargo').value;
+  const license = document.getElementById('exportLicense').value;
+  const includeCredence = document.getElementById('exportCredence').checked;
+
+  if (format === 'json') {
+    exportAsJSON(title, embargo, license, includeCredence);
+  } else if (format === 'osf') {
+    exportAsOSF(title, embargo, license, includeCredence);
+  } else if (format === 'pdf') {
+    exportAsPDF(title, embargo, license, includeCredence);
+  }
+
+  closeExportModal();
+  showToast('Hypothesis exported — check your downloads');
+}
+
+function exportAsJSON(title, embargo, license, includeCredence) {
+  const data = {
+    title: title,
+    researchQuestion: state.question,
+    construct: state.construct,
+    liveIssue: state.liveIssue,
+    motivation: state.motivation,
+    hypothesisStatement: state.hypothesisStatement,
+    mechanism: state.hypothesisMechanism,
+    selectedSignals: state.selectedSignals,
+    effectSize: state.effectSize,
+    credence: includeCredence ? state.credence : undefined,
+    voiRating: state.voiRating,
+    voiNotes: state.voiNotes,
+    exportedAt: new Date().toISOString(),
+    embargo: embargo,
+    license: license
+  };
+
+  const blob = new Blob([JSON.stringify(data, null, 2)], { type: 'application/json' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'hypothesis_export.json';
+  a.click();
+}
+
+function exportAsOSF(title, embargo, license, includeCredence) {
+  const lines = [
+    '# OSF PRE-REGISTRATION: ' + title,
+    '',
+    '## Research Question',
+    state.question,
+    '',
+    '## Construct & Live Issue',
+    '**Target Construct:** ' + state.construct,
+    '**Live Issue:** ' + state.liveIssue,
+    includeCredence ? '**Current Credence:** ' + state.credence : '',
+    '',
+    '## Hypothesis',
+    '**Motivation:** ' + state.motivation,
+    '**Statement:** ' + state.hypothesisStatement,
+    '**Mechanism:** ' + state.hypothesisMechanism,
+    '',
+    '## Operationalization',
+    '**Selected Signals:** ' + (state.selectedSignals.join(', ') || 'Not yet selected'),
+    '**Expected Effect Size:** ' + (state.effectSize || 'Not yet specified'),
+    '',
+    '## Value Assessment',
+    '**VOI Rating:** ' + (state.voiRating ? state.voiRating.toUpperCase() : 'Not assessed'),
+    state.voiNotes || '',
+    '',
+    '---',
+    '**Embargo:** ' + embargo,
+    '**License:** ' + license,
+    '**Exported:** ' + new Date().toISOString()
+  ];
+
+  const text = lines.filter(l => l !== '').join('\n');
+  const blob = new Blob([text], { type: 'text/markdown' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'osf_preregistration.md';
+  a.click();
+}
+
+function exportAsPDF(title, embargo, license, includeCredence) {
+  // Simplified PDF export - creates a text file with PDF-like content
+  const lines = [
+    '════════════════════════════════════════════════════════════════',
+    'KNOWLEDGE ATLAS · HYPOTHESIS SUMMARY',
+    '════════════════════════════════════════════════════════════════',
+    '',
+    title.toUpperCase(),
+    '',
+    'RESEARCH QUESTION',
+    state.question,
+    '',
+    'TARGET CONSTRUCT',
+    state.construct,
+    '',
+    'LIVE ISSUE',
+    state.liveIssue,
+    '',
+    'HYPOTHESIS MOTIVATION',
+    state.motivation,
+    '',
+    'HYPOTHESIS STATEMENT',
+    state.hypothesisStatement || '(not entered)',
+    '',
+    'MECHANISM',
+    state.hypothesisMechanism || '(not entered)',
+    '',
+    'PRIMARY SIGNALS',
+    state.selectedSignals.join(', ') || '(not selected)',
+    '',
+    'EXPECTED EFFECT SIZE',
+    state.effectSize || '(not specified)',
+    '',
+    'VALUE OF INFORMATION',
+    (state.voiRating ? state.voiRating.toUpperCase() : '(not assessed)'),
+    state.voiNotes || '',
+    '',
+    '════════════════════════════════════════════════════════════════',
+    'License: ' + license + ' | Embargo: ' + embargo,
+    'Generated: ' + new Date().toLocaleString(),
+    '════════════════════════════════════════════════════════════════'
+  ];
+
+  const blob = new Blob([lines.join('\n')], { type: 'text/plain' });
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'hypothesis_summary.txt';
+  a.click();
+}
+
+// Wire up existing export button
+const originalExportSummary = exportSummary;
+document.addEventListener('DOMContentLoaded', function() {
+  const exportBtn = document.querySelector('.export-btn');
+  if (exportBtn) {
+    exportBtn.onclick = function(e) {
+      e.preventDefault();
+      openExportModal();
+    };
+  }
+});
+
+// ── Init ──────────────────────────────────────────────────────────────────
+renderStage();
+updateRail();
+updateSummary();
+</script>
+<script src="ka_acronyms.js"></script>
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_hypothesis_builder',
+  title: 'Hypothesis Builder',
+  audience: 'COGS 160 students (Track 2 and above) at the hypothesis submission stage; researchers formalizing a research question',
+  purpose: 'A structured six-stage workflow tool that guides a student from a research question through construct selection, motivation, operationalization (signal/measuring instrument selection), hypothesis statement, and VOI [Value of Information] rating. The output is a formal hypothesis record. In the live system the completed hypothesis is saved to the hypotheses table and appears in the instructor review queue.',
+  workflowPos: 'Stage 3 and 4 of the six-stage scientific thinking model: Hypothesis → Operationalize. Reached from the student dashboard (assignment link) or from the Gap Explorer ("Start Hypothesis" button). Outputs to the instructor approval queue.',
+  notFor: 'Browsing evidence (use Evidence Browser), finding articles (use Article Search), general note-taking. The builder is for formal hypothesis submission only, not exploratory brainstorming.',
+  phase: 'Phase 3 — User Management + Phase 4 Core Backends (save/load requires hypotheses table; signal recommendations require evidence DB)',
+  evalQuestions: [
+    'Does the six-stage rail communicate progress and allow backtracking clearly?',
+    'Is the motivation chip system (6 options) exhaustive enough, or do students feel forced into a category?',
+    'Is the operationalization stage (signal selection table) too complex for a student at this point in the workflow?',
+    'Does the VOI [Value of Information] rating feel meaningful, or does it seem like a box-ticking exercise?',
+    'Is the export/OSF [Open Science Framework] pre-registration flow visible and explained well enough for students unfamiliar with pre-registration?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

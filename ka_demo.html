@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Atlas — Visual Design Demo</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
+
+/* ── TOP NAV ── */
+.topnav {
+  position: sticky; top: 0; z-index: 9999;
+  background: #1C3D3A;
+  height: 56px;
+  display: flex; align-items: center; padding: 0 24px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.28);
+}
+
+/* ── WORDMARK ── */
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  margin-right: 36px; flex-shrink: 0; text-decoration: none;
+}
+.wordmark-icon { width: 32px; height: 32px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wordmark-text .wm-top {
+  font-size: 0.68rem; font-weight: 400; letter-spacing: 0.24em;
+  text-transform: uppercase; color: #A8C8BF;
+}
+.wordmark-text .wm-bottom {
+  font-size: 1.1rem; font-weight: 700; letter-spacing: 0.03em; color: #FFFFFF;
+}
+.wordmark-text .wm-bottom span { color: #F5A623; }
+
+/* ── RIGHT NAV (mode switcher + profile) ── */
+.nav-right {
+  display: flex; align-items: center; gap: 10px;
+  margin-left: auto; flex-shrink: 0;
+}
+
+/* Mode switcher pill */
+.mode-switcher { position: relative; }
+.mode-pill {
+  display: flex; align-items: center; gap: 7px;
+  padding: 5px 13px 5px 10px; border-radius: 20px; cursor: pointer;
+  font-size: 0.75rem; font-weight: 800; letter-spacing: 0.1em;
+  text-transform: uppercase; border: 2px solid transparent;
+  transition: all 0.15s; user-select: none;
+}
+.mode-pill.researcher {
+  background: rgba(245,166,35,0.18); color: #F5A623; border-color: rgba(245,166,35,0.4);
+}
+.mode-pill.researcher:hover { background: rgba(245,166,35,0.28); border-color: #F5A623; }
+.mode-pill.contributor {
+  background: rgba(90,200,170,0.18); color: #5AC8AA; border-color: rgba(90,200,170,0.4);
+}
+.mode-pill.contributor:hover { background: rgba(90,200,170,0.28); border-color: #5AC8AA; }
+.mode-pill .mode-dot {
+  width: 7px; height: 7px; border-radius: 50%; flex-shrink: 0;
+}
+.mode-pill.researcher .mode-dot { background: #F5A623; }
+.mode-pill.contributor .mode-dot { background: #5AC8AA; }
+.mode-pill .mode-caret { font-size: 0.58rem; opacity: 0.75; margin-left: 1px; }
+
+/* Mode switcher dropdown */
+.mode-dropdown {
+  display: none; position: absolute; top: calc(100% + 8px); right: 0;
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.18); min-width: 240px; z-index: 9998;
+  overflow: hidden;
+}
+.mode-switcher:hover .mode-dropdown { display: block; }
+.mode-dropdown-header {
+  padding: 10px 14px 7px; font-size: 0.69rem; font-weight: 700;
+  color: #B0A090; letter-spacing: 0.08em; text-transform: uppercase;
+  border-bottom: 1px solid #EEE9E3;
+}
+.mode-option {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 14px; cursor: pointer; transition: background 0.1s;
+  text-decoration: none;
+}
+.mode-option:hover { background: #F7F4EF; }
+.mode-option-dot {
+  width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0;
+}
+.mode-option-text .mo-label {
+  font-size: 0.83rem; font-weight: 700; color: #2D2D2D; letter-spacing: 0.04em;
+}
+.mode-option-text .mo-sub { font-size: 0.76rem; color: #8A7A68; margin-top: 1px; }
+.mode-option.current { background: #F7F4EF; }
+.mode-option.current .mo-label::after {
+  content: " ✓"; color: #2A7868; font-size: 0.78rem;
+}
+
+/* Profile avatar */
+.profile-btn {
+  width: 34px; height: 34px; border-radius: 50%;
+  background: #2A7868; color: #fff; font-size: 0.78rem; font-weight: 700;
+  display: flex; align-items: center; justify-content: center;
+  cursor: pointer; letter-spacing: 0.04em; border: 2px solid rgba(255,255,255,0.2);
+  transition: border-color 0.15s; flex-shrink: 0; position: relative;
+}
+.profile-btn:hover { border-color: rgba(255,255,255,0.5); }
+.profile-nav { position: relative; }
+.profile-dropdown {
+  display: none; position: absolute; top: calc(100% + 10px); right: 0;
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 8px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.16); min-width: 200px; z-index: 9998;
+  padding: 6px 0;
+}
+.profile-nav:hover .profile-dropdown { display: block; }
+.profile-dropdown-header {
+  padding: 10px 14px 8px; border-bottom: 1px solid #EEE9E3;
+}
+.profile-dropdown-header .pd-name { font-size: 0.85rem; font-weight: 700; color: #1C3D3A; }
+.profile-dropdown-header .pd-role { font-size: 0.75rem; color: #8A7A68; margin-top: 1px; }
+.profile-dropdown a {
+  display: block; padding: 7px 14px; font-size: 0.83rem; color: #3A3028;
+  text-decoration: none; transition: background 0.1s;
+}
+.profile-dropdown a:hover { background: #FFF4E6; color: #C05A1F; }
+.profile-dropdown .signout {
+  border-top: 1px solid #EEE9E3; margin-top: 4px; padding-top: 4px; color: #8A7A68;
+}
+.profile-dropdown .signout:hover { color: #C05A1F; background: #FFF4E6; }
+
+/* ── NAV LINKS ── */
+.nav-items { display: flex; gap: 2px; }
+.nav-item { position: relative; }
+.nav-link {
+  color: #B8D4CE; font-size: 0.87rem; font-weight: 600;
+  padding: 0 14px; height: 56px; display: flex; align-items: center;
+  cursor: pointer; white-space: nowrap; text-decoration: none;
+  transition: background 0.15s, color 0.15s; border-radius: 4px 4px 0 0;
+}
+.nav-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.nav-link.active { background: rgba(245,166,35,0.15); color: #fff; border-bottom: 3px solid #F5A623; }
+.nav-link .caret { margin-left: 5px; font-size: 0.62rem; opacity: 0.65; }
+
+/* ── DROPDOWNS ── */
+.dropdown {
+  display: none; position: absolute; top: 56px; left: 0;
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 6px;
+  box-shadow: 0 8px 28px rgba(0,0,0,0.16); min-width: 210px; z-index: 9998; padding: 8px 0;
+}
+.dropdown.two-col { min-width: 420px; }
+.nav-item:hover .dropdown { display: block; }
+.dropdown-inner { display: flex; }
+.dropdown-col { flex: 1; padding: 4px 0; }
+.dropdown-col + .dropdown-col { border-left: 1px solid #EEE9E3; }
+.dropdown-col-header {
+  font-size: 0.69rem; font-weight: 700; color: #A89880; letter-spacing: 0.08em;
+  text-transform: uppercase; padding: 6px 14px 4px;
+}
+.dropdown a {
+  display: block; padding: 7px 14px; font-size: 0.84rem; color: #3A3028;
+  text-decoration: none; white-space: nowrap; transition: background 0.1s;
+}
+.dropdown a:hover { background: #FFF4E6; color: #C05A1F; }
+
+/* ── PAGE BODY ── */
+.page-body { display: flex; min-height: calc(100vh - 56px); }
+
+/* ── SIDE NAV ── */
+.sidenav {
+  width: 220px; min-width: 220px; background: #FFFEF9;
+  border-right: 1px solid #E0DAD3;
+  position: sticky; top: 56px; height: calc(100vh - 56px);
+  overflow-y: auto; display: flex; flex-direction: column;
+}
+.sidenav-nav { padding: 18px 0 12px; }
+.sidenav-section-header {
+  font-size: 0.68rem; font-weight: 700; color: #B0A090;
+  letter-spacing: 0.09em; text-transform: uppercase; padding: 10px 16px 4px;
+}
+.sidenav a {
+  display: block; padding: 7px 16px; font-size: 0.85rem;
+  color: #4A3E32; text-decoration: none;
+  border-left: 3px solid transparent; transition: background 0.12s, color 0.12s;
+}
+.sidenav a:hover { background: #FFF4E6; color: #C05A1F; }
+.sidenav a.active {
+  border-left: 3px solid #E8872A; background: #FFF4E6; color: #C05A1F; font-weight: 600;
+}
+.sidenav-divider { height: 1px; background: #E0DAD3; margin: 8px 16px; }
+.sidenav-panel { padding: 12px 0 20px; flex: 1; }
+.panel-section-header {
+  font-size: 0.67rem; font-weight: 700; color: #B0A090;
+  letter-spacing: 0.09em; text-transform: uppercase; padding: 10px 16px 6px;
+}
+.panel-card {
+  margin: 4px 12px; padding: 9px 11px; border-radius: 6px;
+  font-size: 0.81rem; border-left: 3px solid #2A7868;
+  background: #F7F4EF; cursor: pointer; transition: background 0.12s;
+}
+.panel-card:hover { background: #FFF4E6; }
+.panel-card .pc-title { font-weight: 600; color: #1C3D3A; margin-bottom: 2px; }
+.panel-card .pc-meta { color: #8A7A68; font-size: 0.74rem; }
+.panel-card.gap-card { border-left-color: #D4860A; }
+.panel-card.gap-card .pc-title { color: #7A4400; }
+.credence-block { padding: 4px 16px 8px; }
+.cbar-track { background: #EDE8E0; border-radius: 2px; height: 4px; margin: 2px 0 6px; }
+.cbar { height: 4px; border-radius: 2px; }
+.cbar-fill-high { background: #2A8C60; }
+.cbar-fill-mid  { background: #D4860A; }
+.cbar-fill-low  { background: #B0A090; }
+
+/* ── MAIN CONTENT ── */
+.main-content { flex: 1; padding: 28px 36px; max-width: 860px; min-width: 0; }
+.page-title { color: #1C3D3A; font-size: 1.5rem; font-weight: 700; margin-bottom: 3px; }
+.page-caption { color: #7A6A58; font-size: 0.88rem; margin-bottom: 22px; }
+
+/* Query row */
+.query-row { display: flex; gap: 10px; margin-bottom: 18px; }
+.query-input {
+  flex: 1; padding: 10px 14px; border: 1.5px solid #D4C8B8; border-radius: 6px;
+  font-size: 0.93rem; font-family: Arial, sans-serif; background: #fff; color: #2D2D2D;
+}
+.query-input:focus { outline: none; border-color: #E8872A; box-shadow: 0 0 0 3px rgba(232,135,42,0.14); }
+.btn-ask {
+  background: #E8872A; color: #fff; border: none; border-radius: 6px;
+  padding: 10px 24px; font-size: 0.9rem; font-weight: 700; cursor: pointer;
+  letter-spacing: 0.02em; transition: background 0.15s;
+}
+.btn-ask:hover { background: #C05A1F; }
+
+/* Persona chips */
+.persona-row { display: flex; gap: 8px; margin-bottom: 18px; flex-wrap: wrap; align-items: center; }
+.persona-label { font-size: 0.8rem; color: #B0A090; margin-right: 2px; }
+.persona-chip {
+  padding: 5px 13px; border-radius: 20px; font-size: 0.79rem;
+  border: 1.5px solid #D4C8B8; background: #fff; cursor: pointer;
+  color: #6A5A48; transition: all 0.13s;
+}
+.persona-chip.active { background: #E8872A; color: #fff; border-color: #E8872A; }
+.persona-chip:hover:not(.active) { border-color: #E8872A; color: #C05A1F; }
+
+/* Answer card */
+.answer-card {
+  background: #fff; border: 1px solid #E0DAD3; border-radius: 8px;
+  padding: 20px 22px; margin-bottom: 18px;
+  box-shadow: 0 1px 5px rgba(0,0,0,0.07);
+}
+.answer-card h3 { color: #1C3D3A; font-size: 0.98rem; margin-bottom: 10px; }
+.answer-text { font-size: 0.91rem; line-height: 1.7; color: #2D2D2D; margin-bottom: 14px; }
+
+/* Uncertainty strips */
+.strip {
+  display: flex; align-items: flex-start; gap: 8px;
+  padding: 7px 11px; border-radius: 5px; font-size: 0.82rem;
+  margin-bottom: 7px; line-height: 1.45;
+}
+.strip-strong { background: #D6EDD9; }
+.strip-mixed  { background: #FFF0CC; }
+.strip-weak   { background: #F8D7DA; }
+.strip-theory { background: #E0F2EE; }
+.strip-icon   { font-size: 0.98rem; flex-shrink: 0; margin-top: 1px; }
+
+/* Pivot tabs */
+.tabs { display: flex; border-bottom: 2px solid #E0DAD3; margin-bottom: 14px; }
+.tab {
+  padding: 8px 16px; font-size: 0.85rem; cursor: pointer; color: #8A7A68;
+  border-bottom: 2px solid transparent; margin-bottom: -2px; transition: all 0.12s;
+}
+.tab.active { color: #C05A1F; border-bottom-color: #E8872A; font-weight: 600; }
+.tab:hover:not(.active) { color: #C05A1F; }
+
+/* Evidence rows */
+.evidence-row {
+  border-left: 3px solid #2A7868; padding: 10px 13px;
+  margin-bottom: 10px; background: #fff; border-radius: 0 5px 5px 0;
+  font-size: 0.85rem;
+}
+.evidence-row .study-ref { font-weight: 600; color: #1C3D3A; margin-bottom: 4px; }
+.evidence-row .study-text { color: #4A3E32; line-height: 1.55; margin-bottom: 6px; }
+.study-link { color: #1C3D3A; font-weight: 600; text-decoration: underline; text-decoration-color: #A8C8BF; }
+.study-link:hover { color: #2A7868; }
+.summary-link {
+  display: inline-block; margin-left: 10px;
+  color: #E8872A; font-size: 0.78rem; font-weight: 600;
+  text-decoration: none; border-bottom: 1px dashed #E8872A;
+  letter-spacing: 0.01em;
+}
+.summary-link:hover { color: #C05A1F; border-bottom-color: #C05A1F; }
+.evidence-meta { display: flex; gap: 8px; flex-wrap: wrap; }
+.meta-pill {
+  background: #EDF5F2; color: #1C5A48; font-size: 0.74rem;
+  padding: 2px 9px; border-radius: 12px;
+}
+
+/* Provenance expander */
+.provenance {
+  background: #EDF5F2; border-left: 3px solid #2A7868;
+  padding: 8px 12px; font-size: 0.81rem; border-radius: 0 5px 5px 0;
+  margin-top: 7px; color: #1C3D3A;
+}
+.provenance summary { cursor: pointer; font-weight: 600; list-style: none; user-select: none; }
+.provenance summary::before { content: "📎 "; }
+.provenance-body { margin-top: 8px; }
+.provenance-body .quote { font-style: italic; color: #4A3E32; margin-bottom: 6px; font-size: 0.82rem; }
+.provenance-meta { display: flex; gap: 20px; font-size: 0.77rem; color: #6A5A48; }
+
+/* Follow-up chips */
+.followup-row { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 16px; }
+.followup-chip {
+  border: 1.5px solid #D4C8B8; color: #6A5A48; background: #fff;
+  border-radius: 20px; padding: 5px 13px; font-size: 0.79rem; cursor: pointer;
+  transition: all 0.13s;
+}
+.followup-chip:hover { background: #FFF4E6; border-color: #E8872A; color: #C05A1F; }
+
+/* ── COLOR PALETTE ── */
+.palette-section { margin-top: 32px; padding-top: 20px; border-top: 1px solid #E0DAD3; }
+.palette-section h4 { color: #1C3D3A; font-size: 0.88rem; font-weight: 700; margin-bottom: 12px; }
+.swatches { display: flex; gap: 8px; flex-wrap: wrap; }
+.swatch { width: 90px; border: 1px solid #D4C8B8; border-radius: 6px; overflow: hidden; font-size: 0.7rem; }
+.swatch-color { height: 38px; }
+.swatch-label { padding: 5px 7px; background: #fff; color: #4A3E32; line-height: 1.5; }
+</style>
+</head>
+<body>
+
+<!-- TOP NAV -->
+<nav class="topnav">
+  <a class="wordmark" href="#">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#FFFFFF" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#FFFFFF" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#FFFFFF" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
+    </div>
+  </a>
+
+  <!-- NAV ITEMS: swapped by JS on mode change -->
+  <div class="nav-items" id="nav-items">
+    <!-- Researcher nav (default) rendered by JS -->
+  </div>
+
+  <!-- RIGHT: mode switcher + profile -->
+  <div class="nav-right">
+
+    <div class="mode-switcher" id="mode-switcher">
+      <div class="mode-pill researcher" id="mode-pill" onclick="cycleModes()">
+        <span class="mode-dot"></span>
+        <span id="mode-label">RESEARCHER</span>
+        <span class="mode-caret">▾</span>
+      </div>
+      <div class="mode-dropdown">
+        <div class="mode-dropdown-header">Switch View</div>
+        <a class="mode-option current" href="#" onclick="setMode('researcher'); return false;">
+          <span class="mode-option-dot" style="background:#F5A623;"></span>
+          <div class="mode-option-text">
+            <div class="mo-label">RESEARCHER</div>
+            <div class="mo-sub">Ask, Evidence, Knowledge, Gaps</div>
+          </div>
+        </a>
+        <a class="mode-option" href="#" onclick="setMode('contributor'); return false;">
+          <span class="mode-option-dot" style="background:#5AC8AA;"></span>
+          <div class="mode-option-text">
+            <div class="mo-label">CONTRIBUTOR</div>
+            <div class="mo-sub">Tag Images, Find Articles, Capture</div>
+          </div>
+        </a>
+        <a class="mode-option" href="#" onclick="setMode('admin'); return false;">
+          <span class="mode-option-dot" style="background:#E8872A;"></span>
+          <div class="mode-option-text">
+            <div class="mo-label">ADMIN</div>
+            <div class="mo-sub">Users, System, Pipeline</div>
+          </div>
+        </a>
+      </div>
+    </div>
+
+    <div class="profile-nav">
+      <div class="profile-btn">DK</div>
+      <div class="profile-dropdown">
+        <div class="profile-dropdown-header">
+          <div class="pd-name">David Kirsh</div>
+          <div class="pd-role">Researcher · UCSD Cognitive Science</div>
+        </div>
+        <a href="#">👤 My Profile</a>
+        <a href="#">⭐ Saved Evidence</a>
+        <a href="#">📋 My Queries</a>
+        <a href="#">🔔 Notifications</a>
+        <a href="#">⚙️ Settings</a>
+        <a href="#" class="signout">← Sign Out</a>
+      </div>
+    </div>
+
+  </div>
+</nav>
+
+<!-- PAGE BODY -->
+<div class="page-body">
+
+  <!-- LEFT SIDEBAR -->
+  <nav class="sidenav">
+    <div class="sidenav-nav">
+      <div class="sidenav-section-header">Ask</div>
+      <a href="#" class="active">💬 Ask a Question</a>
+      <a href="#">🔄 Compare Answers</a>
+      <a href="#">📋 Session History</a>
+      <div class="sidenav-section-header" style="margin-top:8px;">Tools</div>
+      <a href="#">🧭 Question Guide</a>
+      <a href="#">📐 Scope Check</a>
+      <a href="#">⚙️ Answer Settings</a>
+    </div>
+
+    <div class="sidenav-divider"></div>
+
+    <div class="sidenav-panel">
+      <div class="panel-section-header">Related Topics</div>
+      <div class="panel-card">
+        <div class="pc-title">Circadian Rhythm &amp; Alertness</div>
+        <div class="pc-meta">12 nodes · Strong support</div>
+      </div>
+      <div class="panel-card">
+        <div class="pc-title">Attention Restoration</div>
+        <div class="pc-meta">8 nodes · Mixed evidence</div>
+      </div>
+      <div class="panel-card">
+        <div class="pc-title">Biophilic Design</div>
+        <div class="pc-meta">5 nodes · Limited evidence</div>
+      </div>
+
+      <div class="panel-section-header" style="margin-top:10px;">Research Gaps</div>
+      <div class="panel-card gap-card">
+        <div class="pc-title">Long-term cognitive outcomes</div>
+        <div class="pc-meta">VOI = 0.78 · High priority</div>
+      </div>
+      <div class="panel-card gap-card">
+        <div class="pc-title">Age-moderated effects</div>
+        <div class="pc-meta">VOI = 0.61 · Moderate</div>
+      </div>
+
+      <div class="panel-section-header" style="margin-top:10px;">Credence</div>
+      <div class="credence-block">
+        <div style="font-size:0.74rem; color:#B0A090; margin-bottom:6px;">For this answer</div>
+
+        <div style="font-size:0.78rem; color:#4A3E32; margin-bottom:1px;">Alertness improvement</div>
+        <div class="cbar-track"><div class="cbar cbar-fill-high" style="width:81%;"></div></div>
+        <div style="font-size:0.78rem; font-weight:700; color:#1A6042; margin-bottom:8px;">0.81</div>
+
+        <div style="font-size:0.78rem; color:#4A3E32; margin-bottom:1px;">WM improvement</div>
+        <div class="cbar-track"><div class="cbar cbar-fill-mid" style="width:58%;"></div></div>
+        <div style="font-size:0.78rem; font-weight:700; color:#7A4400; margin-bottom:8px;">0.58</div>
+
+        <div style="font-size:0.78rem; color:#4A3E32; margin-bottom:1px;">Circadian mechanism</div>
+        <div class="cbar-track"><div class="cbar cbar-fill-low" style="width:44%;"></div></div>
+        <div style="font-size:0.78rem; font-weight:700; color:#8A7A68;">0.44</div>
+      </div>
+    </div>
+  </nav>
+
+  <!-- MAIN CONTENT -->
+  <div class="main-content">
+    <h1 class="page-title">Ask Knowledge Atlas</h1>
+    <p class="page-caption">Pose a research question — Knowledge Atlas returns evidence-grounded answers with explicit uncertainty and provenance.</p>
+
+    <div class="persona-row">
+      <span class="persona-label">Viewing as:</span>
+      <div class="persona-chip active">🔬 Researcher / PI</div>
+      <div class="persona-chip">📚 Student</div>
+      <div class="persona-chip">🏗️ Practitioner</div>
+      <div class="persona-chip">⚙️ KA Developer</div>
+    </div>
+
+    <div class="query-row">
+      <input class="query-input" type="text" value="Does natural light exposure improve cognitive performance in office workers?" />
+      <button class="btn-ask">Ask</button>
+    </div>
+
+    <div class="answer-card">
+      <h3>Answer: Natural Light and Cognitive Performance</h3>
+      <p class="answer-text">
+        Controlled exposure to natural or naturalistic daylight (windows, daylight-spectrum fixtures) is associated with
+        improvements in alertness, working memory performance, and sustained attention in office workers, particularly
+        during afternoon hours. Effect sizes are moderate (d ≈ 0.35–0.55) and replicate across laboratory and field
+        settings. Underlying mechanisms are plausibly linked to circadian regulation via ipRGC-mediated melanopsin
+        pathways, though direct mechanistic evidence in office populations remains limited.
+      </p>
+      <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Strong support</strong> — Alertness and sustained attention benefits replicate across 4+ independent studies</span></div>
+      <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Mixed evidence</strong> — Working memory effects vary by task type and time-of-day; not always significant</span></div>
+      <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Theory-linked inference</strong> — Circadian mechanism plausible but not directly tested in these populations</span></div>
+    </div>
+
+    <div class="tabs">
+      <div class="tab active">Supporting Evidence</div>
+      <div class="tab">Conflicting Findings</div>
+      <div class="tab">Mechanism Chain</div>
+      <div class="tab">Design Implications</div>
+    </div>
+
+    <div class="evidence-row">
+      <div class="study-ref">
+        <a href="#" class="study-link">Viola et al. (2008)</a> — Loughborough University field study
+        <a href="#" class="summary-link">→ Science Summary</a>
+      </div>
+      <div class="study-text">Office workers with daylight-optimized fixtures showed significantly higher alertness ratings and
+      better performance on the Psychomotor Vigilance Task vs. standard fluorescent condition. Randomized crossover, n = 94.</div>
+      <div class="evidence-meta">
+        <span class="meta-pill">RCT · Field</span>
+        <span class="meta-pill">d = 0.48</span>
+        <span class="meta-pill">✅ Strong support</span>
+      </div>
+      <details class="provenance">
+        <summary>Source: Viola et al. (2008) — Ergonomics 51(7)</summary>
+        <div class="provenance-body">
+          <div class="quote">"Participants in the daylight-spectrum condition reported significantly higher vitality scores (p &lt; .01) and showed faster median RT on PVT blocks 3 and 4."</div>
+          <div class="provenance-meta">
+            <span><strong>Method:</strong> Randomized crossover, 4-week washout</span>
+            <span><strong>Caveat:</strong> Single workplace; possible seasonal confound</span>
+          </div>
+        </div>
+      </details>
+    </div>
+
+    <div class="evidence-row">
+      <div class="study-ref">
+        <a href="#" class="study-link">Edwards &amp; Torcellini (2002)</a> — NREL review, 13 daylighting studies
+        <a href="#" class="summary-link">→ Science Summary</a>
+      </div>
+      <div class="study-text">Narrative review of workplace daylighting interventions; 10/13 studies reported positive
+      productivity or wellbeing outcomes. Direct cognitive performance measures available in only 4 studies.</div>
+      <div class="evidence-meta">
+        <span class="meta-pill">Review</span>
+        <span class="meta-pill">n = 13 studies</span>
+        <span class="meta-pill">⚠️ Mixed evidence</span>
+      </div>
+    </div>
+
+    <div class="strip strip-weak">
+      <span class="strip-icon">⚡</span>
+      <span><strong>Limited evidence</strong> — Long-term (&gt;6 month) cognitive outcomes unstudied; most trials run 1–4 weeks</span>
+    </div>
+
+    <div style="font-size:0.78rem; color:#B0A090; margin: 16px 0 6px;">Suggested follow-on questions:</div>
+    <div class="followup-row">
+      <div class="followup-chip">What are the circadian mechanisms?</div>
+      <div class="followup-chip">How large is the alertness effect?</div>
+      <div class="followup-chip">Does the effect differ by age?</div>
+      <div class="followup-chip">What's the VOI for a new field study?</div>
+    </div>
+
+    <!-- COLOR PALETTE -->
+    <div class="palette-section">
+      <h4>Color Palette — for your confirmation</h4>
+      <div class="swatches">
+        <div class="swatch"><div class="swatch-color" style="background:#1C3D3A;"></div><div class="swatch-label">#1C3D3A<br>Forest Teal<br><em>Top nav</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#2A7868;"></div><div class="swatch-label">#2A7868<br>Med Teal<br><em>Borders, links</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#E8872A;"></div><div class="swatch-label">#E8872A<br>Amber<br><em>CTA, active</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F5A623;"></div><div class="swatch-label">#F5A623<br>Gold<br><em>Wordmark</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F7F4EF; border:1px solid #D4C8B8;"></div><div class="swatch-label">#F7F4EF<br>Warm Cream<br><em>Page BG</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#D6EDD9;"></div><div class="swatch-label">#D6EDD9<br>Sage Green<br><em>Strong evidence</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#FFF0CC;"></div><div class="swatch-label">#FFF0CC<br>Warm Amber<br><em>Mixed evidence</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#F8D7DA;"></div><div class="swatch-label">#F8D7DA<br>Blush<br><em>Weak / error</em></div></div>
+        <div class="swatch"><div class="swatch-color" style="background:#E0F2EE;"></div><div class="swatch-label">#E0F2EE<br>Soft Teal<br><em>Theory-linked</em></div></div>
+      </div>
+    </div>
+
+  </div><!-- /main-content -->
+</div><!-- /page-body -->
+<script>
+const NAV_CONFIGS = {
+  researcher: {
+    pillClass: 'researcher',
+    label: 'RESEARCHER',
+    items: [
+      { label: 'Ask', active: true, links: [
+        ['💬 Ask a Question','#'],['🔄 Compare Answers','#'],['📋 Session History','#']
+      ]},
+      { label: 'Evidence', twoCol: true, cols: [
+        { header:'Browse', links:[['📊 Evidence Table','#'],['🔬 By Study Type','#'],['📅 Chronological','#'],['⭐ Curated Sets','#']] },
+        { header:'Analyze', links:[['📈 Effect Sizes','#'],['🔁 Meta-Analysis','#'],['⚖️ Contradictions','#'],['📤 Export','#']] }
+      ]},
+      { label: 'Knowledge', twoCol: true, cols: [
+        { header:'Concepts', links:[['🧩 Belief Network','#'],['🔗 Relations','#'],['🏷️ Entity Index','#']] },
+        { header:'Mechanisms', links:[['⚙️ Tier 2 Mechanisms','#'],['🧠 Neuroscience Layer','#'],['📐 Warrants','#']] }
+      ]},
+      { label: 'Research Gaps', links:[['🔍 Gap Explorer','#'],['🧪 Experiment Maker','#'],['📊 VOI Rankings','#']] },
+      { label: 'Design Study',  links:[['📝 Pre-Registration','#'],['🎯 Sensor Selection','#'],['📋 Protocol Template','#']] }
+    ]
+  },
+  contributor: {
+    pillClass: 'contributor',
+    label: 'CONTRIBUTOR',
+    items: [
+      { label: 'Dashboard', active: true, links: [
+        ['📊 My Overview','#'],['📈 My Stats','#'],['🏆 Leaderboard','#']
+      ]},
+      { label: 'Tag Images', twoCol: true, cols: [
+        { header:'Tagging', links:[['🏷️ Open Queue','#'],['🔍 Review Tags','#'],['✅ Quality Check','#']] },
+        { header:'Reference', links:[['📋 Tag Schema','#'],['🗂️ CNFA Registry','#'],['❓ Tag Guide','#']] }
+      ]},
+      { label: 'Find Articles', twoCol: true, cols: [
+        { header:'Search', links:[['🔎 Run Search','#'],['📂 My Queries','#'],['📥 Import Feed','#']] },
+        { header:'Process', links:[['📄 Pending Review','#'],['✅ Accepted','#'],['🗑️ Rejected','#']] }
+      ]},
+      { label: 'Data Capture', links:[['📡 New Capture','#'],['📋 Active Sessions','#'],['🗄️ Archive','#']] },
+      { label: 'My Work',      links:[['📜 History','#'],['⭐ Flagged','#'],['💬 Feedback','#']] }
+    ]
+  },
+  admin: {
+    pillClass: 'contributor',
+    label: 'ADMIN',
+    items: [
+      { label: 'System', active: true, links:[['📊 Dashboard','#'],['⚙️ Configuration','#'],['📋 Audit Log','#']] },
+      { label: 'Users', links:[['👥 All Users','#'],['➕ Invite','#'],['🔐 Roles','#']] },
+      { label: 'Pipeline', twoCol: true, cols: [
+        { header:'Extraction', links:[['🔄 Job Queue','#'],['❌ Failures','#'],['📊 Stats','#']] },
+        { header:'Quality', links:[['✅ QA Review','#'],['⚠️ Flagged','#'],['📈 Accuracy','#']] }
+      ]},
+      { label: 'Content',  links:[['📚 Articles','#'],['🖼️ Images','#'],['🗄️ Archive','#']] },
+      { label: 'Reports',  links:[['📈 Usage','#'],['💾 Export','#'],['📬 Scheduled','#']] }
+    ]
+  }
+};
+
+function buildNavItem(item) {
+  const activeClass = item.active ? ' active' : '';
+  if (item.twoCol) {
+    const cols = item.cols.map(c =>
+      `<div class="dropdown-col">
+        <div class="dropdown-col-header">${c.header}</div>
+        ${c.links.map(([t,h]) => `<a href="${h}">${t}</a>`).join('')}
+      </div>`
+    ).join('');
+    return `<div class="nav-item">
+      <a class="nav-link${activeClass}" href="#">${item.label} <span class="caret">▾</span></a>
+      <div class="dropdown two-col"><div class="dropdown-inner">${cols}</div></div>
+    </div>`;
+  }
+  const links = (item.links||[]).map(([t,h]) => `<a href="${h}">${t}</a>`).join('');
+  const dropdown = links ? `<div class="dropdown">${links}</div>` : '';
+  const caret = links ? ` <span class="caret">▾</span>` : '';
+  return `<div class="nav-item">
+    <a class="nav-link${activeClass}" href="#">${item.label}${caret}</a>
+    ${dropdown}
+  </div>`;
+}
+
+let currentMode = 'researcher';
+
+function setMode(mode) {
+  currentMode = mode;
+  const cfg = NAV_CONFIGS[mode];
+
+  // Swap nav items
+  document.getElementById('nav-items').innerHTML = cfg.items.map(buildNavItem).join('');
+
+  // Swap mode pill
+  const pill = document.getElementById('mode-pill');
+  pill.className = 'mode-pill ' + cfg.pillClass;
+  document.getElementById('mode-label').textContent = cfg.label;
+
+  // Update checkmarks in mode dropdown
+  document.querySelectorAll('.mode-option').forEach(el => {
+    el.classList.remove('current');
+    const lbl = el.querySelector('.mo-label');
+    if (lbl && lbl.textContent.replace(' ✓','').trim().toLowerCase() === mode) {
+      el.classList.add('current');
+    }
+  });
+
+  // Banner feedback
+  showModeBanner(cfg.label);
+}
+
+function cycleModes() {
+  const modes = ['researcher','contributor','admin'];
+  const next = modes[(modes.indexOf(currentMode) + 1) % modes.length];
+  setMode(next);
+}
+
+function showModeBanner(label) {
+  let b = document.getElementById('mode-banner');
+  if (!b) {
+    b = document.createElement('div');
+    b.id = 'mode-banner';
+    b.style.cssText = 'position:fixed;bottom:24px;left:50%;transform:translateX(-50%);'+
+      'background:#1C3D3A;color:#fff;padding:10px 22px;border-radius:24px;font-size:0.83rem;'+
+      'font-weight:700;letter-spacing:0.06em;box-shadow:0 4px 16px rgba(0,0,0,0.3);'+
+      'z-index:99999;transition:opacity 0.3s;pointer-events:none;';
+    document.body.appendChild(b);
+  }
+  b.textContent = 'Switched to ' + label + ' view';
+  b.style.opacity = '1';
+  clearTimeout(b._t);
+  b._t = setTimeout(() => { b.style.opacity = '0'; }, 1800);
+}
+
+// Init on load
+setMode('researcher');
+</script>
+</body>
+</html>

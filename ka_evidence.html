@@ -1,0 +1,1523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Evidence Table · Knowledge Atlas</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Georgia, serif;
+            background-color: #F7F4EF;
+            color: #2C2C2C;
+            line-height: 1.6;
+        }
+
+        /* NAVIGATION */
+        nav {
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+            background-color: #1C3D3A;
+            border-bottom: 1px solid rgba(0, 0, 0, 0.1);
+            padding: 0.75rem 1.5rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.08);
+        }
+
+        .nav-brand {
+            display: flex;
+            align-items: baseline;
+            gap: 0.5rem;
+            margin-right: 3rem;
+        }
+
+        .nav-wordmark {
+            font-size: 1.35rem;
+            font-weight: bold;
+            letter-spacing: 0.05em;
+            color: white;
+        }
+
+        .nav-wordmark-accent {
+            color: #F5A623;
+        }
+
+        .nav-subtitle {
+            font-size: 0.85rem;
+            font-family: Arial, sans-serif;
+            color: rgba(255, 255, 255, 0.65);
+            font-weight: 400;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            flex: 1;
+        }
+
+        .nav-link {
+            font-family: Arial, sans-serif;
+            font-size: 0.95rem;
+            text-decoration: none;
+            color: rgba(255, 255, 255, 0.75);
+            transition: color 0.2s ease;
+            border-bottom: 2px solid transparent;
+        }
+
+        .nav-link:hover {
+            color: #2A7868;
+        }
+
+        .nav-link.active {
+            color: #2A7868;
+            border-bottom-color: #2A7868;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .mode-pill {
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            padding: 0.4rem 0.9rem;
+            background-color: rgba(42, 120, 104, 0.15);
+            color: #2A7868;
+            border: 1px solid #2A7868;
+            border-radius: 20px;
+        }
+
+        /* MAIN LAYOUT */
+        .container {
+            display: flex;
+            max-width: 1400px;
+            margin: 0 auto;
+            gap: 0;
+            padding-top: 1.5rem;
+        }
+
+        /* LEFT SIDEBAR - FILTERS */
+        .sidebar {
+            width: 280px;
+            padding: 1.5rem;
+            background-color: white;
+            border-right: 1px solid #E0DAD3;
+            flex-shrink: 0;
+        }
+
+        .filter-section {
+            margin-bottom: 2rem;
+        }
+
+        .filter-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .filter-label {
+            display: block;
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: #1C3D3A;
+            margin-bottom: 0.8rem;
+        }
+
+        .filter-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .chip {
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            padding: 0.35rem 0.7rem;
+            border: 1px solid #E0DAD3;
+            border-radius: 16px;
+            cursor: pointer;
+            background-color: #F7F4EF;
+            color: #2C2C2C;
+            transition: all 0.2s ease;
+            white-space: nowrap;
+        }
+
+        .chip:hover {
+            border-color: #2A7868;
+            background-color: #F7F4EF;
+        }
+
+        .chip.active {
+            background-color: #2A7868;
+            color: white;
+            border-color: #2A7868;
+        }
+
+        .checkbox-group {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            cursor: pointer;
+        }
+
+        .checkbox-item input[type="checkbox"] {
+            cursor: pointer;
+            accent-color: #2A7868;
+        }
+
+        .slider-container {
+            margin-top: 1rem;
+        }
+
+        .slider-label {
+            display: flex;
+            justify-content: space-between;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            margin-bottom: 0.5rem;
+            color: #666;
+        }
+
+        input[type="range"] {
+            width: 100%;
+            accent-color: #2A7868;
+        }
+
+        .clear-filters {
+            display: block;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            color: #2A7868;
+            text-decoration: none;
+            cursor: pointer;
+            margin-top: 1rem;
+            border-bottom: 1px solid #2A7868;
+            padding-bottom: 0.2rem;
+            transition: color 0.2s ease;
+        }
+
+        .clear-filters:hover {
+            color: #1C3D3A;
+        }
+
+        .result-badge {
+            display: inline-block;
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            font-weight: 700;
+            background-color: #E8872A;
+            color: white;
+            padding: 0.3rem 0.6rem;
+            border-radius: 12px;
+            margin-top: 1.5rem;
+        }
+
+        /* MAIN CONTENT */
+        .main {
+            flex: 1;
+            padding: 1.5rem;
+        }
+
+        .search-bar {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .search-input {
+            flex: 1;
+            padding: 0.75rem 1rem;
+            font-family: Arial, sans-serif;
+            font-size: 0.95rem;
+            border: 1px solid #E0DAD3;
+            border-radius: 4px;
+            background-color: white;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #2A7868;
+            box-shadow: 0 0 0 3px rgba(42, 120, 104, 0.1);
+        }
+
+        .controls {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 1.5rem;
+        }
+
+        .sort-controls {
+            display: flex;
+            gap: 0.5rem;
+            font-family: Arial, sans-serif;
+        }
+
+        .sort-btn {
+            padding: 0.5rem 0.9rem;
+            font-size: 0.8rem;
+            font-family: Arial, sans-serif;
+            border: 1px solid #E0DAD3;
+            background-color: white;
+            color: #2C2C2C;
+            cursor: pointer;
+            border-radius: 4px;
+            transition: all 0.2s ease;
+        }
+
+        .sort-btn:hover {
+            border-color: #2A7868;
+            color: #2A7868;
+        }
+
+        .sort-btn.active {
+            background-color: #2A7868;
+            color: white;
+            border-color: #2A7868;
+        }
+
+        /* TABLE */
+        .table-container {
+            background-color: white;
+            border: 1px solid #E0DAD3;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        thead {
+            background-color: #F7F4EF;
+            border-bottom: 1px solid #E0DAD3;
+        }
+
+        th {
+            padding: 1rem;
+            text-align: left;
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #1C3D3A;
+        }
+
+        td {
+            padding: 1rem;
+            border-bottom: 1px solid #E0DAD3;
+            font-size: 0.95rem;
+        }
+
+        tbody tr {
+            cursor: pointer;
+            transition: background-color 0.2s ease, border-left-color 0.2s ease;
+            border-left: 3px solid transparent;
+        }
+
+        tbody tr:hover {
+            background-color: #FFFBF7;
+            border-left-color: #E8872A;
+        }
+
+        .col-checkbox {
+            width: 40px;
+            padding: 1rem 0.5rem;
+        }
+
+        .col-finding {
+            max-width: 200px;
+        }
+
+        .col-construct {
+            max-width: 140px;
+        }
+
+        .col-signal {
+            max-width: 100px;
+        }
+
+        .col-study {
+            max-width: 120px;
+        }
+
+        .col-warrant {
+            max-width: 110px;
+        }
+
+        .col-credence {
+            max-width: 100px;
+        }
+
+        .col-year {
+            width: 60px;
+        }
+
+        .col-actions {
+            width: 60px;
+            text-align: center;
+        }
+
+        /* CREDENCE BAR */
+        .credence-bar {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .credence-visual {
+            width: 60px;
+            height: 6px;
+            background-color: #E0DAD3;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+
+        .credence-fill {
+            height: 100%;
+            border-radius: 3px;
+            transition: background-color 0.2s ease, width 0.2s ease;
+        }
+
+        .credence-fill.high {
+            background-color: #4CAF50;
+        }
+
+        .credence-fill.medium {
+            background-color: #E8872A;
+        }
+
+        .credence-fill.low {
+            background-color: #E74C3C;
+        }
+
+        .credence-value {
+            font-family: Arial, sans-serif;
+            font-size: 0.8rem;
+            font-weight: 600;
+            color: #2C2C2C;
+            min-width: 35px;
+        }
+
+        /* WARRANT PILL */
+        .warrant-pill {
+            display: inline-block;
+            padding: 0.25rem 0.6rem;
+            border-radius: 12px;
+            font-family: Arial, sans-serif;
+            font-size: 0.75rem;
+            font-weight: 600;
+            text-transform: capitalize;
+            text-align: center;
+        }
+
+        .warrant-pill.constitutive {
+            background-color: #E8F4F2;
+            color: #2A7868;
+            border: 1px solid #2A7868;
+        }
+
+        .warrant-pill.auxiliary {
+            background-color: #FFF3E0;
+            color: #E8872A;
+            border: 1px solid #E8872A;
+        }
+
+        .warrant-pill.complementary {
+            background-color: #F0F0F0;
+            color: #666;
+            border: 1px solid #CCC;
+        }
+
+        /* EXPAND/COLLAPSE */
+        .expand-icon {
+            display: inline-block;
+            font-family: Arial, sans-serif;
+            color: #2A7868;
+            font-weight: bold;
+            font-size: 1rem;
+            transition: transform 0.3s ease;
+        }
+
+        tr.expanded .expand-icon {
+            transform: rotate(180deg);
+        }
+
+        .expand-panel {
+            display: none;
+            background-color: #FFFBF7;
+            padding: 1.5rem;
+            border-top: 1px solid #E0DAD3;
+        }
+
+        tr.expanded + tr.expand-panel {
+            display: table-row;
+        }
+
+        .expand-panel td {
+            padding: 1.5rem;
+            border: none;
+        }
+
+        .detail-grid {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .detail-section {
+            font-family: Arial, sans-serif;
+        }
+
+        .detail-label {
+            font-size: 0.75rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #1C3D3A;
+            margin-bottom: 0.5rem;
+        }
+
+        .detail-content {
+            font-size: 0.95rem;
+            line-height: 1.6;
+            color: #2C2C2C;
+            margin-bottom: 1rem;
+        }
+
+        .detail-apa {
+            font-style: italic;
+            font-size: 0.9rem;
+            line-height: 1.5;
+        }
+
+        .warrant-chain {
+            font-family: Monaco, monospace;
+            font-size: 0.85rem;
+            background-color: #F7F4EF;
+            padding: 0.75rem;
+            border-radius: 4px;
+            border-left: 3px solid #2A7868;
+            margin-top: 0.5rem;
+            color: #2C2C2C;
+        }
+
+        .add-button {
+            padding: 0.5rem 1rem;
+            font-family: Arial, sans-serif;
+            font-size: 0.85rem;
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.06em;
+            background-color: #E8872A;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            margin-top: 1rem;
+        }
+
+        .add-button:hover {
+            background-color: #D67B1B;
+        }
+
+        /* PAGINATION */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 0.5rem;
+            margin-top: 2rem;
+            font-family: Arial, sans-serif;
+        }
+
+        .pagination button {
+            padding: 0.5rem 0.75rem;
+            border: 1px solid #E0DAD3;
+            background-color: white;
+            color: #2C2C2C;
+            cursor: pointer;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            transition: all 0.2s ease;
+        }
+
+        .pagination button:hover {
+            border-color: #2A7868;
+            color: #2A7868;
+        }
+
+        .pagination button.active {
+            background-color: #2A7868;
+            color: white;
+            border-color: #2A7868;
+        }
+
+        .pagination button:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* TOAST NOTIFICATION */
+        .toast {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            background-color: #2A7868;
+            color: white;
+            padding: 1rem 1.5rem;
+            border-radius: 4px;
+            font-family: Arial, sans-serif;
+            font-size: 0.9rem;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2000;
+        }
+
+        .toast.show {
+            opacity: 1;
+        }
+
+        /* VERSION BADGE */
+        .version-badge {
+            position: fixed;
+            bottom: 1rem;
+            right: 1.5rem;
+            font-family: Arial, sans-serif;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.08em;
+            color: #666;
+        }
+
+        /* RESPONSIVE */
+        @media (max-width: 1200px) {
+            .detail-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .container {
+                flex-direction: column;
+            }
+
+            .sidebar {
+                width: 100%;
+                border-right: none;
+                border-bottom: 1px solid #E0DAD3;
+            }
+
+            .nav-links {
+                gap: 1rem;
+                font-size: 0.85rem;
+            }
+
+            table, thead, tbody, th, td, tr {
+                display: block;
+            }
+
+            thead {
+                display: none;
+            }
+
+            tr {
+                margin-bottom: 1rem;
+                border: 1px solid #E0DAD3;
+                display: block;
+            }
+
+            td {
+                display: grid;
+                grid-template-columns: 120px 1fr;
+                padding: 0.75rem;
+                border: none;
+            }
+
+            td:before {
+                content: attr(data-label);
+                font-weight: 700;
+                margin-right: 0.5rem;
+                font-family: Arial, sans-serif;
+                font-size: 0.8rem;
+                text-transform: uppercase;
+                color: #1C3D3A;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- NAVIGATION -->
+    <nav>
+        <div class="nav-brand">
+            <div>
+                <div class="nav-wordmark">Knowledge<span class="nav-wordmark-accent">Atlas</span></div>
+                <div class="nav-subtitle">COGS 160</div>
+            </div>
+        </div>
+        <div class="nav-links">
+            <a href="ka_demo_v04.html" class="nav-link">Ask</a>
+            <a href="ka_evidence.html" class="nav-link active">Evidence</a>
+            <a href="ka_hypothesis_builder.html" class="nav-link">Build</a>
+            <a href="ka_tagger.html" class="nav-link">Tag</a>
+            <a href="ka_articles.html" class="nav-link">Articles</a>
+            <a href="ka_datacapture.html" class="nav-link">Capture</a>
+            <a href="ka_gaps.html" class="nav-link">Gaps</a>
+            <a href="ka_sensors.html" class="nav-link">Sensors</a>
+        </div>
+        <div class="nav-right">
+            <div class="mode-pill">Researcher</div>
+        </div>
+    </nav>
+
+    <!-- MAIN CONTAINER -->
+    <div class="container">
+        <!-- LEFT SIDEBAR -->
+        <aside class="sidebar">
+            <!-- Construct Filter -->
+            <div class="filter-section">
+                <label class="filter-label">Construct</label>
+                <div class="filter-chips" id="constructFilter">
+                    <button class="chip" data-value="Sustained Attention">Sustained Attention</button>
+                    <button class="chip" data-value="Working Memory Load">Working Memory Load</button>
+                    <button class="chip" data-value="Emotional Arousal">Emotional Arousal</button>
+                    <button class="chip" data-value="Valence">Valence</button>
+                    <button class="chip" data-value="Stress">Stress</button>
+                    <button class="chip" data-value="Awe">Awe</button>
+                    <button class="chip" data-value="Flow">Flow</button>
+                    <button class="chip" data-value="Well-being">Well-being</button>
+                    <button class="chip" data-value="Creativity">Creativity</button>
+                    <button class="chip" data-value="Social Rapport">Social Rapport</button>
+                    <button class="chip" data-value="Social Dominance">Social Dominance</button>
+                    <button class="chip" data-value="Mental Fatigue">Mental Fatigue</button>
+                    <button class="chip" data-value="LTM">LTM</button>
+                </div>
+            </div>
+
+            <!-- Signal Filter -->
+            <div class="filter-section">
+                <label class="filter-label">Signal</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="EEG" class="signal-filter"> EEG
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="EDA" class="signal-filter"> EDA
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Pupil" class="signal-filter"> Pupil
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="HRV" class="signal-filter"> HRV
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Cortisol" class="signal-filter"> Cortisol
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Behavioral" class="signal-filter"> Behavioral
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Self-report" class="signal-filter"> Self-report
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="fNIRS" class="signal-filter"> fNIRS
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Eye-tracking" class="signal-filter"> Eye-tracking
+                    </label>
+                </div>
+            </div>
+
+            <!-- Study Type Filter -->
+            <div class="filter-section">
+                <label class="filter-label">Study Type</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="RCT" class="study-filter"> RCT
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Field Study" class="study-filter"> Field Study
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Lab Experiment" class="study-filter"> Lab Experiment
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Meta-analysis" class="study-filter"> Meta-analysis
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Review" class="study-filter"> Review
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Case Study" class="study-filter"> Case Study
+                    </label>
+                </div>
+            </div>
+
+            <!-- Warrant Type Filter -->
+            <div class="filter-section">
+                <label class="filter-label">Warrant Type</label>
+                <div class="checkbox-group">
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Constitutive" class="warrant-filter"> Constitutive
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Auxiliary" class="warrant-filter"> Auxiliary
+                    </label>
+                    <label class="checkbox-item">
+                        <input type="checkbox" value="Complementary" class="warrant-filter"> Complementary
+                    </label>
+                </div>
+            </div>
+
+            <!-- Credence Slider -->
+            <div class="filter-section">
+                <label class="filter-label">Credence Range</label>
+                <div class="slider-container">
+                    <div class="slider-label">
+                        <span>0.0</span>
+                        <span id="credenceValue">1.0</span>
+                    </div>
+                    <input type="range" id="credenceSlider" min="0" max="1" step="0.05" value="1">
+                </div>
+            </div>
+
+            <!-- Clear Filters -->
+            <a href="#" class="clear-filters" id="clearFilters">Clear all filters</a>
+
+            <!-- Result Badge -->
+            <div class="result-badge" id="resultCount">20 Results</div>
+        </aside>
+
+        <!-- MAIN CONTENT -->
+        <main class="main">
+            <!-- Search Bar -->
+            <div class="search-bar">
+                <input type="text" class="search-input" id="searchInput" placeholder="Search findings, authors, constructs...">
+            </div>
+
+            <!-- Controls -->
+            <div class="controls">
+                <div class="sort-controls" id="sortControls">
+                    <button class="sort-btn active" data-sort="default">Default</button>
+                    <button class="sort-btn" data-sort="credence">Credence ↓</button>
+                    <button class="sort-btn" data-sort="date">Date ↓</button>
+                    <button class="sort-btn" data-sort="type">Study Type</button>
+                </div>
+            </div>
+
+            <!-- Table -->
+            <div class="table-container">
+                <table id="evidenceTable">
+                    <thead>
+                        <tr>
+                            <th class="col-checkbox"></th>
+                            <th class="col-finding">Finding</th>
+                            <th class="col-construct">Construct</th>
+                            <th class="col-signal">Signal</th>
+                            <th class="col-study">Study Type</th>
+                            <th class="col-warrant">Warrant</th>
+                            <th class="col-credence">Credence</th>
+                            <th class="col-year">Year</th>
+                            <th class="col-actions">•••</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                    </tbody>
+                </table>
+            </div>
+
+            <!-- Pagination -->
+            <div class="pagination" id="pagination"></div>
+        </main>
+    </div>
+
+    <!-- TOAST NOTIFICATION -->
+    <div class="toast" id="toast"></div>
+
+    <!-- VERSION BADGE -->
+    <div class="version-badge">KA UI · v0.4</div>
+
+    <script>
+        // EVIDENCE DATA
+        const evidenceData = [
+            {
+                id: 1,
+                finding: "Frontal midline theta (4–8 Hz) increases monotonically with N-back level",
+                construct: "Working Memory Load",
+                signal: "EEG",
+                studyType: "Lab Experiment",
+                warrant: "Constitutive",
+                credence: 0.85,
+                year: 2005,
+                citation: "Smith, J., & Jones, A. (2005). Frontal midline theta and working memory load. Journal of Neuroscience, 25(8), 1234–1245.",
+                abstract: "This landmark study established the relationship between frontal midline theta power and working memory demands across increasing N-back levels. Nineteen participants completed 1-back, 2-back, and 3-back tasks while EEG was recorded. Theta power showed linear increase with task difficulty.",
+                claim: "Frontal midline theta is a reliable neurophysiological marker of working memory load",
+                methodology: "Within-subjects design; N=19; 64-channel EEG; source localization to medial prefrontal cortex",
+                warrant_chain: "EEG theta power → WM Load (constitutive warrant, d=0.72)"
+            },
+            {
+                id: 2,
+                finding: "EDA phasic response amplitude distinguishes high-arousal from low-arousal emotional stimuli",
+                construct: "Emotional Arousal",
+                signal: "EDA",
+                studyType: "Lab Experiment",
+                warrant: "Constitutive",
+                credence: 0.88,
+                year: 2014,
+                citation: "Dawson, M., Schell, A., & Filion, D. (2014). The electrodermal system in psychophysiology. In J. Cacioppo et al. (Eds.), Handbook of psychophysiology (3rd ed., pp. 159–181). Cambridge University Press.",
+                abstract: "Comprehensive review and meta-analysis confirming phasic EDA (SCR amplitude, latency, frequency) as a robust index of emotional arousal across diverse stimuli. Analysis of 87 studies with consistent effect sizes.",
+                claim: "Phasic skin conductance response reliably tracks acute emotional arousal",
+                methodology: "Meta-analysis of 87 studies; N_total > 3000; diverse stimuli (images, sounds, odors, social)",
+                warrant_chain: "EDA phasic amplitude → Emotional Arousal (constitutive warrant, d=0.88)"
+            },
+            {
+                id: 3,
+                finding: "PVT lapse rate increases with time-on-task following 16+ hours of wakefulness",
+                construct: "Sustained Attention",
+                signal: "Behavioral",
+                studyType: "Lab Experiment",
+                warrant: "Constitutive",
+                credence: 0.92,
+                year: 1997,
+                citation: "Loh, S., Lamond, N., Dorrian, J., Roach, G., & Dawson, D. (1997). The validity of psychomotor vigilance tasks of less than 10-minute duration. Behavior Research Methods, 39(1), 1–5.",
+                abstract: "Seminal work establishing psychomotor vigilance test (PVT) lapses as a valid biomarker of fatigue-related sustained attention lapses. Tested participants across 24-hour deprivation protocol.",
+                claim: "PVT lapse rate (reaction time > 500ms) is a valid measure of vigilance decrements under fatigue",
+                methodology: "Sleep deprivation protocol; N=8; 10-min PVT blocks every 2 hours; polysomnography validation",
+                warrant_chain: "Behavioral lapse (PVT) → Sustained Attention (constitutive warrant, d=0.92)"
+            },
+            {
+                id: 4,
+                finding: "Salivary cortisol peaks 20–30 min post-stressor onset",
+                construct: "Stress",
+                signal: "Cortisol",
+                studyType: "Lab Experiment",
+                warrant: "Constitutive",
+                credence: 0.90,
+                year: 1998,
+                citation: "Kirschbaum, C., & Hellhammer, D. H. (1998). Salivary cortisol in psychoneuroendocrine research: Recent developments and applications. Psychoneuroendocrinology, 23(4), 313–341.",
+                abstract: "Comprehensive review of salivary cortisol as non-invasive acute stress marker. Established reliable peak timing of 20–30 minutes post-stressor with consistent methodology across studies.",
+                claim: "Salivary cortisol reliably indexes acute HPA axis activation",
+                methodology: "Multi-laboratory meta-analysis; controlled stressors (TSST, math tasks, social challenge)",
+                warrant_chain: "Salivary cortisol → Stress (constitutive warrant, d=0.90)"
+            },
+            {
+                id: 5,
+                finding: "Nature view access associated with improved mood (d ≈ 0.5)",
+                construct: "Well-being",
+                signal: "Self-report",
+                studyType: "Meta-analysis",
+                warrant: "Auxiliary",
+                credence: 0.68,
+                year: 2019,
+                citation: "White, M. P., Alcock, I., Wheeler, B. W., & Depledge, M. H. (2019). Would you be happier living in a greener urban area? A fixed-effects analysis of panel data. Ecological Economics, 121, 47–56.",
+                abstract: "Meta-analysis of 38 studies examining nature exposure and self-reported well-being. Moderate effect sizes consistent across samples, though publication bias present.",
+                claim: "Nature exposure correlates with improved self-reported mood and well-being",
+                methodology: "Meta-analysis (k=38); diverse measures (PANAS, WHO-5, custom scales); cross-sectional and longitudinal",
+                warrant_chain: "Self-report mood → Well-being (auxiliary warrant, d=0.50)"
+            },
+            {
+                id: 6,
+                finding: "Pupil dilation scales with N-back level",
+                construct: "Working Memory Load",
+                signal: "Pupil",
+                studyType: "Lab Experiment",
+                warrant: "Auxiliary",
+                credence: 0.72,
+                year: 2010,
+                citation: "Granholm, E., Asarnow, R. F., Sarkin, A. J., & Dykes, K. L. (2010). Pupillary responses index cognitive resource limitations. Psychophysiology, 33(4), 457–461.",
+                abstract: "Study of pupil size dynamics during N-back working memory task. Pupil dilation correlates with task difficulty but shows more individual variability than EEG measures.",
+                claim: "Pupil dilation correlates with working memory load",
+                methodology: "Within-subjects; N=24; eye-tracking at 120 Hz; 1-back, 2-back, 3-back tasks",
+                warrant_chain: "Pupil dilation → WM Load (auxiliary warrant, d=0.72)"
+            },
+            {
+                id: 7,
+                finding: "HRV RMSSD declines during sustained cognitive effort",
+                construct: "Mental Fatigue",
+                signal: "HRV",
+                studyType: "Lab Experiment",
+                warrant: "Auxiliary",
+                credence: 0.65,
+                year: 2016,
+                citation: "Thayer, J. F., Åhs, F., Fredrikson, M., Sollers, J. J., & Wager, T. D. (2016). A meta-analysis of heart rate variability and neuroimaging studies. Frontiers in Neuroscience, 6, 258.",
+                abstract: "Meta-analysis of HRV dynamics during cognitive tasks. RMSSD (parasympathetic index) shows decline during effortful cognition, but effect size moderate due to task heterogeneity.",
+                claim: "Reduced HRV parasympathetic power indexes sustained cognitive effort",
+                methodology: "Meta-analysis (k=45); diverse cognitive tasks; continuous or post-task HRV assessment",
+                warrant_chain: "HRV parasympathetic → Mental Fatigue (auxiliary warrant, d=0.65)"
+            },
+            {
+                id: 8,
+                finding: "EEG frontal alpha asymmetry predicts approach motivation",
+                construct: "Valence",
+                signal: "EEG",
+                studyType: "Lab Experiment",
+                warrant: "Auxiliary",
+                credence: 0.58,
+                year: 2004,
+                citation: "Sutton, S. K., & Davidson, R. J. (2004). Prefrontal brain asymmetry: A biological substrate of the behavioral approach and inhibition systems. Psychological Science, 8(3), 204–210.",
+                abstract: "Foundational work linking left frontal alpha asymmetry to approach-related motivation. Effect sizes moderate; replication success variable across labs.",
+                claim: "Left frontal alpha asymmetry indexes approach motivation and positive emotion",
+                methodology: "Eyes-closed resting EEG; N=16; validated against behavioral approach tasks",
+                warrant_chain: "EEG alpha asymmetry → Valence (auxiliary warrant, d=0.58)"
+            },
+            {
+                id: 9,
+                finding: "Right frontal gamma burst occurs 300ms before insight solutions",
+                construct: "Creativity",
+                signal: "EEG",
+                studyType: "Lab Experiment",
+                warrant: "Primary",
+                credence: 0.71,
+                year: 2004,
+                citation: "Jung-Beeman, M., Bowden, E. M., Haberman, J., Frymiare, J. L., Arambel-Liu, S., & Greenblatt, R. (2004). Neural activity when people solve verbal problems with insight. PLoS Biology, 2(4), e97.",
+                abstract: "fMRI/EEG study identifying right anterior superior temporal gyrus burst preceding insight solutions. Strong effect in this sample, but difficult to replicate.",
+                claim: "Right frontal gamma oscillations precede conscious insight",
+                methodology: "fMRI+EEG concurrent; N=13; remote associates task; insightful vs. analytical solutions",
+                warrant_chain: "Right frontal gamma burst → Creativity (primary warrant, d=0.71)"
+            },
+            {
+                id: 10,
+                finding: "Awe elicits piloerection reliably compared to other positive emotions",
+                construct: "Awe",
+                signal: "Self-report",
+                studyType: "Lab Experiment",
+                warrant: "Primary",
+                credence: 0.74,
+                year: 2003,
+                citation: "Haidt, J. (2003). The moral emotions. In R. J. Davidson, K. R. Scherer, & H. H. Goldsmith (Eds.), Handbook of affective sciences (pp. 852–870). Oxford University Press.",
+                abstract: "Experimental evidence that awe (unlike other positive emotions) reliably triggers piloerection. Self-report measures of awe correlate with physiological response.",
+                claim: "Awe reliably elicits piloerection as distinct from other positive emotions",
+                methodology: "Within-subjects; N=40; video induction (nature, music, architecture); video ratings + skin resistance",
+                warrant_chain: "Piloerection + self-report → Awe (primary warrant, d=0.74)"
+            },
+            {
+                id: 11,
+                finding: "Flow state associated with moderate (not high) frontal theta",
+                construct: "Flow",
+                signal: "EEG",
+                studyType: "Lab Experiment",
+                warrant: "Auxiliary",
+                credence: 0.61,
+                year: 2004,
+                citation: "Keller, J., & Bless, H. (2004). Flow and regulatory compatibility: An experimental approach to the flow model of intrinsic motivation. Personality and Social Psychology Bulletin, 24(4), 412–424.",
+                abstract: "EEG study during video game play at varying difficulty levels. Flow states associated with moderate theta, not maximum. Replication weak.",
+                claim: "Flow is associated with moderate (optimal) frontal theta engagement",
+                methodology: "Within-subjects; N=22; Tetris at difficulty-matched levels; continuous EEG + ESM flow queries",
+                warrant_chain: "EEG theta (moderate) → Flow (auxiliary warrant, d=0.61)"
+            },
+            {
+                id: 12,
+                finding: "Left parietal ERP old/new effect (LPC) indexes recollection",
+                construct: "LTM",
+                signal: "EEG",
+                studyType: "Lab Experiment",
+                warrant: "Primary",
+                credence: 0.83,
+                year: 1999,
+                citation: "Rugg, M. D., & Curran, T. (1999). Event-related potentials and recognition memory. Trends in Cognitive Sciences, 11(6), 251–257.",
+                abstract: "Comprehensive review of late positive component (LPC) in recognition memory ERP paradigms. Left parietal LPC reliably indexes retrieval of episodic details.",
+                claim: "Left parietal LPC (600–800ms) is a neural correlate of recollection in recognition memory",
+                methodology: "ERP meta-analysis (k=67); recognition paradigms; source vs. item memory dissociation",
+                warrant_chain: "EEG LPC (left parietal) → LTM recollection (primary warrant, d=0.83)"
+            },
+            {
+                id: 13,
+                finding: "Behavioral synchrony cross-correlates with rapport ratings",
+                construct: "Social Rapport",
+                signal: "Behavioral",
+                studyType: "Lab Experiment",
+                warrant: "Primary",
+                credence: 0.77,
+                year: 2012,
+                citation: "Chartrand, T. L., & Bargh, J. A. (2012). The chameleon effect: The perception–behavior link and social interaction. Journal of Personality and Social Psychology, 76(6), 893–910.",
+                abstract: "Dyadic interaction study where behavioral synchrony in posture, gesture, and speech rate predicts post-interaction rapport ratings. Effect replicates across studies.",
+                claim: "Behavioral synchrony predicts interpersonal rapport",
+                methodology: "Dyadic interviews; N=20 pairs; video-coded behavior; Heider kinematography; self-report rapport",
+                warrant_chain: "Behavioral synchrony → Social Rapport (primary warrant, d=0.77)"
+            },
+            {
+                id: 14,
+                finding: "Cortisol diurnal curve is flattened in chronically stressed individuals",
+                construct: "Stress",
+                signal: "Cortisol",
+                studyType: "Field Study",
+                warrant: "Auxiliary",
+                credence: 0.70,
+                year: 2001,
+                citation: "Kunz-Ebrecht, S. R., Kirschbaum, C., Marmot, M., & Steptoe, A. (2001). Differences in cortisol awakening response on work days and weekends in women and men from the Whitehall II cohort. Psychoneuroendocrinology, 29(4), 516–528.",
+                abstract: "Longitudinal field study showing chronically stressed individuals exhibit flattened cortisol diurnal pattern. Effect robust across repeated sampling.",
+                claim: "Chronic stress flattens the normal cortisol diurnal rhythm",
+                methodology: "Longitudinal; N=139; 4 saliva samples daily × 3 months; occupational stress exposure",
+                warrant_chain: "Cortisol curve shape → Chronic stress (auxiliary warrant, d=0.70)"
+            },
+            {
+                id: 15,
+                finding: "Open-plan office noise increases self-reported stress",
+                construct: "Stress",
+                signal: "Self-report",
+                studyType: "Field Study",
+                warrant: "Auxiliary",
+                credence: 0.62,
+                year: 2018,
+                citation: "Banbury, S. P., & Berry, S. L. (2018). Office noise and health: A review. Work & Stress, 19(3), 243–256.",
+                abstract: "Field study in open-plan offices showing noise exposure predicts increased stress self-report. Confounds with ambient temperature and lighting noted.",
+                claim: "Open-plan office noise exposure correlates with increased stress perception",
+                methodology: "Quasi-experimental; N=45; week-long noise exposure logging; daily stress questionnaires",
+                warrant_chain: "Noise exposure → Self-report stress (auxiliary warrant, d=0.62)"
+            },
+            {
+                id: 16,
+                finding: "Corrugator EMG tracks negative emotional valence below conscious awareness",
+                construct: "Valence",
+                signal: "Behavioral",
+                studyType: "Lab Experiment",
+                warrant: "Constitutive",
+                credence: 0.81,
+                year: 2008,
+                citation: "Larsen, J. T., Norris, C. J., & Cacioppo, J. T. (2008). Effects of positive and negative affect on electromyographic activity over zygomaticus major and corrugator supercilii. Psychophysiology, 40(5), 776–785.",
+                abstract: "Subliminal emotion induction study showing corrugator (frown muscle) EMG responds to negative valence even at unconscious exposure durations. Robust effect.",
+                claim: "Corrugator EMG tracks emotional valence automatically, below conscious threshold",
+                methodology: "Masked emotion presentation; N=32; bilateral EMG; varying stimulus durations (16–200ms)",
+                warrant_chain: "Corrugator EMG → Valence (constitutive warrant, d=0.81)"
+            },
+            {
+                id: 17,
+                finding: "NASA-TLX weighted scores correlate with dual-task performance decrements",
+                construct: "Mental Fatigue",
+                signal: "Self-report",
+                studyType: "Lab Experiment",
+                warrant: "Auxiliary",
+                credence: 0.79,
+                year: 1988,
+                citation: "Hart, S. G., & Staveland, L. E. (1988). Development of NASA-TLX (Task Load Index): Results of empirical and theoretical research. In P. A. Hancock & N. Meshkati (Eds.), Human mental workload (pp. 139–183). North-Holland.",
+                abstract: "Validation study of NASA Task Load Index across single and dual-task conditions. TLX scores predict performance decrements when task difficulty increases.",
+                claim: "NASA-TLX self-report workload correlates with objective task performance",
+                methodology: "Multi-task battery; N=40; dual-task interference paradigm; post-block TLX ratings",
+                warrant_chain: "NASA-TLX workload → Mental Fatigue (auxiliary warrant, d=0.79)"
+            },
+            {
+                id: 18,
+                finding: "Physiological synchrony predicts post-interaction rapport ratings in dyads",
+                construct: "Social Rapport",
+                signal: "HRV",
+                studyType: "Lab Experiment",
+                warrant: "Auxiliary",
+                credence: 0.65,
+                year: 2016,
+                citation: "Levenson, R. W., & Gottman, J. M. (2016). Marital interaction: Physiological linkage and affective exchange. Journal of Personality and Social Psychology, 45(3), 587–597.",
+                abstract: "Dyadic study measuring HRV, skin conductance, and respiration synchrony during conversation. Physiological synchrony predicts post-interaction rapport but effect mediated by behavioral mimicry.",
+                claim: "Physiological synchrony between dyad members predicts perceived rapport",
+                methodology: "Dyadic conversation; N=15 couples; continuous physiological recording; post-interaction rapport survey",
+                warrant_chain: "HRV synchrony → Social Rapport (auxiliary warrant, d=0.65)"
+            },
+            {
+                id: 19,
+                finding: "EDA tonic SCL declines over 60-minute session independent of task",
+                construct: "Mental Fatigue",
+                signal: "EDA",
+                studyType: "Lab Experiment",
+                warrant: "Complementary",
+                credence: 0.60,
+                year: 2015,
+                citation: "Braithwaite, J. J., Watson, D. G., Jones, R., & Rowe, M. (2015). A guide for analysing electrodermal activity (EDA) & skin conductance responses (SCRs) for psychological experiments. Psychophysiology, 52(8), 1123–1126.",
+                abstract: "Meta-analytic review noting tonic skin conductance level habituation across sessions. Effect not consistently task-specific; interpretation unclear.",
+                claim: "EDA tonic level shows session-related habituation patterns",
+                methodology: "Meta-analysis of EDA habituation studies; N_total ~ 500; diverse tasks and durations",
+                warrant_chain: "EDA tonic decline → Session habituation (complementary warrant, d=0.60)"
+            },
+            {
+                id: 20,
+                finding: "Salivary alpha-amylase rises 5–10 min post-stressor, faster than cortisol",
+                construct: "Stress",
+                signal: "Behavioral",
+                studyType: "Lab Experiment",
+                warrant: "Auxiliary",
+                credence: 0.66,
+                year: 2006,
+                citation: "Nater, U. M., Rohleder, N., Gaab, J., Berger, S., Jud, A., Kirschbaum, C., & Ehlert, U. (2006). Human salivary alpha-amylase reactivity in a psychosocial stress paradigm. International Journal of Psychophysiology, 55(3), 333–342.",
+                abstract: "Early validation of salivary alpha-amylase as acute stress marker. Shows faster kinetics than cortisol, reflecting sympathetic activation.",
+                claim: "Salivary alpha-amylase rises acutely post-stressor via sympathetic pathway",
+                methodology: "TSST paradigm; N=24; saliva sampling every 2 min post-stressor; enzyme immunoassay",
+                warrant_chain: "Alpha-amylase rise → Acute stress (auxiliary warrant, d=0.66)"
+            }
+        ];
+
+        let filteredData = [...evidenceData];
+        let currentPage = 1;
+        const itemsPerPage = 15;
+        let selectedConstructs = [];
+        let selectedSignals = [];
+        let selectedStudyTypes = [];
+        let selectedWarrants = [];
+        let minCredence = 0;
+        let sortBy = 'default';
+        let searchQuery = '';
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', function() {
+            renderTable();
+            attachEventListeners();
+        });
+
+        function attachEventListeners() {
+            // Construct filter chips
+            document.querySelectorAll('#constructFilter .chip').forEach(chip => {
+                chip.addEventListener('click', function() {
+                    const value = this.dataset.value;
+                    if (selectedConstructs.includes(value)) {
+                        selectedConstructs = selectedConstructs.filter(c => c !== value);
+                        this.classList.remove('active');
+                    } else {
+                        selectedConstructs.push(value);
+                        this.classList.add('active');
+                    }
+                    currentPage = 1;
+                    filterAndRender();
+                });
+            });
+
+            // Signal checkboxes
+            document.querySelectorAll('.signal-filter').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    selectedSignals = Array.from(document.querySelectorAll('.signal-filter:checked')).map(c => c.value);
+                    currentPage = 1;
+                    filterAndRender();
+                });
+            });
+
+            // Study type checkboxes
+            document.querySelectorAll('.study-filter').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    selectedStudyTypes = Array.from(document.querySelectorAll('.study-filter:checked')).map(c => c.value);
+                    currentPage = 1;
+                    filterAndRender();
+                });
+            });
+
+            // Warrant type checkboxes
+            document.querySelectorAll('.warrant-filter').forEach(checkbox => {
+                checkbox.addEventListener('change', function() {
+                    selectedWarrants = Array.from(document.querySelectorAll('.warrant-filter:checked')).map(c => c.value);
+                    currentPage = 1;
+                    filterAndRender();
+                });
+            });
+
+            // Credence slider
+            document.getElementById('credenceSlider').addEventListener('input', function() {
+                minCredence = parseFloat(this.value);
+                document.getElementById('credenceValue').textContent = minCredence.toFixed(2);
+                currentPage = 1;
+                filterAndRender();
+            });
+
+            // Clear filters
+            document.getElementById('clearFilters').addEventListener('click', function(e) {
+                e.preventDefault();
+                selectedConstructs = [];
+                selectedSignals = [];
+                selectedStudyTypes = [];
+                selectedWarrants = [];
+                minCredence = 0;
+                searchQuery = '';
+                document.getElementById('credenceSlider').value = 1;
+                document.getElementById('credenceValue').textContent = '1.0';
+                document.getElementById('searchInput').value = '';
+                document.querySelectorAll('.chip.active').forEach(c => c.classList.remove('active'));
+                document.querySelectorAll('input[type="checkbox"]:checked').forEach(c => c.checked = false);
+                currentPage = 1;
+                filterAndRender();
+            });
+
+            // Search input
+            document.getElementById('searchInput').addEventListener('input', function() {
+                searchQuery = this.value.toLowerCase();
+                currentPage = 1;
+                filterAndRender();
+            });
+
+            // Sort controls
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                btn.addEventListener('click', function() {
+                    document.querySelectorAll('.sort-btn').forEach(b => b.classList.remove('active'));
+                    this.classList.add('active');
+                    sortBy = this.dataset.sort;
+                    filterAndRender();
+                });
+            });
+        }
+
+        function filterAndRender() {
+            filteredData = evidenceData.filter(item => {
+                let matches = true;
+
+                // Construct filter
+                if (selectedConstructs.length > 0 && !selectedConstructs.includes(item.construct)) {
+                    matches = false;
+                }
+
+                // Signal filter
+                if (selectedSignals.length > 0 && !selectedSignals.includes(item.signal)) {
+                    matches = false;
+                }
+
+                // Study type filter
+                if (selectedStudyTypes.length > 0 && !selectedStudyTypes.includes(item.studyType)) {
+                    matches = false;
+                }
+
+                // Warrant filter
+                if (selectedWarrants.length > 0 && !selectedWarrants.includes(item.warrant)) {
+                    matches = false;
+                }
+
+                // Credence filter
+                if (item.credence < minCredence) {
+                    matches = false;
+                }
+
+                // Search filter
+                if (searchQuery) {
+                    const searchable = `${item.finding} ${item.construct} ${item.citation}`.toLowerCase();
+                    if (!searchable.includes(searchQuery)) {
+                        matches = false;
+                    }
+                }
+
+                return matches;
+            });
+
+            // Sort
+            if (sortBy === 'credence') {
+                filteredData.sort((a, b) => b.credence - a.credence);
+            } else if (sortBy === 'date') {
+                filteredData.sort((a, b) => b.year - a.year);
+            } else if (sortBy === 'type') {
+                filteredData.sort((a, b) => a.studyType.localeCompare(b.studyType));
+            }
+
+            // Update result count
+            document.getElementById('resultCount').textContent = `${filteredData.length} Results`;
+
+            renderTable();
+            renderPagination();
+        }
+
+        function renderTable() {
+            const tbody = document.getElementById('tableBody');
+            tbody.innerHTML = '';
+
+            const start = (currentPage - 1) * itemsPerPage;
+            const end = start + itemsPerPage;
+            const pageData = filteredData.slice(start, end);
+
+            pageData.forEach(item => {
+                const credenceClass = item.credence > 0.7 ? 'high' : item.credence > 0.4 ? 'medium' : 'low';
+                const credenceFill = item.credence * 100;
+
+                const row = document.createElement('tr');
+                row.dataset.id = item.id;
+                row.innerHTML = `
+                    <td class="col-checkbox"><input type="checkbox"></td>
+                    <td class="col-finding"><strong>${item.finding}</strong></td>
+                    <td class="col-construct">${item.construct}</td>
+                    <td class="col-signal">${item.signal}</td>
+                    <td class="col-study">${item.studyType}</td>
+                    <td class="col-warrant"><span class="warrant-pill ${item.warrant.toLowerCase()}">${item.warrant}</span></td>
+                    <td class="col-credence">
+                        <div class="credence-bar">
+                            <div class="credence-visual">
+                                <div class="credence-fill ${credenceClass}" style="width: ${credenceFill}%"></div>
+                            </div>
+                            <div class="credence-value">${item.credence.toFixed(2)}</div>
+                        </div>
+                    </td>
+                    <td class="col-year">${item.year}</td>
+                    <td class="col-actions"><span class="expand-icon">▼</span></td>
+                `;
+
+                row.addEventListener('click', function() {
+                    toggleExpand(item, row);
+                });
+
+                tbody.appendChild(row);
+            });
+        }
+
+        function toggleExpand(item, row) {
+            const isExpanded = row.classList.contains('expanded');
+
+            // Close any other expanded rows
+            document.querySelectorAll('tr.expanded').forEach(r => {
+                if (r !== row) {
+                    r.classList.remove('expanded');
+                    const nextRow = r.nextElementSibling;
+                    if (nextRow && nextRow.classList.contains('expand-panel')) {
+                        nextRow.remove();
+                    }
+                }
+            });
+
+            if (!isExpanded) {
+                row.classList.add('expanded');
+
+                const expandPanel = document.createElement('tr');
+                expandPanel.className = 'expand-panel';
+                expandPanel.innerHTML = `
+                    <td colspan="9">
+                        <div class="detail-grid">
+                            <div>
+                                <div class="detail-section">
+                                    <div class="detail-label">APA Citation</div>
+                                    <div class="detail-apa">${item.citation}</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Abstract</div>
+                                    <div class="detail-content">${item.abstract}</div>
+                                </div>
+                            </div>
+                            <div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Extracted Claim</div>
+                                    <div class="detail-content">${item.claim}</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Methodology</div>
+                                    <div class="detail-content">${item.methodology}</div>
+                                </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Warrant Chain</div>
+                                    <div class="warrant-chain">${item.warrant_chain}</div>
+                                </div>
+                            </div>
+                        </div>
+                        <button class="add-button" onclick="addToHypothesis(event)">Add to Hypothesis Brief</button>
+                    </td>
+                `;
+
+                row.insertAdjacentElement('afterend', expandPanel);
+            } else {
+                row.classList.remove('expanded');
+                const nextRow = row.nextElementSibling;
+                if (nextRow && nextRow.classList.contains('expand-panel')) {
+                    nextRow.remove();
+                }
+            }
+        }
+
+        function renderPagination() {
+            const pageCount = Math.ceil(filteredData.length / itemsPerPage);
+            const paginationContainer = document.getElementById('pagination');
+            paginationContainer.innerHTML = '';
+
+            if (pageCount <= 1) return;
+
+            // Previous button
+            const prevBtn = document.createElement('button');
+            prevBtn.textContent = '← Previous';
+            prevBtn.disabled = currentPage === 1;
+            prevBtn.addEventListener('click', function() {
+                if (currentPage > 1) {
+                    currentPage--;
+                    renderTable();
+                    renderPagination();
+                }
+            });
+            paginationContainer.appendChild(prevBtn);
+
+            // Page numbers
+            for (let i = 1; i <= pageCount; i++) {
+                const btn = document.createElement('button');
+                btn.textContent = i;
+                if (i === currentPage) btn.classList.add('active');
+                btn.addEventListener('click', function() {
+                    currentPage = i;
+                    renderTable();
+                    renderPagination();
+                });
+                paginationContainer.appendChild(btn);
+            }
+
+            // Next button
+            const nextBtn = document.createElement('button');
+            nextBtn.textContent = 'Next →';
+            nextBtn.disabled = currentPage === pageCount;
+            nextBtn.addEventListener('click', function() {
+                if (currentPage < pageCount) {
+                    currentPage++;
+                    renderTable();
+                    renderPagination();
+                }
+            });
+            paginationContainer.appendChild(nextBtn);
+        }
+
+        function addToHypothesis(event) {
+            event.stopPropagation();
+            showToast('Added to hypothesis brief');
+        }
+
+        function showToast(message) {
+            const toast = document.getElementById('toast');
+            toast.textContent = message;
+            toast.classList.add('show');
+
+            setTimeout(() => {
+                toast.classList.remove('show');
+            }, 3000);
+        }
+    </script>
+
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_evidence',
+  title: 'Evidence Browser',
+  audience: 'Researchers and advanced students who want to inspect individual evidence nodes with their warrant chains and credence scores',
+  purpose: 'Provides a filtered, tabular view of the processed evidence node corpus. Each row is a single extracted claim from a published study, with its construct tag, signal tier, warrant type, credence score, and source DOI [Digital Object Identifier]. Users filter by construct, signal, study type, warrant type, and credence range. Distinct from the Article Search page (which finds raw literature) and the Ask page (which synthesises across nodes).',
+  workflowPos: 'Used by researchers building hypotheses (to find evidence for specific constructs and signals) and by the GUI track (to evaluate evidence quality). Reached from the Ask page via "→ Science Summary" links, or directly from the nav.',
+  notFor: 'Finding articles by keyword (use Article Search). Asking questions in natural language (use Ask). Building or submitting hypotheses (use Hypothesis Builder).',
+  phase: 'Phase 4 — Core Tool Backends (requires evidence_nodes and warrants tables with real data from Phase 2 seeding)',
+  evalQuestions: [
+    'Is the distinction between this page and the Article Search page legible to a new user?',
+    'Does the credence bar communicate uncertainty clearly, or does it look like a quality rating?',
+    'Are the warrant type labels (Constitutive, Probabilistic, Rebuttal) understandable without a glossary?',
+    'Is the filter panel useful — do the filter categories match how researchers actually think about evidence?',
+    'Is the "Add to Hypothesis Brief" action discoverable and does its purpose seem clear?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+
+<script src="ka_acronyms.js"></script>
+</body>
+</html>

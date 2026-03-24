@@ -1,0 +1,861 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Data Capture – Knowledge Atlas Contributor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F7F4EF;
+            color: #2C2C2C;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: #1C3D3A;
+            border-bottom: 1px solid #0f2423;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .nav-wordmark {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: #A8C8BF;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23A8C8BF" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="6" x2="12" y2="18"/><line x1="18" y1="6" x2="12" y2="18"/></svg>') no-repeat center;
+            background-size: contain;
+        }
+
+        .nav-title {
+            color: #FFFFFF;
+        }
+
+        .nav-title-accent {
+            color: #F5A623;
+        }
+
+        .nav-center {
+            flex: 1;
+            text-align: center;
+            color: #A8C8BF;
+            font-size: 13px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mode-pill {
+            background-color: #5AC8AA;
+            color: #FFFFFF;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #2A7868;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Main Layout */
+        .page-container {
+            display: flex;
+            margin-top: 56px;
+            min-height: calc(100vh - 56px);
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #FFFFFF;
+            border-right: 1px solid #E0DAD3;
+            padding: 24px 0;
+            overflow-y: auto;
+            position: fixed;
+            height: calc(100vh - 56px);
+            left: 0;
+            top: 56px;
+        }
+
+        .sidebar-section {
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+
+        .sidebar-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8C8C8C;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-nav-item {
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            color: #2C2C2C;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: #F7F4EF;
+        }
+
+        .sidebar-nav-item.active {
+            border-left: 3px solid #E8872A;
+            background-color: #FFF4E6;
+            color: #C05A1F;
+            padding-left: 9px;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background-color: #E0DAD3;
+            margin: 24px 0;
+        }
+
+        .progress-panel {
+            padding: 16px;
+            background-color: #F7F4EF;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .progress-label {
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 12px;
+            display: block;
+            font-size: 12px;
+        }
+
+        .progress-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #E0DAD3;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .progress-stat:last-child {
+            border-bottom: none;
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 220px;
+            padding: 40px;
+            flex: 1;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 15px;
+            color: #666;
+        }
+
+        /* Two Column Layout */
+        .column-layout {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 32px;
+            margin-bottom: 40px;
+        }
+
+        .form-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .form-card.amber-border {
+            border-left: 4px solid #E8872A;
+        }
+
+        .form-card.teal-border {
+            border-left: 4px solid #2A7868;
+        }
+
+        .form-header {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 12px;
+        }
+
+        .form-instructions {
+            font-size: 13px;
+            color: #666;
+            margin-bottom: 20px;
+            line-height: 1.6;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        .form-textarea {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 12px;
+            font-size: 13px;
+            font-family: 'Courier New', monospace;
+            resize: vertical;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .import-row {
+            display: flex;
+            gap: 8px;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid #E0DAD3;
+        }
+
+        .import-label {
+            font-size: 12px;
+            color: #666;
+            font-weight: 600;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .button-small {
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            color: #2C2C2C;
+            padding: 6px 12px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .button-small:hover {
+            border-color: #E8872A;
+            color: #E8872A;
+        }
+
+        .button-primary {
+            background-color: #E8872A;
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 16px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            width: 100%;
+        }
+
+        .button-primary:hover {
+            background-color: #C05A1F;
+        }
+
+        .button-primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .button-primary:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        .doi-find-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .form-input {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .form-input.flex-1 {
+            flex: 1;
+        }
+
+        .button-find {
+            background-color: #FFFFFF;
+            border: 1px solid #2A7868;
+            color: #2A7868;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .button-find:hover {
+            background-color: #E0F2EE;
+        }
+
+        .match-result {
+            background-color: #E0F2EE;
+            border: 1px solid #2A7868;
+            border-radius: 6px;
+            padding: 12px;
+            margin-top: 12px;
+        }
+
+        .match-result-text {
+            font-size: 13px;
+            color: #2A7868;
+            margin-bottom: 8px;
+        }
+
+        .match-pill {
+            background-color: #2A7868;
+            color: #FFFFFF;
+            padding: 4px 10px;
+            border-radius: 12px;
+            font-size: 11px;
+            font-weight: 600;
+            display: inline-block;
+        }
+
+        .upload-zone {
+            border: 2px dashed #E0DAD3;
+            border-radius: 8px;
+            padding: 40px 20px;
+            text-align: center;
+            background-color: #F7F4EF;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            margin: 16px 0;
+            min-height: 140px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+        }
+
+        .upload-zone:hover {
+            border-color: #E8872A;
+            background-color: #FFF4E6;
+        }
+
+        .upload-zone-icon {
+            font-size: 32px;
+        }
+
+        .upload-zone-text {
+            font-size: 13px;
+            color: #666;
+            font-weight: 600;
+        }
+
+        /* Topic Tags */
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-top: 8px;
+        }
+
+        .chip {
+            background-color: #F0E8DF;
+            border: 1px solid #E0DAD3;
+            padding: 8px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .chip:hover {
+            border-color: #E8872A;
+            background-color: #FFF4E6;
+        }
+
+        .chip.active {
+            background-color: #E8872A;
+            border-color: #E8872A;
+            color: #FFFFFF;
+        }
+
+        /* Submissions Table */
+        .submissions-section {
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            padding: 24px;
+            margin-bottom: 40px;
+        }
+
+        .submissions-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 20px;
+        }
+
+        .submissions-table {
+            width: 100%;
+            border-collapse: collapse;
+        }
+
+        .submissions-table th {
+            background-color: #F7F4EF;
+            border-bottom: 2px solid #E0DAD3;
+            padding: 12px;
+            text-align: left;
+            font-size: 12px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8C8C8C;
+        }
+
+        .submissions-table td {
+            padding: 12px;
+            border-bottom: 1px solid #E0DAD3;
+            font-size: 13px;
+        }
+
+        .submissions-table tr:hover {
+            background-color: #F7F4EF;
+        }
+
+        .submissions-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .submission-type {
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        .submission-title {
+            color: #2A7868;
+            text-decoration: none;
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .submission-title:hover {
+            color: #1D5450;
+        }
+
+        .status-icon {
+            margin-right: 6px;
+        }
+
+        .status-accepted {
+            color: #2A7868;
+        }
+
+        .status-pending {
+            color: #E8872A;
+        }
+
+        .points {
+            font-weight: 600;
+            color: #2A7868;
+        }
+
+        .submissions-footer {
+            background-color: #FFF3CD;
+            border: 1px solid #FFE699;
+            border-radius: 6px;
+            padding: 14px;
+            margin-top: 20px;
+            font-size: 13px;
+            color: #8B6F00;
+        }
+
+        .submissions-footer-label {
+            font-weight: 600;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        .submissions-footer-text {
+            font-size: 12px;
+        }
+
+        /* Version Badge */
+        .version-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1C3D3A;
+            color: #A8C8BF;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F7F4EF;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D0CCBF;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8B0A0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div class="nav-wordmark">
+            <div class="nav-icon"></div>
+            <span>KNOWLEDGE</span>
+            <span class="nav-title">/ <span class="nav-title-accent">Atlas</span></span>
+        </div>
+        <div class="nav-center">Contributor Workspace</div>
+        <div class="nav-right">
+            <div class="mode-pill">CONTRIBUTOR</div>
+            <div class="profile-avatar">DK</div>
+        </div>
+    </div>
+
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <span class="sidebar-label">Contributor Tasks</span>
+                <div class="sidebar-nav">
+                    <div class="sidebar-nav-item">Tag Images</div>
+                    <div class="sidebar-nav-item active">Data Capture</div>
+                    <div class="sidebar-nav-item">Find Articles</div>
+                    <div class="sidebar-nav-item">My Submissions</div>
+                </div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-label">My Progress This Week</span>
+                <div class="progress-panel">
+                    <span class="progress-label">Status</span>
+                    <div class="progress-stat">
+                        <span>References added:</span>
+                        <span class="progress-value">8 / 20</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span>PDFs uploaded:</span>
+                        <span class="progress-value">5 / 10</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span>Points earned:</span>
+                        <span class="progress-value">13 pts</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Data Capture</h1>
+                <p class="page-subtitle">Upload article references and PDFs to grow the Knowledge Atlas evidence base.</p>
+            </div>
+
+            <!-- Two Column Form -->
+            <div class="column-layout">
+                <!-- Column A: APA Reference -->
+                <div class="form-card amber-border">
+                    <h2 class="form-header">Upload APA Reference + Abstract</h2>
+                    <p class="form-instructions">Paste or type a complete APA-format reference with abstract. Each submission is one article. The system will parse author, year, title, journal, DOI, and abstract automatically.</p>
+
+                    <div class="form-group">
+                        <label class="form-label">APA Reference</label>
+                        <textarea class="form-textarea" rows="8" placeholder="Paste APA reference here..."></textarea>
+                        <div class="import-row">
+                            <span class="import-label">Or import from:</span>
+                            <button class="button-small">[BibTeX]</button>
+                            <button class="button-small">[RIS]</button>
+                            <button class="button-small">[DOI Lookup]</button>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Abstract (if not included above)</label>
+                        <textarea class="form-textarea" rows="4" placeholder="Paste abstract here if not included above"></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Topic Tags</label>
+                        <div class="chip-group">
+                            <div class="chip">Cognition</div>
+                            <div class="chip">Attention</div>
+                            <div class="chip">Workplace</div>
+                            <div class="chip active">Lighting</div>
+                            <div class="chip">VR</div>
+                            <div class="chip">Memory</div>
+                            <div class="chip">Methods</div>
+                            <div class="chip">Other</div>
+                        </div>
+                    </div>
+
+                    <button class="button-primary">Submit Reference →</button>
+                </div>
+
+                <!-- Column B: PDF Upload -->
+                <div class="form-card teal-border">
+                    <h2 class="form-header">Upload PDF</h2>
+                    <p class="form-instructions">Upload the PDF for an article already in our reference database. We match by DOI or title. Only upload articles you have legitimate access to.</p>
+
+                    <div class="form-group">
+                        <label class="form-label">Find Article by DOI or Title</label>
+                        <div class="doi-find-row">
+                            <input type="text" class="form-input flex-1" placeholder="Enter DOI or article title">
+                            <button class="button-find">Find article →</button>
+                        </div>
+                    </div>
+
+                    <div class="match-result">
+                        <div class="match-result-text">
+                            <strong>Viola et al. (2008)</strong> — Ergonomics 51(7)<br>
+                            <span style="font-size: 12px; color: #2A7868;">A review of research into visual discomfort...</span>
+                        </div>
+                        <span class="match-pill">✓ Match found</span>
+                    </div>
+
+                    <div class="form-group">
+                        <label class="form-label">Upload PDF File</label>
+                        <div class="upload-zone">
+                            <div class="upload-zone-icon">📄</div>
+                            <div class="upload-zone-text">Drop PDF here or click to browse</div>
+                        </div>
+                    </div>
+
+                    <button class="button-primary">Upload PDF →</button>
+                </div>
+            </div>
+
+            <!-- Submissions Table -->
+            <div class="submissions-section">
+                <h2 class="submissions-title">My Submissions This Quarter</h2>
+
+                <table class="submissions-table">
+                    <thead>
+                        <tr>
+                            <th>Type</th>
+                            <th>Title</th>
+                            <th>Submitted</th>
+                            <th>Status</th>
+                            <th>Points</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td><span class="submission-type">APA</span></td>
+                            <td><a class="submission-title">Viola et al. (2008) Workplace lighting...</a></td>
+                            <td>Mar 20</td>
+                            <td><span class="status-icon status-accepted">✅</span>Accepted</td>
+                            <td><span class="points">+2 pts</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="submission-type">PDF</span></td>
+                            <td><a class="submission-title">Viola et al. (2008) — pdf</a></td>
+                            <td>Mar 20</td>
+                            <td><span class="status-icon status-accepted">✅</span>Matched & uploaded</td>
+                            <td><span class="points">+1 pt</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="submission-type">APA</span></td>
+                            <td><a class="submission-title">Boubekri et al. (2014) Windows...</a></td>
+                            <td>Mar 21</td>
+                            <td><span class="status-icon status-pending">⏳</span>Pending review</td>
+                            <td>—</td>
+                        </tr>
+                        <tr>
+                            <td><span class="submission-type">APA</span></td>
+                            <td><a class="submission-title">Pashler (1994) Dual-task...</a></td>
+                            <td>Mar 21</td>
+                            <td><span class="status-icon status-accepted">✅</span>Accepted</td>
+                            <td><span class="points">+2 pts</span></td>
+                        </tr>
+                        <tr>
+                            <td><span class="submission-type">PDF</span></td>
+                            <td><a class="submission-title">Open Science Collab (2015) — pdf</a></td>
+                            <td>Mar 22</td>
+                            <td><span class="status-icon status-accepted">✅</span>Matched & uploaded</td>
+                            <td><span class="points">+1 pt</span></td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="submissions-footer">
+                    <span class="submissions-footer-label">
+                        Total: 5 submissions · 8 pts this quarter
+                    </span>
+                    <span class="submissions-footer-text">
+                        Requirement: 20 APA refs + 10 PDFs by Week 8
+                    </span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Version Badge -->
+    <div class="version-badge">KA UI · v0.4</div>
+
+    <script>
+        // Handle chip selection
+        document.querySelectorAll('.chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Handle upload zone
+        const uploadZone = document.querySelector('.upload-zone');
+        if (uploadZone) {
+            uploadZone.addEventListener('click', function() {
+                // In a real app, this would trigger a file picker
+                console.log('File picker would open here');
+            });
+
+            uploadZone.addEventListener('dragover', (e) => {
+                e.preventDefault();
+                uploadZone.style.borderColor = '#E8872A';
+                uploadZone.style.backgroundColor = '#FFF4E6';
+            });
+
+            uploadZone.addEventListener('dragleave', () => {
+                uploadZone.style.borderColor = '#E0DAD3';
+                uploadZone.style.backgroundColor = '#F7F4EF';
+            });
+
+            uploadZone.addEventListener('drop', (e) => {
+                e.preventDefault();
+                uploadZone.style.borderColor = '#E0DAD3';
+                uploadZone.style.backgroundColor = '#F7F4EF';
+                console.log('File dropped');
+            });
+        }
+    </script>
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_datacapture',
+  title: 'Data Capture — Contributor Tool',
+  audience: 'Contributors submitting structured experimental data records; instructors entering study metadata',
+  purpose: 'A structured form for submitting experimental data records — study metadata, construct measured, signals used, sample size, study type, key findings, and effect sizes — directly into the KA evidence node pipeline. Intended for contributors who have completed or are summarizing a study and want to add its data to the corpus without going through the full article evaluation workflow. In the live system this writes to evidence_nodes and links to an article record.',
+  workflowPos: 'Terminal contribution step — after a contributor has a complete study record to submit. Accessible from the contributor dashboard. Not part of the standard student hypothesis workflow.',
+  notFor: 'Casual note-taking or article browsing. Hypothesis building or evidence searching. Replacing the article evaluation workflow for standard literature — this is for structured data entry of fully processed study records.',
+  phase: 'Phase 3 — User Management + Contributor Pipeline (form submission writes to evidence_nodes table)',
+  evalQuestions: [
+    'Is the form asking for the right level of detail — is it too granular for a student contributor, or not granular enough for a research-grade record?',
+    'Are the field labels and help text clear enough for a contributor without a deep statistics background?',
+    'Is there enough validation feedback to prevent malformed records (e.g., effect size without sample size)?',
+    'Is the relationship between this page and the Article Evaluation workflow (ka_articles.html) clear?',
+    'Does the page communicate what happens to the data after submission — where does it go in the system?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>

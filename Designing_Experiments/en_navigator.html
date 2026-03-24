@@ -1,0 +1,1195 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Epistemic Network Navigator — COGS 160</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html, body {
+            font-family: system-ui, -apple-system, sans-serif;
+            background-color: #FFFFFF;
+            color: #1E293B;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        /* Navigation */
+        .global-nav {
+            background-color: #FFFFFF;
+            border-bottom: 1px solid #E2E8F0;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+        }
+
+        .nav-container {
+            max-width: 100%;
+            margin: 0 auto;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-logo {
+            font-weight: 700;
+            font-size: 1.25rem;
+            color: #0891B2;
+            text-decoration: none;
+            min-width: 80px;
+        }
+
+        .nav-links {
+            display: flex;
+            list-style: none;
+            gap: 0.5rem;
+            flex-wrap: wrap;
+        }
+
+        .nav-links a {
+            padding: 0.5rem 1rem;
+            text-decoration: none;
+            color: #475569;
+            font-size: 0.875rem;
+            border-radius: 4px;
+            transition: all 0.2s;
+        }
+
+        .nav-links a:hover {
+            background-color: #F1F5F9;
+            color: #0891B2;
+        }
+
+        .nav-links a.active {
+            background-color: #E0F2FE;
+            color: #0891B2;
+            font-weight: 600;
+        }
+
+        /* Page Header */
+        .page-header {
+            padding: 1.5rem 2rem;
+            background-color: #F8FAFC;
+            border-bottom: 1px solid #E2E8F0;
+        }
+
+        .header-title {
+            font-size: 1.875rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 0.5rem;
+        }
+
+        .header-subtitle {
+            font-size: 0.95rem;
+            color: #64748B;
+            line-height: 1.6;
+            max-width: 900px;
+            margin-bottom: 1rem;
+        }
+
+        .header-link {
+            font-size: 0.875rem;
+            color: #0891B2;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .header-link:hover {
+            text-decoration: underline;
+        }
+
+        /* Main Container */
+        .main-container {
+            display: flex;
+            height: calc(100vh - 140px);
+            gap: 0;
+        }
+
+        /* Graph Area */
+        .graph-container {
+            flex: 1;
+            position: relative;
+            background-color: #FFFFFF;
+            overflow: hidden;
+        }
+
+        svg {
+            width: 100%;
+            height: 100%;
+        }
+
+        /* Legend */
+        .legend {
+            position: absolute;
+            top: 1rem;
+            left: 1rem;
+            background-color: rgba(255, 255, 255, 0.95);
+            border: 1px solid #E2E8F0;
+            border-radius: 8px;
+            padding: 1rem;
+            max-width: 280px;
+            font-size: 0.85rem;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            z-index: 50;
+        }
+
+        .legend-title {
+            font-weight: 700;
+            margin-bottom: 0.75rem;
+            color: #0F172A;
+            font-size: 0.95rem;
+        }
+
+        .legend-section {
+            margin-bottom: 1rem;
+        }
+
+        .legend-section:last-child {
+            margin-bottom: 0;
+        }
+
+        .legend-section-title {
+            font-weight: 600;
+            color: #475569;
+            margin-bottom: 0.5rem;
+            font-size: 0.8rem;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .legend-item {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin-bottom: 0.4rem;
+        }
+
+        .legend-color {
+            width: 12px;
+            height: 12px;
+            border-radius: 4px;
+            flex-shrink: 0;
+        }
+
+        .legend-line {
+            width: 20px;
+            height: 2px;
+            flex-shrink: 0;
+        }
+
+        .legend-label {
+            color: #475569;
+        }
+
+        /* Tooltip */
+        .tooltip {
+            position: absolute;
+            background-color: rgba(15, 23, 42, 0.95);
+            color: #FFFFFF;
+            padding: 0.75rem;
+            border-radius: 6px;
+            font-size: 0.8rem;
+            pointer-events: none;
+            z-index: 200;
+            max-width: 300px;
+            line-height: 1.4;
+        }
+
+        .tooltip-title {
+            font-weight: 600;
+            margin-bottom: 0.25rem;
+        }
+
+        .tooltip-content {
+            font-size: 0.75rem;
+            color: #E2E8F0;
+        }
+
+        /* Side Panel */
+        .side-panel {
+            width: 0;
+            max-width: 400px;
+            background-color: #F8FAFC;
+            border-left: 1px solid #E2E8F0;
+            overflow-y: auto;
+            transition: width 0.3s ease;
+            z-index: 75;
+        }
+
+        .side-panel.open {
+            width: 400px;
+        }
+
+        .panel-content {
+            padding: 1.5rem;
+        }
+
+        .panel-close {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: none;
+            border: none;
+            font-size: 1.5rem;
+            color: #64748B;
+            cursor: pointer;
+            z-index: 76;
+        }
+
+        .panel-close:hover {
+            color: #0F172A;
+        }
+
+        .panel-header {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: #0F172A;
+            margin-bottom: 1rem;
+            padding-right: 1.5rem;
+        }
+
+        .panel-section {
+            margin-bottom: 1.5rem;
+        }
+
+        .panel-section-title {
+            font-size: 0.875rem;
+            font-weight: 600;
+            color: #475569;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 0.5rem;
+        }
+
+        .panel-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 0.5rem 0;
+            border-bottom: 1px solid #E2E8F0;
+            font-size: 0.875rem;
+        }
+
+        .panel-stat-label {
+            color: #64748B;
+        }
+
+        .panel-stat-value {
+            color: #0F172A;
+            font-weight: 600;
+        }
+
+        .panel-text {
+            font-size: 0.875rem;
+            color: #475569;
+            line-height: 1.6;
+        }
+
+        .panel-badge {
+            display: inline-block;
+            background-color: #E0F2FE;
+            color: #0369A1;
+            padding: 0.25rem 0.75rem;
+            border-radius: 12px;
+            font-size: 0.75rem;
+            font-weight: 600;
+            margin-right: 0.5rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .warrant-box {
+            background-color: #FFFFFF;
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            padding: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .warrant-type {
+            font-weight: 600;
+            color: #0891B2;
+            margin-bottom: 0.5rem;
+            font-size: 0.875rem;
+        }
+
+        .warrant-detail {
+            font-size: 0.8rem;
+            color: #475569;
+            line-height: 1.5;
+        }
+
+        .paper-list {
+            margin-top: 0.75rem;
+            padding-top: 0.75rem;
+            border-top: 1px solid #E2E8F0;
+        }
+
+        .paper-item {
+            font-size: 0.75rem;
+            color: #64748B;
+            margin-bottom: 0.25rem;
+            padding-left: 1rem;
+            text-indent: -0.5rem;
+        }
+
+        /* Warrant Strength Meter */
+        .omega-meter {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            margin: 0.3rem 0;
+        }
+        .omega-bar-bg {
+            flex: 1;
+            height: 8px;
+            background: #E2E8F0;
+            border-radius: 4px;
+            overflow: hidden;
+        }
+        .omega-bar-fill {
+            height: 100%;
+            border-radius: 4px;
+            transition: width 0.3s;
+        }
+        .omega-label {
+            font-size: 0.75rem;
+            font-weight: 600;
+            min-width: 3rem;
+            text-align: right;
+        }
+        .omega-component {
+            display: flex;
+            justify-content: space-between;
+            font-size: 0.75rem;
+            padding: 0.2rem 0;
+            color: #64748B;
+        }
+        .omega-component .comp-val { font-weight: 600; color: #0F172A; }
+
+        /* Pollock Status Badge */
+        .pollock-badge {
+            display: inline-block;
+            padding: 0.2rem 0.6rem;
+            border-radius: 4px;
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.03em;
+        }
+        .pollock-warranted { background: #d4edda; color: #155724; }
+        .pollock-defeated { background: #f8d7da; color: #721c24; }
+        .pollock-suspended { background: #fff3cd; color: #856404; }
+        .pollock-ungrounded { background: #e2e3e5; color: #383d41; }
+
+        /* Warrant Type Pills */
+        .wtype-pill {
+            display: inline-block;
+            padding: 0.15rem 0.5rem;
+            border-radius: 10px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-right: 0.3rem;
+            margin-bottom: 0.3rem;
+        }
+        .wtype-constitutive { background: #c3e6cb; color: #155724; }
+        .wtype-mechanism { background: #b8daff; color: #004085; }
+        .wtype-empirical_association { background: #b8daff; color: #004085; }
+        .wtype-functional { background: #d4edda; color: #155724; }
+        .wtype-capacity { background: #fff3cd; color: #856404; }
+        .wtype-analogical { background: #ffeeba; color: #856404; }
+        .wtype-theory_derived { background: #f5c6cb; color: #721c24; }
+
+        /* Data source indicator */
+        .data-source {
+            position: absolute;
+            bottom: 1rem;
+            right: 1rem;
+            background: rgba(255,255,255,0.9);
+            border: 1px solid #E2E8F0;
+            border-radius: 6px;
+            padding: 0.4rem 0.8rem;
+            font-size: 0.7rem;
+            color: #64748B;
+            z-index: 50;
+        }
+        .data-source .live { color: #059669; font-weight: 600; }
+        .data-source .fallback { color: #D97706; font-weight: 600; }
+
+        /* Footer */
+        .page-footer {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            padding: 1rem;
+            background-color: #F8FAFC;
+            border-top: 1px solid #E2E8F0;
+            font-size: 0.875rem;
+        }
+
+        .page-footer a {
+            color: #0891B2;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        .page-footer a:hover {
+            text-decoration: underline;
+        }
+
+        /* Responsive */
+        @media (max-width: 1200px) {
+            .side-panel.open {
+                width: 350px;
+            }
+
+            .legend {
+                max-width: 240px;
+                font-size: 0.8rem;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .nav-links {
+                gap: 0.25rem;
+            }
+
+            .nav-links a {
+                padding: 0.4rem 0.75rem;
+                font-size: 0.75rem;
+            }
+
+            .side-panel.open {
+                width: 100%;
+                max-width: 100%;
+            }
+
+            .legend {
+                max-width: 220px;
+                padding: 0.75rem;
+            }
+
+            .header-subtitle {
+                font-size: 0.85rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="global-nav">
+        <div class="nav-container">
+            <a href="knowledge_navigator.html" class="nav-logo">COGS 160</a>
+            <ul class="nav-links">
+                <li><a href="knowledge_navigator.html">Knowledge Navigator</a></li>
+                <li><a href="theory_and_experiment_design.html">Theory &amp; Design</a></li>
+                <li><a href="hypothesis_builder.html">Hypothesis Builder</a></li>
+                <li><a href="methods_taxonomy.html">Methods Taxonomy</a></li>
+                <li><a href="measurement_instruments.html">Measurement Instruments</a></li>
+                <li><a href="sensor_catalogue.html">Sensor Catalogue</a></li>
+                <li><a href="en_navigator.html" class="active">Epistemic Network</a></li>
+                <li><a href="bn_navigator.html">Bayesian Network</a></li>
+                <li><a href="experiment_wizard.html">Experiment Builder</a>
+    <a href="system_inventory.html">System Inventory</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Page Header -->
+    <div class="page-header">
+        <div class="header-title">Epistemic Network Navigator</div>
+        <div class="header-subtitle">
+            Explore the warrant and justification structure of environment–cognition research. Each edge represents not just an association but WHY we should believe it — what type of evidence supports it, how strong that evidence is, and what theories explain it.
+        </div>
+        <a href="bn_navigator.html" class="header-link">Switch to Bayesian Network view →</a>
+    </div>
+
+    <!-- Main Container -->
+    <div class="main-container">
+        <!-- Graph Container -->
+        <div class="graph-container">
+            <svg id="graph-svg"></svg>
+            <div class="legend" id="legend"></div>
+            <div class="tooltip" id="tooltip" style="display: none;"></div>
+            <div class="data-source">Data: <span class="fallback">loading...</span></div>
+        </div>
+
+        <!-- Side Panel -->
+        <div class="side-panel" id="sidePanel">
+            <button class="panel-close" id="panelClose">&times;</button>
+            <div class="panel-content" id="panelContent"></div>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <div class="page-footer">
+        <a href="bn_navigator.html">Bayesian Network Navigator</a>
+        <a href="knowledge_navigator.html">Knowledge Navigator</a>
+        <a href="sensor_catalogue.html">Sensor Catalogue</a>
+        <a href="experiment_wizard.html">Experiment Builder</a>
+    <a href="system_inventory.html">System Inventory</a>
+    </div>
+
+    <script>
+        // ===== DATA LOADING =====
+        // Attempts to load from generated JSON file; falls back to embedded defaults.
+        // The JSON is produced by: python3 scripts/export_en_navigator_data.py
+        // in the Article_Eater_PostQuinean_v1 repo.
+
+        let DATA_SOURCE = "fallback";
+        let WARRANT_TYPES_DEF = {};
+
+        // Fallback data (used when JSON file not available)
+        const FALLBACK_RESEARCH_FRONTS = [
+            { env: "acoustic", outcome: "behav.productivity", papers: 11, claims: 25, voi: 0.755, direction: "mixed", theories: {"Prospect-Refuge":13,"Predictive Processing":8,"Cognitive Load Theory":5,"Arousal Theory":4,"ART":4} },
+            { env: "acoustic", outcome: "cog.performance", papers: 22, claims: 36, voi: 0.855, direction: "mixed", theories: {"Prospect-Refuge":11,"Dual-Process Evaluation":9,"Predictive Processing":7,"Biophilia":6,"Cognitive Load Theory":6} },
+            { env: "acoustic", outcome: "cog.attention", papers: 14, claims: 20, voi: 0.760, direction: "decrease", theories: {"Cognitive Load Theory":8,"ART":5,"Arousal Theory":4} },
+            { env: "acoustic", outcome: "affect.mood.positive", papers: 8, claims: 12, voi: 0.650, direction: "increase", theories: {"Biophilia":4,"Arousal Theory":3,"SRT":2} },
+            { env: "daylight", outcome: "affect.stress", papers: 10, claims: 18, voi: 0.680, direction: "decrease", theories: {"SRT":7,"Biophilia":4,"ART":3} },
+            { env: "daylight", outcome: "behav.sleep", papers: 9, claims: 16, voi: 0.720, direction: "increase", theories: {"Circadian Regulation":8,"Biophilia":3} },
+            { env: "daylight", outcome: "cog.performance", papers: 12, claims: 22, voi: 0.740, direction: "increase", theories: {"Arousal Theory":6,"Cognitive Load Theory":4,"ART":3} },
+            { env: "lighting", outcome: "affect.mood", papers: 11, claims: 20, voi: 0.700, direction: "increase", theories: {"Arousal Theory":7,"Predictive Processing":4,"SRT":3} },
+            { env: "nature_exposure", outcome: "affect.stress", papers: 33, claims: 64, voi: 0.615, direction: "decrease", theories: {"SRT":472,"Biophilia":449,"ART":413} },
+            { env: "nature_exposure", outcome: "physio", papers: 16, claims: 24, voi: 0.565, direction: "increase", theories: {"SRT":317,"ART":287,"Prospect-Refuge":254} },
+            { env: "spatial_openness", outcome: "affect.mood.positive", papers: 10, claims: 18, voi: 0.640, direction: "increase", theories: {"Prospect-Refuge":7,"Biophilia":4,"ART":3} },
+            { env: "window_view", outcome: "affect.mood.positive", papers: 12, claims: 20, voi: 0.690, direction: "increase", theories: {"Biophilia":6,"SRT":5,"ART":4,"Prospect-Refuge":3} }
+        ];
+
+        const FALLBACK_DISPLAY_NAMES = {
+            acoustic: "Acoustic Environment", brightness: "Brightness", color: "Color", corridor_design: "Corridor Design",
+            daylight: "Daylight", lighting: "Indoor Lighting", materials: "Building Materials", nature_exposure: "Nature Exposure",
+            room_size: "Room Size", social_density: "Social Density", spatial_openness: "Spatial Openness",
+            vr_environment: "VR Environment", wayfinding: "Wayfinding", window_view: "Window Views",
+            "affect.stress": "Stress", "affect.mood": "Mood", "affect.mood.positive": "Positive Mood",
+            "behav.productivity": "Productivity", "behav.sleep": "Sleep Quality", "cog.attention": "Attention",
+            "cog.performance": "Cognitive Performance", "cog.fatigue": "Mental Fatigue",
+            "perception.comfort": "Comfort", "perception.control": "Sense of Control", "perception": "Perception", physio: "Physiological Health"
+        };
+
+        let RESEARCH_FRONTS = FALLBACK_RESEARCH_FRONTS;
+        let DISPLAY_NAMES = FALLBACK_DISPLAY_NAMES;
+        let ENVIRONMENTAL_FEATURES = ["acoustic", "brightness", "color", "corridor_design", "daylight", "lighting", "materials", "nature_exposure", "room_size", "social_density", "spatial_openness", "vr_environment", "wayfinding", "window_view"];
+        let OUTCOMES = ["affect.stress", "affect.mood", "affect.mood.positive", "behav.productivity", "behav.sleep", "cog.attention", "cog.performance", "cog.fatigue", "perception.comfort", "perception.control", "perception", "physio"];
+        let THEORIES = ["ART", "SRT", "Biophilia", "Arousal Theory", "Prospect-Refuge", "Predictive Processing", "Cognitive Load Theory", "Embodied Cognition", "Dual-Process Evaluation", "Circadian Regulation", "Privacy Regulation"];
+
+        // Try loading from generated JSON
+        async function loadData() {
+            try {
+                const resp = await fetch("data/en_navigator_data.json");
+                if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+                const data = await resp.json();
+                RESEARCH_FRONTS = data.research_fronts || FALLBACK_RESEARCH_FRONTS;
+                DISPLAY_NAMES = data.display_names || FALLBACK_DISPLAY_NAMES;
+                ENVIRONMENTAL_FEATURES = data.environmental_features || ENVIRONMENTAL_FEATURES;
+                OUTCOMES = data.outcomes || OUTCOMES;
+                THEORIES = data.theories || THEORIES;
+                WARRANT_TYPES_DEF = data.warrant_types || {};
+                DATA_SOURCE = "live";
+                console.log(`EN Navigator: loaded ${RESEARCH_FRONTS.length} research fronts from database (generated ${data.generated_at})`);
+            } catch (e) {
+                console.warn("EN Navigator: using fallback data (data/en_navigator_data.json not found)", e.message);
+                DATA_SOURCE = "fallback";
+            }
+            initializeVisualization();
+        }
+
+        // Warrant display helpers
+        function omegaColor(val) {
+            if (val >= 0.7) return "#059669";
+            if (val >= 0.4) return "#D97706";
+            return "#DC2626";
+        }
+
+        function omegaRating(val) {
+            if (val >= 0.7) return "strong";
+            if (val >= 0.4) return "moderate";
+            return "weak";
+        }
+
+        function pollockBadge(status) {
+            const s = (status || "UNCHECKED").toUpperCase();
+            const cls = s === "WARRANTED" ? "pollock-warranted" :
+                        s === "DEFEATED" ? "pollock-defeated" :
+                        s === "SUSPENDED" ? "pollock-suspended" : "pollock-ungrounded";
+            return `<span class="pollock-badge ${cls}">${s}</span>`;
+        }
+
+        function warrantTypePill(type) {
+            const t = (type || "unknown").toLowerCase().replace(/ /g, "_");
+            return `<span class="wtype-pill wtype-${t}">${type}</span>`;
+        }
+
+        function renderOmegaMeter(val, label) {
+            if (val == null) return "";
+            const pct = Math.round(val * 100);
+            return `<div class="omega-meter">
+                <span style="font-size:0.75rem; color:#64748B; min-width:4rem;">${label}</span>
+                <div class="omega-bar-bg"><div class="omega-bar-fill" style="width:${pct}%; background:${omegaColor(val)};"></div></div>
+                <span class="omega-label" style="color:${omegaColor(val)}">${pct}%</span>
+            </div>`;
+        }
+
+        function renderWarrantProfile(wp) {
+            if (!wp) return '<div class="panel-text" style="font-style:italic;">Warrant data unavailable — run export_en_navigator_data.py to generate.</div>';
+
+            let html = '';
+
+            // Pollock summary
+            if (wp.pollock_summary) {
+                html += `<div style="margin-bottom:0.8rem;">
+                    <div style="font-size:0.8rem; color:#475569; margin-bottom:0.3rem;">Pollock Status Distribution</div>`;
+                if (wp.n_warranted > 0) html += `${pollockBadge("WARRANTED")} <span style="font-size:0.75rem;">${wp.n_warranted} beliefs</span>&nbsp;&nbsp;`;
+                if (wp.n_defeated > 0) html += `${pollockBadge("DEFEATED")} <span style="font-size:0.75rem;">${wp.n_defeated}</span>&nbsp;&nbsp;`;
+                if (wp.n_suspended > 0) html += `${pollockBadge("SUSPENDED")} <span style="font-size:0.75rem;">${wp.n_suspended}</span>&nbsp;&nbsp;`;
+                if (wp.n_ungrounded > 0) html += `${pollockBadge("UNGROUNDED")} <span style="font-size:0.75rem;">${wp.n_ungrounded}</span>`;
+                html += `</div>`;
+            }
+
+            // Omega meter
+            if (wp.mean_omega != null) {
+                html += renderOmegaMeter(wp.mean_omega, "Mean \u03c9");
+            }
+
+            // Mean credence
+            if (wp.mean_credence != null) {
+                html += renderOmegaMeter(wp.mean_credence, "Credence");
+            }
+
+            // Dominant warrant type
+            if (wp.dominant_warrant_type) {
+                html += `<div style="margin-top:0.5rem; font-size:0.8rem;">
+                    <span style="color:#64748B;">Dominant warrant:</span> ${warrantTypePill(wp.dominant_warrant_type)}
+                </div>`;
+            }
+
+            // Warrant type distribution
+            if (wp.warrant_types && Object.keys(wp.warrant_types).length > 0) {
+                html += `<div style="margin-top:0.5rem;">`;
+                Object.entries(wp.warrant_types).sort((a,b) => b[1]-a[1]).forEach(([type, count]) => {
+                    html += `${warrantTypePill(type)} <span style="font-size:0.7rem; color:#64748B;">(${count})</span> `;
+                });
+                html += `</div>`;
+            }
+
+            return html;
+        }
+
+        function initializeVisualization() {
+        // Update data source indicator
+        const dsEl = document.querySelector(".data-source");
+        if (dsEl) {
+            dsEl.innerHTML = DATA_SOURCE === "live"
+                ? `Data: <span class="live">LIVE</span> (${RESEARCH_FRONTS.length} fronts from database)`
+                : `Data: <span class="fallback">FALLBACK</span> (${RESEARCH_FRONTS.length} fronts, static)`;
+        }
+
+        // ===== DATA PROCESSING =====
+        function buildNetwork() {
+            const nodes = [];
+            const nodeMap = new Map();
+
+            // Add environmental features
+            ENVIRONMENTAL_FEATURES.forEach(feat => {
+                nodeMap.set(feat, { id: feat, type: "env", label: DISPLAY_NAMES[feat] });
+                nodes.push(nodeMap.get(feat));
+            });
+
+            // Add outcomes
+            OUTCOMES.forEach(out => {
+                if (RESEARCH_FRONTS.some(rf => rf.outcome === out)) {
+                    nodeMap.set(out, { id: out, type: "outcome", label: DISPLAY_NAMES[out] });
+                    nodes.push(nodeMap.get(out));
+                }
+            });
+
+            // Add theories
+            const theorySet = new Set();
+            RESEARCH_FRONTS.forEach(rf => {
+                Object.keys(rf.theories).forEach(t => theorySet.add(t));
+            });
+            theorySet.forEach(theory => {
+                nodeMap.set(theory, { id: theory, type: "theory", label: theory });
+                nodes.push(nodeMap.get(theory));
+            });
+
+            const edges = [];
+            const edgeMap = new Map();
+
+            // Add main research front edges (env → outcome)
+            RESEARCH_FRONTS.forEach((rf, idx) => {
+                const edgeId = `${rf.env}-${rf.outcome}`;
+                const edge = {
+                    id: edgeId,
+                    source: rf.env,
+                    target: rf.outcome,
+                    type: "empirical",
+                    papers: rf.papers,
+                    claims: rf.claims,
+                    voi: rf.voi,
+                    direction: rf.direction,
+                    theories: rf.theories,
+                    warrant_profile: rf.warrant_profile || null
+                };
+                edges.push(edge);
+                edgeMap.set(edgeId, edge);
+
+                // Add theory edges (theory → env→outcome connection)
+                Object.entries(rf.theories).forEach(([theory, strength]) => {
+                    const theoryEdgeId = `theory-${theory}-${edgeId}`;
+                    edges.push({
+                        id: theoryEdgeId,
+                        source: theory,
+                        target: `theoretical-midpoint-${edgeId}`,
+                        type: "theoretical",
+                        strength: strength,
+                        linkedEdge: edgeId,
+                        theory: theory
+                    });
+                });
+            });
+
+            return { nodes, edges, nodeMap, edgeMap };
+        }
+
+        const network = buildNetwork();
+
+        // ===== D3 VISUALIZATION =====
+        const margin = { top: 20, right: 20, bottom: 20, left: 20 };
+        const svg = d3.select("#graph-svg");
+        const width = document.querySelector(".graph-container").clientWidth;
+        const height = document.querySelector(".graph-container").clientHeight;
+
+        const g = svg.append("g")
+            .attr("transform", `translate(${margin.left},${margin.top})`);
+
+        // Force simulation
+        const simulation = d3.forceSimulation(network.nodes)
+            .force("link", d3.forceLink(network.edges.filter(e => e.type === "empirical"))
+                .id(d => d.id)
+                .distance(100)
+                .strength(0.5))
+            .force("charge", d3.forceManyBody().strength(-300))
+            .force("collide", d3.forceCollide().radius(d => {
+                const degree = network.edges.filter(e => (e.type === "empirical") && (e.source.id === d.id || e.target.id === d.id)).length;
+                return Math.max(8, Math.min(30, 8 + degree * 2));
+            }).strength(0.8))
+            .force("centerX", d3.forceX(width / 2).strength(0.05))
+            .force("centerY", d3.forceY(height / 2).strength(0.05));
+
+        // Position bias by type
+        simulation.on("tick", () => {
+            network.nodes.forEach(node => {
+                if (node.type === "env") {
+                    node.x = Math.max(50, Math.min(width / 3, node.x));
+                } else if (node.type === "outcome") {
+                    node.x = Math.max(2 * width / 3 - 50, Math.min(width - 50, node.x));
+                } else if (node.type === "theory") {
+                    node.y = Math.max(50, Math.min(height / 3, node.y));
+                }
+            });
+            update();
+        });
+
+        function update() {
+            // Links
+            const links = g.selectAll(".link").data(network.edges.filter(e => e.type === "empirical"), d => d.id);
+
+            links.exit().remove();
+
+            links.enter()
+                .append("line")
+                .attr("class", "link")
+                .attr("stroke", d => {
+                    const wp = d.warrant_profile;
+                    if (wp && wp.mean_omega != null) return omegaColor(wp.mean_omega);
+                    return "#059669";
+                })
+                .attr("stroke-width", d => Math.max(1, Math.min(6, d.papers / 5)))
+                .attr("opacity", 0.5)
+                .attr("stroke-dasharray", "0")
+                .merge(links)
+                .attr("x1", d => typeof d.source === "object" ? d.source.x : 0)
+                .attr("y1", d => typeof d.source === "object" ? d.source.y : 0)
+                .attr("x2", d => typeof d.target === "object" ? d.target.x : 0)
+                .attr("y2", d => typeof d.target === "object" ? d.target.y : 0)
+                .on("mouseover", (event, d) => showLinkTooltip(event, d))
+                .on("mouseout", hideLinkTooltip)
+                .on("click", (event, d) => {
+                    event.stopPropagation();
+                    showEdgePanel(d);
+                });
+
+            // Nodes
+            const nodes = g.selectAll(".node").data(network.nodes, d => d.id);
+
+            nodes.exit().remove();
+
+            const nodeEnter = nodes.enter()
+                .append("g")
+                .attr("class", "node")
+                .attr("cursor", "move")
+                .call(d3.drag()
+                    .on("start", dragStarted)
+                    .on("drag", dragged)
+                    .on("end", dragEnded));
+
+            nodeEnter.append("circle")
+                .attr("r", d => {
+                    const degree = network.edges.filter(e => (e.type === "empirical") && (e.source.id === d.id || e.target.id === d.id)).length;
+                    return Math.max(8, Math.min(30, 8 + degree * 2));
+                })
+                .attr("fill", d => {
+                    if (d.type === "env") return "#0891B2";
+                    if (d.type === "outcome") return "#D97706";
+                    return "#7C3AED";
+                })
+                .attr("opacity", 0.8)
+                .attr("stroke", "#FFFFFF")
+                .attr("stroke-width", 2);
+
+            nodeEnter.append("text")
+                .attr("text-anchor", "middle")
+                .attr("dy", "0.3em")
+                .attr("font-size", "11px")
+                .attr("font-weight", "500")
+                .attr("fill", "#FFFFFF")
+                .attr("pointer-events", "none")
+                .text(d => {
+                    const name = DISPLAY_NAMES[d.id] || d.id;
+                    return name.split(" ")[0];
+                });
+
+            nodes.merge(nodeEnter)
+                .attr("transform", d => `translate(${d.x},${d.y})`)
+                .on("mouseover", (event, d) => showNodeTooltip(event, d))
+                .on("mouseout", hideNodeTooltip)
+                .on("click", (event, d) => {
+                    event.stopPropagation();
+                    showNodePanel(d);
+                });
+
+            // Highlight on selection
+            g.on("click", () => {
+                g.selectAll(".node circle").attr("opacity", 0.8);
+                g.selectAll(".link").attr("opacity", 0.4);
+                document.getElementById("sidePanel").classList.remove("open");
+            });
+        }
+
+        function dragStarted(event, d) {
+            if (!event.active) simulation.alphaTarget(0.3).restart();
+            d.fx = d.x;
+            d.fy = d.y;
+        }
+
+        function dragged(event, d) {
+            d.fx = event.x;
+            d.fy = event.y;
+        }
+
+        function dragEnded(event, d) {
+            if (!event.active) simulation.alphaTarget(0);
+            d.fx = null;
+            d.fy = null;
+        }
+
+        // ===== TOOLTIPS =====
+        const tooltip = document.getElementById("tooltip");
+
+        function showNodeTooltip(event, d) {
+            const degree = network.edges.filter(e => e.type === "empirical" && (e.source.id === d.id || e.target.id === d.id)).length;
+            tooltip.innerHTML = `
+                <div class="tooltip-title">${DISPLAY_NAMES[d.id] || d.id}</div>
+                <div class="tooltip-content">Type: ${d.type.toUpperCase()}</div>
+                <div class="tooltip-content">Connections: ${degree}</div>
+            `;
+            tooltip.style.display = "block";
+            tooltip.style.left = (event.pageX + 10) + "px";
+            tooltip.style.top = (event.pageY + 10) + "px";
+        }
+
+        function hideNodeTooltip() {
+            tooltip.style.display = "none";
+        }
+
+        function showLinkTooltip(event, d) {
+            const direction = d.direction === "mixed" ? "mixed evidence" : d.direction;
+            const wp = d.warrant_profile;
+            let warrantLine = "";
+            if (wp && wp.dominant_warrant_type) {
+                warrantLine = `<div class="tooltip-content">Warrant: ${wp.dominant_warrant_type} (\u03c9=${wp.mean_omega != null ? wp.mean_omega.toFixed(2) : "?"})</div>`;
+            }
+            let pollockLine = "";
+            if (wp && wp.pollock_summary) {
+                pollockLine = `<div class="tooltip-content">${wp.pollock_summary}</div>`;
+            }
+            tooltip.innerHTML = `
+                <div class="tooltip-title">Empirical Warrant</div>
+                <div class="tooltip-content"><strong>${d.papers} papers</strong>, ${d.claims} claims</div>
+                <div class="tooltip-content">Direction: ${direction}</div>
+                <div class="tooltip-content">VOI: ${(d.voi * 100).toFixed(0)}%</div>
+                ${warrantLine}
+                ${pollockLine}
+                <div class="tooltip-content" style="margin-top: 0.25rem;">Click for full warrant story</div>
+            `;
+            tooltip.style.display = "block";
+            tooltip.style.left = (event.pageX + 10) + "px";
+            tooltip.style.top = (event.pageY + 10) + "px";
+        }
+
+        function hideLinkTooltip() {
+            tooltip.style.display = "none";
+        }
+
+        // ===== SIDE PANEL =====
+        const sidePanel = document.getElementById("sidePanel");
+        const panelContent = document.getElementById("panelContent");
+        const panelClose = document.getElementById("panelClose");
+
+        panelClose.addEventListener("click", () => {
+            sidePanel.classList.remove("open");
+        });
+
+        function showEdgePanel(edge) {
+            const sourceName = DISPLAY_NAMES[edge.source.id || edge.source];
+            const targetName = DISPLAY_NAMES[edge.target.id || edge.target];
+
+            let theoryHtml = "";
+            Object.entries(edge.theories).forEach(([theory, strength]) => {
+                theoryHtml += `<div class="panel-badge">${theory} (${strength})</div>`;
+            });
+
+            const explanation = getEdgeExplanation(edge);
+
+            const wp = edge.warrant_profile;
+
+            panelContent.innerHTML = `
+                <div class="panel-header">${sourceName} → ${targetName}</div>
+
+                <div class="warrant-box">
+                    <div class="warrant-type">Empirical Warrant</div>
+                    <div class="warrant-detail">${explanation}</div>
+                </div>
+
+                ${wp ? `<div class="panel-section">
+                    <div class="panel-section-title">Warrant Profile</div>
+                    ${renderWarrantProfile(wp)}
+                </div>` : ""}
+
+                <div class="panel-section">
+                    <div class="panel-section-title">Evidence Summary</div>
+                    <div class="panel-stat">
+                        <span class="panel-stat-label">Papers:</span>
+                        <span class="panel-stat-value">${edge.papers}</span>
+                    </div>
+                    <div class="panel-stat">
+                        <span class="panel-stat-label">Claims:</span>
+                        <span class="panel-stat-value">${edge.claims}</span>
+                    </div>
+                    <div class="panel-stat">
+                        <span class="panel-stat-label">Direction:</span>
+                        <span class="panel-stat-value">${edge.direction}</span>
+                    </div>
+                    <div class="panel-stat">
+                        <span class="panel-stat-label">VOI (Value of Info):</span>
+                        <span class="panel-stat-value">${(edge.voi * 100).toFixed(1)}%</span>
+                    </div>
+                    ${wp && wp.mean_credence != null ? `<div class="panel-stat">
+                        <span class="panel-stat-label">Mean Credence:</span>
+                        <span class="panel-stat-value">${(wp.mean_credence * 100).toFixed(1)}%</span>
+                    </div>` : ""}
+                </div>
+
+                <div class="panel-section">
+                    <div class="panel-section-title">Explaining Theories</div>
+                    <div style="margin-bottom: 0.5rem;">${theoryHtml}</div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="panel-section-title">Narrative</div>
+                    <div class="panel-text">${getFullNarrative(edge)}</div>
+                </div>
+            `;
+
+            sidePanel.classList.add("open");
+        }
+
+        function showNodePanel(node) {
+            const connectedEdges = network.edges.filter(e =>
+                e.type === "empirical" && (e.source.id === node.id || e.target.id === node.id)
+            );
+
+            let connectionHtml = "";
+            let totalPapers = 0;
+            connectedEdges.forEach(e => {
+                const other = e.source.id === node.id ? DISPLAY_NAMES[e.target.id] : DISPLAY_NAMES[e.source.id];
+                totalPapers += e.papers;
+                connectionHtml += `<div class="panel-stat">
+                    <span class="panel-stat-label">${other}</span>
+                    <span class="panel-stat-value">${e.papers} papers</span>
+                </div>`;
+            });
+
+            const theories = new Set();
+            connectedEdges.forEach(e => {
+                Object.keys(e.theories).forEach(t => theories.add(t));
+            });
+
+            let theoryHtml = "";
+            Array.from(theories).sort().forEach(t => {
+                theoryHtml += `<div class="panel-badge">${t}</div>`;
+            });
+
+            panelContent.innerHTML = `
+                <div class="panel-header">${DISPLAY_NAMES[node.id] || node.id}</div>
+
+                <div class="panel-section">
+                    <div class="panel-section-title">Node Type</div>
+                    <div class="panel-text">${node.type === "env" ? "Environmental Feature" : node.type === "outcome" ? "Psychological Outcome" : "Theory"}</div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="panel-section-title">Connections (${connectedEdges.length})</div>
+                    <div style="max-height: 300px; overflow-y: auto;">${connectionHtml}</div>
+                </div>
+
+                <div class="panel-section">
+                    <div class="panel-section-title">Total Papers Across All Links</div>
+                    <div class="panel-stat">
+                        <span class="panel-stat-label">Aggregate:</span>
+                        <span class="panel-stat-value">${totalPapers}</span>
+                    </div>
+                </div>
+
+                ${theories.size > 0 ? `
+                <div class="panel-section">
+                    <div class="panel-section-title">Related Theories</div>
+                    <div>${theoryHtml}</div>
+                </div>
+                ` : ""}
+            `;
+
+            sidePanel.classList.add("open");
+        }
+
+        function getEdgeExplanation(edge) {
+            const source = DISPLAY_NAMES[edge.source.id || edge.source];
+            const target = DISPLAY_NAMES[edge.target.id || edge.target];
+
+            if (edge.direction === "increase") {
+                return `Research shows that increased ${source} is associated with increased ${target}. This relationship is supported by ${edge.papers} papers reporting ${edge.claims} distinct empirical claims.`;
+            } else if (edge.direction === "decrease") {
+                return `Research shows that increased ${source} is associated with decreased ${target}. This relationship is supported by ${edge.papers} papers reporting ${edge.claims} distinct empirical claims.`;
+            } else {
+                return `Research shows mixed evidence for the relationship between ${source} and ${target}. Some studies find increases, others find decreases, depending on contextual factors. This pattern is evident across ${edge.papers} papers reporting ${edge.claims} distinct empirical claims.`;
+            }
+        }
+
+        function getFullNarrative(edge) {
+            const source = DISPLAY_NAMES[edge.source.id || edge.source];
+            const target = DISPLAY_NAMES[edge.target.id || edge.target];
+            const topTheory = Object.entries(edge.theories).sort((a, b) => b[1] - a[1])[0];
+
+            let narrative = `This link demonstrates a robust empirical relationship in the environment–cognition literature. The ${edge.papers} papers in this research front collectively establish that ${source} influences ${target}, with the effect direction characterized as "${edge.direction}". `;
+
+            if (topTheory) {
+                narrative += `The strongest theoretical explanation comes from ${topTheory[0]}, which is cited in ${topTheory[1]} of the empirical claims supporting this link. `;
+            }
+
+            narrative += `The Value of Information (VOI) score of ${(edge.voi * 100).toFixed(1)}% indicates the degree to which understanding this relationship reduces uncertainty about environment–cognition mechanisms. A higher VOI suggests this relationship is particularly diagnostic for distinguishing between competing theories.`;
+
+            return narrative;
+        }
+
+        // ===== LEGEND =====
+        const legendDiv = document.getElementById("legend");
+        legendDiv.innerHTML = `
+            <div class="legend-title">Legend</div>
+
+            <div class="legend-section">
+                <div class="legend-section-title">Node Types</div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #0891B2;"></div>
+                    <div class="legend-label">Environmental Feature</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #D97706;"></div>
+                    <div class="legend-label">Psychological Outcome</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-color" style="background-color: #7C3AED;"></div>
+                    <div class="legend-label">Theory</div>
+                </div>
+            </div>
+
+            <div class="legend-section">
+                <div class="legend-section-title">Warrant Types</div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background-color: #059669;"></div>
+                    <div class="legend-label">Empirical (Solid)</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background-color: #7C3AED; background-image: repeating-linear-gradient(90deg, #7C3AED 0, #7C3AED 5px, transparent 5px, transparent 10px);"></div>
+                    <div class="legend-label">Theoretical (Dashed)</div>
+                </div>
+            </div>
+
+            <div class="legend-section">
+                <div class="legend-section-title">Edge Width = Paper Count</div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background-color: #059669; width: 8px;"></div>
+                    <div class="legend-label">Few papers</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background-color: #059669; width: 20px;"></div>
+                    <div class="legend-label">Many papers</div>
+                </div>
+            </div>
+
+            <div class="legend-section">
+                <div class="legend-section-title">Edge Color = Warrant Strength (\u03c9)</div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background-color: #059669; width: 20px;"></div>
+                    <div class="legend-label">Strong (\u03c9 \u2265 0.7)</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background-color: #D97706; width: 20px;"></div>
+                    <div class="legend-label">Moderate (0.4\u20130.7)</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-line" style="background-color: #DC2626; width: 20px;"></div>
+                    <div class="legend-label">Weak (\u03c9 < 0.4)</div>
+                </div>
+            </div>
+
+            <div class="legend-section">
+                <div class="legend-section-title">Interaction</div>
+                <div class="legend-item">
+                    <div class="legend-label">• Hover nodes/edges for details</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-label">• Click for full information</div>
+                </div>
+                <div class="legend-item">
+                    <div class="legend-label">• Drag nodes to reposition</div>
+                </div>
+            </div>
+        `;
+
+        // Initial draw
+        update();
+
+        } // end initializeVisualization()
+
+        // Bootstrap: load data then render
+        loadData();
+    </script>
+</body>
+</html>

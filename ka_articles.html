@@ -1,0 +1,1165 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Find Articles – Knowledge Atlas Contributor</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #F7F4EF;
+            color: #2C2C2C;
+        }
+
+        /* Top Navigation */
+        .top-nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 56px;
+            background-color: #1C3D3A;
+            border-bottom: 1px solid #0f2423;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 0 24px;
+            z-index: 1000;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+        }
+
+        .nav-wordmark {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-size: 12px;
+            font-weight: 600;
+            letter-spacing: 0.1em;
+            color: #A8C8BF;
+        }
+
+        .nav-icon {
+            width: 20px;
+            height: 20px;
+            display: inline-block;
+            background: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23A8C8BF" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="6" x2="12" y2="18"/><line x1="18" y1="6" x2="12" y2="18"/></svg>') no-repeat center;
+            background-size: contain;
+        }
+
+        .nav-title {
+            color: #FFFFFF;
+        }
+
+        .nav-title-accent {
+            color: #F5A623;
+        }
+
+        .nav-center {
+            flex: 1;
+            text-align: center;
+            color: #A8C8BF;
+            font-size: 13px;
+        }
+
+        .nav-right {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .mode-pill {
+            background-color: #5AC8AA;
+            color: #FFFFFF;
+            padding: 6px 14px;
+            border-radius: 16px;
+            font-size: 12px;
+            font-weight: 600;
+        }
+
+        .profile-avatar {
+            width: 32px;
+            height: 32px;
+            border-radius: 50%;
+            background-color: #2A7868;
+            color: #FFFFFF;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 12px;
+            font-weight: 700;
+        }
+
+        /* Main Layout */
+        .page-container {
+            display: flex;
+            margin-top: 56px;
+            min-height: calc(100vh - 56px);
+        }
+
+        .sidebar {
+            width: 220px;
+            background-color: #FFFFFF;
+            border-right: 1px solid #E0DAD3;
+            padding: 24px 0;
+            overflow-y: auto;
+            position: fixed;
+            height: calc(100vh - 56px);
+            left: 0;
+            top: 56px;
+        }
+
+        .sidebar-section {
+            padding: 0 16px;
+            margin-bottom: 24px;
+        }
+
+        .sidebar-label {
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8C8C8C;
+            margin-bottom: 12px;
+            display: block;
+        }
+
+        .sidebar-nav {
+            display: flex;
+            flex-direction: column;
+            gap: 4px;
+        }
+
+        .sidebar-nav-item {
+            padding: 10px 12px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+            color: #2C2C2C;
+            transition: all 0.2s ease;
+        }
+
+        .sidebar-nav-item:hover {
+            background-color: #F7F4EF;
+        }
+
+        .sidebar-nav-item.active {
+            border-left: 3px solid #E8872A;
+            background-color: #FFF4E6;
+            color: #C05A1F;
+            padding-left: 9px;
+        }
+
+        .sidebar-divider {
+            height: 1px;
+            background-color: #E0DAD3;
+            margin: 24px 0;
+        }
+
+        .progress-panel {
+            padding: 16px;
+            background-color: #F7F4EF;
+            border-radius: 6px;
+            font-size: 13px;
+        }
+
+        .progress-label {
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 12px;
+            display: block;
+            font-size: 12px;
+        }
+
+        .progress-stat {
+            display: flex;
+            justify-content: space-between;
+            padding: 8px 0;
+            border-bottom: 1px solid #E0DAD3;
+            color: #666;
+            font-size: 12px;
+        }
+
+        .progress-stat:last-child {
+            border-bottom: none;
+        }
+
+        .progress-value {
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        /* Main Content */
+        .main-content {
+            margin-left: 220px;
+            padding: 40px;
+            flex: 1;
+        }
+
+        .page-header {
+            margin-bottom: 40px;
+        }
+
+        .page-title {
+            font-size: 32px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 8px;
+        }
+
+        .page-subtitle {
+            font-size: 15px;
+            color: #666;
+        }
+
+        /* Two Panel Layout */
+        .two-panel-layout {
+            display: grid;
+            grid-template-columns: 40% 60%;
+            gap: 32px;
+            align-items: start;
+        }
+
+        /* Left Panel: Search & Queue */
+        .search-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+            height: fit-content;
+        }
+
+        .panel-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            padding: 20px;
+        }
+
+        .panel-title {
+            font-size: 14px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 16px;
+        }
+
+        .search-box {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .search-input {
+            flex: 1;
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 10px 12px;
+            font-size: 13px;
+            transition: border-color 0.2s ease;
+        }
+
+        .search-input:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .button-search {
+            background-color: #E8872A;
+            color: #FFFFFF;
+            border: none;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+        }
+
+        .button-search:hover {
+            background-color: #C05A1F;
+        }
+
+        .active-query {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            background-color: #E0F2EE;
+            border: 1px solid #2A7868;
+            border-radius: 16px;
+            padding: 8px 12px;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .active-query-text {
+            color: #2A7868;
+            font-weight: 600;
+        }
+
+        .active-query-remove {
+            color: #2A7868;
+            cursor: pointer;
+            font-weight: 700;
+            margin-left: 4px;
+        }
+
+        .filter-row {
+            display: flex;
+            gap: 8px;
+            font-size: 12px;
+        }
+
+        .filter-select {
+            flex: 1;
+            border: 1px solid #E0DAD3;
+            border-radius: 4px;
+            padding: 6px;
+            font-size: 12px;
+            background-color: #FFFFFF;
+            cursor: pointer;
+        }
+
+        .results-list {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            max-height: 600px;
+            overflow-y: auto;
+        }
+
+        .result-card {
+            background-color: #F7F4EF;
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .result-card:hover {
+            border-color: #E8872A;
+            background-color: #FFF4E6;
+        }
+
+        .result-card.active {
+            border: 2px solid #E8872A;
+            background-color: #FFF4E6;
+            border-left: 4px solid #E8872A;
+        }
+
+        .result-title {
+            font-weight: 700;
+            font-size: 13px;
+            color: #2A7868;
+            margin-bottom: 4px;
+        }
+
+        .result-meta {
+            font-size: 11px;
+            color: #999;
+            margin-bottom: 8px;
+        }
+
+        .result-abstract {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            display: -webkit-box;
+            -webkit-line-clamp: 2;
+            -webkit-box-orient: vertical;
+            overflow: hidden;
+        }
+
+        .result-badges {
+            display: flex;
+            gap: 6px;
+            margin-bottom: 10px;
+        }
+
+        .badge {
+            background-color: #E0DAD3;
+            color: #2C2C2C;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-size: 10px;
+            font-weight: 600;
+        }
+
+        .result-actions {
+            display: flex;
+            gap: 6px;
+        }
+
+        .button-small {
+            padding: 6px 10px;
+            border-radius: 4px;
+            font-size: 11px;
+            font-weight: 600;
+            cursor: pointer;
+            border: none;
+            transition: all 0.2s ease;
+        }
+
+        .button-evaluate {
+            background-color: #E8872A;
+            color: #FFFFFF;
+            flex: 1;
+        }
+
+        .button-evaluate:hover {
+            background-color: #C05A1F;
+        }
+
+        .button-reject {
+            background-color: #FFFFFF;
+            color: #2C2C2C;
+            border: 1px solid #E0DAD3;
+            flex: 1;
+        }
+
+        .button-reject:hover {
+            border-color: #666;
+            background-color: #F7F4EF;
+        }
+
+        .queue-footer {
+            font-size: 12px;
+            color: #666;
+            text-align: center;
+            padding-top: 12px;
+            border-top: 1px solid #E0DAD3;
+        }
+
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 6px;
+            font-size: 12px;
+            margin-bottom: 12px;
+        }
+
+        .pagination-dot {
+            width: 6px;
+            height: 6px;
+            background-color: #E0DAD3;
+            border-radius: 50%;
+            cursor: pointer;
+        }
+
+        .pagination-dot.active {
+            background-color: #E8872A;
+        }
+
+        /* Right Panel: Evaluation Form */
+        .eval-panel {
+            display: flex;
+            flex-direction: column;
+            gap: 20px;
+        }
+
+        .form-card {
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            border-radius: 8px;
+            padding: 24px;
+        }
+
+        .form-title {
+            font-size: 16px;
+            font-weight: 700;
+            color: #2C2C2C;
+            margin-bottom: 6px;
+        }
+
+        .form-subtitle {
+            font-size: 13px;
+            color: #2A7868;
+            margin-bottom: 20px;
+            font-weight: 600;
+        }
+
+        .reference-display {
+            background-color: #F7F4EF;
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 12px;
+            margin-bottom: 20px;
+            font-size: 12px;
+            line-height: 1.6;
+        }
+
+        .reference-doi {
+            color: #2A7868;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .reference-doi:hover {
+            color: #1D5450;
+        }
+
+        .abstract-toggle {
+            color: #2A7868;
+            cursor: pointer;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            margin-top: 8px;
+            display: block;
+        }
+
+        .abstract-text {
+            margin-top: 8px;
+            font-size: 12px;
+            color: #666;
+            line-height: 1.5;
+            max-height: 200px;
+            overflow-y: auto;
+        }
+
+        .form-section {
+            margin-bottom: 24px;
+            padding-bottom: 24px;
+            border-bottom: 1px solid #E0DAD3;
+        }
+
+        .form-section:last-of-type {
+            border-bottom: none;
+            margin-bottom: 0;
+            padding-bottom: 0;
+        }
+
+        .section-title {
+            font-size: 13px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.05em;
+            color: #8C8C8C;
+            margin-bottom: 12px;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+
+        .form-group:last-child {
+            margin-bottom: 0;
+        }
+
+        .form-label {
+            font-size: 13px;
+            font-weight: 600;
+            color: #2C2C2C;
+        }
+
+        .radio-group {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+        }
+
+        .radio-chip {
+            background-color: #F0E8DF;
+            border: 1px solid #E0DAD3;
+            padding: 8px 12px;
+            border-radius: 6px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .radio-chip:hover {
+            border-color: #E8872A;
+            background-color: #FFF4E6;
+        }
+
+        .radio-chip.active {
+            background-color: #E8872A;
+            color: #FFFFFF;
+            border-color: #E8872A;
+        }
+
+        .form-select {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 13px;
+            background-color: #FFFFFF;
+            cursor: pointer;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-select:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .form-input {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .quality-rating {
+            display: flex;
+            gap: 8px;
+        }
+
+        .star {
+            font-size: 20px;
+            cursor: pointer;
+            color: #D0CCBF;
+            transition: color 0.2s ease;
+        }
+
+        .star:hover,
+        .star.active {
+            color: #E8872A;
+        }
+
+        .form-textarea {
+            border: 1px solid #E0DAD3;
+            border-radius: 6px;
+            padding: 10px;
+            font-size: 13px;
+            font-family: Arial, sans-serif;
+            resize: vertical;
+            transition: border-color 0.2s ease;
+        }
+
+        .form-textarea:focus {
+            outline: none;
+            border-color: #E8872A;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .chip-group {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+        }
+
+        .chip {
+            background-color: #F0E8DF;
+            border: 1px solid #E0DAD3;
+            padding: 8px 12px;
+            border-radius: 16px;
+            font-size: 12px;
+            cursor: pointer;
+            transition: all 0.2s ease;
+            user-select: none;
+        }
+
+        .chip:hover {
+            border-color: #E8872A;
+            background-color: #FFF4E6;
+        }
+
+        .chip.active {
+            background-color: #E8872A;
+            border-color: #E8872A;
+            color: #FFFFFF;
+        }
+
+        .submit-row {
+            display: flex;
+            gap: 12px;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #E0DAD3;
+        }
+
+        .button-primary {
+            background-color: #E8872A;
+            color: #FFFFFF;
+            border: none;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: background-color 0.2s ease;
+            flex: 1;
+        }
+
+        .button-primary:hover {
+            background-color: #C05A1F;
+        }
+
+        .button-primary:focus {
+            outline: none;
+            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        }
+
+        .button-secondary {
+            background-color: #FFFFFF;
+            border: 1px solid #E0DAD3;
+            color: #2C2C2C;
+            padding: 12px 20px;
+            border-radius: 6px;
+            font-size: 13px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s ease;
+        }
+
+        .button-secondary:hover {
+            border-color: #E8872A;
+            color: #E8872A;
+        }
+
+        .flag-link {
+            color: #2A7868;
+            text-decoration: none;
+            font-size: 12px;
+            font-weight: 600;
+            cursor: pointer;
+        }
+
+        .flag-link:hover {
+            color: #1D5450;
+        }
+
+        /* Version Badge */
+        .version-badge {
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            background-color: #1C3D3A;
+            color: #A8C8BF;
+            padding: 10px 14px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 600;
+            letter-spacing: 0.05em;
+        }
+
+        /* Scrollbars */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #F7F4EF;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #D0CCBF;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #B8B0A0;
+        }
+    </style>
+</head>
+<body>
+    <!-- Top Navigation -->
+    <div class="top-nav">
+        <div class="nav-wordmark">
+            <div class="nav-icon"></div>
+            <span>KNOWLEDGE</span>
+            <span class="nav-title">/ <span class="nav-title-accent">Atlas</span></span>
+        </div>
+        <div class="nav-center">Contributor Workspace</div>
+        <div class="nav-right">
+            <div class="mode-pill">CONTRIBUTOR</div>
+            <div class="profile-avatar">DK</div>
+        </div>
+    </div>
+
+    <!-- Page Container -->
+    <div class="page-container">
+        <!-- Sidebar -->
+        <div class="sidebar">
+            <div class="sidebar-section">
+                <span class="sidebar-label">Contributor Tasks</span>
+                <div class="sidebar-nav">
+                    <div class="sidebar-nav-item">Tag Images</div>
+                    <div class="sidebar-nav-item">Data Capture</div>
+                    <div class="sidebar-nav-item active">Find Articles</div>
+                    <div class="sidebar-nav-item">My Submissions</div>
+                </div>
+            </div>
+
+            <div class="sidebar-divider"></div>
+
+            <div class="sidebar-section">
+                <span class="sidebar-label">My Progress This Week</span>
+                <div class="progress-panel">
+                    <span class="progress-label">Status</span>
+                    <div class="progress-stat">
+                        <span>Evaluated:</span>
+                        <span class="progress-value">7 / 10</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span>Accepted:</span>
+                        <span class="progress-value">5 articles</span>
+                    </div>
+                    <div class="progress-stat">
+                        <span>Pending:</span>
+                        <span class="progress-value">2 queue</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Content -->
+        <div class="main-content">
+            <div class="page-header">
+                <h1 class="page-title">Find Articles</h1>
+                <p class="page-subtitle">Search for and evaluate scientific articles for inclusion in the Knowledge Atlas evidence base.</p>
+            </div>
+
+            <div class="two-panel-layout">
+                <!-- Left Panel: Search & Queue -->
+                <div class="search-panel">
+                    <div class="panel-card">
+                        <h2 class="panel-title">Search Queue</h2>
+
+                        <div class="search-box">
+                            <input type="text" class="search-input" placeholder="Search articles...">
+                            <button class="button-search">Run Search →</button>
+                        </div>
+
+                        <div class="active-query">
+                            <span class="active-query-text">workplace lighting AND cognitive performance</span>
+                            <span class="active-query-remove">✕</span>
+                        </div>
+
+                        <div class="filter-row">
+                            <select class="filter-select">
+                                <option>Source: All</option>
+                                <option>PubMed</option>
+                                <option>Google Scholar</option>
+                                <option>Semantic Scholar</option>
+                            </select>
+                            <select class="filter-select">
+                                <option>Year: Any</option>
+                                <option>Last 5 years</option>
+                                <option>Last 10 years</option>
+                            </select>
+                            <select class="filter-select">
+                                <option>Study Type: All</option>
+                                <option>RCT</option>
+                                <option>Observational</option>
+                                <option>Review</option>
+                            </select>
+                        </div>
+
+                        <div class="pagination">
+                            <div class="pagination-dot active"></div>
+                            <div class="pagination-dot"></div>
+                            <div class="pagination-dot"></div>
+                        </div>
+
+                        <div class="results-list">
+                            <!-- Result 1 - Active -->
+                            <div class="result-card active">
+                                <div class="result-title">A review of research into visual discomfort</div>
+                                <div class="result-meta">Viola et al. (2008) • Ergonomics 51(7)</div>
+                                <div class="result-abstract">Investigates the effects of lighting on visual strain and cognitive performance in office environments...</div>
+                                <div class="result-badges">
+                                    <span class="badge">Review</span>
+                                    <span class="badge">2008</span>
+                                </div>
+                                <div class="result-actions">
+                                    <button class="button-small button-evaluate">Evaluate →</button>
+                                    <button class="button-small button-reject">Reject</button>
+                                </div>
+                            </div>
+
+                            <!-- Result 2 -->
+                            <div class="result-card">
+                                <div class="result-title">Impact of Natural Lighting on Attention Tasks</div>
+                                <div class="result-meta">Boubekri et al. (2014) • Journal of Environmental Psychology</div>
+                                <div class="result-abstract">Field study examining how windows and natural daylight exposure affect sustained attention and cognitive performance...</div>
+                                <div class="result-badges">
+                                    <span class="badge">Field Study</span>
+                                    <span class="badge">2014</span>
+                                </div>
+                                <div class="result-actions">
+                                    <button class="button-small button-evaluate">Evaluate →</button>
+                                    <button class="button-small button-reject">Reject</button>
+                                </div>
+                            </div>
+
+                            <!-- Result 3 -->
+                            <div class="result-card">
+                                <div class="result-title">The Attentional Blink: A Window on Temporal Attention</div>
+                                <div class="result-meta">Pashler (1994) • Psychological Bulletin</div>
+                                <div class="result-abstract">Meta-analysis of dual-task paradigms revealing temporal constraints in human attention and information processing...</div>
+                                <div class="result-badges">
+                                    <span class="badge">Meta-analysis</span>
+                                    <span class="badge">1994</span>
+                                </div>
+                                <div class="result-actions">
+                                    <button class="button-small button-evaluate">Evaluate →</button>
+                                    <button class="button-small button-reject">Reject</button>
+                                </div>
+                            </div>
+
+                            <!-- Result 4 -->
+                            <div class="result-card">
+                                <div class="result-title">Estimating the reproducibility of psychological science</div>
+                                <div class="result-meta">Open Science Collaboration (2015) • Science 349(6251)</div>
+                                <div class="result-abstract">Large-scale replication study assessing the reproducibility of results from top-tier psychology journals...</div>
+                                <div class="result-badges">
+                                    <span class="badge">RCT</span>
+                                    <span class="badge">2015</span>
+                                </div>
+                                <div class="result-actions">
+                                    <button class="button-small button-evaluate">Evaluate →</button>
+                                    <button class="button-small button-reject">Reject</button>
+                                </div>
+                            </div>
+
+                            <!-- Result 5 -->
+                            <div class="result-card">
+                                <div class="result-title">Circadian rhythms and cognitive performance in shift work</div>
+                                <div class="result-meta">Goel et al. (2009) • Sleep Medicine Reviews</div>
+                                <div class="result-abstract">Review examining how lighting conditions and circadian disruption affect workplace cognitive performance...</div>
+                                <div class="result-badges">
+                                    <span class="badge">Review</span>
+                                    <span class="badge">2009</span>
+                                </div>
+                                <div class="result-actions">
+                                    <button class="button-small button-evaluate">Evaluate →</button>
+                                    <button class="button-small button-reject">Reject</button>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="queue-footer">
+                            My queue: 3 pending evaluation
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Right Panel: Evaluation Form -->
+                <div class="eval-panel">
+                    <div class="form-card">
+                        <h2 class="form-title">Evaluate Article</h2>
+                        <p class="form-subtitle">A review of research into visual discomfort</p>
+
+                        <div class="reference-display">
+                            <strong>Viola et al. (2008)</strong>. A review of research into visual discomfort. <em>Ergonomics</em>, 51(7), 1041-1066.
+                            <div style="margin-top: 8px;">DOI: <a class="reference-doi" href="#">10.1080/00140130802283516</a></div>
+                            <a class="abstract-toggle">Expand abstract</a>
+                        </div>
+
+                        <!-- Section 1: Relevance -->
+                        <div class="form-section">
+                            <div class="section-title">SECTION 1 — RELEVANCE</div>
+
+                            <div class="form-group">
+                                <label class="form-label">Is this article relevant to Knowledge Atlas?</label>
+                                <div class="radio-group">
+                                    <div class="radio-chip active">Yes</div>
+                                    <div class="radio-chip">No</div>
+                                    <div class="radio-chip">Borderline</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Domain Tags</label>
+                                <div class="chip-group">
+                                    <div class="chip active">Lighting</div>
+                                    <div class="chip active">Vision</div>
+                                    <div class="chip">Cognition</div>
+                                    <div class="chip">Workplace</div>
+                                    <div class="chip">Health</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 2: Study Quality -->
+                        <div class="form-section">
+                            <div class="section-title">SECTION 2 — STUDY QUALITY</div>
+
+                            <div class="form-group">
+                                <label class="form-label">Study Type</label>
+                                <select class="form-select">
+                                    <option>Select study type</option>
+                                    <option>RCT</option>
+                                    <option>Quasi-experiment</option>
+                                    <option>Observational</option>
+                                    <option selected>Review</option>
+                                    <option>Meta-analysis</option>
+                                    <option>Case Study</option>
+                                </select>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Sample Size (if applicable)</label>
+                                <input type="number" class="form-input" placeholder="Enter sample size">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Quality Rating (5-star)</label>
+                                <div class="quality-rating">
+                                    <span class="star active">●</span>
+                                    <span class="star active">●</span>
+                                    <span class="star active">●</span>
+                                    <span class="star active">●</span>
+                                    <span class="star">○</span>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Known Limitations</label>
+                                <textarea class="form-textarea" rows="2" placeholder="Describe any known limitations or biases..."></textarea>
+                            </div>
+                        </div>
+
+                        <!-- Section 3: Evidence Classification -->
+                        <div class="form-section">
+                            <div class="section-title">SECTION 3 — EVIDENCE CLASSIFICATION</div>
+
+                            <div class="form-group">
+                                <label class="form-label">Primary Claim (one sentence)</label>
+                                <textarea class="form-textarea" rows="2" placeholder="Summarize the main empirical claim..."></textarea>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Outcome Measure</label>
+                                <input type="text" class="form-input" placeholder="e.g., visual strain rating, reaction time, accuracy">
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Direction of Evidence</label>
+                                <div class="radio-group">
+                                    <div class="radio-chip">Supports KA belief</div>
+                                    <div class="radio-chip">Contradicts KA belief</div>
+                                    <div class="radio-chip active">Ambiguous</div>
+                                    <div class="radio-chip">New claim</div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Section 4: Recommendation -->
+                        <div class="form-section">
+                            <div class="section-title">SECTION 4 — RECOMMENDATION</div>
+
+                            <div class="form-group">
+                                <label class="form-label">Recommendation</label>
+                                <div class="radio-group">
+                                    <div class="radio-chip">Accept for KA</div>
+                                    <div class="radio-chip active">Accept with caveats</div>
+                                    <div class="radio-chip">Reject</div>
+                                    <div class="radio-chip">Needs expert review</div>
+                                </div>
+                            </div>
+
+                            <div class="form-group">
+                                <label class="form-label">Notes for Reviewer</label>
+                                <textarea class="form-textarea" rows="2" placeholder="Add any final notes or concerns..."></textarea>
+                            </div>
+                        </div>
+
+                        <div class="submit-row">
+                            <button class="button-primary">Submit Evaluation →</button>
+                            <button class="button-secondary">Save Draft</button>
+                            <a class="flag-link">Flag for Instructor</a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Version Badge -->
+    <div class="version-badge">KA UI · v0.4</div>
+
+    <script>
+        // Handle radio chips
+        document.querySelectorAll('.radio-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                const group = this.parentElement;
+                group.querySelectorAll('.radio-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Handle tag/domain chips
+        document.querySelectorAll('.chip-group .chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                this.classList.toggle('active');
+            });
+        });
+
+        // Handle star rating
+        document.querySelectorAll('.quality-rating .star').forEach((star, index) => {
+            star.addEventListener('click', function() {
+                document.querySelectorAll('.quality-rating .star').forEach((s, i) => {
+                    if (i <= index) {
+                        s.textContent = '●';
+                        s.classList.add('active');
+                    } else {
+                        s.textContent = '○';
+                        s.classList.remove('active');
+                    }
+                });
+            });
+        });
+
+        // Handle result card selection
+        document.querySelectorAll('.result-card').forEach(card => {
+            card.addEventListener('click', function() {
+                document.querySelectorAll('.result-card').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
+
+        // Handle abstract toggle
+        const abstractToggle = document.querySelector('.abstract-toggle');
+        if (abstractToggle) {
+            abstractToggle.addEventListener('click', function() {
+                const text = this.textContent === 'Expand abstract' ? 'Collapse abstract' : 'Expand abstract';
+                this.textContent = text;
+            });
+        }
+    </script>
+<script src="ka_acronyms.js"></script>
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_articles',
+  title: 'Article Management — Contributor Tool',
+  audience: 'Track 2 contributors: students assigned to find, evaluate, and annotate articles from the scientific literature',
+  purpose: 'The contributor interface for the article-finding and evaluation pipeline. Track 2 contributors are assigned articles to evaluate for relevance, extract key metadata (DOI [Digital Object Identifier], construct tags, study type, sample size), and flag methodological concerns. This feeds the articles table that the Article Search and Evidence Browser draw from. Note: this page is distinct from Article Search (ka_article_search.html), which is for researchers finding literature, not contributors managing it.',
+  workflowPos: 'Contributor workflow: log in → dashboard → article assignments appear → evaluate articles → submit evaluations → dashboard updates. Parallel to image tagging (Track 1).',
+  notFor: 'Searching for articles by construct or instrument (use Article Search). Browsing processed evidence nodes (use Evidence Browser). Hypothesis building.',
+  phase: 'Phase 3 — User Management + Contributor Pipeline (assignment allocation and evaluation submission writes)',
+  evalQuestions: [
+    'Is the distinction between this page (contributor management) and Article Search (researcher discovery) clear?',
+    'Is the article evaluation form asking for the right metadata — is any field unnecessary or missing?',
+    'Are contributors given enough context to judge relevance — do they know what constructs and signals the KA corpus needs most?',
+    'Is the workflow from "assigned article" to "submitted evaluation" fast enough to be feasible in a study session?',
+    'Does the page communicate progress — how many articles remain in the assignment queue?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_demo_wiring.js"></script>
+</body>
+</html>
