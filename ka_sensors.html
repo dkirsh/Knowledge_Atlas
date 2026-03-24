@@ -544,6 +544,7 @@
                 cost: "Low",
                 validation: "Well-validated across hundreds of studies (JSTOR, PubMed Central)",
                 sampleRate: "1–100 Hz (device-dependent)",
+                howItWorks: "The sinoatrial node fires electrical impulses that spread through the myocardium, triggering each contraction. Sympathetic activation (via norepinephrine) accelerates the node; parasympathetic activation (via acetylcholine at the vagus nerve) slows it. Wearable photoplethysmography (PPG) sensors detect the volumetric pulse wave at the fingertip or wrist by shining infrared light and measuring reflected absorption, estimating inter-beat timing from the resulting waveform.",
                 reference: "Task Force of the European Society of Cardiology and the North American Society of Pacing and Electrophysiology (1996). Heart rate variability. Circulation, 93(5), 1043–1065.",
                 software: "PsychoPy (PyGame), OpenVINO (real-time)"
             },
@@ -563,6 +564,7 @@
                 cost: "Medium",
                 validation: "Gold standard in psychophysiology; strong reliability (Intraclass Correlation > 0.80)",
                 sampleRate: "100+ Hz (ECG preferred)",
+                howItWorks: "HRV quantifies the irregularity of inter-beat intervals. The vagus nerve continuously modulates SA node firing through the baroreflex; parasympathetic dominance (low stress, recovery) produces high HRV, while sustained sympathetic activation (stress, fatigue) suppresses vagal tone, narrowing the inter-beat distribution. RMSSD (root mean square of successive differences) and high-frequency HRV power (0.15–0.4 Hz) are standard indices. Short-term recordings of 5 minutes are sufficient for most laboratory measurements.",
                 reference: "Shaffer, F., & Ginsberg, J. P. (2017). An overview of heart rate variability metrics and norms. Frontiers in Public Health, 5, 258.",
                 software: "Kubios HRV, LabChart, RHRV (R package)"
             },
@@ -582,6 +584,7 @@
                 cost: "Low",
                 validation: "Sensitive but subject to motion and environmental artifacts; requires careful preprocessing",
                 sampleRate: "10–100 Hz",
+                howItWorks: "Eccrine sweat glands in the palmar and plantar skin are innervated exclusively by sympathetic cholinergic fibres. Emotional or cognitive arousal increases sudomotor activity, raising skin conductance by depositing sweat — an electrolyte solution — in the gland ducts. EDA is measured by passing a small alternating current (< 1 μA) between two electrodes on the fingers or palm and measuring conductance in microSiemens. The tonic level (SCL) reflects baseline arousal; phasic peaks (SCRs) mark discrete orienting responses to stimuli.",
                 reference: "Boucsein, W. (2012). Electrodermal Activity (2nd ed.). Springer Science+Business Media.",
                 software: "Neurokit2 (Python), E4 wristband, Empatica API"
             },
@@ -601,6 +604,7 @@
                 cost: "High",
                 validation: "Gold standard for HPA function; requires ELISA or mass spectrometry analysis; ~$50–150/sample",
                 sampleRate: "Point samples (timed collection)",
+                howItWorks: "The hypothalamic-pituitary-adrenal axis responds to perceived threat by releasing corticotropin-releasing hormone (CRH) from the hypothalamus, which drives ACTH secretion from the pituitary, which in turn stimulates cortisol release from the adrenal cortex. Cortisol enters saliva by passive diffusion from plasma, making salivary concentration a reliable proxy for free plasma cortisol (~1–2% of total). Because cortisol peaks 20–30 minutes after a stressor, sample timing is critical: baseline, +20 min, and +40 min post-stressor is the standard protocol.",
                 reference: "Kirschbaum, C., & Hellhammer, D. H. (1994). Salivary cortisol in psychoneuroendocrine research. European Journal of Clinical Investigation, 24(5), 319–338.",
                 software: "Lab-based; Salimetrics kits"
             },
@@ -620,6 +624,7 @@
                 cost: "Low",
                 validation: "Sensitive to task engagement; requires manual annotation for reliability",
                 sampleRate: "10–50 Hz",
+                howItWorks: "Breathing is driven by rhythmic activity in the medullary respiratory centres (pre-Bötzinger complex), modulated by descending cortical signals during voluntary breath control and emotional states. Cognitively demanding or emotionally arousing situations alter respiratory timing: focused attention is associated with breath-holding and irregular breathing; high arousal with faster, shallower breathing. Chest and abdominal strain gauges measure circumference changes; respiratory inductance plethysmography can separate chest and abdominal contributions.",
                 reference: "Porges, S. W. (2011). The Polyvagal Theory. W. W. Norton & Company.",
                 software: "Biopac systems, OpenVINO"
             },
@@ -638,6 +643,7 @@
                 cost: "Low",
                 validation: "Sensitive to motion; requires filtering; correlates with ECG",
                 sampleRate: "50–100 Hz",
+                howItWorks: "PPG works by shining a near-infrared LED through tissue and measuring light absorption by haemoglobin. Blood volume in the capillary bed peaks with each cardiac systole, absorbing more light and producing a characteristic AC waveform. The BVP waveform contains the same timing information as an ECG pulse, allowing HR and rough HRV estimation, though with greater noise than contact ECG. Peripheral vasoconstriction — triggered by sympathetic activation — reduces the BVP amplitude independently of HR, providing an additional arousal index.",
                 reference: "Allen, J. (2007). Photoplethysmography and its application in clinical physiology. Physiology & Behavior, 107(4), 572–579.",
                 software: "Shimmer, E4, generic wearables"
             },
@@ -659,6 +665,7 @@
                 cost: "High",
                 validation: "Reliable within-subject; between-subject variability high; requires careful artifact rejection",
                 sampleRate: "250+ Hz (typically 500 Hz)",
+                howItWorks: "Frontal theta oscillations are generated by thalamocortical loops and medial prefrontal structures. During demanding working memory or sustained attention tasks, the anterior cingulate cortex (ACC) and medial prefrontal cortex synchronise at 4–8 Hz, driving coherent theta power at mid-frontal scalp electrodes. The mechanism reflects active maintenance of task-relevant representations against interference — essentially the neural signature of mental effort. Electrode impedance must be kept below 5 kΩ and independent component analysis (ICA) used to remove eye and muscle artifacts before spectral analysis.",
                 reference: "Klimesch, W. (1999). EEG alpha and theta oscillations reflect cognitive and memory performance. Brain Research Reviews, 29(2–3), 169–195.",
                 software: "MNE-Python, EEGLAB, BrainVision Analyzer"
             },
@@ -678,6 +685,7 @@
                 cost: "High",
                 validation: "Theoretically rich; vulnerable to individual differences and baseline shifts",
                 sampleRate: "250+ Hz",
+                howItWorks: "Alpha power (8–12 Hz) is inversely related to cortical excitability — regions with high alpha are relatively inhibited. Frontal alpha asymmetry (log(F4 power) − log(F3 power)) reflects the balance of approach (left PFC, low alpha = active) vs. withdrawal (right PFC) motivational systems, following Davidson's affective asymmetry model. Positive asymmetry (greater left activation) is associated with approach motivation and positive affect; negative asymmetry with withdrawal tendency and negative affect. Resting state recordings of at least 3 minutes yield reliable asymmetry estimates.",
                 reference: "Davidson, R. J. (1998). Affective style and affective disorders. Journal of Personality and Social Psychology, 835–846.",
                 software: "LORETA, source-localization tools"
             },
@@ -697,6 +705,7 @@
                 cost: "High",
                 validation: "Robust component signatures; requires 30–40 trials per condition minimum",
                 sampleRate: "500+ Hz required",
+                howItWorks: "ERPs are extracted by averaging the EEG time-locked to many repetitions of the same stimulus category, cancelling out ongoing oscillatory noise. P300 (~300 ms post-stimulus) is generated when an infrequent target is detected among frequent distractors (oddball paradigm); its amplitude reflects the amount of attentional resources allocated and its latency reflects evaluation speed. N200 (~200 ms) marks conflict detection by the ACC. LPC (~500–800 ms) reflects post-encoding memory consolidation. A minimum of 30–40 artefact-free trials per condition is required for stable amplitude estimates.",
                 reference: "Polich, J. (2007). Updating P300: An integrative theory of P3a and P3b. Clinical Neurophysiology, 118(10), 2128–2148.",
                 software: "ERPLAB (plugin for EEGLAB), BrainVision"
             },
@@ -716,6 +725,7 @@
                 cost: "Very High",
                 validation: "Excellent ecological validity; correlated with fMRI and behavioral performance",
                 sampleRate: "10 Hz typical",
+                howItWorks: "fNIRS exploits the differential absorption spectra of oxyhaemoglobin (HbO₂) and deoxyhaemoglobin (HHb) at near-infrared wavelengths (650–950 nm). Source optodes emit NIR light that penetrates the scalp and skull; detector optodes 2–4 cm away capture the diffusely reflected light. Neural activity triggers localised increases in cerebral blood flow (the haemodynamic response) via neurovascular coupling, raising HbO₂ and lowering HHb in the active region. Prefrontal optode placement captures activity related to executive function, working memory, and emotional regulation — the same regions targeted in standard PFC-fMRI paradigms.",
                 reference: "Ferrari, M., & Quaresima, V. (2012). A brief review on the history of human functional near-infrared spectroscopy (fNIRS) development and fields of applications. NeuroImage, 63(2), 921–935.",
                 software: "Hitachi ETG-4000, GOWERLABS Lumo"
             },
@@ -735,6 +745,7 @@
                 cost: "High",
                 validation: "Prone to muscle and EMG contamination; requires advanced artifact rejection",
                 sampleRate: "500+ Hz (preferably 1 kHz)",
+                howItWorks: "Gamma oscillations reflect rapid recurrent interactions among pyramidal cells and inhibitory interneurons (the PING model: pyramidal-interneuron gamma). During moments of insight or successful creative combination, distributed cortical networks briefly synchronise at ~40 Hz, binding together disparate representation. Because gamma is easily contaminated by EMG artifacts from facial muscles, active shielding and ICA-based rejection are mandatory. Morlet wavelet convolution (not standard FFT) is recommended for time-frequency localisation, because insight-related gamma bursts are transient (< 300 ms).",
                 reference: "Kounios, J., et al. (2006). The prepared mind. Psychological Science, 17(4), 360–366.",
                 software: "EEGLAB with ICA, Morlet wavelet analysis"
             },
@@ -756,6 +767,7 @@
                 cost: "Medium",
                 validation: "Robust across populations; sensitive to lighting conditions; requires luminance control",
                 sampleRate: "30–120 Hz",
+                howItWorks: "Pupil diameter is controlled by the antagonistic actions of the dilator muscle (sympathetic, norepinephrine via LC-NE) and the sphincter muscle (parasympathetic, muscular nerve III). The locus coeruleus-norepinephrine (LC-NE) system, the brain's primary arousal and attention regulator, directly drives pupil dilation during cognitive effort, making TEPR a peripheral index of LC firing rate. Critically, luminance must be held constant or carefully regressed out, because the pupillary light reflex (constriction to light) is 10–20× larger than the cognitive dilation response and will otherwise swamp it.",
                 reference: "Beatty, J., & Lucero-Wagoner, B. (2000). The pupillary system. Handbook of Psychophysiology, 142–162.",
                 software: "Tobii Pro, SR Research EyeLink, PyGaze"
             },
@@ -775,6 +787,7 @@
                 cost: "Medium",
                 validation: "Reliable measure; requires AOI definition; calibration essential",
                 sampleRate: "30–120 Hz",
+                howItWorks: "A fixation occurs when the gaze velocity drops below a threshold (typically 30°/s) for at least 100–200 ms, indicating the fovea has stabilised on a region of interest. Longer fixations reflect deeper processing or greater difficulty; more fixations within an AOI reflect sustained interest or search. The underlying mechanism is foveal information intake: the high-acuity fovea resolves detail only within 2° of the point of regard, so the brain directs fixations to information-rich or task-relevant locations. Infrared corneal reflection is used to measure gaze angle, calibrated to screen coordinates.",
                 reference: "Just, M. A., & Carpenter, P. A. (1976). Eye fixations and cognitive processes. Cognitive Psychology, 8(4), 441–480.",
                 software: "Tobii Studio, SR Research EyeLink Data Viewer"
             },
@@ -794,6 +807,7 @@
                 cost: "Medium",
                 validation: "Sensitive to task demands; individual differences moderate; requires calibration",
                 sampleRate: "250+ Hz recommended",
+                howItWorks: "Saccades are ballistic rapid eye movements (150–700°/s) generated by the frontal eye fields (FEF) and superior colliculus, with brainstem burst neurons producing the velocity command. Peak saccadic velocity follows a main-sequence relationship: longer amplitude saccades reach proportionally higher peak velocities. Fatigue and sleep deprivation reduce peak velocity via reduced burst neuron firing; high arousal increases it. The signal is extracted by differentiating gaze position over time and applying a velocity threshold detector. Accuracy requires at least 250 Hz sampling to capture the peak of short saccades.",
                 reference: "Findlay, J. M., & Walker, R. (1999). A review of the role of saccades in reading. Journal of Vision, 8(14), 3–3.",
                 software: "SR Research EyeLink, Tobii SDK"
             },
@@ -813,6 +827,7 @@
                 cost: "Low",
                 validation: "Robust but modulated by task type; baseline individual differences moderate interpretation",
                 sampleRate: "30+ Hz",
+                howItWorks: "Spontaneous blinks are generated by the orbicularis oculi muscle via the facial nerve, with baseline rate set by dopaminergic tone in the striatum (dopamine agonists increase blink rate). During intense visual attention, the superior colliculus and pretectal nuclei suppress blink generation to avoid interrupting foveal input — hence blink rate drops during focused tasks. Conversely, blinks increase as a reset mechanism under fatigue. Blinks last 150–400 ms and can be detected by measuring lid position via eye tracker or by placing infrared reflection sensors near the orbit.",
                 reference: "Recarte, M. A., & Nunes, L. M. (2003). Mental workload while driving. Human Factors, 45(1), 96–106.",
                 software: "dlib (Python), OpenFace, standard eye trackers"
             },
@@ -834,6 +849,7 @@
                 cost: "Very Low",
                 validation: "Gold standard in fatigue research; standardized in sleep science; highly reliable",
                 sampleRate: "Task-based (per trial)",
+                howItWorks: "The PVT presents a millisecond timer on a screen; participants press a button as fast as possible when it starts counting, stopping the timer at their reaction time. The task demands sustained vigilance with no memory or executive demands — its only cognitive requirement is maintaining readiness to respond. Fatigue-related lapses (RT > 500 ms) increase exponentially with time awake and accumulate across sleep-deprived days. The mechanism involves degraded thalamic gating and fluctuating arousal (microsleeps) in the LC-NE system, which intermittently fails to maintain alertness during monotonous waiting.",
                 reference: "Dinges, D. F., & Powell, J. W. (1985). Microcomputer analyses of performance on a portable, simple visual RT task. Behavior Research Methods, Instruments, & Computers, 17(6), 652–655.",
                 software: "Custom PsychoPy, Matlab, PEBL (Psychology Experiment Building Language)"
             },
@@ -853,6 +869,7 @@
                 cost: "Very Low",
                 validation: "Well-validated; practice effects moderate; response pattern sensitive to difficulty",
                 sampleRate: "Task-based",
+                howItWorks: "On each trial, participants see a stimulus (letter, number) and must decide whether it matches the item presented N trials ago. The 2-back requires simultaneously holding items in mind, continuously updating, and comparing each new stimulus — recruiting the dorsolateral prefrontal cortex (dlPFC) and parietal cortex heavily. As load increases from 1-back to 3-back, accuracy falls non-linearly because the central executive buffer capacity is exceeded. Dual-task variants can be constructed to probe specific components of Baddeley's working memory model (phonological loop vs. visuospatial sketchpad).",
                 reference: "Kirchner, W. K. (1958). Age differences in short-term retention of rapidly changing information. Journal of Experimental Psychology, 55(4), 352.",
                 software: "PsychoPy, Matlab, PEBL"
             },
@@ -872,6 +889,7 @@
                 cost: "Very Low",
                 validation: "One of the most robust findings in cognitive psychology; high test–retest reliability",
                 sampleRate: "Task-based",
+                howItWorks: "Word reading is a highly automatised process (faster than colour naming), so when a colour word and its ink colour conflict (e.g., the word RED printed in blue), reading automatically activates the wrong response and the anterior cingulate cortex (ACC) must detect this conflict and engage the prefrontal cortex to inhibit the prepotent (reading) response in favour of the goal-directed (naming) response. The Stroop effect (the RT cost of incongruent trials) is a measure of the efficiency of this top-down inhibitory control. It is sensitive to fatigue, stress, and environmental manipulations affecting PFC function.",
                 reference: "MacLeod, C. M. (1991). Half a century of research on the Stroop effect. Psychological Bulletin, 109(2), 163.",
                 software: "PsychoPy, E-Prime, OpenSesame"
             },
@@ -891,6 +909,7 @@
                 cost: "Low",
                 validation: "Standard in creativity research; requires manual or AI-assisted scoring; Guilford norms available",
                 sampleRate: "Task-based",
+                howItWorks: "The AUT asks participants to generate as many unusual uses as possible for a common object within 2–3 minutes. Divergent thinking requires the prefrontal cortex to maintain a broad search set while simultaneously suppressing habitual (canonical use) responses, in combination with default mode network (DMN) activity for associative memory retrieval. Fluency is scored as the total number of valid responses; originality as statistical infrequency of each response relative to population norms; flexibility as the number of distinct semantic categories spanned. AI-assisted scoring using embedding similarity (cosine distance in semantic space) now enables large-scale reliable coding.",
                 reference: "Guilford, J. P. (1967). The Nature of Human Intelligence. McGraw-Hill.",
                 software: "Custom (paper + manual coding, or AI-assisted scoring)"
             },
@@ -912,6 +931,7 @@
                 cost: "Very Low",
                 validation: "Highly cited and validated; correlates with physiological load measures; sensitive to task variation",
                 sampleRate: "Post-task assessment",
+                howItWorks: "NASA-TLX captures introspective access to six distinct resource channels. Participants first rate each dimension on a 100-point scale, then perform pairwise comparisons of which dimension contributed most to workload (15 comparisons for 6 dimensions) — the comparison frequency weights each dimension. The weighted overall TLX score aggregates these into a single composite. The instrument was designed around the multiple resource theory (Wickens, 1984): different task demands (visual vs. auditory, spatial vs. verbal) draw from separable resource pools, and TLX's multi-dimensional structure reflects this resource decomposition.",
                 reference: "Hart, S. G., & Staveland, L. E. (1988). Development of NASA-TLX (Task Load Index). Human Mental Workload, 139–183.",
                 software: "Questionnaire (paper, Qualtrics, custom web form)"
             },
@@ -931,6 +951,7 @@
                 cost: "Very Low",
                 validation: "Well-validated; high internal consistency (α > 0.84); sensitive to state change",
                 sampleRate: "Pre/post or repeated measures",
+                howItWorks: "PANAS is grounded in the two-dimensional circumplex model of affect, where valence (pleasant/unpleasant) and arousal (high/low) define affective space but PA and NA are empirically nearly orthogonal (not bipolar opposites). PA items (e.g., Excited, Interested, Determined) load on the activated-pleasant quadrant; NA items (Distressed, Afraid, Hostile) on the activated-unpleasant quadrant. Instructional set determines what is being assessed: 'right now' yields state affect; 'in general' yields dispositional affect. Because PA and NA are independent, environmental manipulations can selectively boost PA without reducing NA (or vice versa).",
                 reference: "Watson, D., Clark, L. A., & Tellegen, A. (1988). Development and validation of brief measures of positive and negative affect. Journal of Personality and Social Psychology, 54(6), 1063.",
                 software: "Questionnaire (paper, digital)"
             },
@@ -950,6 +971,7 @@
                 cost: "Very Low",
                 validation: "Gold standard for anxiety assessment; high test–retest for trait; sensitive to task-induced state",
                 sampleRate: "Pre/post or repeated",
+                howItWorks: "The STAI distinguishes between state anxiety — a transient emotional response to a perceived threat ('I feel tense right now') — and trait anxiety — a stable personality disposition toward threat appraisal ('I worry more than most people'). State-A is theoretically modifiable by environmental stressors and should increase post-stressor; Trait-A is stable across time and acts as a moderator (high-trait participants show amplified state responses). Items are rated on 4-point intensity scales. The instrument is copyrighted; the STAI-6 short form is available as a licence-free alternative for repeated sampling during longer sessions.",
                 reference: "Spielberger, C. D., Gorsuch, R. L., Lushene, R., Vagg, P. R., & Jacobs, G. A. (1983). Manual for the State-Trait Anxiety Inventory (Form Y). Mind Garden.",
                 software: "Copyrighted questionnaire (licensing required)"
             },
@@ -968,6 +990,7 @@
                 cost: "Very Low",
                 validation: "Fast and practical; correlates with PVT and EEG; limited by single-item structure",
                 sampleRate: "Frequent repeated measures (e.g., every 30 min)",
+                howItWorks: "KSS taps into introspective access to the homeostatic sleep pressure process (Process S) and the circadian alerting process (Process C). Scores above 7 ('Sleepy, but no effort to keep awake') correlate reliably with EEG slow-wave activity and PVT lapses. The scale was developed by anchoring verbal descriptors against simultaneous EEG and performance data across partial sleep deprivation protocols. Because it is a single item with extreme brevity, KSS is well-suited for repeated measurement within sessions (e.g., every 20–30 minutes) to track within-session fatigue trajectories without burdening participants.",
                 reference: "Åkerstedt, T., & Gillberg, M. (1990). Subjective and objective sleepiness in the active individual. International Journal of Neuroscience, 52(1–2), 29–37.",
                 software: "Questionnaire (simple visual scale)"
             },
@@ -987,6 +1010,7 @@
                 cost: "Very Low",
                 validation: "Language-independent, cross-culturally valid; quick; widely used in media/UX research",
                 sampleRate: "Post-stimulus or repeated",
+                howItWorks: "SAM avoids verbal labelling artifacts by using stylised figure drawings that vary continuously along three orthogonal affective dimensions originally identified by Russell's (1980) circumplex model and extended by Mehrabian and Russell's PAD space. The Valence manikin ranges from a frowning to a smiling figure; Arousal from a relaxed, sleepy figure to one with a churning stomach (representing activation); Dominance from a small, controlled figure to a large commanding one. Participants mark anywhere along the 9-point graphic scale, making it cross-cultural and literacy-independent.",
                 reference: "Bradley, M. M., & Lang, P. J. (1994). Measuring emotion. Journal of Behavior Therapy and Experimental Psychiatry, 25(1), 49–59.",
                 software: "Questionnaire (visual manikin images)"
             },
@@ -1007,6 +1031,7 @@
                 cost: "High",
                 validation: "Multi-modal integration reduces single-measure bias; requires preprocessing and cross-modal normalization",
                 sampleRate: "Multi-modal (EEG 500 Hz + eye-track 100 Hz + post-task survey)",
+                howItWorks: "The CLI fuses three independent signal sources that each capture a distinct facet of cognitive load: EEG frontal theta (neural effort), TEPR (LC-NE arousal and resource allocation), and NASA-TLX (subjective assessment). Because each modality has different temporal resolution (EEG: ms; pupil: 100s of ms; TLX: post-task), aggregation requires temporal alignment and cross-modal normalisation. Scores are typically z-scored within participant, then averaged or combined via principal component analysis. The three-modality approach exploits the convergent validity of independent measurement channels — a finding that passes all three channels provides much stronger evidence than any single measure alone.",
                 reference: "Sweller, J. (2011). Cognitive load theory and educational technology. Educational Technology Research and Development, 60(2), 339–352.",
                 software: "Custom integration pipeline (Python: sklearn, scipy)"
             },
@@ -1025,6 +1050,7 @@
                 cost: "Very High",
                 validation: "Strong evidence from longitudinal cortisol studies and autonomic psychophysiology; requires careful temporal alignment",
                 sampleRate: "Multi-modal (ECG 100+ Hz, EDA 10–100 Hz, cortisol point samples, self-report post-task)",
+                howItWorks: "The Stress Composite operationalises the allostatic load concept (McEwen, 1998) by combining markers from four biological systems: autonomic (HR, HRV, EDA), endocrine (cortisol via HPA axis), and subjective (STAI). Each system responds to stressors with different kinetics: autonomic changes occur in seconds, EDA in 1–3 seconds, subjective report is near-instantaneous but subject to cognitive bias, and cortisol peaks at 20–30 minutes post-stressor. The composite is therefore not a concurrent average but a temporally-aligned profile: autonomic and EDA during the stressor; cortisol at +20/+40 min; STAI immediately post. Allostatic load is high when multiple systems are simultaneously dysregulated.",
                 reference: "McEwen, B. S. (2007). Physiology and neurobiology of stress and adaptation. Physiological Reviews, 87(3), 873–904.",
                 software: "Custom pipeline; Neurokit2"
             },
@@ -1043,6 +1069,7 @@
                 cost: "Low-Medium",
                 validation: "Converges across modalities; captures state-level emotional intensity; insensitive to valence direction",
                 sampleRate: "Multi-modal (real-time physio + post-task survey)",
+                howItWorks: "Emotional arousal reflects activation of the sympatho-adrenal system — the 'fight or flight' pathway — which simultaneously elevates heart rate (via β-adrenergic receptors), increases skin conductance (via eccrine sweat glands), and generates the subjective sense of being 'worked up'. The EAI captures this convergence by summing standardised scores from EDA, HR change from baseline, PANAS-NA (capturing negative-affect-driven arousal), and SAM Arousal (capturing the subjective intensity dimension regardless of valence). Because EAI is valence-neutral — joy and fear both produce high arousal — it should always be paired with a valence measure (PANAS-PA/NA or SAM Valence) to characterise the full emotional state.",
                 reference: "Mauss, I. B., & Robinson, M. D. (2009). Measures of emotion. Cognition and Emotion, 23(2), 209–237.",
                 software: "Custom integration (normalization + PCA)"
             }
@@ -1086,6 +1113,10 @@
                         </span>
                     </div>
                     <div class="measure-expanded" id="expand-${idx}">
+                        ${measure.howItWorks ? `<div class="expand-section">
+                            <div class="expand-label">How It Works — Mechanism</div>
+                            <div class="expand-content">${measure.howItWorks}</div>
+                        </div>` : ''}
                         <div class="expand-section">
                             <div class="expand-label">Validation & Robustness</div>
                             <div class="expand-content">${measure.validation}</div>
