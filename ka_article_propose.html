@@ -161,7 +161,7 @@
 <div class="page-wrap">
   <div class="breadcrumb"><a href="ka_article_search.html">← Article Search</a> &nbsp;/&nbsp; Propose New Article</div>
   <h1 class="page-title">Propose an Article</h1>
-  <div class="page-subtitle">PDF-first intake for Track 2 and contributors. Duplicate checking happens immediately. Relevance is reviewed later in the nightly triage process, so you do not need to write a perfect APA citation before the system can help.</div>
+  <div class="page-subtitle">Unified intake for contributors and Track 2. Duplicate checking happens immediately, but student submissions should carry a usable citation record before staging so the corpus does not fill with orphan PDFs.</div>
 
   <div class="main-col">
     <div class="section-card">
@@ -171,7 +171,7 @@
         <div class="route-card">
           <div class="route-kicker">PDF intake mode</div>
           <h3>Upload one PDF or a batch</h3>
-          <p>Best if you already have PDFs. Duplicate checks happen immediately and metadata can be completed later.</p>
+          <p>Best if you already have PDFs. Duplicate checks happen immediately, but Track 2 should still attach a usable citation record before staging.</p>
           <ul class="route-list">
             <li>Single PDF or batch/folder upload</li>
             <li>Immediate duplicate blocking</li>
@@ -221,10 +221,11 @@
 
     <div class="section-card">
       <div class="card-title">Step 1B — Upload PDFs</div>
-      <div class="card-sub">Drop one PDF or a whole batch. The system extracts metadata, checks for duplicates immediately, and stages non-duplicates for later review.</div>
+      <div class="card-sub">Drop one PDF or a whole batch. The system extracts metadata, checks for duplicates immediately, and stages non-duplicates for later review. For Track 2, a PDF without at least author + title or a pasted citation should be treated as incomplete.</div>
 
       <div class="callout callout-teal"><strong>Immediate gate:</strong> duplicate detection happens as soon as the PDF is inspected. If KA already has the article, the upload is stopped and no second permanent copy is kept.</div>
       <div class="callout callout-amber"><strong>Deferred gate:</strong> relevance is reviewed asynchronously in the nightly intake process. That means contributors can move quickly, while maintainers make the harder inclusion decisions in batch.</div>
+      <div class="callout callout-blue"><strong>Track 2 rule:</strong> do not stage an orphan PDF. Before staging, include either a pasted APA citation or enough metadata to reconstruct one quickly: first author + title, or DOI + title. That makes abstract recovery, duplicate detection, and later repair materially easier.</div>
       <div class="callout callout-blue"><strong>Security gate:</strong> uploaded files are untrusted until validated. The real intake backend must verify file type by content, quarantine uploads, hash them, reject encrypted or malformed files, and process them in an isolated worker before any promotion into the main corpus.</div>
       <div class="callout callout-rose"><strong>Storage rule:</strong> rejected staged PDFs should be deleted promptly after review to save space. Metadata and rejection reason remain in the audit trail.</div>
 
@@ -244,7 +245,7 @@
 
     <div class="section-card">
       <div class="card-title">Step 2 — Inspect Batch Results</div>
-      <div class="card-sub">Each intake item gets a first-pass metadata extraction. Duplicate matches are blocked immediately. Non-duplicates can be staged even if citation resolution is still partial.</div>
+      <div class="card-sub">Each intake item gets a first-pass metadata extraction. Duplicate matches are blocked immediately. Public submissions may remain provisional, but Track 2 submissions should not be staged until they have a minimally usable citation record.</div>
 
       <div class="batch-table-wrap">
         <table class="batch-table">
@@ -265,7 +266,7 @@
 
     <div class="section-card">
       <div class="card-title">Step 3 — Optional Citation Cleanup</div>
-      <div class="card-sub">If automatic resolution is weak, you can refine the record before staging. This is optional. The nightly review can also complete or correct metadata later.</div>
+      <div class="card-sub">If automatic resolution is weak, refine the record before staging. For Track 2, this is not optional: every staged item should have enough citation information to recover an abstract and create a stable APA record.</div>
 
       <div class="metadata-panel visible" id="citationPanel">
         <div class="metadata-title">Selected file metadata</div>
@@ -283,6 +284,20 @@
           <label class="field-label">Probable title</label>
           <input type="text" class="field-input" id="editTitle" placeholder="Auto-extracted title">
         </div>
+        <div class="field-row">
+          <div class="field-group">
+            <label class="field-label">First author or author string</label>
+            <input type="text" class="field-input" id="editAuthors" placeholder="Kaplan, S. or Kaplan, S., Boubekri, M., ...">
+          </div>
+          <div class="field-group">
+            <label class="field-label">Journal / venue</label>
+            <input type="text" class="field-input" id="editJournal" placeholder="Journal of Environmental Psychology">
+          </div>
+        </div>
+        <div class="field-group">
+          <label class="field-label">Preferred citation / APA line</label>
+          <textarea class="field-textarea" id="editCitation" rows="3" placeholder="Paste or build a citation line here. Track 2 should provide at least one stable citation string before staging."></textarea>
+        </div>
         <div class="field-group">
           <label class="field-label">Why this might matter (optional)</label>
           <textarea class="field-textarea" id="editWhy" rows="2" placeholder="Optional note for reviewer: pathway family, topic cluster, or why the paper looks relevant."></textarea>
@@ -291,7 +306,7 @@
           <button class="btn btn-secondary" onclick="resolveSelectedCitation()">Resolve citation from DOI/title</button>
           <button class="btn btn-ghost" onclick="saveSelectedEdits()">Save edits to selected file</button>
         </div>
-        <div class="field-hint">In the real pipeline this step would call Crossref / OpenAlex / Semantic Scholar. In this demo it uses DOI or title matching against a small mocked resolver.</div>
+        <div class="field-hint">In the real pipeline this step would call Crossref / OpenAlex / Semantic Scholar. In this demo it uses DOI or title matching against a small mocked resolver. Including an author string materially improves citation recovery quality.</div>
       </div>
     </div>
 
@@ -624,6 +639,7 @@ function renderPendingFiles() {
       <td>
         <div><strong>${escapeHtml(meta.title || 'No title yet')}</strong></div>
         <div class="mini-meta">DOI: ${escapeHtml(meta.doi || 'not found')} · Year: ${escapeHtml(String(meta.year || 'unknown'))} · Confidence: ${escapeHtml(meta.resolutionConfidence)}</div>
+        <div class="mini-meta">Authors: ${escapeHtml(meta.authors || 'not recorded')} · Citation: ${escapeHtml(meta.citation ? 'present' : 'missing')}</div>
       </td>
       <td>${statusLabel}${item.duplicateMatch ? `<div class="mini-meta" style="margin-top:6px">Matches existing: ${escapeHtml(item.duplicateMatch.title)}</div>` : ''}</td>
       <td><div class="mini-meta">${nextAction}</div><div class="file-row-actions" style="margin-top:8px">${item.status !== 'duplicate' ? `<button class="tiny-btn" onclick="event.stopPropagation();selectPendingFile('${item.id}')">Edit metadata</button>` : ''}<button class="tiny-btn" onclick="event.stopPropagation();removePendingFile('${item.id}')">Remove</button></div></td>
@@ -642,6 +658,9 @@ function selectPendingFile(id) {
   document.getElementById('editDOI').value = item.metadata.doi || '';
   document.getElementById('editYear').value = item.metadata.year || '';
   document.getElementById('editTitle').value = item.metadata.title || '';
+  document.getElementById('editAuthors').value = item.metadata.authors || '';
+  document.getElementById('editJournal').value = item.metadata.journal || '';
+  document.getElementById('editCitation').value = item.metadata.citation || item.sourceLabel || '';
   document.getElementById('editWhy').value = item.reviewerNote || '';
 }
 
@@ -654,8 +673,11 @@ function saveSelectedEdits() {
   item.metadata.doi = document.getElementById('editDOI').value.trim();
   item.metadata.year = document.getElementById('editYear').value.trim();
   item.metadata.title = document.getElementById('editTitle').value.trim();
+  item.metadata.authors = document.getElementById('editAuthors').value.trim();
+  item.metadata.journal = document.getElementById('editJournal').value.trim();
+  item.metadata.citation = document.getElementById('editCitation').value.trim();
   item.reviewerNote = document.getElementById('editWhy').value.trim();
-  item.metadata.resolutionConfidence = item.metadata.doi || item.metadata.title ? 'manual_refined' : item.metadata.resolutionConfidence;
+  item.metadata.resolutionConfidence = item.metadata.doi || item.metadata.title || item.metadata.citation ? 'manual_refined' : item.metadata.resolutionConfidence;
   item.duplicateMatch = findExistingMatch(item.metadata);
   item.status = item.duplicateMatch ? 'duplicate' : (item.staged ? 'staged' : 'extracted');
   renderPendingFiles();
@@ -682,6 +704,7 @@ function resolveSelectedCitation() {
   item.metadata.year = resolved.year;
   item.metadata.authors = resolved.authors;
   item.metadata.journal = resolved.journal;
+  item.metadata.citation = item.metadata.citation || [resolved.authors, `(${resolved.year})`, resolved.title, resolved.journal].filter(Boolean).join('. ');
   item.metadata.resolutionConfidence = resolved.confidence;
   item.duplicateMatch = findExistingMatch(item.metadata);
   item.status = item.duplicateMatch ? 'duplicate' : (item.staged ? 'staged' : 'extracted');
@@ -694,6 +717,15 @@ function stagePendingFiles() {
   const stageable = PENDING_FILES.filter(item => item.status !== 'duplicate' && !item.staged);
   if (!stageable.length) {
     showConfirm('Nothing to stage','There are no non-duplicate files ready to stage.');
+    return;
+  }
+  const studentIdentity = getIdentityContext().identityType === 'student';
+  const incomplete = stageable.filter(item => studentIdentity && !hasUsableCitationRecord(item));
+  if (incomplete.length) {
+    showConfirm(
+      'Citation record required',
+      `Track 2 submissions must include a usable citation record before staging. Complete at least author + title, DOI + title, or paste a citation line for ${incomplete.length} item(s).`
+    );
     return;
   }
   const identity = getIdentityContext();
@@ -718,7 +750,9 @@ function stagePendingFiles() {
       track: identity.track,
       status: 'pending',
       kind: item.kind || 'pdf',
-      title: item.metadata.title || item.sourceLabel || item.fileName.replace(/\.pdf$/i,'')
+      title: item.metadata.title || item.sourceLabel || item.fileName.replace(/\.pdf$/i,''),
+      citation: item.metadata.citation || '',
+      authors: item.metadata.authors || ''
     });
   });
   saveContributionStore(store);
@@ -735,7 +769,18 @@ function clearPendingFiles() {
   document.getElementById('editDOI').value = '';
   document.getElementById('editYear').value = '';
   document.getElementById('editTitle').value = '';
+  document.getElementById('editAuthors').value = '';
+  document.getElementById('editJournal').value = '';
+  document.getElementById('editCitation').value = '';
   document.getElementById('editWhy').value = '';
+}
+
+function hasUsableCitationRecord(item) {
+  const meta = item.metadata || {};
+  const hasCitation = !!String(meta.citation || '').trim();
+  const hasAuthorAndTitle = !!String(meta.authors || '').trim() && !!String(meta.title || '').trim();
+  const hasDoiAndTitle = !!String(meta.doi || '').trim() && !!String(meta.title || '').trim();
+  return hasCitation || hasAuthorAndTitle || hasDoiAndTitle;
 }
 
 function removePendingFile(id) {
