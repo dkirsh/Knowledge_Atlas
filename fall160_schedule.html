@@ -1,0 +1,865 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>COGS 160 Fall — Experiment Making · Week by Week</title>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --navy:#1C3D3A;--teal:#2A7868;--teal-lt:#5AC8AA;--teal-bg:#E6F5F0;
+      --amber:#E8872A;--amber-lt:#FFF3E0;--amber-dk:#9a5010;
+      --cream:#F7F4EF;--ink:#2C2C2C;--muted:#6B6B6B;--border:#D8D0C5;
+      --white:#FFFFFF;--rose:#A84F6B;--rose-lt:#F8EBF0;
+      --blue:#3A6EA8;--blue-lt:#EBF2F8;--blue-dk:#1a3a6a;
+      --green:#1A7A50;--green-lt:#E3F4EC;--green-dk:#0F4A2E;
+      --purple:#6A4EA8;--purple-lt:#F0EBF8;
+    }
+    body{font-family:Arial,sans-serif;background:var(--cream);color:var(--ink)}
+
+    .top-nav{position:fixed;top:0;left:0;right:0;height:56px;background:var(--navy);
+      display:flex;align-items:center;justify-content:space-between;padding:0 24px;
+      z-index:1000;box-shadow:0 1px 4px rgba(0,0,0,.14)}
+    .nav-wordmark{display:flex;align-items:center;gap:8px;font-size:12px;font-weight:600;letter-spacing:.1em;color:#A8C8BF}
+    .nav-icon{width:20px;height:20px;background:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="none" stroke="%23A8C8BF" stroke-width="1.5"><circle cx="6" cy="6" r="2"/><circle cx="18" cy="6" r="2"/><circle cx="12" cy="18" r="2"/><line x1="6" y1="6" x2="12" y2="18"/><line x1="18" y1="6" x2="12" y2="18"/></svg>') no-repeat center/contain}
+    .nav-title{color:#fff}.nav-title-accent{color:#F5A623}
+    .nav-center{flex:1;text-align:center;color:#A8C8BF;font-size:13px}
+    .nav-right{display:flex;align-items:center;gap:14px}
+    .nav-link{font-size:12px;color:#A8C8BF;text-decoration:none;font-weight:500}
+    .nav-link:hover{color:#fff}
+
+    .page-hero{margin-top:56px;background:linear-gradient(135deg,#1C3D3A 0%,#163230 100%);padding:44px 32px 32px;text-align:center}
+    .hero-eyebrow{font-size:11px;letter-spacing:.15em;text-transform:uppercase;color:var(--teal-lt);font-weight:600;margin-bottom:10px}
+    .hero-title{font-family:Georgia,serif;font-size:2rem;color:#fff;font-weight:400;margin-bottom:8px}
+    .hero-sub{font-size:0.88rem;color:#9ABFB8;max-width:640px;margin:0 auto 20px;line-height:1.65}
+    .hero-pills{display:flex;gap:10px;justify-content:center;flex-wrap:wrap}
+    .hero-pill{background:rgba(255,255,255,.09);border:1px solid rgba(255,255,255,.14);color:#d0ece8;font-size:11px;padding:5px 14px;border-radius:20px}
+
+    /* TEAM STRUCTURE BANNER */
+    .team-banner{max-width:980px;margin:24px auto 0;padding:0 24px}
+    .team-box{background:var(--white);border:1px solid var(--border);border-left:4px solid var(--purple);border-radius:8px;padding:14px 20px;display:flex;gap:18px;align-items:flex-start}
+    .team-box-icon{font-size:22px;flex-shrink:0}
+    .team-box-body{font-size:0.83rem;line-height:1.6;color:var(--ink)}
+    .team-box-body strong{color:var(--purple)}
+
+    .container{max-width:980px;margin:0 auto;padding:24px 24px 100px}
+
+    /* PHASE BANNERS */
+    .phase-banner{border-radius:8px;padding:14px 20px;margin:24px 0 14px;display:flex;align-items:flex-start;gap:14px}
+    .phase-banner-icon{font-size:20px;flex-shrink:0;margin-top:2px}
+    .phase-banner-title{font-family:Georgia,serif;font-size:0.98rem;color:var(--navy);margin-bottom:3px}
+    .phase-banner-desc{font-size:0.81rem;color:var(--muted);line-height:1.55}
+    .phase-design{background:var(--teal-bg);border:1px solid #b8dfd8}
+    .phase-build{background:var(--blue-lt);border:1px solid #b8cce8}
+    .phase-run{background:var(--green-lt);border:1px solid #a0d8b8}
+    .phase-present{background:var(--amber-lt);border:1px solid #f0c888}
+
+    /* WEEK CARDS */
+    .week-card{background:var(--white);border:1px solid var(--border);border-radius:12px;margin-bottom:12px;overflow:hidden;box-shadow:0 1px 3px rgba(0,0,0,.05)}
+    .week-card.design{border-left:4px solid var(--teal)}
+    .week-card.build{border-left:4px solid var(--blue)}
+    .week-card.run{border-left:4px solid var(--green)}
+    .week-card.present{border-left:4px solid var(--amber)}
+
+    .week-header{display:flex;align-items:center;cursor:pointer}
+    .week-num{width:72px;background:var(--navy);color:#fff;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:18px 8px;flex-shrink:0;min-height:80px}
+    .week-num-label{font-size:9px;letter-spacing:.12em;text-transform:uppercase;color:#7AACA0;margin-bottom:2px}
+    .week-num-value{font-family:Georgia,serif;font-size:1.6rem;color:#fff;line-height:1}
+    .week-summary{flex:1;padding:14px 18px}
+    .week-title{font-family:Georgia,serif;font-size:0.98rem;color:var(--navy);margin-bottom:4px}
+    .week-tagline{font-size:0.80rem;color:var(--muted);line-height:1.5;margin-bottom:8px}
+    .week-badges{display:flex;gap:7px;flex-wrap:wrap}
+    .badge{font-size:10px;font-weight:600;letter-spacing:.04em;padding:3px 9px;border-radius:10px}
+    .badge-amber{background:var(--amber-lt);color:var(--amber-dk);border:1px solid #f0c080}
+    .badge-green{background:var(--green-lt);color:var(--green-dk);border:1px solid #a0d8b8}
+    .badge-teal{background:var(--teal-bg);color:#1a4a3f;border:1px solid #a8d8d0}
+    .badge-blue{background:var(--blue-lt);color:var(--blue-dk);border:1px solid #b0c8e8}
+    .badge-purple{background:var(--purple-lt);color:#3a2a6a;border:1px solid #c0b0e0}
+    .badge-gray{background:#F0EBE3;color:#6B6060;border:1px solid #D8D0C4}
+    .week-expand{width:44px;display:flex;align-items:center;justify-content:center;color:var(--muted);font-size:20px;flex-shrink:0}
+
+    /* WEEK BODY */
+    .week-body{display:none;border-top:1px solid var(--border);padding:0}
+    .week-body.open{display:block}
+
+    .wb-section{padding:18px 22px;border-bottom:1px solid #F0EBE3}
+    .wb-section:last-child{border-bottom:none}
+    .wb-section-label{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#9A8870;margin-bottom:10px}
+    .wb-section-title{font-family:Georgia,serif;font-size:0.95rem;color:var(--navy);margin-bottom:6px}
+    .wb-desc{font-size:0.83rem;color:var(--muted);line-height:1.65;margin-bottom:12px}
+    .wb-desc p+p{margin-top:6px}
+
+    /* Task list */
+    .task-list{list-style:none;margin:0 0 12px}
+    .task-list li{font-size:0.82rem;color:var(--ink);padding:4px 0;display:flex;align-items:flex-start;gap:8px;line-height:1.5;border-bottom:1px solid #F8F5F0}
+    .task-list li:last-child{border-bottom:none}
+    .task-list li::before{content:'→';color:var(--teal);font-weight:700;flex-shrink:0;margin-top:1px}
+
+    /* Tool table */
+    .tool-table{width:100%;border-collapse:collapse;font-size:0.81rem;margin-bottom:12px}
+    .tool-table th{background:#F0EBE3;color:var(--navy);padding:7px 12px;text-align:left;font-size:10px;font-weight:700;letter-spacing:.06em;border-bottom:2px solid var(--border)}
+    .tool-table td{padding:7px 12px;border-bottom:1px solid #F0EBE3;vertical-align:top;line-height:1.45}
+    .tool-table tr:last-child td{border-bottom:none}
+    .tool-status{font-size:10px;font-weight:700;padding:2px 7px;border-radius:8px;white-space:nowrap}
+    .ts-exists{background:var(--green-lt);color:var(--green-dk);border:1px solid #a0d8b8}
+    .ts-needed{background:var(--rose-lt);color:#5a1a30;border:1px solid #e8b8c8}
+    .ts-partial{background:var(--amber-lt);color:var(--amber-dk);border:1px solid #f0c080}
+    .tool-name{font-family:Georgia,serif;color:var(--navy);font-size:0.82rem}
+
+    /* Deliverable box */
+    .deliverable-box{background:var(--amber-lt);border:1px solid #f0c888;border-radius:7px;padding:12px 16px}
+    .deliverable-label{font-size:10px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--amber-dk);margin-bottom:5px;display:flex;align-items:center;gap:8px}
+    .autograde-pill{font-size:9px;padding:2px 7px;border-radius:8px;font-weight:600;letter-spacing:.04em}
+    .ag-yes{background:var(--green-lt);color:var(--green-dk);border:1px solid #a0d8b8}
+    .ag-partial{background:var(--blue-lt);color:var(--blue-dk);border:1px solid #b0c8e8}
+    .deliverable-desc{font-size:0.82rem;color:var(--amber-dk);line-height:1.55}
+    .deliverable-checks{list-style:none;margin:6px 0 0}
+    .deliverable-checks li{font-size:0.79rem;color:var(--amber-dk);padding:2px 0}
+    .deliverable-checks li::before{content:'✓ ';font-weight:700}
+
+    /* Tool note box */
+    .tool-note{background:var(--teal-bg);border:1px solid #b8dfd8;border-radius:6px;padding:10px 14px;font-size:0.81rem;color:#1a4a3f;line-height:1.55;margin-top:10px}
+    .build-note{background:var(--blue-lt);border:1px solid #b8cce8;border-radius:6px;padding:10px 14px;font-size:0.81rem;color:var(--blue-dk);line-height:1.55;margin-top:10px}
+
+    /* Divider */
+    .section-divider{display:flex;align-items:center;gap:12px;margin:20px 0 4px}
+    .div-line{flex:1;height:1px;background:var(--border)}
+    .div-text{font-size:10px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;color:#B0A090;white-space:nowrap}
+
+    .version-badge{position:fixed;bottom:70px;right:16px;background:var(--navy);color:#A8C8BF;font-size:10px;padding:3px 8px;border-radius:4px;opacity:.6;z-index:50}
+  </style>
+</head>
+<body>
+
+<nav class="top-nav">
+  <div class="nav-wordmark"><span class="nav-icon"></span><span class="nav-title">Knowledge <span class="nav-title-accent">Atlas</span></span></div>
+  <div class="nav-center">COGS 160 Fall — Experiment Making</div>
+  <div class="nav-right">
+    <a href="ka_home.html" class="nav-link">KA Home</a>
+    <a href="ka_schedule.html" class="nav-link">Spring Schedule</a>
+  </div>
+</nav>
+
+<div class="page-hero">
+  <div class="hero-eyebrow">COGS 160 · Fall 2026 · Planning Draft</div>
+  <h1 class="hero-title">Experiment Making · Week by Week</h1>
+  <p class="hero-sub">
+    Students begin with a research question from the Knowledge Atlas and end with a completed pilot experiment — including VR stimuli, an adaptive preference instrument, sensor data collection, and a 4-minute presentation. Everything runs in a browser. Every deliverable is due Monday 6 pm.
+  </p>
+  <div class="hero-pills">
+    <span class="hero-pill">Weeks 1–5 · Design and build</span>
+    <span class="hero-pill">Weeks 6–7 · Pre-registration and approval</span>
+    <span class="hero-pill">Week 8 · Sensor setup</span>
+    <span class="hero-pill">Week 9 · Pilot run</span>
+    <span class="hero-pill">Week 10 · Write-up and presentation</span>
+  </div>
+</div>
+
+<div class="team-banner">
+  <div class="team-box">
+    <div class="team-box-icon">👥</div>
+    <div class="team-box-body">
+      <strong>Teams of 2.</strong>
+      Two students share one experiment throughout the quarter. Both run as each other's pilot participants in Week 9, giving a minimum of 2 data points before recruiting a third outside subject. Teams are assigned by the instructor in Week 1 to balance track backgrounds (e.g., pair a Track 2 article-finder with a Track 3 VR builder). A team of 3 is permitted only with instructor approval.
+    </div>
+  </div>
+</div>
+
+<div class="container">
+
+  <!-- ══════════════ PHASE 1: DESIGN ══════════════ -->
+  <div class="phase-banner phase-design">
+    <div class="phase-banner-icon">🧭</div>
+    <div>
+      <div class="phase-banner-title">Phase 1 — Weeks 1–5 · Design and build</div>
+      <div class="phase-banner-desc">
+        Students go from a vague interest to a fully specified experiment with working stimuli and a configured measurement instrument. Every step has a browser-based tool that saves to the student database. The experiment wizard scaffolds decisions — students cannot proceed to step N+1 until step N is approved or auto-checked.
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 1 -->
+  <div class="week-card design">
+    <div class="week-header" onclick="toggle('w1')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">1</div></div>
+      <div class="week-summary">
+        <div class="week-title">Orientation · Research landscape · Topic selection</div>
+        <div class="week-tagline">Students browse the Knowledge Atlas evidence base and choose a research domain. They leave Week 1 with a focused research question and a team partner.</div>
+        <div class="week-badges">
+          <span class="badge badge-teal">All teams</span>
+          <span class="badge badge-amber">Due Mon 6 pm: Research question form</span>
+          <span class="badge badge-green">Autogradeable</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w1-x">＋</div>
+    </div>
+    <div class="week-body" id="w1">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>David introduces the course goal: by Week 10 each team will have run a real pilot experiment and presented findings. The first session is a guided tour of Knowledge Atlas — students use the Topics and Research Gaps pages to find a domain where experiments are missing. The session ends with each student identifying their top two topic interests.</p>
+          <p>In the lab session, students pair up and negotiate a shared topic. They use the Research Question Builder to turn a KA research gap into a specific, testable question. The question must name an independent variable, a dependent variable, and a population.</p>
+        </div>
+        <ul class="task-list">
+          <li>Browse KA Topics — identify 3 research fronts where experiments are missing (VOI ≥ 0.5)</li>
+          <li>Read one anchor paper from each front using the Article Search page</li>
+          <li>Form a team of 2 and agree on a shared research domain</li>
+          <li>Use the Research Question Builder to draft your question (must include IV, DV, and population)</li>
+          <li>Write 2 sentences explaining why this question is scientifically interesting — not just personally interesting</li>
+        </ul>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Tools used this week</div>
+        <table class="tool-table">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="tool-name">KA Topics</td><td>Browse research fronts ranked by VOI</td><td><span class="tool-status ts-exists">Exists</span></td></tr>
+            <tr><td class="tool-name">KA Research Gaps</td><td>See explicitly unfilled paradigm slots</td><td><span class="tool-status ts-exists">Exists</span></td></tr>
+            <tr><td class="tool-name">KA Article Search</td><td>Find anchor papers in chosen domain</td><td><span class="tool-status ts-exists">Exists</span></td></tr>
+            <tr><td class="tool-name">Research Question Builder</td><td>Structured IV/DV/population form that validates question format</td><td><span class="tool-status ts-partial">Partial (Question Maker exists; needs IV/DV fields)</span></td></tr>
+            <tr><td class="tool-name">Team Registration</td><td>Pair students, assign team ID used throughout course</td><td><span class="tool-status ts-needed">Needed</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">Research Question Form <span class="autograde-pill ag-yes">Autogradeable</span></div>
+          <div class="deliverable-desc">Submitted via browser form. Auto-check verifies all fields are filled and minimum lengths met.</div>
+          <ul class="deliverable-checks">
+            <li>Team ID and both student names</li>
+            <li>Chosen KA research front (selected from dropdown — must be in KA)</li>
+            <li>Research question in the form "Does [IV] affect [DV] in [population]?"</li>
+            <li>One anchor paper (DOI or APA citation — auto-checked for format)</li>
+            <li>Scientific justification (≥ 60 words)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w1 -->
+
+  <!-- WEEK 2 -->
+  <div class="week-card design">
+    <div class="week-header" onclick="toggle('w2')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">2</div></div>
+      <div class="week-summary">
+        <div class="week-title">Theory · Hypothesis · What are you actually testing?</div>
+        <div class="week-tagline">Students ground their question in a theoretical framework and write a falsifiable hypothesis with a predicted direction and a named mechanism.</div>
+        <div class="week-badges">
+          <span class="badge badge-teal">All teams</span>
+          <span class="badge badge-amber">Due Mon 6 pm: Hypothesis form</span>
+          <span class="badge badge-green">Autogradeable</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w2-x">＋</div>
+    </div>
+    <div class="week-body" id="w2">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>The key distinction this week: an experiment without a theory is just a demonstration. A theory makes a prediction about direction, mechanism, and boundary conditions. Students use the KA Theory Layer to find which theories make predictions about their IV–DV pair, read the relevant section, and write a hypothesis that is derived from the theory — not just consistent with it.</p>
+          <p>The hypothesis must be falsifiable: it must state a predicted direction (higher / lower / faster / slower) and the condition under which it would be wrong. Students who cannot state what result would falsify their hypothesis do not have a hypothesis — they have a wish.</p>
+        </div>
+        <ul class="task-list">
+          <li>Identify which theory (ART, SRT, Arousal, Biophilia, Predictive Processing, etc.) predicts an effect for your IV–DV pair</li>
+          <li>Read the theory's mechanism: what does it say happens between IV and DV?</li>
+          <li>Write a hypothesis in the form "If [IV], then [DV] will [increase/decrease/not change], because [mechanism]"</li>
+          <li>State the falsifying condition: "This hypothesis would be wrong if [result]"</li>
+          <li>Name your two conditions (Condition A vs. Condition B)</li>
+        </ul>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Tools used this week</div>
+        <table class="tool-table">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="tool-name">KA Theory Layer</td><td>Theory cards: what each theory predicts, what supports it, what would falsify it</td><td><span class="tool-status ts-partial">Partial (theory_and_experiment_design.html exists; needs theory cards)</span></td></tr>
+            <tr><td class="tool-name">Hypothesis Builder</td><td>Structured form that enforces direction + falsifying condition</td><td><span class="tool-status ts-partial">Partial (exists in DE; needs direction and falsifying-condition fields)</span></td></tr>
+            <tr><td class="tool-name">KA Evidence page</td><td>Check what evidence already supports or challenges the hypothesis</td><td><span class="tool-status ts-exists">Exists</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">Hypothesis Form <span class="autograde-pill ag-yes">Autogradeable</span></div>
+          <div class="deliverable-desc">Extends the Week 1 submission. Auto-check verifies structure of hypothesis string and presence of all fields.</div>
+          <ul class="deliverable-checks">
+            <li>Theory name (selected from KA dropdown)</li>
+            <li>Mechanism description (≥ 40 words) — what happens between IV and DV?</li>
+            <li>Hypothesis string in required If/then/because format</li>
+            <li>Predicted direction (radio: increase / decrease / no change)</li>
+            <li>Falsifying condition (≥ 20 words)</li>
+            <li>Condition A label and Condition B label</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w2 -->
+
+  <!-- WEEK 3 -->
+  <div class="week-card design">
+    <div class="week-header" onclick="toggle('w3')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">3</div></div>
+      <div class="week-summary">
+        <div class="week-title">VR Stimulus specification · What will participants see?</div>
+        <div class="week-tagline">Students specify their two experimental conditions as VR environments — which base scene, which parameters vary, which are held constant.</div>
+        <div class="week-badges">
+          <span class="badge badge-blue">VR design</span>
+          <span class="badge badge-amber">Due Mon 6 pm: Stimulus spec form</span>
+          <span class="badge badge-green">Autogradeable</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w3-x">＋</div>
+    </div>
+    <div class="week-body" id="w3">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>Most experiments in this course use VR because it allows the experimenter to control everything: lighting, spatial density, sound level, presence of nature elements, movement, and social presence. The stimulus library contains pre-built A-Frame base scenes — natural outdoor, urban outdoor, open office, abstract/geometric — that students choose from and configure rather than build from scratch.</p>
+          <p>The critical constraint is control: the two conditions must differ on exactly the IV and match on everything else. Students specify what changes between Condition A and Condition B and justify why everything else stays the same. This is the confound-control step.</p>
+        </div>
+        <ul class="task-list">
+          <li>Browse the VR Stimulus Library — preview base scenes in browser (no headset needed for specification)</li>
+          <li>Choose a base scene that fits your paradigm</li>
+          <li>Specify Condition A parameters: sky, ground cover, object density, lighting level, sound, navigation mode</li>
+          <li>Specify Condition B parameters — list which parameters change and which are held constant</li>
+          <li>Justify each controlled parameter: why does holding it constant matter for your hypothesis?</li>
+          <li>Note any 3D assets you need that are not in the default library</li>
+        </ul>
+        <div class="build-note">
+          <strong>VR Stimulus Library — needed.</strong>
+          This is the most important new tool to build for the Fall course. It needs: (1) a browser-browsable catalogue of 8–12 base scenes with preview images and parameter descriptions; (2) a parameter specification form that enforces Condition A / Condition B structure; (3) a link to the Week 4 scene adapter that generates the actual A-Frame file from the spec. The Spring Track 3 students may be best placed to build a first version.
+        </div>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Tools used this week</div>
+        <table class="tool-table">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="tool-name">VR Stimulus Library</td><td>Browse, preview, and select base VR scenes for each condition</td><td><span class="tool-status ts-needed">Needed — highest priority new tool</span></td></tr>
+            <tr><td class="tool-name">Stimulus Spec Form</td><td>Structured A/B parameter form with confound-control checklist</td><td><span class="tool-status ts-needed">Needed</span></td></tr>
+            <tr><td class="tool-name">Experiment Wizard (existing)</td><td>Paradigm-choice and confound-analysis steps already scaffolded</td><td><span class="tool-status ts-partial">Partial (exists; covers paradigm and confound analysis)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">Stimulus Specification Form <span class="autograde-pill ag-yes">Autogradeable</span></div>
+          <div class="deliverable-desc">Both conditions fully specified. Auto-check confirms the IV parameter actually differs between conditions.</div>
+          <ul class="deliverable-checks">
+            <li>Base scene selected (from library dropdown)</li>
+            <li>Condition A: 6 parameters specified (sky, ground, objects, light, sound, nav)</li>
+            <li>Condition B: same 6 parameters, at least one must differ from A</li>
+            <li>IV parameter identified (which single parameter is the manipulation?)</li>
+            <li>Justification for each controlled (constant) parameter (≥ 15 words each)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w3 -->
+
+  <!-- WEEK 4 -->
+  <div class="week-card design">
+    <div class="week-header" onclick="toggle('w4')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">4</div></div>
+      <div class="week-summary">
+        <div class="week-title">VR Scene Assembly · Build the two conditions in A-Frame</div>
+        <div class="week-tagline">Students generate working A-Frame scenes from their Week 3 spec. Both conditions render in the browser by end of the week.</div>
+        <div class="week-badges">
+          <span class="badge badge-blue">VR build</span>
+          <span class="badge badge-amber">Due Mon 6 pm: Two working scene URLs</span>
+          <span class="badge badge-blue">Auto-check: renders without errors</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w4-x">＋</div>
+    </div>
+    <div class="week-body" id="w4">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>The Scene Adapter takes the Week 3 stimulus spec and generates a starter A-Frame HTML file for each condition. Students open the file in their browser, confirm it renders, then adapt it — moving objects, adjusting parameters, adding or removing 3D assets from the library. The goal is not a polished scene; it is a controllable, working scene where the IV is cleanly manipulated.</p>
+          <p>Students who need a 3D asset not in the default library can import from Sketchfab (free, educational licence) or use A-Frame primitives. The Scene Adapter checks that the A-Frame script tag is present and the scene ID matches the experiment record — this is what enables the auto-logger to attach in Week 8.</p>
+        </div>
+        <ul class="task-list">
+          <li>Use the Scene Adapter to generate starter HTML for Condition A and Condition B from your spec</li>
+          <li>Open each file in Chrome — confirm no console errors and the environment renders</li>
+          <li>Walk through each scene using WASD + mouse-look and confirm the IV is visually apparent</li>
+          <li>Add any missing 3D assets (primitives or Sketchfab imports) — keep the asset list short</li>
+          <li>Confirm scene ID is set correctly in both files (the logger uses this to tag events)</li>
+          <li>Screenshot or screen-record 10 seconds of each condition as preview</li>
+        </ul>
+        <div class="build-note">
+          <strong>Scene Adapter — needed.</strong>
+          Takes a stimulus spec JSON (from Week 3 form) and outputs two A-Frame HTML files with the parameter values pre-filled, the <code>log-events</code> component stub included, and the experiment ID embedded. Students then edit these files rather than starting from scratch. The Ka VR Assignment workbook's starter template is the basis for this.
+        </div>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Tools used this week</div>
+        <table class="tool-table">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="tool-name">VR Scene Adapter</td><td>Generate A-Frame HTML from stimulus spec; embed experiment ID and logger stub</td><td><span class="tool-status ts-needed">Needed</span></td></tr>
+            <tr><td class="tool-name">A-Frame 1.4 (CDN)</td><td>VR rendering framework — runs in browser, no install</td><td><span class="tool-status ts-exists">Exists (external)</span></td></tr>
+            <tr><td class="tool-name">Sketchfab / A-Frame Primitives</td><td>Source for additional 3D assets</td><td><span class="tool-status ts-exists">Exists (external)</span></td></tr>
+            <tr><td class="tool-name">Scene Validator</td><td>Browser check: scene renders, no console errors, experiment ID present</td><td><span class="tool-status ts-needed">Needed (could be a simple JS bookmarklet)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">Two Working Scene Files <span class="autograde-pill ag-partial">Auto-check: renders + ID present</span></div>
+          <div class="deliverable-desc">Students upload or link both HTML files. Auto-checker opens each in a headless browser, confirms no JS errors, and verifies the experiment ID attribute is present in the <code>&lt;a-scene&gt;</code> tag.</div>
+          <ul class="deliverable-checks">
+            <li>condition_a.html — renders without console errors</li>
+            <li>condition_b.html — renders without console errors</li>
+            <li>Both files contain correct <code>data-experiment-id</code> attribute</li>
+            <li>Screenshot of each condition (10-second screen-recording acceptable)</li>
+            <li>One-sentence note on any asset you could not find and had to approximate</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w4 -->
+
+  <!-- WEEK 5 -->
+  <div class="week-card design">
+    <div class="week-header" onclick="toggle('w5')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">5</div></div>
+      <div class="week-summary">
+        <div class="week-title">Measurement instrument · Configure the Adaptive Preference tool</div>
+        <div class="week-tagline">Students configure the course's primary measurement instrument — the Adaptive Preference survey — and verify it collects and auto-analyzes a self-test run.</div>
+        <div class="week-badges">
+          <span class="badge badge-purple">Measurement</span>
+          <span class="badge badge-amber">Due Mon 6 pm: Working instrument + self-test data</span>
+          <span class="badge badge-green">Autogradeable</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w5-x">＋</div>
+    </div>
+    <div class="week-body" id="w5">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>The Adaptive Preference instrument is the primary DV measure for most experiments in this course. It presents stimuli — screenshots or short clips of Condition A and Condition B — in a pairwise or rating format, adapts the next comparison based on the current response pattern, and at the end produces an automatic preference score and a Bradley-Terry ranking. Students do not write the analysis; the tool does it.</p>
+          <p>Configuration means: upload the stimuli (screenshots from Week 4), label the conditions, set the number of trials (12–20 for a pilot), and choose the response format (pairwise forced choice or 5-point rating scale). Then each team member completes a self-test run to confirm the instrument works.</p>
+          <p>Teams whose hypothesis involves a physiological DV (stress, arousal) also note here that they will add EmotiBit to the session in Week 8. The adaptive preference tool is still required as a secondary measure.</p>
+        </div>
+        <ul class="task-list">
+          <li>Open the Adaptive Preference Configurator — connect it to your experiment ID (auto-links with your scene files)</li>
+          <li>Upload condition screenshots (at minimum 3 images per condition, from different viewpoints)</li>
+          <li>Set trial count (12 for a pilot), response format (pairwise recommended), and condition labels</li>
+          <li>Both team members complete a self-test run — you are your own first pilot participants</li>
+          <li>Confirm that the auto-analysis report generates: preference score, Bradley-Terry ranking, trial-by-trial log</li>
+          <li>If using EmotiBit: note this in the instrument config — it will be linked in Week 8</li>
+        </ul>
+        <div class="build-note">
+          <strong>Adaptive Preference Configurator — needed.</strong>
+          The core new tool for this course. Needs: (1) stimulus upload (images or short clips from the VR scenes); (2) pairwise or rating-scale trial generator; (3) adaptive trial selection (simple: show each pair twice then choose most informative remaining pairs); (4) auto-analysis: preference score per condition, Bradley-Terry ranking, confidence interval; (5) downloadable trial log in standard schema. This is the tool that makes the course autogradeable and self-contained — invest the most here.
+        </div>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Tools used this week</div>
+        <table class="tool-table">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="tool-name">Adaptive Preference Configurator</td><td>Upload stimuli, set trials, run pairwise comparison, auto-analyze</td><td><span class="tool-status ts-needed">Needed — most important new tool</span></td></tr>
+            <tr><td class="tool-name">Adaptive Preference Runner</td><td>Participant-facing interface for completing trials</td><td><span class="tool-status ts-needed">Needed (same codebase as Configurator)</span></td></tr>
+            <tr><td class="tool-name">Auto-Analysis Report</td><td>Bradley-Terry score, preference ranking, confidence intervals</td><td><span class="tool-status ts-needed">Needed (built into Adaptive Preference tool)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">Configured Instrument + Self-Test Data <span class="autograde-pill ag-yes">Autogradeable</span></div>
+          <div class="deliverable-desc">System verifies the instrument is linked to the experiment ID, stimuli are uploaded, and at least 2 self-test runs are recorded with complete trial logs.</div>
+          <ul class="deliverable-checks">
+            <li>Instrument linked to experiment ID (auto-check)</li>
+            <li>At least 3 stimulus images per condition uploaded</li>
+            <li>Trial count set (8–20)</li>
+            <li>Self-test run by Team Member 1 — complete trial log present</li>
+            <li>Self-test run by Team Member 2 — complete trial log present</li>
+            <li>Auto-analysis report generated — preference score visible</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w5 -->
+
+  <!-- ══════════════ PHASE 2: PRE-REGISTRATION ══════════════ -->
+  <div class="section-divider"><div class="div-line"></div><div class="div-text">Phase 2 — Pre-registration and approval gate</div><div class="div-line"></div></div>
+  <div class="phase-banner phase-build" style="margin-top:8px">
+    <div class="phase-banner-icon">📋</div>
+    <div>
+      <div class="phase-banner-title">Phase 2 — Weeks 6–7 · Pre-registration and instructor approval</div>
+      <div class="phase-banner-desc">
+        Before running any participants, every team submits a pre-registration: a public commitment to their hypothesis, design, and analysis plan. The instructor reviews and either approves or sends back with comments. No team runs participants until approved. This is not bureaucracy — it is the discipline that separates science from storytelling.
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 6 -->
+  <div class="week-card build">
+    <div class="week-header" onclick="toggle('w6')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">6</div></div>
+      <div class="week-summary">
+        <div class="week-title">Procedure write-up · Consent form · Pre-registration draft</div>
+        <div class="week-tagline">Students write the full procedure from the participant's point of view and assemble the pre-registration document. Instructor gives first-pass feedback by Friday.</div>
+        <div class="week-badges">
+          <span class="badge badge-blue">Pre-reg</span>
+          <span class="badge badge-amber">Due Mon 6 pm: Pre-registration draft</span>
+          <span class="badge badge-blue">Instructor review by Fri</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w6-x">＋</div>
+    </div>
+    <div class="week-body" id="w6">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>The procedure is written from the experimenter's script perspective — what you say, what you do, in what order. It must be detailed enough that a classmate who has never seen your experiment could run it correctly. The pre-registration form assembles all prior weeks' work (research question, hypothesis, stimulus spec, instrument config) plus the analysis plan into one document.</p>
+          <p>The analysis plan is simple: we will compute [DV] for each condition, compare conditions using [test], and consider the hypothesis supported if [statistical criterion]. Because the Adaptive Preference tool auto-runs the analysis, students mainly need to specify the criterion for "support" versus "null result."</p>
+        </div>
+        <ul class="task-list">
+          <li>Write the experimenter script: greeting → consent → instructions → Condition A → break → Condition B → debrief (or counterbalanced order)</li>
+          <li>Complete the consent form template (provided — fill in study title, risks, contact)</li>
+          <li>Specify the analysis plan: which DV, which test (t-test on preference scores), significance threshold (p &lt; .05), and minimum effect size to report</li>
+          <li>Assemble the pre-registration form — it auto-pulls from weeks 1–5 submissions and asks you to fill in procedure and analysis plan</li>
+          <li>Submit the draft — the system timestamps it and sends to the instructor queue</li>
+        </ul>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Tools used this week</div>
+        <table class="tool-table">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="tool-name">Pre-registration Form</td><td>Assembles weeks 1–5 data; adds procedure + analysis plan; timestamps submission</td><td><span class="tool-status ts-needed">Needed</span></td></tr>
+            <tr><td class="tool-name">Consent Form Template</td><td>Fillable browser form; auto-generates PDF for participant signature</td><td><span class="tool-status ts-needed">Needed</span></td></tr>
+            <tr><td class="tool-name">Instructor Review Queue</td><td>Shows instructor all submitted pre-registrations; approve / comment / reject</td><td><span class="tool-status ts-needed">Needed</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">Pre-registration Draft <span class="autograde-pill ag-partial">Auto-check structure; instructor reviews content</span></div>
+          <div class="deliverable-desc">System checks all sections present. Instructor reads procedure and analysis plan and responds by Friday.</div>
+          <ul class="deliverable-checks">
+            <li>Research question (auto-pulled from Week 1)</li>
+            <li>Hypothesis in required format (auto-pulled from Week 2)</li>
+            <li>Stimulus spec summary (auto-pulled from Week 3)</li>
+            <li>Experimenter script (≥ 150 words)</li>
+            <li>Consent form completed</li>
+            <li>Analysis plan: DV, test, threshold, effect-size reporting criterion</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w6 -->
+
+  <!-- WEEK 7 -->
+  <div class="week-card build">
+    <div class="week-header" onclick="toggle('w7')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">7</div></div>
+      <div class="week-summary">
+        <div class="week-title">Revisions · Approval · Dry run</div>
+        <div class="week-tagline">Teams address instructor feedback, receive final approval, and run through the complete experiment themselves as a dry run. No participant is run until approval is in hand.</div>
+        <div class="week-badges">
+          <span class="badge badge-blue">Pre-reg approval gate</span>
+          <span class="badge badge-amber">Due Mon 6 pm: Approval confirmed + dry-run log</span>
+          <span class="badge badge-green">Autogradeable</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w7-x">＋</div>
+    </div>
+    <div class="week-body" id="w7">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>Most pre-registrations come back with comments on the procedure (too vague) or the analysis plan (threshold not specified). Students revise and resubmit. Once approved, the system issues a green "Approved to run" status that is required before sensor setup in Week 8 can begin.</p>
+          <p>The dry run is a complete end-to-end walkthrough of the experiment with one team member as experimenter and the other as participant — using the real scenes, the real instrument, and following the script exactly. This catches: broken links, instrument not loading, script gaps, timing issues. The dry run generates a real data file (marked "dry-run" so it is excluded from analysis).</p>
+        </div>
+        <ul class="task-list">
+          <li>Read instructor feedback — address each comment specifically</li>
+          <li>Resubmit revised pre-registration (the system flags the revision and re-routes to instructor)</li>
+          <li>Once approved: run the complete dry run — experimenter role and participant role both performed</li>
+          <li>Upload the dry-run data file (labeled "dry_run" in the experiment runner — excluded from pilot analysis)</li>
+          <li>Note any issues the dry run revealed and how you fixed them</li>
+        </ul>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">Approval Status + Dry-Run Data File <span class="autograde-pill ag-yes">Autogradeable</span></div>
+          <div class="deliverable-desc">System checks approval status is "Approved" and a dry-run data file with correct schema has been uploaded.</div>
+          <ul class="deliverable-checks">
+            <li>Pre-registration status = "Approved" (set by instructor in review queue)</li>
+            <li>Dry-run session data file uploaded (marked dry_run=true in metadata)</li>
+            <li>At least 8 trials in the dry-run log</li>
+            <li>Brief notes on issues found in dry run (≥ 30 words, or "No issues found")</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w7 -->
+
+  <!-- ══════════════ PHASE 3: RUN ══════════════ -->
+  <div class="section-divider"><div class="div-line"></div><div class="div-text">Phase 3 — Sensor setup and pilot run</div><div class="div-line"></div></div>
+  <div class="phase-banner phase-run" style="margin-top:8px">
+    <div class="phase-banner-icon">🧪</div>
+    <div>
+      <div class="phase-banner-title">Phase 3 — Weeks 8–9 · Sensor setup and pilot experiment</div>
+      <div class="phase-banner-desc">
+        Teams who are using physiological sensors (EmotiBit for heart rate variability and electrodermal activity as stress proxies) set them up and calibrate in Week 8. All teams run the pilot in Week 9: each team member participates, plus ideally one outside subject. The adaptive preference tool auto-collects and auto-analyzes.
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 8 -->
+  <div class="week-card run">
+    <div class="week-header" onclick="toggle('w8')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">8</div></div>
+      <div class="week-summary">
+        <div class="week-title">Sensor setup · EmotiBit calibration · Sync with VR scenes</div>
+        <div class="week-tagline">Teams using physiological sensors set up and verify the signal. All teams confirm their experiment runner works end-to-end before Week 9's participant sessions.</div>
+        <div class="week-badges">
+          <span class="badge badge-green">Sensor / instrument</span>
+          <span class="badge badge-amber">Due Mon 6 pm: Clean signal screenshot or instrument ready confirmation</span>
+          <span class="badge badge-blue">Auto-check: data schema present</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w8-x">＋</div>
+    </div>
+    <div class="week-body" id="w8">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>Teams that pre-registered a physiological DV (heart rate variability, electrodermal activity via EmotiBit) set up the sensor, confirm they can see a clean signal in the EmotiBit visualizer, and do a brief calibration run: sit still for 60 seconds (baseline), then watch a 60-second stress clip, then sit still again. The EmotiBit experiment maker tool (provided separately) handles the recording, event tagging, and export.</p>
+          <p>Teams using only the Adaptive Preference instrument — no EmotiBit — still have work this week: confirm the participant-facing URL works on a second device (phone or second laptop), test loading time, and verify the auto-analysis runs correctly on data from an unfamiliar device.</p>
+          <p>All teams run a second complete dry run with the final setup: scenes + instrument (+ sensor if applicable), following the approved script exactly.</p>
+        </div>
+        <ul class="task-list">
+          <li><strong>EmotiBit teams:</strong> attach sensor, open EmotiBit OSC receiver, confirm PPG and EDA channels are recording</li>
+          <li><strong>EmotiBit teams:</strong> run 3-minute calibration sequence (baseline → stressor → recovery); confirm signal is clean and event markers are in the file</li>
+          <li><strong>All teams:</strong> open the participant-facing experiment URL on a second device — confirm scenes load and instrument launches</li>
+          <li><strong>All teams:</strong> run the full experiment script (dry run #2) from start to finish; time it — should be 15–25 minutes per participant</li>
+          <li>Upload the calibration data file (EmotiBit teams) or the dry-run #2 data file (all teams)</li>
+        </ul>
+        <div class="tool-note">
+          <strong>EmotiBit experiment maker</strong> — David will provide the current version of this tool. It is the primary source of the sensor collection pipeline for this course. Once received, its capabilities (supported channels, event-tagging syntax, export format) will determine what physiological DVs students can reliably measure.
+        </div>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Tools used this week</div>
+        <table class="tool-table">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="tool-name">EmotiBit Experiment Maker</td><td>Record PPG / EDA / temperature; tag scene events; export to CSV</td><td><span class="tool-status ts-partial">Provided by David — to be integrated</span></td></tr>
+            <tr><td class="tool-name">EmotiBit OSC Receiver</td><td>Desktop app that receives sensor data over WiFi; visualizes signal</td><td><span class="tool-status ts-exists">Exists (EmotiBit software)</span></td></tr>
+            <tr><td class="tool-name">Sensor Setup Guide</td><td>Step-by-step: attach sensor, open receiver, calibration sequence, export</td><td><span class="tool-status ts-needed">Needed — browser page, one section per channel</span></td></tr>
+            <tr><td class="tool-name">Adaptive Preference Runner</td><td>Participant-facing instrument — must work on mobile and second laptop</td><td><span class="tool-status ts-needed">Needed (see Week 5)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">Setup Confirmation <span class="autograde-pill ag-partial">Auto-check schema; instructor spot-checks signal</span></div>
+          <div class="deliverable-desc">EmotiBit teams upload the calibration CSV. Adaptive-preference-only teams upload dry-run #2 data file.</div>
+          <ul class="deliverable-checks">
+            <li>EmotiBit teams: calibration CSV with PPG, EDA, and at least 2 event markers present</li>
+            <li>All teams: dry-run #2 data file with correct schema and ≥ 10 trials</li>
+            <li>Experiment total time recorded (in minutes)</li>
+            <li>Any setup issue encountered and how it was resolved (or flagged for instructor help)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w8 -->
+
+  <!-- WEEK 9 -->
+  <div class="week-card run">
+    <div class="week-header" onclick="toggle('w9')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">9</div></div>
+      <div class="week-summary">
+        <div class="week-title">Pilot experiment · Run participants · Auto-analyze</div>
+        <div class="week-tagline">Each team runs at least 3 participants — both team members plus one outside subject. The auto-analysis report is generated and reviewed in class Thursday.</div>
+        <div class="week-badges">
+          <span class="badge badge-green">Data collection</span>
+          <span class="badge badge-amber">Due Mon 6 pm: 3 data files + auto-analysis report</span>
+          <span class="badge badge-green">Autogradeable</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w9-x">＋</div>
+    </div>
+    <div class="week-body" id="w9">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>Each team runs a minimum of 3 participants: Team Member 1 as participant (Team Member 2 runs), Team Member 2 as participant (Team Member 1 runs), and one external participant recruited from outside the class. Three data points is not enough to draw confident conclusions — and students are expected to say so — but it is enough to verify the pipeline works, see whether the direction of the effect is consistent with the hypothesis, and identify any procedure problems before a larger replication.</p>
+          <p>After the third session the auto-analysis report runs automatically. In Thursday's class, each team presents their preliminary result (not a conclusion — a finding) and gets 5 minutes of peer feedback. Students prepare a brief summary for this session but do not write the full report until Week 10.</p>
+        </div>
+        <ul class="task-list">
+          <li>Run Team Member 1 as participant — follow approved script exactly; upload data file immediately after</li>
+          <li>Run Team Member 2 as participant — same procedure; upload data file</li>
+          <li>Recruit and run 1 external participant (classmate from a different team, friend, family member — 18+)</li>
+          <li>After 3rd session: trigger the auto-analysis report from the experiment dashboard</li>
+          <li>Read the report — note the preference score direction, the confidence interval, and whether the result is consistent with the hypothesis</li>
+          <li>Prepare a 2-minute oral summary for Thursday class: what you found, what surprised you, what you are unsure about</li>
+        </ul>
+        <div class="tool-note">
+          <strong>Counterbalancing note.</strong> Participants should be randomly assigned to see Condition A first or Condition B first, to control for order effects. The Adaptive Preference Runner can handle this automatically if the "counterbalance order" setting is enabled during configuration. Make sure this is set before running participants — it cannot be changed mid-study.
+        </div>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Tools used this week</div>
+        <table class="tool-table">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="tool-name">Adaptive Preference Runner</td><td>Participant-facing experiment interface — runs in browser, no install</td><td><span class="tool-status ts-needed">Needed</span></td></tr>
+            <tr><td class="tool-name">Experiment Dashboard</td><td>Shows collected sessions, triggers auto-analysis, flags missing data</td><td><span class="tool-status ts-needed">Needed</span></td></tr>
+            <tr><td class="tool-name">Auto-Analysis Report</td><td>Preference scores, Bradley-Terry ranking, paired comparison stats, effect size</td><td><span class="tool-status ts-needed">Needed (built into Adaptive Preference tool)</span></td></tr>
+            <tr><td class="tool-name">EmotiBit Experiment Maker</td><td>Physiological recording during participant sessions (EmotiBit teams)</td><td><span class="tool-status ts-partial">Provided by David</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">3 Participant Data Files + Auto-Analysis Report <span class="autograde-pill ag-yes">Autogradeable</span></div>
+          <div class="deliverable-desc">System verifies 3 complete sessions are recorded against the experiment ID and auto-analysis report has been generated.</div>
+          <ul class="deliverable-checks">
+            <li>Session 1 data file — complete, ≥ 8 trials, participant ID ≠ "dry_run"</li>
+            <li>Session 2 data file — same checks</li>
+            <li>Session 3 data file — same checks; participant marked "external"</li>
+            <li>Auto-analysis report generated (timestamp present in experiment dashboard)</li>
+            <li>One-paragraph preliminary interpretation: what did you find? (≥ 60 words)</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w9 -->
+
+  <!-- ══════════════ PHASE 4: WRITE-UP ══════════════ -->
+  <div class="section-divider"><div class="div-line"></div><div class="div-text">Phase 4 — Write-up and presentation</div><div class="div-line"></div></div>
+  <div class="phase-banner phase-present" style="margin-top:8px">
+    <div class="phase-banner-icon">📝</div>
+    <div>
+      <div class="phase-banner-title">Phase 4 — Week 10 · Write-up and 4-minute presentation</div>
+      <div class="phase-banner-desc">
+        The write-up follows a provided template with fixed sections and word limits. The presentation is exactly 4 minutes — a strict limit enforced in class. Both are submitted by Monday 6 pm. The write-up is the primary graded artifact; the presentation is graded on clarity, not on the result.
+      </div>
+    </div>
+  </div>
+
+  <!-- WEEK 10 -->
+  <div class="week-card present">
+    <div class="week-header" onclick="toggle('w10')">
+      <div class="week-num"><div class="week-num-label">Week</div><div class="week-num-value">10</div></div>
+      <div class="week-summary">
+        <div class="week-title">Write-up · 4-minute presentation · KA contribution</div>
+        <div class="week-tagline">Complete the structured report, present findings in class, and submit results back to Knowledge Atlas — whether the hypothesis was supported or not.</div>
+        <div class="week-badges">
+          <span class="badge badge-amber">Report due Mon 6 pm</span>
+          <span class="badge badge-amber">Presentations in class Thu</span>
+          <span class="badge badge-teal">Results go back into KA</span>
+        </div>
+      </div>
+      <div class="week-expand" id="w10-x">＋</div>
+    </div>
+    <div class="week-body" id="w10">
+      <div class="wb-section">
+        <div class="wb-section-label">What students do</div>
+        <div class="wb-desc">
+          <p>The write-up template has five sections with word limits enforced by the form. The template is intentionally short — this is a pilot report, not a journal submission. Students write in the first person. The result section is auto-populated from the Week 9 auto-analysis report; students interpret it, not re-describe it.</p>
+          <p>The 4-minute presentation follows a fixed format: 30 seconds on the research question, 30 seconds on the design, 1 minute on what participants experienced (show the VR scenes), 1 minute on the result, 1 minute on what to do next. The format is provided as a slide template with text already in the slide notes — students replace the notes text with their own content. Time is enforced; the chair cuts the speaker at 4:00.</p>
+          <p>The KA contribution step is what makes the course scientifically meaningful. Students submit their result — preference score and direction — to the Knowledge Atlas evidence intake. Even a null result is a contribution. KA records it as a new evidence node with the team's pre-registration as its provenance.</p>
+        </div>
+        <ul class="task-list">
+          <li>Complete the write-up form (5 sections, word limits — see below)</li>
+          <li>Use the provided presentation slide template — fill in your content in the note fields, then present from the slides</li>
+          <li>Submit your result to KA: preference score + direction + n + pre-registration link</li>
+          <li>In class: 4-minute presentation, then 2 minutes of Q&amp;A from peers</li>
+        </ul>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Write-up template — 5 sections, each with a word limit</div>
+        <table class="tool-table">
+          <thead><tr><th>Section</th><th>What to write</th><th>Word limit</th></tr></thead>
+          <tbody>
+            <tr><td><strong>1. Question and theory</strong></td><td>What question did you ask? Which theory did you test? What did it predict?</td><td>80–120 words</td></tr>
+            <tr><td><strong>2. Design</strong></td><td>What were the two conditions? What did participants do? How many trials?</td><td>60–100 words</td></tr>
+            <tr><td><strong>3. Result</strong></td><td>Auto-populated from the analysis report — your job is one sentence of interpretation</td><td>40–80 words</td></tr>
+            <tr><td><strong>4. What it means</strong></td><td>Does the result support the hypothesis? How confident are you given n=3? What would change your confidence?</td><td>80–120 words</td></tr>
+            <tr><td><strong>5. Next step</strong></td><td>If you ran this again with 20 participants and better control, what is the one change that would most improve the study?</td><td>40–80 words</td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Tools used this week</div>
+        <table class="tool-table">
+          <thead><tr><th>Tool</th><th>Purpose</th><th>Status</th></tr></thead>
+          <tbody>
+            <tr><td class="tool-name">Write-up Form</td><td>5-section browser form with word-count enforcement; auto-pulls Week 9 result</td><td><span class="tool-status ts-needed">Needed</span></td></tr>
+            <tr><td class="tool-name">Presentation Slide Template</td><td>4-slide deck with fixed structure; students fill in content</td><td><span class="tool-status ts-needed">Needed (PowerPoint or Google Slides template)</span></td></tr>
+            <tr><td class="tool-name">KA Evidence Intake</td><td>Submit pilot result as a new evidence node; links pre-registration as provenance</td><td><span class="tool-status ts-needed">Needed (extends existing ka_article_propose intake)</span></td></tr>
+          </tbody>
+        </table>
+      </div>
+      <div class="wb-section">
+        <div class="wb-section-label">Deliverable — Due Monday 6 pm (before class)</div>
+        <div class="deliverable-box">
+          <div class="deliverable-label">Write-up + KA Submission <span class="autograde-pill ag-partial">Auto-check word counts; instructor grades interpretation</span></div>
+          <div class="deliverable-desc">Write-up form submitted with all 5 sections within word limits. KA evidence node created.</div>
+          <ul class="deliverable-checks">
+            <li>All 5 write-up sections submitted and within word limits (auto-checked)</li>
+            <li>KA evidence node created — node ID returned by intake system</li>
+            <li>Pre-registration linked to the evidence node</li>
+            <li>Presentation slides submitted (PDF or link) — 4 slides, one per presentation section</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </div><!-- /w10 -->
+
+  <!-- BUILD PLAN SUMMARY -->
+  <div class="section-divider"><div class="div-line"></div><div class="div-text">Tools to build — Priority order</div><div class="div-line"></div></div>
+  <div style="background:var(--white);border:1px solid var(--border);border-radius:10px;padding:20px 24px;margin-top:8px">
+    <p style="font-size:0.84rem;color:var(--muted);line-height:1.65;margin-bottom:14px">
+      This schedule depends on 9 new browser tools that do not yet exist. Ordered by how badly missing they block student progress:
+    </p>
+    <table class="tool-table">
+      <thead><tr><th>#</th><th>Tool</th><th>Blocks</th><th>Notes</th></tr></thead>
+      <tbody>
+        <tr><td>1</td><td class="tool-name">Adaptive Preference Configurator + Runner + Auto-Analysis</td><td>Weeks 5, 9</td><td>Core instrument — everything else depends on this working</td></tr>
+        <tr><td>2</td><td class="tool-name">VR Stimulus Library</td><td>Week 3</td><td>8–12 base scenes; browser-browsable with preview images and parameter descriptions</td></tr>
+        <tr><td>3</td><td class="tool-name">VR Scene Adapter</td><td>Week 4</td><td>Takes stimulus spec JSON → outputs two A-Frame HTML files with logger stub</td></tr>
+        <tr><td>4</td><td class="tool-name">Pre-registration Form</td><td>Week 6</td><td>Assembles weeks 1–5 data; adds procedure + analysis plan; timestamps; routes to instructor queue</td></tr>
+        <tr><td>5</td><td class="tool-name">Sensor Setup Guide (EmotiBit)</td><td>Week 8</td><td>Browser page; calibration checklist; integrates with David's experiment maker tool</td></tr>
+        <tr><td>6</td><td class="tool-name">Experiment Dashboard</td><td>Week 9</td><td>Session list; triggers auto-analysis; flags incomplete data</td></tr>
+        <tr><td>7</td><td class="tool-name">Write-up Form</td><td>Week 10</td><td>5 sections; word-count enforcement; auto-pulls Week 9 result</td></tr>
+        <tr><td>8</td><td class="tool-name">KA Evidence Intake (pilot result)</td><td>Week 10</td><td>Extends existing article intake; creates evidence node from pre-reg + result</td></tr>
+        <tr><td>9</td><td class="tool-name">Team Registration + Instructor Review Queue</td><td>Weeks 1, 6</td><td>Simple; can be built quickly</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+</div><!-- /container -->
+
+<div class="version-badge">KA v0.4 · Draft</div>
+
+<script>
+function toggle(id) {
+  const body = document.getElementById(id);
+  const arrow = document.getElementById(id + '-x');
+  const open = body.classList.toggle('open');
+  arrow.textContent = open ? '－' : '＋';
+}
+toggle('w1'); // open week 1 by default
+</script>
+
+</body>
+</html>
