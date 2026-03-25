@@ -287,13 +287,12 @@ nav a.active { color: #F5A623; }
       <div class="wordmark-sub">COGS 160</div>
     </div>
     <ul>
-      <li><a id="nav-topics-ask" href="ka_demo_v04.html">Ask</a></li>
-      <li><a id="nav-topics-evidence" href="ka_evidence.html">Evidence</a></li>
-      <li><a id="nav-topics-build" href="ka_hypothesis_builder.html">Build</a></li>
-      <li><a id="nav-topics-articles" href="ka_article_search.html">Articles</a></li>
-      <li><a id="nav-topics-gaps" href="ka_gaps.html">Gaps</a></li>
-      <li><a id="nav-topics-topics" href="ka_topics.html" class="active">Topics</a></li>
-      <li><a id="nav-topics-question-maker" href="ka_question_maker.html">Question Maker</a></li>
+      <li><a id="nav-shell-explore" href="ka_topics.html" class="active">Explore</a></li>
+      <li><a id="nav-shell-evidence" href="ka_evidence.html">Evidence</a></li>
+      <li><a id="nav-shell-gaps" href="ka_gaps.html">Gaps</a></li>
+      <li><a id="nav-shell-articles" href="ka_article_search.html">Articles</a></li>
+      <li><a id="nav-shell-contribute" href="ka_dashboard.html">Contribute</a></li>
+      <li><a id="nav-shell-course" href="Designing_Experiments/cogs160_spring_2026_site.html">Course</a></li>
     </ul>
   </div>
   <div class="nav-right">
@@ -396,7 +395,7 @@ nav a.active { color: #F5A623; }
 // ─────────────────────────────────────────────────────────────────────────────
 // DATA
 // ─────────────────────────────────────────────────────────────────────────────
-const CLUSTERS = [
+const FALLBACK_CLUSTERS = [
   {
     id:'lc_ne', cat:'Neuroscience', n:6, voi:0.93,
     name:'LC-NE System & Sustained Attention',
@@ -498,6 +497,7 @@ const CLUSTERS = [
     desc:'ART (Kaplan & Kaplan 1989) distinguishes directed from involuntary attention and predicts that natural environments restore directed-attention capacity. The second-largest KA cluster with a well-developed theoretical structure and relatively lower residual uncertainty.'
   },
 ];
+let CLUSTERS = [];
 
 // ─────────────────────────────────────────────────────────────────────────────
 // HELPERS
@@ -641,71 +641,37 @@ function renderPriority() {
 }
 
 // Init
-renderPriority();
-renderGrid();
+async function initializeTopicsPage() {
+  const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/topics.json', { topics: FALLBACK_CLUSTERS });
+  CLUSTERS = payload.topics && payload.topics.length ? payload.topics : FALLBACK_CLUSTERS;
+
+  document.querySelector('.hero-stat-num').textContent = String(CLUSTERS.reduce((sum, item) => sum + (item.n || 0), 0));
+  document.querySelectorAll('.hero-stat-num')[1].textContent = String(CLUSTERS.length);
+  document.querySelectorAll('.hero-stat-num')[2].textContent = CLUSTERS.length ? Math.max(...CLUSTERS.map(c => c.voi || 0)).toFixed(2) : '0.00';
+  document.querySelectorAll('.hero-stat-num')[3].textContent = String(CLUSTERS.filter(c => (c.voi || 0) >= 0.85).length);
+
+  renderPriority();
+  renderGrid();
+}
 </script>
 
 <script src="ka_page_function.js"></script>
 <script src="ka_demo_wiring.js"></script>
 <script src="ka_mode_switch.js"></script>
+<script src="ka_site_shell.js"></script>
+<script src="ka_data_adapter.js"></script>
 <script>
 (function() {
-  const TOPICS_MODE_COPY = {
-    student_explorer: {
-      navOrder: ['nav-topics-topics', 'nav-topics-evidence', 'nav-topics-gaps', 'nav-topics-articles', 'nav-topics-build', 'nav-topics-question-maker', 'nav-topics-ask'],
-      pill: 'STUDENT EXPLORER',
-      note: 'Student mode foregrounds topic browsing, evidence, and gaps before design tools.',
-      sort: 'papers',
-      category: 'all'
-    },
-    researcher: {
-      navOrder: ['nav-topics-evidence', 'nav-topics-gaps', 'nav-topics-articles', 'nav-topics-topics', 'nav-topics-ask', 'nav-topics-question-maker', 'nav-topics-build'],
-      pill: 'RESEARCHER',
-      note: 'Researcher mode foregrounds evidence, gaps, article search, and high-VOI topics.',
-      sort: 'voi',
-      category: 'all'
-    },
-    contributor: {
-      navOrder: ['nav-topics-articles', 'nav-topics-topics', 'nav-topics-question-maker', 'nav-topics-gaps', 'nav-topics-evidence', 'nav-topics-build', 'nav-topics-ask'],
-      pill: 'CONTRIBUTOR',
-      note: 'Contributor mode foregrounds article search, topic targeting, and question generation for intake work.',
-      sort: 'voi',
-      category: 'all'
-    },
-    instructor: {
-      navOrder: ['nav-topics-topics', 'nav-topics-question-maker', 'nav-topics-gaps', 'nav-topics-evidence', 'nav-topics-articles', 'nav-topics-build', 'nav-topics-ask'],
-      pill: 'INSTRUCTOR',
-      note: 'Instructor mode foregrounds topic coverage, question-making, and gap oversight.',
-      sort: 'voi',
-      category: 'Methodology'
-    },
-    practitioner: {
-      navOrder: ['nav-topics-topics', 'nav-topics-evidence', 'nav-topics-articles', 'nav-topics-gaps', 'nav-topics-ask', 'nav-topics-build', 'nav-topics-question-maker'],
-      pill: 'PRACTITIONER',
-      note: 'Practitioner mode foregrounds applied topics and readable evidence rather than research tooling.',
-      sort: 'papers',
-      category: 'Environmental'
-    },
-    theory_mechanism_explorer: {
-      navOrder: ['nav-topics-topics', 'nav-topics-evidence', 'nav-topics-gaps', 'nav-topics-ask', 'nav-topics-articles', 'nav-topics-question-maker', 'nav-topics-build'],
-      pill: 'THEORY + MECHANISMS',
-      note: 'Theory + mechanisms mode foregrounds neuroscience-adjacent and high-VOI explanatory territory.',
-      sort: 'voi',
-      category: 'Neuroscience'
-    }
-  };
-
   function applyTopicsMode(mode) {
-    const cfg = TOPICS_MODE_COPY[mode] || TOPICS_MODE_COPY.student_explorer;
-    const navList = document.querySelector('.nav-left ul');
-    cfg.navOrder.forEach(function(id) {
-      const el = document.getElementById(id);
-      if (el && el.parentElement) navList.appendChild(el.parentElement);
-    });
-
-    document.getElementById('topics-mode-pill').textContent = cfg.pill;
-    document.getElementById('topics-mode-note').textContent = cfg.note;
-
+    const cfgMap = {
+      student_explorer: { sort: 'papers', category: 'all' },
+      researcher: { sort: 'voi', category: 'all' },
+      contributor: { sort: 'voi', category: 'all' },
+      instructor: { sort: 'voi', category: 'Methodology' },
+      practitioner: { sort: 'papers', category: 'Environmental' },
+      theory_mechanism_explorer: { sort: 'voi', category: 'Neuroscience' }
+    };
+    const cfg = cfgMap[mode] || cfgMap.student_explorer;
     const sortSelect = document.querySelector('.sort-select');
     if (sortSelect) {
       sortSelect.value = cfg.sort;
@@ -719,11 +685,15 @@ renderGrid();
     renderGrid();
   }
 
-  window.KA_MODE_SWITCH.initModeControls({
-    selectId: 'topics-mode-select',
-    onApply: applyTopicsMode,
-    defaultMode: 'student_explorer'
+  window.KA_SHELL.initShell({
+    navContainerSelector: '.nav-left ul',
+    modePillId: 'topics-mode-pill',
+    modeSelectId: 'topics-mode-select',
+    modeNoteId: 'topics-mode-note',
+    defaultMode: 'student_explorer',
+    onModeApplied: applyTopicsMode
   });
+  initializeTopicsPage();
 })();
 </script>
 

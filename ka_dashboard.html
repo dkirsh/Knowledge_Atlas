@@ -70,6 +70,10 @@
             color: #2A7868;
         }
 
+        nav a.active {
+            color: #F5A623;
+        }
+
         .nav-right {
             display: flex;
             align-items: center;
@@ -85,6 +89,19 @@
             font-size: 0.75rem;
             font-weight: bold;
             letter-spacing: 0.5px;
+        }
+
+        .mode-select {
+            font-size: 0.76rem;
+            padding: 6px 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(168, 200, 191, 0.34);
+            background: rgba(255, 255, 255, 0.05);
+            color: #D8EAE4;
+        }
+
+        .mode-select option {
+            color: #1C3D3A;
         }
 
         .page-title {
@@ -511,6 +528,13 @@
             font-weight: bold;
         }
 
+        .deadline-note {
+            font-size: 0.75rem;
+            color: #8A7A68;
+            margin-top: 16px;
+            line-height: 1.5;
+        }
+
         /* Right Panel */
         .right-panel {
             background-color: white;
@@ -605,17 +629,24 @@
                 <div class="wordmark-sub">COGS 160</div>
             </div>
             <ul>
-                <li><a href="ka_demo_v04.html">Ask</a></li>
-                <li><a href="ka_evidence.html">Evidence</a></li>
-                <li><a href="ka_hypothesis_builder.html">Build</a></li>
-                <li><a href="ka_tagger.html">Tag</a></li>
-                <li><a href="ka_articles.html">Articles</a></li>
-                <li><a href="ka_datacapture.html">Capture</a></li>
-                <li><a href="ka_topics.html">Topics</a></li>
+                <li><a id="nav-shell-explore" href="ka_topics.html">Explore</a></li>
+                <li><a id="nav-shell-evidence" href="ka_evidence.html">Evidence</a></li>
+                <li><a id="nav-shell-gaps" href="ka_gaps.html">Gaps</a></li>
+                <li><a id="nav-shell-articles" href="ka_article_search.html">Articles</a></li>
+                <li><a id="nav-shell-contribute" href="ka_dashboard.html" class="active">Contribute</a></li>
+                <li><a id="nav-shell-course" href="Designing_Experiments/cogs160_spring_2026_site.html">Course</a></li>
             </ul>
         </div>
         <div class="nav-right">
-            <div class="mode-pill">CONTRIBUTOR</div>
+            <select class="mode-select" id="dashboard-mode-select" aria-label="Switch user mode">
+                <option value="student_explorer">Student explorer</option>
+                <option value="researcher">Researcher</option>
+                <option value="contributor">Contributor</option>
+                <option value="instructor">Instructor</option>
+                <option value="practitioner">Practitioner</option>
+                <option value="theory_mechanism_explorer">Theory + mechanisms</option>
+            </select>
+            <div class="mode-pill" id="dashboard-mode-pill">CONTRIBUTOR</div>
         </div>
     </nav>
 
@@ -625,9 +656,9 @@
         <aside class="left-sidebar">
             <div class="user-block">
                 <div class="avatar-placeholder"></div>
-                <div class="user-name">Alex Chen</div>
-                <div class="user-email">a.chen@ucsd.edu</div>
-                <span class="track-badge">Track 2</span>
+                <div class="user-name" id="dashboard-user-name">Alex Chen</div>
+                <div class="user-email" id="dashboard-user-email">a.chen@ucsd.edu</div>
+                <span class="track-badge" id="dashboard-track-badge">Track 2</span>
                 <div style="margin-top: 8px;">
                     <span class="status-label">Approved</span>
                 </div>
@@ -647,17 +678,17 @@
         <main class="main-area">
             <!-- Welcome Card -->
             <div class="welcome-card card">
-                <h2>Welcome back, Alex</h2>
-                <p><strong>Track 2</strong> · Week 4 of 10</p>
-                <p>Your next assignment is due in <strong>3 days</strong>.</p>
-                <div class="progress-meta">Keep up the momentum — you're on track with submissions.</div>
+                <h2 id="dashboard-welcome-name">Welcome back, Alex</h2>
+                <p id="dashboard-week-label"><strong>Track 2</strong> · Week 4 of 10</p>
+                <p id="dashboard-due-label">Your next assignment is due in <strong>3 days</strong>.</p>
+                <div class="progress-meta" id="dashboard-progress-meta">Keep up the momentum — you're on track with submissions.</div>
             </div>
 
             <!-- Assignment Progress Card -->
             <div class="card">
                 <h2>Assignment Progress</h2>
                 <table class="progress-table">
-                    <tr>
+                    <tr data-progress-key="apa_submissions">
                         <td class="progress-label">APA submissions</td>
                         <td style="display: flex; align-items: center;">
                             <div class="progress-bar-container" style="flex: 1;">
@@ -667,7 +698,7 @@
                         <td class="progress-text">7/20</td>
                         <td><a href="ka_datacapture.html" class="progress-link">Continue →</a></td>
                     </tr>
-                    <tr>
+                    <tr data-progress-key="pdfs_uploaded">
                         <td class="progress-label">PDFs uploaded</td>
                         <td style="display: flex; align-items: center;">
                             <div class="progress-bar-container" style="flex: 1;">
@@ -677,7 +708,7 @@
                         <td class="progress-text">3/10</td>
                         <td><a href="ka_articles.html" class="progress-link">Continue →</a></td>
                     </tr>
-                    <tr>
+                    <tr data-progress-key="images_tagged">
                         <td class="progress-label">Images tagged</td>
                         <td style="display: flex; align-items: center;">
                             <div class="progress-bar-container" style="flex: 1;">
@@ -687,7 +718,7 @@
                         <td class="progress-text">24/50</td>
                         <td><a href="ka_tagger.html" class="progress-link">Continue →</a></td>
                     </tr>
-                    <tr>
+                    <tr data-progress-key="articles_evaluated">
                         <td class="progress-label">Articles evaluated</td>
                         <td style="display: flex; align-items: center;">
                             <div class="progress-bar-container" style="flex: 1;">
@@ -705,6 +736,7 @@
                 <!-- Recent Activity Card -->
                 <div class="card">
                     <h2>Recent Activity</h2>
+                    <div id="dashboard-activity-list">
                     <div class="activity-item">
                         <div class="activity-icon"></div>
                         <div class="activity-content">
@@ -745,12 +777,13 @@
                             <span class="activity-badge">COMPLETE</span>
                         </div>
                     </div>
+                    </div>
                 </div>
 
                 <!-- Track Overview Card -->
                 <div class="card track-card">
-                    <h3>Track 2: Article Feeding</h3>
-                    <p>Extract evidence-backed rules from scientific articles using Quinean coherentist epistemology. Build hypotheses grounded in warrant theory.</p>
+                    <h3 id="dashboard-track-title">Track 2: Article Feeding</h3>
+                    <p id="dashboard-track-copy">Extract evidence-backed rules from scientific articles using Quinean coherentist epistemology. Build hypotheses grounded in warrant theory.</p>
                     <div class="card-links">
                         <a href="#" class="card-link">Track overview</a>
                         <a href="#" class="card-link">Week 4 assignment</a>
@@ -860,6 +893,7 @@
                     <div class="deadline-date">April 4</div>
                 </div>
             </div>
+            <div class="deadline-note" id="dashboard-deadline-note">Deadlines are still partly demo placeholders until the course tracker is wired to live assignment data.</div>
         </aside>
     </div>
 
@@ -886,8 +920,95 @@ window.KA_PAGE_FUNCTION = {
 </script>
 <script src="ka_page_function.js"></script>
 <script src="ka_demo_wiring.js"></script>
+<script src="ka_mode_switch.js"></script>
+<script src="ka_site_shell.js"></script>
+<script src="ka_data_adapter.js"></script>
 
 <script src="ka_acronyms.js"></script>
+<script>
+(function() {
+  function renderProgress(progress) {
+    if (!progress) return;
+    document.querySelectorAll('[data-progress-key]').forEach(function(row) {
+      const key = row.getAttribute('data-progress-key');
+      const item = progress[key];
+      if (!item) return;
+      const done = Number(item.done || 0);
+      const target = Number(item.target || 0);
+      const percent = target > 0 ? Math.min(100, (done / target) * 100) : 0;
+      const bar = row.querySelector('.progress-bar');
+      const text = row.querySelector('.progress-text');
+      const link = row.querySelector('.progress-link');
+      if (bar) bar.style.width = percent + '%';
+      if (text) text.textContent = `${done}/${target}`;
+      if (link && item.href) link.href = item.href;
+    });
+  }
+
+  function renderActivity(items) {
+    const wrap = document.getElementById('dashboard-activity-list');
+    if (!wrap || !items || !items.length) return;
+    wrap.innerHTML = items.map(function(item) {
+      return `
+        <div class="activity-item">
+          <div class="activity-icon"></div>
+          <div class="activity-content">
+            <div class="activity-type">${item.type}</div>
+            <div class="activity-date">${item.date}</div>
+            <span class="activity-badge">${item.badge}</span>
+          </div>
+        </div>
+      `;
+    }).join('');
+  }
+
+  function renderLeaderboard(items) {
+    const tbody = document.querySelector('.leaderboard-table tbody');
+    if (!tbody || !items || !items.length) return;
+    tbody.innerHTML = items.map(function(item) {
+      const yourRow = /you/i.test(item.name) ? ' class="leaderboard-your-row"' : '';
+      return `
+        <tr${yourRow}>
+          <td class="leaderboard-rank">${item.rank}</td>
+          <td class="leaderboard-name">${item.name}</td>
+          <td>${item.count}</td>
+        </tr>
+      `;
+    }).join('');
+  }
+
+  async function initializeDashboardPage() {
+    const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/dashboard.json', {});
+    const dashboard = payload.dashboard || {};
+    if (dashboard.student_name) {
+      document.getElementById('dashboard-user-name').textContent = dashboard.student_name;
+      document.getElementById('dashboard-welcome-name').textContent = `Welcome back, ${dashboard.student_name.split(' ')[0]}`;
+    }
+    if (dashboard.track) {
+      document.getElementById('dashboard-track-badge').textContent = dashboard.track;
+      document.getElementById('dashboard-week-label').innerHTML = `<strong>${dashboard.track}</strong> · ${dashboard.week_label || 'Current sprint'}`;
+      document.getElementById('dashboard-track-title').textContent = `${dashboard.track}: Active Workstream`;
+    }
+    if (typeof dashboard.next_due_days !== 'undefined') {
+      document.getElementById('dashboard-due-label').innerHTML = `Your next assignment is due in <strong>${dashboard.next_due_days} days</strong>.`;
+    }
+    document.getElementById('dashboard-progress-meta').textContent = 'Progress is sourced from the current rebuild payload and will tighten as live assignment tracking is wired.';
+    document.getElementById('dashboard-track-copy').textContent = 'This dashboard is now pointed at rebuild-backed summary data, so progress and leaderboard areas can be replaced incrementally with live course state.';
+    document.getElementById('dashboard-deadline-note').textContent = 'Deadline cards remain partly staged until the course tracker is wired to assignment records.';
+    renderProgress(dashboard.progress);
+    renderActivity(dashboard.recent_activity);
+    renderLeaderboard(dashboard.leaderboard);
+  }
+
+  window.KA_SHELL.initShell({
+    navContainerSelector: 'nav ul',
+    modeSelectId: 'dashboard-mode-select',
+    modePillId: 'dashboard-mode-pill',
+    defaultMode: 'contributor'
+  });
+  initializeDashboardPage();
+})();
+</script>
 <script>
 window.KA_ABOUT_PAGE = {
   pageId: 'ka_dashboard',

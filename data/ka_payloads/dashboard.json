@@ -1,0 +1,59 @@
+{
+  "dashboard": {
+    "student_name": "Alex Chen",
+    "track": "Track 2",
+    "week_label": "Week 4 of 10",
+    "next_due_days": 3,
+    "progress": {
+      "apa_submissions": {
+        "done": 7,
+        "target": 20,
+        "href": "ka_article_propose.html"
+      },
+      "pdfs_uploaded": {
+        "done": 3,
+        "target": 10,
+        "href": "ka_article_propose.html"
+      },
+      "images_tagged": {
+        "done": 24,
+        "target": 50,
+        "href": "ka_tagger.html"
+      },
+      "articles_evaluated": {
+        "done": 6,
+        "target": 15,
+        "href": "ka_evidence.html"
+      }
+    },
+    "recent_activity": [
+      {
+        "type": "Evidence rows loaded: 200",
+        "date": "Current rebuild",
+        "badge": "SYNCED"
+      },
+      {
+        "type": "Article payload size: 250 papers",
+        "date": "Current rebuild",
+        "badge": "READY"
+      }
+    ],
+    "leaderboard": [
+      {
+        "rank": 1,
+        "name": "Jordan M.",
+        "count": 18
+      },
+      {
+        "rank": 2,
+        "name": "Taylor R.",
+        "count": 15
+      },
+      {
+        "rank": 3,
+        "name": "You (Alex Chen)",
+        "count": 12
+      }
+    ]
+  }
+}

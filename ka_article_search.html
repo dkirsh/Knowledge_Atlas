@@ -28,6 +28,15 @@ nav a.active { color: #F5A623; }
   font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
   padding: 4px 12px; border-radius: 20px;
 }
+.mode-select {
+  font-size: 0.76rem;
+  padding: 6px 10px;
+  border-radius: 16px;
+  border: 1px solid rgba(168,200,191,0.34);
+  background: rgba(255,255,255,0.05);
+  color: #D8EAE4;
+}
+.mode-select option { color: #1C3D3A; }
 
 /* ── PAGE HEADER ── */
 .page-header {
@@ -258,18 +267,24 @@ nav a.active { color: #F5A623; }
       <div class="wordmark-sub">COGS 160</div>
     </div>
     <ul>
-      <li><a href="ka_demo_v04.html">Ask</a></li>
-      <li><a href="ka_evidence.html">Evidence</a></li>
-      <li><a href="ka_hypothesis_builder.html">Build</a></li>
-      <li><a href="ka_tagger.html">Tag</a></li>
-      <li><a href="ka_article_search.html" class="active">Articles</a></li>
-      <li><a href="ka_sensors.html">Signals</a></li>
-      <li><a href="ka_gaps.html">Gaps</a></li>
-      <li><a href="ka_topics.html">Topics</a></li>
+      <li><a id="nav-shell-explore" href="ka_topics.html">Explore</a></li>
+      <li><a id="nav-shell-evidence" href="ka_evidence.html">Evidence</a></li>
+      <li><a id="nav-shell-gaps" href="ka_gaps.html">Gaps</a></li>
+      <li><a id="nav-shell-articles" href="ka_article_search.html" class="active">Articles</a></li>
+      <li><a id="nav-shell-contribute" href="ka_dashboard.html">Contribute</a></li>
+      <li><a id="nav-shell-course" href="Designing_Experiments/cogs160_spring_2026_site.html">Course</a></li>
     </ul>
   </div>
   <div class="nav-right">
-    <div class="mode-pill">RESEARCHER</div>
+    <select class="mode-select" id="article-search-mode-select" aria-label="Switch user mode">
+      <option value="student_explorer">Student explorer</option>
+      <option value="researcher">Researcher</option>
+      <option value="contributor">Contributor</option>
+      <option value="instructor">Instructor</option>
+      <option value="practitioner">Practitioner</option>
+      <option value="theory_mechanism_explorer">Theory + mechanisms</option>
+    </select>
+    <div class="mode-pill" id="article-search-mode-pill">RESEARCHER</div>
   </div>
 </nav>
 
@@ -541,7 +556,7 @@ nav a.active { color: #F5A623; }
 
 <script>
 /* ── DEMO ARTICLE DATA ── */
-const DEMO_ARTICLES = [
+const FALLBACK_ARTICLES = [
   {
     title: "Blue-enriched white light in the workplace improves self-reported alertness, performance and sleep quality",
     authors: "Viola, A.U., James, L.M., Schlangen, L.J., & Dijk, D.J.",
@@ -609,6 +624,7 @@ const DEMO_ARTICLES = [
     doi: "10.1159/000490559"
   }
 ];
+let ARTICLE_SEARCH_DATA = [...FALLBACK_ARTICLES];
 
 /* ── MODE SWITCHING ── */
 let currentMode = 'construct';
@@ -670,7 +686,7 @@ function runSearch() {
     instrument  = document.getElementById('sel-both-instrument').value;
   }
 
-  let results = DEMO_ARTICLES.filter(a => {
+  let results = ARTICLE_SEARCH_DATA.filter(a => {
     const cMatch = !construct  || a.constructs.some(c => c.toLowerCase().includes(construct.toLowerCase().split(' ')[0]));
     const iMatch = !instrument || a.instruments.some(i => i.toLowerCase().includes(instrument.split(' ')[0].toLowerCase().replace(/\[.*\]/,'').trim()));
     return cMatch && iMatch;
@@ -725,6 +741,52 @@ function hideResults() {
 function sortResults(val) {
   // stub — in real version this would re-query the API with sort param
 }
+</script>
+<script src="ka_mode_switch.js"></script>
+<script src="ka_site_shell.js"></script>
+<script src="ka_data_adapter.js"></script>
+<script>
+(function() {
+  function mapArticle(article) {
+    const constructs = (article.constructs || []).length
+      ? article.constructs
+      : (article.theories || []).length
+        ? article.theories
+        : [(article.article_type || 'Article').replace(/_/g, ' ')];
+    const abstract = article.abstract || 'Current rebuild article record. Abstract coverage will improve as ingestion and extraction tighten.';
+    return {
+      title: article.title || article.paper_id,
+      authors: article.paper_id || 'Corpus record',
+      year: article.year || '',
+      journal: (article.article_type || 'Rebuild record').replace(/_/g, ' '),
+      abstract: abstract,
+      constructs: constructs,
+      instruments: (article.instruments || []).length ? article.instruments : [article.sample_n ? `Sample N ${article.sample_n}` : 'Corpus record'],
+      studyType: (article.article_type || 'Unknown').replace(/_/g, ' '),
+      doi: article.doi || ''
+    };
+  }
+
+  async function initializeArticleSearchPage() {
+    const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/articles.json', { articles: [] });
+    if (payload.articles && payload.articles.length) {
+      ARTICLE_SEARCH_DATA = payload.articles.map(mapArticle);
+      document.getElementById('search-prompt').innerHTML = `
+        <div class="search-prompt-icon">📄</div>
+        <p>Select a construct, measuring instrument, or both above,<br>then click <strong>Search</strong> to find relevant articles in the KA corpus.</p>
+        <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;"><em>Results now default to the current rebuild payload. Instrument coverage is still partial until article instrumentation fields are wired.</em></p>
+      `;
+    }
+  }
+
+  window.KA_SHELL.initShell({
+    navContainerSelector: 'nav ul',
+    modeSelectId: 'article-search-mode-select',
+    modePillId: 'article-search-mode-pill',
+    defaultMode: 'researcher'
+  });
+  initializeArticleSearchPage();
+})();
 </script>
 <script>
 window.KA_PAGE_FUNCTION = {

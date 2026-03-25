@@ -662,6 +662,17 @@
                                 Track assignment is not guaranteed. Describe your relevant skills and we will review your request. You may list a second choice.
                             </div>
                             <div class="form-group">
+                                <label for="userTypeChoice">Preferred KA orientation</label>
+                                <select id="userTypeChoice" name="userTypeChoice">
+                                    <option value="student_explorer">Student explorer</option>
+                                    <option value="researcher">Researcher</option>
+                                    <option value="contributor">Contributor</option>
+                                    <option value="instructor">Instructor</option>
+                                    <option value="practitioner">Practitioner</option>
+                                    <option value="theory_mechanism_explorer">Theory + mechanisms</option>
+                                </select>
+                            </div>
+                            <div class="form-group">
                                 <label for="trackChoice1">First choice track</label>
                                 <select id="trackChoice1" name="trackChoice1" required>
                                     <option value="">Select a track</option>
@@ -722,6 +733,15 @@
 
     <script>
     (function() {
+      const NAV_PREFERENCE_BY_TYPE = {
+        student_explorer: 'explore_literature',
+        researcher: 'explore_literature',
+        contributor: 'contribute_atlas',
+        instructor: 'build_test_experiments',
+        practitioner: 'explore_literature',
+        theory_mechanism_explorer: 'theory_mechanisms'
+      };
+
       // ── Track label names ────────────────────────────────────────────
       const TRACK_NAMES = {
         track1: 'Track 1 — Image Tagging',
@@ -729,6 +749,11 @@
         track3: 'Track 3 — VR Production',
         track4: 'Track 4 — GUI Evaluation & Experiment Design'
       };
+
+      const storedMode = sessionStorage.getItem('ka_active_mode') || localStorage.getItem('ka_user_type');
+      if (storedMode && document.getElementById('userTypeChoice')) {
+        document.getElementById('userTypeChoice').value = storedMode;
+      }
 
       // ── Password strength ────────────────────────────────────────────
       const pwInput = document.getElementById('password');
@@ -861,6 +886,8 @@
           role:      document.querySelector('input[name="role"]:checked')?.value || 'undergrad',
           institution: document.getElementById('institution').value.trim(),
           department:  document.getElementById('department').value.trim(),
+          userType: document.getElementById('userTypeChoice').value,
+          navPreference: NAV_PREFERENCE_BY_TYPE[document.getElementById('userTypeChoice').value] || 'explore_literature',
           trackChoice1: track1,
           trackChoice2: document.getElementById('trackChoice2').value,
           timestamp: new Date().toISOString(),
@@ -876,6 +903,8 @@
         localStorage.setItem('ka_current_user', JSON.stringify(userData));
         localStorage.setItem('ka_logged_in', '1');
         sessionStorage.setItem('ka_logged_in', '1');
+        localStorage.setItem('ka_user_type', userData.userType);
+        sessionStorage.setItem('ka_active_mode', userData.userType);
 
         // ── Show success screen ──────────────────────────────────────────
         document.getElementById('registerForm').style.display = 'none';

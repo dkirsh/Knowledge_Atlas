@@ -1,0 +1,206 @@
+{
+  "topics": [
+    {
+      "id": "RF_008",
+      "cat": "Neuroscience",
+      "n": 3,
+      "voi": 0.86,
+      "name": "Neuroaesthetics \u00d7 Contour \u00d7 Beauty",
+      "desc": "Theories: neuroaesthetics Constructs: spatial.contour, affect.aesthetic.beauty, spatial.shape.circular Maturity: emerging.",
+      "maturity": "emerging",
+      "shared_theories": [
+        "theory_neuroaesthetics"
+      ],
+      "shared_constructs": [
+        "spatial.contour",
+        "affect.aesthetic.beauty",
+        "spatial.shape.circular"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_009",
+      "cat": "Neuroscience",
+      "n": 3,
+      "voi": 0.83,
+      "name": "Attention Restoration Theory \u00d7 Natural \u00d7 Eye Movement Patterns (Fixation, Saccade Activity)",
+      "desc": "Theories: attention restoration theory Constructs: natural, Eye movement patterns (fixation, saccade activity), neural.eeg.alpha asymmetry, affect.arousal affect Maturity: emerging.",
+      "maturity": "emerging",
+      "shared_theories": [
+        "theory_attention_restoration_theory"
+      ],
+      "shared_constructs": [
+        "natural",
+        "Eye movement patterns (fixation, saccade activity)",
+        "neural.eeg.alpha_asymmetry",
+        "affect.arousal_affect"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_010",
+      "cat": "Physiological",
+      "n": 3,
+      "voi": 0.83,
+      "name": "Stress Recovery Theory \u00d7 Window \u00d7 Hrv",
+      "desc": "Theories: stress recovery theory Constructs: spatial.view.window, cog.physiology.hrv, Postoperative recovery: length of stay, analgesic use, nurse evaluations Maturity: emerging.",
+      "maturity": "emerging",
+      "shared_theories": [
+        "theory_stress_recovery_theory"
+      ],
+      "shared_constructs": [
+        "spatial.view.window",
+        "cog.physiology.hrv",
+        "Postoperative recovery: length of stay, analgesic use, nurse evaluations"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_007",
+      "cat": "Neuroscience",
+      "n": 3,
+      "voi": 0.82,
+      "name": "Circadian Lighting \u00d7 Color Temp \u00d7 Eeg",
+      "desc": "Theories: circadian lighting, circadian photobiology Constructs: luminous.color temp, neural.eeg, cog.performance.task Maturity: emerging.",
+      "maturity": "emerging",
+      "shared_theories": [
+        "theory_circadian_lighting",
+        "theory_circadian_photobiology"
+      ],
+      "shared_constructs": [
+        "luminous.color_temp",
+        "neural.eeg",
+        "cog.performance.task"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_003",
+      "cat": "Methodology",
+      "n": 10,
+      "voi": 0.72,
+      "name": "Biophilia \u00d7 Wood",
+      "desc": "Theories: biophilia Constructs: material.wood Maturity: developing.",
+      "maturity": "developing",
+      "shared_theories": [
+        "theory_biophilia"
+      ],
+      "shared_constructs": [
+        "material.wood"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_011",
+      "cat": "Neuroscience",
+      "n": 3,
+      "voi": 0.67,
+      "name": "Circadian Lighting \u00d7 Exposure Duration \u00d7 Sleep Quality",
+      "desc": "Theories: circadian lighting Constructs: temporal env.exposure duration, physio.sleep quality, luminous.artificial, luminous.illuminance.high Maturity: emerging.",
+      "maturity": "emerging",
+      "shared_theories": [
+        "theory_circadian_lighting"
+      ],
+      "shared_constructs": [
+        "temporal_env.exposure_duration",
+        "physio.sleep_quality",
+        "luminous.artificial",
+        "luminous.illuminance.high"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_001",
+      "cat": "Environmental",
+      "n": 79,
+      "voi": 0.57,
+      "name": "Mixed",
+      "desc": "Maturity: established.",
+      "maturity": "established",
+      "shared_theories": [],
+      "shared_constructs": [],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_002",
+      "cat": "Methodology",
+      "n": 21,
+      "voi": 0.5,
+      "name": "Place Attachment Theory \u00d7 Territory",
+      "desc": "Theories: place attachment theory Constructs: social spatial.territory Maturity: established.",
+      "maturity": "established",
+      "shared_theories": [
+        "theory_place_attachment_theory"
+      ],
+      "shared_constructs": [
+        "social_spatial.territory"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_004",
+      "cat": "Neuroscience",
+      "n": 5,
+      "voi": 0.47,
+      "name": "Cognitive Map Theory \u00d7 Layout \u00d7 Navigation",
+      "desc": "Theories: cognitive map theory Constructs: spatial.layout, cog.spatial.navigation, spatial.navigation Maturity: developing.",
+      "maturity": "developing",
+      "shared_theories": [
+        "theory_cognitive_map_theory"
+      ],
+      "shared_constructs": [
+        "spatial.layout",
+        "cog.spatial.navigation",
+        "spatial.navigation"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_006",
+      "cat": "Neuroscience",
+      "n": 3,
+      "voi": 0.43,
+      "name": "Circadian Photobiology \u00d7 Daylight \u00d7 Non-Visual Effects (Circadian Rhythm, Mood, Behaviour, Vitamin D, Uv Effects)",
+      "desc": "Theories: circadian photobiology Constructs: luminous.daylight, Non-visual effects (circadian rhythm, mood, behaviour, Vitamin D, UV effects), affect.wellbeing, affect.health Maturity: emerging.",
+      "maturity": "emerging",
+      "shared_theories": [
+        "theory_circadian_photobiology"
+      ],
+      "shared_constructs": [
+        "luminous.daylight",
+        "Non-visual effects (circadian rhythm, mood, behaviour, Vitamin D, UV effects)",
+        "affect.wellbeing",
+        "affect.health"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    },
+    {
+      "id": "RF_005",
+      "cat": "Methodology",
+      "n": 5,
+      "voi": 0.4,
+      "name": "Wayfinding Theory \u00d7 Navigation \u00d7 Wayfinding",
+      "desc": "Theories: wayfinding theory Constructs: spatial.navigation, cog.spatial.wayfinding Maturity: developing.",
+      "maturity": "developing",
+      "shared_theories": [
+        "theory_wayfinding_theory"
+      ],
+      "shared_constructs": [
+        "spatial.navigation",
+        "cog.spatial.wayfinding"
+      ],
+      "contradictions": 0,
+      "replications": 0
+    }
+  ]
+}

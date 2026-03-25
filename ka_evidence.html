@@ -100,6 +100,19 @@
             border-radius: 20px;
         }
 
+        .mode-select {
+            font-size: 0.76rem;
+            padding: 6px 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(168, 200, 191, 0.34);
+            background: rgba(255, 255, 255, 0.05);
+            color: #D8EAE4;
+        }
+
+        .mode-select option {
+            color: #1C3D3A;
+        }
+
         /* MAIN LAYOUT */
         .page-title {
             font-size: 2rem;
@@ -742,18 +755,23 @@
             </div>
         </div>
         <div class="nav-links">
-            <a href="ka_demo_v04.html" class="nav-link">Ask</a>
-            <a href="ka_evidence.html" class="nav-link active">Evidence</a>
-            <a href="ka_hypothesis_builder.html" class="nav-link">Build</a>
-            <a href="ka_tagger.html" class="nav-link">Tag</a>
-            <a href="ka_articles.html" class="nav-link">Articles</a>
-            <a href="ka_datacapture.html" class="nav-link">Capture</a>
-            <a href="ka_gaps.html" class="nav-link">Gaps</a>
-            <a href="ka_sensors.html" class="nav-link">Sensors</a>
-            <a href="ka_topics.html" class="nav-link">Topics</a>
+            <a id="nav-shell-explore" href="ka_topics.html" class="nav-link">Explore</a>
+            <a id="nav-shell-evidence" href="ka_evidence.html" class="nav-link active">Evidence</a>
+            <a id="nav-shell-gaps" href="ka_gaps.html" class="nav-link">Gaps</a>
+            <a id="nav-shell-articles" href="ka_article_search.html" class="nav-link">Articles</a>
+            <a id="nav-shell-contribute" href="ka_dashboard.html" class="nav-link">Contribute</a>
+            <a id="nav-shell-course" href="Designing_Experiments/cogs160_spring_2026_site.html" class="nav-link">Course</a>
         </div>
         <div class="nav-right">
-            <div class="mode-pill">Researcher</div>
+            <select class="mode-select" id="evidence-mode-select" aria-label="Switch user mode">
+                <option value="student_explorer">Student explorer</option>
+                <option value="researcher">Researcher</option>
+                <option value="contributor">Contributor</option>
+                <option value="instructor">Instructor</option>
+                <option value="practitioner">Practitioner</option>
+                <option value="theory_mechanism_explorer">Theory + mechanisms</option>
+            </select>
+            <div class="mode-pill" id="evidence-mode-pill">Researcher</div>
         </div>
     </nav>
 
@@ -926,7 +944,7 @@
 
     <script>
         // EVIDENCE DATA
-        const evidenceData = [
+        const evidenceFallbackData = [
             {
                 id: 1,
                 finding: "Frontal midline theta (4–8 Hz) increases monotonically with N-back level",
@@ -1229,7 +1247,8 @@
             }
         ];
 
-        let filteredData = [...evidenceData];
+        let evidenceData = [];
+        let filteredData = [];
         let currentPage = 1;
         const itemsPerPage = 15;
         let selectedConstructs = [];
@@ -1240,11 +1259,19 @@
         let sortBy = 'default';
         let searchQuery = '';
 
-        // Initialize
-        document.addEventListener('DOMContentLoaded', function() {
-            renderTable();
-            attachEventListeners();
-        });
+        let evidenceControlsAttached = false;
+
+        async function initializeEvidencePage() {
+            const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/evidence.json', { evidence: evidenceFallbackData });
+            evidenceData = payload.evidence && payload.evidence.length ? payload.evidence : evidenceFallbackData;
+            filteredData = [...evidenceData];
+            document.getElementById('resultCount').textContent = `${filteredData.length} Results`;
+            if (!evidenceControlsAttached) {
+                attachEventListeners();
+                evidenceControlsAttached = true;
+            }
+            filterAndRender();
+        }
 
         function attachEventListeners() {
             // Construct filter chips
@@ -1553,6 +1580,21 @@
                 toast.classList.remove('show');
             }, 3000);
         }
+
+        function applyEvidenceMode(mode) {
+            const sortTarget = mode === 'researcher' || mode === 'theory_mechanism_explorer'
+                ? 'credence'
+                : mode === 'contributor'
+                    ? 'date'
+                    : 'default';
+            document.querySelectorAll('.sort-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.sort === sortTarget);
+            });
+            sortBy = sortTarget;
+            if (evidenceData.length) {
+                filterAndRender();
+            }
+        }
     </script>
 
 <script>
@@ -1575,8 +1617,21 @@ window.KA_PAGE_FUNCTION = {
 </script>
 <script src="ka_page_function.js"></script>
 <script src="ka_demo_wiring.js"></script>
+<script src="ka_mode_switch.js"></script>
+<script src="ka_site_shell.js"></script>
+<script src="ka_data_adapter.js"></script>
 
 <script src="ka_acronyms.js"></script>
+<script>
+window.KA_SHELL.initShell({
+  navContainerSelector: '.nav-links',
+  modeSelectId: 'evidence-mode-select',
+  modePillId: 'evidence-mode-pill',
+  defaultMode: 'researcher',
+  onModeApplied: applyEvidenceMode
+});
+initializeEvidencePage();
+</script>
 
 <section id="ka-prev-pages">
   <div class="ka-prev-inner">

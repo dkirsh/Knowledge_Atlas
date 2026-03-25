@@ -1,0 +1,121 @@
+{
+  "gaps": [
+    {
+      "id": "RF_009",
+      "type": "untested",
+      "title": "Attention Restoration Theory \u00d7 Natural \u00d7 Eye Movement Patterns (Fixation, Saccade Activity)",
+      "description": "Theories: attention restoration theory Constructs: natural, Eye movement patterns (fixation, saccade activity), neural.eeg.alpha asymmetry, affect.arousal affect Maturity: emerging.",
+      "construct": "natural",
+      "context": "multiple",
+      "voi": "high",
+      "credence": 0.83,
+      "whyMatters": "This front remains strategically important because its current maturity is emerging with corpus size 3.",
+      "hypothesisBuild": "ka_hypothesis_builder.html?front=RF_009",
+      "evidenceLink": "ka_evidence.html?front=RF_009"
+    },
+    {
+      "id": "RF_003",
+      "type": "credence",
+      "title": "Biophilia \u00d7 Wood",
+      "description": "Theories: biophilia Constructs: material.wood Maturity: developing.",
+      "construct": "material_wood",
+      "context": "multiple",
+      "voi": "high",
+      "credence": 0.72,
+      "whyMatters": "This front remains strategically important because its current maturity is developing with corpus size 10.",
+      "hypothesisBuild": "ka_hypothesis_builder.html?front=RF_003",
+      "evidenceLink": "ka_evidence.html?front=RF_003"
+    },
+    {
+      "id": "RF_007",
+      "type": "untested",
+      "title": "Circadian Lighting \u00d7 Color Temp \u00d7 Eeg",
+      "description": "Theories: circadian lighting, circadian photobiology Constructs: luminous.color temp, neural.eeg, cog.performance.task Maturity: emerging.",
+      "construct": "luminous_color_temp",
+      "context": "multiple",
+      "voi": "high",
+      "credence": 0.82,
+      "whyMatters": "This front remains strategically important because its current maturity is emerging with corpus size 3.",
+      "hypothesisBuild": "ka_hypothesis_builder.html?front=RF_007",
+      "evidenceLink": "ka_evidence.html?front=RF_007"
+    },
+    {
+      "id": "RF_008",
+      "type": "untested",
+      "title": "Neuroaesthetics \u00d7 Contour \u00d7 Beauty",
+      "description": "Theories: neuroaesthetics Constructs: spatial.contour, affect.aesthetic.beauty, spatial.shape.circular Maturity: emerging.",
+      "construct": "spatial_contour",
+      "context": "multiple",
+      "voi": "high",
+      "credence": 0.86,
+      "whyMatters": "This front remains strategically important because its current maturity is emerging with corpus size 3.",
+      "hypothesisBuild": "ka_hypothesis_builder.html?front=RF_008",
+      "evidenceLink": "ka_evidence.html?front=RF_008"
+    },
+    {
+      "id": "RF_010",
+      "type": "untested",
+      "title": "Stress Recovery Theory \u00d7 Window \u00d7 Hrv",
+      "description": "Theories: stress recovery theory Constructs: spatial.view.window, cog.physiology.hrv, Postoperative recovery: length of stay, analgesic use, nurse evaluations Maturity: emerging.",
+      "construct": "spatial_view_window",
+      "context": "multiple",
+      "voi": "high",
+      "credence": 0.83,
+      "whyMatters": "This front remains strategically important because its current maturity is emerging with corpus size 3.",
+      "hypothesisBuild": "ka_hypothesis_builder.html?front=RF_010",
+      "evidenceLink": "ka_evidence.html?front=RF_010"
+    },
+    {
+      "id": "RF_011",
+      "type": "untested",
+      "title": "Circadian Lighting \u00d7 Exposure Duration \u00d7 Sleep Quality",
+      "description": "Theories: circadian lighting Constructs: temporal env.exposure duration, physio.sleep quality, luminous.artificial, luminous.illuminance.high Maturity: emerging.",
+      "construct": "temporal_env_exposure_duration",
+      "context": "multiple",
+      "voi": "medium",
+      "credence": 0.67,
+      "whyMatters": "This front remains strategically important because its current maturity is emerging with corpus size 3.",
+      "hypothesisBuild": "ka_hypothesis_builder.html?front=RF_011",
+      "evidenceLink": "ka_evidence.html?front=RF_011"
+    },
+    {
+      "id": "RF_004",
+      "type": "untested",
+      "title": "Cognitive Map Theory \u00d7 Layout \u00d7 Navigation",
+      "description": "Theories: cognitive map theory Constructs: spatial.layout, cog.spatial.navigation, spatial.navigation Maturity: developing.",
+      "construct": "spatial_layout",
+      "context": "multiple",
+      "voi": "medium",
+      "credence": 0.47,
+      "whyMatters": "This front remains strategically important because its current maturity is developing with corpus size 5.",
+      "hypothesisBuild": "ka_hypothesis_builder.html?front=RF_004",
+      "evidenceLink": "ka_evidence.html?front=RF_004"
+    },
+    {
+      "id": "RF_006",
+      "type": "untested",
+      "title": "Circadian Photobiology \u00d7 Daylight \u00d7 Non-Visual Effects (Circadian Rhythm, Mood, Behaviour, Vitamin D, Uv Effects)",
+      "description": "Theories: circadian photobiology Constructs: luminous.daylight, Non-visual effects (circadian rhythm, mood, behaviour, Vitamin D, UV effects), affect.wellbeing, affect.health Maturity: emerging.",
+      "construct": "luminous_daylight",
+      "context": "multiple",
+      "voi": "low",
+      "credence": 0.43,
+      "whyMatters": "This front remains strategically important because its current maturity is emerging with corpus size 3.",
+      "hypothesisBuild": "ka_hypothesis_builder.html?front=RF_006",
+      "evidenceLink": "ka_evidence.html?front=RF_006"
+    },
+    {
+      "id": "RF_005",
+      "type": "untested",
+      "title": "Wayfinding Theory \u00d7 Navigation \u00d7 Wayfinding",
+      "description": "Theories: wayfinding theory Constructs: spatial.navigation, cog.spatial.wayfinding Maturity: developing.",
+      "construct": "spatial_navigation",
+      "context": "multiple",
+      "voi": "low",
+      "credence": 0.4,
+      "whyMatters": "This front remains strategically important because its current maturity is developing with corpus size 5.",
+      "hypothesisBuild": "ka_hypothesis_builder.html?front=RF_005",
+      "evidenceLink": "ka_evidence.html?front=RF_005"
+    }
+  ]
+}

@@ -88,6 +88,10 @@
             color: var(--gold);
         }
 
+        .nav-links a.active {
+            color: var(--gold);
+        }
+
         .mode-pill {
             margin-left: auto;
             background-color: rgba(74, 140, 110, 0.2);
@@ -99,6 +103,20 @@
             font-weight: bold;
             text-transform: uppercase;
             border: 1px solid var(--green-accent);
+        }
+
+        .mode-select {
+            margin-left: auto;
+            font-size: 0.76rem;
+            padding: 6px 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(168, 200, 191, 0.34);
+            background: rgba(255, 255, 255, 0.05);
+            color: #D8EAE4;
+        }
+
+        .mode-select option {
+            color: var(--navy);
         }
 
         /* === VERSION BADGE === */
@@ -672,15 +690,22 @@
             <span class="wordmark-sub">COGS 160</span>
         </div>
         <div class="nav-links">
-            <a href="ka_demo_v04.html">Ask</a>
-            <a href="ka_evidence.html">Evidence</a>
-            <a href="ka_hypothesis_builder.html">Build</a>
-            <a href="ka_tagger.html">Tag</a>
-            <a href="ka_articles.html">Articles</a>
-            <a href="ka_datacapture.html">Capture</a>
-            <a href="ka_topics.html">Topics</a>
+            <a id="nav-shell-explore" href="ka_topics.html">Explore</a>
+            <a id="nav-shell-evidence" href="ka_evidence.html">Evidence</a>
+            <a id="nav-shell-gaps" href="ka_gaps.html" class="active">Gaps</a>
+            <a id="nav-shell-articles" href="ka_article_search.html">Articles</a>
+            <a id="nav-shell-contribute" href="ka_dashboard.html">Contribute</a>
+            <a id="nav-shell-course" href="Designing_Experiments/cogs160_spring_2026_site.html">Course</a>
         </div>
-        <div class="mode-pill">RESEARCHER</div>
+        <select class="mode-select" id="gaps-mode-select" aria-label="Switch user mode">
+            <option value="student_explorer">Student explorer</option>
+            <option value="researcher">Researcher</option>
+            <option value="contributor">Contributor</option>
+            <option value="instructor">Instructor</option>
+            <option value="practitioner">Practitioner</option>
+            <option value="theory_mechanism_explorer">Theory + mechanisms</option>
+        </select>
+        <div class="mode-pill" id="gaps-mode-pill">RESEARCHER</div>
     </nav>
 
     <!-- HERO SECTION -->
@@ -830,7 +855,7 @@
 
     <script>
         // === GAP DATA ===
-        const gaps = [
+        const fallbackGaps = [
             {
                 id: 1,
                 type: 'untested',
@@ -1042,6 +1067,7 @@
         ];
 
         // === STATE ===
+        let gaps = [];
         let activeFilters = {
             types: new Set(),
             constructs: new Set(),
@@ -1251,10 +1277,26 @@
             return map[c] || c;
         }
 
-        // Initial render
-        render();
+        async function initializeGapsPage() {
+            const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/gaps.json', { gaps: fallbackGaps });
+            gaps = payload.gaps && payload.gaps.length ? payload.gaps : fallbackGaps;
+            document.getElementById('gapCount').textContent = gaps.length;
+            render();
+        }
     </script>
+<script src="ka_mode_switch.js"></script>
+<script src="ka_site_shell.js"></script>
+<script src="ka_data_adapter.js"></script>
 <script src="ka_acronyms.js"></script>
+<script>
+window.KA_SHELL.initShell({
+  navContainerSelector: '.nav-links',
+  modeSelectId: 'gaps-mode-select',
+  modePillId: 'gaps-mode-pill',
+  defaultMode: 'researcher'
+});
+initializeGapsPage();
+</script>
 <script>
 window.KA_PAGE_FUNCTION = {
   pageId: 'ka_gaps',

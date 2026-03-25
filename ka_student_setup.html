@@ -64,6 +64,21 @@
       letter-spacing: 0.1em; text-transform: uppercase;
       padding: 4px 12px; border-radius: 4px; cursor: pointer;
     }
+    .mode-summary {
+      margin-top: 18px;
+      padding: 10px 14px;
+      background: rgba(255,255,255,0.06);
+      border: 1px solid rgba(168,200,191,0.24);
+      border-radius: 8px;
+      max-width: 560px;
+    }
+    .mode-summary-label {
+      font-size: 0.66rem; font-weight: 700; letter-spacing: 0.14em;
+      text-transform: uppercase; color: #7AACA0; margin-bottom: 4px;
+    }
+    .mode-summary-copy {
+      font-size: 0.84rem; color: #D8EAE4; line-height: 1.5;
+    }
     .t1 { background: #FFF0CC; color: #7A4F00; }
     .t2 { background: #E3F4EC; color: #1A5C30; }
     .t3 { background: #E8F0FD; color: #1A3A7A; }
@@ -250,6 +265,10 @@
     <span class="track-pill t2">Track 2 · Article Finding</span>
     <span class="track-pill t3">Track 3 · VR Production</span>
     <span class="track-pill t4">Track 4 · GUI Evaluation</span>
+  </div>
+  <div class="mode-summary">
+    <div class="mode-summary-label">Current orientation mode</div>
+    <div class="mode-summary-copy" id="setup-mode-summary">Student explorer mode is active unless you change it on the home page, topics page, dashboard, or during registration.</div>
   </div>
 </div>
 
@@ -832,6 +851,19 @@ document.querySelectorAll('.track-setup-body').forEach(function(b) {
   b.classList.add('open');
   b.previousElementSibling.querySelector('.chevron').textContent = '▲';
 });
+
+(function() {
+  const MODE_LABELS = {
+    student_explorer: 'Student explorer mode is active. The site will foreground literature exploration and tractable entry points for class work.',
+    researcher: 'Researcher mode is active. The site will foreground evidence, gaps, and article discovery.',
+    contributor: 'Contributor mode is active. The site will foreground intake, review, and progress-tracking pages.',
+    instructor: 'Instructor mode is active. The site will foreground course coordination and setup routes.',
+    practitioner: 'Practitioner mode is active. The site will foreground practical topics and readable evidence summaries.',
+    theory_mechanism_explorer: 'Theory + mechanisms mode is active. The site will foreground theory guides and explanatory routes.'
+  };
+  const currentMode = sessionStorage.getItem('ka_active_mode') || localStorage.getItem('ka_user_type') || 'student_explorer';
+  document.getElementById('setup-mode-summary').textContent = MODE_LABELS[currentMode] || MODE_LABELS.student_explorer;
+})();
 </script>
 
 <script>
