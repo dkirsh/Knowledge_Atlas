@@ -1,0 +1,3017 @@
+{
+  "summary": {
+    "papers_total": 250,
+    "title_good": 224,
+    "title_provisional": 22,
+    "title_missing_or_blocked": 4,
+    "abstract_good": 52,
+    "abstract_provisional": 31,
+    "abstract_missing": 167,
+    "doi_good": 24,
+    "doi_missing": 226,
+    "subject_count_good": 120,
+    "subject_count_missing": 130
+  },
+  "papers": [
+    {
+      "paper_id": "PDF-0354",
+      "title": "animal territoriality research tradition",
+      "claim_count": 56,
+      "json_status": {
+        "title": "provisional",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0128",
+      "title": "Human beings are understood through evolutionary theory",
+      "claim_count": 52,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0401",
+      "title": "Participant gender distribution",
+      "claim_count": 50,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0825",
+      "title": "Material selection in architectural design",
+      "claim_count": 48,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0371",
+      "title": "Increasing Speech Transmission Index (STI) from 0.10 to 0.65 (highest intelligibility)",
+      "claim_count": 45,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0442",
+      "title": "Evaluation methods, testing standards, and simulation techniques of sound absorption capabilities of cementitious materials: A review",
+      "claim_count": 45,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0566",
+      "title": "Biomimetic and contemporary biophilic technologies in architecture",
+      "claim_count": 44,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0396",
+      "title": "Humans exposed to natural environments or elements",
+      "claim_count": 43,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0388",
+      "title": "Sound as a supportive design intervention for improving health care experience in the clinical ecosystem: A qualitative study",
+      "claim_count": 42,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0946",
+      "title": "Exposure to natural landscape (forest bathing)",
+      "claim_count": 42,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0346",
+      "title": "Navigating Complex Buildings: Cognition, Neuroscience and Architectural Design",
+      "claim_count": 41,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0064",
+      "title": "Original Cognitive Load Theory (Paas & Van Merri\u00ebnboer 1994a)",
+      "claim_count": 40,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0394",
+      "title": "Effects of audio-visual interactions on soundscape and landscape perception and their influence on satisfaction with the urban environment",
+      "claim_count": 40,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0438",
+      "title": "Community space importance for residents recovering from homelessness",
+      "claim_count": 40,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0655",
+      "title": "Buildings as Habitat: Adaptive Investments in Public Health",
+      "claim_count": 40,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0048",
+      "title": "Biomimicry and Green Architecture: Nature-Inspired Innovations for Sustainable Buildings",
+      "claim_count": 39,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0066",
+      "title": "Ambulatory Function and Perception of Confidence in Persons with Stroke with a Custom-Made Hinged versus a Standard Ankle Foot Orthosis",
+      "claim_count": 39,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0116",
+      "title": "Visual perception of materials and their properties",
+      "claim_count": 39,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0305",
+      "title": "Definition of comfort in literature",
+      "claim_count": 39,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0659",
+      "title": "Advocating for view and daylight in buildings: Next steps",
+      "claim_count": 39,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0007",
+      "title": "Effects of light transitions on measures of alertness, arousal and comfort",
+      "claim_count": 38,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0565",
+      "title": "Relationship between design and psychology",
+      "claim_count": 38,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1190",
+      "title": "Psychological and physiological effects of soundscapes: A systematic review",
+      "claim_count": 38,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0783",
+      "title": "Indoor plants in workplace settings (on desks, filing cabinets, or green walls)",
+      "claim_count": 37,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0555",
+      "title": "Cognitive load theory basic premise",
+      "claim_count": 36,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0828",
+      "title": "Sustainable materials: a linking bridge between material",
+      "claim_count": 36,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0877",
+      "title": "Increase in fractal dimension (D) value of visual stimuli",
+      "claim_count": 36,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0422",
+      "title": "Exposure to artificial windows",
+      "claim_count": 35,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0658",
+      "title": "Western cultures and their relationship with nature",
+      "claim_count": 35,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0061",
+      "title": "Participants assigned to four experimental groups (Mouse permanent, Mouse selective, TUI permanent, TUI selective)",
+      "claim_count": 34,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0475",
+      "title": "Red light exposure",
+      "claim_count": 34,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0536",
+      "title": "Overall characteristics of survey respondents were analyzed from 240 total responses",
+      "claim_count": 34,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0558",
+      "title": "Graspable objects in human immediate vicinity (2-8 cm size range)",
+      "claim_count": 34,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0642",
+      "title": "3D modeling for acoustic and visual research in virtual environments",
+      "claim_count": 34,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0176",
+      "title": "Wayfinding process",
+      "claim_count": 33,
+      "json_status": {
+        "title": "blocked",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0288",
+      "title": "Cells in human brain hippocampus responsible for location",
+      "claim_count": 33,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0486",
+      "title": "Primary aural elements in urban soundscape",
+      "claim_count": 33,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0645",
+      "title": "Self-assembly of microscopic GO sheets into macroscopic interconnected film in melamine foam",
+      "claim_count": 33,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0763",
+      "title": "Literature on lighting and workplace mood",
+      "claim_count": 33,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0599",
+      "title": "Different window glazing types (clear, low-e, tinted, photovoltaic)",
+      "claim_count": 32,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0882",
+      "title": "Overall time spent in different location categories (all respondents combined, n=5011)",
+      "claim_count": 32,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0101",
+      "title": "Built forms in early anthropological inquiry",
+      "claim_count": 31,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0488",
+      "title": "Lighting condition (fatigue vs. control induction) and baseline measurements",
+      "claim_count": 31,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0519",
+      "title": "Low-frequency noise below 20 Hz",
+      "claim_count": 31,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0553",
+      "title": "Forest bathing exposure",
+      "claim_count": 31,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0680",
+      "title": "The Practice of Biophilic Design",
+      "claim_count": 31,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0115",
+      "title": "CIE Standard Photopic Observer spectral sensitivity",
+      "claim_count": 30,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0531",
+      "title": "Aesthetic experience",
+      "claim_count": 30,
+      "json_status": {
+        "title": "blocked",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0547",
+      "title": "Baseline physiological data analysis",
+      "claim_count": 30,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0820",
+      "title": "Neural Mechanisms of Material Perception: Quest on Shitsukan",
+      "claim_count": 30,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0829",
+      "title": "John Cage's 4'33\" (1952) silent piece performed in concert hall",
+      "claim_count": 30,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0870",
+      "title": "Trees, grass, or concrete? The effects of different types of environments on",
+      "claim_count": 30,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0002",
+      "title": "Reducing the stress of high-density living: An architectural intervention.",
+      "claim_count": 29,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0090",
+      "title": "Maritime Psychology: Definition, Scope and Conceptualization",
+      "claim_count": 29,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0147",
+      "title": "Study sample: 80 included articles in systematic review",
+      "claim_count": 29,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0286",
+      "title": "Self-enhancing, materialistic values (power, achievement, status)",
+      "claim_count": 29,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0364",
+      "title": "Variations in six lighting arrangements presented to groups entering demonstration room",
+      "claim_count": 29,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0457",
+      "title": "Incorporation of equivalent metabolic rate accounting for hue-heat effect",
+      "claim_count": 29,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0528",
+      "title": "Overall satisfaction with campus public learning spaces (Q4)",
+      "claim_count": 29,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0836",
+      "title": "Urban soundscape categorization based on individual recognition,",
+      "claim_count": 29,
+      "json_status": {
+        "title": "provisional",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0878",
+      "title": "Exposure to stress-inducing architectural features (e.g., room proportions, wall curvature, window arrangement and size)",
+      "claim_count": 29,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0228",
+      "title": "Increasing noise level by 7 dB (from dishwasher to vacuum cleaner level) via engine noise in textile training course",
+      "claim_count": 28,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0426",
+      "title": "Analysis of architect group perceptions",
+      "claim_count": 28,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0544",
+      "title": "Population aging and dementia incidence",
+      "claim_count": 28,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0792",
+      "title": "Daylighting in commercial and office buildings (replacing or supplementing artificial lighting)",
+      "claim_count": 28,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0873",
+      "title": "Literature review across 19 articles on colour, light, and materiality",
+      "claim_count": 28,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0093",
+      "title": "spatial cognition research (1999-2019)",
+      "claim_count": 27,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0337",
+      "title": "Coded labels from 932 interview labels extracted from interviewees' words",
+      "claim_count": 27,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0091",
+      "title": "Crowding index (composite of four subjective crowding questions)",
+      "claim_count": 26,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0502",
+      "title": "Affective reactions and evaluations of auditory stimuli (interior aircraft sounds)",
+      "claim_count": 26,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0771",
+      "title": "Evaluation of daylighting performance in buildings",
+      "claim_count": 26,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0978",
+      "title": "The cultural niche: Why social learning is essential for",
+      "claim_count": 26,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0139",
+      "title": "Survey identifying Manchester soundscapes",
+      "claim_count": 25,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0199",
+      "title": "Urbanization trends and historical development of cities",
+      "claim_count": 25,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0304",
+      "title": "Material selection determinants (from RQ1)",
+      "claim_count": 25,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0310",
+      "title": "Exposure to green space environments versus built/urban environments",
+      "claim_count": 25,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0329",
+      "title": "OrhanUrasKurtulus (2022) study on RGB-based LED and matrix technologies",
+      "claim_count": 25,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0523",
+      "title": "Spatial acuity of human haptic perception",
+      "claim_count": 25,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0652",
+      "title": "Nature experience and cognitive function relationship",
+      "claim_count": 25,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0731",
+      "title": "Architectural perception and experience",
+      "claim_count": 25,
+      "json_status": {
+        "title": "provisional",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0938",
+      "title": "Soundscapes and environmental noise management A. L. Browna) (Received: 9 December 2009; Revised: 27 March 2010; Accepted: 28 March 2010)",
+      "claim_count": 25,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0964",
+      "title": "people in ward environments occupying 70% less space than counterparts 150 years ago",
+      "claim_count": 25,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1033",
+      "title": "Haptic rendering in VR applications",
+      "claim_count": 25,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0046",
+      "title": "Increased maintained illuminance",
+      "claim_count": 24,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0067",
+      "title": "Transition from warm dim (WD) to cool bright (CB) lighting",
+      "claim_count": 24,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0166",
+      "title": "Linear motion toward fronto-parallel plane with IMO (static background + IMO at foreground)",
+      "claim_count": 24,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0187",
+      "title": "Architectural fluency (spatial and visual alignment with nature, transparent materials, reflection between building and\u2026",
+      "claim_count": 24,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0217",
+      "title": "Soundscape description approach",
+      "claim_count": 24,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0636",
+      "title": "Perceptual assessment of nature sound vs. high, low, and ambient noise",
+      "claim_count": 24,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0677",
+      "title": "Exploring a Cross-Cultural Theory of Architecture",
+      "claim_count": 24,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0988",
+      "title": "broken into convex and nonconvex sets which meet some criteria of minimality in",
+      "claim_count": 24,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
+    },
+    {
+      "paper_id": "PDF-0155",
+      "title": "Distinction between 'place' and 'space' in architectural and environmental discourse",
+      "claim_count": 23,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0169",
+      "title": "Participants listened to religious recitations in acoustic environments",
+      "claim_count": 23,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0333",
+      "title": "Human perception",
+      "claim_count": 23,
+      "json_status": {
+        "title": "blocked",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0918",
+      "title": "Increased stitch density in hexagonal patterning",
+      "claim_count": 23,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0019",
+      "title": "Shell Health Resilience Programme (12 modules on positive psychology) participation on 21 pilot ships",
+      "claim_count": 22,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0070",
+      "title": "Visual perception of transparent barriers",
+      "claim_count": 22,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0086",
+      "title": "Opening dimension (d_op) increases from 0% to 100% of separating partition width",
+      "claim_count": 22,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0195",
+      "title": "Six different lighting arrangements (1-6 with varying intensities and distributions)",
+      "claim_count": 22,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0331",
+      "title": "Architecture and urban design practice",
+      "claim_count": 22,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0500",
+      "title": "Research-related consultation patterns across 6 URCs",
+      "claim_count": 22,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0543",
+      "title": "Patients recovering from gallbladder surgery given room with unobstructed view of trees",
+      "claim_count": 22,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0024",
+      "title": "Colour temperature \u00d7 Gender interaction (warm 3000K vs cool 4000K white light)",
+      "claim_count": 21,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0352",
+      "title": "Textile Fleece series (TF) prototypes with varying fibre types and composite formulations",
+      "claim_count": 21,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0392",
+      "title": "Wayfinding in architectural discourse",
+      "claim_count": 21,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0769",
+      "title": "Anatomical architecture of the circadian photoreception system",
+      "claim_count": 21,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0817",
+      "title": "Green furniture attributes (perceived green value, green brand image, aesthetic design, eco-innovation, purchase custom\u2026",
+      "claim_count": 21,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0005",
+      "title": "Harmonizing Spaces: Investigating the Intersection of Sound and Architectural Design",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0097",
+      "title": "Environmental psychology discipline",
+      "claim_count": 20,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0159",
+      "title": "Relationship to place and location",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0231",
+      "title": "Wood use in interior living rooms (from q-sort experiment with 25 living room photographs)",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0243",
+      "title": "The soundscape field encompasses multiple disciplines and approaches",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0290",
+      "title": "Humans perceiving artificial structures",
+      "claim_count": 20,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0328",
+      "title": "Presence of natural aural elements (e.g., flowing water in lake/bluespace area, birdsong, sound of breeze)",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0340",
+      "title": "Natural light significance in contemporary architecture",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0367",
+      "title": "Rating experiment: correlation between averaged introspective ratings and isovist-based scene descriptors",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0370",
+      "title": "Workshop participant population composition",
+      "claim_count": 20,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0417",
+      "title": "Viewing natural landscape (water, mountain, forest, urban) versus baseline",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0423",
+      "title": "Interaction with nature and natural shapes",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0602",
+      "title": "Subjects rated visual comfort under dayLED condition",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0661",
+      "title": "Global prevalence of sensory impairments",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0669",
+      "title": "Approximately 90% of a person's lifespan is spent indoors",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0671",
+      "title": "Accumulation of soot from burning of yak butter lamps in temple",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0713",
+      "title": "Interior color preference across buildings",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0864",
+      "title": "Perceived openness and ability to see in an environment without being seen",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0955",
+      "title": "Acoustic renovation with sound absorbing materials (ceiling fiberglass panels, wall silica mortar panels, corduroy curt\u2026",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1038",
+      "title": "Cross-cultural differences in perception of real and represented space",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1148",
+      "title": "Museums traditionally maintain cultural policies of silence",
+      "claim_count": 20,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0466",
+      "title": "Gaud\u00ed's design philosophy",
+      "claim_count": 19,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0491",
+      "title": "Human hand anatomy and sensorimotor capabilities",
+      "claim_count": 19,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0540",
+      "title": "Comparison of environmental factors between bamboo forest sites and urban environment",
+      "claim_count": 19,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0681",
+      "title": "Hospitalized patients with window views of outdoor landscape with trees",
+      "claim_count": 19,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0791",
+      "title": "Japanese vs tropical indoor greening design in office rooms (compared to green-free control)",
+      "claim_count": 19,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0823",
+      "title": "Material sensory properties include color, texture, sound, smell, and taste perception",
+      "claim_count": 19,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0017",
+      "title": "Exposure to natural landscape elements in built environment",
+      "claim_count": 18,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0087",
+      "title": "Recent biological and neuroscientific discoveries regarding embodied cognition and environmental interaction",
+      "claim_count": 18,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0107",
+      "title": "Visual system perceiving transparency across surfaces",
+      "claim_count": 18,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0399",
+      "title": "Systematic review examining theories on the built environment that are precursors to neuroscience approaches",
+      "claim_count": 18,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0453",
+      "title": "Contemporary architectural discourse on environmental understanding",
+      "claim_count": 18,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0551",
+      "title": "The lowest level of cognitive architecture defines computational mechanisms (basic representations, basic operators, co\u2026",
+      "claim_count": 18,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0765",
+      "title": "Architectural variables that modulate indoor circadian light exposure",
+      "claim_count": 18,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0819",
+      "title": "Wellbeing scale items (WEMWBS and QEWB sources)",
+      "claim_count": 18,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0111",
+      "title": "Cast shadows present on ambiguous folded surface (Mach card)",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0314",
+      "title": "Spatial experience composition",
+      "claim_count": 17,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0373",
+      "title": "Principal components analysis of 219 soundscape clips rated on six semantic scales (pleasantness, calmness, comfort, vi\u2026",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0378",
+      "title": "Comparison of subjective preference for different luminaire types and configurations",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0452",
+      "title": "Computer metaphor vs. Biological metaphor as basis for theories of spatial cognition",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0589",
+      "title": "Floor plan shape (short vs. long)",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0649",
+      "title": "mu-opioid receptors in macaque monkey cerebral cortex (visual areas)",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0657",
+      "title": "RECTANGLE design module evaluated for wind dynamics and ventilation",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0693",
+      "title": "Free sorting of 16 urban soundscapes",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0811",
+      "title": "IEQ aspects of 351 office buildings (N=52,980 occupant responses): space, noise, visual privacy, temperature, air quali\u2026",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1032",
+      "title": "Architectural discipline's historical emphasis on visual representation and design",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1341",
+      "title": "Occlusion as source of depth information",
+      "claim_count": 17,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0021",
+      "title": "Positive attitudes toward saving energy",
+      "claim_count": 16,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0033",
+      "title": "Randomization to four environmental conditions (non-biophilic, indoor green, outdoor view, combination)",
+      "claim_count": 16,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0063",
+      "title": "More intense electric light exposure (vs. dim light 10-100 lx and high illuminance bright light >= 1000 lx)",
+      "claim_count": 16,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0073",
+      "title": "Wayfinding task complexity in built environments",
+      "claim_count": 16,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0321",
+      "title": "Mu-opioid receptors are distributed in gradient along ventral visual pathway",
+      "claim_count": 16,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0687",
+      "title": "Brief exposure to virtual nature videos",
+      "claim_count": 16,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0777",
+      "title": "Spatial geometry (flat, extra-large, coupled, long) of architectural spaces",
+      "claim_count": 16,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0813",
+      "title": "Architectural design for visually impaired and blind students in educational settings",
+      "claim_count": 16,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0041",
+      "title": "Built environment considered as product of social processes",
+      "claim_count": 15,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0318",
+      "title": "Viewing nature through windows or pictures in built environment",
+      "claim_count": 15,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0552",
+      "title": "Physiological stress assessment to architectural forms",
+      "claim_count": 15,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0650",
+      "title": "Still image presentation from SB vs. CB environments",
+      "claim_count": 15,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0709",
+      "title": "Form and geometry of interior space (curved vs. orthogonal)",
+      "claim_count": 15,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0760",
+      "title": "Cool and warm white light combined with colored light (red, green, blue, yellow)",
+      "claim_count": 15,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0780",
+      "title": "Biophilic design strategies applied to built environments (working and living spaces)",
+      "claim_count": 15,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0824",
+      "title": "Architectural experience in the built environment",
+      "claim_count": 15,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0832",
+      "title": "warm-silent, cool-noisy, and flicker-silent environmental conditions",
+      "claim_count": 15,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0198",
+      "title": "Participants performed aesthetic assessment on interior finishing materials in IVR environment",
+      "claim_count": 14,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0600",
+      "title": "Exposure to light wavelengths (especially short-wavelength ~480nm)",
+      "claim_count": 14,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0778",
+      "title": "Current architectural design education",
+      "claim_count": 14,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0794",
+      "title": "Natural light design (NLD) improvements in residential spaces; sunny vs cloudy conditions; summer vs other seasons",
+      "claim_count": 14,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0806",
+      "title": "Visual perception of geographical slant (hills, inclines) viewed outdoors or in VR",
+      "claim_count": 14,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0812",
+      "title": "Environmental stimuli across different sensory modalities (sound, sight, touch, taste, smell)",
+      "claim_count": 14,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0816",
+      "title": "Green building design strategies (passive design, biophilic elements, IEQ optimization)",
+      "claim_count": 14,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0983",
+      "title": "Architectural atmosphere as a phenomenon",
+      "claim_count": 14,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0020",
+      "title": "Exposure to blue light from electronic equipment (LEDs, laptops, smartphones)",
+      "claim_count": 13,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0044",
+      "title": "Modernists abandoned timeless architectural patterns due to fascination with technology and novelty",
+      "claim_count": 13,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0143",
+      "title": "Swedish vs Japanese participants exposed to similar comfortable thermal outdoor conditions (within PET interval 18-23\u00b0C)",
+      "claim_count": 13,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0593",
+      "title": "Furthermore, color",
+      "claim_count": 13,
+      "json_status": {
+        "title": "blocked",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0613",
+      "title": "Classroom noise vs silence (background sound condition)",
+      "claim_count": 13,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0631",
+      "title": "Blue-enriched white light (17,000K) in office workplace for 4 weeks",
+      "claim_count": 13,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0770",
+      "title": "Electrochromic glass office vs fixed roller shades office",
+      "claim_count": 13,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0786",
+      "title": "Virtual exposure to park or forest environment (360\u00b0 VR with congruent olfactory and auditory stimuli)",
+      "claim_count": 13,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0793",
+      "title": "Visual perception of architectural environments",
+      "claim_count": 13,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0800",
+      "title": "Human active touch of surfaces and objects (haptic exploration)",
+      "claim_count": 13,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0200",
+      "title": "Object presented in otherwise dark environment with little or no contextual information",
+      "claim_count": 12,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0360",
+      "title": "Male vs female participants navigating three maze designs",
+      "claim_count": 12,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0790",
+      "title": "Biomimetic approaches applied to architectural and urban design",
+      "claim_count": 12,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0814",
+      "title": "Architectural space with multiple sensory stimuli (visual, auditory, olfactory, tactile, kinesthetic) in a wooden micro\u2026",
+      "claim_count": 12,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0038",
+      "title": "Thigmotaxis (wall-hugging trait) evolutionary development",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0092",
+      "title": "Recent discoveries in biological and cognitive sciences regarding embodiment and the role of the body in cognition",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0113",
+      "title": "Application of interactive sensors, mobile computing, and collaborative web platforms in urban public spaces",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0617",
+      "title": "Active exploration with motor control and idiothetic information (walking, body-based cues)",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0627",
+      "title": "Yellow color perception (associated with warm 2700K light) vs blue color (associated with cool 5700K)",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0758",
+      "title": "Dynamic lighting that responds to sky conditions and daylight levels vs static baseline lighting",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0759",
+      "title": "Dynamic lighting pattern (high CCT/illuminance in morning, lower in evening) vs static lighting",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0764",
+      "title": "LEED certified buildings vs non-LEED rated buildings",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0766",
+      "title": "Daylight hours and photoperiod",
+      "claim_count": 11,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0774",
+      "title": "Traditional noise control approach (decibel-based metrics, sound reduction focus)",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0775",
+      "title": "Natural ventilation in residential buildings (opening windows for fresh air and cooling)",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0789",
+      "title": "Japan's 2011 earthquake and tsunami (Fukushima disaster)",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0797",
+      "title": "Wood ratio in room interiors: 0% wood (white walls/ceiling/carpet), 45% wood, and 90% wood",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0804",
+      "title": "People perceive and mentally represent cities and urban environments",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0805",
+      "title": "Exercising control over office lighting (choosing preferred setting from options) vs pre-programmed lighting (same opti\u2026",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1173",
+      "title": "Biophilic workplace design for neurodiverse employees (ADHD, autism, learning disabilities \u2014 15-20% of population)",
+      "claim_count": 11,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0362",
+      "title": "Density in experimental settings",
+      "claim_count": 10,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0402",
+      "title": "Overall average scores for spatial features across all six buildings",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0591",
+      "title": "Red vs Blue color in learning space (low-value high-chroma)",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0594",
+      "title": "Rectilinear classroom shape with traditional frontal furniture, red walls",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0629",
+      "title": "CCT (3000K vs 4000K vs 5500K) \u2014 main effect on comfort level",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0762",
+      "title": "Employee age as predictor variable in workplace lighting satisfaction survey",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0768",
+      "title": "8-day confinement under static lighting (300 lux, 6000K) without daylight",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0773",
+      "title": "Thermal sensation (TSV) \u00d7 noise perception (NSV) \u00d7 air quality (ASV) in office buildings",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0802",
+      "title": "Haptic (tactile+proprioceptive) perception of spatial orientations",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0810",
+      "title": "Changes to the built environment (urban regeneration, housing improvements, neighborhood redesign)",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0834",
+      "title": "COVID-19 lockdowns in families and communities",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1010",
+      "title": "Exposure to red high intensity light compared to white light",
+      "claim_count": 10,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1340",
+      "title": "Occlusion as depth cue",
+      "claim_count": 10,
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0004",
+      "title": "The density paradox: density, walking, and psychological stress in overcrowded public spaces",
+      "claim_count": 9,
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
+    },
+    {
+      "paper_id": "PDF-0006",
+      "title": "Effect of lighting and thermal conditions on mood states (Chapter 4 Case Study)",
+      "claim_count": 9,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0023",
+      "title": "Exposure to natural light vs. artificial light in classrooms",
+      "claim_count": 9,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0037",
+      "title": "Sunny room assignment following myocardial infarction (vs. dull room)",
+      "claim_count": 9,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0620",
+      "title": "Prospect and refuge in landscape configurations (views with shelter)",
+      "claim_count": 9,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0624",
+      "title": "Exposure to 6500K lighting (cool/blue-enriched) in classroom",
+      "claim_count": 9,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0784",
+      "title": "Fractal dimension (D) of architectural elements and landscape patterns",
+      "claim_count": 9,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0798",
+      "title": "Vibrotactile stimulation applied to fingertips 50 ms before sudden load on gripped object",
+      "claim_count": 9,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0815",
+      "title": "Architectural design and its impact through ALL sensory modalities",
+      "claim_count": 9,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0597",
+      "title": "Exposure to enriched sensory environments vs. sparse environments (animal and human studies)",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0598",
+      "title": "Neuroimaging exposure to natural wood grain patterns",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0601",
+      "title": "Light exposure at 6500K (blue-enriched) during evening (21:30-23:30) at 40 lux",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0630",
+      "title": "Monochromatic light exposures at wavelengths 420-600nm at varying irradiances",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0782",
+      "title": "Single 15-minute experience in a multisensory nature-inspired Recharge Room (Mount Sinai, COVID-19 pandemic)",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0787",
+      "title": "Forest edge spaces (FES) vs forest interior spaces (FIS)",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0796",
+      "title": "Human interaction with materials in designed environments (touch, sight, sound, smell, temperature)",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1297",
+      "title": "Active material-based haptic actuators compared to traditional electro-mechanical motors",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1309",
+      "title": "Social presence and crowding levels in urban public spaces",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1319",
+      "title": "Time spent in built environments by people in developed countries",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-1338",
+      "title": "Room size (small vs large) \u00d7 interaction distance (close vs far) in dyadic social interaction",
+      "claim_count": 8,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0029",
+      "title": "Sharp vs curved architectural spaces in VR",
+      "claim_count": 7,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0032",
+      "title": "Sensory condition (visual-only vs general/multisensory vs tactile-only)",
+      "claim_count": 7,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0767",
+      "title": "Working in office with electrochromic glass (316 melanopic lux) vs traditional blinds (40.6 melanopic lux) for 1 week",
+      "claim_count": 7,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0772",
+      "title": "Constant, homogeneous indoor environments (stable temperature, static lighting, sealed ventilation)",
+      "claim_count": 7,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0776",
+      "title": "Acoustic treatment (sound-absorbing materials) applied to noisy open-plan classroom in VR",
+      "claim_count": 7,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0779",
+      "title": "Acoustic redesign of university lecture hall in Cairo (reducing RT from 1.4s to target; addressing external noise penet\u2026",
+      "claim_count": 7,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0781",
+      "title": "Evaluation of 6 Turkish university campuses against Browning et al.'s 14 biophilic design principles",
+      "claim_count": 7,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
+    },
+    {
+      "paper_id": "PDF-0795",
+      "title": "Natural environment elements in shopping malls (plants, water features, natural light, natural materials)",
+      "claim_count": 7,
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
+    }
+  ]
+}

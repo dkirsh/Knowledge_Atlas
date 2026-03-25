@@ -21,7 +21,16 @@
       "authors": [
         "Edney, Julian J."
       ],
-      "venue": "Psychological Bulletin"
+      "venue": "Psychological Bulletin",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0128",
@@ -41,7 +50,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0401",
@@ -61,7 +79,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0825",
@@ -83,7 +110,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0371",
@@ -103,7 +139,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0442",
@@ -129,7 +174,16 @@
         "Plaskota, Przemys\u0142aw",
         "Pyo, Sukhoon"
       ],
-      "venue": "Journal of Building Engineering"
+      "venue": "Journal of Building Engineering",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0566",
@@ -150,7 +204,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0396",
@@ -171,7 +234,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0388",
@@ -195,7 +267,16 @@
       "authors": [
         "Iyendo, Timothy Onosahwo"
       ],
-      "venue": "Complementary Therapies in Clinical Practice"
+      "venue": "Complementary Therapies in Clinical Practice",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0946",
@@ -220,7 +301,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0346",
@@ -246,7 +336,16 @@
         "H\u00f6lscher, C.",
         "Spiers, H.J."
       ],
-      "venue": "Studying Visual and Spatial Reasoning for Design Creativity"
+      "venue": "Studying Visual and Spatial Reasoning for Design Creativity",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0064",
@@ -265,7 +364,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0394",
@@ -286,7 +394,16 @@
         "Jeon, Jin Yong",
         "Jo, Hyun In"
       ],
-      "venue": "Building and Environment"
+      "venue": "Building and Environment",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0438",
@@ -309,7 +426,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0655",
@@ -336,7 +462,16 @@
       "authors": [
         "van Vliet, Helena"
       ],
-      "venue": "Research for Development"
+      "venue": "Research for Development",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0048",
@@ -360,7 +495,16 @@
       "authors": [
         "Metwally, Walaa Mohamed"
       ],
-      "venue": "Sustainability"
+      "venue": "Sustainability",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0066",
@@ -385,7 +529,16 @@
         "Danielsson, Anna",
         "Will\u00e9n, Carin"
       ],
-      "venue": "Rehabilitation Research and Practice"
+      "venue": "Rehabilitation Research and Practice",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0116",
@@ -405,7 +558,16 @@
       "authors": [
         "Fleming, Roland W."
       ],
-      "venue": "Vision Research"
+      "venue": "Vision Research",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0305",
@@ -427,7 +589,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0659",
@@ -450,7 +621,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-0659/PDF-0659.abstract.txt",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0007",
@@ -480,7 +660,16 @@
         "van Marken Lichtenbelt, W.D.",
         "de Kort, Y.A.W."
       ],
-      "venue": "Physiology &amp; Behavior"
+      "venue": "Physiology &amp; Behavior",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0565",
@@ -502,7 +691,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1190",
@@ -526,7 +724,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-1190/PDF-1190.abstract.txt",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0783",
@@ -551,7 +758,16 @@
       ],
       "article_type": "systematic_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0555",
@@ -574,7 +790,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0828",
@@ -595,7 +820,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-0828/PDF-0828.abstract.txt",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0877",
@@ -620,7 +854,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0422",
@@ -644,7 +887,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0658",
@@ -664,7 +916,16 @@
       ],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0061",
@@ -684,7 +945,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0475",
@@ -705,7 +975,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0536",
@@ -728,7 +1007,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0558",
@@ -749,7 +1037,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0642",
@@ -769,7 +1066,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0176",
@@ -787,7 +1093,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "blocked",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0288",
@@ -809,7 +1124,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0486",
@@ -829,7 +1153,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0645",
@@ -848,7 +1181,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0763",
@@ -870,7 +1212,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0599",
@@ -895,7 +1246,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0882",
@@ -913,7 +1273,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0101",
@@ -934,7 +1303,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0488",
@@ -957,7 +1335,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0519",
@@ -981,7 +1368,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0553",
@@ -1005,7 +1401,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0680",
@@ -1027,7 +1432,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0115",
@@ -1045,7 +1459,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0531",
@@ -1063,7 +1486,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "blocked",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0547",
@@ -1084,7 +1516,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0820",
@@ -1105,7 +1546,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-0820/PDF-0820.abstract.txt",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0829",
@@ -1127,7 +1577,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0870",
@@ -1148,7 +1607,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-0870/PDF-0870.abstract.txt",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0002",
@@ -1172,7 +1640,16 @@
         "Baum, Andrew",
         "Davis, Glenn E."
       ],
-      "venue": "Journal of Personality and Social Psychology"
+      "venue": "Journal of Personality and Social Psychology",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0090",
@@ -1194,7 +1671,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0147",
@@ -1213,7 +1699,16 @@
       "instruments": [],
       "article_type": "systematic_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0286",
@@ -1234,7 +1729,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0364",
@@ -1255,7 +1759,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0457",
@@ -1275,7 +1788,16 @@
       ],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0528",
@@ -1295,7 +1817,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0836",
@@ -1314,7 +1845,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-0836/PDF-0836.abstract.txt",
+      "json_status": {
+        "title": "provisional",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0878",
@@ -1338,7 +1878,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0228",
@@ -1358,7 +1907,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0426",
@@ -1379,7 +1937,16 @@
       "instruments": [],
       "article_type": "qualitative",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0544",
@@ -1398,7 +1965,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0792",
@@ -1420,7 +1996,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0873",
@@ -1442,7 +2027,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0093",
@@ -1460,7 +2054,16 @@
       "instruments": [],
       "article_type": "systematic_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0337",
@@ -1482,7 +2085,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0091",
@@ -1501,7 +2113,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0502",
@@ -1519,7 +2140,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0771",
@@ -1539,7 +2169,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0978",
@@ -1558,7 +2197,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-0978/PDF-0978.abstract.txt",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0139",
@@ -1579,7 +2227,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0199",
@@ -1600,7 +2257,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0304",
@@ -1622,7 +2288,16 @@
       ],
       "article_type": "qualitative",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0310",
@@ -1644,7 +2319,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0329",
@@ -1664,7 +2348,16 @@
       ],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0523",
@@ -1682,7 +2375,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0652",
@@ -1707,7 +2409,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-0652/PDF-0652.abstract.txt",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0731",
@@ -1731,7 +2442,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0938",
@@ -1750,7 +2470,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-0938/PDF-0938.abstract.txt",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0964",
@@ -1773,7 +2502,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1033",
@@ -1795,7 +2533,16 @@
       ],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0046",
@@ -1814,7 +2561,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0067",
@@ -1836,7 +2592,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0166",
@@ -1855,7 +2620,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0187",
@@ -1878,7 +2652,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0217",
@@ -1899,7 +2682,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0636",
@@ -1921,7 +2713,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0677",
@@ -1939,7 +2740,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0988",
@@ -1957,7 +2767,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "page_image_reread",
+      "abstract_surface_path": "/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/data/verification_runs/abstract_surfaces/PDF-0988/PDF-0988.abstract.txt",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "page_image_reread"
+      }
     },
     {
       "paper_id": "PDF-0155",
@@ -1976,7 +2795,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0169",
@@ -1999,7 +2827,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0333",
@@ -2020,7 +2857,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "blocked",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0918",
@@ -2040,7 +2886,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0019",
@@ -2061,7 +2916,16 @@
       "instruments": [],
       "article_type": "edited_book",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0070",
@@ -2082,7 +2946,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0086",
@@ -2101,7 +2974,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0195",
@@ -2122,7 +3004,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0331",
@@ -2142,7 +3033,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0500",
@@ -2161,7 +3061,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0543",
@@ -2184,7 +3093,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0024",
@@ -2205,7 +3123,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0352",
@@ -2223,7 +3150,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0392",
@@ -2244,7 +3180,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0769",
@@ -2267,7 +3212,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0817",
@@ -2289,7 +3243,16 @@
       ],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0005",
@@ -2314,7 +3277,16 @@
       "authors": [
         "Ajiboye, Samson A."
       ],
-      "venue": "Studies in Art and Architecture"
+      "venue": "Studies in Art and Architecture",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0097",
@@ -2335,7 +3307,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0159",
@@ -2354,7 +3335,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0231",
@@ -2375,7 +3365,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0243",
@@ -2396,7 +3395,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0290",
@@ -2417,7 +3425,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0328",
@@ -2437,7 +3454,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0340",
@@ -2456,7 +3482,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0367",
@@ -2475,7 +3510,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0370",
@@ -2494,7 +3538,16 @@
       "instruments": [],
       "article_type": "qualitative",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0417",
@@ -2514,7 +3567,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0423",
@@ -2533,7 +3595,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0602",
@@ -2557,7 +3628,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0661",
@@ -2577,7 +3657,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0669",
@@ -2599,7 +3688,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0671",
@@ -2619,7 +3717,16 @@
       "instruments": [],
       "article_type": "qualitative",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0713",
@@ -2640,7 +3747,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0864",
@@ -2659,7 +3775,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0955",
@@ -2679,7 +3804,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1038",
@@ -2698,7 +3832,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1148",
@@ -2717,7 +3860,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0466",
@@ -2738,7 +3890,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0491",
@@ -2758,7 +3919,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0540",
@@ -2779,7 +3949,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0681",
@@ -2802,7 +3981,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0791",
@@ -2827,7 +4015,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0823",
@@ -2845,7 +4042,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0017",
@@ -2868,7 +4074,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0087",
@@ -2886,7 +4101,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0107",
@@ -2904,7 +4128,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0399",
@@ -2929,7 +4162,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0453",
@@ -2948,7 +4190,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0551",
@@ -2966,7 +4217,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0765",
@@ -2987,7 +4247,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0819",
@@ -3005,7 +4274,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0111",
@@ -3024,7 +4302,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0314",
@@ -3042,7 +4329,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0373",
@@ -3060,7 +4356,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0378",
@@ -3080,7 +4385,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0452",
@@ -3101,7 +4415,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0589",
@@ -3122,7 +4445,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0649",
@@ -3140,7 +4472,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0657",
@@ -3161,7 +4502,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0693",
@@ -3182,7 +4532,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0811",
@@ -3203,7 +4562,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1032",
@@ -3222,7 +4590,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1341",
@@ -3240,7 +4617,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0021",
@@ -3261,7 +4647,16 @@
       "instruments": [],
       "article_type": "systematic_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0033",
@@ -3283,7 +4678,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0063",
@@ -3304,7 +4708,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0073",
@@ -3322,7 +4735,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0321",
@@ -3340,7 +4762,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0687",
@@ -3362,7 +4793,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0777",
@@ -3382,7 +4822,16 @@
       "instruments": [],
       "article_type": "systematic_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0813",
@@ -3404,7 +4853,16 @@
       ],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0041",
@@ -3425,7 +4883,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0318",
@@ -3448,7 +4915,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0552",
@@ -3473,7 +4949,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0650",
@@ -3496,7 +4981,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0709",
@@ -3520,7 +5014,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0760",
@@ -3540,7 +5043,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0780",
@@ -3564,7 +5076,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0824",
@@ -3585,7 +5106,16 @@
       ],
       "article_type": "qualitative",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0832",
@@ -3607,7 +5137,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0198",
@@ -3627,7 +5166,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0600",
@@ -3648,7 +5196,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0778",
@@ -3668,7 +5225,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0794",
@@ -3688,7 +5254,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0806",
@@ -3709,7 +5284,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0812",
@@ -3730,7 +5314,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0816",
@@ -3752,7 +5345,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0983",
@@ -3770,7 +5372,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0020",
@@ -3793,7 +5404,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0044",
@@ -3812,7 +5432,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0143",
@@ -3832,7 +5461,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "provisional",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0593",
@@ -3854,7 +5492,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "blocked",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0613",
@@ -3875,7 +5522,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0631",
@@ -3897,7 +5553,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0770",
@@ -3920,7 +5585,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0786",
@@ -3943,7 +5617,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0793",
@@ -3966,7 +5649,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0800",
@@ -3987,7 +5679,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0200",
@@ -4005,7 +5706,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0360",
@@ -4028,7 +5738,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0790",
@@ -4051,7 +5770,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0814",
@@ -4071,7 +5799,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0038",
@@ -4094,7 +5831,16 @@
       ],
       "article_type": "book",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0092",
@@ -4112,7 +5858,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0113",
@@ -4130,7 +5885,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0617",
@@ -4153,7 +5917,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0627",
@@ -4174,7 +5947,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0758",
@@ -4195,7 +5977,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0759",
@@ -4218,7 +6009,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0764",
@@ -4238,7 +6038,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0766",
@@ -4260,7 +6069,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0774",
@@ -4282,7 +6100,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0775",
@@ -4304,7 +6131,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0789",
@@ -4324,7 +6160,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0797",
@@ -4343,7 +6188,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0804",
@@ -4362,7 +6216,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0805",
@@ -4382,7 +6245,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1173",
@@ -4405,7 +6277,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0362",
@@ -4428,7 +6309,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0402",
@@ -4446,7 +6336,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0591",
@@ -4469,7 +6368,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0594",
@@ -4492,7 +6400,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0629",
@@ -4514,7 +6431,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0762",
@@ -4535,7 +6461,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0768",
@@ -4558,7 +6493,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0773",
@@ -4578,7 +6522,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0802",
@@ -4598,7 +6551,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0810",
@@ -4620,7 +6582,16 @@
       ],
       "article_type": "systematic_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0834",
@@ -4642,7 +6613,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1010",
@@ -4662,7 +6642,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1340",
@@ -4681,7 +6670,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "provisional",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0004",
@@ -4708,7 +6706,16 @@
         "Kaczynski, Andrew T.",
         "Oka, Koichiro"
       ],
-      "venue": "Cities &amp; Health"
+      "venue": "Cities &amp; Health",
+      "repair_source": "crossref",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "good",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "crossref"
+      }
     },
     {
       "paper_id": "PDF-0006",
@@ -4731,7 +6738,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0023",
@@ -4754,7 +6770,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0037",
@@ -4772,7 +6797,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0620",
@@ -4793,7 +6827,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0624",
@@ -4814,7 +6857,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0784",
@@ -4836,7 +6888,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0798",
@@ -4854,7 +6915,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0815",
@@ -4875,7 +6945,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0597",
@@ -4896,7 +6975,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0598",
@@ -4918,7 +7006,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0601",
@@ -4942,7 +7039,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0630",
@@ -4963,7 +7069,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0782",
@@ -4986,7 +7101,16 @@
       ],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0787",
@@ -5007,7 +7131,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0796",
@@ -5028,7 +7161,16 @@
       "instruments": [],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1297",
@@ -5046,7 +7188,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1309",
@@ -5068,7 +7219,16 @@
       ],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1319",
@@ -5090,7 +7250,16 @@
       ],
       "article_type": "theoretical",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "good",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-1338",
@@ -5111,7 +7280,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0029",
@@ -5134,7 +7312,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0032",
@@ -5155,7 +7342,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0767",
@@ -5176,7 +7372,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0772",
@@ -5197,7 +7402,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0776",
@@ -5219,7 +7433,16 @@
       ],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0779",
@@ -5239,7 +7462,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0781",
@@ -5260,7 +7492,16 @@
       "instruments": [],
       "article_type": "narrative_review",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "missing",
+        "repair_source": "rebuild"
+      }
     },
     {
       "paper_id": "PDF-0795",
@@ -5281,7 +7522,16 @@
       "instruments": [],
       "article_type": "empirical_research",
       "authors": [],
-      "venue": ""
+      "venue": "",
+      "repair_source": "",
+      "abstract_surface_path": "",
+      "json_status": {
+        "title": "good",
+        "doi": "missing",
+        "abstract": "missing",
+        "subject_count_total": "good",
+        "repair_source": "rebuild"
+      }
     }
   ]
 }

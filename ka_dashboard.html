@@ -298,6 +298,48 @@
             margin-top: 8px;
         }
 
+        .json-status-card {
+            border-left: 4px solid #E8872A;
+            background: #FFF9F1;
+        }
+
+        .json-status-copy {
+            font-family: Arial, sans-serif;
+            font-size: 0.86rem;
+            color: #5B5146;
+            margin-bottom: 12px;
+        }
+
+        .json-status-grid {
+            display: grid;
+            grid-template-columns: repeat(2, minmax(0, 1fr));
+            gap: 10px;
+        }
+
+        .json-status-item {
+            background: #FFFFFF;
+            border: 1px solid #E8DED2;
+            border-radius: 6px;
+            padding: 10px 12px;
+        }
+
+        .json-status-label {
+            display: block;
+            font-family: Arial, sans-serif;
+            font-size: 0.76rem;
+            color: #7A6E61;
+            margin-bottom: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.04em;
+        }
+
+        .json-status-value {
+            font-family: Arial, sans-serif;
+            font-size: 1rem;
+            color: #1C3D3A;
+            font-weight: 700;
+        }
+
         /* Assignment Progress Card */
         .progress-table {
             width: 100%;
@@ -684,6 +726,29 @@
                 <div class="progress-meta" id="dashboard-progress-meta">Keep up the momentum — you're on track with submissions.</div>
             </div>
 
+            <div class="card json-status-card">
+                <h2>JSON Repair Status</h2>
+                <p class="json-status-copy" id="dashboard-json-status-copy">This card tracks how much of the current article payload is still provisional so we can keep improving the JSONs while you review the site.</p>
+                <div class="json-status-grid">
+                    <div class="json-status-item">
+                        <span class="json-status-label">Titles Good</span>
+                        <div class="json-status-value" id="dashboard-json-title-good">0</div>
+                    </div>
+                    <div class="json-status-item">
+                        <span class="json-status-label">Titles Needing Repair</span>
+                        <div class="json-status-value" id="dashboard-json-title-backlog">0</div>
+                    </div>
+                    <div class="json-status-item">
+                        <span class="json-status-label">Abstracts Good</span>
+                        <div class="json-status-value" id="dashboard-json-abstract-good">0</div>
+                    </div>
+                    <div class="json-status-item">
+                        <span class="json-status-label">Subject Counts Missing</span>
+                        <div class="json-status-value" id="dashboard-json-subject-missing">0</div>
+                    </div>
+                </div>
+            </div>
+
             <!-- Assignment Progress Card -->
             <div class="card">
                 <h2>Assignment Progress</h2>
@@ -979,7 +1044,9 @@ window.KA_PAGE_FUNCTION = {
 
   async function initializeDashboardPage() {
     const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/dashboard.json', {});
+    const jsonStatusPayload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/json_status.json', {});
     const dashboard = payload.dashboard || {};
+    const jsonSummary = jsonStatusPayload.summary || {};
     let currentUser = null;
     try {
       currentUser = JSON.parse(localStorage.getItem('ka_current_user') || 'null');
@@ -1044,6 +1111,13 @@ window.KA_PAGE_FUNCTION = {
         };
       });
       document.getElementById('dashboard-progress-meta').textContent = 'Progress is now partly sourced from your local contributor state and staged submissions.';
+    }
+    document.getElementById('dashboard-json-title-good').textContent = String(jsonSummary.title_good || 0);
+    document.getElementById('dashboard-json-title-backlog').textContent = String((jsonSummary.title_provisional || 0) + (jsonSummary.title_missing_or_blocked || 0));
+    document.getElementById('dashboard-json-abstract-good').textContent = String(jsonSummary.abstract_good || 0);
+    document.getElementById('dashboard-json-subject-missing').textContent = String(jsonSummary.subject_count_missing || 0);
+    if (jsonSummary.papers_total) {
+      document.getElementById('dashboard-json-status-copy').textContent = `Current payload coverage across ${jsonSummary.papers_total} papers. Provisional and missing fields stay visible here so we can keep repairing the JSONs while the site is already reviewable.`;
     }
     renderProgress(dashboard.progress);
     renderActivity(dashboard.recent_activity);

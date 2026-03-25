@@ -523,6 +523,47 @@
             line-height: 1.6;
         }
 
+        .json-status-panel {
+            margin-top: 12px;
+            background: #FFF9F1;
+            border: 1px solid #E9D8BF;
+            border-radius: 6px;
+            padding: 12px;
+        }
+
+        .json-status-title {
+            font-size: 0.8rem;
+            font-weight: 700;
+            color: #8D4A12;
+            margin-bottom: 8px;
+            letter-spacing: 0.04em;
+            text-transform: uppercase;
+        }
+
+        .json-status-badges {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+
+        .json-status-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #FFFFFF;
+            border: 1px solid #E1D3C4;
+            border-radius: 999px;
+            padding: 5px 10px;
+            font-size: 0.76rem;
+            color: #5B5146;
+        }
+
+        .json-status-note {
+            color: #74685A;
+            font-size: 0.82rem;
+        }
+
         .reference-doi {
             color: #2A7868;
             text-decoration: none;
@@ -1204,11 +1245,23 @@
             subtitle.textContent = article.title;
             const abstractText = article.abstract || 'Abstract not yet recovered from the current rebuild.';
             const abstractVisible = articleAbstractExpanded ? abstractText : abstractText.slice(0, 260) + (abstractText.length > 260 ? '…' : '');
+            const jsonStatus = article.json_status || {};
+            const repairSource = jsonStatus.repair_source || article.repair_source || 'rebuild';
             reference.innerHTML = `
                 <strong>${article.paper_id}</strong>. ${article.title}. <em>${(article.article_type || 'Unknown').replace(/_/g, ' ')}</em>
                 <div style="margin-top: 8px;">DOI: ${article.doi ? `<a class="reference-doi" href="https://doi.org/${article.doi}" target="_blank" rel="noopener noreferrer">${article.doi}</a>` : 'Not yet recovered'}</div>
                 <div style="margin-top: 10px; color: #666; line-height: 1.6;">${abstractVisible}</div>
                 <a class="abstract-toggle" id="articles-abstract-toggle">${articleAbstractExpanded ? 'Collapse abstract' : 'Expand abstract'}</a>
+                <div class="json-status-panel">
+                    <div class="json-status-title">JSON Repair Status</div>
+                    <div class="json-status-badges">
+                        <span class="json-status-badge"><strong>Title</strong> ${jsonStatus.title || 'unknown'}</span>
+                        <span class="json-status-badge"><strong>DOI</strong> ${jsonStatus.doi || 'unknown'}</span>
+                        <span class="json-status-badge"><strong>Abstract</strong> ${jsonStatus.abstract || 'unknown'}</span>
+                        <span class="json-status-badge"><strong>Subjects</strong> ${jsonStatus.subject_count_total || 'unknown'}</span>
+                    </div>
+                    <div class="json-status-note">Repair source: ${repairSource}. This record stays visibly provisional until all weak JSON fields are repaired.</div>
+                </div>
             `;
             claim.value = `${article.title} appears relevant because it contributes ${article.claim_count} extracted claims to the current rebuild.`;
             outcome.value = (article.constructs && article.constructs[0]) || (article.theories && article.theories[0]) || '';

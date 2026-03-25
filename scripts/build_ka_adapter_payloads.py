@@ -99,6 +99,34 @@ def sanitize_abstract(text):
     return value
 
 
+def title_status(title):
+    value = str(title or '').strip()
+    if not value:
+        return 'missing'
+    if not publishable_title(value):
+        return 'blocked'
+    if value.endswith((',', ':')) or len(value.split()) < 5:
+        return 'provisional'
+    return 'good'
+
+
+def abstract_status(text):
+    value = sanitize_abstract(text)
+    if not value:
+        return 'missing'
+    if len(value) < 350:
+        return 'provisional'
+    return 'good'
+
+
+def doi_status(value):
+    return 'good' if clean_doi(value) else 'missing'
+
+
+def subject_count_status(value):
+    return 'good' if value not in (None, '', 0) else 'missing'
+
+
 def load_bibliographic_repairs():
     if not REPAIRS_PATH.exists():
         return {}
@@ -248,6 +276,8 @@ def parse_claims():
                     'doi': clean_doi(repair.get('doi') or obj.get('doi')),
                     'year': sanitize_year(repair.get('year') or obj.get('year')),
                     'abstract': sanitize_abstract(repair.get('abstract') or obj.get('abstract_clean_text')) or '',
+                    'repair_source': repair.get('source') or '',
+                    'abstract_surface_path': repair.get('abstract_surface_path') or '',
                     'theories': theories,
                     'subject_count_total': obj.get('subject_count_total'),
                     'sample_n': obj.get('sample_n'),
@@ -341,9 +371,68 @@ def parse_claims():
             'article_type': meta.get('article_type') or '',
             'authors': meta.get('authors') or [],
             'venue': meta.get('venue') or '',
+            'repair_source': meta.get('repair_source') or '',
+            'abstract_surface_path': meta.get('abstract_surface_path') or '',
+            'json_status': {
+                'title': title_status(title),
+                'doi': doi_status(meta.get('doi')),
+                'abstract': abstract_status(meta.get('abstract')),
+                'subject_count_total': subject_count_status(meta.get('subject_count_total')),
+                'repair_source': meta.get('repair_source') or 'rebuild',
+            },
         })
     articles.sort(key=lambda x: (-x['claim_count'], x['paper_id']))
     return evidence, articles[:250]
+
+
+def build_json_status(articles):
+    summary = {
+        'papers_total': len(articles),
+        'title_good': 0,
+        'title_provisional': 0,
+        'title_missing_or_blocked': 0,
+        'abstract_good': 0,
+        'abstract_provisional': 0,
+        'abstract_missing': 0,
+        'doi_good': 0,
+        'doi_missing': 0,
+        'subject_count_good': 0,
+        'subject_count_missing': 0,
+    }
+    rows = []
+    for article in articles:
+        status = article.get('json_status') or {}
+        title_state = status.get('title') or 'missing'
+        abstract_state = status.get('abstract') or 'missing'
+        doi_state = status.get('doi') or 'missing'
+        subject_state = status.get('subject_count_total') or 'missing'
+        if title_state == 'good':
+            summary['title_good'] += 1
+        elif title_state == 'provisional':
+            summary['title_provisional'] += 1
+        else:
+            summary['title_missing_or_blocked'] += 1
+        if abstract_state == 'good':
+            summary['abstract_good'] += 1
+        elif abstract_state == 'provisional':
+            summary['abstract_provisional'] += 1
+        else:
+            summary['abstract_missing'] += 1
+        if doi_state == 'good':
+            summary['doi_good'] += 1
+        else:
+            summary['doi_missing'] += 1
+        if subject_state == 'good':
+            summary['subject_count_good'] += 1
+        else:
+            summary['subject_count_missing'] += 1
+        rows.append({
+            'paper_id': article.get('paper_id'),
+            'title': article.get('title'),
+            'claim_count': article.get('claim_count'),
+            'json_status': status,
+        })
+    return {'summary': summary, 'papers': rows}
 
 
 def build_dashboard(articles, evidence):
@@ -374,11 +463,13 @@ def main():
     topics, gaps = load_fronts()
     evidence, articles = parse_claims()
     dashboard = build_dashboard(articles, evidence)
+    json_status = build_json_status(articles)
     (OUT / 'topics.json').write_text(json.dumps({'topics': topics}, indent=2))
     (OUT / 'gaps.json').write_text(json.dumps({'gaps': gaps}, indent=2))
     (OUT / 'evidence.json').write_text(json.dumps({'evidence': evidence}, indent=2))
     (OUT / 'articles.json').write_text(json.dumps({'articles': articles}, indent=2))
     (OUT / 'dashboard.json').write_text(json.dumps({'dashboard': dashboard}, indent=2))
+    (OUT / 'json_status.json').write_text(json.dumps(json_status, indent=2))
     print('Wrote payloads to', OUT)
 
 if __name__ == '__main__':
