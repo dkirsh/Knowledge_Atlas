@@ -2922,9 +2922,9 @@
     },
     {
       "paper_id": "PDF-0333",
-      "title": "Human perception",
-      "doi": "",
-      "year": null,
+      "title": "Passionate Love and Sexual Desire: Cross-Cultural and Historical Perspectives",
+      "doi": "10.1037/e316172004-001",
+      "year": 2013,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 23,
       "sample_n": null,
@@ -2938,16 +2938,20 @@
       "constructs": [],
       "instruments": [],
       "article_type": "theoretical",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Hatfield, Elaine",
+        "American Psychological Association",
+        "Rapson, Richard L."
+      ],
+      "venue": "PsycEXTRA Dataset",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
-        "title": "blocked",
-        "doi": "missing",
+        "title": "good",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -2981,10 +2985,10 @@
     },
     {
       "paper_id": "PDF-0019",
-      "title": "Shell Health Resilience Programme (12 modules on positive psychology) participation on 21 pilot ships",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "Cultivating Pluralism in Health Psychology",
+      "doi": "10.1177/135910530000500311",
+      "year": 2000,
+      "abstract": "Historically health, illness and healing operated through a single medium, or idiom, within relatively culturally encapsulated societies. Our increasingly porous societies now present us with a plethora of cultural explanations for our states of \u2018being\u2019. Health \u2018seekers\u2019 can now turn to a variety of health \u2018providers\u2019. The complexities of this situation are illustrated by reviewing research from Africa on cognitive tolerance. In many western societies the clinician is also faced with the challenge of having to work with a plurality of complex ideas about health and illness, which he or she may be unfamiliar with. The Problem Portrait Technique (PPT) is presented as a means of assisting practitioners (and researchers) to assess the interplay of culture and health. It is argued that health psychology should cultivate pluralism both by acknowledging the influence of culture on health and by embracing the diversity of methodological and conceptual perspectives within itself.",
       "claim_count": 22,
       "sample_n": 187,
       "subject_count_total": 187,
@@ -2997,23 +3001,25 @@
       "constructs": [],
       "instruments": [],
       "article_type": "edited_book",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Maclachlan, Malcolm"
+      ],
+      "venue": "Journal of Health Psychology",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0070",
-      "title": "Visual perception of transparent barriers",
-      "doi": "",
-      "year": null,
+      "title": "There or not there? A multidisciplinary review and research agenda on the impact of transparent barriers on human perception, action, and social behavior",
+      "doi": "10.3389/fpsyg.2015.01381",
+      "year": 2015,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 22,
       "sample_n": null,
@@ -3027,23 +3033,32 @@
       "constructs": [],
       "instruments": [],
       "article_type": "narrative_review",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Marquardt, Gesine",
+        "Cross, Emily S.",
+        "de Sousa, Alexandra A.",
+        "Edelstein, Eve",
+        "Farn\u00e8, Alessandro",
+        "Leszczynski, Marcin",
+        "Patterson, Miles",
+        "Quadflieg, Susanne"
+      ],
+      "venue": "Frontiers in Psychology",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0086",
-      "title": "Opening dimension (d_op) increases from 0% to 100% of separating partition width",
-      "doi": "",
-      "year": null,
+      "title": "Acoustic modeling of sequential spaces: A parametric study",
+      "doi": "10.1016/j.buildenv.2021.108733",
+      "year": 2022,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 22,
       "sample_n": null,
@@ -3055,24 +3070,27 @@
       "constructs": [],
       "instruments": [],
       "article_type": "empirical_research",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Yang, Tingting",
+        "Kang, Jian"
+      ],
+      "venue": "Building and Environment",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0195",
-      "title": "Six different lighting arrangements (1-6 with varying intensities and distributions)",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "Interim Study of Procedures for Investigating the Effect of Light on Impression and Behavior",
+      "doi": "10.1080/00994480.1973.10732231",
+      "year": 1973,
+      "abstract": "(1973). Interim Study of Procedures for Investigating the Effect of Light on Impression and Behavior. Journal of the Illuminating Engineering Society: Vol. 3, No. 1, pp. 87-94.",
       "claim_count": 22,
       "sample_n": 142,
       "subject_count_total": 142,
@@ -3085,16 +3103,21 @@
         "Self-Report"
       ],
       "article_type": "empirical_research",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Flynn, John E.",
+        "Spencer, Terry J.",
+        "Martyniuk, Osyp",
+        "Hendrick, Clyde"
+      ],
+      "venue": "Journal of the Illuminating Engineering Society",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "provisional",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -3156,10 +3179,10 @@
     },
     {
       "paper_id": "PDF-0543",
-      "title": "Patients recovering from gallbladder surgery given room with unobstructed view of trees",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "Biophilic Design and Bio-Collaboration",
+      "doi": "10.15187/adr.2015.02.113.1.71",
+      "year": 2015,
+      "abstract": "Background : Growing concerns on environmental degradation are urging the design communities to drastically re-evaluate our approach to the production and delivery of goods and services in order to be more socially and ecologically responsible. Among the numerous efforts of promoting sustainable progress, biophilic design - which encourages the integration of nature into our built environment as a strategy to re-establish a strong connection between humans and their natural environment as well as to improve human health and well-being - has played a significant role in the recent green architecture movement and sustainable urban development. While incorporating biophilia, the innate human need for nature, into design has been quite actively implemented by several leading architects and city planners, its potential applications in the production of mainstream industrial goods have been relatively unexplored so far. Methods : This paper examines the concept of biophilia and its relevance as a design strategy offering integrated solutions to our social, cultural, and ecological challenges. In discussing this close link between human and nature, recent scientific evidence supporting the physiological and psychological human needs for nature are examined; in particular, focusing on the positive influence that natural settings and live organisms have on our health, work productivity and living conditions. In addition, practical applications of biophilic design elements and attributes are analyzed through several examples of architectural and urban constructions; and current biophilic design cases within the field of industrial design are assessed as an indicator for future application. Results : Various research findings in environmental science and environmental psychology highlight the value of natural processes and the benefits of the biophilic design approach on human psychological and physiological well-being. Growing scientific evidence provides critical insights for possible improvement of current sustainable design strategies: solutions transitioning from mainly focusing on minimizing the negative impact on environment to embracing nature\u2019s system and their ability to enhance the quality of human experience and well-being, and replace or complement common techniques for the production of goods and services. Conclusion : Expanding upon current definitions of sustainable design, biophilic design methodology demonstrates the potential as a sustainable design strategy allowing the design community to overcome the current superficiality of greening trends. However, as current examples of biophilic design are yet relatively limited, the conceptual framework for potential industrial design applications is to be more clearly defined through further investigations. In order to support the development of this new design strategy, multi-disciplinary collaborations between the scientific community and professional designers should be encouraged as well as integrated within the industrial design curriculum.",
       "claim_count": 22,
       "sample_n": 46,
       "subject_count_total": null,
@@ -3174,23 +3197,25 @@
         "Self-Report"
       ],
       "article_type": "narrative_review",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Wolfs, Emmanuel L. M."
+      ],
+      "venue": "Archives of Design Research",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
-        "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "title": "provisional",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0024",
-      "title": "Colour temperature \u00d7 Gender interaction (warm 3000K vs cool 4000K white light)",
-      "doi": "",
-      "year": null,
+      "title": "Effects of indoor lighting on mood and cognition",
+      "doi": "10.1016/0272-4944(95)90013-6",
+      "year": 1995,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 21,
       "sample_n": 12,
@@ -3204,23 +3229,25 @@
       "constructs": [],
       "instruments": [],
       "article_type": "empirical_research",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Knez, Igor"
+      ],
+      "venue": "Journal of Environmental Psychology",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0352",
-      "title": "Textile Fleece series (TF) prototypes with varying fibre types and composite formulations",
-      "doi": "",
-      "year": null,
+      "title": "Engineered hybrid fibre reinforced composites for sound absorption building applications",
+      "doi": "10.1016/j.resconrec.2018.12.014",
+      "year": 2019,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 21,
       "sample_n": 7,
@@ -3231,16 +3258,23 @@
       "constructs": [],
       "instruments": [],
       "article_type": "empirical_research",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Echeverria, Claudia A.",
+        "Pahlevani, Farshid",
+        "Handoko, Wilson",
+        "Jiang, Chaoyang",
+        "Doolan, Con",
+        "Sahajwalla, Veena"
+      ],
+      "venue": "Resources, Conservation and Recycling",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -3372,10 +3406,10 @@
     },
     {
       "paper_id": "PDF-0097",
-      "title": "Environmental psychology discipline",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "Application of environmental psychology in kindergarten architectural design",
+      "doi": "10.1556/606.2021.00334",
+      "year": 2021,
+      "abstract": "Abstract With the reform of China's childbirth policy in recent years, a unique baby boom phenomenon has emerged, and the new-born baby has increased rapidly in China. In the process of transformation and development of contemporary cities, a complex urban environment has a significant impact on psychology and physiology. The past kindergarten architectural aesthetic experience can no longer adapt to the social development needs. Thus, how to realize the sustainable development of kindergarten architecture has become a social problem that needs to be solved urgently. In the context of Environmental Psychology, this paper investigates the construction mode of experiential kindergarten architecture and tries to explore a new paradigm of educational architecture design in China for the future.",
       "claim_count": 20,
       "sample_n": null,
       "subject_count_total": null,
@@ -3388,16 +3422,20 @@
       "constructs": [],
       "instruments": [],
       "article_type": "theoretical",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Cao, Hui",
+        "M\u00e1ria Tam\u00e1s, Anna",
+        "Sztrany\u00e1k, Gergely"
+      ],
+      "venue": "Pollack Periodica",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
-        "title": "provisional",
-        "doi": "missing",
-        "abstract": "missing",
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -3460,9 +3498,9 @@
     },
     {
       "paper_id": "PDF-0243",
-      "title": "The soundscape field encompasses multiple disciplines and approaches",
-      "doi": "",
-      "year": null,
+      "title": "Towards standardization in soundscape preference assessment",
+      "doi": "10.1016/j.apacoust.2011.01.001",
+      "year": 2011,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 20,
       "sample_n": null,
@@ -3476,16 +3514,20 @@
         "Self-Report"
       ],
       "article_type": "narrative_review",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Brown, A.L.",
+        "Kang, Jian",
+        "Gjestland, Truls"
+      ],
+      "venue": "Applied Acoustics",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -3520,9 +3562,9 @@
     },
     {
       "paper_id": "PDF-0328",
-      "title": "Presence of natural aural elements (e.g., flowing water in lake/bluespace area, birdsong, sound of breeze)",
-      "doi": "",
-      "year": null,
+      "title": "Urban design and adolescent mental health: A qualitative examination of adolescent emotional responses to pedestrian- and transit-oriented design and cognitive architecture concepts",
+      "doi": "10.1016/j.healthplace.2022.102825",
+      "year": 2022,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 20,
       "sample_n": 23,
@@ -3535,16 +3577,20 @@
       "constructs": [],
       "instruments": [],
       "article_type": "empirical_research",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Buttazzoni, Adrian",
+        "Dean, Jennifer",
+        "Minaker, Leia"
+      ],
+      "venue": "Health &amp; Place",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -3577,10 +3623,10 @@
     },
     {
       "paper_id": "PDF-0367",
-      "title": "Rating experiment: correlation between averaged introspective ratings and isovist-based scene descriptors",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "From Space Syntax to Space Semantics: A Behaviorally and Perceptually Oriented Methodology for the Efficient Description of the Geometry and Topology of Environments",
+      "doi": "10.1068/b33050",
+      "year": 2008,
+      "abstract": "Human spatial behavior and experience cannot be investigated independently from the shape and configuration of environments. Therefore, comparative studies in architectural psychology and spatial cognition would clearly benefit from operationalizations of space that provide a common denominator for capturing its behavioral and psychologically relevant properties. This paper presents theoretical and methodological issues arising from the practical application of isovist-based graphs for the analysis of architectural spaces. Based on recent studies exploring the influence of spatial form and structure on behavior and experience in virtual environments, the following topics are discussed: (1) the derivation and empirical verification of meaningful descriptor variables on the basis of classic qualitative theories of environmental psychology relating behavior and experience to spatial properties; (2) methods to select reference points for the analysis of architectural spaces at a local level; furthermore, based on two experiments exploring the phenomenal conception of the spatial structure of architectural environments, formalized strategies for (3) the selection of reference points at a global level, and for (4), their integration into a sparse yet plausible comprehensive graph structure, are proposed. Taken together, a well formalized and psychologically oriented methodology for the efficient description of spatial properties of environments at the architectural scale level is outlined. This method appears useful for a wide range of applications, ranging from abstract architectural analysis over behavioral experiments to studies on mental representations in cognitive science.",
       "claim_count": 20,
       "sample_n": 16,
       "subject_count_total": null,
@@ -3591,23 +3637,26 @@
       "constructs": [],
       "instruments": [],
       "article_type": "empirical_research",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Franz, Gerald",
+        "Wiener, Jan M"
+      ],
+      "venue": "Environment and Planning B: Planning and Design",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0370",
-      "title": "Workshop participant population composition",
-      "doi": "",
-      "year": null,
+      "title": "Towards multi-sensory design: Placemaking through immersive environments \u2013 Evaluation of the approach",
+      "doi": "10.1016/j.eswa.2022.117614",
+      "year": 2022,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 20,
       "sample_n": 21,
@@ -3619,16 +3668,20 @@
       "constructs": [],
       "instruments": [],
       "article_type": "qualitative",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Globa, Anastasia",
+        "Beza, Beau B.",
+        "Wang, Rui"
+      ],
+      "venue": "Expert Systems with Applications",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
-        "title": "provisional",
-        "doi": "missing",
+        "title": "good",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -3690,10 +3743,10 @@
     },
     {
       "paper_id": "PDF-0602",
-      "title": "Subjects rated visual comfort under dayLED condition",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "Effect of daylight LED on visual comfort, melatonin, mood, waking performance and sleep",
+      "doi": "10.1177/1477153519828419",
+      "year": 2019,
+      "abstract": "LED *Shared senior authors. light sources have a discontinuous light spectrum with a prominent \u2018blue\u2019 peak between 450 and 470 nm that influences non-image forming responses in humans. We tested an LED lighting solution mimicking a daylight spectrum on visual comfort, circadian physiology, daytime alertness, mood, cognitive performance and sleep. Fifteen young males twice spent 49 hours in the laboratory under a conventional-LED and under a daylight-LED condition in a balanced cross over design flanked by a baseline and a post-light exposure night. Despite different light spectra, the photopic lux and the correlated colour temperature of the lighting were the same for both LEDs. The colour rendering index and the melanopic strength were 25.3% and 21%, respectively, higher for the daylight LED than the conventional LED. The volunteers had better visual comfort, felt more alert and happier in the morning and evening under daylight LED than conventional LED, while the diurnal melatonin profile, psychomotor vigilance and working memory performance were not significantly different. Delta EEG activity (0.75\u20134.5 Hz) was significantly higher after daylight-LED than conventional-LED exposure during the post-light exposure night. We have evidence that a daylight-LED solution has beneficial effects on visual comfort, daytime alertness, mood and sleep intensity in healthy volunteers.",
       "claim_count": 20,
       "sample_n": 15,
       "subject_count_total": 15,
@@ -3709,16 +3762,27 @@
         "Self-Report"
       ],
       "article_type": "empirical_research",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Cajochen, C",
+        "Freyburger, M",
+        "Basishvili, T",
+        "Garbazza, C",
+        "Rudzik, F",
+        "Renz, C",
+        "Kobayashi, K",
+        "Shirakawa, Y",
+        "Stefani, O",
+        "Weibel, J"
+      ],
+      "venue": "Lighting Research &amp; Technology",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -3985,9 +4049,9 @@
     },
     {
       "paper_id": "PDF-0491",
-      "title": "Human hand anatomy and sensorimotor capabilities",
-      "doi": "",
-      "year": null,
+      "title": "Haptics in virtual environments: Taxonomy, research status, and challenges",
+      "doi": "10.1016/s0097-8493(97)00030-7",
+      "year": 1997,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 19,
       "sample_n": null,
@@ -4000,16 +4064,19 @@
       "constructs": [],
       "instruments": [],
       "article_type": "narrative_review",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Srinivasan, Mandayam A.",
+        "Basdogan, Cagatay"
+      ],
+      "venue": "Computers &amp; Graphics",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -4137,10 +4204,10 @@
     },
     {
       "paper_id": "PDF-0017",
-      "title": "Exposure to natural landscape elements in built environment",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "Architectural Lessons from Environmental Psychology: The Case of Biophilic Architecture",
+      "doi": "10.1037/1089-2680.11.4.305",
+      "year": 2007,
+      "abstract": "A review of findings from the field of environmental psychology shows that humans are aesthetically attracted to natural contents and to particular landscape configurations. These features are also found to have positive effects on human functioning and can reduce stress. However, opportunities for contact with these elements are reduced in modern urban life. It is argued how this evolution can have subtle but nontrivial adverse effects on psychological and physiological well-being. These can be countered by integrating key features of natural contents and structural landscape features in the built environment. Several practical proposals are discussed, ranging from literal imitations of natural objects (such as plants) to the use of nature's fractal geometry in an architectural context.",
       "claim_count": 18,
       "sample_n": 120,
       "subject_count_total": 120,
@@ -4155,23 +4222,25 @@
         "Hrv"
       ],
       "article_type": "narrative_review",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Joye, Yannick"
+      ],
+      "venue": "Review of General Psychology",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0087",
-      "title": "Recent biological and neuroscientific discoveries regarding embodied cognition and environmental interaction",
-      "doi": "",
-      "year": null,
+      "title": "Architecture and Embodiment",
+      "doi": "10.4324/9780203071144",
+      "year": 2013,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 18,
       "sample_n": 495,
@@ -4182,23 +4251,25 @@
       "constructs": [],
       "instruments": [],
       "article_type": "theoretical",
-      "authors": [],
+      "authors": [
+        "Mallgrave, Harry Francis"
+      ],
       "venue": "",
-      "repair_source": "",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
-        "title": "good",
-        "doi": "missing",
+        "title": "provisional",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0107",
-      "title": "Visual system perceiving transparency across surfaces",
-      "doi": "",
-      "year": null,
+      "title": "Toward a perceptual theory of transparency.",
+      "doi": "10.1037//0033-295x.109.3.492",
+      "year": 2002,
       "abstract": "Abstract not yet recovered from the current rebuild.",
       "claim_count": 18,
       "sample_n": 3,
@@ -4209,16 +4280,19 @@
       "constructs": [],
       "instruments": [],
       "article_type": "empirical_research",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Singh, Manish",
+        "Anderson, Barton L."
+      ],
+      "venue": "Psychological Review",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -4257,10 +4331,10 @@
     },
     {
       "paper_id": "PDF-0453",
-      "title": "Contemporary architectural discourse on environmental understanding",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "Corporeal Experience: A Haptic Way of Knowing",
+      "doi": "10.1162/104648801753168765",
+      "year": 2001,
+      "abstract": "AbstractContemporary architectural discourse suggests we consider the influence of a variety of senses on our understanding of space. This article discusses literature that explores the character and significance of spatial perceptions gained by movement, touch, and other sensibilities, which are known ashaptic senses. Case studies of ranchers in rural Montana investigated how people accumulated their place-based experiences. This population demonstrated a strong tendency to rely on geographic contact and movement in space to inform them about the places in which they lived and worked. The article concludes by discussing the implications of considering haptic sensibilities in design education.",
       "claim_count": 18,
       "sample_n": null,
       "subject_count_total": null,
@@ -4271,24 +4345,26 @@
       "constructs": [],
       "instruments": [],
       "article_type": "theoretical",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "O'Neill, M\u00e1ire Eithne"
+      ],
+      "venue": "Journal of Architectural Education",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0551",
-      "title": "The lowest level of cognitive architecture defines computational mechanisms (basic representations, basic operators, co\u2026",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "The subjective meaning of cognitive architecture: a Marrian analysis",
+      "doi": "10.3389/fpsyg.2014.00440",
+      "year": 2014,
+      "abstract": "Marr famously decomposed cognitive theories into three levels. Newell, Pylyshyn, and Anderson offered parallel decompositions of cognitive architectures, which are psychologically plausible computational formalisms for expressing computational models of cognition. These analyses focused on the objective meaning of each level - how it supports computational models that correspond to cognitive phenomena. This paper develops a complementary analysis of the subjective meaning of each level - how it helps cognitive scientists understand cognition. It then argues against calls to eliminatively reduce higher levels to lower levels, for example, in the name of parsimony. Finally, it argues that the failure to attend to the multiple meanings and levels of cognitive architecture contributes to the current, disunified state of theoretical cognitive science.",
       "claim_count": 18,
       "sample_n": null,
       "subject_count_total": null,
@@ -4298,16 +4374,18 @@
       "constructs": [],
       "instruments": [],
       "article_type": "theoretical",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Varma, Sashank"
+      ],
+      "venue": "Frontiers in Psychology",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -4369,10 +4447,10 @@
     },
     {
       "paper_id": "PDF-0111",
-      "title": "Cast shadows present on ambiguous folded surface (Mach card)",
-      "doi": "",
-      "year": null,
-      "abstract": "Abstract not yet recovered from the current rebuild.",
+      "title": "The perception of cast shadows",
+      "doi": "10.1016/s1364-6613(98)01204-2",
+      "year": 1998,
+      "abstract": "When an object casts its shadow on a background surface, the shadow can be informative about the shape of the object, the shape of the background surface and the spatial arrangement of the object relative to the background. Among all these roles, we found that cast shadows were perceptually most relevant for the recovery of spatial arrangement, especially when the shadow is in motion. This finding is intriguing when one considers the ambiguities in the possible ways that shadow motion can be interpreted. We reasoned that the visual system must use a priori constraints to disambiguate the cast shadow motion. One of these constraints is that the light source is stationary. Though simple, the stationary-light-source constraint supports rich, reliable inferences about the qualitative motions of objects in three dimensions.",
       "claim_count": 17,
       "sample_n": null,
       "subject_count_total": null,
@@ -4383,16 +4461,20 @@
       "constructs": [],
       "instruments": [],
       "article_type": "narrative_review",
-      "authors": [],
-      "venue": "",
-      "repair_source": "",
+      "authors": [
+        "Mamassian, Pascal",
+        "Knill, David C.",
+        "Kersten, Daniel"
+      ],
+      "venue": "Trends in Cognitive Sciences",
+      "repair_source": "crossref",
       "abstract_surface_path": "",
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {

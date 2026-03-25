@@ -1,14 +1,14 @@
 {
   "summary": {
     "papers_total": 250,
-    "title_good": 223,
+    "title_good": 224,
     "title_provisional": 23,
-    "title_missing_or_blocked": 4,
-    "abstract_good": 60,
-    "abstract_provisional": 32,
-    "abstract_missing": 158,
-    "doi_good": 48,
-    "doi_missing": 202,
+    "title_missing_or_blocked": 3,
+    "abstract_good": 69,
+    "abstract_provisional": 33,
+    "abstract_missing": 148,
+    "doi_good": 69,
+    "doi_missing": 181,
     "subject_count_good": 120,
     "subject_count_missing": 130
   },
@@ -1131,14 +1131,14 @@
     },
     {
       "paper_id": "PDF-0333",
-      "title": "Human perception",
+      "title": "Passionate Love and Sexual Desire: Cross-Cultural and Historical Perspectives",
       "claim_count": 23,
       "json_status": {
-        "title": "blocked",
-        "doi": "missing",
+        "title": "good",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1155,50 +1155,50 @@
     },
     {
       "paper_id": "PDF-0019",
-      "title": "Shell Health Resilience Programme (12 modules on positive psychology) participation on 21 pilot ships",
+      "title": "Cultivating Pluralism in Health Psychology",
       "claim_count": 22,
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0070",
-      "title": "Visual perception of transparent barriers",
+      "title": "There or not there? A multidisciplinary review and research agenda on the impact of transparent barriers on human perception, action, and social behavior",
       "claim_count": 22,
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0086",
-      "title": "Opening dimension (d_op) increases from 0% to 100% of separating partition width",
+      "title": "Acoustic modeling of sequential spaces: A parametric study",
       "claim_count": 22,
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0195",
-      "title": "Six different lighting arrangements (1-6 with varying intensities and distributions)",
+      "title": "Interim Study of Procedures for Investigating the Effect of Light on Impression and Behavior",
       "claim_count": 22,
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "provisional",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1227,38 +1227,38 @@
     },
     {
       "paper_id": "PDF-0543",
-      "title": "Patients recovering from gallbladder surgery given room with unobstructed view of trees",
+      "title": "Biophilic Design and Bio-Collaboration",
       "claim_count": 22,
       "json_status": {
-        "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "title": "provisional",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0024",
-      "title": "Colour temperature \u00d7 Gender interaction (warm 3000K vs cool 4000K white light)",
+      "title": "Effects of indoor lighting on mood and cognition",
       "claim_count": 21,
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0352",
-      "title": "Textile Fleece series (TF) prototypes with varying fibre types and composite formulations",
+      "title": "Engineered hybrid fibre reinforced composites for sound absorption building applications",
       "claim_count": 21,
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1311,14 +1311,14 @@
     },
     {
       "paper_id": "PDF-0097",
-      "title": "Environmental psychology discipline",
+      "title": "Application of environmental psychology in kindergarten architectural design",
       "claim_count": 20,
       "json_status": {
-        "title": "provisional",
-        "doi": "missing",
-        "abstract": "missing",
+        "title": "good",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1347,14 +1347,14 @@
     },
     {
       "paper_id": "PDF-0243",
-      "title": "The soundscape field encompasses multiple disciplines and approaches",
+      "title": "Towards standardization in soundscape preference assessment",
       "claim_count": 20,
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1371,14 +1371,14 @@
     },
     {
       "paper_id": "PDF-0328",
-      "title": "Presence of natural aural elements (e.g., flowing water in lake/bluespace area, birdsong, sound of breeze)",
+      "title": "Urban design and adolescent mental health: A qualitative examination of adolescent emotional responses to pedestrian- and transit-oriented design and cognitive architecture concepts",
       "claim_count": 20,
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1395,26 +1395,26 @@
     },
     {
       "paper_id": "PDF-0367",
-      "title": "Rating experiment: correlation between averaged introspective ratings and isovist-based scene descriptors",
+      "title": "From Space Syntax to Space Semantics: A Behaviorally and Perceptually Oriented Methodology for the Efficient Description of the Geometry and Topology of Environments",
       "claim_count": 20,
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0370",
-      "title": "Workshop participant population composition",
+      "title": "Towards multi-sensory design: Placemaking through immersive environments \u2013 Evaluation of the approach",
       "claim_count": 20,
       "json_status": {
-        "title": "provisional",
-        "doi": "missing",
+        "title": "good",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1443,14 +1443,14 @@
     },
     {
       "paper_id": "PDF-0602",
-      "title": "Subjects rated visual comfort under dayLED condition",
+      "title": "Effect of daylight LED on visual comfort, melatonin, mood, waking performance and sleep",
       "claim_count": 20,
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1563,14 +1563,14 @@
     },
     {
       "paper_id": "PDF-0491",
-      "title": "Human hand anatomy and sensorimotor capabilities",
+      "title": "Haptics in virtual environments: Taxonomy, research status, and challenges",
       "claim_count": 19,
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1623,38 +1623,38 @@
     },
     {
       "paper_id": "PDF-0017",
-      "title": "Exposure to natural landscape elements in built environment",
+      "title": "Architectural Lessons from Environmental Psychology: The Case of Biophilic Architecture",
       "claim_count": 18,
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0087",
-      "title": "Recent biological and neuroscientific discoveries regarding embodied cognition and environmental interaction",
+      "title": "Architecture and Embodiment",
       "claim_count": 18,
       "json_status": {
-        "title": "good",
-        "doi": "missing",
+        "title": "provisional",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "good",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0107",
-      "title": "Visual system perceiving transparency across surfaces",
+      "title": "Toward a perceptual theory of transparency.",
       "claim_count": 18,
       "json_status": {
         "title": "good",
-        "doi": "missing",
+        "doi": "good",
         "abstract": "missing",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1671,26 +1671,26 @@
     },
     {
       "paper_id": "PDF-0453",
-      "title": "Contemporary architectural discourse on environmental understanding",
+      "title": "Corporeal Experience: A Haptic Way of Knowing",
       "claim_count": 18,
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
       "paper_id": "PDF-0551",
-      "title": "The lowest level of cognitive architecture defines computational mechanisms (basic representations, basic operators, co\u2026",
+      "title": "The subjective meaning of cognitive architecture: a Marrian analysis",
       "claim_count": 18,
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
@@ -1719,14 +1719,14 @@
     },
     {
       "paper_id": "PDF-0111",
-      "title": "Cast shadows present on ambiguous folded surface (Mach card)",
+      "title": "The perception of cast shadows",
       "claim_count": 17,
       "json_status": {
         "title": "good",
-        "doi": "missing",
-        "abstract": "missing",
+        "doi": "good",
+        "abstract": "good",
         "subject_count_total": "missing",
-        "repair_source": "rebuild"
+        "repair_source": "crossref"
       }
     },
     {
