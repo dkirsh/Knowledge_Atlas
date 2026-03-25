@@ -71,25 +71,25 @@ Consequence:
 Required next action:
 - only future integration decisions; backup is already covered
 
-### 4. A few root-level duplicates and workspace-operational files remain
-Examples:
+### 4. Workspace-root normalization is complete
+
+Intentional root files:
+- `/Users/davidusa/REPOS/CLAUDE.md`
 - `/Users/davidusa/REPOS/MASTER_DOC_CMR_2026-02-25.md`
 - `/Users/davidusa/REPOS/TOPIC_PROGRESS.md`
 
-Archived duplicate root copies now removed from the workspace root:
-- `EXPERIMENT_WIZARD_README.md`
-- `ENGINEERING_PANEL_AND_SPRINT_PLAN_2026-03-10.md`
-- `LAYER_REVISION_PANEL_DELIBERATION_2026-03-10.md`
-
-Archive location:
+Supporting root subdirectories:
+- `/Users/davidusa/REPOS/Workspace_Docs`
+- `/Users/davidusa/REPOS/Workspace_Data`
+- `/Users/davidusa/REPOS/Workspace_Media`
+- `/Users/davidusa/REPOS/Workspace_Scripts`
 - `/Users/davidusa/REPOS/Backups/root_file_archive_2026-03-24`
 
 Consequence:
-- the root is much cleaner, but not fully normalized yet
+- no root-normalization blocker remains
 
 Required next action:
-- root `MASTER_DOC_CMR_2026-02-25.md` has now been reduced to a pointer stub; no further action required unless you later want to remove even the stub
-- `TOPIC_PROGRESS.md` remains a deliberate workspace-level exception
+- none; maintain the three-file root policy going forward
 
 ## Source-of-truth status after this pass
 
@@ -105,4 +105,5 @@ Required next action:
 ## Bottom line
 
 The active repos are now all backed up remotely.
-The remaining work is final normalization of the workspace root and ongoing maintenance, not repo-provisioning.
+The workspace root is normalized.
+What remains is ordinary maintenance, not cleanup or repo-provisioning.

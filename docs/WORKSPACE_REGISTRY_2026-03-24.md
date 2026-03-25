@@ -128,11 +128,19 @@ Rule:
 
 ## Current operational exceptions at `/Users/davidusa/REPOS` root
 
-These remain for now because they are workflow-level or intentionally retained pointers, not just stranded docs:
+These are now the only intentional root-level files:
 - `CLAUDE.md`
 - `MASTER_DOC_CMR_2026-02-25.md` (pointer stub only; canonical content archived out of root)
 - `TOPIC_PROGRESS.md` (intentional workspace-level operational log)
-- selected personal documents, slide assets, lockfiles, temporary files, and non-repo artifacts
+
+## Root-level organization buckets
+
+Non-repo workspace material has been grouped into:
+- `/Users/davidusa/REPOS/Workspace_Docs`
+- `/Users/davidusa/REPOS/Workspace_Data`
+- `/Users/davidusa/REPOS/Workspace_Media`
+- `/Users/davidusa/REPOS/Workspace_Scripts`
+- `/Users/davidusa/REPOS/Backups/root_file_archive_2026-03-24`
 
 ## Source-of-truth summary
 

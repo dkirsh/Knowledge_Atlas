@@ -84,11 +84,11 @@ Reason:
 - these are theory / epistemic / extraction architecture materials
 
 Disposition:
-- partially completed:
+- completed:
   - moved: `ATLAS_THEORETICAL_FOUNDATIONS_EXPANDED_2026-03-17.md`
   - moved: `EXPERT_PANEL_MECHANISM_VS_EVIDENCE_2026-03-01.md`
   - moved: `Haack_Evidence_Inquiry_Extraction.md`
-  - remaining root-sensitive item: `NEURAL_EXPLANATIONS_ENVIRO_PSYCH_PAPER_2026-02-23.md`
+  - moved: `NEURAL_EXPLANATIONS_ENVIRO_PSYCH_PAPER_2026-02-23.md`
 
 ### 8. `CONVERGENT_PIPELINE_PLAN.md`
 ### 9. `CONSOLIDATED_ACTION_LIST_2026-02-28.md`
@@ -134,23 +134,22 @@ Reason:
 Disposition:
 - completed: moved into `Article_Eater_PostQuinean_v1_recovery/docs/`
 
-## Files likely to remain local or archival
+## Current final root-file policy
 
-Examples:
-- presentation builders / slide scripts
-- proposal documents
-- office lockfiles
-- stray html/js prototypes at root
+After the normalization pass, the only intentional files remaining directly at `/Users/davidusa/REPOS` root are:
+- `CLAUDE.md`
+- `MASTER_DOC_CMR_2026-02-25.md` (pointer stub only)
+- `TOPIC_PROGRESS.md`
 
-Disposition:
-- classify into:
-  - archival personal docs
-  - project-local app files
-  - delete later if genuinely dead
+Loose non-repo workspace material has been grouped into:
+- `Workspace_Docs/`
+- `Workspace_Data/`
+- `Workspace_Media/`
+- `Workspace_Scripts/`
+- `Backups/root_file_archive_2026-03-24/`
 
-## Immediate no-regret policy
+## Ongoing no-regret policy
 
-Until relocation is executed:
 1. do not create new loose docs at `/Users/davidusa/REPOS`
-2. use repo-local `docs/` directories only
+2. use repo-local `docs/` directories unless the file is a deliberate workspace-level exception
 3. treat the AE recovery Master Doc path as canonical
