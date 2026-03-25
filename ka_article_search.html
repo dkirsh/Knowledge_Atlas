@@ -687,8 +687,10 @@ function runSearch() {
   }
 
   let results = ARTICLE_SEARCH_DATA.filter(a => {
-    const cMatch = !construct  || a.constructs.some(c => c.toLowerCase().includes(construct.toLowerCase().split(' ')[0]));
-    const iMatch = !instrument || a.instruments.some(i => i.toLowerCase().includes(instrument.split(' ')[0].toLowerCase().replace(/\[.*\]/,'').trim()));
+    const cNeedle = (construct || '').toLowerCase();
+    const iNeedle = (instrument || '').toLowerCase();
+    const cMatch = !construct || a.constructs.some(c => c.toLowerCase().includes(cNeedle));
+    const iMatch = !instrument || a.instruments.some(i => i.toLowerCase().includes(iNeedle));
     return cMatch && iMatch;
   });
 
@@ -747,6 +749,23 @@ function sortResults(val) {
 <script src="ka_data_adapter.js"></script>
 <script>
 (function() {
+  function setOptions(selectId, values, placeholder) {
+    const select = document.getElementById(selectId);
+    if (!select) return;
+    select.innerHTML = `<option value="">${placeholder}</option>` + values.map(function(value) {
+      return `<option>${value}</option>`;
+    }).join('');
+  }
+
+  function setChipGroup(containerId, values, kind) {
+    const container = document.getElementById(containerId);
+    if (!container) return;
+    container.innerHTML = values.slice(0, 8).map(function(value) {
+      const fn = kind === 'instrument' ? 'quickSelectInstrument' : 'quickSelectConstruct';
+      return `<span class="chip" onclick="${fn}(this)">${value}</span>`;
+    }).join('');
+  }
+
   function mapArticle(article) {
     const constructs = (article.constructs || []).length
       ? article.constructs
@@ -771,10 +790,22 @@ function sortResults(val) {
     const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/articles.json', { articles: [] });
     if (payload.articles && payload.articles.length) {
       ARTICLE_SEARCH_DATA = payload.articles.map(mapArticle);
+      const constructs = Array.from(new Set(ARTICLE_SEARCH_DATA.flatMap(function(article) { return article.constructs || []; }).filter(Boolean))).sort();
+      const instruments = Array.from(new Set(ARTICLE_SEARCH_DATA.flatMap(function(article) { return article.instruments || []; }).filter(Boolean))).sort();
+      if (constructs.length) {
+        setOptions('sel-construct', constructs, '— Select a construct —');
+        setOptions('sel-both-construct', constructs, '— Select a construct —');
+        setChipGroup('chips-construct', constructs, 'construct');
+      }
+      if (instruments.length) {
+        setOptions('sel-instrument', instruments, '— Select an instrument —');
+        setOptions('sel-both-instrument', instruments, '— Select an instrument —');
+        setChipGroup('chips-instrument', instruments, 'instrument');
+      }
       document.getElementById('search-prompt').innerHTML = `
         <div class="search-prompt-icon">📄</div>
         <p>Select a construct, measuring instrument, or both above,<br>then click <strong>Search</strong> to find relevant articles in the KA corpus.</p>
-        <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;"><em>Results now default to the current rebuild payload. Instrument coverage is still partial until article instrumentation fields are wired.</em></p>
+        <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;"><em>Results now default to the current rebuild payload. Instrument surfaces are heuristic and should be treated as provisional until extraction improves.</em></p>
       `;
     }
   }

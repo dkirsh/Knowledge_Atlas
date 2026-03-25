@@ -21,6 +21,12 @@
     .nav-center{flex:1;text-align:center;color:#A8C8BF;font-size:13px}
     .nav-right{display:flex;align-items:center;gap:14px}
     .mode-pill{background:rgba(42,120,104,.3);color:#7AACA0;font-size:11px;font-weight:700;letter-spacing:.1em;padding:4px 12px;border-radius:20px}
+    .nav-links{display:flex;align-items:center;gap:18px;flex:1;justify-content:center}
+    .nav-links a{color:#B8D4CE;font-size:.86rem;text-decoration:none;transition:color .15s}
+    .nav-links a:hover{color:#fff}
+    .nav-links a.active{color:#F5A623}
+    .mode-select{font-size:.76rem;padding:6px 10px;border-radius:16px;border:1px solid rgba(168,200,191,.34);background:rgba(255,255,255,.05);color:#D8EAE4}
+    .mode-select option{color:#1C3D3A}
     .page-wrap{max-width:1160px;margin:80px auto 60px;padding:0 28px;display:grid;grid-template-columns:1fr 360px;gap:24px;align-items:start}
     .breadcrumb{font-size:11px;color:var(--muted);margin-bottom:14px;grid-column:1/-1}
     .breadcrumb a{color:var(--teal);text-decoration:none}
@@ -131,8 +137,25 @@
 
 <nav class="top-nav">
   <div class="nav-wordmark"><span class="nav-icon"></span><span class="nav-title">Knowledge <span class="nav-title-accent">Atlas</span></span></div>
-  <div class="nav-center">Propose an Article</div>
-  <div class="nav-right"><span class="mode-pill">CONTRIBUTOR</span></div>
+  <div class="nav-links">
+    <a id="nav-shell-explore" href="ka_topics.html">Explore</a>
+    <a id="nav-shell-evidence" href="ka_evidence.html">Evidence</a>
+    <a id="nav-shell-gaps" href="ka_gaps.html">Gaps</a>
+    <a id="nav-shell-articles" href="ka_article_search.html">Articles</a>
+    <a id="nav-shell-contribute" href="ka_dashboard.html" class="active">Contribute</a>
+    <a id="nav-shell-course" href="Designing_Experiments/cogs160_spring_2026_site.html">Course</a>
+  </div>
+  <div class="nav-right">
+    <select class="mode-select" id="article-propose-mode-select" aria-label="Switch user mode">
+      <option value="student_explorer">Student explorer</option>
+      <option value="researcher">Researcher</option>
+      <option value="contributor">Contributor</option>
+      <option value="instructor">Instructor</option>
+      <option value="practitioner">Practitioner</option>
+      <option value="theory_mechanism_explorer">Theory + mechanisms</option>
+    </select>
+    <span class="mode-pill" id="article-propose-mode-pill">CONTRIBUTOR</span>
+  </div>
 </nav>
 
 <div class="page-wrap">
@@ -768,8 +791,18 @@ renderPendingFiles();
 renderQueue();
 syncIdentityCard();
 </script>
+<script src="ka_mode_switch.js"></script>
+<script src="ka_site_shell.js"></script>
 <script src="ka_page_function.js"></script>
 <script src="ka_demo_wiring.js"></script>
+<script>
+window.KA_SHELL.initShell({
+  navContainerSelector: '.nav-links',
+  modeSelectId: 'article-propose-mode-select',
+  modePillId: 'article-propose-mode-pill',
+  defaultMode: 'contributor'
+});
+</script>
 <script>
 window.KA_ABOUT_PAGE = {
   pageId: 'ka_article_propose',

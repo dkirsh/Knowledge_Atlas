@@ -62,15 +62,44 @@
 
         .nav-center {
             flex: 1;
-            text-align: center;
-            color: #A8C8BF;
-            font-size: 13px;
+            display: flex;
+            justify-content: center;
+            gap: 18px;
+            align-items: center;
+        }
+
+        .nav-center a {
+            color: #B8D4CE;
+            font-size: 0.86rem;
+            text-decoration: none;
+            transition: color 0.15s ease;
+        }
+
+        .nav-center a:hover {
+            color: #FFFFFF;
+        }
+
+        .nav-center a.active {
+            color: #F5A623;
         }
 
         .nav-right {
             display: flex;
             align-items: center;
             gap: 16px;
+        }
+
+        .mode-select {
+            font-size: 0.76rem;
+            padding: 6px 10px;
+            border-radius: 16px;
+            border: 1px solid rgba(168, 200, 191, 0.34);
+            background: rgba(255, 255, 255, 0.05);
+            color: #D8EAE4;
+        }
+
+        .mode-select option {
+            color: #1C3D3A;
         }
 
         .mode-pill {
@@ -781,10 +810,25 @@
             <span>KNOWLEDGE</span>
             <span class="nav-title">/ <span class="nav-title-accent">Atlas</span></span>
         </div>
-        <div class="nav-center">Contributor Workspace</div>
+        <div class="nav-center">
+            <a id="nav-shell-explore" href="ka_topics.html">Explore</a>
+            <a id="nav-shell-evidence" href="ka_evidence.html">Evidence</a>
+            <a id="nav-shell-gaps" href="ka_gaps.html">Gaps</a>
+            <a id="nav-shell-articles" href="ka_article_search.html">Articles</a>
+            <a id="nav-shell-contribute" href="ka_dashboard.html" class="active">Contribute</a>
+            <a id="nav-shell-course" href="Designing_Experiments/cogs160_spring_2026_site.html">Course</a>
+        </div>
         <div class="nav-right">
-            <div class="mode-pill">CONTRIBUTOR</div>
-            <div class="profile-avatar">DK</div>
+            <select class="mode-select" id="articles-mode-select" aria-label="Switch user mode">
+                <option value="student_explorer">Student explorer</option>
+                <option value="researcher">Researcher</option>
+                <option value="contributor">Contributor</option>
+                <option value="instructor">Instructor</option>
+                <option value="practitioner">Practitioner</option>
+                <option value="theory_mechanism_explorer">Theory + mechanisms</option>
+            </select>
+            <div class="mode-pill" id="articles-mode-pill">CONTRIBUTOR</div>
+            <div class="profile-avatar" id="articles-profile-avatar">KA</div>
         </div>
     </div>
 
@@ -810,15 +854,15 @@
                     <span class="progress-label">Status</span>
                     <div class="progress-stat">
                         <span>Evaluated:</span>
-                        <span class="progress-value">7 / 10</span>
+                        <span class="progress-value" id="articles-progress-evaluated">7 / 10</span>
                     </div>
                     <div class="progress-stat">
                         <span>Accepted:</span>
-                        <span class="progress-value">5 articles</span>
+                        <span class="progress-value" id="articles-progress-accepted">5 articles</span>
                     </div>
                     <div class="progress-stat">
                         <span>Pending:</span>
-                        <span class="progress-value">2 queue</span>
+                        <span class="progress-value" id="articles-progress-pending">2 queue</span>
                     </div>
                 </div>
             </div>
@@ -838,12 +882,12 @@
                         <h2 class="panel-title">Search Queue</h2>
 
                         <div class="search-box">
-                            <input type="text" class="search-input" placeholder="Search articles...">
-                            <button class="button-search">Run Search →</button>
+                            <input type="text" class="search-input" id="articles-search-input" placeholder="Search articles...">
+                            <button class="button-search" id="articles-search-button">Run Search →</button>
                         </div>
 
                         <div class="active-query">
-                            <span class="active-query-text">workplace lighting AND cognitive performance</span>
+                            <span class="active-query-text" id="articles-active-query">workplace lighting AND cognitive performance</span>
                             <span class="active-query-remove">✕</span>
                         </div>
 
@@ -873,7 +917,7 @@
                             <div class="pagination-dot"></div>
                         </div>
 
-                        <div class="results-list">
+                        <div class="results-list" id="articles-results-list">
                             <!-- Result 1 - Active -->
                             <div class="result-card active">
                                 <div class="result-title">A review of research into visual discomfort</div>
@@ -950,7 +994,7 @@
                             </div>
                         </div>
 
-                        <div class="queue-footer">
+                        <div class="queue-footer" id="articles-queue-footer">
                             My queue: 3 pending evaluation
                         </div>
                     </div>
@@ -960,12 +1004,12 @@
                 <div class="eval-panel">
                     <div class="form-card">
                         <h2 class="form-title">Evaluate Article</h2>
-                        <p class="form-subtitle">A review of research into visual discomfort</p>
+                        <p class="form-subtitle" id="articles-form-subtitle">A review of research into visual discomfort</p>
 
-                        <div class="reference-display">
+                        <div class="reference-display" id="articles-reference-display">
                             <strong>Viola et al. (2008)</strong>. A review of research into visual discomfort. <em>Ergonomics</em>, 51(7), 1041-1066.
                             <div style="margin-top: 8px;">DOI: <a class="reference-doi" href="#">10.1080/00140130802283516</a></div>
-                            <a class="abstract-toggle">Expand abstract</a>
+                            <a class="abstract-toggle" id="articles-abstract-toggle">Expand abstract</a>
                         </div>
 
                         <!-- Section 1: Relevance -->
@@ -1038,12 +1082,12 @@
 
                             <div class="form-group">
                                 <label class="form-label">Primary Claim (one sentence)</label>
-                                <textarea class="form-textarea" rows="2" placeholder="Summarize the main empirical claim..."></textarea>
+                                <textarea class="form-textarea" id="articles-primary-claim" rows="2" placeholder="Summarize the main empirical claim..."></textarea>
                             </div>
 
                             <div class="form-group">
                                 <label class="form-label">Outcome Measure</label>
-                                <input type="text" class="form-input" placeholder="e.g., visual strain rating, reaction time, accuracy">
+                                <input type="text" class="form-input" id="articles-outcome-measure" placeholder="e.g., visual strain rating, reaction time, accuracy">
                             </div>
 
                             <div class="form-group">
@@ -1092,6 +1136,137 @@
     <div class="version-badge">KA UI · v0.4</div>
 
     <script>
+        let contributorArticles = [];
+        let filteredContributorArticles = [];
+        let selectedContributorArticle = null;
+        let articleAbstractExpanded = false;
+
+        function getContributorIdentity() {
+            try {
+                return JSON.parse(localStorage.getItem('ka_current_user') || 'null');
+            } catch (_err) {
+                return null;
+            }
+        }
+
+        function getContributorStore() {
+            try {
+                return JSON.parse(localStorage.getItem('ka_intake_submissions') || '[]');
+            } catch (_err) {
+                return [];
+            }
+        }
+
+        function selectContributorArticle(paperId) {
+            selectedContributorArticle = filteredContributorArticles.find(article => article.paper_id === paperId) || filteredContributorArticles[0] || null;
+            articleAbstractExpanded = false;
+            renderContributorArticles();
+            renderContributorDetail();
+        }
+
+        function renderContributorArticles() {
+            const list = document.getElementById('articles-results-list');
+            if (!list) return;
+            list.innerHTML = filteredContributorArticles.slice(0, 8).map(article => {
+                const isActive = selectedContributorArticle && selectedContributorArticle.paper_id === article.paper_id;
+                const abstract = (article.abstract || 'Abstract not yet recovered from the current rebuild.').slice(0, 180);
+                return `
+                    <div class="result-card ${isActive ? 'active' : ''}" data-paper-id="${article.paper_id}">
+                        <div class="result-title">${article.title}</div>
+                        <div class="result-meta">${article.paper_id} · ${(article.article_type || 'Unknown').replace(/_/g, ' ')}</div>
+                        <div class="result-abstract">${abstract}${abstract.length >= 180 ? '…' : ''}</div>
+                        <div class="result-badges">
+                            <span class="badge">${(article.article_type || 'Unknown').replace(/_/g, ' ')}</span>
+                            <span class="badge">${article.claim_count} claims</span>
+                            ${article.sample_n ? `<span class="badge">N=${article.sample_n}</span>` : ''}
+                        </div>
+                        <div class="result-actions">
+                            <button class="button-small button-evaluate" onclick="event.stopPropagation();selectContributorArticle('${article.paper_id}')">Evaluate →</button>
+                            <button class="button-small button-reject">Reject</button>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+            list.querySelectorAll('.result-card').forEach(card => {
+                card.addEventListener('click', function() {
+                    selectContributorArticle(this.getAttribute('data-paper-id'));
+                });
+            });
+        }
+
+        function renderContributorDetail() {
+            const article = selectedContributorArticle || filteredContributorArticles[0];
+            if (!article) return;
+            const subtitle = document.getElementById('articles-form-subtitle');
+            const reference = document.getElementById('articles-reference-display');
+            const claim = document.getElementById('articles-primary-claim');
+            const outcome = document.getElementById('articles-outcome-measure');
+            subtitle.textContent = article.title;
+            const abstractText = article.abstract || 'Abstract not yet recovered from the current rebuild.';
+            const abstractVisible = articleAbstractExpanded ? abstractText : abstractText.slice(0, 260) + (abstractText.length > 260 ? '…' : '');
+            reference.innerHTML = `
+                <strong>${article.paper_id}</strong>. ${article.title}. <em>${(article.article_type || 'Unknown').replace(/_/g, ' ')}</em>
+                <div style="margin-top: 8px;">DOI: ${article.doi ? `<a class="reference-doi" href="https://doi.org/${article.doi}" target="_blank" rel="noopener noreferrer">${article.doi}</a>` : 'Not yet recovered'}</div>
+                <div style="margin-top: 10px; color: #666; line-height: 1.6;">${abstractVisible}</div>
+                <a class="abstract-toggle" id="articles-abstract-toggle">${articleAbstractExpanded ? 'Collapse abstract' : 'Expand abstract'}</a>
+            `;
+            claim.value = `${article.title} appears relevant because it contributes ${article.claim_count} extracted claims to the current rebuild.`;
+            outcome.value = (article.constructs && article.constructs[0]) || (article.theories && article.theories[0]) || '';
+            const toggle = document.getElementById('articles-abstract-toggle');
+            if (toggle) {
+                toggle.addEventListener('click', function() {
+                    articleAbstractExpanded = !articleAbstractExpanded;
+                    renderContributorDetail();
+                });
+            }
+        }
+
+        function syncContributorProgress() {
+            const currentUser = getContributorIdentity();
+            const rows = getContributorStore();
+            const mine = currentUser && currentUser.id ? rows.filter(row => row.userId === currentUser.id) : [];
+            document.getElementById('articles-progress-evaluated').textContent = `${mine.length} / 10`;
+            document.getElementById('articles-progress-accepted').textContent = `${mine.filter(row => row.status === 'approved').length} articles`;
+            document.getElementById('articles-progress-pending').textContent = `${mine.filter(row => row.status === 'pending').length} queue`;
+            document.getElementById('articles-queue-footer').textContent = mine.length
+                ? `My queue: ${mine.filter(row => row.status === 'pending').length} pending evaluation`
+                : 'My queue: no tracked submissions yet';
+            if (currentUser) {
+                const initials = `${currentUser.firstName?.[0] || 'K'}${currentUser.lastName?.[0] || 'A'}`.toUpperCase();
+                document.getElementById('articles-profile-avatar').textContent = initials;
+            }
+        }
+
+        function applyContributorSearch() {
+            const query = document.getElementById('articles-search-input').value.trim().toLowerCase();
+            document.getElementById('articles-active-query').textContent = query || 'Top rebuild-backed contributor candidates';
+            filteredContributorArticles = contributorArticles.filter(article => {
+                if (!query) return true;
+                const blob = [
+                    article.title,
+                    article.paper_id,
+                    article.article_type,
+                    ...(article.constructs || []),
+                    ...(article.theories || []),
+                    ...(article.instruments || []),
+                ].join(' ').toLowerCase();
+                return blob.includes(query);
+            });
+            if (!filteredContributorArticles.length) {
+                filteredContributorArticles = contributorArticles.slice(0, 8);
+            }
+            selectContributorArticle(filteredContributorArticles[0]?.paper_id);
+        }
+
+        async function initializeContributorArticlesPage() {
+            const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/articles.json', { articles: [] });
+            contributorArticles = payload.articles && payload.articles.length ? payload.articles : [];
+            filteredContributorArticles = contributorArticles.slice(0, 8);
+            syncContributorProgress();
+            renderContributorArticles();
+            renderContributorDetail();
+        }
+
         // Handle radio chips
         document.querySelectorAll('.radio-chip').forEach(chip => {
             chip.addEventListener('click', function() {
@@ -1101,14 +1276,12 @@
             });
         });
 
-        // Handle tag/domain chips
         document.querySelectorAll('.chip-group .chip').forEach(chip => {
             chip.addEventListener('click', function() {
                 this.classList.toggle('active');
             });
         });
 
-        // Handle star rating
         document.querySelectorAll('.quality-rating .star').forEach((star, index) => {
             star.addEventListener('click', function() {
                 document.querySelectorAll('.quality-rating .star').forEach((s, i) => {
@@ -1123,24 +1296,22 @@
             });
         });
 
-        // Handle result card selection
-        document.querySelectorAll('.result-card').forEach(card => {
-            card.addEventListener('click', function() {
-                document.querySelectorAll('.result-card').forEach(c => c.classList.remove('active'));
-                this.classList.add('active');
-            });
-        });
-
-        // Handle abstract toggle
-        const abstractToggle = document.querySelector('.abstract-toggle');
-        if (abstractToggle) {
-            abstractToggle.addEventListener('click', function() {
-                const text = this.textContent === 'Expand abstract' ? 'Collapse abstract' : 'Expand abstract';
-                this.textContent = text;
-            });
-        }
+        document.getElementById('articles-search-button').addEventListener('click', applyContributorSearch);
+        document.getElementById('articles-search-input').addEventListener('input', applyContributorSearch);
     </script>
 <script src="ka_acronyms.js"></script>
+<script src="ka_mode_switch.js"></script>
+<script src="ka_site_shell.js"></script>
+<script src="ka_data_adapter.js"></script>
+<script>
+window.KA_SHELL.initShell({
+  navContainerSelector: '.nav-center',
+  modeSelectId: 'articles-mode-select',
+  modePillId: 'articles-mode-pill',
+  defaultMode: 'contributor'
+});
+initializeContributorArticlesPage();
+</script>
 <script>
 window.KA_PAGE_FUNCTION = {
   pageId: 'ka_articles',

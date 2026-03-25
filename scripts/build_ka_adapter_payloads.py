@@ -11,6 +11,19 @@ OUT.mkdir(parents=True, exist_ok=True)
 FRONTS_PATH = AE / 'data' / 'rebuild' / 'research_fronts_v5.json'
 CLAIMS_PATH = AE / 'data' / 'rebuild' / 'gold_claims.jsonl'
 
+INSTRUMENT_PATTERNS = {
+    'EEG': [' eeg ', 'electroencephal', 'alpha asymmetry', 'frontal theta', 'erp '],
+    'EDA': [' eda ', 'electrodermal', 'skin conductance', 'scr ', 'scl '],
+    'HRV': [' hrv ', 'heart rate variability', 'rmssd', 'heart rate'],
+    'Cortisol': ['cortisol', 'salivary cortisol'],
+    'Pupil': ['pupil', 'pupill'],
+    'PVT': [' pvt ', 'psychomotor vigilance'],
+    'NASA-TLX': ['nasa tlx', 'task load index', 'tlx '],
+    'fNIRS': ['fnirs', 'functional near infrared'],
+    'EMG': [' emg ', 'electromyography', 'corrugator'],
+    'Self-report': ['self report', 'questionnaire', 'survey', 'rating scale', 'stai', 'panas'],
+}
+
 
 def slugify(text: str) -> str:
     return ''.join(ch.lower() if ch.isalnum() else '_' for ch in text).strip('_')[:80]
@@ -59,6 +72,23 @@ def summarize_methodology(method_profile, article_type):
     if method_profile.get('measure_families'):
         bits.append('Measures: ' + ', '.join(humanize(x) for x in method_profile['measure_families'][:3]))
     return '; '.join(bits) if bits else (humanize(article_type) or 'Current rebuild article record.')
+
+
+def detect_instruments(obj):
+    haystack = ' '.join([
+        str(obj.get('statement') or ''),
+        str(obj.get('iv') or ''),
+        str(obj.get('dv') or ''),
+        str(obj.get('abstract_clean_text') or ''),
+        str((obj.get('structured_result_row') or {}).get('comparison') or ''),
+        str((obj.get('structured_result_row') or {}).get('outcome') or ''),
+    ])
+    lowered = f" {haystack.lower()} "
+    found = []
+    for label, patterns in INSTRUMENT_PATTERNS.items():
+        if any(pat in lowered for pat in patterns):
+            found.append(label)
+    return found
 
 
 def classify_front(front):
@@ -217,6 +247,8 @@ def parse_claims():
             method_profile = c.get('method_profile_excerpt') or {}
             for m in (method_profile.get('measure_families') or []):
                 measure_counter[m] += 1
+            for label in detect_instruments(c):
+                measure_counter[label] += 1
         top_theories = [t.replace('theory_', '').replace('_', ' ') for t, _ in theory_counter.most_common(4)]
         top_constructs = [humanize(t) for t, _ in construct_counter.most_common(4) if t]
         top_measures = [humanize(t) for t, _ in measure_counter.most_common(3) if t]

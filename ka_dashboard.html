@@ -980,14 +980,38 @@ window.KA_PAGE_FUNCTION = {
   async function initializeDashboardPage() {
     const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/dashboard.json', {});
     const dashboard = payload.dashboard || {};
+    let currentUser = null;
+    try {
+      currentUser = JSON.parse(localStorage.getItem('ka_current_user') || 'null');
+    } catch (_err) {}
+    const contributionStore = JSON.parse(localStorage.getItem('ka_intake_submissions') || '[]');
+    const myRows = currentUser && currentUser.id
+      ? contributionStore.filter(function(row) { return row.userId === currentUser.id; })
+      : [];
     if (dashboard.student_name) {
       document.getElementById('dashboard-user-name').textContent = dashboard.student_name;
       document.getElementById('dashboard-welcome-name').textContent = `Welcome back, ${dashboard.student_name.split(' ')[0]}`;
+    }
+    if (currentUser) {
+      const fullName = [currentUser.firstName, currentUser.lastName].filter(Boolean).join(' ').trim();
+      if (fullName) {
+        document.getElementById('dashboard-user-name').textContent = fullName;
+        document.getElementById('dashboard-welcome-name').textContent = `Welcome back, ${currentUser.firstName || fullName}`;
+      }
+      if (currentUser.email) {
+        document.getElementById('dashboard-user-email').textContent = currentUser.email;
+      }
     }
     if (dashboard.track) {
       document.getElementById('dashboard-track-badge').textContent = dashboard.track;
       document.getElementById('dashboard-week-label').innerHTML = `<strong>${dashboard.track}</strong> · ${dashboard.week_label || 'Current sprint'}`;
       document.getElementById('dashboard-track-title').textContent = `${dashboard.track}: Active Workstream`;
+    }
+    if (currentUser && currentUser.trackChoice1) {
+      const trackLabel = currentUser.trackChoice1.replace('track', 'Track ');
+      document.getElementById('dashboard-track-badge').textContent = trackLabel;
+      document.getElementById('dashboard-week-label').innerHTML = `<strong>${trackLabel}</strong> · ${dashboard.week_label || 'Current sprint'}`;
+      document.getElementById('dashboard-track-title').textContent = `${trackLabel}: Active Workstream`;
     }
     if (typeof dashboard.next_due_days !== 'undefined') {
       document.getElementById('dashboard-due-label').innerHTML = `Your next assignment is due in <strong>${dashboard.next_due_days} days</strong>.`;
@@ -995,6 +1019,32 @@ window.KA_PAGE_FUNCTION = {
     document.getElementById('dashboard-progress-meta').textContent = 'Progress is sourced from the current rebuild payload and will tighten as live assignment tracking is wired.';
     document.getElementById('dashboard-track-copy').textContent = 'This dashboard is now pointed at rebuild-backed summary data, so progress and leaderboard areas can be replaced incrementally with live course state.';
     document.getElementById('dashboard-deadline-note').textContent = 'Deadline cards remain partly staged until the course tracker is wired to assignment records.';
+    if (myRows.length) {
+      dashboard.progress = dashboard.progress || {};
+      dashboard.progress.apa_submissions = {
+        done: myRows.filter(function(row) { return row.kind === 'citation'; }).length,
+        target: 20,
+        href: 'ka_article_propose.html'
+      };
+      dashboard.progress.pdfs_uploaded = {
+        done: myRows.filter(function(row) { return row.kind !== 'citation'; }).length,
+        target: 10,
+        href: 'ka_article_propose.html'
+      };
+      dashboard.progress.articles_evaluated = {
+        done: myRows.length,
+        target: 15,
+        href: 'ka_articles.html'
+      };
+      dashboard.recent_activity = myRows.slice(0, 5).map(function(row) {
+        return {
+          type: `${row.kind === 'citation' ? 'Citation' : 'PDF'} submitted: ${row.title}`,
+          date: row.submissionId || 'Current session',
+          badge: String(row.status || 'pending').toUpperCase()
+        };
+      });
+      document.getElementById('dashboard-progress-meta').textContent = 'Progress is now partly sourced from your local contributor state and staged submissions.';
+    }
     renderProgress(dashboard.progress);
     renderActivity(dashboard.recent_activity);
     renderLeaderboard(dashboard.leaderboard);
