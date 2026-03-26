@@ -783,24 +783,24 @@ body { font-family: Arial, sans-serif; color: #2D2D2D; overflow-x: hidden; }
 
         <div class="stats-row">
           <div class="stat">
-            <div class="stat-num">424</div>
-            <div class="stat-label">Structured tags<br>in CNFA registry</div>
+            <div class="stat-num" id="home-live-topics">--</div>
+            <div class="stat-label">Live topics<br>in current payload</div>
           </div>
           <div class="stat">
-            <div class="stat-num">5</div>
-            <div class="stat-label">Theoretical frameworks<br>formally unified</div>
+            <div class="stat-num" id="home-live-articles">--</div>
+            <div class="stat-label">Articles currently<br>surfaced in KA</div>
           </div>
           <div class="stat">
-            <div class="stat-num">4</div>
-            <div class="stat-label">Original consistency<br>proofs</div>
+            <div class="stat-num" id="home-live-evidence">--</div>
+            <div class="stat-label">Evidence rows<br>in current bridge</div>
           </div>
           <div class="stat">
-            <div class="stat-num">4</div>
-            <div class="stat-label">Warrant types with<br>typed likelihood profiles</div>
+            <div class="stat-num" id="home-live-abstracts">--</div>
+            <div class="stat-label">Articles with good<br>abstract coverage</div>
           </div>
           <div class="stat">
-            <div class="stat-num">∞</div>
-            <div class="stat-label">Evidence nodes<br>as system grows</div>
+            <div class="stat-num" id="home-live-subjects">--</div>
+            <div class="stat-label">Articles with good<br>subject-count coverage</div>
           </div>
         </div>
 
@@ -845,6 +845,7 @@ window.KA_PAGE_FUNCTION = {
 <script src="ka_page_function.js"></script>
 <script src="ka_demo_wiring.js"></script>
 <script src="ka_mode_switch.js"></script>
+<script src="ka_data_adapter.js"></script>
 <script>
 (function() {
   const HOME_MODE_COPY = {
@@ -910,6 +911,41 @@ window.KA_PAGE_FUNCTION = {
     pillContainerId: 'home-mode-pills',
     onApply: applyHomeMode,
     defaultMode: 'student_explorer'
+  });
+})();
+</script>
+<script>
+(function() {
+  if (!window.KA_PAYLOADS) return;
+
+  function setText(id, value) {
+    const el = document.getElementById(id);
+    if (el) el.textContent = String(value);
+  }
+
+  Promise.all([
+    window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/topics.json', { topics: [] }),
+    window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/articles.json', { articles: [] }),
+    window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/evidence.json', { evidence: [] }),
+    window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/json_status.json', { summary: {} })
+  ]).then(function(results) {
+    const topics = results[0] || {};
+    const articles = results[1] || {};
+    const evidence = results[2] || {};
+    const jsonStatus = results[3] || {};
+    const summary = jsonStatus.summary || {};
+
+    setText('home-live-topics', (topics.topics || []).length);
+    setText('home-live-articles', (articles.articles || []).length);
+    setText('home-live-evidence', (evidence.evidence || []).length);
+    setText('home-live-abstracts', summary.abstract_good ?? '--');
+    setText('home-live-subjects', summary.subject_count_good ?? '--');
+  }).catch(function() {
+    setText('home-live-topics', '--');
+    setText('home-live-articles', '--');
+    setText('home-live-evidence', '--');
+    setText('home-live-abstracts', '--');
+    setText('home-live-subjects', '--');
   });
 })();
 </script>
