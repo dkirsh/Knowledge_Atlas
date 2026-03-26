@@ -746,6 +746,22 @@
                         <span class="json-status-label">Subject Counts Missing</span>
                         <div class="json-status-value" id="dashboard-json-subject-missing">0</div>
                     </div>
+                    <div class="json-status-item">
+                        <span class="json-status-label">Sample N Accepted</span>
+                        <div class="json-status-value" id="dashboard-json-sample-accepted">0</div>
+                    </div>
+                    <div class="json-status-item">
+                        <span class="json-status-label">Sample N Review</span>
+                        <div class="json-status-value" id="dashboard-json-sample-review">0</div>
+                    </div>
+                    <div class="json-status-item">
+                        <span class="json-status-label">P Values Accepted</span>
+                        <div class="json-status-value" id="dashboard-json-p-accepted">0</div>
+                    </div>
+                    <div class="json-status-item">
+                        <span class="json-status-label">Effect Sizes Accepted</span>
+                        <div class="json-status-value" id="dashboard-json-effect-accepted">0</div>
+                    </div>
                 </div>
             </div>
 
@@ -1116,6 +1132,10 @@ window.KA_PAGE_FUNCTION = {
     document.getElementById('dashboard-json-title-backlog').textContent = String((jsonSummary.title_provisional || 0) + (jsonSummary.title_missing_or_blocked || 0));
     document.getElementById('dashboard-json-abstract-good').textContent = String(jsonSummary.abstract_good || 0);
     document.getElementById('dashboard-json-subject-missing').textContent = String(jsonSummary.subject_count_missing || 0);
+    document.getElementById('dashboard-json-sample-accepted').textContent = String(jsonSummary.sample_n_accepted || 0);
+    document.getElementById('dashboard-json-sample-review').textContent = String(jsonSummary.sample_n_review_required || 0);
+    document.getElementById('dashboard-json-p-accepted').textContent = String(jsonSummary.p_value_accepted || 0);
+    document.getElementById('dashboard-json-effect-accepted').textContent = String(jsonSummary.effect_size_accepted || 0);
     if (jsonSummary.papers_total) {
       document.getElementById('dashboard-json-status-copy').textContent = `Current payload coverage across ${jsonSummary.papers_total} papers. Provisional and missing fields stay visible here so we can keep repairing the JSONs while the site is already reviewable.`;
     }
