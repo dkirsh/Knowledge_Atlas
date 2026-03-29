@@ -1,293 +1,197 @@
 {
   "summary": {
-    "paper_node_count": 263,
-    "paper_edge_count": 16314,
-    "claim_node_count": 5335,
-    "claim_edge_count": 75858,
-    "cluster_count": 12,
-    "total_claims": 5335,
-    "stance_coverage_rate": 0.0032,
-    "unique_theories": 160,
+    "paper_node_count": 714,
+    "paper_edge_count": 2029,
+    "claim_node_count": 1794,
+    "claim_edge_count": 4513,
+    "cluster_count": 27,
+    "total_claims": 1794,
+    "stance_coverage_rate": 0.4376,
+    "unique_theories": 999,
     "critical_question_payload_present": true
   },
   "coverage_report": {
-    "total_papers": 263,
-    "total_claims": 5335,
-    "papers_with_theories": 263,
-    "theory_coverage_rate": 1.0,
-    "claims_with_explicit_stance": 17,
-    "stance_coverage_rate": 0.0032,
-    "unique_theories": 160,
-    "debate_clusters": 12,
-    "contestation_edges": 0,
-    "alignment_edges": 16314
+    "total_papers": 714,
+    "total_claims": 1794,
+    "papers_with_theories": 632,
+    "theory_coverage_rate": 0.8852,
+    "claims_with_explicit_stance": 785,
+    "stance_coverage_rate": 0.4376,
+    "unique_theories": 999,
+    "debate_clusters": 27,
+    "contestation_edges": 250,
+    "alignment_edges": 1779
   },
   "debate_clusters": [
     {
-      "cluster_id": "C0",
-      "paper_count": 62,
-      "theory_count": 50,
+      "cluster_id": "C6",
+      "paper_count": 9,
+      "theory_count": 2,
       "papers": [
-        "PDF-0017",
-        "PDF-0029",
-        "PDF-0038",
-        "PDF-0090",
-        "PDF-0097",
-        "PDF-0187",
-        "PDF-0217",
-        "PDF-0305",
-        "PDF-0310",
-        "PDF-0318",
-        "PDF-0333",
-        "PDF-0354"
+        "PDF-0285",
+        "PDF-0355",
+        "PDF-0537",
+        "PDF-0545",
+        "PDF-0654",
+        "PDF-0688",
+        "PDF-0702",
+        "PDF-0880",
+        "PDF-1025"
       ],
       "theories": [
-        "Acoustic Privacy Framework",
-        "Aesthetic Preference Theory",
         "Attention Restoration Theory",
-        "Auditory Scene Analysis",
-        "BRECVEMA Model of Musical Emotions",
-        "Biophilia Hypothesis",
-        "Building Acoustics Transmission Model",
-        "Chronobiology",
-        "Circadian Rhythm Theory",
-        "Curvilinear Preference Theory"
+        "Stress Reduction Theory"
       ]
     },
     {
-      "cluster_id": "C6",
-      "paper_count": 31,
+      "cluster_id": "C20",
+      "paper_count": 6,
+      "theory_count": 9,
+      "papers": [
+        "PDF-0780",
+        "PDF-0783",
+        "PDF-0863",
+        "PDF-0870",
+        "PDF-0876",
+        "PDF-0881"
+      ],
+      "theories": [
+        "Attention Restoration Theory",
+        "Biophilic Design",
+        "EEG Alpha",
+        "Environmental Restorativeness",
+        "Fractal Fluency",
+        "Material Perception",
+        "Stress Recovery Theory",
+        "Virtual Reality Research",
+        "Visual Processing"
+      ]
+    },
+    {
+      "cluster_id": "C23",
+      "paper_count": 6,
+      "theory_count": 9,
+      "papers": [
+        "PDF-0852",
+        "PDF-0853",
+        "PDF-0872",
+        "PDF-0874",
+        "PDF-0888",
+        "PDF-0889"
+      ],
+      "theories": [
+        "Biophilic Design",
+        "Environmental Preference",
+        "Evidence-Based Design",
+        "Healthcare Architecture",
+        "Material Perception",
+        "Physiological Relaxation",
+        "Shinrin-yoku",
+        "Visual Attention",
+        "Workplace Design"
+      ]
+    },
+    {
+      "cluster_id": "C24",
+      "paper_count": 6,
+      "theory_count": 12,
+      "papers": [
+        "PDF-0858",
+        "PDF-0859",
+        "PDF-0883",
+        "PDF-0896",
+        "PDF-0902",
+        "PDF-0903"
+      ],
+      "theories": [
+        "Alertness",
+        "CCT Effects",
+        "Circadian Lighting",
+        "Daylighting",
+        "Evidence-Based Design",
+        "Melanopsin",
+        "Non-Image-Forming Pathway",
+        "Non-visual Light Effects",
+        "Sleep Homeostasis",
+        "Sleep-Cognition"
+      ]
+    },
+    {
+      "cluster_id": "C17",
+      "paper_count": 5,
       "theory_count": 3,
       "papers": [
-        "PDF-0046",
-        "PDF-0063",
-        "PDF-0064",
-        "PDF-0128",
-        "PDF-0155",
-        "PDF-0290",
-        "PDF-0304",
-        "PDF-0328",
-        "PDF-0337",
-        "PDF-0370",
-        "PDF-0378",
-        "PDF-0392"
+        "PDF-0752",
+        "PDF-0759",
+        "PDF-0765",
+        "PDF-0767",
+        "PDF-0769"
       ],
       "theories": [
-        "Attention Restoration Theory",
-        "Building Acoustics Transmission Model",
-        "Environmental Perception Theory"
-      ]
-    },
-    {
-      "cluster_id": "C5",
-      "paper_count": 25,
-      "theory_count": 4,
-      "papers": [
-        "PDF-0033",
-        "PDF-0048",
-        "PDF-0070",
-        "PDF-0091",
-        "PDF-0101",
-        "PDF-0159",
-        "PDF-0166",
-        "PDF-0199",
-        "PDF-0243",
-        "PDF-0286",
-        "PDF-0288",
-        "PDF-0371"
-      ],
-      "theories": [
-        "Acoustic Privacy Framework",
-        "Building Acoustics Transmission Model",
-        "Environmental Perception Theory",
-        "Stress Recovery Theory"
-      ]
-    },
-    {
-      "cluster_id": "C4",
-      "paper_count": 15,
-      "theory_count": 18,
-      "papers": [
-        "PDF-0032",
-        "PDF-0613",
-        "PDF-0618",
-        "PDF-0623",
-        "PDF-0629",
-        "PDF-0760",
-        "PDF-0775",
-        "PDF-0777",
-        "PDF-0779",
-        "PDF-0784",
-        "PDF-0787",
-        "PDF-0794"
-      ],
-      "theories": [
-        "Auditory Scene Analysis",
-        "Biophilia Hypothesis",
-        "Defensible Space / Crime Prevention Through Environmental Design",
-        "Ecological Perception Theory",
-        "Ecological Psychology (Gibson)",
-        "Embodied Cognition",
-        "Gestalt Principles of Perception",
-        "Goldilocks Principle of Optimal Stimulation",
-        "Irrelevant Sound Effect Theory",
-        "Kaplan Preference Matrix"
+        "Chronobiology",
+        "Circadian Lighting",
+        "Non-Visual Effects of Light"
       ]
     },
     {
       "cluster_id": "C2",
-      "paper_count": 14,
-      "theory_count": 15,
-      "papers": [
-        "PDF-0020",
-        "PDF-0023",
-        "PDF-0599",
-        "PDF-0601",
-        "PDF-0624",
-        "PDF-0627",
-        "PDF-0630",
-        "PDF-0631",
-        "PDF-0759",
-        "PDF-0765",
-        "PDF-0768",
-        "PDF-0769"
-      ],
-      "theories": [
-        "Adaptive Thermal Comfort",
-        "Auditory Scene Analysis",
-        "Berlyne's Arousal Theory of Aesthetics",
-        "Biophilia Hypothesis",
-        "Chronobiology",
-        "Circadian Rhythm Theory",
-        "Cognitive Map Theory",
-        "Defensible Space / Crime Prevention Through Environmental Design",
-        "Environmental Load Theory",
-        "Gestalt Principles of Perception"
-      ]
-    },
-    {
-      "cluster_id": "C9",
-      "paper_count": 14,
-      "theory_count": 2,
-      "papers": [
-        "PDF-0086",
-        "PDF-0111",
-        "PDF-0147",
-        "PDF-0169",
-        "PDF-0195",
-        "PDF-0231",
-        "PDF-0340",
-        "PDF-0364",
-        "PDF-0367",
-        "PDF-0466",
-        "PDF-0544",
-        "PDF-0566"
-      ],
-      "theories": [
-        "Building Acoustics Transmission Model",
-        "Environmental Perception Theory"
-      ]
-    },
-    {
-      "cluster_id": "C3",
-      "paper_count": 12,
-      "theory_count": 17,
-      "papers": [
-        "PDF-0024",
-        "PDF-0593",
-        "PDF-0594",
-        "PDF-0607",
-        "PDF-0617",
-        "PDF-0762",
-        "PDF-0766",
-        "PDF-0776",
-        "PDF-0789",
-        "PDF-0805",
-        "PDF-0810",
-        "PDF-0862"
-      ],
-      "theories": [
-        "Adaptive Thermal Comfort",
-        "Affect-as-Information Theory",
-        "Auditory Scene Analysis",
-        "Contour Curvature Preference",
-        "Defensible Space / Crime Prevention Through Environmental Design",
-        "Ecological Perception Theory",
-        "Embodied Cognition",
-        "Environmental Appraisal Theory",
-        "Environmental Load Theory",
-        "Goldilocks Principle of Optimal Stimulation"
-      ]
-    },
-    {
-      "cluster_id": "C7",
-      "paper_count": 9,
-      "theory_count": 14,
-      "papers": [
-        "PDF-0056",
-        "PDF-0360",
-        "PDF-0764",
-        "PDF-0774",
-        "PDF-0793",
-        "PDF-0812",
-        "PDF-0814",
-        "PDF-0816",
-        "PDF-0818"
-      ],
-      "theories": [
-        "Adaptive Thermal Comfort",
-        "Berlyne's Arousal Theory of Aesthetics",
-        "Cognitive Aging Theory",
-        "Cognitive Map Theory",
-        "Color Appearance Models",
-        "Defensible Space / Crime Prevention Through Environmental Design",
-        "Embodied Cognition",
-        "Embodied Simulation Theory",
-        "Gestalt Principles of Perception",
-        "Goldilocks Principle of Optimal Stimulation"
-      ]
-    },
-    {
-      "cluster_id": "C8",
-      "paper_count": 7,
+      "paper_count": 4,
       "theory_count": 3,
       "papers": [
-        "PDF-0066",
-        "PDF-0346",
-        "PDF-0500",
-        "PDF-0642",
-        "PDF-0825",
-        "PDF-0955",
-        "PDF-1325"
+        "PDF-0045",
+        "PDF-0186",
+        "PDF-0676",
+        "PDF-0682"
       ],
       "theories": [
-        "Acoustic Privacy Framework",
-        "Building Acoustics Transmission Model",
-        "Environmental Perception Theory"
+        "Attention Restoration Theory",
+        "Biophilia Hypothesis",
+        "Stress Reduction Theory"
+      ]
+    },
+    {
+      "cluster_id": "C18",
+      "paper_count": 3,
+      "theory_count": 4,
+      "papers": [
+        "PDF-0766",
+        "PDF-0768",
+        "PDF-0850"
+      ],
+      "theories": [
+        "Chronobiology",
+        "Circadian Lighting",
+        "Confined Space Psychology",
+        "Light and Health"
+      ]
+    },
+    {
+      "cluster_id": "C0",
+      "paper_count": 2,
+      "theory_count": 3,
+      "papers": [
+        "PDF-0027",
+        "PDF-0803"
+      ],
+      "theories": [
+        "Haptic Perception",
+        "Reference Frame Theory",
+        "Spatial Cognition"
       ]
     },
     {
       "cluster_id": "C1",
-      "paper_count": 5,
-      "theory_count": 22,
+      "paper_count": 2,
+      "theory_count": 4,
       "papers": [
-        "PDF-0019",
-        "PDF-0021",
-        "PDF-0362",
-        "PDF-0792",
-        "PDF-1338"
+        "PDF-0030",
+        "PDF-0893"
       ],
       "theories": [
-        "Adaptation Level Theory",
-        "Broaden-and-Build Theory",
-        "Defensible Space / Crime Prevention Through Environmental Design",
-        "Demand-Control Model",
-        "Energy Cultures Framework",
-        "Environmental Load Theory",
-        "Gestalt Principles of Perception",
-        "Habit Theory",
-        "Kaplan Preference Matrix",
-        "PTSD Model"
+        "Evidence-Based Design",
+        "Neuroaesthetics",
+        "Neuroarchitecture",
+        "Vitruvian Triad"
       ]
     },
     {
@@ -295,82 +199,141 @@
       "paper_count": 2,
       "theory_count": 2,
       "papers": [
-        "PDF-0763",
-        "PDF-0811"
+        "PDF-0471",
+        "PDF-0633"
       ],
       "theories": [
-        "Adaptive Thermal Comfort",
-        "Defensible Space / Crime Prevention Through Environmental Design"
+        "Biophilia Hypothesis",
+        "Stress Reduction Theory"
       ]
     },
     {
       "cluster_id": "C11",
       "paper_count": 2,
-      "theory_count": 5,
+      "theory_count": 2,
       "papers": [
-        "PDF-0799",
-        "PDF-0802"
+        "PDF-0584",
+        "PDF-0648"
       ],
       "theories": [
-        "Defensible Space / Crime Prevention Through Environmental Design",
-        "Ecological Perception Theory",
-        "Embodied Cognition",
-        "Goldilocks Principle of Optimal Stimulation",
-        "Kaplan Preference Matrix"
+        "Key Words: Evidence-based design, hospital design, healthcare design, healthcare quality, outcomes, patient safety, staff safety, infection, hand washing, medical errors, falls, pain, sleep, stress, depression, confidentiality, social support, satisfaction, single rooms, noise, nature, daylight A visit to a U.S.",
+        "hospital is dangerous and stressful for patients, families, and staff."
+      ]
+    },
+    {
+      "cluster_id": "C12",
+      "paper_count": 2,
+      "theory_count": 3,
+      "papers": [
+        "PDF-0591",
+        "PDF-1396"
+      ],
+      "theories": [
+        "Given the growing concerns surrounding academic stress and anxiety, it is imperative to design environments that not only enhance learning outcomes but also support students' emotional well-being [3].",
+        "In environmental psychology, emotional well-being has increasingly been recognized as a critical dimension in evaluating built environments, particularly in spaces designed for learning, healing, and recovery.",
+        "The physical environment plays an important role in shaping students' educational experiences by influencing their cognitive performance, emotional well-being, behavior, and overall engagement in learning activities [1]."
       ]
     }
   ],
   "paper_nodes": [
     {
-      "paper_id": "PDF-0354",
+      "paper_id": "PDF-0007",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0128",
+      "paper_id": "PDF-0181",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0401",
+      "paper_id": "PDF-1025",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0825",
+      "paper_id": "PDF-0414",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0371",
+      "paper_id": "PDF-0638",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0442",
+      "paper_id": "PDF-0688",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0566",
+      "paper_id": "PDF-0844",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0396",
+      "paper_id": "PDF-0060",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0388",
+      "paper_id": "PDF-0071",
+      "content_preview": "",
+      "contradiction_count": 0,
+      "node_qualifier": ""
+    },
+    {
+      "paper_id": "PDF-0134",
+      "content_preview": "",
+      "contradiction_count": 0,
+      "node_qualifier": ""
+    },
+    {
+      "paper_id": "PDF-0169",
+      "content_preview": "",
+      "contradiction_count": 0,
+      "node_qualifier": ""
+    },
+    {
+      "paper_id": "PDF-0283",
+      "content_preview": "",
+      "contradiction_count": 0,
+      "node_qualifier": ""
+    },
+    {
+      "paper_id": "PDF-0596",
+      "content_preview": "",
+      "contradiction_count": 0,
+      "node_qualifier": ""
+    },
+    {
+      "paper_id": "PDF-0657",
+      "content_preview": "",
+      "contradiction_count": 0,
+      "node_qualifier": ""
+    },
+    {
+      "paper_id": "PDF-0682",
+      "content_preview": "",
+      "contradiction_count": 0,
+      "node_qualifier": ""
+    },
+    {
+      "paper_id": "PDF-0872",
+      "content_preview": "",
+      "contradiction_count": 0,
+      "node_qualifier": ""
+    },
+    {
+      "paper_id": "PDF-0902",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
@@ -382,85 +345,37 @@
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0346",
+      "paper_id": "PDF-1208",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0064",
+      "paper_id": "PDF-1323",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0394",
+      "paper_id": "PDF-1384",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0438",
+      "paper_id": "PDF-0130",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0655",
+      "paper_id": "PDF-0293",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
     },
     {
-      "paper_id": "PDF-0048",
-      "content_preview": "",
-      "contradiction_count": 0,
-      "node_qualifier": ""
-    },
-    {
-      "paper_id": "PDF-0066",
-      "content_preview": "",
-      "contradiction_count": 0,
-      "node_qualifier": ""
-    },
-    {
-      "paper_id": "PDF-0116",
-      "content_preview": "",
-      "contradiction_count": 0,
-      "node_qualifier": ""
-    },
-    {
-      "paper_id": "PDF-0305",
-      "content_preview": "",
-      "contradiction_count": 0,
-      "node_qualifier": ""
-    },
-    {
-      "paper_id": "PDF-0659",
-      "content_preview": "",
-      "contradiction_count": 0,
-      "node_qualifier": ""
-    },
-    {
-      "paper_id": "PDF-0007",
-      "content_preview": "",
-      "contradiction_count": 0,
-      "node_qualifier": ""
-    },
-    {
-      "paper_id": "PDF-0565",
-      "content_preview": "",
-      "contradiction_count": 0,
-      "node_qualifier": ""
-    },
-    {
-      "paper_id": "PDF-1190",
-      "content_preview": "",
-      "contradiction_count": 0,
-      "node_qualifier": ""
-    },
-    {
-      "paper_id": "PDF-0783",
+      "paper_id": "PDF-0355",
       "content_preview": "",
       "contradiction_count": 0,
       "node_qualifier": ""
@@ -468,194 +383,194 @@
   ],
   "claim_nodes": [
     {
-      "belief_id": "PDF-0825_F045",
-      "paper_id": "PDF-0825",
-      "content_preview": "Technologies and material perception advancement affects Technologies of dealing with building material contribute to enhanced material perception in terms of material role and ac\u2026",
-      "incoming_support_count": 62,
+      "belief_id": "PDF-0832_MPX_004",
+      "paper_id": "PDF-0832",
+      "content_preview": "nonADHD groups) and within-subjects (six different conditions) factors, a Mixed-Design Analysis of Variance (ANOVA) was deemed appropriate.",
+      "incoming_support_count": 17,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0442_F045",
-      "paper_id": "PDF-0442",
-      "content_preview": "Theoretical modeling approaches for sound absorption (Delany-Bazley-Miki, Zwikler-Kosten, Johnson-Champoux-Allard, Biot's theory) affects Empirical models characterize fibrous mat\u2026",
-      "incoming_support_count": 61,
+      "belief_id": "PDF-0846_MPX_002",
+      "paper_id": "PDF-0846",
+      "content_preview": "\\( ^ 16 \\) It concerns the evaluation of the sound conditions in Swedish buildings, specifically for impact sound insulation.",
+      "incoming_support_count": 16,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0828_F033",
-      "paper_id": "PDF-0828",
-      "content_preview": "Tool perception and automatic engagement of sensorimotor modules affects Tools automatically engage unconscious sensorimotor modules and posterior parietal cortex regions (dorsal\u2026",
-      "incoming_support_count": 61,
+      "belief_id": "PDF-0846_MPX_001",
+      "paper_id": "PDF-0846",
+      "content_preview": "In this case, the regression model for the average suggested index was \\(I_ s =86.3-5.53 S\\) and offered the best regression of \\(87 \\%\\), with \\(r=0.87\\) ( \\(R^ 2 =0.76\\) ).",
+      "incoming_support_count": 15,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0371_F044",
-      "paper_id": "PDF-0371",
-      "content_preview": "'Mismatched need' group characteristics compared to other groups affects The 'mismatched need' group was characterised by higher cognitive work demands than the 'low need' group (\u2026",
-      "incoming_support_count": 60,
+      "belief_id": "PDF-0839_MPX_007",
+      "paper_id": "PDF-0839",
+      "content_preview": "The methods of soundscape research usually involve Soundscape Measurements, Soundwalk [22], Questionnaires, Interviews, and so on, and there are some studies that generate Soundma\u2026",
+      "incoming_support_count": 13,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0401_F048",
-      "paper_id": "PDF-0401",
-      "content_preview": "Physical environmental characteristics importance affects Residents place attachment factors primarily fall under physical or environmental categories as most influential aspects\u2026",
-      "incoming_support_count": 60,
+      "belief_id": "PDF-0811_MPX_001",
+      "paper_id": "PDF-0811",
+      "content_preview": "They mostly worked in air-conditioned buildings with no LEED rating, situated in the US.",
+      "incoming_support_count": 12,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0401_F046",
-      "paper_id": "PDF-0401",
-      "content_preview": "Protracted process nature affects Residents' place attachment is a protracted process that includes building/unit allocation and context-sensitive design considerations (unknown)",
-      "incoming_support_count": 58,
+      "belief_id": "PDF-0839_MPX_008",
+      "paper_id": "PDF-0839",
+      "content_preview": "Most importantly, our research aims to validate the feasibility of soundscape combined with music therapy methods for workspace applications in the hope of improving working popul\u2026",
+      "incoming_support_count": 12,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0066_F034",
-      "paper_id": "PDF-0066",
-      "content_preview": "Sound intensity difference at two ears affects At low frequencies (200 Hz) ILD approximately 0 dB due to sound diffraction around head; increases with frequency; at 1 kHz and 10 k\u2026",
-      "incoming_support_count": 56,
+      "belief_id": "PDF-0007_MPX_012",
+      "paper_id": "PDF-0007",
+      "content_preview": "Therefore, participants' interpretation of the response scale may have depended on the setting in Phase I, resulting in these polarized responses.",
+      "incoming_support_count": 11,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0401_F047",
-      "paper_id": "PDF-0401",
-      "content_preview": "Hierarchical spatial scales structure affects Study identifies hierarchical structure of spatial scales: unit, apartment building, neighborhood, community, and city (unknown)",
-      "incoming_support_count": 56,
+      "belief_id": "PDF-0181_MPX_011",
+      "paper_id": "PDF-0181",
+      "content_preview": "Thus, it is important to take account of occupant-related indicators while optimizing the acoustical quality of educational buildings to understand in-depth what do students prefe\u2026",
+      "incoming_support_count": 11,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0354_F048",
-      "paper_id": "PDF-0354",
-      "content_preview": "Paluck and Esser (1971) study of retardates and territoriality affects observed spatial behavior of three small groups of normally aggressive retarded boys in a playground over a\u2026",
-      "incoming_support_count": 55,
+      "belief_id": "PDF-0773_MPX_002",
+      "paper_id": "PDF-0773",
+      "content_preview": "In Figure 5, the responses were grouped by the number of hours the participants reported that they spent working in the office every day.",
+      "incoming_support_count": 11,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0354_F056",
-      "paper_id": "PDF-0354",
-      "content_preview": "Conclusion on human territoriality nature affects literature on territoriality reveals variety of basic assumptions and approaches; much of research is fragmentary and as yet ther\u2026",
-      "incoming_support_count": 55,
+      "belief_id": "PDF-0779_MPX_001",
+      "paper_id": "PDF-0779",
+      "content_preview": "Has resulted in reverberation times RT ranging from 2 to 1.4, according to the Sabine equation in alternative (1).",
+      "incoming_support_count": 11,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0354_F055",
-      "paper_id": "PDF-0354",
-      "content_preview": "Outstanding issues identified by Edney affects number of outstanding issues: (a) does territorial expression operate 'hydraulically' (expression in one mode reducing expression in\u2026",
-      "incoming_support_count": 54,
+      "belief_id": "PDF-0844_MPX_009",
+      "paper_id": "PDF-0844",
+      "content_preview": "The evaluation methods of the previous investigations were mainly qualitative and subjective, including observations, self-reports, questionnaires and structured interviews.",
+      "incoming_support_count": 11,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0354_F052",
-      "paper_id": "PDF-0354",
-      "content_preview": "Coleman (1968) observation of medical patient affects described striking difference in behavior and behavior of a medical patient that occurred when patient moved from hospital se\u2026",
-      "incoming_support_count": 53,
+      "belief_id": "PDF-0879_MPX_005",
+      "paper_id": "PDF-0879",
+      "content_preview": "This result tentatively suggests that bird song and leaf sound have a more significant positive effect on mental stress relief, which is consistent with the findings of Eleanor Ra\u2026",
+      "incoming_support_count": 11,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0354_F054",
-      "paper_id": "PDF-0354",
-      "content_preview": "Summary of empirical work on human territoriality affects variety in paradigms, operational definitions and subject population characterize empirical work; has been empirically re\u2026",
-      "incoming_support_count": 53,
+      "belief_id": "PDF-0007_MPX_011",
+      "paper_id": "PDF-0007",
+      "content_preview": "However, none of the other physiological indicators (HR, HRV, ST, DPG) responded to the abrupt light transition, nor did PVT performance.",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0354_F050",
-      "paper_id": "PDF-0354",
-      "content_preview": "Sundstrom and Altman (1974) on relationship between territoriality and dominance affects pointed out that territories have relationship to two studies: (1) showed mixed results (r\u2026",
-      "incoming_support_count": 52,
+      "belief_id": "PDF-0181_MPX_010",
+      "paper_id": "PDF-0181",
+      "content_preview": "[74] was one of the first studies on indoor soundscape, made use of semi-structured interviews with patients and nurses to understand the subjective responses to soundscapes in a\u2026",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0354_F053",
-      "paper_id": "PDF-0354",
-      "content_preview": "Newman (1972) architectural work on territory in dwelling design affects pointed out specific architectural features in some apartment buildings that promote alienation among tena\u2026",
-      "incoming_support_count": 52,
+      "belief_id": "PDF-0578_MPX_007",
+      "paper_id": "PDF-0578",
+      "content_preview": "Similar disruption by urban and social noise to working memory and verbal learning and memory, and slower psychomotor speed and a more cautious (Beads) response under urban noise;\u2026",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0422_F033",
-      "paper_id": "PDF-0422",
-      "content_preview": "Experimental design variations in artificial window research affects Within-subjects and between-subjects designs both used; sample sizes range from 7 to 90+ subjects; durations f\u2026",
-      "incoming_support_count": 52,
+      "belief_id": "PDF-0773_MPX_001",
+      "paper_id": "PDF-0773",
+      "content_preview": "The overall comfort was overwhelmingly voted as satisfactory (light shades of grey in Figure 2) and similar results were obtained for the satisfaction with the thermal conditions\u2026",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0558_F034",
-      "paper_id": "PDF-0558",
-      "content_preview": "Historically-eliminated ornamental/tectonic elements (frames, trim, moldings, baseboards) now reconsidered for return to architecture affects Not as decoration but as essential co\u2026",
-      "incoming_support_count": 52,
+      "belief_id": "PDF-0823_MPX_002",
+      "paper_id": "PDF-0823",
+      "content_preview": "Figure 2. Doorbell button designed by Tom Gordon and Ted Pierson (1995).",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0128_F052",
-      "paper_id": "PDF-0128",
-      "content_preview": "Human emotional regulation through environment affects As a social species, we rely on others to regulate our emotional state; research psychologist Stephen Porges explains this i\u2026",
-      "incoming_support_count": 51,
+      "belief_id": "PDF-0839_MPX_004",
+      "paper_id": "PDF-0839",
+      "content_preview": "Authors should use the forms shown in Table 3 in the final reference list.",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0401_F049",
-      "paper_id": "PDF-0401",
-      "content_preview": "Private outdoor space importance affects Private yards and open spaces are particularly important for fostering sense of attachment, especially within apartments (unknown)",
-      "incoming_support_count": 51,
+      "belief_id": "PDF-0879_MPX_007",
+      "paper_id": "PDF-0879",
+      "content_preview": "Daily and seasonal climatic conditions of green urban open spaces in the Mediterranean climate and their impact on human comfort.",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0558_F032",
-      "paper_id": "PDF-0558",
-      "content_preview": "Space-time system design coordinating temporal and spatial scales coherently (movement patterns, time periods, day/night changes) affects Emergent design succeeds; complex tempora\u2026",
-      "incoming_support_count": 51,
+      "belief_id": "PDF-1025_MPX_009",
+      "paper_id": "PDF-1025",
+      "content_preview": "The results indicated that there were no significant differences in selective attention, short-term working memory, and creativity between the real and virtual environments",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0566_F037",
-      "paper_id": "PDF-0566",
-      "content_preview": "Eastgate Centre passive system compared to medieval Islamic climate control affects found to be more sustainable and energy-saving despite mimicking natural biological process (un\u2026",
-      "incoming_support_count": 51,
+      "belief_id": "PDF-1025_MPX_010",
+      "paper_id": "PDF-1025",
+      "content_preview": "We hypothesized that visual comfort affects working memory through selfreported performance and mood.",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0655_F038",
-      "paper_id": "PDF-0655",
-      "content_preview": "Sympathetic nervous system overstimulation (chronic stress) affects Operates in overdrive to protect against perceived threats, carrying stress signals from neural to hormonal rea\u2026",
-      "incoming_support_count": 51,
+      "belief_id": "PDF-1025_MPX_011",
+      "paper_id": "PDF-1025",
+      "content_preview": "Previous studies found no significant differences in physiological responses such as heart rate, skin conductance (Yin et al.",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0128_F049",
-      "paper_id": "PDF-0128",
-      "content_preview": "Biometric study of animal visual preferences affects In a biometric study with iMotions software, people on the spectrum avoid looking at eyes where neurotypical or 'normal' viewe\u2026",
-      "incoming_support_count": 50,
+      "belief_id": "PDF-1183_MPX_002",
+      "paper_id": "PDF-1183",
+      "content_preview": "Another possible reason is that some indices, although well evaluated by the university students in the pilot study, were not well understood/evaluated by the interviewees in the\u2026",
+      "incoming_support_count": 10,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     },
     {
-      "belief_id": "PDF-0128_F051",
-      "paper_id": "PDF-0128",
-      "content_preview": "Modern architecture post-WWI affects Evolution made us a face-centric species and that trait secured our survival in the wild shows up in traditional building elevations; greater\u2026",
-      "incoming_support_count": 50,
+      "belief_id": "PDF-0007_MPX_010",
+      "paper_id": "PDF-0007",
+      "content_preview": "Despite the absence of significant differences in the other measurement blocks, comfort with the light was, on average, lower after the transition to CB lighting compared to the c\u2026",
+      "incoming_support_count": 9,
       "incoming_attack_count": 0,
       "qualifier": "stable"
     }

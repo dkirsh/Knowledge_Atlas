@@ -3,6 +3,7 @@ import json
 import re
 import sqlite3
 import shutil
+import sys
 from collections import defaultdict, Counter
 from pathlib import Path
 from datetime import datetime, timezone
@@ -23,9 +24,13 @@ OUT.mkdir(parents=True, exist_ok=True)
 VISUALS_OUT = OUT / 'article_visuals'
 VISUALS_OUT.mkdir(parents=True, exist_ok=True)
 WORKFLOW_DB_PATH = ROOT / 'Knowledge_Atlas' / 'data' / 'ka_workflow.db'
+REBUILD_DB_PATH = AE / 'data' / 'rebuild' / 'web_persistence_v5.db'
+
+if str(AE) not in sys.path:
+    sys.path.insert(0, str(AE))
 
 FRONTS_PATH = AE / 'data' / 'rebuild' / 'research_fronts_v5.json'
-CLAIMS_PATH = AE / 'data' / 'rebuild' / 'gold_claims.jsonl'
+CLAIMS_PATH = AE / 'data' / 'rebuild' / 'gold_claims_v7.jsonl'
 REPAIRS_PATH = AE / 'data' / 'rebuild' / 'bibliographic_repairs.json'
 AG_PDF_PACKAGE_REPAIRS_PATH = AE / 'data' / 'rebuild' / 'ag_pdf_package_repairs.json'
 DEEP_STATS_DIR = AE / 'data' / 'verification_runs' / 'v6_deep_stats_adjudication'
@@ -49,6 +54,91 @@ DEFAULT_TRACK_TARGETS = [
     ('Track 3 — VR Production', 3),
     ('Track 4 — GUI Evaluation & Experiment Design', 3),
 ]
+
+try:
+    from src.services.article_type_policy import likely_warrant_types, primary_warrant_type
+except Exception:
+    def likely_warrant_types(article_type):
+        return ["EMPIRICAL_ASSOCIATION"]
+
+    def primary_warrant_type(article_type):
+        return "EMPIRICAL_ASSOCIATION"
+
+try:
+    from src.services.bridge_warrants import CANONICAL_DISCOUNT_FACTORS
+
+    BRIDGE_DISCOUNT_BY_VALUE = {
+        bridge_type.value: discount
+        for bridge_type, discount in CANONICAL_DISCOUNT_FACTORS.items()
+    }
+except Exception:
+    BRIDGE_DISCOUNT_BY_VALUE = {
+        "constitutive": 1.00,
+        "mechanism": 0.80,
+        "empirical_association": 0.80,
+        "functional": 0.65,
+        "capacity": 0.55,
+        "analogical": 0.40,
+        "theory_derived": 0.25,
+    }
+
+CANONICAL_BRIDGE_ORDER = [
+    "constitutive",
+    "mechanism",
+    "empirical_association",
+    "functional",
+    "capacity",
+    "analogical",
+    "theory_derived",
+]
+
+RAW_EXTRACTION_TO_CANONICAL = {
+    "pathway_or_interaction_text_to_mechanism_field": "mechanism",
+    "manipulation_or_reliability_text_to_validation_field": "capacity",
+    "theme_or_descriptor_text_to_qualitative_field": "capacity",
+}
+
+CONSTITUTIVE_MARKERS = (
+    "constitutive",
+    "component of",
+    "part of",
+    "consists of",
+    "is a marker of",
+    "marker of",
+    "index of",
+    "indexes",
+    "indexed by",
+    "signature of",
+    "reliable indicator of",
+)
+
+CAPACITY_MARKERS = (
+    "capacity to",
+    "capable of",
+    "ability to",
+    "can support",
+    "can produce",
+    "has the capacity",
+)
+
+ANALOGICAL_MARKERS = (
+    "analog",
+    "analogy",
+    "analogical",
+    "resembles",
+    "similar to",
+    "like a",
+)
+
+THEORY_MARKERS = (
+    "theory",
+    "framework",
+    "hypothesis",
+    "predicts",
+    "prediction",
+    "suggests that",
+    "argues that",
+)
 
 INSTRUMENT_PATTERNS = {
     'EEG': [' eeg ', 'electroencephal', 'alpha asymmetry', 'frontal theta', 'erp '],
@@ -74,6 +164,99 @@ def humanize(text):
     if isinstance(text, (int, float)):
         return str(text)
     return str(text).replace('theory_', '').replace('_', ' ').replace('.', ' ').strip().title()
+
+
+def canonical_warrant_display(value):
+    token = str(value or '').strip().lower()
+    if not token:
+        return 'Unknown'
+    label = humanize(token)
+    return label.replace('Theory Derived', 'Theory-Derived')
+
+
+def _primary_bridge_type(article_type):
+    value = str(primary_warrant_type(article_type) or 'EMPIRICAL_ASSOCIATION').strip().lower()
+    if value in BRIDGE_DISCOUNT_BY_VALUE:
+        return value
+    return 'empirical_association'
+
+
+def derive_canonical_bridge_type(obj):
+    evidence_profile = obj.get('evidence_profile') or {}
+    raw_warrant = str(evidence_profile.get('warrant_type') or obj.get('warrant_type') or '').strip().lower()
+    article_type = obj.get('article_type')
+    claim_role = str(obj.get('claim_role') or '').strip().lower()
+    statement_text = ' '.join(
+        str(part or '')
+        for part in [
+            obj.get('statement'),
+            obj.get('claim_text'),
+            obj.get('quote'),
+        ]
+    ).lower()
+    theory_text = ' '.join(
+        str(part or '')
+        for part in [
+            obj.get('theory_name'),
+            ' '.join(obj.get('theory_names') or []),
+        ]
+    ).lower()
+
+    if any(marker in statement_text for marker in ANALOGICAL_MARKERS):
+        return 'analogical'
+    if raw_warrant in RAW_EXTRACTION_TO_CANONICAL:
+        return RAW_EXTRACTION_TO_CANONICAL[raw_warrant]
+    if raw_warrant == 'indicator_pattern_plus_author_interpretation_to_construct_field':
+        if any(marker in statement_text for marker in CONSTITUTIVE_MARKERS):
+            return 'constitutive'
+        if any(marker in statement_text for marker in CAPACITY_MARKERS):
+            return 'capacity'
+        return 'functional'
+    if raw_warrant == 'multi_result_integration_to_synthesis_field':
+        if any(marker in statement_text for marker in THEORY_MARKERS):
+            return 'theory_derived'
+        if any(marker in statement_text for marker in CAPACITY_MARKERS):
+            return 'capacity'
+        likely = [str(value or '').strip().lower() for value in likely_warrant_types(article_type)]
+        for candidate in ('mechanism', 'functional', 'theory_derived', 'empirical_association'):
+            if candidate in likely:
+                return candidate
+        return 'functional'
+    if raw_warrant in {
+        'measured_result_to_indicator_field',
+        'condition_or_group_contrast_to_comparative_field',
+    }:
+        if any(marker in statement_text for marker in CONSTITUTIVE_MARKERS):
+            return 'constitutive'
+        return 'empirical_association'
+    if claim_role == 'mechanism_claim':
+        return 'mechanism'
+    if claim_role == 'validation_claim':
+        return 'capacity'
+    if claim_role == 'synthesis_claim':
+        return 'functional'
+    if claim_role == 'construct_inference_claim':
+        return 'functional'
+    if any(marker in f"{statement_text} {theory_text}" for marker in THEORY_MARKERS) and _primary_bridge_type(article_type) == 'theory_derived':
+        return 'theory_derived'
+    return _primary_bridge_type(article_type)
+
+
+def compose_warrant_chain(canonical_type, raw_warrant_type, result, claim_role):
+    parts = []
+    discount = BRIDGE_DISCOUNT_BY_VALUE.get(canonical_type)
+    if discount is not None:
+        parts.append(f"{canonical_warrant_display(canonical_type)} bridge (d={discount:.2f})")
+    else:
+        parts.append(f"{canonical_warrant_display(canonical_type)} bridge")
+    if raw_warrant_type:
+        parts.append(f"extraction warrant: {raw_warrant_type}")
+    if claim_role:
+        parts.append(f"claim role: {humanize(claim_role)}")
+    test_statistic = str((result or {}).get('test_statistic') or '').strip()
+    if test_statistic:
+        parts.append(f"statistic: {test_statistic}")
+    return ' · '.join(parts)
 
 
 def compact_text(text, limit=220):
@@ -678,14 +861,28 @@ def build_workflow_payload():
     }
 
 
-def warrant_bucket(value):
-    if isinstance(value, (int, float)):
-        if value >= 0.67:
-            return 'High'
-        if value >= 0.4:
-            return 'Medium'
-        return 'Low'
-    return humanize(value) or 'Unknown'
+def load_rebuild_belief_lookup():
+    lookup = {}
+    if not REBUILD_DB_PATH.exists():
+        return lookup
+    conn = sqlite3.connect(REBUILD_DB_PATH)
+    conn.row_factory = sqlite3.Row
+    cur = conn.cursor()
+    for row in cur.execute("SELECT belief_id, credence_value, omega_json FROM beliefs"):
+        omega_json = {}
+        try:
+            omega_json = json.loads(row['omega_json'] or '{}')
+        except Exception:
+            omega_json = {}
+        belief_id = str(row['belief_id'] or '').strip()
+        if not belief_id:
+            continue
+        lookup[belief_id] = {
+            'credence_value': float(row['credence_value'] or 0.5),
+            'omega_json': omega_json,
+        }
+    conn.close()
+    return lookup
 
 
 def summarize_methodology(method_profile, article_type):
@@ -796,6 +993,7 @@ def parse_claims():
     evidence = []
     paper_claims = defaultdict(list)
     paper_meta = {}
+    belief_lookup = load_rebuild_belief_lookup()
     repairs = load_bibliographic_repairs()
     deep_stats = load_deep_stat_adjudications()
     abstract_adjudications = load_abstract_adjudications()
@@ -810,6 +1008,8 @@ def parse_claims():
                 continue
             obj = json.loads(line)
             pid = obj.get('paper_id')
+            belief_id = str(obj.get('id') or obj.get('finding_id') or '').strip()
+            belief_state = belief_lookup.get(belief_id, {})
             statement = obj.get('statement') or obj.get('claim') or ''
             result = obj.get('structured_result_row') or {}
             theories = []
@@ -885,10 +1085,16 @@ def parse_claims():
                     construct_label = humanize(outcome_tags[0].get('canonical'))
                 if not construct_label:
                     construct_label = compact_text(result.get('outcome') or obj.get('dv') or 'Unknown', 80)
-                warrant_value = obj.get('mechanism_warrant')
-                if warrant_value in (None, ''):
-                    warrant_value = obj.get('evidence_strength_class')
-                warrant_label = warrant_bucket(warrant_value)
+                raw_warrant_type = (
+                    (obj.get('evidence_profile') or {}).get('warrant_type')
+                    or obj.get('warrant_type')
+                    or ''
+                )
+                canonical_warrant_type = (
+                    ((belief_state.get('omega_json') or {}).get('bridge_type'))
+                    or derive_canonical_bridge_type(obj)
+                )
+                warrant_label = canonical_warrant_display(canonical_warrant_type)
                 methodology_summary = summarize_methodology(obj.get('method_profile_excerpt'), obj.get('article_type'))
                 evidence.append({
                     'id': len(evidence) + 1,
@@ -897,13 +1103,23 @@ def parse_claims():
                     'signal': humanize(obj.get('evidence_strength_class') or obj.get('claim_type') or 'Claim'),
                     'studyType': humanize(obj.get('article_type') or 'Unknown'),
                     'warrant': warrant_label,
-                    'credence': round(float(obj.get('severity') or 0.5), 2),
+                    'warrant_class': canonical_warrant_type,
+                    'warrant_discount': BRIDGE_DISCOUNT_BY_VALUE.get(canonical_warrant_type),
+                    'extraction_warrant_type': raw_warrant_type,
+                    'article_type_warrant_family': _primary_bridge_type(obj.get('article_type')),
+                    'claim_role': obj.get('claim_role') or '',
+                    'credence': round(float(belief_state.get('credence_value', obj.get('severity') or 0.5)), 2),
                     'year': sanitize_year(repair.get('year') or obj.get('year')) or '',
                     'citation': pid,
                     'abstract': compact_text(paper_meta[pid]['abstract'] or 'Abstract not yet recovered from the current rebuild.', 500),
                     'claim': compact_text(statement or fallback_finding or pid, 260),
                     'methodology': methodology_summary,
-                    'warrant_chain': result.get('test_statistic') or '',
+                    'warrant_chain': compose_warrant_chain(
+                        canonical_warrant_type,
+                        raw_warrant_type,
+                        result,
+                        obj.get('claim_role'),
+                    ),
                     'paper_id': pid,
                     'front_id': obj.get('topic_label') or obj.get('finding_id') or '',
                 })
@@ -1334,6 +1550,7 @@ def build_layers_summary(argumentation, annotations, interpretation):
 
 
 def main():
+    generated_at = datetime.now(timezone.utc).isoformat()
     workflow = build_workflow_payload()
     topics, gaps = load_fronts()
     evidence, articles = parse_claims()
@@ -1345,7 +1562,23 @@ def main():
     layers = build_layers_summary(argumentation, annotations, interpretation)
     (OUT / 'topics.json').write_text(json.dumps({'topics': topics}, indent=2))
     (OUT / 'gaps.json').write_text(json.dumps({'gaps': gaps}, indent=2))
-    (OUT / 'evidence.json').write_text(json.dumps({'evidence': evidence}, indent=2))
+    (OUT / 'evidence.json').write_text(
+        json.dumps(
+            {
+                'generated_at': generated_at,
+                'source_claims': str(CLAIMS_PATH.relative_to(ROOT)),
+                'warrant_taxonomy': {
+                    'display_field': 'warrant',
+                    'display_class_field': 'warrant_class',
+                    'raw_extraction_field': 'extraction_warrant_type',
+                    'discounts': BRIDGE_DISCOUNT_BY_VALUE,
+                    'order': CANONICAL_BRIDGE_ORDER,
+                },
+                'evidence': evidence,
+            },
+            indent=2,
+        )
+    )
     (OUT / 'articles.json').write_text(json.dumps({'articles': articles}, indent=2))
     (OUT / 'dashboard.json').write_text(json.dumps({'dashboard': dashboard}, indent=2))
     (OUT / 'json_status.json').write_text(json.dumps(json_status, indent=2))

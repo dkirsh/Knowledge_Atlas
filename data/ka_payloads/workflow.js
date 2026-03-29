@@ -215,5 +215,5 @@ window.KA_WORKFLOW_PAYLOAD = {
     "pending_submission_count": 2
   },
   "db_path": "/Users/davidusa/REPOS/Knowledge_Atlas/data/ka_workflow.db",
-  "generated_at": "2026-03-28T00:44:06.493208+00:00"
+  "generated_at": "2026-03-29T22:38:48.355610+00:00"
 };

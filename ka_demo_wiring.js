@@ -323,7 +323,7 @@
       'evidence table':      'ka_evidence.html',
       'by study type':       { title: 'Browse by Study Type',
         live:   'Filters the evidence table to show only RCTs, narrative reviews, field studies, etc. Uses the method_conditioned_class field from the gold_claims corpus to categorise each study.',
-        source: 'GET /api/v1/evidence?method_type={type} → gold_claims_v5.jsonl method_conditioned_class',
+        source: 'GET /api/v1/evidence?method_type={type} → gold_claims_v7.jsonl method_conditioned_class',
         phase:  'Phase 2 — Core Tool Backends' },
       'chronological':       { title: 'Chronological Evidence View',
         live:   'Shows all evidence nodes ordered by publication year, so you can trace how the evidence on a topic has developed over time and identify recency effects.',
@@ -352,7 +352,7 @@
 
       // ── KNOWLEDGE nav ──
       'belief network':      { title: 'Belief Network Explorer',
-        live:   'An interactive graph showing how constructs in the corpus are connected via warrant chains. Node size encodes credence; edge colour encodes warrant type (constitutive / probabilistic / rebuttal). Powered by the Bayesian Network layer in BN_graphical.',
+        live:   'An interactive graph showing how constructs in the corpus are connected via warrant chains. Node size encodes credence; edge colour encodes canonical bridge type (constitutive / mechanism / empirical association / functional / capacity / analogical / theory-derived) when that layer is exposed. Powered by the Bayesian Network layer in BN_graphical.',
         source: 'BN_graphical repo → GET /api/v1/knowledge/belief-network?root={construct_id}',
         phase:  'Phase 2–3 — BN_graphical integration required' },
       'relations':           { title: 'Construct Relations',
@@ -372,8 +372,8 @@
         source: 'GET /api/v1/knowledge/belief-network?theory_layer=neuroscience → theory_links field',
         phase:  'Phase 2 — Core Tool Backends' },
       'warrants':            { title: 'Warrant Browser',
-        live:   'Lists all warrant types used in the corpus (constitutive, probabilistic, analogical, rebuttal) with the claims that instantiate each, showing the grounds → claim backing structure from the Toulmin model.',
-        source: 'GET /api/v1/knowledge/warrants → warrant_type field in gold_claims',
+        live:   'Lists the canonical bridge-layer warrant types used in the corpus (constitutive, mechanism, empirical association, functional, capacity, analogical, theory-derived) with the claims that instantiate each. The browser can also expose the raw extraction-layer warrant class separately so the two levels are not confused.',
+        source: 'GET /api/v1/knowledge/warrants → canonical bridge type + extraction warrant class fields in gold_claims_v7-derived payloads',
         phase:  'Phase 2 — Core Tool Backends' },
 
       // ── RESEARCH GAPS nav ──

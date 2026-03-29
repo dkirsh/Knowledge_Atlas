@@ -123,3 +123,17 @@ Both pages wired into: all three track assignment pages (Student Resources bar a
 
 ### GUI agent (KA-T2) — design note
 The planned GUI agent is distinct from `ka_gui_assignment.html` (a student workbook). The agent would: (1) autonomously navigate KA pages using browser tools; (2) run through defined user scenarios; (3) compare its path against the AI-suggested optimal path; (4) output a structured UX report flagging friction points, missing affordances, and copy issues. This is Track 4's analytical deliverable automated.
+
+### Session 5 — 2026-03-29
+
+**ka_usability_critic.js expanded to 5 tabs (35 dimensions).** Added a Viz V1–V17 tab implementing heuristics from Tufte (data-ink, lie factor, chartjunk, small multiples), Cleveland (perceptual hierarchy, grayscale test, baseline), Cairo (uncertainty, functionality, insightfulness, form/purpose), Knaflic (preattentive attributes, declutter, direct labeling, assertion title), and Shneiderman info-seeking mantra (overview→filter→details, persistent context). Auto-detection (`detectVizElements()`) scans for canvas, SVG, and chart-class elements; amber dot on Viz tab when elements found. Summary tab updated to show 35-dimension totals in 3 section scorecards. History tab shows 📊 viz pill on past sessions with viz data. Critic panel injected into `ka_dashboard.html`, `ka_home.html`, `ka_demo_v04.html`, `ka_user_home.html`, `ka_workflow_hub.html`. New TODOs KA-T22 through KA-T26 added for future capability expansion.
+
+**Agent directory unified across both repos.** `Knowledge_Atlas/agents/` and `Article_Eater_PostQuinean_v1_recovery/agents/` now share the same 5-agent suite, best-of-both merged into GUI Agent v3 (32-item spec, dual-framework Streamlit+HTML/JS, 6 KA roles, 13-scholar panel, V1–V17 viz, 20-item checklist). New agents: `GUI_AGENT_V3.md`, `USABILITY_CRITIC_AGENT.md`, `README.md` (pipeline master). Mirrored: `SCIENCE_WRITER_AGENT.md`, `GUI_PRESENTATION_AGENT.md`, `EXPERIMENTAL_EVALUATE_AGENT.md` — both repos updated with KA-specific paths.
+
+**Reference guides linked into DE student track pages.** `gui_track_overview.html` and `gui_wk05_expert_panel.html` now link `gui_visualization_guide.html` and `gui_design_experts_reference.html`.
+
+**Active TODOs from this session:**
+- [ ] Redesign `ka_student_setup.html` (A0) with contextual rationale + "Next Step →" CTAs (see detailed plan below)
+- [ ] Audit all track assignment pages for explanation-adjacent-to-action pattern
+- [ ] Expand GUI track from 3 pairs to 4 pairs — add D3b: In-Browser Usability Audit (ka_usability_critic.js on 8 priority pages) as Pair 4 deliverable
+- [ ] Document agent unification in master doc (appropriate section in ATLAS theoretical foundations doc or new Part XXIII)

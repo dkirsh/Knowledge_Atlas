@@ -578,6 +578,20 @@
             background-color: var(--teal-light);
         }
 
+        .gap-card-cta {
+            font-size: 0.8rem;
+            color: var(--teal);
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 8px;
+            padding: 0 16px;
+            transition: text-decoration 0.15s;
+        }
+
+        .gap-card-cta:hover {
+            text-decoration: underline;
+        }
+
         /* === NO RESULTS === */
         .no-results {
             grid-column: 1 / -1;
@@ -1220,6 +1234,8 @@
                         <a href="${gap.hypothesisBuild}" class="btn btn-primary">Start Hypothesis</a>
                         <a href="${gap.evidenceLink}" class="btn btn-secondary">See Evidence</a>
                     </div>
+                    <a class="gap-card-cta" href="ka_interpretation.html">See frontier questions →</a>
+                    <a class="gap-card-cta" href="ka_annotations.html">See flags and notes →</a>
                 `;
                 container.appendChild(card);
 

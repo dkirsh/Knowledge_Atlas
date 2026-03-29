@@ -401,8 +401,12 @@ body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
   border: 1px solid; display: flex; align-items: center; gap: 5px;
 }
 .ss-warrant-chip.constitutive { border-color: #2A7868; color: #1C3D3A; background: #E0F2EE; }
-.ss-warrant-chip.probabilistic { border-color: #E8872A; color: #7A3A0E; background: #FFF0CC; }
-.ss-warrant-chip.rebuttal      { border-color: #C0392B; color: #7A0000; background: #FDECEA; }
+.ss-warrant-chip.mechanism { border-color: #2D5F8B; color: #1F4668; background: #E7F0F8; }
+.ss-warrant-chip.empirical_association { border-color: #496A2D; color: #314A1E; background: #EDF3E5; }
+.ss-warrant-chip.functional { border-color: #8A6232; color: #634420; background: #F8F0E2; }
+.ss-warrant-chip.capacity { border-color: #9B6D3C; color: #6E4D28; background: #F8EBDD; }
+.ss-warrant-chip.analogical { border-color: #8A4B57; color: #633540; background: #F6E7E9; }
+.ss-warrant-chip.theory_derived { border-color: #6E4B85; color: #503661; background: #F0E8F5; }
 .ss-credence-row { display: flex; gap: 20px; flex-wrap: wrap; }
 .ss-cred-item { flex: 1; min-width: 130px; }
 .ss-cred-label { font-size: 0.77rem; color: #4A3E32; margin-bottom: 3px; }
@@ -443,7 +447,7 @@ body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
 
 <!-- TOP NAV -->
 <nav class="topnav">
-  <a class="wordmark" href="#">
+  <a class="wordmark" href="ka_home.html">
     <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
       <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
       <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
@@ -509,12 +513,12 @@ body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
           <div class="pd-name">David Kirsh</div>
           <div class="pd-role">Researcher · UCSD Cognitive Science</div>
         </div>
-        <a href="#">👤 My Profile</a>
-        <a href="#">⭐ Saved Evidence</a>
-        <a href="#">📋 My Queries</a>
-        <a href="#">🔔 Notifications</a>
-        <a href="#">⚙️ Settings</a>
-        <a href="#" class="signout">← Sign Out</a>
+        <a href="ka_dashboard.html">👤 My Profile</a>
+        <a href="ka_evidence.html">⭐ Saved Evidence</a>
+        <a href="#" onclick="return false" style="opacity:0.5;cursor:default" title="Coming soon">📋 My Queries</a>
+        <a href="#" onclick="return false" style="opacity:0.5;cursor:default" title="Coming soon">🔔 Notifications</a>
+        <a href="#" onclick="return false" style="opacity:0.5;cursor:default" title="Coming soon">⚙️ Settings</a>
+        <a href="ka_login.html" class="signout">← Sign Out</a>
       </div>
     </div>
 
@@ -528,13 +532,13 @@ body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
   <nav class="sidenav">
     <div class="sidenav-nav">
       <div class="sidenav-section-header">Ask</div>
-      <a href="#" class="active">💬 Ask a Question</a>
-      <a href="#">🔄 Compare Answers</a>
-      <a href="#">📋 Session History</a>
+      <a href="ka_demo_v04.html" class="active">💬 Ask a Question</a>
+      <a href="#" onclick="return false" style="opacity:0.5;cursor:default" title="Coming soon">🔄 Compare Answers</a>
+      <a href="#" onclick="return false" style="opacity:0.5;cursor:default" title="Coming soon">📋 Session History</a>
       <div class="sidenav-section-header" style="margin-top:8px;">Tools</div>
-      <a href="#">🧭 Question Guide</a>
-      <a href="#">📐 Scope Check</a>
-      <a href="#">⚙️ Answer Settings</a>
+      <a href="ka_question_maker.html">🧭 Question Guide</a>
+      <a href="#" onclick="return false" style="opacity:0.5;cursor:default" title="Coming soon">📐 Scope Check</a>
+      <a href="#" onclick="return false" style="opacity:0.5;cursor:default" title="Coming soon">⚙️ Answer Settings</a>
     </div>
 
     <div class="sidenav-divider"></div>
@@ -625,7 +629,7 @@ body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
     <div id="evidence-section">
     <div class="evidence-row">
       <div class="study-ref">
-        <a href="#" class="study-link">Viola et al. (2008)</a> — Loughborough University field study
+        <a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Viola et al. (2008)</a> — Loughborough University field study
         <a href="#" class="summary-link" onclick="openSciSummary('viola2008');return false;">→ Science Summary</a>
       </div>
       <div class="study-text">Office workers with daylight-optimized fixtures showed significantly higher alertness ratings and
@@ -649,7 +653,7 @@ body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
 
     <div class="evidence-row">
       <div class="study-ref">
-        <a href="#" class="study-link">Edwards &amp; Torcellini (2002)</a> — NREL <span class="acr-small">[National Renewable Energy Laboratory]</span> review, 13 daylighting studies
+        <a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Edwards &amp; Torcellini (2002)</a> — NREL <span class="acr-small">[National Renewable Energy Laboratory]</span> review, 13 daylighting studies
         <a href="#" class="summary-link" onclick="openSciSummary('edwards2002');return false;">→ Science Summary</a>
       </div>
       <div class="study-text">Narrative review of workplace daylighting interventions; 10/13 studies reported positive
@@ -725,7 +729,7 @@ body { font-family: Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; }
 
       <!-- Warrant chain -->
       <div class="ss-section">
-        <div class="ss-section-label">Warrant Chain <span class="acr-small">[Toulmin warrant structure: grounds → claim backing]</span></div>
+        <div class="ss-section-label">Warrant Chain <span class="acr-small">[Toulmin scaffold: grounds → claim backing; colored tags show ATLAS canonical bridge types]</span></div>
         <div class="ss-warrant-row" id="ss-warrants"></div>
       </div>
 
@@ -768,9 +772,8 @@ const SS_DATA = {
     quote: '"Participants in the daylight-spectrum condition reported significantly higher vitality scores (p &lt; .01) and showed faster median RT on PVT blocks 3 and 4, consistent with enhanced circadian alerting during the post-lunch dip."',
     quoteCite: 'Viola, A.U., James, L.M., Schlangen, L.J., & Dijk, D.J. (2008). Blue-enriched white light in the workplace improves self-reported alertness, performance and sleep quality. Scandinavian Journal of Work, Environment & Health, 34(4), 297–306.',
     warrants: [
-      { label: '✅ Constitutive', cls: 'constitutive', tip: 'Alertness → PVT performance (direct measurement)' },
-      { label: '⚡ Probabilistic', cls: 'probabilistic', tip: 'Circadian pathway (plausible, not directly measured)' },
-      { label: '⚠️ Rebuttal condition', cls: 'rebuttal', tip: 'Single workplace; seasonal confound possible' }
+      { label: '≈ Empirical Association', cls: 'empirical_association', tip: 'The crossover study directly supports a positive association between the lighting intervention and alertness / performance outcomes.' },
+      { label: '→ Mechanism', cls: 'mechanism', tip: 'The circadian explanation is mechanistic: blue-enriched light is interpreted through a known biological alerting pathway.' }
     ],
     credence: [
       { label: 'Alertness improvement', val: 0.81, color: '#1A6042' },
@@ -797,8 +800,8 @@ const SS_DATA = {
     quote: '"Of the 13 studies reviewed, 10 reported improvements in at least one productivity or wellbeing measure associated with increased daylighting. However, the variability in outcome measures and study designs precludes strong quantitative synthesis."',
     quoteCite: 'Edwards, L., & Torcellini, P. (2002). A literature review of the effects of natural light on building occupants. NREL Technical Report NREL/TP-550-30769.',
     warrants: [
-      { label: '⚡ Probabilistic', cls: 'probabilistic', tip: 'Convergent across studies but methodologically heterogeneous' },
-      { label: '⚠️ Rebuttal condition', cls: 'rebuttal', tip: 'Narrative review; no meta-analytic effect size; publication bias possible' }
+      { label: '≈ Empirical Association', cls: 'empirical_association', tip: 'The review reports convergent empirical associations across multiple daylighting studies.' },
+      { label: 'ƒ Functional', cls: 'functional', tip: 'The reported benefits are functionally similar across heterogeneous settings, even where the exact mechanism differs between studies.' }
     ],
     credence: [
       { label: 'Wellbeing benefit', val: 0.62, color: '#7A4400' },
@@ -825,9 +828,8 @@ const SS_DATA = {
     quote: '"Workers in windowless offices slept an average of 46 minutes less per night and reported significantly poorer sleep quality, more physical inactivity, and lower vitality scores compared to workers with window access."',
     quoteCite: 'Boubekri, M., Cheung, I.N., Reid, K.J., Wang, C., & Zee, P.C. (2014). Impact of windows and daylight exposure on overall health and sleep quality of office workers. Journal of Clinical Sleep Medicine, 10(6), 603–611.',
     warrants: [
-      { label: '✅ Constitutive', cls: 'constitutive', tip: 'Light exposure → circadian phase setting (melanopsin pathway, well-established in photobiology)' },
-      { label: '⚡ Probabilistic', cls: 'probabilistic', tip: 'Window access → sleep duration: mediated by light dose and circadian entrainment' },
-      { label: '⚠️ Rebuttal condition', cls: 'rebuttal', tip: 'Matched observational design — self-selection into windowed vs. windowless office may introduce unmeasured confounds; n = 49' }
+      { label: '≈ Empirical Association', cls: 'empirical_association', tip: 'The matched-cohort comparison supports an empirical association between window access and sleep-related outcomes.' },
+      { label: '→ Mechanism', cls: 'mechanism', tip: 'The explanatory bridge is mechanistic: light dose is linked to circadian entrainment and downstream sleep effects.' }
     ],
     credence: [
       { label: 'Sleep duration benefit', val: 0.77, color: '#1A6042' },
@@ -855,8 +857,7 @@ const SS_DATA = {
     quote: '"A large portion of replications produced weaker evidence for the original findings. In this dataset, 36% of replications had statistically significant results, and the mean effect size in replications was half the magnitude of the original."',
     quoteCite: 'Open Science Collaboration. (2015). Estimating the reproducibility of psychological science. Science, 349(6251), aac4716.',
     warrants: [
-      { label: '✅ Constitutive', cls: 'constitutive', tip: 'Direct replication: same hypothesis, same validated protocol, independent sample — the gold standard for evidential strength assessment' },
-      { label: '⚠️ Rebuttal condition', cls: 'rebuttal', tip: 'Replication failure is necessary but not sufficient to disconfirm any individual original finding; context moderators matter' }
+      { label: '≈ Empirical Association', cls: 'empirical_association', tip: 'The replication project supplies a large empirical pattern about effect attenuation and reproducibility across studies.' }
     ],
     credence: [
       { label: 'Field-level replication ~36%', val: 0.90, color: '#1A6042' },
@@ -940,7 +941,7 @@ const QUERY_BANK = {
     evidenceHTML: `
       <div class="evidence-row">
         <div class="study-ref">
-          <a href="#" class="study-link">Boubekri et al. (2014)</a> — University of Illinois, matched workplace cohort
+          <a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Boubekri et al. (2014)</a> — University of Illinois, matched workplace cohort
           <a href="#" class="summary-link" onclick="openSciSummary('boubekri2014');return false;">→ Science Summary</a>
         </div>
         <div class="study-text">49 day-shift workers matched across windowed vs. windowless offices. Window-side workers showed
@@ -987,7 +988,7 @@ const QUERY_BANK = {
     evidenceHTML: `
       <div class="evidence-row">
         <div class="study-ref">
-          <a href="#" class="study-link">Open Science Collaboration (2015)</a> — Science, 349(6251)
+          <a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Open Science Collaboration (2015)</a> — Science, 349(6251)
           <a href="#" class="summary-link" onclick="openSciSummary('osc2015');return false;">→ Science Summary</a>
         </div>
         <div class="study-text">270 researchers independently replicated 100 psychology studies. 36% of replications
@@ -1025,7 +1026,7 @@ const QUERY_BANK = {
       <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Practice reduces but does not eliminate cost</strong> — Extensive practice can nearly abolish dual-task cost for highly automatised skill combinations (Spelke et al., 1976)</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Pashler (1994)</a> — Psychological Bulletin, 116(2), 220–244.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Pashler (1994)</a> — Psychological Bulletin, 116(2), 220–244.</div>
         <div class="study-text">Comprehensive review of dual-task experiments using the PRP paradigm. Demonstrated
         that response-selection cannot proceed in parallel for two tasks regardless of whether they involve
         different sensory channels. The bottleneck localises to a central, amodal decision stage, not to
@@ -1035,7 +1036,7 @@ const QUERY_BANK = {
         </div>
       </div>
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Kahneman (1973)</a> — Attention and Effort. Prentice-Hall.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Kahneman (1973)</a> — Attention and Effort. Prentice-Hall.</div>
         <div class="study-text">Proposed the unitary capacity model: a limited general-purpose resource shared
         across simultaneously performed tasks. When total demand exceeds capacity, performance on one or both
         tasks degrades. Predicts greater interference for capacity-demanding tasks than for automatic ones.</div>
@@ -1066,7 +1067,7 @@ const QUERY_BANK = {
       <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanism partially understood</strong> — Arousal and thermoregulatory resource competition are plausible but not definitively isolated; CNFA neurophysiological measures (HRV, EDA) could test this directly</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Seppänen, Fisk & Faulkner (2003)</a> — Indoor Air, 14(S7), 74–81.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Seppänen, Fisk & Faulkner (2003)</a> — Indoor Air, 14(S7), 74–81.</div>
         <div class="study-text">Meta-analysis of 24 field and lab studies relating temperature to call-centre
         productivity and office task performance. Found a 2% decrease in performance per degree Celsius above
         25°C, and a threshold effect: performance was roughly flat across 21–23°C then declined at higher
@@ -1076,7 +1077,7 @@ const QUERY_BANK = {
         </div>
       </div>
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Wyon (2004)</a> — Indoor Air, 14(S7), 56–64.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Wyon (2004)</a> — Indoor Air, 14(S7), 56–64.</div>
         <div class="study-text">Review of controlled chamber experiments examining text-typing speed, creative
         thinking tasks, and simulated office work under varied temperatures. Identified 22°C as the approximate
         performance optimum for complex tasks; simpler tasks (vigilance, data entry) showed less temperature
@@ -1109,7 +1110,7 @@ const QUERY_BANK = {
       <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanism debated</strong> — Desirable difficulties, study-phase retrieval, and consolidation-window accounts each have empirical support; no consensus on which is primary</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Cepeda et al. (2006)</a> — Psychological Bulletin, 132(3), 354–380.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Cepeda et al. (2006)</a> — Psychological Bulletin, 132(3), 354–380.</div>
         <div class="study-text">Meta-analysis of 254 spacing-effect studies. Found a robust advantage of distributed
         over massed practice across virtually all studies, with the magnitude increasing with retention interval.
         The optimal spacing gap (inter-study interval) scales with the intended retention interval — a key
@@ -1142,7 +1143,7 @@ const QUERY_BANK = {
       <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Open-plan context</strong> — In open offices, noise sources are typically intelligible speech, not white noise — which predicts impairment, not enhancement, for most knowledge-work tasks</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Mehta, Zhu & Cheema (2012)</a> — Journal of Consumer Research, 39(4), 784–799.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Mehta, Zhu & Cheema (2012)</a> — Journal of Consumer Research, 39(4), 784–799.</div>
         <div class="study-text">Five experiments manipulated ambient coffee-shop noise levels and measured
         divergent creative thinking, product preference novelty, and abstract thinking. Moderate noise (~70 dB)
         improved creative performance vs. quiet (~50 dB) and loud (~85 dB) conditions. Effect sizes were small
@@ -1152,7 +1153,7 @@ const QUERY_BANK = {
         </div>
       </div>
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Banbury & Berry (1998)</a> — Journal of Experimental Psychology: Applied, 4(3), 216–232.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Banbury & Berry (1998)</a> — Journal of Experimental Psychology: Applied, 4(3), 216–232.</div>
         <div class="study-text">Showed that intelligible irrelevant speech degrades serial recall and reading
         comprehension in proportion to its intelligibility. White noise of equal loudness does not produce the
         same impairment — indicating the harm is in the linguistic content, not the acoustic energy per se.</div>
@@ -1184,7 +1185,7 @@ const QUERY_BANK = {
       <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Best support for achromatic contrast effects</strong> — High contrast and brightness reliably affect arousal and legibility; these effects are more robustly replicated than hue-specific effects</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Mehta & Zhu (2009)</a> — Science, 323(5918), 1226–1229.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Mehta & Zhu (2009)</a> — Science, 323(5918), 1226–1229.</div>
         <div class="study-text">Six experiments across two studies using red, blue, and neutral (white/grey) background
         colors. Red improved performance on tasks requiring accuracy and caution (e.g., recall of error-prone
         strings); blue improved performance on divergent creative tasks. Effects held across computer-based
@@ -1217,7 +1218,7 @@ const QUERY_BANK = {
       <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Distinction: acute vs. chronic</strong> — Brief standing may increase arousal acutely; long-term standing introduces fatigue and musculoskeletal load — temporal dynamics matter</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Edwardson et al. (2018)</a> — BMJ, 357, j2047.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Edwardson et al. (2018)</a> — BMJ, 357, j2047.</div>
         <div class="study-text">Cluster RCT of 146 office workers randomly assigned to height-adjustable desks
         plus behaviour change support versus control. The intervention group reduced sitting time by 1.28 hours/day
         at 12 months. No significant differences in cognitive performance (Trail Making, Digit Symbol Coding)
@@ -1251,7 +1252,7 @@ const QUERY_BANK = {
       <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Ecological relevance</strong> — Open-office workers face media multitasking environments continuously; this finding has direct implications for workspace design and digital interruption policy</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Ophir, Nass & Wagner (2009)</a> — PNAS, 106(37), 15583–15587.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Ophir, Nass & Wagner (2009)</a> — PNAS, 106(37), 15583–15587.</div>
         <div class="study-text">Classified 100 Stanford undergraduates as heavy vs. light media multitaskers via
         the Media Multitasking Index. HMMs showed worse performance on a filtering task (visual arrays),
         a task-switching paradigm, and a working memory letter-number task. The pattern held across all
@@ -1285,7 +1286,7 @@ const QUERY_BANK = {
       <div class="strip strip-strong"><span class="strip-icon">✅</span><span><strong>Direction well-supported</strong> — Multiple labs confirm that nature images/views outperform built scenes on post-exposure attention measures</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Lee et al. (2015)</a> — Journal of Environmental Psychology, 42, 182–189.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Lee et al. (2015)</a> — Journal of Environmental Psychology, 42, 182–189.</div>
         <div class="study-text">Participants completed a sustained-attention task (SART) with a 40-second
         micro-break. Break view condition (green rooftop vs. concrete rooftop) was experimentally assigned.
         EEG alpha suppression during the break confirmed greater restorative idling for the green condition.
@@ -1320,7 +1321,7 @@ const QUERY_BANK = {
       <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Multiple pathways</strong> — Visual biophilia, air quality, and perceived control may each contribute; controlled designs isolating each pathway are sparse</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Lohr et al. (1996)</a> — HortScience, 31(1), 47–51.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Lohr et al. (1996)</a> — HortScience, 31(1), 47–51.</div>
         <div class="study-text">Participants completed a computerised task in a room with or without plants.
         Those in the plant room showed lower systolic blood pressure readings and rated the task as less
         stressful. A third condition (blank walls) fell between, providing a dose-response hint.</div>
@@ -1329,7 +1330,7 @@ const QUERY_BANK = {
         </div>
       </div>
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Knight & Haslam (2010)</a> — Journal of Experimental Psychology: Applied, 16(2), 158–172.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Knight & Haslam (2010)</a> — Journal of Experimental Psychology: Applied, 16(2), 158–172.</div>
         <div class="study-text">Office workers were assigned to bare, enriched (plants + art), or worker-enriched
         conditions. Enriched conditions improved wellbeing and self-reported productivity; worker-chosen enrichment
         produced larger effects than manager-imposed enrichment, emphasising the mediating role of perceived control.</div>
@@ -1363,7 +1364,7 @@ const QUERY_BANK = {
       <div class="strip strip-mixed"><span class="strip-icon">⚠️</span><span><strong>Ecological validity</strong> — Chang et al. used extreme exposure (4 hours, maximum brightness); typical evening screen use may produce smaller shifts</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Chang et al. (2015)</a> — PNAS, 112(4), 1232–1237.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Chang et al. (2015)</a> — PNAS, 112(4), 1232–1237.</div>
         <div class="study-text">12 participants in a within-subjects crossover read from a light-emitting e-reader
         vs. a printed book for 4 hours before bed for 5 consecutive nights each. The e-reader condition delayed
         melatonin onset by ~1.5 hours, reduced sleepiness, shortened REM sleep, and impaired morning alertness
@@ -1398,7 +1399,7 @@ const QUERY_BANK = {
       <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanism: uncontrollable noise</strong> — The harm is specifically from uncontrollable, intelligible speech — a feature of social density, not of openness per se</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Kim & de Dear (2013)</a> — Journal of Environmental Psychology, 36, 18–26.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Kim & de Dear (2013)</a> — Journal of Environmental Psychology, 36, 18–26.</div>
         <div class="study-text">Cross-sectional analysis of 42,764 respondents across open-plan, cubicle,
         and private office layouts. Open-plan workers were significantly more dissatisfied with noise and
         privacy than cubicle or private-office workers. The paper found no compensating advantage in
@@ -1408,7 +1409,7 @@ const QUERY_BANK = {
         </div>
       </div>
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Evans & Johnson (2000)</a> — Journal of Applied Psychology, 85(5), 779–783.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Evans & Johnson (2000)</a> — Journal of Applied Psychology, 85(5), 779–783.</div>
         <div class="study-text">40 clerical workers exposed to 3 hours of open-plan noise (low-level, uncontrollable
         speech noise). Compared to a quiet condition, noise workers showed higher urinary epinephrine, made
         fewer ergonomic adjustments, and chose fewer difficult puzzles in a post-task motivation measure.
@@ -1442,7 +1443,7 @@ const QUERY_BANK = {
       <div class="strip strip-theory"><span class="strip-icon">🔵</span><span><strong>Mechanism converging</strong> — Catecholamine release and increased cerebral blood flow are the most supported pathways; direct pharmacological evidence (Arnsten, 2011) supports the NE-PFC link</span></div>`,
     evidenceHTML: `
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Chang et al. (2012)</a> — British Journal of Sports Medicine, 46(6), 443–450.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Chang et al. (2012)</a> — British Journal of Sports Medicine, 46(6), 443–450.</div>
         <div class="study-text">Meta-analysis of 79 experimental studies examining acute aerobic exercise effects
         on cognition. Overall d = 0.52 for cognitive performance, strongest for executive function (d ≈ 0.60)
         and concentration tasks. Effects were present immediately post-exercise and persisted for up to 60
@@ -1452,7 +1453,7 @@ const QUERY_BANK = {
         </div>
       </div>
       <div class="evidence-row">
-        <div class="study-ref"><a href="#" class="study-link">Hillman et al. (2008)</a> — Neuroscience, 155(4), 1044–1051.</div>
+        <div class="study-ref"><a href="ka_evidence.html" class="study-link" title="View in Evidence Inspector">Hillman et al. (2008)</a> — Neuroscience, 155(4), 1044–1051.</div>
         <div class="study-text">Preadolescents completed cognitive tasks before and after 20 minutes of aerobic
         exercise or seated rest. Post-exercise P3 amplitude increased and task accuracy improved, particularly
         for executive function tasks. EEG findings support enhanced attentional resource allocation as

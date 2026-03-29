@@ -470,13 +470,43 @@
             border: 1px solid #2A7868;
         }
 
-        .warrant-pill.auxiliary {
-            background-color: #FFF3E0;
-            color: #E8872A;
-            border: 1px solid #E8872A;
+        .warrant-pill.mechanism {
+            background-color: #E7F0F8;
+            color: #2D5F8B;
+            border: 1px solid #2D5F8B;
         }
 
-        .warrant-pill.complementary {
+        .warrant-pill.empirical_association {
+            background-color: #EDF3E5;
+            color: #496A2D;
+            border: 1px solid #496A2D;
+        }
+
+        .warrant-pill.functional {
+            background-color: #F8F0E2;
+            color: #8A6232;
+            border: 1px solid #8A6232;
+        }
+
+        .warrant-pill.capacity {
+            background-color: #F8EBDD;
+            color: #9B6D3C;
+            border: 1px solid #9B6D3C;
+        }
+
+        .warrant-pill.analogical {
+            background-color: #F6E7E9;
+            color: #8A4B57;
+            border: 1px solid #8A4B57;
+        }
+
+        .warrant-pill.theory_derived {
+            background-color: #F0E8F5;
+            color: #6E4B85;
+            border: 1px solid #6E4B85;
+        }
+
+        .warrant-pill.unknown {
             background-color: #F0F0F0;
             color: #666;
             border: 1px solid #CCC;
@@ -574,6 +604,19 @@
 
         .add-button:hover {
             background-color: #D67B1B;
+        }
+
+        .evidence-cta {
+            font-size: 0.8rem;
+            color: #2A7868;
+            text-decoration: none;
+            display: inline-block;
+            margin-right: 1.5rem;
+            transition: text-decoration 0.15s;
+        }
+
+        .evidence-cta:hover {
+            text-decoration: underline;
         }
 
         /* PAGINATION */
@@ -860,18 +903,8 @@
 
             <!-- Warrant Type Filter -->
             <div class="filter-section">
-                <label class="filter-label">Warrant Type</label>
-                <div class="checkbox-group">
-                    <label class="checkbox-item">
-                        <input type="checkbox" value="Constitutive" class="warrant-filter"> Constitutive
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" value="Auxiliary" class="warrant-filter"> Auxiliary
-                    </label>
-                    <label class="checkbox-item">
-                        <input type="checkbox" value="Complementary" class="warrant-filter"> Complementary
-                    </label>
-                </div>
+                <label class="filter-label">Bridge Warrant Type</label>
+                <div class="checkbox-group" id="warrantFilterGroup"></div>
             </div>
 
             <!-- Credence Slider -->
@@ -887,7 +920,7 @@
             </div>
 
             <!-- Clear Filters -->
-            <a href="#" class="clear-filters" id="clearFilters">Clear all filters</a>
+            <button type="button" class="clear-filters" id="clearFilters">Clear all filters</button>
 
             <!-- Result Badge -->
             <div class="result-badge" id="resultCount">20 Results</div>
@@ -1011,14 +1044,14 @@
                 construct: "Well-being",
                 signal: "Self-report",
                 studyType: "Meta-analysis",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.68,
                 year: 2019,
                 citation: "White, M. P., Alcock, I., Wheeler, B. W., & Depledge, M. H. (2019). Would you be happier living in a greener urban area? A fixed-effects analysis of panel data. Ecological Economics, 121, 47–56.",
                 abstract: "Meta-analysis of 38 studies examining nature exposure and self-reported well-being. Moderate effect sizes consistent across samples, though publication bias present.",
                 claim: "Nature exposure correlates with improved self-reported mood and well-being",
                 methodology: "Meta-analysis (k=38); diverse measures (PANAS, WHO-5, custom scales); cross-sectional and longitudinal",
-                warrant_chain: "Self-report mood → Well-being (auxiliary warrant, d=0.50)"
+                warrant_chain: "Self-report mood → Well-being (empirical association bridge, d=0.50)"
             },
             {
                 id: 6,
@@ -1026,14 +1059,14 @@
                 construct: "Working Memory Load",
                 signal: "Pupil",
                 studyType: "Lab Experiment",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.72,
                 year: 2010,
                 citation: "Granholm, E., Asarnow, R. F., Sarkin, A. J., & Dykes, K. L. (2010). Pupillary responses index cognitive resource limitations. Psychophysiology, 33(4), 457–461.",
                 abstract: "Study of pupil size dynamics during N-back working memory task. Pupil dilation correlates with task difficulty but shows more individual variability than EEG measures.",
                 claim: "Pupil dilation correlates with working memory load",
                 methodology: "Within-subjects; N=24; eye-tracking at 120 Hz; 1-back, 2-back, 3-back tasks",
-                warrant_chain: "Pupil dilation → WM Load (auxiliary warrant, d=0.72)"
+                warrant_chain: "Pupil dilation → WM Load (empirical association bridge, d=0.72)"
             },
             {
                 id: 7,
@@ -1041,14 +1074,14 @@
                 construct: "Mental Fatigue",
                 signal: "HRV",
                 studyType: "Lab Experiment",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.65,
                 year: 2016,
                 citation: "Thayer, J. F., Åhs, F., Fredrikson, M., Sollers, J. J., & Wager, T. D. (2016). A meta-analysis of heart rate variability and neuroimaging studies. Frontiers in Neuroscience, 6, 258.",
                 abstract: "Meta-analysis of HRV dynamics during cognitive tasks. RMSSD (parasympathetic index) shows decline during effortful cognition, but effect size moderate due to task heterogeneity.",
                 claim: "Reduced HRV parasympathetic power indexes sustained cognitive effort",
                 methodology: "Meta-analysis (k=45); diverse cognitive tasks; continuous or post-task HRV assessment",
-                warrant_chain: "HRV parasympathetic → Mental Fatigue (auxiliary warrant, d=0.65)"
+                warrant_chain: "HRV parasympathetic → Mental Fatigue (empirical association bridge, d=0.65)"
             },
             {
                 id: 8,
@@ -1056,14 +1089,14 @@
                 construct: "Valence",
                 signal: "EEG",
                 studyType: "Lab Experiment",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.58,
                 year: 2004,
                 citation: "Sutton, S. K., & Davidson, R. J. (2004). Prefrontal brain asymmetry: A biological substrate of the behavioral approach and inhibition systems. Psychological Science, 8(3), 204–210.",
                 abstract: "Foundational work linking left frontal alpha asymmetry to approach-related motivation. Effect sizes moderate; replication success variable across labs.",
                 claim: "Left frontal alpha asymmetry indexes approach motivation and positive emotion",
                 methodology: "Eyes-closed resting EEG; N=16; validated against behavioral approach tasks",
-                warrant_chain: "EEG alpha asymmetry → Valence (auxiliary warrant, d=0.58)"
+                warrant_chain: "EEG alpha asymmetry → Valence (empirical association bridge, d=0.58)"
             },
             {
                 id: 9,
@@ -1071,14 +1104,14 @@
                 construct: "Creativity",
                 signal: "EEG",
                 studyType: "Lab Experiment",
-                warrant: "Primary",
+                warrant: "Empirical Association",
                 credence: 0.71,
                 year: 2004,
                 citation: "Jung-Beeman, M., Bowden, E. M., Haberman, J., Frymiare, J. L., Arambel-Liu, S., & Greenblatt, R. (2004). Neural activity when people solve verbal problems with insight. PLoS Biology, 2(4), e97.",
                 abstract: "fMRI/EEG study identifying right anterior superior temporal gyrus burst preceding insight solutions. Strong effect in this sample, but difficult to replicate.",
                 claim: "Right frontal gamma oscillations precede conscious insight",
                 methodology: "fMRI+EEG concurrent; N=13; remote associates task; insightful vs. analytical solutions",
-                warrant_chain: "Right frontal gamma burst → Creativity (primary warrant, d=0.71)"
+                warrant_chain: "Right frontal gamma burst → Creativity (empirical association bridge, d=0.71)"
             },
             {
                 id: 10,
@@ -1086,14 +1119,14 @@
                 construct: "Awe",
                 signal: "Self-report",
                 studyType: "Lab Experiment",
-                warrant: "Primary",
+                warrant: "Empirical Association",
                 credence: 0.74,
                 year: 2003,
                 citation: "Haidt, J. (2003). The moral emotions. In R. J. Davidson, K. R. Scherer, & H. H. Goldsmith (Eds.), Handbook of affective sciences (pp. 852–870). Oxford University Press.",
                 abstract: "Experimental evidence that awe (unlike other positive emotions) reliably triggers piloerection. Self-report measures of awe correlate with physiological response.",
                 claim: "Awe reliably elicits piloerection as distinct from other positive emotions",
                 methodology: "Within-subjects; N=40; video induction (nature, music, architecture); video ratings + skin resistance",
-                warrant_chain: "Piloerection + self-report → Awe (primary warrant, d=0.74)"
+                warrant_chain: "Piloerection + self-report → Awe (empirical association bridge, d=0.74)"
             },
             {
                 id: 11,
@@ -1101,14 +1134,14 @@
                 construct: "Flow",
                 signal: "EEG",
                 studyType: "Lab Experiment",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.61,
                 year: 2004,
                 citation: "Keller, J., & Bless, H. (2004). Flow and regulatory compatibility: An experimental approach to the flow model of intrinsic motivation. Personality and Social Psychology Bulletin, 24(4), 412–424.",
                 abstract: "EEG study during video game play at varying difficulty levels. Flow states associated with moderate theta, not maximum. Replication weak.",
                 claim: "Flow is associated with moderate (optimal) frontal theta engagement",
                 methodology: "Within-subjects; N=22; Tetris at difficulty-matched levels; continuous EEG + ESM flow queries",
-                warrant_chain: "EEG theta (moderate) → Flow (auxiliary warrant, d=0.61)"
+                warrant_chain: "EEG theta (moderate) → Flow (empirical association bridge, d=0.61)"
             },
             {
                 id: 12,
@@ -1116,14 +1149,14 @@
                 construct: "LTM",
                 signal: "EEG",
                 studyType: "Lab Experiment",
-                warrant: "Primary",
+                warrant: "Empirical Association",
                 credence: 0.83,
                 year: 1999,
                 citation: "Rugg, M. D., & Curran, T. (1999). Event-related potentials and recognition memory. Trends in Cognitive Sciences, 11(6), 251–257.",
                 abstract: "Comprehensive review of late positive component (LPC) in recognition memory ERP paradigms. Left parietal LPC reliably indexes retrieval of episodic details.",
                 claim: "Left parietal LPC (600–800ms) is a neural correlate of recollection in recognition memory",
                 methodology: "ERP meta-analysis (k=67); recognition paradigms; source vs. item memory dissociation",
-                warrant_chain: "EEG LPC (left parietal) → LTM recollection (primary warrant, d=0.83)"
+                warrant_chain: "EEG LPC (left parietal) → LTM recollection (empirical association bridge, d=0.83)"
             },
             {
                 id: 13,
@@ -1131,14 +1164,14 @@
                 construct: "Social Rapport",
                 signal: "Behavioral",
                 studyType: "Lab Experiment",
-                warrant: "Primary",
+                warrant: "Empirical Association",
                 credence: 0.77,
                 year: 2012,
                 citation: "Chartrand, T. L., & Bargh, J. A. (2012). The chameleon effect: The perception–behavior link and social interaction. Journal of Personality and Social Psychology, 76(6), 893–910.",
                 abstract: "Dyadic interaction study where behavioral synchrony in posture, gesture, and speech rate predicts post-interaction rapport ratings. Effect replicates across studies.",
                 claim: "Behavioral synchrony predicts interpersonal rapport",
                 methodology: "Dyadic interviews; N=20 pairs; video-coded behavior; Heider kinematography; self-report rapport",
-                warrant_chain: "Behavioral synchrony → Social Rapport (primary warrant, d=0.77)"
+                warrant_chain: "Behavioral synchrony → Social Rapport (empirical association bridge, d=0.77)"
             },
             {
                 id: 14,
@@ -1146,14 +1179,14 @@
                 construct: "Stress",
                 signal: "Cortisol",
                 studyType: "Field Study",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.70,
                 year: 2001,
                 citation: "Kunz-Ebrecht, S. R., Kirschbaum, C., Marmot, M., & Steptoe, A. (2001). Differences in cortisol awakening response on work days and weekends in women and men from the Whitehall II cohort. Psychoneuroendocrinology, 29(4), 516–528.",
                 abstract: "Longitudinal field study showing chronically stressed individuals exhibit flattened cortisol diurnal pattern. Effect robust across repeated sampling.",
                 claim: "Chronic stress flattens the normal cortisol diurnal rhythm",
                 methodology: "Longitudinal; N=139; 4 saliva samples daily × 3 months; occupational stress exposure",
-                warrant_chain: "Cortisol curve shape → Chronic stress (auxiliary warrant, d=0.70)"
+                warrant_chain: "Cortisol curve shape → Chronic stress (empirical association bridge, d=0.70)"
             },
             {
                 id: 15,
@@ -1161,14 +1194,14 @@
                 construct: "Stress",
                 signal: "Self-report",
                 studyType: "Field Study",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.62,
                 year: 2018,
                 citation: "Banbury, S. P., & Berry, S. L. (2018). Office noise and health: A review. Work & Stress, 19(3), 243–256.",
                 abstract: "Field study in open-plan offices showing noise exposure predicts increased stress self-report. Confounds with ambient temperature and lighting noted.",
                 claim: "Open-plan office noise exposure correlates with increased stress perception",
                 methodology: "Quasi-experimental; N=45; week-long noise exposure logging; daily stress questionnaires",
-                warrant_chain: "Noise exposure → Self-report stress (auxiliary warrant, d=0.62)"
+                warrant_chain: "Noise exposure → Self-report stress (empirical association bridge, d=0.62)"
             },
             {
                 id: 16,
@@ -1191,14 +1224,14 @@
                 construct: "Mental Fatigue",
                 signal: "Self-report",
                 studyType: "Lab Experiment",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.79,
                 year: 1988,
                 citation: "Hart, S. G., & Staveland, L. E. (1988). Development of NASA-TLX (Task Load Index): Results of empirical and theoretical research. In P. A. Hancock & N. Meshkati (Eds.), Human mental workload (pp. 139–183). North-Holland.",
                 abstract: "Validation study of NASA Task Load Index across single and dual-task conditions. TLX scores predict performance decrements when task difficulty increases.",
                 claim: "NASA-TLX self-report workload correlates with objective task performance",
                 methodology: "Multi-task battery; N=40; dual-task interference paradigm; post-block TLX ratings",
-                warrant_chain: "NASA-TLX workload → Mental Fatigue (auxiliary warrant, d=0.79)"
+                warrant_chain: "NASA-TLX workload → Mental Fatigue (empirical association bridge, d=0.79)"
             },
             {
                 id: 18,
@@ -1206,14 +1239,14 @@
                 construct: "Social Rapport",
                 signal: "HRV",
                 studyType: "Lab Experiment",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.65,
                 year: 2016,
                 citation: "Levenson, R. W., & Gottman, J. M. (2016). Marital interaction: Physiological linkage and affective exchange. Journal of Personality and Social Psychology, 45(3), 587–597.",
                 abstract: "Dyadic study measuring HRV, skin conductance, and respiration synchrony during conversation. Physiological synchrony predicts post-interaction rapport but effect mediated by behavioral mimicry.",
                 claim: "Physiological synchrony between dyad members predicts perceived rapport",
                 methodology: "Dyadic conversation; N=15 couples; continuous physiological recording; post-interaction rapport survey",
-                warrant_chain: "HRV synchrony → Social Rapport (auxiliary warrant, d=0.65)"
+                warrant_chain: "HRV synchrony → Social Rapport (empirical association bridge, d=0.65)"
             },
             {
                 id: 19,
@@ -1221,14 +1254,14 @@
                 construct: "Mental Fatigue",
                 signal: "EDA",
                 studyType: "Lab Experiment",
-                warrant: "Complementary",
+                warrant: "Capacity",
                 credence: 0.60,
                 year: 2015,
                 citation: "Braithwaite, J. J., Watson, D. G., Jones, R., & Rowe, M. (2015). A guide for analysing electrodermal activity (EDA) & skin conductance responses (SCRs) for psychological experiments. Psychophysiology, 52(8), 1123–1126.",
                 abstract: "Meta-analytic review noting tonic skin conductance level habituation across sessions. Effect not consistently task-specific; interpretation unclear.",
                 claim: "EDA tonic level shows session-related habituation patterns",
                 methodology: "Meta-analysis of EDA habituation studies; N_total ~ 500; diverse tasks and durations",
-                warrant_chain: "EDA tonic decline → Session habituation (complementary warrant, d=0.60)"
+                warrant_chain: "EDA tonic decline → Session habituation (capacity bridge, d=0.60)"
             },
             {
                 id: 20,
@@ -1236,14 +1269,14 @@
                 construct: "Stress",
                 signal: "Behavioral",
                 studyType: "Lab Experiment",
-                warrant: "Auxiliary",
+                warrant: "Empirical Association",
                 credence: 0.66,
                 year: 2006,
                 citation: "Nater, U. M., Rohleder, N., Gaab, J., Berger, S., Jud, A., Kirschbaum, C., & Ehlert, U. (2006). Human salivary alpha-amylase reactivity in a psychosocial stress paradigm. International Journal of Psychophysiology, 55(3), 333–342.",
                 abstract: "Early validation of salivary alpha-amylase as acute stress marker. Shows faster kinetics than cortisol, reflecting sympathetic activation.",
                 claim: "Salivary alpha-amylase rises acutely post-stressor via sympathetic pathway",
                 methodology: "TSST paradigm; N=24; saliva sampling every 2 min post-stressor; enzyme immunoassay",
-                warrant_chain: "Alpha-amylase rise → Acute stress (auxiliary warrant, d=0.66)"
+                warrant_chain: "Alpha-amylase rise → Acute stress (empirical association bridge, d=0.66)"
             }
         ];
 
@@ -1260,10 +1293,134 @@
         let searchQuery = '';
 
         let evidenceControlsAttached = false;
+        const DEFAULT_WARRANT_TAXONOMY = {
+            discounts: {
+                constitutive: 1.0,
+                mechanism: 0.8,
+                empirical_association: 0.8,
+                functional: 0.65,
+                capacity: 0.55,
+                analogical: 0.4,
+                theory_derived: 0.25
+            },
+            order: [
+                'constitutive',
+                'mechanism',
+                'empirical_association',
+                'functional',
+                'capacity',
+                'analogical',
+                'theory_derived'
+            ]
+        };
+        const LEGACY_WARRANT_MAP = {
+            constitutive: 'constitutive',
+            auxiliary: 'functional',
+            complementary: 'capacity',
+            primary: 'empirical_association',
+            low: 'empirical_association',
+            medium: 'empirical_association',
+            high: 'empirical_association'
+        };
+        let warrantTaxonomy = DEFAULT_WARRANT_TAXONOMY;
+
+        function canonicalWarrantDisplay(value) {
+            const text = String(value || '').trim().toLowerCase();
+            if (!text) return 'Unknown';
+            const label = text.replace(/_/g, ' ').replace(/\b\w/g, ch => ch.toUpperCase());
+            return label.replace('Theory Derived', 'Theory-Derived');
+        }
+
+        function normalizeWarrantClass(item) {
+            const explicit = String(item.warrant_class || '').trim().toLowerCase();
+            if (warrantTaxonomy.order.includes(explicit)) {
+                return explicit;
+            }
+
+            const legacy = String(item.warrant || '').trim().toLowerCase().replace(/[\s-]+/g, '_');
+            if (warrantTaxonomy.order.includes(legacy)) {
+                return legacy;
+            }
+            if (LEGACY_WARRANT_MAP[legacy]) {
+                return LEGACY_WARRANT_MAP[legacy];
+            }
+
+            const extraction = String(item.extraction_warrant_type || '').trim().toLowerCase();
+            if (extraction === 'pathway_or_interaction_text_to_mechanism_field') {
+                return 'mechanism';
+            }
+            if (extraction === 'multi_result_integration_to_synthesis_field') {
+                return 'functional';
+            }
+            if (extraction === 'manipulation_or_reliability_text_to_validation_field') {
+                return 'capacity';
+            }
+            if (extraction === 'theme_or_descriptor_text_to_qualitative_field') {
+                return 'capacity';
+            }
+            if (extraction === 'indicator_pattern_plus_author_interpretation_to_construct_field') {
+                return 'functional';
+            }
+            if (extraction === 'measured_result_to_indicator_field' || extraction === 'condition_or_group_contrast_to_comparative_field') {
+                return 'empirical_association';
+            }
+
+            const family = String(item.article_type_warrant_family || '').trim().toLowerCase();
+            if (warrantTaxonomy.order.includes(family)) {
+                return family;
+            }
+            return 'empirical_association';
+        }
+
+        function normalizeEvidenceItem(item) {
+            const warrantClass = normalizeWarrantClass(item);
+            const display = canonicalWarrantDisplay(warrantClass);
+            const discount = item.warrant_discount ?? warrantTaxonomy.discounts[warrantClass] ?? null;
+            const extractionType = String(item.extraction_warrant_type || '').trim();
+            const claimRole = String(item.claim_role || '').trim();
+            let warrantChain = String(item.warrant_chain || '').trim();
+
+            if (!warrantChain) {
+                warrantChain = `${display} bridge`;
+                if (typeof discount === 'number') {
+                    warrantChain += ` (d=${discount.toFixed(2)})`;
+                }
+            }
+
+            return {
+                ...item,
+                warrant: display,
+                warrant_class: warrantClass,
+                warrant_discount: discount,
+                extraction_warrant_type: extractionType,
+                claim_role: claimRole,
+                warrant_chain: warrantChain
+            };
+        }
+
+        function renderWarrantFilters() {
+            const group = document.getElementById('warrantFilterGroup');
+            if (!group) return;
+            const present = new Set(evidenceData.map(item => item.warrant_class).filter(Boolean));
+            group.innerHTML = '';
+
+            warrantTaxonomy.order
+                .filter(warrantClass => present.has(warrantClass))
+                .forEach(warrantClass => {
+                    const label = canonicalWarrantDisplay(warrantClass);
+                    const wrapper = document.createElement('label');
+                    wrapper.className = 'checkbox-item';
+                    wrapper.innerHTML = `<input type="checkbox" value="${warrantClass}" class="warrant-filter"> ${label}`;
+                    group.appendChild(wrapper);
+                });
+        }
 
         async function initializeEvidencePage() {
             const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/evidence.json', { evidence: evidenceFallbackData });
-            evidenceData = payload.evidence && payload.evidence.length ? payload.evidence : evidenceFallbackData;
+            warrantTaxonomy = payload.warrant_taxonomy || DEFAULT_WARRANT_TAXONOMY;
+            const rawEvidence = payload.evidence && payload.evidence.length ? payload.evidence : evidenceFallbackData;
+            evidenceData = rawEvidence.map(normalizeEvidenceItem);
+            renderWarrantFilters();
             filteredData = [...evidenceData];
             document.getElementById('resultCount').textContent = `${filteredData.length} Results`;
             if (!evidenceControlsAttached) {
@@ -1309,12 +1466,10 @@
             });
 
             // Warrant type checkboxes
-            document.querySelectorAll('.warrant-filter').forEach(checkbox => {
-                checkbox.addEventListener('change', function() {
-                    selectedWarrants = Array.from(document.querySelectorAll('.warrant-filter:checked')).map(c => c.value);
-                    currentPage = 1;
-                    filterAndRender();
-                });
+            document.getElementById('warrantFilterGroup').addEventListener('change', function() {
+                selectedWarrants = Array.from(document.querySelectorAll('.warrant-filter:checked')).map(c => c.value);
+                currentPage = 1;
+                filterAndRender();
             });
 
             // Credence slider
@@ -1381,7 +1536,7 @@
                 }
 
                 // Warrant filter
-                if (selectedWarrants.length > 0 && !selectedWarrants.includes(item.warrant)) {
+                if (selectedWarrants.length > 0 && !selectedWarrants.includes(item.warrant_class)) {
                     matches = false;
                 }
 
@@ -1437,7 +1592,7 @@
                     <td class="col-construct">${item.construct}</td>
                     <td class="col-signal">${item.signal}</td>
                     <td class="col-study">${item.studyType}</td>
-                    <td class="col-warrant"><span class="warrant-pill ${item.warrant.toLowerCase()}">${item.warrant}</span></td>
+                    <td class="col-warrant"><span class="warrant-pill ${item.warrant_class}">${item.warrant}</span></td>
                     <td class="col-credence">
                         <div class="credence-bar">
                             <div class="credence-visual">
@@ -1503,9 +1658,18 @@
                                     <div class="detail-label">Warrant Chain</div>
                                     <div class="warrant-chain">${item.warrant_chain}</div>
                                 </div>
+                                <div class="detail-section">
+                                    <div class="detail-label">Warrant Semantics</div>
+                                    <div class="detail-content">Bridge-layer type: ${item.warrant}${typeof item.warrant_discount === 'number' ? ` (d=${item.warrant_discount.toFixed(2)})` : ''}</div>
+                                    <div class="detail-content">Extraction-layer class: ${item.extraction_warrant_type || 'Not exposed in fallback payload'}</div>
+                                </div>
                             </div>
                         </div>
                         <button class="add-button" onclick="addToHypothesis(event)">Add to Hypothesis Brief</button>
+                        <div style="margin-top: 1.5rem; padding-top: 1rem; border-top: 1px solid #E8E0D8;">
+                            <a class="evidence-cta" href="ka_warrants.html">Inspect warrant strength →</a>
+                            <a class="evidence-cta" href="ka_argumentation.html">See critiques →</a>
+                        </div>
                     </td>
                 `;
 
@@ -1609,7 +1773,7 @@ window.KA_PAGE_FUNCTION = {
   evalQuestions: [
     'Is the distinction between this page and the Article Search page legible to a new user?',
     'Does the credence bar communicate uncertainty clearly, or does it look like a quality rating?',
-    'Are the warrant type labels (Constitutive, Probabilistic, Rebuttal) understandable without a glossary?',
+    'Is the distinction between bridge-layer warrant types and extraction-layer warrant classes understandable from the page alone?',
     'Is the filter panel useful — do the filter categories match how researchers actually think about evidence?',
     'Is the "Add to Hypothesis Brief" action discoverable and does its purpose seem clear?'
   ]
