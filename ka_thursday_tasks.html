@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Thursday Exploration Session · Knowledge Atlas</title>
+<style>
+:root {
+  --navy:   #1C3D3A;
+  --teal:   #2A7868;
+  --teal-light: #E0F2EE;
+  --amber:  #E8872A;
+  --amber-dark: #C05A1F;
+  --amber-light: #FFF4E6;
+  --cream:  #F7F4EF;
+  --gold:   #F5A623;
+  --white:  #FFFFFF;
+  --border: #E0DAD3;
+  --purple: #5C3A7E;
+  --purple-light: #F3EEF9;
+}
+*{margin:0;padding:0;box-sizing:border-box}
+html,body{font-family:Georgia,serif;color:var(--navy);background:var(--cream);min-height:100%}
+
+/* NAV */
+nav{position:sticky;top:0;z-index:100;height:56px;background:var(--navy);
+    display:flex;align-items:center;padding:0 24px;gap:24px;
+    box-shadow:0 2px 8px rgba(0,0,0,.1)}
+.wordmark{display:flex;align-items:center;gap:8px;text-decoration:none}
+.wordmark-main{color:var(--gold);font-size:1.1rem;font-weight:700;letter-spacing:-.5px}
+.wordmark-sub{color:rgba(255,255,255,.6);font-size:.8rem;font-family:Arial,sans-serif}
+.nav-links{display:flex;gap:20px;align-items:center;flex:1}
+.nav-links a{color:rgba(255,255,255,.85);text-decoration:none;font-size:.88rem;
+              font-family:Arial,sans-serif;padding:4px 8px;border-radius:4px;transition:.15s}
+.nav-links a:hover{color:#fff;background:rgba(255,255,255,.1)}
+.nav-links a.active{color:var(--gold)}
+.nav-right{margin-left:auto;display:flex;align-items:center;gap:12px}
+.btn-login{color:var(--gold);border:1.5px solid rgba(245,166,35,.5);
+           padding:5px 14px;border-radius:5px;font-size:.82rem;font-weight:700;
+           text-decoration:none;font-family:Arial,sans-serif;transition:.15s}
+.btn-login:hover{background:rgba(245,166,35,.12)}
+
+/* HERO */
+.hero{background:linear-gradient(135deg,var(--navy) 0%,#2A5850 100%);
+      padding:60px 32px 48px;text-align:center;border-bottom:1px solid var(--border)}
+.hero-pill{display:inline-block;background:rgba(245,166,35,.18);
+           color:var(--gold);font-size:.72rem;font-weight:700;letter-spacing:.18em;
+           text-transform:uppercase;padding:5px 16px;border-radius:20px;
+           font-family:Arial,sans-serif;margin-bottom:20px}
+.hero h1{font-size:2.2rem;color:#fff;margin-bottom:12px;font-weight:400;line-height:1.25}
+.hero-sub{font-size:1rem;color:rgba(255,255,255,.75);max-width:600px;
+          margin:0 auto 28px;line-height:1.6;font-family:Arial,sans-serif}
+.hero-meta{display:flex;justify-content:center;gap:32px;flex-wrap:wrap;
+           font-family:Arial,sans-serif;font-size:.82rem;color:rgba(255,255,255,.55)}
+.hero-meta span strong{color:rgba(255,255,255,.9)}
+
+/* MAIN */
+.main{max-width:900px;margin:0 auto;padding:48px 24px 80px}
+
+/* INTRO BOX */
+.intro-box{background:#fff;border-left:4px solid var(--teal);border-radius:6px;
+           padding:24px 28px;margin-bottom:40px;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+.intro-box h2{font-size:1.1rem;color:var(--teal);margin-bottom:12px;font-family:Arial,sans-serif;font-weight:700}
+.intro-box p{font-size:.93rem;line-height:1.7;color:#3A3230;margin-bottom:10px}
+.intro-box p:last-child{margin-bottom:0}
+
+/* SESSION GOAL */
+.goal-row{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;margin-bottom:40px}
+.goal-card{background:#fff;border:1px solid var(--border);border-radius:8px;
+           padding:20px;text-align:center}
+.goal-icon{font-size:1.6rem;margin-bottom:8px}
+.goal-card h3{font-size:.85rem;font-weight:700;font-family:Arial,sans-serif;
+              color:var(--navy);margin-bottom:6px;text-transform:uppercase;letter-spacing:.05em}
+.goal-card p{font-size:.82rem;color:#6A5E50;line-height:1.5;font-family:Arial,sans-serif}
+
+/* TASKS */
+.tasks-header{display:flex;align-items:center;justify-content:space-between;
+              margin-bottom:24px}
+.tasks-header h2{font-size:1.5rem;color:var(--navy)}
+.tasks-note{font-size:.8rem;color:#888;font-family:Arial,sans-serif}
+.task-card{background:#fff;border-radius:10px;margin-bottom:24px;
+           box-shadow:0 2px 8px rgba(0,0,0,.07);overflow:hidden;
+           border:1px solid var(--border)}
+.task-header{padding:16px 24px;display:flex;align-items:center;gap:16px;
+             border-bottom:1px solid var(--border)}
+.task-num{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;
+          justify-content:center;font-size:1.1rem;font-weight:800;
+          font-family:Arial,sans-serif;flex-shrink:0;color:#fff}
+.task-header-text{}
+.task-title{font-size:1.05rem;font-weight:600;color:var(--navy);margin-bottom:3px;
+            font-family:Arial,sans-serif}
+.task-user-type{font-size:.75rem;font-weight:700;font-family:Arial,sans-serif;
+                letter-spacing:.08em;text-transform:uppercase;color:#999}
+.task-body{padding:24px}
+.task-body p{font-size:.92rem;line-height:1.72;color:#3A3230;margin-bottom:14px;font-family:Arial,sans-serif}
+.task-body p:last-child{margin-bottom:0}
+
+.task-prompt{background:var(--amber-light);border-left:3px solid var(--amber);
+             border-radius:0 5px 5px 0;padding:14px 18px;margin:14px 0;
+             font-style:italic;color:#5A3010;font-size:.9rem;line-height:1.65;font-family:Arial,sans-serif}
+.task-steps-label{font-family:Arial,sans-serif;font-size:.73rem;font-weight:700;
+                  letter-spacing:.12em;text-transform:uppercase;color:var(--teal);
+                  margin:18px 0 10px}
+.task-steps{list-style:none;padding:0;margin:0 0 14px}
+.task-steps li{display:flex;gap:10px;padding:7px 0;border-bottom:1px solid #F0EBE5;
+               font-family:Arial,sans-serif;font-size:.88rem;color:#3A3230;line-height:1.5}
+.task-steps li:last-child{border-bottom:none}
+.step-arrow{color:var(--amber);font-weight:700;flex-shrink:0;font-size:.9rem}
+.notice-box{background:var(--teal-light);border-radius:6px;padding:14px 18px;margin:14px 0}
+.notice-box h4{font-size:.75rem;font-weight:700;font-family:Arial,sans-serif;
+               letter-spacing:.1em;text-transform:uppercase;color:var(--teal);margin-bottom:8px}
+.notice-box ul{list-style:none;padding:0}
+.notice-box li{font-size:.85rem;font-family:Arial,sans-serif;color:#2A4840;
+               padding:4px 0;display:flex;gap:8px;line-height:1.45}
+.notice-box li::before{content:"✦";color:var(--teal);font-size:.7rem;
+                       flex-shrink:0;margin-top:3px}
+.reflect-box{background:var(--purple-light);border-radius:6px;padding:13px 18px;margin-top:14px}
+.reflect-box h4{font-size:.73rem;font-weight:700;font-family:Arial,sans-serif;
+                letter-spacing:.1em;text-transform:uppercase;color:var(--purple);margin-bottom:7px}
+.reflect-box p{font-size:.87rem;font-family:Arial,sans-serif;color:#3D2560;
+               line-height:1.55;margin:0}
+
+/* COLORS per task */
+.t1 .task-num{background:#2A7868}
+.t2 .task-num{background:#E8872A}
+.t3 .task-num{background:#5C3A7E}
+.t4 .task-num{background:#1C3D3A}
+.t5 .task-num{background:#C1464F}
+.t6 .task-num{background:#4A8C6E}
+.t7 .task-num{background:#2870A0}
+
+.t1 .task-header{border-left:4px solid #2A7868}
+.t2 .task-header{border-left:4px solid #E8872A}
+.t3 .task-header{border-left:4px solid #5C3A7E}
+.t4 .task-header{border-left:4px solid #1C3D3A}
+.t5 .task-header{border-left:4px solid #C1464F}
+.t6 .task-header{border-left:4px solid #4A8C6E}
+.t7 .task-header{border-left:4px solid #2870A0}
+
+/* BOTTOM BAR */
+.submit-bar{background:var(--navy);border-radius:10px;padding:28px 32px;
+            margin-top:40px;display:flex;align-items:center;gap:24px}
+.submit-bar-text h3{font-size:1rem;color:#fff;margin-bottom:5px;font-family:Arial,sans-serif}
+.submit-bar-text p{font-size:.83rem;color:rgba(255,255,255,.65);font-family:Arial,sans-serif;line-height:1.5}
+.submit-bar-action{margin-left:auto;flex-shrink:0}
+.btn-submit{background:var(--gold);color:var(--navy);padding:11px 24px;border-radius:6px;
+            font-size:.88rem;font-weight:700;text-decoration:none;font-family:Arial,sans-serif;
+            letter-spacing:.03em;transition:.15s;display:block;text-align:center}
+.btn-submit:hover{background:#E8972A}
+
+/* PAGES GUIDE */
+.pages-guide{background:#fff;border-radius:10px;border:1px solid var(--border);
+             padding:28px;margin-bottom:32px;box-shadow:0 1px 4px rgba(0,0,0,.05)}
+.pages-guide h2{font-size:1.15rem;color:var(--navy);margin-bottom:16px;font-family:Arial,sans-serif}
+.page-row{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid #F0EBE5;
+          align-items:flex-start}
+.page-row:last-child{border-bottom:none}
+.page-name{min-width:160px;font-size:.82rem;font-weight:700;font-family:Arial,sans-serif;color:var(--teal)}
+.page-name a{color:var(--teal);text-decoration:none}
+.page-name a:hover{text-decoration:underline}
+.page-desc{font-size:.82rem;font-family:Arial,sans-serif;color:#5A5248;line-height:1.5}
+
+@media(max-width:700px){
+  .goal-row{grid-template-columns:1fr}
+  .hero h1{font-size:1.7rem}
+  .submit-bar{flex-direction:column;text-align:center}
+  .submit-bar-action{margin-left:0}
+}
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="ka_home.html" class="wordmark">
+    <span class="wordmark-main">Knowledge Atlas</span>
+    <span class="wordmark-sub">· UCSD CogSci</span>
+  </a>
+  <div class="nav-links">
+    <a href="ka_topics.html">Explore</a>
+    <a href="ka_evidence.html">Evidence</a>
+    <a href="ka_gaps.html">Gaps</a>
+    <a href="ka_article_search.html">Articles</a>
+    <a href="ka_dashboard.html">Contribute</a>
+    <a href="ka_schedule.html" class="active">Course</a>
+  </div>
+  <div class="nav-right">
+    <a href="ka_login.html" class="btn-login">Sign In</a>
+  </div>
+</nav>
+
+<!-- HERO -->
+<div class="hero">
+  <div class="hero-pill">Self-Guided Session · Thursday</div>
+  <h1>Exploring Knowledge Atlas</h1>
+  <p class="hero-sub">Seven tasks designed for seven kinds of student curiosity. Work through any two or three that match what you care about, then write a short reflection.</p>
+  <div class="hero-meta">
+    <span><strong>Format:</strong> Self-directed, pairs or solo</span>
+    <span><strong>Duration:</strong> ~75 minutes</span>
+    <span><strong>Deliverable:</strong> 1-page reflection (see bottom)</span>
+    <span><strong>Application:</strong> Knowledge Atlas (local)</span>
+  </div>
+</div>
+
+<div class="main">
+
+  <!-- INTRO -->
+  <div class="intro-box">
+    <h2>What this session is for</h2>
+    <p>The goal is not to complete all seven tasks. It is to find <em>one or two topics you actually want to work on</em> — questions where you feel genuine curiosity or frustration about the lack of evidence. ATLAS is a research tool in progress. It contains real papers, real evidence claims, and real gaps. The gaps are the interesting part.</p>
+    <p>As you explore, keep a running list of things that surprise you, things that feel wrong, and claims you want to challenge. These notes are the raw material for your project proposal (due Week 4).</p>
+    <p>You are also looking for places where ATLAS could be better — missing papers, weak claims, features you wish existed. If you find one, that is your contribution opportunity.</p>
+  </div>
+
+  <!-- SESSION GOALS -->
+  <div class="goal-row">
+    <div class="goal-card">
+      <div class="goal-icon">🔍</div>
+      <h3>Find a Topic</h3>
+      <p>Identify one or two neuroarchitecture questions you want to investigate this quarter</p>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon">⚡</div>
+      <h3>Find a Gap</h3>
+      <p>Locate at least one claim that is poorly supported, contested, or missing from the evidence base</p>
+    </div>
+    <div class="goal-card">
+      <div class="goal-icon">✍️</div>
+      <h3>Write a Reflection</h3>
+      <p>One page: what you explored, what you found, what you want to know next</p>
+    </div>
+  </div>
+
+  <!-- PAGES GUIDE -->
+  <div class="pages-guide">
+    <h2>Key pages to navigate during this session</h2>
+    <div class="page-row">
+      <div class="page-name"><a href="ka_topics.html">Explore (Topics)</a></div>
+      <div class="page-desc">Browse neuroarchitecture constructs organised by domain — lighting, acoustics, biophilia, spatial geometry, etc. Start here if you do not know what interests you.</div>
+    </div>
+    <div class="page-row">
+      <div class="page-name"><a href="ka_evidence.html">Evidence</a></div>
+      <div class="page-desc">The evidence cards for a specific construct or claim. Shows the warrant type, credence level, supporting vs. undercutting papers, and the chain of reasoning.</div>
+    </div>
+    <div class="page-row">
+      <div class="page-name"><a href="ka_gaps.html">Gaps</a></div>
+      <div class="page-desc">Research gaps ranked by VOI (value of information). Four types: VALIDATION (contested), MECHANISM (unknown causal path), DIRECTION (sign unclear), BOUNDARY (scope unclear).</div>
+    </div>
+    <div class="page-row">
+      <div class="page-name"><a href="ka_article_search.html">Articles</a></div>
+      <div class="page-desc">Search the article corpus. Enter a keyword or concept and see what papers ATLAS has indexed, what claims they support, and whether they are fully processed or stubs.</div>
+    </div>
+    <div class="page-row">
+      <div class="page-name"><a href="ka_argumentation.html">Argumentation</a></div>
+      <div class="page-desc">Formal warrant and rebuttal structure for a given claim. Useful for understanding why ATLAS assigns a particular credence score.</div>
+    </div>
+    <div class="page-row">
+      <div class="page-name"><a href="ka_hypothesis_builder.html">Hypothesis Builder</a></div>
+      <div class="page-desc">Draft a research hypothesis from a gap. ATLAS suggests testable predictions, measurement approaches, and links to related evidence.</div>
+    </div>
+  </div>
+
+  <!-- TASKS -->
+  <div class="tasks-header">
+    <h2>The Seven Tasks</h2>
+    <span class="tasks-note">Pick 2–3 that fit your interests</span>
+  </div>
+
+  <!-- T1 -->
+  <div class="task-card t1">
+    <div class="task-header">
+      <div class="task-num">1</div>
+      <div class="task-header-text">
+        <div class="task-title">The Curious Newcomer — Starting from a Hunch</div>
+        <div class="task-user-type">User type: No prior background in neuroarchitecture</div>
+      </div>
+    </div>
+    <div class="task-body">
+      <p>You have probably heard that natural light, greenery, or open spaces affect how people feel. This task asks you to take one intuition you already hold and see what the evidence in ATLAS actually says about it — and where it breaks down.</p>
+      <div class="task-prompt">"I want to know what ATLAS says about the relationship between natural light and concentration or wellbeing — and where the evidence gets complicated."</div>
+      <div class="task-steps-label">Workflow on ATLAS</div>
+      <ul class="task-steps">
+        <li><span class="step-arrow">→</span> Open <strong>Explore</strong> and browse the Lighting domain. Find the construct closest to your intuition.</li>
+        <li><span class="step-arrow">→</span> Click through to the <strong>Evidence</strong> view for that construct. Read the top 3 evidence cards.</li>
+        <li><span class="step-arrow">→</span> Note the credence score. Is it high (&gt;0.7) or moderate (0.4–0.7)? What type of warrant is driving it?</li>
+        <li><span class="step-arrow">→</span> Look at the <strong>undercutting</strong> papers (if any). What is the disagreement about — effect size, population, measurement method?</li>
+        <li><span class="step-arrow">→</span> Open <strong>Gaps</strong> and filter by the same domain. What is the highest-VOI gap in Lighting?</li>
+      </ul>
+      <div class="notice-box">
+        <h4>What to notice</h4>
+        <ul>
+          <li>Does the credence score match your prior intuition, or is the evidence weaker than you expected?</li>
+          <li>Are the supporting studies all WEIRD populations (Western, Educated, Industrialised, Rich, Democratic)? Does ATLAS flag this?</li>
+          <li>What kind of study would move the credence score significantly?</li>
+        </ul>
+      </div>
+      <div class="reflect-box">
+        <h4>Reflection prompt</h4>
+        <p>Describe the construct you explored. State the credence score ATLAS assigns and whether you find it convincing. Identify one thing the evidence does not yet establish.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T2 -->
+  <div class="task-card t2">
+    <div class="task-header">
+      <div class="task-num">2</div>
+      <div class="task-header-text">
+        <div class="task-title">The Design Practitioner — From Evidence to Specification</div>
+        <div class="task-user-type">User type: Architecture, design, or product background</div>
+      </div>
+    </div>
+    <div class="task-body">
+      <p>Suppose you are designing a workspace intended to maximise cognitive restoration — the ability of an environment to replenish directed attention. ATLAS contains evidence about which physical features matter. Your task is to extract a set of evidence-backed design recommendations and note where the evidence is thin.</p>
+      <div class="task-prompt">"I want to design a VR environment that maximises restorative experience. What physical features does ATLAS say most reliably predict ART (Attention Restoration Theory) scores?"</div>
+      <div class="task-steps-label">Workflow on ATLAS</div>
+      <ul class="task-steps">
+        <li><span class="step-arrow">→</span> In <strong>Explore</strong>, find the Biophilia or Restorative Environments domain. Identify 3–5 constructs.</li>
+        <li><span class="step-arrow">→</span> For each construct, open the <strong>Evidence</strong> view and note: (a) effect direction, (b) credence, (c) whether the warrant is causal or correlational.</li>
+        <li><span class="step-arrow">→</span> Open <strong>Gaps</strong> and filter for MECHANISM-type gaps in the same domain. These are places where correlation exists but causation is unestablished.</li>
+        <li><span class="step-arrow">→</span> Try the <strong>Hypothesis Builder</strong> with one of the MECHANISM gaps. What testable prediction does ATLAS suggest?</li>
+      </ul>
+      <div class="notice-box">
+        <h4>What to notice</h4>
+        <ul>
+          <li>Do the highest-credence claims correspond to features that are actually designable — or are they difficult to implement in a real building?</li>
+          <li>Are the effect sizes large enough to be meaningful to a client, or are they statistically significant but practically small?</li>
+          <li>Can you distinguish causal from correlational evidence in the card view?</li>
+        </ul>
+      </div>
+      <div class="reflect-box">
+        <h4>Reflection prompt</h4>
+        <p>List three physical features that ATLAS says matter for restoration, with their credence scores. Identify one feature where you would need more evidence before confidently recommending it to a client.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T3 -->
+  <div class="task-card t3">
+    <div class="task-header">
+      <div class="task-num">3</div>
+      <div class="task-header-text">
+        <div class="task-title">The Methodological Sceptic — Tracing the Warrant</div>
+        <div class="task-user-type">User type: Research methods or philosophy of science background</div>
+      </div>
+    </div>
+    <div class="task-body">
+      <p>Pick any claim in ATLAS that has a high credence score (above 0.75). Your job is to interrogate that score. Follow the warrant chain: what kind of evidence supports it, how was credence assigned, and is the confidence justified given the underlying studies?</p>
+      <div class="task-prompt">"Find a claim that ATLAS rates with high confidence and evaluate whether the evidence actually warrants that confidence."</div>
+      <div class="task-steps-label">Workflow on ATLAS</div>
+      <ul class="task-steps">
+        <li><span class="step-arrow">→</span> Browse <strong>Evidence</strong> and sort by credence (high to low). Select a claim above 0.75.</li>
+        <li><span class="step-arrow">→</span> Open the <strong>Argumentation</strong> view for that claim. Read the backing, warrant, and any rebuttals.</li>
+        <li><span class="step-arrow">→</span> Click through to at least one of the source papers (via the Articles view). Who are the participants? What was the study design? What did they actually measure?</li>
+        <li><span class="step-arrow">→</span> Check whether ATLAS notes any BOUNDARY gaps for this claim — scope conditions under which it might not hold.</li>
+      </ul>
+      <div class="notice-box">
+        <h4>What to notice</h4>
+        <ul>
+          <li>Is the warrant type listed as EMPIRICAL, THEORETICAL, or ANALOGICAL? Does this match what you found in the source paper?</li>
+          <li>Are there boundary conditions that ATLAS acknowledges — population, culture, space type? Or does it generalise uncritically?</li>
+          <li>What would you need to see to lower your credence in this claim?</li>
+        </ul>
+      </div>
+      <div class="reflect-box">
+        <h4>Reflection prompt</h4>
+        <p>State the claim and its ATLAS credence score. Evaluate whether the score is too high, about right, or possibly too low based on what you found in the warrant and source papers. Justify your assessment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T4 -->
+  <div class="task-card t4">
+    <div class="task-header">
+      <div class="task-num">4</div>
+      <div class="task-header-text">
+        <div class="task-title">The Generalisability Auditor — Who Is This Evidence About?</div>
+        <div class="task-user-type">User type: Social science or diversity/equity focus</div>
+      </div>
+    </div>
+    <div class="task-body">
+      <p>Most neuroarchitecture research has been conducted in Western, indoor, laboratory or office settings, using undergraduate or white-collar participants. This is a known weakness of the field. This task asks you to systematically assess how generalisable the evidence base in ATLAS actually is.</p>
+      <div class="task-prompt">"I suspect most evidence in ATLAS is based on narrow populations — Western, indoor, university settings. Let me check three claims and see how broad the evidence actually is."</div>
+      <div class="task-steps-label">Workflow on ATLAS</div>
+      <ul class="task-steps">
+        <li><span class="step-arrow">→</span> Pick three constructs from different domains (e.g., one from Lighting, one from Acoustics, one from Biophilia).</li>
+        <li><span class="step-arrow">→</span> For each, go to <strong>Evidence</strong> and look at the source papers listed. Note: participant type, country, setting (lab/field/online), and whether VR or 2D stimuli were used.</li>
+        <li><span class="step-arrow">→</span> Check whether ATLAS flags any BOUNDARY gaps citing population generalisation for each construct.</li>
+        <li><span class="step-arrow">→</span> Search <strong>Articles</strong> for papers that include non-Western or non-indoor contexts. How many does ATLAS have?</li>
+      </ul>
+      <div class="notice-box">
+        <h4>What to notice</h4>
+        <ul>
+          <li>Does ATLAS acknowledge population limitations, or does it present claims as universal without caveat?</li>
+          <li>Is there a systematic pattern — does one domain generalise better than others?</li>
+          <li>What evidence would you need to see to be confident a finding applies to, say, a community centre in a low-income urban neighbourhood in a non-Western country?</li>
+        </ul>
+      </div>
+      <div class="reflect-box">
+        <h4>Reflection prompt</h4>
+        <p>Describe your generalisability audit. For the three claims you examined, rate their generalisability (1–5) and explain what gaps in the evidence base concern you most.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T5 -->
+  <div class="task-card t5">
+    <div class="task-header">
+      <div class="task-num">5</div>
+      <div class="task-header-text">
+        <div class="task-title">The Gap-Hunter — Finding Research Opportunities</div>
+        <div class="task-user-type">User type: Research-oriented, interested in original contribution</div>
+      </div>
+    </div>
+    <div class="task-body">
+      <p>The most valuable thing ATLAS can show you is not what is known, but what is genuinely unknown — and unknown in a way that matters for building design. The Gaps page surfaces these by VOI (Value of Information) score. A high-VOI gap is one where knowing the answer would significantly change what we recommend.</p>
+      <div class="task-prompt">"Use ATLAS to identify three gaps where the evidence is thin or contradictory. For each, write one sentence explaining what kind of study would close the gap."</div>
+      <div class="task-steps-label">Workflow on ATLAS</div>
+      <ul class="task-steps">
+        <li><span class="step-arrow">→</span> Open <strong>Gaps</strong>. Sort by VOI score (descending). Read the top 10.</li>
+        <li><span class="step-arrow">→</span> Select three gaps of different types: one VALIDATION gap (contested finding), one MECHANISM gap (unknown causal path), and one DIRECTION gap (sign of effect is unclear).</li>
+        <li><span class="step-arrow">→</span> For each, read the gap description and click through to the related construct's Evidence view to understand the current state of knowledge.</li>
+        <li><span class="step-arrow">→</span> Use the <strong>Hypothesis Builder</strong> for at least one gap. Does ATLAS suggest a plausible study design?</li>
+      </ul>
+      <div class="notice-box">
+        <h4>What to notice</h4>
+        <ul>
+          <li>What makes the VOI score high — is it high uncertainty, or high consequence if the claim turned out to be wrong?</li>
+          <li>Are any of these gaps addressable with the tools available in COGS160 (VR stimuli, image analysis, observer ratings)?</li>
+          <li>Does ATLAS suggest existing papers that partially address the gap but have not been processed yet?</li>
+        </ul>
+      </div>
+      <div class="reflect-box">
+        <h4>Reflection prompt</h4>
+        <p>Describe your three gaps. For each: gap type, VOI score, and one specific study design (participants, IV, DV, setting) that would close or substantially narrow it.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T6 -->
+  <div class="task-card t6">
+    <div class="task-header">
+      <div class="task-num">6</div>
+      <div class="task-header-text">
+        <div class="task-title">The Tag Explorer — From Measurement to Meaning</div>
+        <div class="task-user-type">User type: Quantitatively oriented, interest in AI or computer vision</div>
+      </div>
+    </div>
+    <div class="task-body">
+      <p>ATLAS's image analysis pipeline operates on 424 CNFA tags — measurable features of photographs of built environments. Not all of these are implemented, and not all have strong evidence linking them to cognitive or affective outcomes. This task asks you to bridge the measurement system and the knowledge base.</p>
+      <div class="task-prompt">"Browse the 424 CNFA tags and identify five that are phase_0 measurable from 2D photographs and connect to a research question I care about. Does ATLAS have evidence about those tags?"</div>
+      <div class="task-steps-label">Workflow on ATLAS</div>
+      <ul class="task-steps">
+        <li><span class="step-arrow">→</span> Open the <a href="../Designing_Experiments/docs/student_tracks/image_tag_table.html" style="color:var(--teal)">Tag Browser (424 tags)</a> in a separate tab. Filter by <strong>from_2d = yes</strong> and explore by domain.</li>
+        <li><span class="step-arrow">→</span> Select 5 tags that interest you and note their tag_id (e.g., <code>luminance_mean</code>, <code>fractal_dimension_fd</code>).</li>
+        <li><span class="step-arrow">→</span> For each tag_id, search <strong>Articles</strong> in ATLAS using the canonical name. Does ATLAS have any papers that use this feature?</li>
+        <li><span class="step-arrow">→</span> Check the <strong>Gaps</strong> page for any gap that mentions measurement or feature extraction. What percentage of identified constructs have measurement gaps?</li>
+      </ul>
+      <div class="notice-box">
+        <h4>What to notice</h4>
+        <ul>
+          <li>Are there tags that are measurable from images but appear in almost no ATLAS evidence? That is a contribution opportunity.</li>
+          <li>Are there constructs in ATLAS evidence that have <em>no</em> corresponding CNFA tag yet? That is a gap in the measurement system itself.</li>
+          <li>Which tags have the richest literature — and which have almost none?</li>
+        </ul>
+      </div>
+      <div class="reflect-box">
+        <h4>Reflection prompt</h4>
+        <p>List your five tags with their domains. For each, describe whether ATLAS has evidence connecting that feature to psychological outcomes, or whether it is a measurement stub awaiting evidence.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- T7 -->
+  <div class="task-card t7">
+    <div class="task-header">
+      <div class="task-num">7</div>
+      <div class="task-header-text">
+        <div class="task-title">The Would-Be Contributor — Finding a Paper Worth Adding</div>
+        <div class="task-user-type">User type: Any track; focused on contribution workflow</div>
+      </div>
+    </div>
+    <div class="task-body">
+      <p>Every paper that enters ATLAS has to come from somewhere — a human (or an automated search) that found it, judged it relevant, and submitted it. This task simulates that contribution workflow: find a paper that ATLAS does not yet have that would strengthen or challenge an existing claim.</p>
+      <div class="task-prompt">"Find one claim in ATLAS that seems under-supported. Then find a paper (using Semantic Scholar, Google Scholar, or Elicit) that would strengthen or challenge it. Describe what you would do to add it."</div>
+      <div class="task-steps-label">Workflow on ATLAS</div>
+      <ul class="task-steps">
+        <li><span class="step-arrow">→</span> In <strong>Evidence</strong>, find a claim with a credence below 0.55 or with only one or two supporting papers.</li>
+        <li><span class="step-arrow">→</span> Note the construct name and the claim text. Open <strong>Semantic Scholar</strong> or <strong>Google Scholar</strong> in another tab and search for papers on that topic published in the last 5 years.</li>
+        <li><span class="step-arrow">→</span> Find one paper that seems relevant. Read the abstract carefully. Does it support, challenge, or refine the claim ATLAS makes?</li>
+        <li><span class="step-arrow">→</span> Navigate to <strong>Contribute → Article Propose</strong> (<a href="ka_article_propose.html" style="color:var(--teal)">ka_article_propose.html</a>) and familiarise yourself with the submission form. You do not need to submit — just understand the fields.</li>
+      </ul>
+      <div class="notice-box">
+        <h4>What to notice</h4>
+        <ul>
+          <li>How easy is it to judge whether a paper is relevant? What information do you need that is not in the abstract?</li>
+          <li>Does the paper you found use the same measurement approach as the existing evidence, or a different one? Does that matter?</li>
+          <li>What fields in the submission form would be hardest to fill in accurately?</li>
+        </ul>
+      </div>
+      <div class="reflect-box">
+        <h4>Reflection prompt</h4>
+        <p>Identify the claim you chose and its credence score. Describe the paper you found (title, authors, year, main finding). State whether it supports or challenges the existing claim and why it matters for ATLAS's credence assignment.</p>
+      </div>
+    </div>
+  </div>
+
+  <!-- DELIVERABLE BAR -->
+  <div class="submit-bar">
+    <div class="submit-bar-text">
+      <h3>Session deliverable — due by end of class</h3>
+      <p>One page (300–500 words). Which tasks did you attempt? What did you find? What question do you want to pursue this quarter? Submit as a PDF to the course portal or email to the TA. This is ungraded — it is input to your project proposal.</p>
+    </div>
+    <div class="submit-bar-action">
+      <a href="ka_dashboard.html" class="btn-submit">Go to Dashboard →</a>
+    </div>
+  </div>
+
+</div><!-- /main -->
+
+<script>
+// If user is logged in via localStorage, we could personalise — placeholder for now
+(function() {
+  try {
+    const user = JSON.parse(localStorage.getItem('ka_current_user') || 'null');
+    if (user && user.firstName) {
+      const hero = document.querySelector('.hero h1');
+      if (hero) hero.textContent = 'Exploring Knowledge Atlas, ' + user.firstName;
+    }
+  } catch(_) {}
+})();
+</script>
+
+</body>
+</html>
