@@ -1,16 +1,21 @@
 /**
- * ka_usability_critic.js  —  ATLAS Usability Critique Agent
- * -----------------------------------------------------------
+ * ka_usability_critic.js  —  ATLAS Usability + Visualization Critique Agent
+ * ---------------------------------------------------------------------------
  * Adds a small floating "Critique" button (bottom-left) visible to
  * all COGS160 Spring 2026 students. Clicking opens a structured
- * heuristic-based critique panel.
+ * heuristic-based critique panel covering interface usability AND
+ * data visualization design — the two overlapping concerns on ATLAS
+ * search, review, HITL, and evidence-chain pages.
  *
- * The panel:
- *   1. Auto-captures current page context (URL, title, headings)
- *   2. Walks through Nielsen's 10 Heuristics + Shneiderman's 8 Golden Rules
- *   3. Lets students rate each dimension (Pass / Issue / Fail) + free-text note
- *   4. Optionally generates a formatted critique summary (copyable)
- *   5. Saves results to localStorage; links to ka_article_propose.html for logging
+ * The panel (five tabs):
+ *   1. Auto-captures current page context (URL, title, headings, viz elements)
+ *   2. Nielsen's 10 Heuristics (H1–H10) for general UI
+ *   3. Shneiderman's 8 Golden Rules (R1–R8) for interaction design
+ *   4. Visualization heuristics (V1–V17): Tufte, Cleveland, Cairo, Knaflic,
+ *      and Shneiderman's Information-Seeking Mantra — for critiquing charts,
+ *      evidence networks, coverage maps, and argument-structure displays
+ *   5. Summary (copyable structured critique output)
+ *   6. History (past saved sessions)
  *
  * TODO (future improvements — see TASKS.md):
  *   - Wire to a real LLM endpoint (POST /api/critique) so the system can
@@ -77,6 +82,91 @@
       desc: 'No need to remember information across pages or across parts of the same screen.' }
   ];
 
+  /* ── Visualization heuristics ─────────────────────────────────────── */
+  /*  Drawn from Tufte (1983, 2001), Cleveland (1985, 1993),            */
+  /*  Cairo (2012, 2016), Knaflic (2015), and Shneiderman (1996).       */
+  /*  Grouped by scholar; use renderGroupedHeuristicTab() to render.    */
+
+  const VIZ_HEURISTICS = [
+    /* — Tufte: Data-Ink and Graphical Integrity ——————————————————— */
+    { id: 'v1', code: 'V1', label: 'Data-ink maximization',
+      group: 'Tufte — Data-Ink & Integrity',
+      codeColor: '#5b4200', codeBg: '#fde68a',
+      desc: 'The proportion of ink (or pixels) devoted to actual data should be as high as possible. Eliminate redundant gridlines, unnecessary tick marks, decorative borders, and any element that encodes no information. Ask: what happens if I remove this? If nothing is lost, remove it.' },
+    { id: 'v2', code: 'V2', label: 'Graphical integrity / Lie Factor',
+      group: 'Tufte — Data-Ink & Integrity',
+      codeColor: '#5b4200', codeBg: '#fde68a',
+      desc: 'The visual effect must be proportional to the numerical quantity. Lie Factor = (size of effect in graphic) / (size of effect in data). A factor > 1.05 or < 0.95 is a distortion. Check: are y-axes truncated without justification? Does a 10% difference appear as a 300% visual difference?' },
+    { id: 'v3', code: 'V3', label: 'Chartjunk elimination',
+      group: 'Tufte — Data-Ink & Integrity',
+      codeColor: '#5b4200', codeBg: '#fde68a',
+      desc: 'Chartjunk = moiré vibrations (striped fill), heavy grids, self-promotional "ducks" (icons used as data markers), and 3-D effects on 2-D data. Does this visualization contain any element that adds visual noise without adding information? Rate "Major Fail" if 3-D is used to display simple proportions.' },
+    { id: 'v4', code: 'V4', label: 'Small multiples for comparison',
+      group: 'Tufte — Data-Ink & Integrity',
+      codeColor: '#5b4200', codeBg: '#fde68a',
+      desc: 'When comparing across conditions, domains, or time periods, small multiples (the same chart form repeated at small scale, side by side) are more legible than overlapping lines or superimposed colors. Does this visualization have overlapping series that would be clearer as a small-multiples panel?' },
+
+    /* — Cleveland: Graphical Perception Hierarchy ————————————————— */
+    { id: 'v5', code: 'V5', label: 'Perceptual encoding hierarchy',
+      group: 'Cleveland — Graphical Perception',
+      codeColor: '#1a4731', codeBg: '#bbf7d0',
+      desc: 'Accuracy of quantitative judgment runs: Position (most accurate) > Length > Angle > Area > Color hue (least accurate). Is the most important comparison encoded at the highest-accuracy level available? If the key finding is a difference in magnitude, encode it as position (dot plot), not as angle (pie) or area (bubble).' },
+    { id: 'v6', code: 'V6', label: 'Pattern discrimination without color',
+      group: 'Cleveland — Graphical Perception',
+      codeColor: '#1a4731', codeBg: '#bbf7d0',
+      desc: 'Overlapping series should be distinguishable by line type, symbol shape, or position — not by color alone (accessibility). Can every category be identified if the image is printed in grayscale? Cleveland recommends at least three line-type levels (solid, dashed, dotted) before adding color as a redundant encoding.' },
+    { id: 'v7', code: 'V7', label: 'Scale, baseline, and reference lines',
+      group: 'Cleveland — Graphical Perception',
+      codeColor: '#1a4731', codeBg: '#bbf7d0',
+      desc: 'When showing magnitudes (not rates or indices), the y-axis should include zero so the viewer can judge absolute differences. Are there meaningful reference values (grand mean, theoretical threshold, previous-year benchmark) that would help the viewer calibrate? Label reference lines explicitly.' },
+
+    /* — Cairo: Truthfulness, Function, Beauty, Insightfulness ——————— */
+    { id: 'v8', code: 'V8', label: 'Truthfulness — show uncertainty',
+      group: 'Cairo — Truthfulness & Purpose',
+      codeColor: '#1e3a6e', codeBg: '#bfdbfe',
+      desc: 'Every estimate has uncertainty; hiding it is dishonest. Are confidence intervals, error bars, credible intervals, or at minimum a sample-size annotation present wherever the underlying values are estimates? On ATLAS evidence-quality and confidence-score displays, missing uncertainty ranges are a Major Fail.' },
+    { id: 'v9', code: 'V9', label: 'Functionality — every element earns its place',
+      group: 'Cairo — Truthfulness & Purpose',
+      codeColor: '#1e3a6e', codeBg: '#bfdbfe',
+      desc: 'Beauty must serve communication, not decorate it. Does each visual element (icon, border, color, texture) communicate something? If a decorative choice were replaced by a functional one, would the display improve? Gradients, drop shadows, and rounded rectangles are not wrong, but they must not compete with data.' },
+    { id: 'v10', code: 'V10', label: 'Insightfulness — more than a table',
+      group: 'Cairo — Truthfulness & Purpose',
+      codeColor: '#1e3a6e', codeBg: '#bfdbfe',
+      desc: 'A visualization should reveal something a plain table does not. Does this display expose patterns (clusters, outliers, trends, gaps) that would be invisible in a sorted list? If a well-formatted table would do the job equally well, the chart form is not earning its added cognitive cost.' },
+    { id: 'v11', code: 'V11', label: 'Enlightenment — appropriate form for claim',
+      group: 'Cairo — Truthfulness & Purpose',
+      codeColor: '#1e3a6e', codeBg: '#bfdbfe',
+      desc: 'Exploratory (find a pattern) and explanatory (show an already-known pattern clearly) visualizations need different designs. An exploratory tool should let users filter and drill; an explanatory display should guide the eye to one key finding. Does the form match the communicative purpose of this page?' },
+
+    /* — Knaflic: Cognitive Design and Preattentive Attributes ———————— */
+    { id: 'v12', code: 'V12', label: 'Preattentive attributes — one focal signal',
+      group: 'Knaflic — Cognitive Design',
+      codeColor: '#5b1a6e', codeBg: '#e9d5ff',
+      desc: 'Preattentive attributes (color saturation, size, motion, orientation) are processed before focused attention — they guide the eye involuntarily. There should be exactly one dominant preattentive signal per display, pointing to the most important datum. Multiple competing "accent" colors cancel each other. Is there a single clear focal element?' },
+    { id: 'v13', code: 'V13', label: 'Declutter — ruthless signal-to-noise',
+      group: 'Knaflic — Cognitive Design',
+      codeColor: '#5b1a6e', codeBg: '#e9d5ff',
+      desc: 'Default chart-tool output (Excel, Tableau, Matplotlib) is almost always over-decorated: heavy gridlines, box borders, redundant legends, tick marks on every integer. Remove every non-data element that can be removed without a viewer noticing data loss. Start with gridlines (go light gray), then borders, then tick marks, then legends (replace with direct labels).' },
+    { id: 'v14', code: 'V14', label: 'Direct labeling over legends',
+      group: 'Knaflic — Cognitive Design',
+      codeColor: '#5b1a6e', codeBg: '#e9d5ff',
+      desc: 'A legend forces the viewer to look away from the data, find the key, match color to category, then return to the data — at minimum four eye movements per data point. Direct labels (text alongside the series, bar, or point) eliminate this cost. Does this visualization use a legend where direct labels would work?' },
+    { id: 'v15', code: 'V15', label: 'Contextual text — title states the finding',
+      group: 'Knaflic — Cognitive Design',
+      codeColor: '#5b1a6e', codeBg: '#e9d5ff',
+      desc: 'Assertion-evidence structure: the title should state what the viewer should conclude (e.g., "Confidence scores cluster below 0.5 for neuroarchitecture articles"), not just label the content (e.g., "Confidence score distribution"). Are axis labels unambiguous about units? Is the scale legible without a tooltip? Is the data source credited?' },
+
+    /* — Shneiderman Information-Seeking Mantra ————————————————————— */
+    { id: 'v16', code: 'V16', label: 'Overview → zoom/filter → details on demand',
+      group: 'Shneiderman — Info-Seeking Mantra',
+      codeColor: '#7c1d1d', codeBg: '#fecaca',
+      desc: 'Effective information visualization follows a three-stage workflow: (1) Overview — the user can see the full dataset at a glance; (2) Zoom and filter — the user can narrow to a subset of interest without leaving the view; (3) Details on demand — the user can retrieve details about a specific item by clicking or hovering. Does this ATLAS page support all three stages? Where does it break down?' },
+    { id: 'v17', code: 'V17', label: 'Persistent context during exploration',
+      group: 'Shneiderman — Info-Seeking Mantra',
+      codeColor: '#7c1d1d', codeBg: '#fecaca',
+      desc: 'The viewer should always know where they are in the data space. When a filter is applied, the remaining view should still show where the filtered data sits relative to the whole (e.g., a mini-map, a count badge, a greyed-out background showing filtered-out items). Does zooming in destroy the overview context? Does the user lose their place?' }
+  ];
+
   /* ── Page context capture ─────────────────────────────────────────── */
 
   function capturePageContext() {
@@ -89,8 +179,36 @@
       h1: h1s || document.title,
       sections: h2s,
       hasErrors: errorEls.length > 0,
+      vizElements: detectVizElements(),
       capturedAt: new Date().toISOString()
     };
+  }
+
+  /* ── Visualization element detection ─────────────────────────────── */
+  /*  Scans the live DOM for chart/viz elements to prompt students      */
+  /*  to use the Viz tab when relevant displays are present.            */
+
+  function detectVizElements() {
+    const found = [];
+    if (document.querySelectorAll('canvas').length > 0)
+      found.push('canvas (' + document.querySelectorAll('canvas').length + ')');
+    if (document.querySelectorAll('svg').length > 0)
+      found.push('SVG (' + document.querySelectorAll('svg').length + ')');
+    // Common charting library class patterns
+    const chartClasses = [
+      '[class*="chart"]', '[class*="Chart"]', '[class*="graph"]', '[class*="Graph"]',
+      '[class*="plot"]', '[class*="Plot"]', '[class*="viz"]', '[class*="Viz"]',
+      '[class*="network"]', '[class*="Network"]', '[class*="treemap"]',
+      '[data-chart]', '[data-highcharts-chart]', '.recharts-wrapper',
+      '.apexcharts-canvas', '.d3-chart', '.evidence-chain', '.bn-graph'
+    ];
+    chartClasses.forEach(function (sel) {
+      try {
+        const els = document.querySelectorAll(sel);
+        if (els.length > 0) found.push(sel.replace(/[\[\].*]/g, '') + ' (' + els.length + ')');
+      } catch (e) {}
+    });
+    return found;
   }
 
   /* ── Storage ──────────────────────────────────────────────────────── */
@@ -374,10 +492,19 @@
       '<div id="ka-critic-context">' +
         '<div id="ka-critic-context-url">' + escHtml(ctx.url) + '</div>' +
         '<div id="ka-critic-context-title">' + escHtml(ctx.h1 || ctx.title) + '</div>' +
+        (ctx.vizElements && ctx.vizElements.length > 0
+          ? '<div style="margin-top:5px;font-size:.72rem;color:#92400e;background:#fef3c7;border-radius:4px;padding:3px 7px;display:inline-block">📊 Viz elements: ' + escHtml(ctx.vizElements.join(', ')) + ' — use the Viz tab</div>'
+          : '') +
       '</div>' +
       '<div class="ka-critic-tabs">' +
-        '<button class="ka-critic-tab active" data-tab="heuristics">Nielsen H1–H10</button>' +
-        '<button class="ka-critic-tab" data-tab="shneiderman">Shneiderman R1–R8</button>' +
+        '<button class="ka-critic-tab active" data-tab="heuristics">Nielsen H1–10</button>' +
+        '<button class="ka-critic-tab" data-tab="shneiderman">Shneider R1–8</button>' +
+        '<button class="ka-critic-tab" data-tab="viz" style="position:relative">' +
+          'Viz V1–17' +
+          (ctx.vizElements && ctx.vizElements.length > 0
+            ? ' <span style="position:absolute;top:4px;right:4px;width:7px;height:7px;background:#f59e0b;border-radius:50%;display:inline-block" title="Viz elements detected on this page"></span>'
+            : '') +
+        '</button>' +
         '<button class="ka-critic-tab" data-tab="summary">Summary</button>' +
         '<button class="ka-critic-tab" data-tab="history">History</button>' +
       '</div>' +
@@ -403,9 +530,11 @@
     const content = document.getElementById('ka-critic-content');
     if (!content) return;
     if (tabName === 'heuristics') {
-      renderHeuristicTab(content, NIELSEN, 'Nielsen\'s 10 Heuristics', 'H');
+      renderHeuristicTab(content, NIELSEN, 'Nielsen\'s 10 Heuristics', false);
     } else if (tabName === 'shneiderman') {
-      renderHeuristicTab(content, SHNEIDERMAN, 'Shneiderman\'s 8 Golden Rules', 'R');
+      renderHeuristicTab(content, SHNEIDERMAN, 'Shneiderman\'s 8 Golden Rules', false);
+    } else if (tabName === 'viz') {
+      renderHeuristicTab(content, VIZ_HEURISTICS, 'Visualization Design Heuristics (V1–V17)', true);
     } else if (tabName === 'summary') {
       renderSummaryTab(content);
     } else if (tabName === 'history') {
@@ -413,33 +542,49 @@
     }
   }
 
-  function renderHeuristicTab(container, heuristics, sectionLabel, prefix) {
+  function renderHeuristicTab(container, heuristics, sectionLabel, useGroups) {
     const saved = currentSession ? (currentSession.ratings || {}) : {};
     const notes = currentSession ? (currentSession.notes || {}) : {};
 
-    container.innerHTML =
-      '<div class="ka-h-section-label">' + sectionLabel + '</div>' +
-      heuristics.map(function (h) {
-        const currentRating = saved[h.id] || '';
-        const currentNote = notes[h.id] || '';
-        const ratingBtns = RATINGS.map(function (r) {
-          const isSelected = currentRating === r.val;
-          return '<button class="ka-rating-btn' + (isSelected ? ' selected' : '') + '"' +
-            ' data-hid="' + h.id + '" data-val="' + r.val + '"' +
-            ' style="' + (isSelected ? '--sel-color:' + r.color + ';--sel-bg:' + r.bg : '') + '">' +
-            r.label + '</button>';
-        }).join('');
-        return '<div class="ka-h-row">' +
-          '<div class="ka-h-row-hdr">' +
-            '<div class="ka-h-code">' + h.code + '</div>' +
-            '<div class="ka-h-label">' + escHtml(h.label) + '</div>' +
-          '</div>' +
-          '<div class="ka-h-desc">' + escHtml(h.desc) + '</div>' +
-          '<div class="ka-h-rating-row">' + ratingBtns + '</div>' +
-          '<textarea class="ka-h-note" data-hid="' + h.id + '" placeholder="Note any specific issue…" rows="2">' +
-            escHtml(currentNote) + '</textarea>' +
-        '</div>';
+    let lastGroup = null;
+    const rows = heuristics.map(function (h) {
+      const currentRating = saved[h.id] || '';
+      const currentNote = notes[h.id] || '';
+      const ratingBtns = RATINGS.map(function (r) {
+        const isSelected = currentRating === r.val;
+        return '<button class="ka-rating-btn' + (isSelected ? ' selected' : '') + '"' +
+          ' data-hid="' + h.id + '" data-val="' + r.val + '"' +
+          ' style="' + (isSelected ? '--sel-color:' + r.color + ';--sel-bg:' + r.bg : '') + '">' +
+          r.label + '</button>';
       }).join('');
+
+      // Code badge styling — per-heuristic color for viz, default purple for others
+      const codeStyle = (h.codeBg && h.codeColor)
+        ? 'background:' + h.codeBg + ';color:' + h.codeColor
+        : 'background:#6b3fa0;color:#fff';
+
+      // Group header (viz tab only)
+      let groupHeader = '';
+      if (useGroups && h.group && h.group !== lastGroup) {
+        lastGroup = h.group;
+        groupHeader = '<div class="ka-h-section-label" style="background:#f5f3ff;border-top:1.5px solid #e8d5fc;margin-top:4px">' +
+          escHtml(h.group) + '</div>';
+      }
+
+      return groupHeader + '<div class="ka-h-row">' +
+        '<div class="ka-h-row-hdr">' +
+          '<div class="ka-h-code" style="' + codeStyle + '">' + h.code + '</div>' +
+          '<div class="ka-h-label">' + escHtml(h.label) + '</div>' +
+        '</div>' +
+        '<div class="ka-h-desc">' + escHtml(h.desc) + '</div>' +
+        '<div class="ka-h-rating-row">' + ratingBtns + '</div>' +
+        '<textarea class="ka-h-note" data-hid="' + h.id + '" placeholder="Note what you observe…" rows="2">' +
+          escHtml(currentNote) + '</textarea>' +
+      '</div>';
+    }).join('');
+
+    container.innerHTML =
+      '<div class="ka-h-section-label">' + sectionLabel + '</div>' + rows;
 
     // Rating button listeners
     container.querySelectorAll('.ka-rating-btn').forEach(function (btn) {
@@ -473,26 +618,48 @@
 
     const ratings = currentSession.ratings || {};
     const notes = currentSession.notes || {};
-    const all = NIELSEN.concat(SHNEIDERMAN);
-    let pass = 0, minor = 0, major = 0, na = 0;
-    all.forEach(function (h) {
-      const r = ratings[h.id];
-      if (r === 'pass') pass++;
-      else if (r === 'minor') minor++;
-      else if (r === 'major') major++;
-      else if (r === 'na') na++;
-    });
+
+    function tally(heuristicSet) {
+      let pass = 0, minor = 0, major = 0, na = 0, unrated = 0;
+      heuristicSet.forEach(function (h) {
+        const r = ratings[h.id];
+        if (r === 'pass') pass++;
+        else if (r === 'minor') minor++;
+        else if (r === 'major') major++;
+        else if (r === 'na') na++;
+        else unrated++;
+      });
+      return { pass: pass, minor: minor, major: major, na: na, unrated: unrated };
+    }
+
+    const nTally = tally(NIELSEN);
+    const sTally = tally(SHNEIDERMAN);
+    const vTally = tally(VIZ_HEURISTICS);
+    const totPass  = nTally.pass  + sTally.pass  + vTally.pass;
+    const totMinor = nTally.minor + sTally.minor + vTally.minor;
+    const totMajor = nTally.major + sTally.major + vTally.major;
+    const totNa    = nTally.na    + sTally.na    + vTally.na;
 
     // Build summary text
     const ctx = currentSession.context;
+    const all = NIELSEN.concat(SHNEIDERMAN).concat(VIZ_HEURISTICS);
     const issues = all.filter(function (h) {
       return ratings[h.id] === 'minor' || ratings[h.id] === 'major';
     });
 
-    let summaryText = 'USABILITY CRITIQUE — ' + (ctx ? ctx.h1 || ctx.title : 'Unknown page') + '\n';
+    let summaryText = 'USABILITY + VIZ CRITIQUE — ' + (ctx ? ctx.h1 || ctx.title : 'Unknown page') + '\n';
     summaryText += 'URL: ' + (ctx ? ctx.url : '') + '\n';
-    summaryText += 'Critiqued: ' + new Date().toLocaleString() + '\n\n';
-    summaryText += 'SCORES: Pass=' + pass + ' Minor=' + minor + ' Major=' + major + ' N/A=' + na + '\n\n';
+    summaryText += 'Critiqued: ' + new Date().toLocaleString() + '\n';
+    if (ctx && ctx.vizElements && ctx.vizElements.length > 0) {
+      summaryText += 'Viz elements detected: ' + ctx.vizElements.join(', ') + '\n';
+    }
+    summaryText += '\n';
+    summaryText += 'SECTION SCORES:\n';
+    summaryText += '  Nielsen H1–H10:          Pass=' + nTally.pass + ' Minor=' + nTally.minor + ' Major=' + nTally.major + ' N/A=' + nTally.na + '\n';
+    summaryText += '  Shneiderman R1–R8:       Pass=' + sTally.pass + ' Minor=' + sTally.minor + ' Major=' + sTally.major + ' N/A=' + sTally.na + '\n';
+    summaryText += '  Visualization V1–V17:    Pass=' + vTally.pass + ' Minor=' + vTally.minor + ' Major=' + vTally.major + ' N/A=' + vTally.na + '\n';
+    summaryText += '  TOTAL (35 dimensions):   Pass=' + totPass + ' Minor=' + totMinor + ' Major=' + totMajor + ' N/A=' + totNa + '\n\n';
+
     if (issues.length > 0) {
       summaryText += 'ISSUES FOUND (' + issues.length + '):\n';
       issues.forEach(function (h) {
@@ -501,15 +668,22 @@
         summaryText += '  ' + sev + ' ' + h.code + ' ' + h.label + '\n    ' + note + '\n';
       });
     } else {
-      summaryText += 'No issues flagged.\n';
+      summaryText += 'No issues flagged yet. Complete ratings on all three tabs.\n';
     }
 
     container.innerHTML =
       '<div id="ka-critic-summary-tab">' +
+        '<div style="font-size:.78rem;font-weight:700;color:#6b3fa0;margin-bottom:6px">Overall (35 dimensions)</div>' +
         '<div class="ka-summary-stats">' +
-          '<div class="ka-stat-chip" style="border-color:#a7f3d0"><div class="ka-stat-num" style="color:#059669">' + pass + '</div><div class="ka-stat-label">Pass</div></div>' +
-          '<div class="ka-stat-chip" style="border-color:#fcd34d"><div class="ka-stat-num" style="color:#d97706">' + minor + '</div><div class="ka-stat-label">Minor Issues</div></div>' +
-          '<div class="ka-stat-chip" style="border-color:#fca5a5"><div class="ka-stat-num" style="color:#dc2626">' + major + '</div><div class="ka-stat-label">Major Fails</div></div>' +
+          '<div class="ka-stat-chip" style="border-color:#a7f3d0"><div class="ka-stat-num" style="color:#059669">' + totPass + '</div><div class="ka-stat-label">Pass</div></div>' +
+          '<div class="ka-stat-chip" style="border-color:#fcd34d"><div class="ka-stat-num" style="color:#d97706">' + totMinor + '</div><div class="ka-stat-label">Minor Issues</div></div>' +
+          '<div class="ka-stat-chip" style="border-color:#fca5a5"><div class="ka-stat-num" style="color:#dc2626">' + totMajor + '</div><div class="ka-stat-label">Major Fails</div></div>' +
+        '</div>' +
+        '<div style="font-size:.76rem;color:#6b7280;margin-bottom:6px">By section</div>' +
+        '<div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin-bottom:14px">' +
+          buildSectionMini('Nielsen H1–10', nTally, '#6b3fa0') +
+          buildSectionMini('Shneiderman R1–8', sTally, '#0e7490') +
+          buildSectionMini('Viz V1–17', vTally, '#d97706') +
         '</div>' +
         '<div class="ka-summary-text" id="ka-summary-output">' + escHtml(summaryText) + '</div>' +
         '<div style="font-size:.76rem;color:#9ca3af;margin-bottom:10px">Sessions saved locally. Future version will POST to instructor dashboard.</div>' +
@@ -544,6 +718,18 @@
     });
   }
 
+  function buildSectionMini(label, tally, color) {
+    return '<div style="border:1px solid #e5e7eb;border-radius:6px;padding:7px;text-align:center">' +
+      '<div style="font-size:.68rem;font-weight:700;color:' + color + ';margin-bottom:4px">' + escHtml(label) + '</div>' +
+      '<div style="display:flex;justify-content:center;gap:4px;flex-wrap:wrap">' +
+        (tally.pass > 0 ? '<span style="font-size:.68rem;background:#d1fae5;color:#065f46;border-radius:3px;padding:1px 5px">' + tally.pass + ' ✓</span>' : '') +
+        (tally.minor > 0 ? '<span style="font-size:.68rem;background:#fef3c7;color:#92400e;border-radius:3px;padding:1px 5px">' + tally.minor + ' !</span>' : '') +
+        (tally.major > 0 ? '<span style="font-size:.68rem;background:#fee2e2;color:#991b1b;border-radius:3px;padding:1px 5px">' + tally.major + ' ✕</span>' : '') +
+        (tally.unrated > 0 ? '<span style="font-size:.68rem;background:#f3f4f6;color:#6b7280;border-radius:3px;padding:1px 5px">' + tally.unrated + ' —</span>' : '') +
+      '</div>' +
+    '</div>';
+  }
+
   function renderHistoryTab(container) {
     const sessions = loadSessions();
     if (sessions.length === 0) {
@@ -554,7 +740,7 @@
       '<div id="ka-critic-history-tab">' +
       sessions.map(function (s) {
         const ratings = s.ratings || {};
-        const all = NIELSEN.concat(SHNEIDERMAN);
+        const all = NIELSEN.concat(SHNEIDERMAN).concat(VIZ_HEURISTICS);
         let pass = 0, minor = 0, major = 0;
         all.forEach(function (h) {
           const r = ratings[h.id];
@@ -562,8 +748,9 @@
         });
         const title = s.context ? (s.context.h1 || s.context.title || 'Unnamed') : 'Unnamed';
         const date = s.savedAt ? new Date(s.savedAt).toLocaleString() : 'Unknown date';
+        const hasViz = s.context && s.context.vizElements && s.context.vizElements.length > 0;
         return '<div class="ka-hist-item" data-sid="' + s.id + '">' +
-          '<div class="ka-hist-title">' + escHtml(title.slice(0, 60)) + '</div>' +
+          '<div class="ka-hist-title">' + escHtml(title.slice(0, 60)) + (hasViz ? ' <span style="font-size:.68rem;background:#fef3c7;color:#92400e;border-radius:3px;padding:1px 5px">📊 viz</span>' : '') + '</div>' +
           '<div class="ka-hist-meta">' + date + '</div>' +
           '<div class="ka-hist-pills">' +
             (pass > 0 ? '<span class="ka-hist-pill" style="background:#d1fae5;color:#065f46">' + pass + ' pass</span>' : '') +
@@ -578,7 +765,13 @@
       item.addEventListener('click', function () {
         const sid = item.dataset.sid;
         const s = sessions.find(function (x) { return x.id === sid; });
-        if (s) { currentSession = s; renderTab('heuristics'); document.querySelectorAll('.ka-critic-tab')[0].classList.add('active'); }
+        if (s) {
+        currentSession = s;
+        const tabs = document.querySelectorAll('.ka-critic-tab');
+        tabs.forEach(function (t) { t.classList.remove('active'); });
+        tabs[0].classList.add('active');
+        renderTab('heuristics');
+      }
       });
     });
   }
