@@ -358,10 +358,10 @@
   <p class="subtitle">COGS 160 &middot; Spring 2026 &middot; Prof. David Kirsh &middot; UCSD Cognitive Science</p>
   <p class="subtitle" style="font-size:1rem; color:#ddd;">Learn to direct AI systems to build, verify, and maintain production knowledge infrastructure. The methodology transfers to any domain. Knowledge_ATLAS is the practice substrate.</p>
   <div class="stats">
-    <div class="stat"><div class="stat-num">5,461</div><div class="stat-label">Beliefs in the Web</div></div>
-    <div class="stat"><div class="stat-num">800+</div><div class="stat-label">Papers Ingested</div></div>
-    <div class="stat"><div class="stat-num">7</div><div class="stat-label">Student Tracks</div></div>
-    <div class="stat"><div class="stat-num">91/100</div><div class="stat-label">AESHI Score</div></div>
+    <div class="stat"><div class="stat-num">1,900</div><div class="stat-label">Evidence Items</div></div>
+    <div class="stat"><div class="stat-num">760</div><div class="stat-label">Papers Ingested</div></div>
+    <div class="stat"><div class="stat-num">9</div><div class="stat-label">Student Tracks</div></div>
+    <div class="stat"><div class="stat-num">80.8</div><div class="stat-label">AESHI Score</div></div>
   </div>
 </div>
 
@@ -394,7 +394,7 @@
 
 <h2>The Practice Substrate: Knowledge_ATLAS</h2>
 
-<p>Knowledge_ATLAS is a large knowledge system that maps what the scientific literature says about how built environments affect human cognition, emotion, and behavior. It contains a Web of Belief with 5,461 interconnected claims, drawn from 800+ scientific papers, organized into 25 research fronts. It has a Bayesian causal bridge that can predict what will happen if you change a building. It has an extraction pipeline that scores 91/100 on the AESHI quality audit.</p>
+<p>Knowledge_ATLAS is a large knowledge system that maps what the scientific literature says about how built environments affect human cognition, emotion, and behavior. It contains a Web of Belief with 1,900 evidence items drawn from 760 scientific papers, organized into 11 active research topics. It has a Bayesian causal bridge (architecturally complete, awaiting real experimental data) that will predict what will happen if you change a building. It has a nine-stage extraction pipeline that scores 80.8/100 on the AESHI quality audit &mdash; strong on contract compliance and theoretical rigor, with extraction throughput as the known bottleneck.</p>
 
 <p>It also has six major capability gaps &mdash; things it should be able to do but can't yet. <strong>Your job is to close those gaps.</strong> Each student track addresses one or more gaps. By the end of the quarter, KA will be measurably more capable than it is today, and you will have the methodology to build systems like it in any domain.</p>
 
@@ -531,7 +531,7 @@
     <td class="week-num">2</td>
     <td>Failure Modes</td>
     <td>The 5 AI failure modes, with live examples. Techniques: panels, contracts, ruthless prompts, verification loops, model selection.</td>
-    <td>Debugging exercise: fix a "broken" AI-generated module containing all 5 failure modes.</td>
+    <td>Debugging exercise: fix a "broken" AI-generated module containing all 7 failure modes.</td>
     <td>Methodology Log #2 + Draft contracts for Sprint 1</td>
   </tr>
   <tr>
@@ -725,72 +725,153 @@
 
 <h1>Knowledge_ATLAS</h1>
 
-<p>Knowledge_ATLAS (Architecture for Typed, Layered Assessment of Science) is a computational knowledge system that maps what science knows about how built environments affect human cognition, emotion, and behavior. It is the practice substrate for this course &mdash; the system you will improve.</p>
+<p>Knowledge_ATLAS (Architecture for Typed, Layered Assessment of Science) is a computational knowledge system that maps what science knows about how built environments affect human cognition, emotion, and behavior. It is the practice substrate for this course &mdash; the system you will improve. Everything described below is live and explorable; each card links to the relevant page.</p>
 
-<h2>What It Contains</h2>
+<h2>What It Contains (Current State)</h2>
 
 <div class="card-grid">
   <div class="card">
-    <h4>Web of Belief</h4>
-    <p>5,461 interconnected beliefs organized as a directed multigraph. Each belief has a credence (0&ndash;1), warrant type, and connections to supporting evidence.</p>
+    <h4>Web of Belief &mdash; 1,900 Evidence Items</h4>
+    <p>Interconnected claims, findings, and epistemic commitments organized as a directed multigraph. Each item carries a credence (0&ndash;1), a warrant type drawn from a panel-calibrated taxonomy of seven types, and traced connections to its source paper and verbatim quote. <a href="../ka_evidence.html" style="font-weight:600;">Explore the Evidence &rarr;</a></p>
   </div>
   <div class="card">
-    <h4>Extraction Pipeline</h4>
-    <p>800+ scientific papers processed through a seven-stage pipeline: PDF ingestion, metadata extraction, article typing, table detection, claim extraction, variable resolution, web integration. AESHI quality score: 91/100.</p>
+    <h4>760 Scientific Papers</h4>
+    <p>Processed through a nine-stage lifecycle: discovered &rarr; searched &rarr; retrieved &rarr; stored &rarr; typed &rarr; extracting &rarr; extracted &rarr; synthesizing &rarr; archived. Extraction uses a family-specific V5 pipeline (classification by Gemini Flash, warrant-aware claim extraction, cross-AI verification by Claude). Article types span empirical research, narrative review, qualitative, theoretical, systematic review, meta-analysis, and methods papers. <a href="../ka_articles.html" style="font-weight:600;">Browse the Corpus &rarr;</a></p>
   </div>
   <div class="card">
-    <h4>Bayesian Causal Bridge</h4>
-    <p>A structural causal model that translates knowledge ("what we believe") into prediction ("what will happen if we intervene"). Uses the projection calculus with four factors: warrant type, warrant strength, population transfer, and lab effect size.</p>
+    <h4>Seven Warrant Types (Panel-Calibrated)</h4>
+    <p>Every evidence link carries a warrant &mdash; the reason we believe it. The seven types, calibrated by an expert panel (Mayo, Illari, Woodward, Cartwright, Stegenga; Feb&ndash;Mar 2026), range from Constitutive (d&nbsp;=&nbsp;1.0, definitional certainty) through Mechanism (0.80), Empirical Association (0.80), Functional (0.65), Capacity (0.55), Analogical (0.40), down to Theory-Derived (0.25, untested prediction). These discount factors drive every confidence calculation in the system. <a href="../ka_warrants.html" style="font-weight:600;">Inspect Warrant Sensitivity &rarr;</a></p>
   </div>
   <div class="card">
-    <h4>25 Research Fronts</h4>
-    <p>The corpus is organized into 25 active research areas, from "Ceiling Height and Creativity" to "Biophilic Design and Stress Recovery." Each front has structured evidence summaries, findings tables, and meta-reviews.</p>
+    <h4>11 Research Topics &amp; 9 Documented Gaps</h4>
+    <p>The corpus is organized into 11 active research topics &mdash; theory&nbsp;&times;&nbsp;construct intersection points like Attention Restoration Theory, Stress Recovery Theory, Circadian Lighting, Biophilia, Wayfinding, and Neuroaesthetics &mdash; each with credence values (0.40&ndash;0.87), maturity ratings, and contradiction counts. Nine research gaps identify where the evidence is thin and new work would have the highest value. <a href="../ka_topics.html" style="font-weight:600;">Explore Topics &rarr;</a> &nbsp; <a href="../ka_gaps.html" style="font-weight:600;">Explore Gaps &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>40 Stimulus Images</h4>
+    <p>Figures, photographs, and diagrams extracted from the corpus papers &mdash; workspace interiors, environmental conditions, experimental setups. These are the raw material for the Image Tagger track: each image will be annotated with spatial predicates (naturalness, enclosure, biophilia density, prospect/refuge) to bridge visual features to psychological predictions. <a href="../ka_tagger.html" style="font-weight:600;">Open the Tagger &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>System Health: AESHI 80.8 / 100</h4>
+    <p>The ATLAS Epistemic System Health Index (assessed March 2026) scores the entire pipeline. Subscores: contract compliance 97 (excellent), theoretical rigor 87 (strong), web + BN integration 72 (good), pipeline integrity 55 (extraction is the bottleneck), stability 100. All five hard gates pass. The score is honest &mdash; the system works but has known weaknesses, especially in extraction throughput and isolated web nodes (25% of nodes lack coherence links).</p>
   </div>
 </div>
 
 <h2>The Three-Layer Architecture</h2>
 
-<p>ATLAS separates what we <em>know</em> from what we can <em>predict</em>:</p>
+<p>ATLAS separates what we <em>know</em> from what we can <em>predict</em>. The first layer is production-grade. The second is implemented. The third is theoretically complete but awaits real experimental data &mdash; which is part of what this course will eventually produce.</p>
 
 <div class="method-step" style="background:var(--sidebar-bg);">
   <div class="step-number" style="font-size:1.2rem;">EN</div>
   <div class="step-content">
-    <h4>Epistemic Network</h4>
-    <p>A labeled directed multigraph representing our state of knowledge. Contains multiple evidence types, latent intermediates, theoretical claims, parallel edges, and cycles. Seven warrant types: CONSTITUTIVE, MECHANISM, EMPIRICAL_ASSOCIATION, THEORY_DERIVED, FUNCTIONAL, ANALOGICAL, CAPACITY.</p>
+    <h4>Epistemic Network <span style="color:var(--track-evidence);font-size:0.85rem;margin-left:0.5rem;">&#9679; Production</span></h4>
+    <p>A labeled directed multigraph representing our state of knowledge. 1,900 evidence items from 760 papers, connected by typed warrant edges. Contains multiple evidence types, latent intermediates, theoretical claims, parallel edges, and cycles. The seven warrant types (Constitutive, Mechanism, Empirical Association, Functional, Capacity, Analogical, Theory-Derived) are calibrated by expert panel with explicit discount factors. <a href="../ka_evidence.html">Evidence Explorer</a> &middot; <a href="../ka_warrants.html">Warrant Inspector</a></p>
   </div>
 </div>
 
 <div class="method-step" style="background:var(--sidebar-bg);">
   <div class="step-number" style="font-size:1.2rem;">&pi;</div>
   <div class="step-content">
-    <h4>Projection Function</h4>
-    <p>Maps from EN to BN. Translates knowledge into prediction using the four-factor formula: logit(p_target) = d(&tau;) &middot; &omega; &middot; &delta; &middot; logit(p_lab). Each factor captures a distinct epistemic dimension.</p>
+    <h4>Projection Function <span style="color:#e65100;font-size:0.85rem;margin-left:0.5rem;">&#9679; Implemented</span></h4>
+    <p>Maps from EN to BN. Translates knowledge into prediction using the four-factor formula: logit(p<sub>target</sub>)&nbsp;=&nbsp;d(&tau;)&nbsp;&middot;&nbsp;&omega;&nbsp;&middot;&nbsp;&delta;&nbsp;&middot;&nbsp;logit(p<sub>lab</sub>). Each factor captures a distinct epistemic dimension: d(&tau;) is the warrant-type discount, &omega; is warrant strength (link count, independence), &delta; is population transfer (how well lab results predict field conditions), and p<sub>lab</sub> is the laboratory effect size. The warrant sensitivity simulator lets you explore how each factor affects predictions. <a href="../ka_warrants.html">Try the Simulator &rarr;</a></p>
   </div>
 </div>
 
 <div class="method-step" style="background:var(--sidebar-bg);">
   <div class="step-number" style="font-size:1.2rem;">BN</div>
   <div class="step-content">
-    <h4>Bayesian Network</h4>
-    <p>A directed acyclic graph with conditional probability tables. The operational prediction engine: "What will happen if we intervene on X?" Uses Pearl's do-calculus for causal reasoning.</p>
+    <h4>Bayesian Network <span style="color:var(--accent);font-size:0.85rem;margin-left:0.5rem;">&#9679; Awaiting Real Data</span></h4>
+    <p>A directed acyclic graph with conditional probability tables &mdash; the operational prediction engine. The architecture is complete: three layers (visual attributes &rarr; psychological mediators &rarr; outcomes), Pearl's do-calculus for causal reasoning, uncertainty quantification, and API endpoints. All code passes validation on synthetic data. <strong>But it has no real human ratings yet.</strong> Activating this layer requires collecting real experimental data: at minimum 50 stimulus images rated by 30+ participants on the spatial predicates that the Image Tagger track will define. The BN is infrastructure awaiting the data that your work will produce.</p>
   </div>
 </div>
 
-<h2>What It Can't Do Yet (The Six Gaps)</h2>
+<h2>The KA Interface: 20+ Interactive Pages</h2>
 
-<p>These are the questions KA should answer but currently can't. Each gap is a concrete failure that your track work will fix:</p>
+<p>The system is not just a database &mdash; it is a suite of interactive tools, each addressing a different user need. Here are the major ones:</p>
 
-<p><strong>Gap 1</strong>: "I have an EmotiBit and a VR headset. What's the highest-value experiment I can run?" &rarr; KA doesn't know what equipment you have or how to condition its recommendations on your resources.</p>
+<div class="card-grid">
+  <div class="card">
+    <h4>Evidence Explorer</h4>
+    <p>Search and filter 1,900 claims by topic, warrant type, signal type. Each evidence card shows the finding, citation, warrant chain, and credence value. <a href="../ka_evidence.html">Open &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>Article Browser</h4>
+    <p>Browse all 760 papers with metadata: article type, constructs studied, sensors used, related papers. <a href="../ka_articles.html">Open &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>Topic Explorer</h4>
+    <p>11 research topics with credence values, maturity ratings, corpus sizes, and contradiction counts. <a href="../ka_topics.html">Open &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>Gap Explorer</h4>
+    <p>9 research gaps ranked by value-of-information. Each shows what's missing, why it matters, and how investigating it would change KA's beliefs. <a href="../ka_gaps.html">Open &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>Warrant Sensitivity Simulator</h4>
+    <p>Adjust warrant-type discount factors and watch credence values shift in real time. See which beliefs are robust and which are fragile. <a href="../ka_warrants.html">Open &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>Hypothesis Builder</h4>
+    <p>Guided pipeline: research question &rarr; hypothesis &rarr; testable prediction. Connects to the evidence base to show what's already known. <a href="../ka_hypothesis_builder.html">Open &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>Experiment Wizard</h4>
+    <p>Seven-step experiment design: problem &rarr; variables &rarr; participants &rarr; procedure &rarr; measures &rarr; analysis plan &rarr; review. <a href="experiment_wizard.html">Open &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>Sensor Catalogue</h4>
+    <p>Measuring instruments available for research: EmotiBit, EEG, eye trackers, VR headsets, environmental sensors. What each measures and when to use it. <a href="sensor_catalogue.html">Open &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>Image Tagger</h4>
+    <p>Batch checkout, categorical tagging (workspace type, lighting, occupancy), and submission workflow for stimulus images. Spatial predicate tagging is the next frontier. <a href="../ka_tagger.html">Open &rarr;</a></p>
+  </div>
+  <div class="card">
+    <h4>Annotation Inspector</h4>
+    <p>Review and audit the metadata attached to evidence items. Quality control for the curation pipeline. <a href="../ka_annotations.html">Open &rarr;</a></p>
+  </div>
+</div>
 
-<p><strong>Gap 2</strong>: "Does natural light improve performance, and through what mechanism?" &rarr; KA has the evidence but can't route a natural-language question to the right causal chain and present the full mechanism pathway.</p>
+<h2>What It Can't Do Yet (The Gaps)</h2>
 
-<p><strong>Gap 3</strong>: "Show me everything about lighting &rarr; circadian rhythm and let me follow the paths." &rarr; KA has the graph structure but no interface lets you explore it visually, following edges from cause to mechanism to outcome.</p>
+<p>These are the questions KA should answer but currently can't. Each gap is a concrete failure &mdash; a real question from a real user type that the system cannot satisfy. Your track work will close them.</p>
 
-<p><strong>Gap 4</strong>: "Should I put plants in this hospital lobby?" &rarr; A practitioner needs a plain-language answer with honest uncertainty, not a research paper. KA can't simplify its knowledge for non-expert users.</p>
-
-<p><strong>Gap 5</strong>: "If someone proved that fractal patterns reduce cortical prediction error, how would that change KA's beliefs?" &rarr; KA can't run hypothetical scenarios and propagate their consequences through the web.</p>
-
-<p><strong>Gap 6</strong>: A single question might need evidence from multiple fronts, theory from multiple frameworks, and predictions under multiple scenarios. KA can't decompose complex queries automatically.</p>
+<div class="card-grid">
+  <div class="card" style="border-left: 4px solid var(--accent);">
+    <h4>Gap 1 &mdash; Equipment-Conditioned Recommendations</h4>
+    <p><em>"I have an EmotiBit and a VR headset. What's the highest-value experiment I can run?"</em></p>
+    <p>KA has a sensor catalogue and a gap explorer, but they don't talk to each other. There is no way to input your available equipment and get recommendations conditioned on what you can actually measure. The VOI values in the gap explorer are heuristic, not computed from Bayesian expected value of sample information.</p>
+  </div>
+  <div class="card" style="border-left: 4px solid var(--accent);">
+    <h4>Gap 2 &mdash; Mechanism Pathway Tracing</h4>
+    <p><em>"Does natural light improve performance, and through what mechanism?"</em></p>
+    <p>KA has 1,900 evidence items with warrant types, but no interface traces the full causal chain from IV to DV through intermediate mechanisms. The warrant sensitivity simulator shows discount factors but not the pathway itself: light &rarr; melanopsin &rarr; SCN &rarr; cortisol rhythm &rarr; arousal &rarr; attention &rarr; performance. The data to reconstruct these chains exists; the visualization does not.</p>
+  </div>
+  <div class="card" style="border-left: 4px solid var(--accent);">
+    <h4>Gap 3 &mdash; Graph-Based Exploration</h4>
+    <p><em>"Show me everything about lighting &rarr; circadian rhythm and let me follow the paths."</em></p>
+    <p>The epistemic network is a graph, but no page lets you see it as one. There is no node-and-edge visualization where you can click a construct, see what's connected, and follow links outward. The evidence explorer is tabular; it shows claims one at a time rather than as a navigable network.</p>
+  </div>
+  <div class="card" style="border-left: 4px solid var(--accent);">
+    <h4>Gap 4 &mdash; Practitioner Translation</h4>
+    <p><em>"Should I put plants in this hospital lobby?"</em></p>
+    <p>A designer or facilities manager needs a plain-language verdict with honest uncertainty &mdash; not a table of effect sizes and p-values. KA currently presents everything at researcher depth. There is no "practitioner mode" that translates evidence into actionable recommendations with explicit confidence and caveats.</p>
+  </div>
+  <div class="card" style="border-left: 4px solid var(--accent);">
+    <h4>Gap 5 &mdash; Hypothetical Simulation</h4>
+    <p><em>"If someone proved that fractal patterns reduce cortical prediction error, how would that change KA's beliefs?"</em></p>
+    <p>The belief-updating machinery exists in the backend (theory_updating.py), but there is no interface where you can pose a hypothetical finding and watch its consequences propagate through the web. This is essential for understanding which experiments would be most informative &mdash; it's the computational form of Value of Information.</p>
+  </div>
+  <div class="card" style="border-left: 4px solid var(--accent);">
+    <h4>Gap 6 &mdash; Visual-to-Psychological Prediction</h4>
+    <p><em>"Given this photo of a hospital room, predict the occupant's stress level and explain why."</em></p>
+    <p>The Bayesian Network layer is architecturally complete (visual attributes &rarr; psychological mediators &rarr; outcomes) but runs only on synthetic data. There are no real human ratings, no validated spatial predicates, and no trained models. Closing this gap requires defining the predicate vocabulary (Image Tagger), collecting human ratings (experimental data), and validating the causal model against real observations. This is the deepest gap and the longest road.</p>
+  </div>
+  <div class="card" style="border-left: 4px solid var(--accent);">
+    <h4>Gap 7 &mdash; Literature Discovery</h4>
+    <p><em>"The evidence on circadian lighting is thin. Find me the 10 best papers published since 2022 that would fill this gap."</em></p>
+    <p>KA has 760 papers, but adding new ones is entirely manual. There is no automated pipeline that takes a research gap, generates search queries, retrieves candidates from Semantic Scholar or other databases, scores them for relevance, and acquires open-access PDFs. The article search page exists as a static UI; it does not connect to any external API.</p>
+  </div>
+</div>
 
 </div>
 
@@ -852,7 +933,7 @@
   <div class="module-item">
     <div class="module-num">Module 4 &middot; Weeks 2&ndash;3</div>
     <h4>The "DO NOT" Pattern</h4>
-    <p>The five AI failure modes and the constraints that prevent each. The numbered constraint architecture from KA's extraction pipeline (C-04 through C-11).</p>
+    <p>The seven AI failure modes and the constraints that prevent each. The numbered constraint architecture from KA's extraction pipeline (C-04 through C-11).</p>
   </div>
   <div class="module-item">
     <div class="module-num">Module 5 &middot; Week 3</div>
