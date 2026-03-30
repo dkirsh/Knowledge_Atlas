@@ -1,0 +1,341 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Knowledge Atlas — Complete Site Map</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: -apple-system, "Segoe UI", Arial, sans-serif; background: #F7F4EF; color: #2D2D2D; line-height: 1.5; padding: 2rem; }
+h1 { font-family: Georgia, serif; font-size: 1.8rem; color: #1C3D3A; margin-bottom: 0.3rem; }
+.subtitle { font-size: 0.9rem; color: #8A7A68; margin-bottom: 2rem; }
+.legend { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 2rem; padding: 14px 18px; background: #fff; border: 1px solid #E0DAD3; border-radius: 8px; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 0.78rem; }
+.dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.dot-live { background: #2A7868; }
+.dot-160sp { background: #E8872A; }
+.dot-de { background: #6A5E50; }
+.dot-ae { background: #7A4B8A; }
+.dot-auth { background: #999; }
+.dot-infra { background: #C0392B; }
+.dot-archive { background: #D0C8BE; }
+
+.tree { font-size: 0.85rem; }
+.branch { margin-left: 0; }
+.branch .branch { margin-left: 28px; }
+.node { display: flex; align-items: flex-start; gap: 8px; padding: 5px 10px; border-left: 2px solid #E0DAD3; margin-bottom: 1px; transition: background 0.1s; }
+.node:hover { background: rgba(42,120,104,0.06); }
+.node-root { border-left: 3px solid #1C3D3A; font-weight: 700; font-size: 0.95rem; background: #fff; padding: 10px 14px; margin: 18px 0 4px; border-radius: 6px; box-shadow: 0 1px 4px rgba(0,0,0,0.06); }
+.node-section { border-left: 3px solid #2A7868; font-weight: 600; font-size: 0.88rem; background: #f0ebe3; padding: 7px 12px; margin: 10px 0 2px; border-radius: 4px; }
+.tag { display: inline-block; font-size: 0.62rem; font-weight: 700; padding: 1px 6px; border-radius: 3px; text-transform: uppercase; letter-spacing: 0.06em; white-space: nowrap; }
+.tag-live { background: #E6F5F0; color: #1C3D3A; }
+.tag-160sp { background: #FFF0D0; color: #7A4400; }
+.tag-de { background: #F0EBE3; color: #4A3E32; }
+.tag-ae { background: #F0E8F5; color: #6E4B85; }
+.tag-auth { background: #F0F0F0; color: #666; }
+.tag-infra { background: #FDF0EF; color: #C0392B; }
+.tag-archive { background: #F3F0EC; color: #8A7A68; }
+.tag-js { background: #E7F0F8; color: #2D5F8B; }
+.tag-new { background: #D6EDD9; color: #1A6042; }
+.tag-rebuild { background: #FFEEBA; color: #7A5800; }
+.node-name { font-weight: 600; color: #1C3D3A; min-width: 260px; }
+.node-desc { color: #6A5E50; flex: 1; }
+.node-status { font-size: 0.72rem; color: #8A7A68; white-space: nowrap; }
+.sep { border-top: 1px solid #E0DAD3; margin: 20px 0; }
+.note { font-size: 0.8rem; color: #8A7A68; font-style: italic; padding: 8px 12px; background: #fff; border-radius: 4px; margin: 8px 0 8px 28px; }
+a { color: #2A7868; text-decoration: none; }
+a:hover { text-decoration: underline; }
+</style>
+</head>
+<body>
+
+<h1>Knowledge Atlas — Complete Site Map</h1>
+<p class="subtitle">Hierarchical view of all pages across Knowledge_Atlas/, 160sp/, Designing_Experiments/, and Article_Eater frontend/. Updated 2026-03-30.</p>
+
+<div class="legend">
+  <div class="legend-item"><span class="dot dot-live"></span> KA Core Platform</div>
+  <div class="legend-item"><span class="dot dot-160sp"></span> COGS 160 Spring</div>
+  <div class="legend-item"><span class="dot dot-de"></span> Designing Experiments</div>
+  <div class="legend-item"><span class="dot dot-ae"></span> Article Eater Legacy</div>
+  <div class="legend-item"><span class="dot dot-auth"></span> Auth</div>
+  <div class="legend-item"><span class="dot dot-infra"></span> System / Infrastructure</div>
+  <div class="legend-item"><span class="dot dot-archive"></span> Archive / Reference</div>
+</div>
+
+<div class="tree">
+
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="node node-root"><span class="dot dot-live"></span> Knowledge Atlas — Root (<code>Knowledge_Atlas/</code>)</div>
+<!-- ════════════════════════════════════════════════════════ -->
+
+<div class="branch">
+
+  <!-- ─── ENTRY ─── -->
+  <div class="node node-section"><span class="dot dot-live"></span> Entry &amp; Navigation</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_home.html</span> <span class="node-desc">Landing page — hero stats, 4 track cards, feature overview</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_sitemap.html</span> <span class="node-desc">Auto-generated page directory with mode filtering</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_user_home.html</span> <span class="node-desc">Personalized home — role-based dashboard routing</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_workflow_hub.html</span> <span class="node-desc">Workflow launcher — guided task pathways by user role</span></div>
+  </div>
+
+  <!-- ─── ASK / DEMO ─── -->
+  <div class="node node-section"><span class="dot dot-live"></span> Ask &amp; Demo</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_demo_v04.html</span> <span class="tag tag-live">PRIMARY</span> <span class="node-desc">Ask Knowledge Atlas — 7-question query bank, Science Summary modals, warrant chains</span></div>
+    <div class="node"><span class="dot dot-archive"></span> <span class="node-name">ka_demo.html</span> <span class="tag tag-archive">ARCHIVE</span> <span class="node-desc">Original static demo mockup (v01) — superseded by v04</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_question_maker.html</span> <span class="node-desc">Guided question builder — helps users frame research questions</span></div>
+  </div>
+
+  <!-- ─── EVIDENCE & KNOWLEDGE ─── -->
+  <div class="node node-section"><span class="dot dot-live"></span> Evidence &amp; Knowledge</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_evidence.html</span> <span class="node-desc">Evidence Table — ~1,900 findings, filterable by construct/signal/warrant/credence</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_topics.html</span> <span class="node-desc">Topic browser — 11 topic clusters with node counts</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_topic_hierarchy.html</span> <span class="node-desc">Topic hierarchy tree — parent/child topic relationships</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_gaps.html</span> <span class="node-desc">Research gap explorer — 9 gaps with VOI rankings</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_warrants.html</span> <span class="node-desc">Bridge warrant browser — 7 types with calibrated default credences</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_argumentation.html</span> <span class="node-desc">Argument map — Toulmin-structure claim visualizer</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_interpretation.html</span> <span class="node-desc">Interpretation layer — evidence-to-claim inference chains</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_hypothesis_builder.html</span> <span class="node-desc">Hypothesis construction tool — structured claim → evidence linking</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_annotations.html</span> <span class="node-desc">Annotation interface — evidence annotation and commentary</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_sensors.html</span> <span class="node-desc">Sensor browser — CNFA measurement instruments catalogue</span></div>
+  </div>
+
+  <!-- ─── ARTICLES & CONTRIBUTE ─── -->
+  <div class="node node-section"><span class="dot dot-live"></span> Articles &amp; Contribute</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_article_search.html</span> <span class="node-desc">Article search interface — query the ~760-paper corpus</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_articles.html</span> <span class="node-desc">HITL article evaluator — human-in-the-loop relevance review</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_article_propose.html</span> <span class="node-desc">Article proposal form — PDF and citation intake (dual: community + A0)</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_contribute.html</span> <span class="node-desc">Contribute landing — public entry point for data contribution</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_datacapture.html</span> <span class="node-desc">Data capture form — structured evidence entry</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_tagger.html</span> <span class="node-desc">Image tagger tool — tag architectural/environmental images with constructs</span></div>
+    <div class="node"><span class="dot dot-live"></span> <span class="node-name">ka_ai_methodology.html</span> <span class="node-desc">AI methodology guide — how to work with AI systems effectively</span></div>
+  </div>
+
+  <!-- ─── AUTH ─── -->
+  <div class="node node-section"><span class="dot dot-auth"></span> Authentication</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-auth"></span> <span class="node-name">ka_login.html</span> <span class="node-desc">Sign in — routes to dashboard (student) or approve (instructor)</span></div>
+    <div class="node"><span class="dot dot-auth"></span> <span class="node-name">ka_register.html</span> <span class="node-desc">Account creation — role selection, track preference</span></div>
+    <div class="node"><span class="dot dot-auth"></span> <span class="node-name">ka_forgot_password.html</span> <span class="node-desc">Password recovery</span></div>
+    <div class="node"><span class="dot dot-auth"></span> <span class="node-name">ka_reset_password.html</span> <span class="node-desc">Password reset with token</span></div>
+  </div>
+
+  <!-- ─── JS INFRASTRUCTURE ─── -->
+  <div class="node node-section"><span class="dot dot-infra"></span> Shared JS Infrastructure</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-infra"></span> <span class="node-name">ka_site_shell.js</span> <span class="tag tag-js">JS</span> <span class="node-desc">Nav shell — manages nav visibility per mode</span></div>
+    <div class="node"><span class="dot dot-infra"></span> <span class="node-name">ka_mode_switch.js</span> <span class="tag tag-js">JS</span> <span class="node-desc">Mode switching — per-page role toggle (needs session-level fix)</span></div>
+    <div class="node"><span class="dot dot-infra"></span> <span class="node-name">ka_data_adapter.js</span> <span class="tag tag-js">JS</span> <span class="node-desc">Data adapter — loadWithFallback pattern for JSON payloads</span></div>
+    <div class="node"><span class="dot dot-infra"></span> <span class="node-name">ka_shell_user.js</span> <span class="tag tag-js">JS</span> <span class="node-desc">User profile state in nav bar</span></div>
+    <div class="node"><span class="dot dot-infra"></span> <span class="node-name">ka_acronyms.js</span> <span class="tag tag-js">JS</span> <span class="node-desc">Automatic acronym expansion tooltips</span></div>
+    <div class="node"><span class="dot dot-infra"></span> <span class="node-name">ka_demo_wiring.js</span> <span class="tag tag-js">JS</span> <span class="node-desc">Demo page interactivity — login routing, nav wiring</span></div>
+    <div class="node"><span class="dot dot-infra"></span> <span class="node-name">ka_workflows.js</span> <span class="tag tag-js">JS</span> <span class="node-desc">Workflow definitions — step sequences per user role</span></div>
+    <div class="node"><span class="dot dot-infra"></span> <span class="node-name">ka_page_function.js / ka_about_page.js</span> <span class="tag tag-js">JS</span> <span class="node-desc">Page self-description metadata for the sitemap</span></div>
+    <div class="node"><span class="dot dot-infra"></span> <span class="node-name">ka_live_context.js / ka_layer_views.js</span> <span class="tag tag-js">JS</span> <span class="node-desc">Context awareness and layered view switching</span></div>
+  </div>
+
+</div><!-- /KA root branch -->
+
+<div class="sep"></div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="node node-root"><span class="dot dot-160sp"></span> COGS 160 Spring 2026 (<code>Knowledge_Atlas/160sp/</code>)</div>
+<!-- ════════════════════════════════════════════════════════ -->
+
+<div class="branch">
+
+  <!-- ─── STUDENT HOME ─── -->
+  <div class="node node-section"><span class="dot dot-160sp"></span> Student Home &amp; Orientation</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-160sp"></span> <span class="node-name">ka_dashboard.html</span> <span class="tag tag-rebuild">NEEDS REBUILD</span> <span class="node-desc">Student home — currently 1,331 lines of confusion; should be 3 cards: This Week, Progress, Track</span></div>
+    <div class="node"><span class="dot dot-160sp"></span> <span class="node-name">ka_student_setup.html</span> <span class="node-desc">Student orientation — getting started guide, tool setup, track selection</span></div>
+    <div class="node"><span class="dot dot-160sp"></span> <span class="node-name">ka_schedule.html</span> <span class="node-desc">Course schedule — week-by-week plan, Weeks 1–10</span></div>
+    <div class="node"><span class="dot dot-160sp"></span> <span class="node-name">ka_thursday_tasks.html</span> <span class="node-desc">Thursday exploration — 6 structured tasks for Week 1 Day 2</span></div>
+  </div>
+
+  <!-- ─── TRACK ASSIGNMENTS ─── -->
+  <div class="node node-section"><span class="dot dot-160sp"></span> Track Assignments (Weeks 3–8)</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-160sp"></span> <span class="node-name">ka_tag_assignment.html</span> <span class="node-desc">Track 1 — Image Tagger: tag architectural images with psychological constructs</span></div>
+    <div class="node"><span class="dot dot-160sp"></span> <span class="node-name">ka_article_finder_assignment.html</span> <span class="node-desc">Track 2 — Article Finder: pipeline evaluation, add 150+ citation records</span></div>
+    <div class="node"><span class="dot dot-160sp"></span> <span class="node-name">ka_vr_assignment.html</span> <span class="node-desc">Track 3 — VR Production: build VR environments from tagged images</span></div>
+    <div class="node"><span class="dot dot-160sp"></span> <span class="node-name">ka_gui_assignment.html</span> <span class="node-desc">Track 4 — GUI &amp; Use-Case Evaluation: evaluate and improve KA interfaces</span></div>
+  </div>
+
+  <!-- ─── INSTRUCTOR ─── -->
+  <div class="node node-section"><span class="dot dot-160sp"></span> Instructor Admin</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-160sp"></span> <span class="node-name">ka_approve.html</span> <span class="node-desc">Approval queue — review student registrations, assign tracks</span></div>
+  </div>
+
+  <!-- ─── ARCHIVE ─── -->
+  <div class="node node-section"><span class="dot dot-archive"></span> Archive / Reference</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-archive"></span> <span class="node-name">article_finder_assignment_v1_archive.html</span> <span class="tag tag-archive">ARCHIVE</span> <span class="node-desc">Original AF assignment v1 — individual filter-building, 3 Python approaches, calibration methodology</span></div>
+  </div>
+
+</div><!-- /160sp branch -->
+
+<div class="sep"></div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="node node-root"><span class="dot dot-de"></span> Designing Experiments (<code>Knowledge_Atlas/Designing_Experiments/</code>)</div>
+<!-- ════════════════════════════════════════════════════════ -->
+
+<div class="branch">
+
+  <!-- ─── COURSE SITE ─── -->
+  <div class="node node-section"><span class="dot dot-de"></span> Course Site (Master)</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">cogs160_spring_2026_site.html</span> <span class="tag tag-live">MASTER</span> <span class="node-desc">Master course site — 8 tabbed pages: Home, Syllabus, Method (7 AI failure modes), Tracks, Knowledge ATLAS, Prompt Curriculum, Schedule, Resources</span></div>
+    <div class="node"><span class="dot dot-archive"></span> <span class="node-name">COURSE_DESIGN_ARCHIVE_2026-03-24.html</span> <span class="tag tag-archive">ARCHIVE</span> <span class="node-desc">Archived course design iteration</span></div>
+    <div class="node"><span class="dot dot-archive"></span> <span class="node-name">course_pilot.html</span> <span class="tag tag-archive">ARCHIVE</span> <span class="node-desc">Pilot course design document</span></div>
+  </div>
+
+  <!-- ─── SUBSYSTEM PAGES ─── -->
+  <div class="node node-section"><span class="dot dot-de"></span> Subsystem Deep-Dives</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">system_inventory.html</span> <span class="node-desc">Architecture boxology — pipeline health cards, component status, critical gaps</span></div>
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">sensor_catalogue.html</span> <span class="node-desc">CNFA sensor catalogue — EEG, EDA, HRV, pupil, cortisol instruments</span></div>
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">methods_taxonomy.html</span> <span class="node-desc">Research methods taxonomy — study types, designs, analysis approaches</span></div>
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">theory_and_experiment_design.html</span> <span class="node-desc">Theory-to-experiment mapping — how theories generate testable predictions</span></div>
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">measurement_instruments.html</span> <span class="node-desc">Measurement instruments reference — validated scales and physiological measures</span></div>
+  </div>
+
+  <!-- ─── NAVIGATORS ─── -->
+  <div class="node node-section"><span class="dot dot-de"></span> Interactive Navigators</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">knowledge_navigator.html</span> <span class="node-desc">Mega-menu knowledge navigator — user-pathway model with role-based routing</span></div>
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">en_navigator.html</span> <span class="node-desc">Evidence Network navigator — browse the EN layer</span></div>
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">bn_navigator.html</span> <span class="node-desc">Bayesian Network navigator — browse the BN layer</span></div>
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">experiment_wizard.html</span> <span class="node-desc">Experiment design wizard — guided study design from hypothesis to protocol</span></div>
+    <div class="node"><span class="dot dot-de"></span> <span class="node-name">hypothesis_builder.html</span> <span class="node-desc">Hypothesis builder (DE version) — structured claim construction</span></div>
+  </div>
+
+</div><!-- /DE branch -->
+
+<div class="sep"></div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="node node-root"><span class="dot dot-ae"></span> Article Eater Legacy Frontend (<code>Article_Eater_.../frontend/</code>)</div>
+<div class="note">These pages were built for the original Article Eater system. Many have KA equivalents; others contain unique functionality worth migrating. They use the old navy/gold palette (#182B49 / #C69214) rather than the KA palette (#1C3D3A / #E8872A).</div>
+<!-- ════════════════════════════════════════════════════════ -->
+
+<div class="branch">
+
+  <!-- ─── AE: COURSE/STUDENT ─── -->
+  <div class="node node-section"><span class="dot dot-ae"></span> Course / Student Pages <span class="tag tag-160sp">→ 160SP CANDIDATES</span></div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">student-assignment.html</span> <span class="node-desc">Article search assignment — step-based progress tracker with banner</span> <span class="node-status">674 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">collect-articles-assignment.html</span> <span class="tag tag-new">A0 CANDIDATE</span> <span class="node-desc">Week 1 "Collect Articles" assignment — could be A0 (20 PDFs)</span> <span class="node-status">778 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">collect-articles-upload.html</span> <span class="node-desc">Article upload interface for students — PDF drop + review</span> <span class="node-status">1,121 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">image-tagger-assignment.html</span> <span class="node-desc">Image Tagger assignment (Track 1) — instructions + interface</span> <span class="node-status">1,111 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">article-finder-assignment.html</span> <span class="tag tag-archive">ALREADY COPIED</span> <span class="node-desc">AF assignment v1 — already in 160sp/ as archive</span> <span class="node-status">1,389 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">courses.html</span> <span class="node-desc">Course listing — Spring/Fall/Both tabs with track cards</span> <span class="node-status">685 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">my-view.html</span> <span class="node-desc">Student view — personal article collection with progress overview</span> <span class="node-status">690 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">builder-coordination.html</span> <span class="node-desc">ATLAS Builder coordination dashboard — Spring 2026 team tracker</span> <span class="node-status">930 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">builder-hub.html</span> <span class="node-desc">Builder Hub — minimal course management page</span> <span class="node-status">237 lines</span></div>
+  </div>
+
+  <!-- ─── AE: TEACHING ─── -->
+  <div class="node node-section"><span class="dot dot-ae"></span> Teaching &amp; Pedagogy</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">teach-google-search.html</span> <span class="tag tag-new">VALUABLE</span> <span class="node-desc">Google AI Citation query tutorial — teaches students to write effective search queries</span> <span class="node-status">1,242 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">explain-system.html</span> <span class="tag tag-new">VALUABLE</span> <span class="node-desc">"What K-ATLAS Is" — detailed system explanation with Mermaid architecture diagrams</span> <span class="node-status">1,258 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">journey-schematic.html</span> <span class="node-desc">K-ATLAS Journey Map — visual flow diagram of user pathways through the system</span> <span class="node-status">752 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">help.html</span> <span class="node-desc">Help &amp; Tutorials — FAQ and getting-started guides</span> <span class="node-status">470 lines</span></div>
+  </div>
+
+  <!-- ─── AE: PLATFORM ─── -->
+  <div class="node node-section"><span class="dot dot-ae"></span> Platform Tools (Research &amp; Data)</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">evidence-explorer.html</span> <span class="node-desc">Graph-based evidence explorer with filter dropdowns</span> <span class="node-status">1,554 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">claim-gallery.html</span> <span class="node-desc">Visual Evidence Gallery (ClaimGallery V22) — image-based evidence browser</span> <span class="node-status">766 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">article-annotator.html</span> <span class="node-desc">Evidence annotation tool — article-level annotation with sidebar</span> <span class="node-status">varies</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">image-collector.html</span> <span class="node-desc">Image collection tool — browse/select architectural images</span> <span class="node-status">980 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">image-inspector.html</span> <span class="node-desc">Image inspector — 3-column layout: filters, viewer, details panel</span> <span class="node-status">1,307 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">findings.html</span> <span class="node-desc">Findings browser — navigate extracted findings</span> <span class="node-status">582 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">rules.html</span> <span class="node-desc">Rule Inspector — browse evidence-backed rules</span> <span class="node-status">652 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">interactions.html</span> <span class="node-desc">Rule Interactions — view how rules relate to each other</span> <span class="node-status">530 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">search.html</span> <span class="node-desc">New Search interface — query the corpus</span> <span class="node-status">593 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">library.html</span> <span class="node-desc">Article library browser</span> <span class="node-status">591 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">reports.html</span> <span class="node-desc">Reports generator</span> <span class="node-status">465 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">dashboard.html</span> <span class="node-desc">Main AE dashboard with sidebar navigation</span> <span class="node-status">420 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">index.html</span> <span class="node-desc">K-ATLAS landing page — "Did You Know" feature cards</span> <span class="node-status">297 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">profile.html</span> <span class="node-desc">User profile page</span> <span class="node-status">556 lines</span></div>
+  </div>
+
+  <!-- ─── AE: ADMIN ─── -->
+  <div class="node node-section"><span class="dot dot-ae"></span> Admin &amp; Infrastructure</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">admin-class.html</span> <span class="node-desc">Class admin panel — student management, stats, tabs</span> <span class="node-status">731 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">ingestion.html</span> <span class="node-desc">Article ingestion pipeline UI — status tracking</span> <span class="node-status">1,028 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">entrenchment-monitor.html</span> <span class="node-desc">Belief entrenchment monitor — timeline charts, divergence tracking</span> <span class="node-status">613 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">query-log-viewer.html</span> <span class="node-desc">Query log viewer — search/filter API query history</span> <span class="node-status">563 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">queue.html</span> <span class="node-desc">Processing queue status</span> <span class="node-status">562 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">usage.html</span> <span class="node-desc">Usage &amp; costs tracking</span> <span class="node-status">450 lines</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">usage_dashboard.html</span> <span class="node-desc">Usage HUD — compact dashboard</span> <span class="node-status">417 lines</span></div>
+  </div>
+
+  <!-- ─── AE: AUTH ─── -->
+  <div class="node node-section"><span class="dot dot-ae"></span> Auth</div>
+  <div class="branch">
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">login.html</span> <span class="node-desc">Sign-in form</span></div>
+    <div class="node"><span class="dot dot-ae"></span> <span class="node-name">register.html</span> <span class="node-desc">Account creation — role selection</span></div>
+  </div>
+
+</div><!-- /AE branch -->
+
+<div class="sep"></div>
+
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="node node-root" style="background:#FFEEBA;"><span class="dot dot-160sp"></span> Fall 160 (Placeholder)</div>
+<!-- ════════════════════════════════════════════════════════ -->
+<div class="branch">
+  <div class="node"><span class="dot dot-de"></span> <span class="node-name">fall160_schedule.html</span> <span class="node-desc">Fall 160 schedule — Weeks 1–10 for the fall quarter</span> <span class="node-status">In KA root currently</span></div>
+  <div class="note">Fall 160 will eventually need its own subdirectory (160fa/) parallel to 160sp/. For now only the schedule page exists.</div>
+</div>
+
+<div class="sep"></div>
+
+<!-- ═══════ STATS ═══════ -->
+<div style="background:#fff; border:1px solid #E0DAD3; border-radius:8px; padding:18px 24px; margin-top:24px;">
+  <h2 style="font-size:1rem; color:#1C3D3A; margin-bottom:12px;">Site Statistics</h2>
+  <table style="font-size:0.85rem; border-collapse:collapse; width:100%;">
+    <tr style="border-bottom:1px solid #E0DAD3;">
+      <td style="padding:6px 12px; font-weight:600;">KA Core Platform</td>
+      <td style="padding:6px 12px;">29 HTML + 14 JS</td>
+      <td style="padding:6px 12px; color:#8A7A68;">Production pages in Knowledge_Atlas/</td>
+    </tr>
+    <tr style="border-bottom:1px solid #E0DAD3;">
+      <td style="padding:6px 12px; font-weight:600;">COGS 160 Spring (160sp/)</td>
+      <td style="padding:6px 12px;">10 HTML</td>
+      <td style="padding:6px 12px; color:#8A7A68;">Student home, 4 tracks, schedule, setup, approve</td>
+    </tr>
+    <tr style="border-bottom:1px solid #E0DAD3;">
+      <td style="padding:6px 12px; font-weight:600;">Designing Experiments</td>
+      <td style="padding:6px 12px;">13 HTML</td>
+      <td style="padding:6px 12px; color:#8A7A68;">Master course site, subsystem deep-dives, navigators</td>
+    </tr>
+    <tr style="border-bottom:1px solid #E0DAD3;">
+      <td style="padding:6px 12px; font-weight:600;">Article Eater Legacy</td>
+      <td style="padding:6px 12px;">36 HTML</td>
+      <td style="padding:6px 12px; color:#8A7A68;">Original frontend — partially superseded, partially unique</td>
+    </tr>
+    <tr>
+      <td style="padding:6px 12px; font-weight:700; color:#1C3D3A;">Total</td>
+      <td style="padding:6px 12px; font-weight:700;">88 HTML pages + 14 JS modules</td>
+      <td style="padding:6px 12px;"></td>
+    </tr>
+  </table>
+</div>
+
+<div style="margin-top:24px; font-size:0.78rem; color:#B0A090;">
+  Generated 2026-03-30 · Knowledge Atlas Site Map · Prof. David Kirsh, UCSD Cognitive Science
+</div>
+
+</body>
+</html>
