@@ -471,9 +471,9 @@
 
 <p>What looks like "an afternoon's work with three AIs" is the compressed output of years of hard-won craft. Students who skip the panel step produce systems that solve the wrong problem. Students who skip the spec step produce systems that cannot be tested. Students who skip verification produce systems that look impressive and are subtly wrong. The methodology exists because every shortcut has been tried and has failed.</p>
 
-<h2>The Five AI Failure Modes</h2>
+<h2>The Seven AI Failure Modes</h2>
 
-<p>AIs fail in predictable ways. Knowing these patterns lets you prevent them:</p>
+<p>AIs fail in predictable ways. Knowing these patterns lets you prevent them. The first five emerge in single prompts or short sessions. The last two &mdash; Attention-Induced Deletion and Drift &mdash; are slow-acting; they emerge over long sessions and compound silently until the damage is severe.</p>
 
 <div class="card-grid">
   <div class="card">
@@ -495,6 +495,14 @@
   <div class="card">
     <h4>5. Premature Abstraction</h4>
     <p>The AI produces abstract, general output when concrete, specific output was needed. "Several studies found..." instead of "3 studies (Mehta 2012, N=45; Steidle 2013, N=80) found..."</p>
+  </div>
+  <div class="card" style="border-top: 3px solid var(--accent);">
+    <h4>6. Attention-Induced Deletion</h4>
+    <p>The AI focuses on a subset of files to make changes, then writes back only those files &mdash; silently dropping everything outside its attention window. The repo <em>shrinks</em> instead of growing. In one real case a 2.4&nbsp;MB repo was reduced to 340&nbsp;KB after a refactoring session because the AI treated its working set as the entire project. <strong>Fix:</strong> enforce size-monotonicity on every commit (block any commit that reduces total repo size without explicit approval), quarantine removed files rather than deleting them, and alert on any reduction so a human can verify.</p>
+  </div>
+  <div class="card" style="border-top: 3px solid var(--accent);">
+    <h4>7. Drift</h4>
+    <p>Over a long session the AI gradually loses track of the original goal. Each individual step looks reasonable &mdash; "while I'm here, I should also fix X" &mdash; but the cumulative trajectory diverges until the AI is working on something the user never requested. A 12-line formula fix can silently expand to 3,200 lines across 14 files over 40 prompts. The danger is that AIs are trained to be helpful, so they solve every adjacent problem they notice without announcing the course change. <strong>Fix:</strong> anchor every session with a task list (checked every 10 prompts), freeze scope boundaries (which files and patterns are in play), and maintain a session log so drift becomes visible before it compounds.</p>
   </div>
 </div>
 
