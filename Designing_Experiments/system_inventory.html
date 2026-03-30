@@ -344,28 +344,28 @@
   <div class="arch-diagram" id="health-panel">
     <h2>Pipeline Health Status — Overseer Summary</h2>
     <p style="font-size: 0.85rem; color: var(--text-secondary); margin-bottom: 1rem;">
-      Readiness assessment based on the system audit of 2026-03-05. Click any pipeline to filter the inventory below.
+      Readiness assessment based on the system audit of 2026-03-30. Click any pipeline to filter the inventory below.
     </p>
     <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); gap: 1rem;">
 
       <div class="health-card" onclick="filterPipeline('extraction')" style="border-left: 4px solid var(--pipeline-extract); cursor: pointer;">
         <div class="health-header">
           <span class="health-name">Evidence Extraction</span>
-          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+          <span class="health-badge" style="background: #fff3cd; color: #856404;">PARTIAL</span>
         </div>
-        <div class="health-detail">20 HTML + Streamlit interfaces. Full pipeline: ingest &rarr; classify &rarr; extract &rarr; synthesize. 2,800 LOC QA handler, 142/142 card tests pass. Overseer wired.</div>
-        <div class="health-bar"><div class="health-fill" style="width: 95%; background: var(--pipeline-extract);"></div></div>
-        <div class="health-metric">Readiness: 95% &middot; 20 GUIs &middot; All tests pass</div>
+        <div class="health-detail">17 HTML + Streamlit interfaces. Full pipeline: ingest &rarr; classify &rarr; extract &rarr; synthesize. 2,800 LOC QA handler, 142/142 card tests pass. Overseer wired. Pipeline integrity bottleneck (55/100).</div>
+        <div class="health-bar"><div class="health-fill" style="width: 80%; background: var(--pipeline-extract);"></div></div>
+        <div class="health-metric">Readiness: 80% &middot; 17 GUIs &middot; Bottleneck: pipeline integrity</div>
       </div>
 
       <div class="health-card" onclick="filterPipeline('bn')" style="border-left: 4px solid var(--pipeline-bn); cursor: pointer;">
         <div class="health-header">
           <span class="health-name">Bayesian Network</span>
-          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+          <span class="health-badge" style="background: #fff3cd; color: #856404;">PARTIAL</span>
         </div>
-        <div class="health-detail">8 interfaces across 3 repos (BN, BN_graphical, Designing_Experiments). Causal graph explorer, image analyzer, D3 navigator. React v2 in development.</div>
-        <div class="health-bar"><div class="health-fill" style="width: 85%; background: var(--pipeline-bn);"></div></div>
-        <div class="health-metric">Readiness: 85% &middot; 8 GUIs &middot; React v2 partial</div>
+        <div class="health-detail">8 interfaces across 3 repos (BN, BN_graphical, Designing_Experiments). Architecture complete with synthetic data only. No real human ratings collected yet. Cannot make real predictions until experimental validation. React v2 in development.</div>
+        <div class="health-bar"><div class="health-fill" style="width: 45%; background: var(--pipeline-bn);"></div></div>
+        <div class="health-metric">Readiness: 45% &middot; 8 GUIs &middot; Synthetic data only, no real predictions</div>
       </div>
 
       <div class="health-card" onclick="filterPipeline('epistemic')" style="border-left: 4px solid var(--pipeline-epistemic); cursor: pointer;">
@@ -421,17 +421,17 @@
       <div class="health-card" onclick="filterPipeline('finder')" style="border-left: 4px solid var(--pipeline-finder); cursor: pointer;">
         <div class="health-header">
           <span class="health-name">Article Finder</span>
-          <span class="health-badge" style="background: #d4edda; color: #2e7d32;">GO</span>
+          <span class="health-badge" style="background: #fff3cd; color: #856404;">PARTIAL</span>
         </div>
-        <div class="health-detail">8 Streamlit pages. Corpus management: search, triage, paper detail, citation network, import wizard, discovery dashboard. Feeds Article Eater.</div>
-        <div class="health-bar"><div class="health-fill" style="width: 90%; background: var(--pipeline-finder);"></div></div>
-        <div class="health-metric">Readiness: 90% &middot; 8 GUIs &middot; All operational</div>
+        <div class="health-detail">Streamlit Article Finder (Article_Finder_v3_2_3) fully operational for Streamlit users. KA-facing article search (ka_article_search.html) exists but is a static UI stub with no backend integration. Search, triage, paper detail, citation network operational in Streamlit. Feeds Article Eater (Streamlit side only).</div>
+        <div class="health-bar"><div class="health-fill" style="width: 60%; background: var(--pipeline-finder);"></div></div>
+        <div class="health-metric">Readiness: 60% &middot; 8 GUIs &middot; Streamlit OK; KA interface disconnected</div>
       </div>
 
     </div>
 
     <div style="margin-top: 1.2rem; padding: 0.8rem; background: #fff3cd; border-radius: 6px; font-size: 0.85rem;">
-      <strong>Critical gaps for go-live:</strong> (1) Warrant strength (&omega;) computed but not persisted &mdash; need audit table for transparency. (2) EN Navigator hardcoded; not wired to database or warrant query service. (3) No warrant query API unifying scattered warrant data (Pollock status in JSON blob, types in constraints, bridges in free text). (4) No scheduled warrant recomputation for system-wide coherence maintenance. See <code>TASKS.md</code> for remediation phases.
+      <strong>Critical gaps for go-live:</strong> (1) <strong>BN has no real data</strong> &mdash; highest priority. Experimental validation required before real predictions can be made. (2) Article search not connected to backend &mdash; ka_article_search.html is a static UI stub. (3) Warrant strength (&omega;) computed but not persisted &mdash; need audit table for transparency. (4) EN Navigator hardcoded; not wired to database. See <code>TASKS.md</code> for remediation phases.
     </div>
   </div>
 
@@ -448,7 +448,7 @@
     </div>
     <div class="arch-label">Model Construction Layer</div>
     <div class="arch-row">
-      <div class="arch-node" style="background: var(--pipeline-bn-bg); color: var(--pipeline-bn);" onclick="filterPipeline('bn')">Bayesian Network<br><small>Causal Structure</small></div>
+      <div class="arch-node" style="background: var(--pipeline-bn-bg); color: var(--pipeline-bn);" onclick="filterPipeline('bn')">Bayesian Network<br><small>Causal Structure (synthetic only)</small></div>
       <div class="arch-arrow">↔</div>
       <div class="arch-node" style="background: var(--pipeline-theory-bg); color: var(--pipeline-theory);" onclick="filterPipeline('theory')">Theory Guides<br><small>11 Theories</small></div>
       <div class="arch-arrow">↔</div>
@@ -538,7 +538,7 @@
 
 <footer>
   ATLAS Knowledge System — GUI Inventory — Generated 2026-03-14<br>
-  8 pipelines &middot; 6 repositories &middot; 70+ web interfaces
+  8 pipelines &middot; 6 repositories &middot; 72 web interfaces
 </footer>
 
 <script>
