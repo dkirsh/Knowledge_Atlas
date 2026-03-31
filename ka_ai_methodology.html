@@ -454,10 +454,186 @@
     </div>
   </div>
 
-  <!-- ── FIVE COMPONENTS ── -->
+  <!-- ── DO NOT PATTERN (was Method 2, now Method 1) ── -->
   <div class="doc-section">
     <div class="section-header">
       <span class="sec-num">METHOD 1</span>
+      <div>
+        <h2>The "DO NOT" Pattern: five AI failure modes</h2>
+        <div class="sh-sub">Every constraint you omit is a failure mode you accept</div>
+      </div>
+    </div>
+
+    <p>
+      These five failure modes account for the majority of errors in AI-generated output in knowledge-system
+      work. For each task you design a prompt for, ask: which of these apply? Add a "DO NOT" clause for each.
+    </p>
+
+    <div class="failure-grid">
+      <div class="failure-card">
+        <div class="failure-num">F1</div>
+        <div class="failure-name">Confabulation</div>
+        <div class="failure-desc">The AI invents information not present in the source — a citation, an effect size, an author's name — because it sounds plausible. It does not flag the invention.</div>
+        <div class="failure-fix">DO NOT invent information not explicitly present in the source text. If a value is missing, return null.</div>
+      </div>
+      <div class="failure-card">
+        <div class="failure-num">F2</div>
+        <div class="failure-name">Summarizing instead of extracting</div>
+        <div class="failure-desc">When asked to extract, the AI paraphrases instead. This loses precision: effect sizes get rounded, qualifications get dropped, p-values disappear.</div>
+        <div class="failure-fix">DO NOT paraphrase or summarize when asked to extract. Provide verbatim quotes from the source where a string is requested.</div>
+      </div>
+      <div class="failure-card">
+        <div class="failure-num">F3</div>
+        <div class="failure-name">Format drift</div>
+        <div class="failure-desc">The AI returns prose, markdown, or a different JSON structure than specified — often adding "helpful" fields or wrapping the output in explanation text.</div>
+        <div class="failure-fix">DO NOT add any text outside the specified output schema. Return ONLY valid JSON. Do not explain your output.</div>
+      </div>
+      <div class="failure-card">
+        <div class="failure-num">F4</div>
+        <div class="failure-name">Ambiguity averaging</div>
+        <div class="failure-desc">When the source is ambiguous — a result could be classified multiple ways — the AI picks one arbitrarily and presents it as definitive, without flagging the ambiguity.</div>
+        <div class="failure-fix">DO NOT resolve ambiguity silently. Use the UNCLEAR or null values specified in the schema and flag the specific ambiguity in a "notes" field.</div>
+      </div>
+      <div class="failure-card">
+        <div class="failure-num">F5</div>
+        <div class="failure-name">Scope creep</div>
+        <div class="failure-desc">The AI goes beyond the task boundary — adding commentary, additional findings, related topics, or unsolicited recommendations — because it is optimizing for "helpfulness."</div>
+        <div class="failure-fix">DO NOT add commentary, caveats, or information outside the task scope. If you cannot complete a task step, leave that field null.</div>
+      </div>
+      <div class="failure-card" style="background: var(--light);">
+        <div class="failure-num" style="color:var(--green)">+</div>
+        <div class="failure-name">Check your prompt against all five</div>
+        <div class="failure-desc">Before running any prompt in a KA pipeline, review it against F1–F5. If a failure mode could plausibly occur and you have no constraint blocking it, add one.</div>
+        <div class="failure-fix">Template: "DO NOT [failure-mode behaviour]. If [edge case], [safe fallback]."</div>
+      </div>
+    </div>
+
+    <p style="margin-top:18px;">
+      <strong>These five are just the prompt-level failures.</strong> There are six more — session-level and systemic —
+      that emerge over long sessions and multi-agent workflows.
+      <a href="ka_ai_system_failures.html" style="color:var(--amber);font-weight:700;">Read the full taxonomy: How AI Systems Actually Fail →</a>
+    </p>
+  </div>
+
+  <!-- ── TRACK EXAMPLES ── -->
+  <div class="doc-section">
+    <div class="section-header">
+      <span class="sec-num">EXAMPLES</span>
+      <div>
+        <h2>Track-specific prompt examples</h2>
+        <div class="sh-sub">The gap between a vague request and a production prompt</div>
+      </div>
+    </div>
+
+    <div class="example-tabs" id="exTabs">
+      <button class="ex-tab active" data-panel="ex-t1">Track 1 · Tagging</button>
+      <button class="ex-tab" data-panel="ex-t2">Track 2 · Articles</button>
+      <button class="ex-tab" data-panel="ex-t4">Track 4 · GUI Eval</button>
+    </div>
+
+    <!-- T1 -->
+    <div id="ex-t1" class="ex-panel active">
+      <div class="ex-bad">
+        <div class="ex-label">❌ Vague — will not work in production</div>
+        <div class="ex-content">"Look at this image and tell me what CNFA constructs are present."</div>
+        <div class="ex-why">No output format. "CNFA constructs" is undefined. The AI will guess what that means, produce a prose description, and the result cannot be ingested by the tagger system.</div>
+      </div>
+      <div class="ex-good">
+        <div class="ex-label">✅ Production prompt</div>
+        <div class="ex-content">You are a cognitive-science trained image annotator specializing in the CNFA (Cognitive Neuroscience of the Functional Architecture) taxonomy.
+
+TASK: Given the image, score each of the 5 algorithm bundles on a 0–2 scale (0=absent, 1=partial, 2=present) based on the Phase 0 reference table provided.
+
+DO NOT assign a score greater than 0 if the evidence is ambiguous.
+DO NOT describe the image narrative — only score the bundles.
+DO NOT add bundles not in the Phase 0 table.
+
+BUNDLES (from Phase 0 reference table):
+A: Spatial-cognitive — enclosure, prospect/refuge, legibility
+B: Temporal-cognitive — change over time, rhythmic features, sequence
+C: Social-cognitive — density, crowding, interpersonal space markers
+D: Affective-cognitive — valence indicators, arousal cues, safety signals
+E: Executive-cognitive — complexity, attention demands, task-facilitating affordances
+
+OUTPUT FORMAT — return ONLY valid JSON:
+{"A": 0|1|2, "B": 0|1|2, "C": 0|1|2, "D": 0|1|2, "E": 0|1|2, "rationale": {"A": "string", "B": "string", "C": "string", "D": "string", "E": "string"}}</div>
+        <div class="ex-why">Specific role. Testable task (parse JSON and check values are 0/1/2). Explicit prohibitions. Context loaded (bundle definitions). Schema defined. This output can be ingested directly.</div>
+      </div>
+    </div>
+
+    <!-- T2 -->
+    <div id="ex-t2" class="ex-panel">
+      <div class="ex-bad">
+        <div class="ex-label">❌ Vague</div>
+        <div class="ex-content">"Generate some search queries for research on noise and cognition for Google Scholar."</div>
+        <div class="ex-why">No specificity on gap target. "Some" is undefined. No format. No instructions on query quality or how to match the KA corpus gaps. Output cannot be logged in the Query Diary schema.</div>
+      </div>
+      <div class="ex-good">
+        <div class="ex-label">✅ Production prompt</div>
+        <div class="ex-content">You are a systematic review search specialist with expertise in building academic database queries for cognitive science research.
+
+TASK: Generate exactly 5 search queries for the gap target below, optimized for Google AI citation search (conversational natural language, not Boolean operators).
+
+GAP TARGET: "acoustic → cognitive performance" — research front with 25 claims, 11 papers, VOI 0.755. Currently missing paradigms: Computational Feature Analysis (CFA), Photo/Video Surrogacy (PVS). Key theories: Neuromodulatory Systems, Arousal Theory, Cognitive Load Theory.
+
+DO NOT generate Boolean operator queries (no AND, OR, NOT).
+DO NOT generate queries so broad they return canonical papers already in most databases.
+DO NOT repeat the same conceptual angle across multiple queries.
+Each query must target a different aspect of the gap: mechanism, context, population, method, or intervention type.
+
+OUTPUT FORMAT — return ONLY valid JSON:
+{"queries": [
+  {"query_text": "string", "angle": "mechanism|context|population|method|intervention", "gap_target_id": "acoustic_cognitive_performance", "rationale": "string (≤30 words)"}
+]}</div>
+        <div class="ex-why">Role is specific. Task is precisely bounded (5 queries, natural language, against a specific gap target). Constraints close the main failure modes. Gap context loaded explicitly. Output schema matches Query Diary format exactly.</div>
+      </div>
+    </div>
+
+    <!-- T4 -->
+    <div id="ex-t4" class="ex-panel">
+      <div class="ex-bad">
+        <div class="ex-label">❌ Vague</div>
+        <div class="ex-content">"Evaluate the KA topics page and tell me what UX problems you see."</div>
+        <div class="ex-why">No user type specified. "UX problems" is undefined. No severity scale. No output format. The response will be impressionistic prose that cannot be compared across pages or tracked over time.</div>
+      </div>
+      <div class="ex-good">
+        <div class="ex-label">✅ Production prompt</div>
+        <div class="ex-content">You are a UX evaluator conducting a structured heuristic walkthrough of the Knowledge Atlas topic browser page, evaluated from the perspective of a Track 2 student (Article Finding Pipeline) in their first week.
+
+USER TYPE — Track 2 first-week student:
+Goal: Identify which research topics have the most knowledge gaps and should be prioritized for article searches.
+Technical level: Moderate — familiar with browser but not with VOI scores or CNFA taxonomy.
+Mental model: Expects something like a content directory; does not yet understand the epistemic framework.
+Time constraint: Must decide on a gap target within a 20-minute session.
+
+TASK: Walk through the ka_topics.html page as this user. For each friction point you identify, record it using the schema below.
+
+DO NOT evaluate the aesthetic design — evaluate functional affordances only.
+DO NOT flag issues that are only problems for experts who understand the KA framework.
+DO NOT assign a severity higher than 2 unless the issue would cause the user to abandon the task.
+
+SEVERITY SCALE: 1=minor inconvenience, 2=slows task, 3=blocks task completion
+
+OUTPUT FORMAT — return ONLY valid JSON:
+{"friction_points": [
+  {
+    "page_element": "string — what the user interacted with",
+    "user_action": "string — what they tried to do",
+    "observed_problem": "string",
+    "severity": 1|2|3,
+    "suggested_fix": "string (≤40 words)",
+    "acceptance_criterion": "string — how we'd know the fix worked"
+  }
+]}</div>
+        <div class="ex-why">Role includes specific user type with goals, technical level, mental model, and time constraint — this is what makes the evaluation ecologically valid rather than hypothetical. Output is structured enough to track fixes over sprints.</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── FIVE COMPONENTS (was Method 1, now Method 2) ── -->
+  <div class="doc-section">
+    <div class="section-header">
+      <span class="sec-num">METHOD 2</span>
       <div>
         <h2>The Five Components of a Production Prompt</h2>
         <div class="sh-sub">Every prompt that goes into a KA pipeline must have all five</div>
@@ -588,176 +764,6 @@ biophilic_response, social_density, physical_activity.</span>
         that enforce it. Include an example of a valid response if the schema is complex.</p>
       </div>
 
-    </div>
-  </div>
-
-  <!-- ── TRACK EXAMPLES ── -->
-  <div class="doc-section">
-    <div class="section-header">
-      <span class="sec-num">EXAMPLES</span>
-      <div>
-        <h2>Track-specific prompt examples</h2>
-        <div class="sh-sub">The gap between a vague request and a production prompt</div>
-      </div>
-    </div>
-
-    <div class="example-tabs" id="exTabs">
-      <button class="ex-tab active" data-panel="ex-t1">Track 1 · Tagging</button>
-      <button class="ex-tab" data-panel="ex-t2">Track 2 · Articles</button>
-      <button class="ex-tab" data-panel="ex-t4">Track 4 · GUI Eval</button>
-    </div>
-
-    <!-- T1 -->
-    <div id="ex-t1" class="ex-panel active">
-      <div class="ex-bad">
-        <div class="ex-label">❌ Vague — will not work in production</div>
-        <div class="ex-content">"Look at this image and tell me what CNFA constructs are present."</div>
-        <div class="ex-why">No output format. "CNFA constructs" is undefined. The AI will guess what that means, produce a prose description, and the result cannot be ingested by the tagger system.</div>
-      </div>
-      <div class="ex-good">
-        <div class="ex-label">✅ Production prompt</div>
-        <div class="ex-content">You are a cognitive-science trained image annotator specializing in the CNFA (Cognitive Neuroscience of the Functional Architecture) taxonomy.
-
-TASK: Given the image, score each of the 5 algorithm bundles on a 0–2 scale (0=absent, 1=partial, 2=present) based on the Phase 0 reference table provided.
-
-DO NOT assign a score greater than 0 if the evidence is ambiguous.
-DO NOT describe the image narrative — only score the bundles.
-DO NOT add bundles not in the Phase 0 table.
-
-BUNDLES (from Phase 0 reference table):
-A: Spatial-cognitive — enclosure, prospect/refuge, legibility
-B: Temporal-cognitive — change over time, rhythmic features, sequence
-C: Social-cognitive — density, crowding, interpersonal space markers
-D: Affective-cognitive — valence indicators, arousal cues, safety signals
-E: Executive-cognitive — complexity, attention demands, task-facilitating affordances
-
-OUTPUT FORMAT — return ONLY valid JSON:
-{"A": 0|1|2, "B": 0|1|2, "C": 0|1|2, "D": 0|1|2, "E": 0|1|2, "rationale": {"A": "string", "B": "string", "C": "string", "D": "string", "E": "string"}}</div>
-        <div class="ex-why">Specific role. Testable task (parse JSON and check values are 0/1/2). Explicit prohibitions. Context loaded (bundle definitions). Schema defined. This output can be ingested directly.</div>
-      </div>
-    </div>
-
-    <!-- T2 -->
-    <div id="ex-t2" class="ex-panel">
-      <div class="ex-bad">
-        <div class="ex-label">❌ Vague</div>
-        <div class="ex-content">"Generate some search queries for research on noise and cognition for Google Scholar."</div>
-        <div class="ex-why">No specificity on gap target. "Some" is undefined. No format. No instructions on query quality or how to match the KA corpus gaps. Output cannot be logged in the Query Diary schema.</div>
-      </div>
-      <div class="ex-good">
-        <div class="ex-label">✅ Production prompt</div>
-        <div class="ex-content">You are a systematic review search specialist with expertise in building academic database queries for cognitive science research.
-
-TASK: Generate exactly 5 search queries for the gap target below, optimized for Google AI citation search (conversational natural language, not Boolean operators).
-
-GAP TARGET: "acoustic → cognitive performance" — research front with 25 claims, 11 papers, VOI 0.755. Currently missing paradigms: Computational Feature Analysis (CFA), Photo/Video Surrogacy (PVS). Key theories: Neuromodulatory Systems, Arousal Theory, Cognitive Load Theory.
-
-DO NOT generate Boolean operator queries (no AND, OR, NOT).
-DO NOT generate queries so broad they return canonical papers already in most databases.
-DO NOT repeat the same conceptual angle across multiple queries.
-Each query must target a different aspect of the gap: mechanism, context, population, method, or intervention type.
-
-OUTPUT FORMAT — return ONLY valid JSON:
-{"queries": [
-  {"query_text": "string", "angle": "mechanism|context|population|method|intervention", "gap_target_id": "acoustic_cognitive_performance", "rationale": "string (≤30 words)"}
-]}</div>
-        <div class="ex-why">Role is specific. Task is precisely bounded (5 queries, natural language, against a specific gap target). Constraints close the main failure modes. Gap context loaded explicitly. Output schema matches Query Diary format exactly.</div>
-      </div>
-    </div>
-
-    <!-- T4 -->
-    <div id="ex-t4" class="ex-panel">
-      <div class="ex-bad">
-        <div class="ex-label">❌ Vague</div>
-        <div class="ex-content">"Evaluate the KA topics page and tell me what UX problems you see."</div>
-        <div class="ex-why">No user type specified. "UX problems" is undefined. No severity scale. No output format. The response will be impressionistic prose that cannot be compared across pages or tracked over time.</div>
-      </div>
-      <div class="ex-good">
-        <div class="ex-label">✅ Production prompt</div>
-        <div class="ex-content">You are a UX evaluator conducting a structured heuristic walkthrough of the Knowledge Atlas topic browser page, evaluated from the perspective of a Track 2 student (Article Finding Pipeline) in their first week.
-
-USER TYPE — Track 2 first-week student:
-Goal: Identify which research topics have the most knowledge gaps and should be prioritized for article searches.
-Technical level: Moderate — familiar with browser but not with VOI scores or CNFA taxonomy.
-Mental model: Expects something like a content directory; does not yet understand the epistemic framework.
-Time constraint: Must decide on a gap target within a 20-minute session.
-
-TASK: Walk through the ka_topics.html page as this user. For each friction point you identify, record it using the schema below.
-
-DO NOT evaluate the aesthetic design — evaluate functional affordances only.
-DO NOT flag issues that are only problems for experts who understand the KA framework.
-DO NOT assign a severity higher than 2 unless the issue would cause the user to abandon the task.
-
-SEVERITY SCALE: 1=minor inconvenience, 2=slows task, 3=blocks task completion
-
-OUTPUT FORMAT — return ONLY valid JSON:
-{"friction_points": [
-  {
-    "page_element": "string — what the user interacted with",
-    "user_action": "string — what they tried to do",
-    "observed_problem": "string",
-    "severity": 1|2|3,
-    "suggested_fix": "string (≤40 words)",
-    "acceptance_criterion": "string — how we'd know the fix worked"
-  }
-]}</div>
-        <div class="ex-why">Role includes specific user type with goals, technical level, mental model, and time constraint — this is what makes the evaluation ecologically valid rather than hypothetical. Output is structured enough to track fixes over sprints.</div>
-      </div>
-    </div>
-  </div>
-
-  <!-- ── DO NOT PATTERN ── -->
-  <div class="doc-section">
-    <div class="section-header">
-      <span class="sec-num">METHOD 2</span>
-      <div>
-        <h2>The "DO NOT" Pattern: five AI failure modes</h2>
-        <div class="sh-sub">Every constraint you omit is a failure mode you accept</div>
-      </div>
-    </div>
-
-    <p>
-      These five failure modes account for the majority of errors in AI-generated output in knowledge-system
-      work. For each task you design a prompt for, ask: which of these apply? Add a "DO NOT" clause for each.
-    </p>
-
-    <div class="failure-grid">
-      <div class="failure-card">
-        <div class="failure-num">F1</div>
-        <div class="failure-name">Confabulation</div>
-        <div class="failure-desc">The AI invents information not present in the source — a citation, an effect size, an author's name — because it sounds plausible. It does not flag the invention.</div>
-        <div class="failure-fix">DO NOT invent information not explicitly present in the source text. If a value is missing, return null.</div>
-      </div>
-      <div class="failure-card">
-        <div class="failure-num">F2</div>
-        <div class="failure-name">Summarizing instead of extracting</div>
-        <div class="failure-desc">When asked to extract, the AI paraphrases instead. This loses precision: effect sizes get rounded, qualifications get dropped, p-values disappear.</div>
-        <div class="failure-fix">DO NOT paraphrase or summarize when asked to extract. Provide verbatim quotes from the source where a string is requested.</div>
-      </div>
-      <div class="failure-card">
-        <div class="failure-num">F3</div>
-        <div class="failure-name">Format drift</div>
-        <div class="failure-desc">The AI returns prose, markdown, or a different JSON structure than specified — often adding "helpful" fields or wrapping the output in explanation text.</div>
-        <div class="failure-fix">DO NOT add any text outside the specified output schema. Return ONLY valid JSON. Do not explain your output.</div>
-      </div>
-      <div class="failure-card">
-        <div class="failure-num">F4</div>
-        <div class="failure-name">Ambiguity averaging</div>
-        <div class="failure-desc">When the source is ambiguous — a result could be classified multiple ways — the AI picks one arbitrarily and presents it as definitive, without flagging the ambiguity.</div>
-        <div class="failure-fix">DO NOT resolve ambiguity silently. Use the UNCLEAR or null values specified in the schema and flag the specific ambiguity in a "notes" field.</div>
-      </div>
-      <div class="failure-card">
-        <div class="failure-num">F5</div>
-        <div class="failure-name">Scope creep</div>
-        <div class="failure-desc">The AI goes beyond the task boundary — adding commentary, additional findings, related topics, or unsolicited recommendations — because it is optimizing for "helpfulness."</div>
-        <div class="failure-fix">DO NOT add commentary, caveats, or information outside the task scope. If you cannot complete a task step, leave that field null.</div>
-      </div>
-      <div class="failure-card" style="background: var(--light);">
-        <div class="failure-num" style="color:var(--green)">+</div>
-        <div class="failure-name">Check your prompt against all five</div>
-        <div class="failure-desc">Before running any prompt in a KA pipeline, review it against F1–F5. If a failure mode could plausibly occur and you have no constraint blocking it, add one.</div>
-        <div class="failure-fix">Template: "DO NOT [failure-mode behaviour]. If [edge case], [safe fallback]."</div>
-      </div>
     </div>
   </div>
 
@@ -1314,9 +1320,9 @@ window.KA_SHELL_USER.applyUser({
   const TOTAL_STEPS = 10;
   const STEP_NAMES = [
     'CORE: Chatbot vs. Directed Instrument',
-    'METHOD 1: Five Components',
+    'METHOD 1: The DO NOT Pattern',
     'EXAMPLES: Track-Specific Prompts',
-    'METHOD 2: The DO NOT Pattern',
+    'METHOD 2: Five Components',
     'METHOD 3: Contracts & Success',
     'METHOD 4: Verification & Trust',
     'METHOD 5: Ruthless Prompts',
