@@ -461,8 +461,8 @@ nav a.active { color: #F5A623; }
   <div class="hero-tag">Knowledge Atlas · Topic Browser</div>
   <h1>Explore Research Topics</h1>
   <p class="hero-sub">
-    Browse <span id="hero-topic-count">20</span> topic clusters spanning <span id="hero-paper-count">263</span> papers.
-    Find what interests you, see where the evidence is strong, and discover open questions.
+    Browse <span id="hero-topic-count">20</span> topic areas and active fronts spanning <span id="hero-paper-count">263</span> papers.
+    Research fronts help you enter the corpus quickly, but they do not cover the whole topic map.
   </p>
   <p class="hero-mode-note" id="topics-mode-note">
     Student mode starts with broad literature exploration and practical entry points.
@@ -490,10 +490,14 @@ nav a.active { color: #F5A623; }
 <div class="tabs-container">
   <div class="tab-buttons" id="tab-buttons">
     <button class="tab-button active" data-tab="browse" onclick="switchTab('browse', this)">Browse All</button>
-    <button class="tab-button" data-tab="new" onclick="switchTab('new', this)">What's New</button>
-    <button class="tab-button" data-tab="active" onclick="switchTab('active', this)">Most Active</button>
-    <button class="tab-button" data-tab="priority" onclick="switchTab('priority', this)">Research Priorities</button>
+    <button class="tab-button" data-tab="new" onclick="switchTab('new', this)">Emerging Fronts</button>
+    <button class="tab-button" data-tab="active" onclick="switchTab('active', this)">Most Studied</button>
+    <button class="tab-button" data-tab="priority" onclick="switchTab('priority', this)">Best Next Questions</button>
   </div>
+</div>
+
+<div style="max-width:1100px;margin:0 auto;padding:12px 24px 0;color:#6E756E;font-size:0.84rem;line-height:1.55;">
+  Browse the broad map below. Research fronts are the denser, more active subset.
 </div>
 
 <!-- SEARCH & FILTERS (visible in all tabs) -->
@@ -525,7 +529,7 @@ nav a.active { color: #F5A623; }
 <div class="tab-content" id="tab-new">
   <div style="max-width: 1100px; margin: 0 auto; padding: 16px 24px;">
     <div class="tab-explanation">
-      Emerging frontiers — topics with ≤5 papers where your contribution has the most impact.
+      Emerging fronts — tighter active lines of work with lighter coverage, where a new contribution can matter quickly.
     </div>
   </div>
   <div class="topics-container">
@@ -538,7 +542,7 @@ nav a.active { color: #F5A623; }
 <div class="tab-content" id="tab-active">
   <div style="max-width: 1100px; margin: 0 auto; padding: 16px 24px;">
     <div class="tab-explanation">
-      Best-studied topics — deepest evidence base. Topics are sorted by number of papers (largest corpus first).
+      Best-studied topics — the deepest evidence base in the current corpus, sorted by paper count.
     </div>
   </div>
   <div class="topics-container">
@@ -551,7 +555,7 @@ nav a.active { color: #F5A623; }
 <div class="tab-content" id="tab-priority">
   <div style="max-width: 1100px; margin: 0 auto; padding: 16px 24px;">
     <div class="tab-explanation">
-      Value of Information (VOI) scores rank topics by how much a new well-designed study would reduce the system's uncertainty. Higher VOI = studying this topic would teach us the most.
+      Value of Information (VOI) scores rank topics by how much a new well-designed study would reduce the system's uncertainty. Higher VOI means the next good study would teach us the most.
     </div>
   </div>
   <div class="topics-container">
@@ -571,17 +575,15 @@ nav a.active { color: #F5A623; }
   <p class="page-purpose-inner">
     <em>Page purpose (for workflow and interface designers):</em>
     This is the <strong>topic entry point</strong> for Knowledge Atlas — the page that lets
-    any user (student, researcher, contributor) see what intellectual territory KA covers
-    before they ask a question or propose a study.
+    any user see what intellectual territory Atlas covers before asking a question or proposing a study.
     Each cluster card shows the corpus size (papers already ingested), the Value of Information
     (VOI) score (expected reduction in uncertainty if a new well-powered study were run on that
     topic), and quick-action buttons routing to the Ask, Evidence, Question Maker, and Study Designer tools.
-    Four browsing modes (All, Emerging, Most Active, Research Priorities) provide different entry points
+    Four browsing modes (All, Emerging Fronts, Most Studied, Best Next Questions) provide different entry points
     depending on the user's interests and goals. Clicking a card opens a detail panel showing full metadata,
     theories, constructs, and metrics.
     In the live system, these topic cards are generated from the current rebuild's
-    <code>research_fronts_v5.json</code> artifact. They are live fronts, not a seeded demo array,
-    though front coverage is still narrower than full paper coverage.
+    live research-front data. They are overlays on the broader topic map, not the base topic ontology.
   </p>
 </div>
 
@@ -994,6 +996,7 @@ async function initializeTopicsPage() {
   const frontCoveredPapers = (payload.summary && payload.summary.front_covered_paper_count) || CLUSTERS.reduce((sum, item) => sum + (item.n || 0), 0);
   const totalTopics = CLUSTERS.length;
   const categories = new Set(CLUSTERS.map(c => c.cat)).size;
+  const frontSource = (payload.summary && payload.summary.front_source) || 'research_fronts_v5';
 
   document.getElementById('hero-topic-count').textContent = totalTopics;
   document.getElementById('hero-paper-count').textContent = totalPapers;
@@ -1001,9 +1004,9 @@ async function initializeTopicsPage() {
   document.getElementById('stat-topics').textContent = totalTopics;
   document.getElementById('stat-categories').textContent = categories;
   if (window.location.protocol === 'file:' && !(payload.summary && payload.summary.article_count)) {
-    document.getElementById('topics-mode-note').textContent = `This page is running in local-file fallback mode. The ${totalPapers} papers shown here come from the built-in demo front set; serve the Atlas over HTTP to load the live 760-paper corpus.`;
+    document.getElementById('topics-mode-note').textContent = `You are viewing a local demo set because this page was opened from disk rather than through the Atlas server. Serve Atlas over HTTP to load the live corpus.`;
   } else {
-    document.getElementById('topics-mode-note').textContent = `Current live fronts cover ${frontCoveredPapers} of ${totalPapers} papers; the rest still surface through fallback per-paper topics elsewhere in the Atlas.`;
+    document.getElementById('topics-mode-note').textContent = `These cards show live research fronts: tighter clusters of papers that share a topic, theory, or method strongly enough to count as an active line of work. Live research fronts (${frontSource}) currently cover ${frontCoveredPapers} of ${totalPapers} papers. The remaining papers still appear through the broader Topic Map and per-paper topic assignments.`;
   }
 
   renderAllGrids();

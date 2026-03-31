@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Workflow — Knowledge Atlas</title>
+  <title>Route — Knowledge Atlas</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -166,6 +166,16 @@
       margin-top: 14px;
       font-size: .8rem;
       opacity: .75;
+    }
+    .wf-hero-note {
+      margin-top: 14px;
+      background: rgba(255,255,255,.14);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 10px;
+      padding: 12px 14px;
+      font-size: .84rem;
+      line-height: 1.6;
+      max-width: 760px;
     }
 
     /* Step content */
@@ -435,7 +445,7 @@
 <!-- TOP BAR -->
 <header class="top-bar">
   <a href="ka_user_home.html" class="top-bar-brand">Knowledge <span>Atlas</span></a>
-  <a href="ka_user_home.html" class="top-bar-back">← My Workflows</a>
+  <a href="ka_user_home.html" class="top-bar-back">← Recommended Paths</a>
   <span class="top-bar-sep">|</span>
   <span class="top-bar-wf-title" id="top-bar-wf-title">Loading…</span>
   <div class="top-bar-spacer"></div>
@@ -445,7 +455,7 @@
 <div class="layout">
 
   <!-- STEP SIDEBAR -->
-  <aside class="step-sidebar" id="step-sidebar" aria-label="Workflow steps">
+  <aside class="step-sidebar" id="step-sidebar" aria-label="Route steps">
     <div class="step-sidebar-label">Steps</div>
     <nav id="step-nav"></nav>
   </aside>
@@ -453,14 +463,15 @@
   <!-- MAIN CONTENT -->
   <main class="main" id="main-content">
     <div id="error-state" class="error-state" style="display:none">
-      <h2>Workflow not found</h2>
-      <p>The workflow you requested does not exist. <a href="ka_user_home.html">Go back to My Workflows</a>.</p>
+      <h2>Route not found</h2>
+      <p>The route you requested does not exist. <a href="ka_user_home.html">Go back to recommended paths</a>.</p>
     </div>
     <div id="wf-hero" class="wf-hero" style="display:none">
       <div class="wf-hero-badge" id="hero-badge"></div>
       <div class="wf-hero-title" id="hero-title"></div>
       <div class="wf-hero-objective" id="hero-objective"></div>
       <div class="wf-hero-meta" id="hero-meta"></div>
+      <div class="wf-hero-note" id="hero-note"></div>
     </div>
     <div id="step-panels-container"></div>
   </main>
@@ -498,7 +509,7 @@
   /* ── Error state ─────────────────────────────────────────────────── */
   if (!wf) {
     document.getElementById('error-state').style.display = 'block';
-    document.getElementById('top-bar-wf-title').textContent = 'Workflow not found';
+    document.getElementById('top-bar-wf-title').textContent = 'Route not found';
     document.getElementById('sticky-cta').style.display = 'none';
     window.KA_COLLECTOR.init();
     return;
@@ -523,6 +534,8 @@
   document.getElementById('hero-meta').innerHTML =
     '<span>⏱ ' + wf.estimatedTime + '</span>' +
     '<span>📋 ' + wf.steps.length + ' steps</span>';
+  document.getElementById('hero-note').textContent =
+    'This is a recommended route, not a requirement. Use Next and Previous if you want a guided sequence. You may open other Atlas pages at any time, and your place in this route will still be remembered.';
 
   /* ── Progress persistence ────────────────────────────────────────── */
   const PROG_KEY = 'ka_wf_progress_' + wfId;
@@ -559,10 +572,24 @@
     '</div>';
   }
 
+  function buildRoutedLink(targetPath, stepIdx) {
+    if (!targetPath) return '';
+    try {
+      const url = new URL(targetPath, window.location.href);
+      url.searchParams.set('wf', wfId);
+      url.searchParams.set('step', stepIdx);
+      url.searchParams.set('from', 'workflow');
+      return url.pathname.split('/').pop() + url.search;
+    } catch (e) {
+      return targetPath;
+    }
+  }
+
   /* ── Build step panels ───────────────────────────────────────────── */
   const container = document.getElementById('step-panels-container');
   container.innerHTML = wf.steps.map(function (step, i) {
     const safeDesc = step.description.replace(/'/g, '&#39;');
+    const routedLink = step.pageLink ? buildRoutedLink(step.pageLink, i) : '';
     const lookForItems = (step.lookFor || []).map(function (lf) {
       return '<li>' + lf + '</li>';
     }).join('');
@@ -582,7 +609,7 @@
           '<div class="step-title-large">' + step.title + '</div>' +
         '</div>' +
         (step.pageLink
-          ? '<a href="' + step.pageLink + '" class="step-page-link" target="_blank" rel="noopener" style="margin-left:auto">Open ' + step.pageName + ' ↗</a>'
+          ? '<a href="' + routedLink + '" class="step-page-link" target="_blank" rel="noopener" style="margin-left:auto">Open ' + step.pageName + ' ↗</a>'
           : '') +
       '</div>' +
       buildImagePanel(step) +
@@ -652,7 +679,7 @@
     const nextBtn = document.getElementById('cta-next');
     prevBtn.disabled = idx === 0;
     const isLast = idx === wf.steps.length - 1;
-    nextBtn.textContent = isLast ? 'Complete Workflow ✓' : 'Next Step →';
+    nextBtn.textContent = isLast ? 'Complete Route ✓' : 'Next Step →';
     nextBtn.classList.toggle('last', isLast);
 
     // Persist progress
@@ -720,13 +747,13 @@
     doneEl.style.cssText = 'text-align:center;padding:60px 24px;max-width:480px;margin:0 auto';
     doneEl.innerHTML =
       '<div style="font-size:3.5rem;margin-bottom:16px">' + wf.icon + '</div>' +
-      '<h2 style="font-size:1.5rem;font-weight:800;color:#111827;margin-bottom:8px">Workflow complete!</h2>' +
+      '<h2 style="font-size:1.5rem;font-weight:800;color:#111827;margin-bottom:8px">Route complete!</h2>' +
       '<p style="color:#6b7280;line-height:1.6;margin-bottom:20px">' +
         'You have finished <strong>' + wf.title + '</strong>. Your notes are saved and your collected articles are ready to submit.' +
       '</p>' +
       collectorNote +
       '<div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap">' +
-        '<a href="ka_user_home.html" style="background:#002d5b;color:#fff;border-radius:8px;padding:10px 20px;text-decoration:none;font-weight:700;font-size:.9rem">← Back to My Workflows</a>' +
+        '<a href="ka_user_home.html" style="background:#002d5b;color:#fff;border-radius:8px;padding:10px 20px;text-decoration:none;font-weight:700;font-size:.9rem">← Back to Recommended Paths</a>' +
         '<a href="ka_article_propose.html" style="background:' + color + ';color:#fff;border-radius:8px;padding:10px 20px;text-decoration:none;font-weight:700;font-size:.9rem">Submit Articles →</a>' +
       '</div>';
     container2.appendChild(doneEl);

@@ -53,6 +53,38 @@ nav a.active { color: #F5A623; }
 .page-header-sub {
   font-size: 0.92rem; color: #9ABFB8; max-width: 560px; margin: 0 auto; line-height: 1.55;
 }
+.page-status {
+  max-width: 860px; margin: 18px auto 0; padding: 0 24px;
+}
+.page-status-card {
+  background: #F4F7F5;
+  border: 1px solid #D9E4E0;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.83rem;
+  color: #35554F;
+  line-height: 1.55;
+}
+.route-status {
+  max-width: 860px; margin: 12px auto 0; padding: 0 24px;
+}
+.route-status-card {
+  display: none;
+  background: #FFF6E8;
+  border: 1px solid #E8C98E;
+  border-radius: 10px;
+  padding: 12px 14px;
+  font-size: 0.83rem;
+  color: #6B4C12;
+  line-height: 1.55;
+}
+.route-status-card.show {
+  display: block;
+}
+.route-status-card a {
+  color: #7A4B00;
+  font-weight: 700;
+}
 
 /* ── SEARCH MODE SELECTOR ── */
 .mode-selector-section {
@@ -88,6 +120,18 @@ nav a.active { color: #F5A623; }
 .search-box {
   background: #fff; border: 1px solid #E0DAD3; border-radius: 10px;
   padding: 24px; box-shadow: 0 2px 12px rgba(0,0,0,0.06);
+}
+.search-box.mode-construct {
+  background: linear-gradient(180deg, #FCFAF6 0%, #F7F4EF 100%);
+  border-top: 4px solid #1C3D3A;
+}
+.search-box.mode-instrument {
+  background: linear-gradient(180deg, #FFF9F0 0%, #FCF6ED 100%);
+  border-top: 4px solid #E8872A;
+}
+.search-box.mode-both {
+  background: linear-gradient(180deg, #F4F8F7 0%, #EFF5F3 100%);
+  border-top: 4px solid #2A7868;
 }
 .search-box-row {
   display: flex; gap: 12px; align-items: flex-start; flex-wrap: wrap;
@@ -182,6 +226,20 @@ nav a.active { color: #F5A623; }
 }
 .result-meta {
   display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px;
+}
+.result-summary-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  margin-top: 10px;
+  font-size: 0.79rem;
+  color: #6A5C50;
+}
+.result-summary-pill {
+  background: #F6F2EB;
+  border: 1px solid #E4DBCE;
+  border-radius: 999px;
+  padding: 4px 10px;
 }
 .result-tag {
   padding: 3px 9px; border-radius: 20px; font-size: 0.73rem; font-weight: 600;
@@ -298,9 +356,19 @@ nav a.active { color: #F5A623; }
   </p>
 </div>
 
+<div class="page-status">
+  <div class="page-status-card" id="article-search-status">
+    Loading the current Atlas article payload.
+  </div>
+</div>
+
+<div class="route-status">
+  <div class="route-status-card" id="article-route-status"></div>
+</div>
+
 <!-- SEARCH MODE TABS -->
 <div class="mode-selector-section">
-  <div class="mode-selector-label">Search by …</div>
+  <div class="mode-selector-label">What do you know?</div>
   <div class="mode-tabs">
     <button class="mode-tab active" data-mode="construct" onclick="setMode('construct', this)">
       <span class="mode-tab-icon">🧠</span>
@@ -314,15 +382,18 @@ nav a.active { color: #F5A623; }
     </button>
     <button class="mode-tab" data-mode="both" onclick="setMode('both', this)">
       <span class="mode-tab-icon">🔍</span>
-      <span class="mode-tab-label">Both Together</span>
+      <span class="mode-tab-label">Construct + Instrument</span>
       <span class="mode-tab-sub">Construct + Instrument combined</span>
     </button>
+  </div>
+  <div style="margin-top:10px;font-size:0.82rem;color:#7A7060;line-height:1.55;">
+    Use <strong>Construct</strong> to explore a topic or question area. Use <strong>Instrument or Sensor</strong> to find papers by how the construct was measured. Use <strong>Construct + Instrument</strong> to find the most specific set of papers.
   </div>
 </div>
 
 <!-- SEARCH PANEL — renders differently per mode -->
 <div class="search-panel">
-  <div class="search-box">
+  <div class="search-box mode-construct" id="search-box">
 
     <!-- MODE: Construct only -->
     <div id="panel-construct">
@@ -346,12 +417,12 @@ nav a.active { color: #F5A623; }
             <option>Restorative Attention</option>
             <option>Hedonic Valence</option>
           </select>
-          <div class="search-field-hint">Selects all articles tagged to this construct in the KA <span style="font-size:0.88em;">[Knowledge Atlas]</span> evidence corpus</div>
+          <div class="search-field-hint">Find papers in the Atlas paper corpus tagged to this construct.</div>
         </div>
-        <button class="btn-search-primary" id="btn-search-c" onclick="runSearch()" disabled>Search →</button>
+        <button class="btn-search-primary" id="btn-search-c" onclick="runSearch()" disabled>Find papers by construct →</button>
       </div>
       <div class="chips-section">
-        <div class="chips-label">Quick select</div>
+        <div class="chips-label">Popular starting points</div>
         <div class="chips" id="chips-construct">
           <span class="chip" onclick="quickSelectConstruct(this)">Sustained Attention</span>
           <span class="chip" onclick="quickSelectConstruct(this)">Stress</span>
@@ -406,12 +477,12 @@ nav a.active { color: #F5A623; }
               <option>DSSQ [Dundee Stress State Questionnaire]</option>
             </optgroup>
           </select>
-          <div class="search-field-hint">Finds all articles in the corpus that use this instrument or sensor family as a primary or auxiliary measure. Click the arrow next to an instrument name on the Signal Catalogue page to jump here directly.</div>
+          <div class="search-field-hint">Find papers in the Atlas paper corpus that use this instrument or sensor family.</div>
         </div>
-        <button class="btn-search-primary" id="btn-search-i" onclick="runSearch()" disabled>Search →</button>
+        <button class="btn-search-primary" id="btn-search-i" onclick="runSearch()" disabled>Find papers by instrument →</button>
       </div>
       <div class="chips-section">
-        <div class="chips-label">Common instruments and sensors</div>
+        <div class="chips-label">Popular starting points</div>
         <div class="chips" id="chips-instrument">
           <span class="chip" onclick="quickSelectInstrument(this)">EDA</span>
           <span class="chip" onclick="quickSelectInstrument(this)">HR / HRV</span>
@@ -484,10 +555,10 @@ nav a.active { color: #F5A623; }
             </optgroup>
           </select>
         </div>
-        <button class="btn-search-primary" id="btn-search-b" onclick="runSearch()" disabled>Search →</button>
+        <button class="btn-search-primary" id="btn-search-b" onclick="runSearch()" disabled>Find matching papers →</button>
       </div>
       <div class="search-field-hint" style="margin-top:10px;">
-        Returns only articles that address both the selected construct <em>and</em> use the selected measuring instrument — the most targeted search mode. Leave one blank to broaden the search.
+        Find papers that match both the construct and the instrument or sensor. Leave one field blank only if you want a broader set.
       </div>
     </div>
 
@@ -498,9 +569,9 @@ nav a.active { color: #F5A623; }
 <div class="results-section" id="results-section">
   <div class="search-prompt" id="search-prompt">
     <div class="search-prompt-icon">📄</div>
-    <p>Select a construct, measuring instrument, or both above,<br>then click <strong>Search</strong> to find relevant articles in the KA corpus.</p>
+    <p>Choose a construct, an instrument or sensor, or both, then select <strong>Search</strong>. Atlas searches its own paper corpus, not the open web.</p>
     <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;">
-      <em>Results now come from the current rebuild-backed article payload. Topic labels are front-backed when available and construct-backed otherwise.</em>
+      <em>When Atlas has topic data for a paper, its main topic appears first in the result card.</em>
     </p>
   </div>
   <div id="results-container" style="display:none;">
@@ -510,7 +581,7 @@ nav a.active { color: #F5A623; }
         Sort by: <select onchange="sortResults(this.value)">
           <option value="relevance">Relevance</option>
           <option value="year">Year (newest)</option>
-          <option value="credence">Credence score</option>
+          <option value="evidence">Evidence density</option>
         </select>
       </div>
     </div>
@@ -625,6 +696,8 @@ const FALLBACK_ARTICLES = [
   }
 ];
 let ARTICLE_SEARCH_DATA = [...FALLBACK_ARTICLES];
+let LAST_RESULTS = [];
+let LAST_QUERY = { construct: '', instrument: '' };
 
 /* ── MODE SWITCHING ── */
 let currentMode = 'construct';
@@ -636,6 +709,14 @@ function setMode(mode, btn) {
   ['construct','instrument','both'].forEach(m => {
     document.getElementById('panel-' + m).style.display = m === mode ? 'block' : 'none';
   });
+  const searchBox = document.getElementById('search-box');
+  if (searchBox) {
+    searchBox.classList.remove('mode-construct', 'mode-instrument', 'mode-both');
+    searchBox.classList.add('mode-' + mode);
+  }
+  document.getElementById('btn-search-c').textContent = 'Find papers by construct →';
+  document.getElementById('btn-search-i').textContent = 'Find papers by instrument →';
+  document.getElementById('btn-search-b').textContent = 'Find matching papers →';
   hideResults();
 }
 
@@ -694,6 +775,8 @@ function runSearch() {
     return cMatch && iMatch;
   });
 
+  LAST_RESULTS = results.slice();
+  LAST_QUERY = { construct, instrument };
   renderResults(results, construct, instrument);
 }
 
@@ -718,6 +801,12 @@ function renderResults(articles, construct, instrument) {
     <div class="result-card" onclick="this.querySelector('.result-abstract').style['-webkit-line-clamp'] = this.querySelector('.result-abstract').style['-webkit-line-clamp'] === 'none' ? '3' : 'none'">
       <div class="result-title">${a.title}</div>
       <div class="result-authors">${a.authors} (${a.year}) · <em>${a.journal}</em> · ${a.paperId}</div>
+      <div class="result-summary-row">
+        ${a.primaryTopic ? `<span class="result-summary-pill">Main topic: ${a.primaryTopic}</span>` : ''}
+        ${a.sensorSummary ? `<span class="result-summary-pill">Sensors used: ${a.sensorSummary}</span>` : ''}
+        ${typeof a.attackCount === 'number' ? `<span class="result-summary-pill">Challenges: ${a.attackCount}</span>` : ''}
+        ${typeof a.supportCount === 'number' ? `<span class="result-summary-pill">Supports: ${a.supportCount}</span>` : ''}
+      </div>
       <div class="result-abstract">${a.abstract}</div>
       <div class="result-meta">
         ${a.constructs.map(c => `<span class="result-tag">${c}</span>`).join('')}
@@ -725,10 +814,6 @@ function renderResults(articles, construct, instrument) {
         ${a.sensorTerms.map(s => `<span class="result-tag instrument" title="${a.sensorSummary || s}">Sensor: ${s}</span>`).join('')}
         <span class="result-tag year">${a.year}</span>
         <span class="result-tag rct">${a.studyType}</span>
-        ${a.primaryTopic ? `<span class="result-tag" style="background:#EEF3ED;color:#1C3D3A;">Topic: ${a.primaryTopic}</span>` : ''}
-        ${a.sensorSummary ? `<span class="result-tag instrument" title="${a.sensorSummary}">Sensor profile</span>` : ''}
-        ${typeof a.attackCount === 'number' ? `<span class="result-tag" style="background:#FCE8E6;color:#8B2C2C;">Attacks ${a.attackCount}</span>` : ''}
-        ${typeof a.supportCount === 'number' ? `<span class="result-tag" style="background:#E7F5EC;color:#245B3A;">Supports ${a.supportCount}</span>` : ''}
         ${a.doi ? `<span class="result-tag" style="background:#F0EDEA;color:#2A7868;cursor:pointer;" onclick="window.open('https://doi.org/${a.doi}','_blank')">DOI ↗</span>` : ''}
       </div>
     </div>
@@ -782,19 +867,31 @@ function hideResults() {
   document.getElementById('search-prompt').style.display = 'block';
   document.getElementById('search-prompt').innerHTML = `
     <div class="search-prompt-icon">📄</div>
-    <p>Select a construct, instrument or sensor family, or both above,<br>then click <strong>Search</strong> to find relevant articles in the KA corpus.</p>
-    <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;"><em>Results come from the current rebuild-backed article payload. Topic labels are front-backed when available and construct-backed otherwise.</em></p>
+    <p>Choose a construct, an instrument or sensor, or both, then select <strong>Search</strong>. Atlas searches its own paper corpus, not the open web.</p>
+    <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;"><em>When Atlas has topic data for a paper, its main topic appears first in the result card.</em></p>
   `;
   document.getElementById('results-container').style.display = 'none';
 }
 
 function sortResults(val) {
-  // stub — in real version this would re-query the API with sort param
+  if (!LAST_RESULTS.length) return;
+  const sorted = LAST_RESULTS.slice();
+  if (val === 'year') {
+    sorted.sort((a, b) => (b.year || 0) - (a.year || 0) || (b.supportCount || 0) - (a.supportCount || 0));
+  } else if (val === 'evidence') {
+    sorted.sort((a, b) => {
+      const scoreA = (a.supportCount || 0) + (a.constructs || []).length + (a.sensorTerms || []).length + (a.instruments || []).length;
+      const scoreB = (b.supportCount || 0) + (b.constructs || []).length + (b.sensorTerms || []).length + (b.instruments || []).length;
+      return scoreB - scoreA || (b.year || 0) - (a.year || 0);
+    });
+  }
+  renderResults(sorted, LAST_QUERY.construct, LAST_QUERY.instrument);
 }
 </script>
 <script src="ka_mode_switch.js"></script>
 <script src="ka_site_shell.js"></script>
 <script src="ka_data_adapter.js"></script>
+<script src="ka_workflows.js"></script>
 <script>
 (function() {
   function setOptions(selectId, values, placeholder) {
@@ -847,10 +944,27 @@ function sortResults(val) {
     };
   }
 
+  function initializeRouteStatus() {
+    const params = new URLSearchParams(window.location.search);
+    const wfId = params.get('wf') || '';
+    const stepIdx = parseInt(params.get('step') || '0', 10);
+    const from = params.get('from') || '';
+    const host = document.getElementById('article-route-status');
+    if (!wfId || from !== 'workflow' || !window.KA_WORKFLOWS || !window.KA_WORKFLOWS.workflows[wfId]) {
+      return;
+    }
+    const wf = window.KA_WORKFLOWS.workflows[wfId];
+    const step = wf.steps[Math.max(0, Math.min(isNaN(stepIdx) ? 0 : stepIdx, wf.steps.length - 1))];
+    host.classList.add('show');
+    host.innerHTML = `You reached Article Search from the recommended route <strong>${wf.title}</strong>${step ? `, step ${stepIdx + 1}: <strong>${step.title}</strong>` : ''}. Search here, then <a href="ka_workflow_hub.html?wf=${encodeURIComponent(wfId)}&step=${isNaN(stepIdx) ? 0 : stepIdx}">return to the route</a> when you are ready.`;
+  }
+
   async function initializeArticleSearchPage() {
     const payload = await window.KA_PAYLOADS.loadWithFallback('data/ka_payloads/articles.json', { articles: [] });
+    const statusEl = document.getElementById('article-search-status');
     if (payload.articles && payload.articles.length) {
       ARTICLE_SEARCH_DATA = payload.articles.map(mapArticle);
+      statusEl.textContent = `Data status: Live Atlas data loaded. Search includes ${ARTICLE_SEARCH_DATA.length} papers from the current Atlas paper corpus and the available instrument and sensor terms.`;
       const constructs = dedupeCaseInsensitive(ARTICLE_SEARCH_DATA.flatMap(function(article) { return article.constructs || []; }).filter(Boolean)).sort();
       const instruments = dedupeCaseInsensitive(ARTICLE_SEARCH_DATA.flatMap(function(article) { return article.searchTerms || article.instruments || []; }).filter(Boolean)).sort();
       if (constructs.length) {
@@ -865,15 +979,18 @@ function sortResults(val) {
       }
       document.getElementById('search-prompt').innerHTML = `
         <div class="search-prompt-icon">📄</div>
-        <p>Select a construct, instrument or sensor family, or both above,<br>then click <strong>Search</strong> to find relevant articles in the KA corpus.</p>
-        <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;"><em>Results now default to the current rebuild payload. Sensor families are derived from the gold registry and merged into the instrument search surface.</em></p>
+        <p>Choose a construct, an instrument or sensor, or both, then select <strong>Search</strong>. Atlas searches its own paper corpus, not the open web.</p>
+        <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;"><em>When Atlas has topic data for a paper, its main topic appears first in the result card.</em></p>
       `;
     } else if (window.location.protocol === 'file:') {
+      statusEl.textContent = 'Data status: Local fallback only. This page was opened from disk, so the browser could not load live Atlas data. Serve Atlas over HTTP to search the live paper corpus.';
       document.getElementById('search-prompt').innerHTML = `
         <div class="search-prompt-icon">⚠️</div>
-        <p>This page is open in local-file mode, so the browser may block the JSON payload fetches that power live article search.</p>
+        <p>You are viewing local fallback data because this page was opened from disk rather than through the Atlas server.</p>
         <p style="font-size:0.8rem;color:#C0B0A0;margin-top:10px;"><em>Serve the Knowledge Atlas directory over HTTP if you want the live 760-paper search surface rather than the empty local-file fallback.</em></p>
       `;
+    } else {
+      statusEl.textContent = 'Data status: Local fallback only. Live Atlas data could not be loaded, so this page is showing its local fallback state.';
     }
   }
 
@@ -883,6 +1000,7 @@ function sortResults(val) {
     modePillId: 'article-search-mode-pill',
     defaultMode: 'researcher'
   });
+  initializeRouteStatus();
   initializeArticleSearchPage();
 })();
 </script>

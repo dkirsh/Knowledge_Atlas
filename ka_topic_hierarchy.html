@@ -74,6 +74,19 @@ nav a.active { color: #F5A623; }
 }
 .warning-card.show { display: block; }
 
+.authority-note {
+  max-width: 1280px; margin: 12px auto 0; padding: 0 24px;
+}
+.authority-card {
+  background: #F4F7F5;
+  color: #35554F;
+  border: 1px solid #D9E4E0;
+  border-radius: 12px;
+  padding: 12px 16px;
+  font-size: 0.83rem;
+  line-height: 1.6;
+}
+
 .page-shell {
   max-width: 1280px; margin: 22px auto 60px; padding: 0 24px;
   display: grid; gap: 18px;
@@ -99,6 +112,80 @@ nav a.active { color: #F5A623; }
 }
 .search-row {
   display: flex; gap: 12px; flex-wrap: wrap; align-items: center;
+}
+.map-controls {
+  display: flex; flex-wrap: wrap; gap: 12px 18px; align-items: flex-start;
+  margin-top: 12px;
+}
+.view-block,
+.queue-block {
+  display: grid; gap: 8px;
+}
+.control-label {
+  font-size: 0.7rem; color: #8A8177; text-transform: uppercase; letter-spacing: 0.08em;
+}
+.segmented-control {
+  display: inline-flex; flex-wrap: wrap; gap: 8px;
+}
+.view-btn,
+.queue-btn {
+  border: 1px solid #D9CFC0;
+  background: #fff;
+  color: #274A45;
+  border-radius: 999px;
+  padding: 8px 12px;
+  font-size: 0.76rem;
+  cursor: pointer;
+  line-height: 1.35;
+}
+.view-btn.active {
+  background: #1C3D3A;
+  border-color: #1C3D3A;
+  color: #fff;
+}
+.queue-btn {
+  background: #FBF8F3;
+}
+.queue-btn.open {
+  background: #EEE4D5;
+  border-color: #CBBCA8;
+}
+.control-helper {
+  font-size: 0.78rem; color: #6B655D; line-height: 1.5; max-width: 560px;
+}
+.queue-panel {
+  margin-top: 12px;
+  border-top: 1px solid #EFE8DD;
+  padding-top: 12px;
+  display: grid; gap: 10px;
+}
+.queue-panel[hidden] {
+  display: none;
+}
+.queue-head {
+  display: flex; flex-wrap: wrap; justify-content: space-between; gap: 8px;
+  align-items: baseline;
+}
+.queue-title {
+  font-size: 0.92rem; font-weight: 700; color: #1C3D3A;
+}
+.queue-sub {
+  font-size: 0.78rem; color: #6B655D; line-height: 1.5;
+}
+.queue-list {
+  display: grid; gap: 8px; max-height: 260px; overflow: auto;
+}
+.queue-item {
+  border: 1px solid #E6DDCF; border-radius: 10px; background: #FCFAF6; padding: 10px 11px;
+}
+.queue-item-title {
+  font-size: 0.82rem; font-weight: 700; color: #1E433F; line-height: 1.45;
+}
+.queue-item-meta {
+  font-size: 0.74rem; color: #6B655D; line-height: 1.5; margin-top: 4px;
+}
+.queue-foot {
+  font-size: 0.76rem; color: #7A7065; line-height: 1.5;
 }
 .search-input {
   min-width: 320px; max-width: 520px; width: 100%;
@@ -258,7 +345,7 @@ nav a.active { color: #F5A623; }
   <div class="nav-left">
     <div>
       <div class="wordmark">Knowledge Atlas</div>
-      <div class="wordmark-sub">Topic Hierarchy Prototype</div>
+      <div class="wordmark-sub">Topic Hierarchy</div>
     </div>
     <ul>
       <li><a href="ka_home.html">Home</a></li>
@@ -272,17 +359,16 @@ nav a.active { color: #F5A623; }
 
 <section class="hero">
   <div class="hero-inner">
-    <div class="hero-tag">Knowledge Atlas · Prototype Viewer</div>
-    <h1>Topic hierarchy by dominant IV branch and dominant DV focus</h1>
+    <div class="hero-tag">Knowledge Atlas · Topic Map</div>
+    <h1>Topic hierarchy and relation map</h1>
     <p class="hero-sub">
-      This is a first approximation, not a final ontology. The upper strip gives a compact hierarchy.
-      Selecting a topic below reveals its local graph: parent branches, nearby topics, shared outcome families,
-      and the papers that presently justify the grouping.
+      Start with the compact hierarchy at the top. Then select a topic to see its nearby topics,
+      shared outcome families, and the papers that presently justify the grouping.
     </p>
     <div class="hero-stats">
       <div class="hero-stat">
         <div class="hero-stat-num" id="stat-articles">0</div>
-        <div class="hero-stat-label">Articles assigned</div>
+        <div class="hero-stat-label">Papers shown</div>
       </div>
       <div class="hero-stat">
         <div class="hero-stat-num" id="stat-roots">0</div>
@@ -294,17 +380,24 @@ nav a.active { color: #F5A623; }
       </div>
       <div class="hero-stat">
         <div class="hero-stat-num" id="stat-fallback">0</div>
-        <div class="hero-stat-label">Fallback IV papers</div>
+        <div class="hero-stat-label">Hidden until reviewed</div>
       </div>
     </div>
     <div class="hero-notes" id="hero-notes"></div>
   </div>
 </section>
 
+<div class="authority-note">
+  <div class="authority-card" id="authority-card">
+    Authority: this view uses the current topic export as its base map. Research fronts are shown separately as overlays.
+    They highlight especially active clusters, but they are not the main taxonomy.
+  </div>
+</div>
+
 <div class="warning">
   <div class="warning-card" id="protocol-warning">
-    This page is meant to read live JSON payloads. If you open it as <code>file://</code> rather than <code>http://</code>,
-    the browser may refuse those fetches and the page will not represent the live corpus.
+    This page expects live Atlas data. If you opened it as <code>file://</code> rather than through the Atlas server,
+    the browser may block the data files and the view will not match the live corpus.
   </div>
 </div>
 
@@ -312,10 +405,25 @@ nav a.active { color: #F5A623; }
   <section class="panel hierarchy-panel">
     <div class="hierarchy-head">
       <div>
-        <div class="hierarchy-title">Hierarchy Strip</div>
+        <div class="hierarchy-title">Topic hierarchy</div>
         <div class="hierarchy-sub">
-          The hierarchy is intentionally compact. Root families open into IV branches, and those open into topic nodes.
-          The point is to let one see the classification first, and only then inspect the graph and paper evidence.
+          Start with the defended map, which shows only papers whose topic placement is stable enough to defend.
+          You can then expand to a broader working map that includes provisional placements still under review.
+        </div>
+        <div class="map-controls">
+          <div class="view-block">
+            <div class="control-label">Map view</div>
+            <div class="segmented-control" id="map-view-switch">
+              <button class="view-btn" data-view="defended" type="button">Defended map</button>
+              <button class="view-btn" data-view="working" type="button">Working map</button>
+            </div>
+            <div class="control-helper" id="map-view-helper"></div>
+          </div>
+          <div class="queue-block">
+            <div class="control-label">Reviewed later</div>
+            <button class="queue-btn" id="hidden-queue-toggle" type="button">Hidden until reviewed (0)</button>
+            <div class="control-helper" id="hidden-queue-helper"></div>
+          </div>
         </div>
       </div>
       <div class="search-row">
@@ -323,6 +431,14 @@ nav a.active { color: #F5A623; }
       </div>
     </div>
     <div class="tree-wrap" id="hierarchy-tree"></div>
+    <div class="queue-panel" id="hidden-queue-panel" hidden>
+      <div class="queue-head">
+        <div class="queue-title">Hidden until reviewed</div>
+        <div class="queue-sub" id="hidden-queue-summary"></div>
+      </div>
+      <div class="queue-list" id="hidden-queue-list"></div>
+      <div class="queue-foot" id="hidden-queue-foot"></div>
+    </div>
   </section>
 
   <section class="viewer-grid">
@@ -351,10 +467,14 @@ nav a.active { color: #F5A623; }
   </section>
 </main>
 
+<script src="ka_data_adapter.js"></script>
 <script>
 let topicPayload = null;
+let currentViewPayload = null;
+let currentViewKey = 'defended';
 let selectedTopicId = null;
 let currentQuery = '';
+let hiddenQueueOpen = false;
 
 function h(text) {
   return String(text || '')
@@ -371,7 +491,21 @@ function showProtocolWarning() {
   }
 }
 
+function humanizeSource(value) {
+  const map = {
+    progressive_topic_hierarchy: 'progressive topic hierarchy',
+    heuristic_topic_hierarchy: 'current topic export',
+    canonical_topic_artifacts: 'canonical topic artifacts',
+    research_fronts_v7: 'live research-front data (v7)',
+    research_fronts_v5: 'legacy research-front data (v5)',
+  };
+  return map[value] || String(value || '').replace(/_/g, ' ');
+}
+
 async function loadPayload() {
+  if (window.KA_PAYLOADS && window.KA_PAYLOADS.loadPayload) {
+    return window.KA_PAYLOADS.loadPayload('topic_hierarchy', {});
+  }
   const response = await fetch('data/ka_payloads/topic_hierarchy.json');
   if (!response.ok) {
     throw new Error('Failed to load topic hierarchy payload');
@@ -379,17 +513,155 @@ async function loadPayload() {
   return response.json();
 }
 
+function progressiveSummary() {
+  return (topicPayload && topicPayload.progressive_disclosure) || {};
+}
+
+function hiddenQueue() {
+  return (topicPayload && topicPayload.repair_queue) || [];
+}
+
+function exclusionQueue() {
+  return (topicPayload && topicPayload.exclusion_queue) || [];
+}
+
+function viewPayload(viewKey) {
+  if (topicPayload && topicPayload.views && topicPayload.views[viewKey]) {
+    return topicPayload.views[viewKey];
+  }
+  return topicPayload;
+}
+
+function activePayload() {
+  return currentViewPayload || topicPayload;
+}
+
+function viewHelperText(viewKey, disclosure) {
+  if (viewKey === 'working') {
+    const expansion = disclosure.working_expansion_count || 0;
+    return expansion
+      ? `Broader working view. Adds ${expansion} provisional topic placements beyond the defended map.`
+      : 'Broader working view. Includes provisional placements still being checked.';
+  }
+  return 'Public view. Only topic placements strong enough to defend.';
+}
+
+function renderViewControls() {
+  const disclosure = progressiveSummary();
+  const defendedButton = document.querySelector('.view-btn[data-view="defended"]');
+  const workingButton = document.querySelector('.view-btn[data-view="working"]');
+  const helper = document.getElementById('map-view-helper');
+  const queueToggle = document.getElementById('hidden-queue-toggle');
+  const queueHelper = document.getElementById('hidden-queue-helper');
+  const hasProgressiveViews = Boolean(topicPayload && topicPayload.views);
+
+  defendedButton.style.display = hasProgressiveViews ? '' : 'none';
+  workingButton.style.display = hasProgressiveViews ? '' : 'none';
+  defendedButton.classList.toggle('active', currentViewKey === 'defended');
+  workingButton.classList.toggle('active', currentViewKey === 'working');
+  helper.textContent = viewHelperText(currentViewKey, disclosure);
+
+  const hiddenCount = disclosure.hidden_until_reviewed_count ?? hiddenQueue().length;
+  queueToggle.textContent = `Hidden until reviewed (${hiddenCount})`;
+  queueToggle.classList.toggle('open', hiddenQueueOpen);
+  queueHelper.textContent = 'These papers are withheld from the map until their topic assignment is repaired.';
+
+  if (hasProgressiveViews) {
+    defendedButton.onclick = () => setActiveView('defended');
+    workingButton.onclick = () => setActiveView('working');
+  }
+  queueToggle.onclick = () => toggleHiddenQueue();
+}
+
 function renderHero(summary, notes) {
+  const disclosure = progressiveSummary();
+  const hiddenCount = disclosure.hidden_until_reviewed_count ?? hiddenQueue().length ?? summary.hidden_article_count ?? 0;
   document.getElementById('stat-articles').textContent = summary.visible_article_count || summary.article_count || 0;
   document.getElementById('stat-roots').textContent = summary.root_count || 0;
   document.getElementById('stat-topics').textContent = summary.topic_count || 0;
-  document.getElementById('stat-fallback').textContent = summary.fallback_iv_paper_count || 0;
+  document.getElementById('stat-fallback').textContent = hiddenCount;
   const noteHost = document.getElementById('hero-notes');
   const decoratedNotes = [...(notes || [])];
-  if (summary.hidden_article_count) {
-    decoratedNotes.unshift(`${summary.hidden_article_count} papers are hidden from this viewer until their dominant IV or DV assignment is repaired.`);
+  if (currentViewKey === 'working') {
+    decoratedNotes.unshift('You are viewing the working map. It includes provisional topic placements that are still being checked.');
+  } else if (topicPayload && topicPayload.views) {
+    decoratedNotes.unshift('You are viewing the defended map. It shows only topic placements strong enough to defend publicly.');
+  }
+  if (hiddenCount) {
+    decoratedNotes.push(`${hiddenCount} papers remain hidden until reviewed.`);
   }
   noteHost.innerHTML = decoratedNotes.map((note) => `<div class="hero-note">${h(note)}</div>`).join('');
+  const sourceKind = humanizeSource(summary.source_kind || 'exported topic hierarchy');
+  const frontSource = humanizeSource(summary.front_source || 'research fronts');
+  const visibleCount = summary.visible_article_count || summary.article_count || 0;
+  const defendedCount = disclosure.defended_article_count || visibleCount;
+  const workingCount = disclosure.working_article_count || visibleCount;
+  document.getElementById('authority-card').innerHTML =
+    `Base topic authority: <strong>${h(sourceKind)}</strong>. ` +
+    `Research-front overlay source: <strong>${h(frontSource)}</strong>. ` +
+    `Current view shows <strong>${visibleCount}</strong> papers. ` +
+    `Defended map: <strong>${defendedCount}</strong>. ` +
+    `Working map: <strong>${workingCount}</strong>. ` +
+    `Hidden until reviewed: <strong>${hiddenCount}</strong>.`;
+}
+
+function renderHiddenQueue() {
+  const panel = document.getElementById('hidden-queue-panel');
+  const list = document.getElementById('hidden-queue-list');
+  const summary = document.getElementById('hidden-queue-summary');
+  const foot = document.getElementById('hidden-queue-foot');
+  const queue = hiddenQueue();
+  const excludedCount = exclusionQueue().length;
+
+  panel.hidden = !hiddenQueueOpen;
+  if (!hiddenQueueOpen) return;
+
+  summary.textContent = `${queue.length} papers remain outside even the working map.`;
+  if (!queue.length) {
+    list.innerHTML = '<div class="empty-state">No papers are currently withheld from the map.</div>';
+  } else {
+    list.innerHTML = queue.slice(0, 80).map((row) => `
+      <div class="queue-item">
+        <div class="queue-item-title">${h(row.title || row.paper_id)}</div>
+        <div class="queue-item-meta">
+          ${h(row.paper_id)}${row.year ? ` · ${h(row.year)}` : ''}${row.claim_count ? ` · ${row.claim_count} claims` : ''}
+          ${row.primary_front ? `<br>front: ${h(row.primary_front)}` : ''}
+          ${row.primary_topic ? `<br>current topic hint: ${h(row.primary_topic)}` : ''}
+          <br>reason: ${h(row.repair_reason || 'needs topic review')}
+        </div>
+      </div>
+    `).join('');
+  }
+  foot.textContent = excludedCount
+    ? `${excludedCount} additional papers were separated as safe exclusions rather than left in the review queue.`
+    : 'No safe exclusions are currently separated from the review queue.';
+}
+
+function toggleHiddenQueue() {
+  hiddenQueueOpen = !hiddenQueueOpen;
+  renderViewControls();
+  renderHiddenQueue();
+}
+
+function setActiveView(viewKey) {
+  currentViewKey = viewKey;
+  currentViewPayload = viewPayload(viewKey);
+  const topics = (currentViewPayload && currentViewPayload.topics) || [];
+  if (!topics.some((row) => row.id === selectedTopicId)) {
+    selectedTopicId = topics[0] ? topics[0].id : null;
+  }
+  renderViewControls();
+  renderHero((currentViewPayload && currentViewPayload.summary) || {}, (currentViewPayload && currentViewPayload.notes) || []);
+  renderTree();
+  if (selectedTopicId) {
+    selectTopic(selectedTopicId);
+  } else {
+    renderTopicSummary(null);
+    renderCrossRelations(null);
+    renderPaperList(null);
+    renderGraph(null);
+  }
+  renderHiddenQueue();
 }
 
 function topicMatchesQuery(topic, query) {
@@ -410,10 +682,12 @@ function topicMatchesQuery(topic, query) {
 function renderTree() {
   const host = document.getElementById('hierarchy-tree');
   const query = currentQuery.trim().toLowerCase();
-  const roots = (topicPayload.roots || []).map((root) => {
+  const payload = activePayload() || {};
+  const topics = payload.topics || [];
+  const roots = (payload.roots || []).map((root) => {
     const children = (root.children || []).map((child) => {
       const matchingTopics = (child.topics || []).filter((topicRef) => {
-        const fullTopic = topicPayload.topics.find((row) => row.id === topicRef.id);
+        const fullTopic = topics.find((row) => row.id === topicRef.id);
         return fullTopic && topicMatchesQuery(fullTopic, query);
       });
       return {
@@ -660,7 +934,7 @@ function renderGraph(topic) {
 
 function selectTopic(topicId) {
   selectedTopicId = topicId;
-  const topic = (topicPayload.topics || []).find((row) => row.id === topicId);
+  const topic = ((activePayload() && activePayload().topics) || []).find((row) => row.id === topicId);
   renderTree();
   renderTopicSummary(topic);
   renderCrossRelations(topic);
@@ -679,17 +953,21 @@ async function init() {
     document.getElementById('hierarchy-tree').innerHTML = `
       <div class="empty-state">
         The topic hierarchy payload could not be loaded. If you opened this page as <code>file://</code>,
-        that is the most likely cause.
+        that is the most likely cause. Serve Atlas over HTTP to load the live corpus.
       </div>
     `;
     document.getElementById('topic-summary').innerHTML = `<div class="empty-state">${h(error.message)}</div>`;
     return;
   }
 
-  renderHero(topicPayload.summary || {}, topicPayload.notes || []);
-  const firstTopic = (topicPayload.topics || [])[0];
+  currentViewKey = (topicPayload && topicPayload.default_view) || 'defended';
+  currentViewPayload = viewPayload(currentViewKey);
+  renderViewControls();
+  const firstTopic = ((currentViewPayload && currentViewPayload.topics) || [])[0];
   if (firstTopic) selectedTopicId = firstTopic.id;
+  renderHero((currentViewPayload && currentViewPayload.summary) || {}, (currentViewPayload && currentViewPayload.notes) || []);
   renderTree();
+  renderHiddenQueue();
   if (firstTopic) selectTopic(firstTopic.id);
 
   document.getElementById('tree-search').addEventListener('input', (event) => {
