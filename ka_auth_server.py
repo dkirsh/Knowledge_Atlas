@@ -39,7 +39,8 @@ from pathlib import Path
 from fastapi import FastAPI, HTTPException, Depends, status, Request
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
-from fastapi.responses import JSONResponse
+from fastapi.responses import JSONResponse, FileResponse
+from fastapi.staticfiles import StaticFiles
 from pydantic import BaseModel, EmailStr
 from passlib.context import CryptContext
 from jose import jwt, JWTError
@@ -349,6 +350,16 @@ app.add_middleware(CORSMiddleware,
     allow_methods=["*"],
     allow_headers=["*"])
 
+# ── DB INIT ON STARTUP (runs whether invoked via __main__ or uvicorn)
+@app.on_event("startup")
+def _startup_init_db():
+    init_db()
+    try:
+        import ka_article_endpoints
+        ka_article_endpoints._init_article_tables()
+    except Exception:
+        pass
+
 # ── REGISTER
 @app.post("/auth/register", status_code=201)
 def register(req: RegisterRequest):
@@ -580,6 +591,21 @@ def reset_page_redirect(token: str):
 <body><p>Redirecting to password reset page…
 <a href="ka_reset_password.html?token={token}">Click here if not redirected</a></p>
 </body></html>""")
+
+# ════════════════════════════════════════════════
+# STATIC FILE SERVING
+# ════════════════════════════════════════════════
+# Serve the KA HTML/JS/CSS/data files from the same origin as the API.
+# Uses a catch-all GET route so API routes (/auth/*, /api/*, /health) take priority.
+_static = StaticFiles(directory=str(BASE_DIR), html=True)
+
+@app.get("/{full_path:path}")
+async def serve_static(full_path: str, request: Request):
+    """Fallback: serve static files for any GET not matched by API routes."""
+    from starlette.responses import Response as StarletteResponse
+    # Let StaticFiles handle the request
+    response = await _static.get_response(full_path, request.scope)
+    return response
 
 # ════════════════════════════════════════════════
 # ENTRY POINT

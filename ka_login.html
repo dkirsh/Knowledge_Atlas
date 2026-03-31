@@ -333,6 +333,7 @@
             }
         }
     </style>
+<script src="ka_config.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -451,7 +452,7 @@
     <script src="ka_workflow_store.js"></script>
     <script>
     // ── Real JWT auth (requires ka_auth_server.py running on port 8765)
-    const KA_AUTH_API = window.__KA_CONFIG__?.apiBase || 'http://localhost:8765';
+    const KA_AUTH_API = window.__KA_CONFIG__?.apiBase ?? '';
 
     // Show an error banner under the form
     function showLoginError(msg) {

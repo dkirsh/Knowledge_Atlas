@@ -441,6 +441,7 @@
       }
     }
   </style>
+<script src="ka_config.js"></script>
 </head>
 <body>
   <!-- Navigation -->
@@ -448,8 +449,8 @@
     <div class="ka-logo">Knowledge Atlas</div>
     <ul class="nav-links">
       <li><a href="ka_home.html">Home</a></li>
-      <li><a href="ka_browse.html">Browse</a></li>
-      <li><a href="ka_submit.html">Submit</a></li>
+      <li><a href="ka_article_search.html">Browse</a></li>
+      <li><a href="ka_contribute.html">Submit</a></li>
       <li><a href="ka_instructor_review.html">Review</a></li>
     </ul>
     <div class="auth-status" id="authStatus">Loading...</div>
@@ -554,7 +555,7 @@
 
   <script>
     // Configuration
-    const KA_API = window.__KA_CONFIG__?.apiBase || 'http://localhost:8765';
+    const KA_API = window.__KA_CONFIG__?.apiBase ?? '';
     const TOKEN_KEY = 'ka_access_token';
 
     let currentArticleId = null;

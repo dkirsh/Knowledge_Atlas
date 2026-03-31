@@ -27,49 +27,61 @@
   },
   {
     "paper_id": "PDF-0002",
-    "topic_ids": [],
-    "primary_topic_id": "",
-    "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "topic_ids": [
+      "spatial__mechanism",
+      "spatial__affect_wellbeing"
+    ],
+    "primary_topic_id": "spatial__mechanism",
+    "secondary_topic_ids": [
+      "spatial__affect_wellbeing"
+    ],
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism",
+      "affect.wellbeing"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0003",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "control__mechanism"
+    ],
+    "primary_topic_id": "control__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Place Cell Theory",
       "Spatial Cognition"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -126,40 +138,44 @@
   },
   {
     "paper_id": "PDF-0006",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__affect_restoration"
+    ],
+    "primary_topic_id": "acoustic__affect_restoration",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.restoration"
+    ],
     "theories": [
       "28 2.2 The emotional approach - the appraisal theory .....",
       "41 2.3 Appraisal theory and soundscape ....."
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0007",
     "topic_ids": [
-      "thermal__cog_performance",
-      "thermal__cog_cognitive_load",
-      "thermal__affect_negative_stress"
+      "thermal__physio",
+      "thermal__mechanism",
+      "thermal__cog_performance"
     ],
-    "primary_topic_id": "thermal__cog_performance",
+    "primary_topic_id": "thermal__physio",
     "secondary_topic_ids": [
-      "thermal__cog_cognitive_load",
-      "thermal__affect_negative_stress"
+      "thermal__mechanism",
+      "thermal__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -172,9 +188,9 @@
       "thermal"
     ],
     "dv_focuses": [
-      "cog.performance",
-      "cog.cognitive_load",
-      "affect.negative.stress"
+      "physio",
+      "mechanism",
+      "cog.performance"
     ],
     "theories": [],
     "provenance": {
@@ -296,20 +312,22 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.wellbeing"
+    ],
     "theories": [
       "Circadian Photobiology"
     ],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -393,26 +411,30 @@
   },
   {
     "paper_id": "PDF-0019",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "1 Malcolm MacLachlan Positive Psychology and Well-Being at Sea ....."
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -492,46 +514,54 @@
   },
   {
     "paper_id": "PDF-0024",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0025",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -752,26 +782,30 @@
   },
   {
     "paper_id": "PDF-0037",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "thermal__mechanism"
+    ],
+    "primary_topic_id": "thermal__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "thermal"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "chronobiology"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -827,20 +861,22 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.wellbeing"
+    ],
     "theories": [
       "Constructivism"
     ],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -875,10 +911,13 @@
   {
     "paper_id": "PDF-0042",
     "topic_ids": [
+      "natural__mechanism",
       "natural__affect_wellbeing"
     ],
-    "primary_topic_id": "natural__affect_wellbeing",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "natural__mechanism",
+    "secondary_topic_ids": [
+      "natural__affect_wellbeing"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -890,6 +929,7 @@
       "natural"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.wellbeing"
     ],
     "theories": [],
@@ -1078,27 +1118,31 @@
   },
   {
     "paper_id": "PDF-0050",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "natural__mechanism"
+    ],
+    "primary_topic_id": "natural__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "natural"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Psycho-Evolutionary Theory",
       "Stress Recovery Theory"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -1154,30 +1198,29 @@
   {
     "paper_id": "PDF-0053",
     "topic_ids": [
-      "control__affect_wellbeing"
+      "control__mechanism"
     ],
-    "primary_topic_id": "control__affect_wellbeing",
+    "primary_topic_id": "control__mechanism",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
     "dv_focuses": [
-      "affect.wellbeing"
+      "mechanism"
     ],
     "theories": [
       "Biophilia Hypothesis"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -1278,14 +1321,14 @@
   {
     "paper_id": "PDF-0059",
     "topic_ids": [
+      "spatial__physio",
       "spatial__affect_restoration",
-      "spatial__affect_negative_stress",
-      "spatial__cog_attention"
+      "spatial__affect_negative_stress"
     ],
-    "primary_topic_id": "spatial__affect_restoration",
+    "primary_topic_id": "spatial__physio",
     "secondary_topic_ids": [
-      "spatial__affect_negative_stress",
-      "spatial__cog_attention"
+      "spatial__affect_restoration",
+      "spatial__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -1298,9 +1341,9 @@
       "spatial"
     ],
     "dv_focuses": [
+      "physio",
       "affect.restoration",
-      "affect.negative.stress",
-      "cog.attention"
+      "affect.negative.stress"
     ],
     "theories": [],
     "provenance": {
@@ -1311,14 +1354,14 @@
   {
     "paper_id": "PDF-0060",
     "topic_ids": [
-      "thermal__cog_performance",
       "thermal__neural",
-      "thermal__affect_restoration"
+      "thermal__physio",
+      "thermal__cog_performance"
     ],
-    "primary_topic_id": "thermal__cog_performance",
+    "primary_topic_id": "thermal__neural",
     "secondary_topic_ids": [
-      "thermal__neural",
-      "thermal__affect_restoration"
+      "thermal__physio",
+      "thermal__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -1331,9 +1374,9 @@
       "thermal"
     ],
     "dv_focuses": [
-      "cog.performance",
       "neural",
-      "affect.restoration"
+      "physio",
+      "cog.performance"
     ],
     "theories": [],
     "provenance": {
@@ -1582,27 +1625,31 @@
   },
   {
     "paper_id": "PDF-0073",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__behav_navigation"
+    ],
+    "primary_topic_id": "spatial__behav_navigation",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "behav.navigation"
+    ],
     "theories": [
       "spatial cognition",
       "wayfinding"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -1770,46 +1817,54 @@
   },
   {
     "paper_id": "PDF-0084",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0086",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__affect_restoration"
+    ],
+    "primary_topic_id": "spatial__affect_restoration",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.restoration"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -1893,23 +1948,22 @@
   {
     "paper_id": "PDF-0093",
     "topic_ids": [
-      "control__neural"
+      "control__affect_wellbeing"
     ],
-    "primary_topic_id": "control__neural",
+    "primary_topic_id": "control__affect_wellbeing",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
     "dv_focuses": [
-      "neural"
+      "affect.wellbeing"
     ],
     "theories": [
       "neuroarchitecture",
@@ -1917,7 +1971,7 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -1967,11 +2021,15 @@
   {
     "paper_id": "PDF-0103",
     "topic_ids": [
+      "social_spatial__mechanism",
       "social_spatial__affect_negative_stress",
+      "spatial__mechanism",
       "spatial__affect_negative_stress"
     ],
-    "primary_topic_id": "social_spatial__affect_negative_stress",
+    "primary_topic_id": "social_spatial__mechanism",
     "secondary_topic_ids": [
+      "social_spatial__affect_negative_stress",
+      "spatial__mechanism",
       "spatial__affect_negative_stress"
     ],
     "visibility": "visible",
@@ -1986,6 +2044,7 @@
       "spatial"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [
@@ -2020,24 +2079,28 @@
   },
   {
     "paper_id": "PDF-0106",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "thermal__mechanism"
+    ],
+    "primary_topic_id": "thermal__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "thermal"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -2073,13 +2136,13 @@
     "paper_id": "PDF-0108",
     "topic_ids": [
       "luminous__physio",
-      "luminous__cog_performance",
-      "luminous__neural"
+      "luminous__neural",
+      "luminous__cog_performance"
     ],
     "primary_topic_id": "luminous__physio",
     "secondary_topic_ids": [
-      "luminous__cog_performance",
-      "luminous__neural"
+      "luminous__neural",
+      "luminous__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -2093,8 +2156,8 @@
     ],
     "dv_focuses": [
       "physio",
-      "cog.performance",
-      "neural"
+      "neural",
+      "cog.performance"
     ],
     "theories": [],
     "provenance": {
@@ -2236,67 +2299,77 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "physio"
+    ],
     "theories": [
       "Ecological Perception"
     ],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0119",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0122",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__behav_navigation"
+    ],
+    "primary_topic_id": "spatial__behav_navigation",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "behav.navigation"
+    ],
     "theories": [
       "Environmental Cognition",
       "Spatial Cognition"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -2383,14 +2456,14 @@
   {
     "paper_id": "PDF-0130",
     "topic_ids": [
+      "luminous__neural",
       "luminous__cog_performance",
-      "luminous__neural",
-      "luminous__affect_negative_stress"
+      "luminous__mechanism"
     ],
-    "primary_topic_id": "luminous__cog_performance",
+    "primary_topic_id": "luminous__neural",
     "secondary_topic_ids": [
-      "luminous__neural",
-      "luminous__affect_negative_stress"
+      "luminous__cog_performance",
+      "luminous__mechanism"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -2403,9 +2476,9 @@
       "luminous"
     ],
     "dv_focuses": [
-      "cog.performance",
       "neural",
-      "affect.negative.stress"
+      "cog.performance",
+      "mechanism"
     ],
     "theories": [],
     "provenance": {
@@ -2427,6 +2500,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "behav.navigation"
     ],
     "theories": [],
@@ -2496,13 +2570,13 @@
     "paper_id": "PDF-0139",
     "topic_ids": [
       "acoustic__neural",
-      "acoustic__cog_attention",
-      "acoustic__affect_wellbeing"
+      "acoustic__mechanism",
+      "acoustic__cog_attention"
     ],
     "primary_topic_id": "acoustic__neural",
     "secondary_topic_ids": [
-      "acoustic__cog_attention",
-      "acoustic__affect_wellbeing"
+      "acoustic__mechanism",
+      "acoustic__cog_attention"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -2516,8 +2590,8 @@
     ],
     "dv_focuses": [
       "neural",
-      "cog.attention",
-      "affect.wellbeing"
+      "mechanism",
+      "cog.attention"
     ],
     "theories": [
       "soundscape ecology"
@@ -2530,14 +2604,14 @@
   {
     "paper_id": "PDF-0140",
     "topic_ids": [
-      "spatial__cog_performance",
       "spatial__neural",
-      "spatial__affect_negative_stress"
+      "spatial__physio",
+      "spatial__cog_performance"
     ],
-    "primary_topic_id": "spatial__cog_performance",
+    "primary_topic_id": "spatial__neural",
     "secondary_topic_ids": [
-      "spatial__neural",
-      "spatial__affect_negative_stress"
+      "spatial__physio",
+      "spatial__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -2551,9 +2625,9 @@
       "spatial"
     ],
     "dv_focuses": [
-      "cog.performance",
       "neural",
-      "affect.negative.stress"
+      "physio",
+      "cog.performance"
     ],
     "theories": [
       "Neuroarchitecture"
@@ -2821,23 +2895,21 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv",
+    "hide_reason": "unresolvable_iv|unresolvable_dv",
     "confidence": 0.1,
     "evidence_basis": [
-      "claim_derived"
+      "none"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [
-      "affect.wellbeing"
-    ],
+    "dv_focuses": [],
     "theories": [
       "conservation psychology",
       "place attachment"
     ],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "claim_derived"
+      "dv_method": "unresolvable"
     }
   },
   {
@@ -2868,20 +2940,22 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.wellbeing"
+    ],
     "theories": [
       "Haptic Perception"
     ],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -2932,14 +3006,14 @@
   {
     "paper_id": "PDF-0169",
     "topic_ids": [
+      "acoustic__physio",
       "acoustic__cog_performance",
-      "acoustic__affect_negative_stress",
-      "acoustic__affect_restoration"
+      "acoustic__affect_negative_stress"
     ],
-    "primary_topic_id": "acoustic__cog_performance",
+    "primary_topic_id": "acoustic__physio",
     "secondary_topic_ids": [
-      "acoustic__affect_negative_stress",
-      "acoustic__affect_restoration"
+      "acoustic__cog_performance",
+      "acoustic__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -2952,9 +3026,9 @@
       "acoustic"
     ],
     "dv_focuses": [
+      "physio",
       "cog.performance",
-      "affect.negative.stress",
-      "affect.restoration"
+      "affect.negative.stress"
     ],
     "theories": [
       "aural architecture"
@@ -3001,6 +3075,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "social"
     ],
     "theories": [
@@ -3108,13 +3183,13 @@
   {
     "paper_id": "PDF-0181",
     "topic_ids": [
-      "acoustic__cog_performance",
       "acoustic__physio",
+      "acoustic__cog_performance",
       "acoustic__affect_negative_stress"
     ],
-    "primary_topic_id": "acoustic__cog_performance",
+    "primary_topic_id": "acoustic__physio",
     "secondary_topic_ids": [
-      "acoustic__physio",
+      "acoustic__cog_performance",
       "acoustic__affect_negative_stress"
     ],
     "visibility": "visible",
@@ -3128,8 +3203,8 @@
       "acoustic"
     ],
     "dv_focuses": [
-      "cog.performance",
       "physio",
+      "cog.performance",
       "affect.negative.stress"
     ],
     "theories": [
@@ -3165,10 +3240,13 @@
   {
     "paper_id": "PDF-0183",
     "topic_ids": [
+      "luminous__mechanism",
       "luminous__cog_performance"
     ],
-    "primary_topic_id": "luminous__cog_performance",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "luminous__mechanism",
+    "secondary_topic_ids": [
+      "luminous__cog_performance"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -3180,6 +3258,7 @@
       "luminous"
     ],
     "dv_focuses": [
+      "mechanism",
       "cog.performance"
     ],
     "theories": [
@@ -3193,10 +3272,15 @@
   {
     "paper_id": "PDF-0186",
     "topic_ids": [
-      "natural__affect_preference"
+      "natural__mechanism",
+      "natural__affect_preference",
+      "natural__cog_creativity"
     ],
-    "primary_topic_id": "natural__affect_preference",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "natural__mechanism",
+    "secondary_topic_ids": [
+      "natural__affect_preference",
+      "natural__cog_creativity"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.6,
@@ -3209,7 +3293,9 @@
       "natural"
     ],
     "dv_focuses": [
-      "affect.preference"
+      "mechanism",
+      "affect.preference",
+      "cog.creativity"
     ],
     "theories": [
       "Attention Restoration Theory",
@@ -3234,6 +3320,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.wellbeing"
     ],
     "theories": [
@@ -3272,10 +3359,13 @@
   {
     "paper_id": "PDF-0193",
     "topic_ids": [
+      "acoustic__mechanism",
       "acoustic__affect_wellbeing"
     ],
-    "primary_topic_id": "acoustic__affect_wellbeing",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "acoustic__mechanism",
+    "secondary_topic_ids": [
+      "acoustic__affect_wellbeing"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -3287,6 +3377,7 @@
       "acoustic"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.wellbeing"
     ],
     "theories": [],
@@ -3517,24 +3608,28 @@
   },
   {
     "paper_id": "PDF-0209",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__mechanism"
+    ],
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -3561,27 +3656,31 @@
   },
   {
     "paper_id": "PDF-0212",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Environmental Aesthetics",
       "Lens Model (Brunswik)"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -3764,24 +3863,28 @@
   },
   {
     "paper_id": "PDF-0225",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__affect_restoration"
+    ],
+    "primary_topic_id": "acoustic__affect_restoration",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.restoration"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -3872,48 +3975,60 @@
   },
   {
     "paper_id": "PDF-0234",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "control__behav_navigation"
+    ],
+    "primary_topic_id": "control__behav_navigation",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "behav.navigation"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0235",
-    "topic_ids": [],
-    "primary_topic_id": "",
-    "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "topic_ids": [
+      "luminous__mechanism",
+      "luminous__affect_wellbeing"
+    ],
+    "primary_topic_id": "luminous__mechanism",
+    "secondary_topic_ids": [
+      "luminous__affect_wellbeing"
+    ],
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism",
+      "affect.wellbeing"
+    ],
     "theories": [
       "Embodied Cognition"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -3970,26 +4085,30 @@
   },
   {
     "paper_id": "PDF-0249",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "control__cog_creativity"
+    ],
+    "primary_topic_id": "control__cog_creativity",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "cog.creativity"
+    ],
     "theories": [
       "Neuroaesthetics"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -4277,24 +4396,28 @@
   },
   {
     "paper_id": "PDF-0277",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__physio"
+    ],
+    "primary_topic_id": "acoustic__physio",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "physio"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -4346,14 +4469,14 @@
   {
     "paper_id": "PDF-0283",
     "topic_ids": [
+      "social_spatial__physio",
       "social_spatial__cog_performance",
-      "social_spatial__affect_negative_stress",
-      "social_spatial__affect_restoration"
+      "social_spatial__affect_negative_stress"
     ],
-    "primary_topic_id": "social_spatial__cog_performance",
+    "primary_topic_id": "social_spatial__physio",
     "secondary_topic_ids": [
-      "social_spatial__affect_negative_stress",
-      "social_spatial__affect_restoration"
+      "social_spatial__cog_performance",
+      "social_spatial__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -4366,9 +4489,9 @@
       "social_spatial"
     ],
     "dv_focuses": [
+      "physio",
       "cog.performance",
-      "affect.negative.stress",
-      "affect.restoration"
+      "affect.negative.stress"
     ],
     "theories": [
       "Crowding Theory"
@@ -4663,24 +4786,28 @@
   },
   {
     "paper_id": "PDF-0304",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "material__affect_wellbeing"
+    ],
+    "primary_topic_id": "material__affect_wellbeing",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "material"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.wellbeing"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -4715,13 +4842,13 @@
     "paper_id": "PDF-0310",
     "topic_ids": [
       "thermal__neural",
-      "thermal__cog_performance",
-      "thermal__affect_negative_stress"
+      "thermal__mechanism",
+      "thermal__cog_performance"
     ],
     "primary_topic_id": "thermal__neural",
     "secondary_topic_ids": [
-      "thermal__cog_performance",
-      "thermal__affect_negative_stress"
+      "thermal__mechanism",
+      "thermal__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -4735,8 +4862,8 @@
     ],
     "dv_focuses": [
       "neural",
-      "cog.performance",
-      "affect.negative.stress"
+      "mechanism",
+      "cog.performance"
     ],
     "theories": [
       "neuroarchitecture"
@@ -4748,35 +4875,42 @@
   },
   {
     "paper_id": "PDF-0314",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "experience design"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0316",
     "topic_ids": [
+      "social_spatial__mechanism",
       "social_spatial__affect_wellbeing"
     ],
-    "primary_topic_id": "social_spatial__affect_wellbeing",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "social_spatial__mechanism",
+    "secondary_topic_ids": [
+      "social_spatial__affect_wellbeing"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -4788,6 +4922,7 @@
       "social_spatial"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.wellbeing"
     ],
     "theories": [
@@ -4800,49 +4935,57 @@
   },
   {
     "paper_id": "PDF-0318",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "natural__mechanism"
+    ],
+    "primary_topic_id": "natural__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "natural"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0321",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "mu-opioid reward",
       "perceptual pleasure"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -4872,10 +5015,13 @@
   {
     "paper_id": "PDF-0323",
     "topic_ids": [
+      "luminous__mechanism",
       "luminous__affect_comfort"
     ],
-    "primary_topic_id": "luminous__affect_comfort",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "luminous__mechanism",
+    "secondary_topic_ids": [
+      "luminous__affect_comfort"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -4887,6 +5033,7 @@
       "luminous"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.comfort"
     ],
     "theories": [],
@@ -4919,51 +5066,59 @@
   },
   {
     "paper_id": "PDF-0328",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "natural__mechanism"
+    ],
+    "primary_topic_id": "natural__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "natural"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "biophilic design",
       "cognitive architecture"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0329",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__affect_wellbeing"
+    ],
+    "primary_topic_id": "acoustic__affect_wellbeing",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.wellbeing"
+    ],
     "theories": [
       "affective computing"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -5210,26 +5365,30 @@
   },
   {
     "paper_id": "PDF-0339",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Place Attachment Theory"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -5258,27 +5417,31 @@
   },
   {
     "paper_id": "PDF-0344",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "control__affect_wellbeing"
+    ],
+    "primary_topic_id": "control__affect_wellbeing",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.wellbeing"
+    ],
     "theories": [
       "Environmental Psychology",
       "Proxemics"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -5431,11 +5594,13 @@
     "paper_id": "PDF-0356",
     "topic_ids": [
       "spatial__physio",
-      "spatial__affect_negative_stress"
+      "spatial__affect_negative_stress",
+      "spatial__neural"
     ],
     "primary_topic_id": "spatial__physio",
     "secondary_topic_ids": [
-      "spatial__affect_negative_stress"
+      "spatial__affect_negative_stress",
+      "spatial__neural"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -5449,7 +5614,8 @@
     ],
     "dv_focuses": [
       "physio",
-      "affect.negative.stress"
+      "affect.negative.stress",
+      "neural"
     ],
     "theories": [
       "Stress Reduction Theory",
@@ -5464,10 +5630,13 @@
   {
     "paper_id": "PDF-0358",
     "topic_ids": [
+      "social_spatial__physio",
       "social_spatial__affect_negative_stress"
     ],
-    "primary_topic_id": "social_spatial__affect_negative_stress",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "social_spatial__physio",
+    "secondary_topic_ids": [
+      "social_spatial__affect_negative_stress"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -5479,6 +5648,7 @@
       "social_spatial"
     ],
     "dv_focuses": [
+      "physio",
       "affect.negative.stress"
     ],
     "theories": [
@@ -5634,26 +5804,30 @@
   },
   {
     "paper_id": "PDF-0371",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "irrelevant sound effect"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -5686,27 +5860,31 @@
   },
   {
     "paper_id": "PDF-0373",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__mechanism"
+    ],
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "psychoacoustics",
       "soundscape"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -5723,7 +5901,8 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "affect.preference"
+      "affect.preference",
+      "mechanism"
     ],
     "theories": [],
     "provenance": {
@@ -5779,33 +5958,40 @@
   },
   {
     "paper_id": "PDF-0383",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0384",
     "topic_ids": [
+      "acoustic__mechanism",
       "acoustic__cog_memory"
     ],
-    "primary_topic_id": "acoustic__cog_memory",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "acoustic__mechanism",
+    "secondary_topic_ids": [
+      "acoustic__cog_memory"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -5817,6 +6003,7 @@
       "acoustic"
     ],
     "dv_focuses": [
+      "mechanism",
       "cog.memory"
     ],
     "theories": [
@@ -5833,21 +6020,23 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "behav.navigation"
+    ],
     "theories": [
       "Spatial Cognition",
       "Wayfinding Theory"
     ],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -5937,31 +6126,33 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0394",
     "topic_ids": [
+      "acoustic__physio",
       "acoustic__cog_performance",
-      "acoustic__affect_restoration",
-      "acoustic__affect_comfort"
+      "acoustic__affect_restoration"
     ],
-    "primary_topic_id": "acoustic__cog_performance",
+    "primary_topic_id": "acoustic__physio",
     "secondary_topic_ids": [
-      "acoustic__affect_restoration",
-      "acoustic__affect_comfort"
+      "acoustic__cog_performance",
+      "acoustic__affect_restoration"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -5974,9 +6165,9 @@
       "acoustic"
     ],
     "dv_focuses": [
+      "physio",
       "cog.performance",
-      "affect.restoration",
-      "affect.comfort"
+      "affect.restoration"
     ],
     "theories": [
       "audio visual interaction",
@@ -6059,37 +6250,41 @@
   },
   {
     "paper_id": "PDF-0398",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__mechanism"
+    ],
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0399",
     "topic_ids": [
-      "material__affect_negative_stress",
-      "material__cog_performance",
-      "material__neural"
+      "material__neural",
+      "material__physio",
+      "material__affect_negative_stress"
     ],
-    "primary_topic_id": "material__affect_negative_stress",
+    "primary_topic_id": "material__neural",
     "secondary_topic_ids": [
-      "material__cog_performance",
-      "material__neural"
+      "material__physio",
+      "material__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -6102,9 +6297,9 @@
       "material"
     ],
     "dv_focuses": [
-      "affect.negative.stress",
-      "cog.performance",
-      "neural"
+      "neural",
+      "physio",
+      "affect.negative.stress"
     ],
     "theories": [
       "biophilia hypothesis",
@@ -6252,13 +6447,13 @@
     "paper_id": "PDF-0411",
     "topic_ids": [
       "acoustic__cog_performance",
-      "acoustic__affect_restoration",
-      "acoustic__cog_attention"
+      "acoustic__mechanism",
+      "acoustic__affect_restoration"
     ],
     "primary_topic_id": "acoustic__cog_performance",
     "secondary_topic_ids": [
-      "acoustic__affect_restoration",
-      "acoustic__cog_attention"
+      "acoustic__mechanism",
+      "acoustic__affect_restoration"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -6272,8 +6467,8 @@
     ],
     "dv_focuses": [
       "cog.performance",
-      "affect.restoration",
-      "cog.attention"
+      "mechanism",
+      "affect.restoration"
     ],
     "theories": [],
     "provenance": {
@@ -6284,14 +6479,14 @@
   {
     "paper_id": "PDF-0414",
     "topic_ids": [
+      "spatial__physio",
       "spatial__cog_performance",
-      "spatial__cog_cognitive_load",
-      "spatial__affect_negative_stress"
+      "spatial__cog_cognitive_load"
     ],
-    "primary_topic_id": "spatial__cog_performance",
+    "primary_topic_id": "spatial__physio",
     "secondary_topic_ids": [
-      "spatial__cog_cognitive_load",
-      "spatial__affect_negative_stress"
+      "spatial__cog_performance",
+      "spatial__cog_cognitive_load"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -6304,9 +6499,9 @@
       "spatial"
     ],
     "dv_focuses": [
+      "physio",
       "cog.performance",
-      "cog.cognitive_load",
-      "affect.negative.stress"
+      "cog.cognitive_load"
     ],
     "theories": [
       "Soundscape Theory"
@@ -6426,14 +6621,14 @@
   {
     "paper_id": "PDF-0421",
     "topic_ids": [
-      "luminous__cog_performance",
       "luminous__neural",
-      "luminous__affect_negative_stress"
+      "luminous__mechanism",
+      "luminous__cog_performance"
     ],
-    "primary_topic_id": "luminous__cog_performance",
+    "primary_topic_id": "luminous__neural",
     "secondary_topic_ids": [
-      "luminous__neural",
-      "luminous__affect_negative_stress"
+      "luminous__mechanism",
+      "luminous__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -6446,9 +6641,9 @@
       "luminous"
     ],
     "dv_focuses": [
-      "cog.performance",
       "neural",
-      "affect.negative.stress"
+      "mechanism",
+      "cog.performance"
     ],
     "theories": [
       "Circadian Lighting Theory"
@@ -6541,14 +6736,14 @@
   {
     "paper_id": "PDF-0427",
     "topic_ids": [
+      "luminous__physio",
       "luminous__cog_performance",
-      "luminous__physio",
-      "luminous__cog_attention"
+      "luminous__affect_wellbeing"
     ],
-    "primary_topic_id": "luminous__cog_performance",
+    "primary_topic_id": "luminous__physio",
     "secondary_topic_ids": [
-      "luminous__physio",
-      "luminous__cog_attention"
+      "luminous__cog_performance",
+      "luminous__affect_wellbeing"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -6561,9 +6756,9 @@
       "luminous"
     ],
     "dv_focuses": [
-      "cog.performance",
       "physio",
-      "cog.attention"
+      "cog.performance",
+      "affect.wellbeing"
     ],
     "theories": [
       "Circadian Lighting Theory"
@@ -6576,10 +6771,13 @@
   {
     "paper_id": "PDF-0428",
     "topic_ids": [
+      "acoustic__affect_wellbeing",
       "acoustic__cog_cognitive_load"
     ],
-    "primary_topic_id": "acoustic__cog_cognitive_load",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "acoustic__affect_wellbeing",
+    "secondary_topic_ids": [
+      "acoustic__cog_cognitive_load"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -6591,6 +6789,7 @@
       "acoustic"
     ],
     "dv_focuses": [
+      "affect.wellbeing",
       "cog.cognitive_load"
     ],
     "theories": [],
@@ -6601,24 +6800,28 @@
   },
   {
     "paper_id": "PDF-0434",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -6683,6 +6886,7 @@
     "iv_roots": [],
     "dv_focuses": [
       "cog.performance",
+      "physio",
       "affect.negative.stress",
       "affect.restoration",
       "cog.attention"
@@ -6707,6 +6911,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "cog.performance",
       "affect.negative.stress",
       "affect.restoration"
@@ -6720,30 +6925,29 @@
   {
     "paper_id": "PDF-0448",
     "topic_ids": [
-      "natural__affect_wellbeing"
+      "natural__mechanism"
     ],
-    "primary_topic_id": "natural__affect_wellbeing",
+    "primary_topic_id": "natural__mechanism",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "natural"
     ],
     "dv_focuses": [
-      "affect.wellbeing"
+      "mechanism"
     ],
     "theories": [
       "Biophilia Hypothesis"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -6806,7 +7010,8 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "cog.performance"
+      "cog.performance",
+      "mechanism"
     ],
     "theories": [],
     "provenance": {
@@ -6837,10 +7042,13 @@
   {
     "paper_id": "PDF-0455",
     "topic_ids": [
+      "acoustic__mechanism",
       "acoustic__health"
     ],
-    "primary_topic_id": "acoustic__health",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "acoustic__mechanism",
+    "secondary_topic_ids": [
+      "acoustic__health"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -6852,6 +7060,7 @@
       "acoustic"
     ],
     "dv_focuses": [
+      "mechanism",
       "health"
     ],
     "theories": [],
@@ -6933,6 +7142,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "health"
     ],
     "theories": [],
@@ -7179,14 +7389,14 @@
   {
     "paper_id": "PDF-0481",
     "topic_ids": [
+      "luminous__mechanism",
       "luminous__cog_cognitive_load",
-      "luminous__affect_negative_stress",
-      "luminous__affect_restoration"
+      "luminous__affect_negative_stress"
     ],
-    "primary_topic_id": "luminous__cog_cognitive_load",
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [
-      "luminous__affect_negative_stress",
-      "luminous__affect_restoration"
+      "luminous__cog_cognitive_load",
+      "luminous__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -7199,9 +7409,9 @@
       "luminous"
     ],
     "dv_focuses": [
+      "mechanism",
       "cog.cognitive_load",
-      "affect.negative.stress",
-      "affect.restoration"
+      "affect.negative.stress"
     ],
     "theories": [],
     "provenance": {
@@ -7237,24 +7447,28 @@
   },
   {
     "paper_id": "PDF-0485",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -7293,6 +7507,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -7335,6 +7550,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "cog.attention"
     ],
     "theories": [],
@@ -7357,6 +7573,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -7411,26 +7628,30 @@
   },
   {
     "paper_id": "PDF-0508",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Place Attachment Theory"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -7529,10 +7750,13 @@
   {
     "paper_id": "PDF-0524",
     "topic_ids": [
+      "luminous__mechanism",
       "luminous__affect_preference"
     ],
-    "primary_topic_id": "luminous__affect_preference",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "luminous__mechanism",
+    "secondary_topic_ids": [
+      "luminous__affect_preference"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -7544,6 +7768,7 @@
       "luminous"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.preference"
     ],
     "theories": [],
@@ -7567,6 +7792,7 @@
     "iv_roots": [],
     "dv_focuses": [
       "cog.performance",
+      "physio",
       "affect.restoration",
       "cog.attention"
     ],
@@ -7633,10 +7859,12 @@
     "paper_id": "PDF-0529",
     "topic_ids": [
       "luminous__cog_performance",
+      "luminous__mechanism",
       "luminous__cog_memory"
     ],
     "primary_topic_id": "luminous__cog_performance",
     "secondary_topic_ids": [
+      "luminous__mechanism",
       "luminous__cog_memory"
     ],
     "visibility": "visible",
@@ -7651,6 +7879,7 @@
     ],
     "dv_focuses": [
       "cog.performance",
+      "mechanism",
       "cog.memory"
     ],
     "theories": [
@@ -7683,24 +7912,28 @@
   },
   {
     "paper_id": "PDF-0534",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "control__affect_wellbeing"
+    ],
+    "primary_topic_id": "control__affect_wellbeing",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.wellbeing"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -7753,6 +7986,8 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "physio",
+      "mechanism",
       "affect.restoration"
     ],
     "theories": [],
@@ -7765,13 +8000,13 @@
     "paper_id": "PDF-0537",
     "topic_ids": [
       "luminous__physio",
-      "luminous__cog_performance",
-      "luminous__affect_negative_stress"
+      "luminous__mechanism",
+      "luminous__cog_performance"
     ],
     "primary_topic_id": "luminous__physio",
     "secondary_topic_ids": [
-      "luminous__cog_performance",
-      "luminous__affect_negative_stress"
+      "luminous__mechanism",
+      "luminous__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -7785,8 +8020,8 @@
     ],
     "dv_focuses": [
       "physio",
-      "cog.performance",
-      "affect.negative.stress"
+      "mechanism",
+      "cog.performance"
     ],
     "theories": [
       "Attention Restoration Theory",
@@ -7932,6 +8167,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "physio",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -8025,13 +8261,13 @@
     "paper_id": "PDF-0548",
     "topic_ids": [
       "spatial__neural",
-      "spatial__cog_attention",
-      "spatial__affect_restoration"
+      "spatial__physio",
+      "spatial__cog_attention"
     ],
     "primary_topic_id": "spatial__neural",
     "secondary_topic_ids": [
-      "spatial__cog_attention",
-      "spatial__affect_restoration"
+      "spatial__physio",
+      "spatial__cog_attention"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -8045,8 +8281,8 @@
     ],
     "dv_focuses": [
       "neural",
-      "cog.attention",
-      "affect.restoration"
+      "physio",
+      "cog.attention"
     ],
     "theories": [],
     "provenance": {
@@ -8056,48 +8292,56 @@
   },
   {
     "paper_id": "PDF-0549",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "control__mechanism"
+    ],
+    "primary_topic_id": "control__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "stress reduction)."
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0550",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "thermal__mechanism"
+    ],
+    "primary_topic_id": "thermal__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "thermal"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -8233,20 +8477,22 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Focal-Ambient Visual Processing Theory"
     ],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -8331,13 +8577,13 @@
     "paper_id": "PDF-0570",
     "topic_ids": [
       "acoustic__neural",
-      "acoustic__cog_performance",
-      "acoustic__cog_attention"
+      "acoustic__physio",
+      "acoustic__mechanism"
     ],
     "primary_topic_id": "acoustic__neural",
     "secondary_topic_ids": [
-      "acoustic__cog_performance",
-      "acoustic__cog_attention"
+      "acoustic__physio",
+      "acoustic__mechanism"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -8351,8 +8597,8 @@
     ],
     "dv_focuses": [
       "neural",
-      "cog.performance",
-      "cog.attention"
+      "physio",
+      "mechanism"
     ],
     "theories": [
       "Irrelevant Sound Effect"
@@ -8445,10 +8691,13 @@
   {
     "paper_id": "PDF-0574",
     "topic_ids": [
+      "acoustic__mechanism",
       "acoustic__affect_wellbeing"
     ],
-    "primary_topic_id": "acoustic__affect_wellbeing",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "acoustic__mechanism",
+    "secondary_topic_ids": [
+      "acoustic__affect_wellbeing"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -8460,6 +8709,7 @@
       "acoustic"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.wellbeing"
     ],
     "theories": [
@@ -8506,10 +8756,13 @@
   {
     "paper_id": "PDF-0576",
     "topic_ids": [
-      "acoustic__cog_performance"
+      "acoustic__cog_performance",
+      "acoustic__mechanism"
     ],
     "primary_topic_id": "acoustic__cog_performance",
-    "secondary_topic_ids": [],
+    "secondary_topic_ids": [
+      "acoustic__mechanism"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -8521,7 +8774,8 @@
       "acoustic"
     ],
     "dv_focuses": [
-      "cog.performance"
+      "cog.performance",
+      "mechanism"
     ],
     "theories": [],
     "provenance": {
@@ -8531,40 +8785,13 @@
   },
   {
     "paper_id": "PDF-0577",
-    "topic_ids": [],
-    "primary_topic_id": "",
-    "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
-    "evidence_basis": [
-      "claim_derived"
-    ],
-    "assignment_method": "provisional_repair",
-    "iv_roots": [
-      "acoustic"
-    ],
-    "dv_focuses": [],
-    "theories": [
-      "Changing-State Hypothesis",
-      "Object-Oriented Episodic Record Model"
-    ],
-    "provenance": {
-      "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
-    }
-  },
-  {
-    "paper_id": "PDF-0578",
     "topic_ids": [
-      "acoustic__cog_attention",
-      "acoustic__cog_performance",
-      "acoustic__neural"
+      "acoustic__mechanism",
+      "acoustic__affect_wellbeing"
     ],
-    "primary_topic_id": "acoustic__cog_attention",
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [
-      "acoustic__cog_performance",
-      "acoustic__neural"
+      "acoustic__affect_wellbeing"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -8577,9 +8804,44 @@
       "acoustic"
     ],
     "dv_focuses": [
-      "cog.attention",
-      "cog.performance",
-      "neural"
+      "mechanism",
+      "affect.wellbeing"
+    ],
+    "theories": [
+      "Changing-State Hypothesis",
+      "Object-Oriented Episodic Record Model"
+    ],
+    "provenance": {
+      "iv_method": "claim_derived",
+      "dv_method": "claim_derived"
+    }
+  },
+  {
+    "paper_id": "PDF-0578",
+    "topic_ids": [
+      "acoustic__neural",
+      "acoustic__mechanism",
+      "acoustic__cog_attention"
+    ],
+    "primary_topic_id": "acoustic__neural",
+    "secondary_topic_ids": [
+      "acoustic__mechanism",
+      "acoustic__cog_attention"
+    ],
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
+    "evidence_basis": [
+      "claim_derived"
+    ],
+    "assignment_method": "authority_match",
+    "iv_roots": [
+      "acoustic"
+    ],
+    "dv_focuses": [
+      "neural",
+      "mechanism",
+      "cog.attention"
     ],
     "theories": [
       "Attentional Narrowing Theory"
@@ -8667,22 +8929,23 @@
   {
     "paper_id": "PDF-0585",
     "topic_ids": [
-      "natural__affect_negative_stress"
+      "natural__affect_wellbeing"
     ],
-    "primary_topic_id": "natural__affect_negative_stress",
+    "primary_topic_id": "natural__affect_wellbeing",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.6,
     "evidence_basis": [
-      "theory_fallback"
+      "theory_fallback",
+      "claim_derived"
     ],
     "assignment_method": "theory_fallback",
     "iv_roots": [
       "natural"
     ],
     "dv_focuses": [
-      "affect.negative.stress"
+      "affect.wellbeing"
     ],
     "theories": [
       "Evidence-Based Design",
@@ -8690,7 +8953,7 @@
     ],
     "provenance": {
       "iv_method": "theory_fallback",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -8717,26 +8980,30 @@
   },
   {
     "paper_id": "PDF-0590",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Conceptual Priming Theory"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -8753,8 +9020,8 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "affect.negative.stress",
       "neural",
+      "affect.negative.stress",
       "affect.restoration",
       "cog.attention"
     ],
@@ -8767,10 +9034,13 @@
   {
     "paper_id": "PDF-0592",
     "topic_ids": [
+      "spatial__mechanism",
       "spatial__cog_cognitive_load"
     ],
-    "primary_topic_id": "spatial__cog_cognitive_load",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "spatial__mechanism",
+    "secondary_topic_ids": [
+      "spatial__cog_cognitive_load"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -8782,6 +9052,7 @@
       "spatial"
     ],
     "dv_focuses": [
+      "mechanism",
       "cog.cognitive_load"
     ],
     "theories": [],
@@ -8794,13 +9065,13 @@
     "paper_id": "PDF-0593",
     "topic_ids": [
       "spatial__neural",
-      "spatial__cog_performance",
-      "spatial__affect_negative_stress"
+      "spatial__mechanism",
+      "spatial__cog_performance"
     ],
     "primary_topic_id": "spatial__neural",
     "secondary_topic_ids": [
-      "spatial__cog_performance",
-      "spatial__affect_negative_stress"
+      "spatial__mechanism",
+      "spatial__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -8814,8 +9085,8 @@
     ],
     "dv_focuses": [
       "neural",
-      "cog.performance",
-      "affect.negative.stress"
+      "mechanism",
+      "cog.performance"
     ],
     "theories": [],
     "provenance": {
@@ -8869,13 +9140,13 @@
     "paper_id": "PDF-0596",
     "topic_ids": [
       "spatial__physio",
-      "spatial__cog_performance",
-      "spatial__neural"
+      "spatial__neural",
+      "spatial__cog_performance"
     ],
     "primary_topic_id": "spatial__physio",
     "secondary_topic_ids": [
-      "spatial__cog_performance",
-      "spatial__neural"
+      "spatial__neural",
+      "spatial__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -8889,8 +9160,8 @@
     ],
     "dv_focuses": [
       "physio",
-      "cog.performance",
-      "neural"
+      "neural",
+      "cog.performance"
     ],
     "theories": [],
     "provenance": {
@@ -8972,8 +9243,8 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "cog.performance",
       "neural",
+      "cog.performance",
       "affect.restoration"
     ],
     "theories": [],
@@ -8996,6 +9267,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "cog.attention"
     ],
     "theories": [],
@@ -9132,8 +9404,9 @@
     "iv_roots": [],
     "dv_focuses": [
       "cog.performance",
-      "affect.negative.stress",
-      "physio"
+      "physio",
+      "mechanism",
+      "affect.negative.stress"
     ],
     "theories": [],
     "provenance": {
@@ -9195,18 +9468,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -9298,23 +9573,22 @@
   {
     "paper_id": "PDF-0632",
     "topic_ids": [
-      "control__affect_wellbeing"
+      "control__mechanism"
     ],
-    "primary_topic_id": "control__affect_wellbeing",
+    "primary_topic_id": "control__mechanism",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
     "dv_focuses": [
-      "affect.wellbeing"
+      "mechanism"
     ],
     "theories": [
       "Biophilia Hypothesis",
@@ -9322,20 +9596,20 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0633",
     "topic_ids": [
-      "material__cog_performance",
+      "material__physio",
       "material__neural",
-      "material__physio"
+      "material__cog_performance"
     ],
-    "primary_topic_id": "material__cog_performance",
+    "primary_topic_id": "material__physio",
     "secondary_topic_ids": [
       "material__neural",
-      "material__physio"
+      "material__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -9348,9 +9622,9 @@
       "material"
     ],
     "dv_focuses": [
-      "cog.performance",
+      "physio",
       "neural",
-      "physio"
+      "cog.performance"
     ],
     "theories": [
       "Biophilia Hypothesis",
@@ -9439,8 +9713,8 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "affect.negative.stress",
-      "physio"
+      "physio",
+      "affect.negative.stress"
     ],
     "theories": [],
     "provenance": {
@@ -9452,13 +9726,13 @@
     "paper_id": "PDF-0637",
     "topic_ids": [
       "material__neural",
-      "material__affect_negative_stress",
-      "material__affect_restoration"
+      "material__affect_wellbeing",
+      "material__affect_negative_stress"
     ],
     "primary_topic_id": "material__neural",
     "secondary_topic_ids": [
-      "material__affect_negative_stress",
-      "material__affect_restoration"
+      "material__affect_wellbeing",
+      "material__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -9472,8 +9746,8 @@
     ],
     "dv_focuses": [
       "neural",
-      "affect.negative.stress",
-      "affect.restoration"
+      "affect.wellbeing",
+      "affect.negative.stress"
     ],
     "theories": [
       "Biophilia Hypothesis"
@@ -9487,13 +9761,13 @@
     "paper_id": "PDF-0638",
     "topic_ids": [
       "spatial__cog_performance",
-      "spatial__cog_attention",
-      "spatial__affect_restoration"
+      "spatial__mechanism",
+      "spatial__cog_attention"
     ],
     "primary_topic_id": "spatial__cog_performance",
     "secondary_topic_ids": [
-      "spatial__cog_attention",
-      "spatial__affect_restoration"
+      "spatial__mechanism",
+      "spatial__cog_attention"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -9507,8 +9781,8 @@
     ],
     "dv_focuses": [
       "cog.performance",
-      "cog.attention",
-      "affect.restoration"
+      "mechanism",
+      "cog.attention"
     ],
     "theories": [],
     "provenance": {
@@ -9540,24 +9814,28 @@
   },
   {
     "paper_id": "PDF-0641",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__affect_restoration"
+    ],
+    "primary_topic_id": "acoustic__affect_restoration",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.restoration"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -9641,24 +9919,28 @@
   },
   {
     "paper_id": "PDF-0646",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "material__mechanism"
+    ],
+    "primary_topic_id": "material__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "material"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -9728,18 +10010,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -9759,6 +10043,7 @@
       "neural",
       "affect.negative.stress",
       "cog.performance",
+      "physio",
       "cog.attention",
       "affect.restoration"
     ],
@@ -9782,6 +10067,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "cog.performance",
       "affect.negative.stress",
       "affect.restoration"
@@ -9873,18 +10159,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -9901,9 +10189,9 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "neural",
       "affect.negative.stress",
       "cog.performance",
-      "neural",
       "cog.attention",
       "affect.restoration"
     ],
@@ -9988,24 +10276,28 @@
   },
   {
     "paper_id": "PDF-0663",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "natural__mechanism"
+    ],
+    "primary_topic_id": "natural__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "natural"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -10087,27 +10379,31 @@
   },
   {
     "paper_id": "PDF-0667",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "material__mechanism"
+    ],
+    "primary_topic_id": "material__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "material"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Material Memory Theory",
       "Phenomenology of Place"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -10230,27 +10526,31 @@
   },
   {
     "paper_id": "PDF-0675",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "material__mechanism"
+    ],
+    "primary_topic_id": "material__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "material"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Environmental Psychology",
       "Place Attachment Theory"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -10403,14 +10703,14 @@
   {
     "paper_id": "PDF-0682",
     "topic_ids": [
+      "natural__physio",
       "natural__affect_negative_stress",
-      "natural__cog_performance",
-      "natural__cog_attention"
+      "natural__cog_performance"
     ],
-    "primary_topic_id": "natural__affect_negative_stress",
+    "primary_topic_id": "natural__physio",
     "secondary_topic_ids": [
-      "natural__cog_performance",
-      "natural__cog_attention"
+      "natural__affect_negative_stress",
+      "natural__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -10423,9 +10723,9 @@
       "natural"
     ],
     "dv_focuses": [
+      "physio",
       "affect.negative.stress",
-      "cog.performance",
-      "cog.attention"
+      "cog.performance"
     ],
     "theories": [
       "Attention Restoration Theory",
@@ -10499,14 +10799,14 @@
   {
     "paper_id": "PDF-0686",
     "topic_ids": [
+      "natural__mechanism",
       "natural__cog_performance",
-      "natural__cog_attention",
-      "natural__affect_restoration"
+      "natural__cog_attention"
     ],
-    "primary_topic_id": "natural__cog_performance",
+    "primary_topic_id": "natural__mechanism",
     "secondary_topic_ids": [
-      "natural__cog_attention",
-      "natural__affect_restoration"
+      "natural__cog_performance",
+      "natural__cog_attention"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -10519,9 +10819,9 @@
       "natural"
     ],
     "dv_focuses": [
+      "mechanism",
       "cog.performance",
-      "cog.attention",
-      "affect.restoration"
+      "cog.attention"
     ],
     "theories": [
       "14 Patterns of Biophilic Design",
@@ -10536,13 +10836,13 @@
     "paper_id": "PDF-0688",
     "topic_ids": [
       "natural__cog_performance",
-      "natural__affect_restoration",
-      "natural__affect_negative_stress"
+      "natural__mechanism",
+      "natural__affect_restoration"
     ],
     "primary_topic_id": "natural__cog_performance",
     "secondary_topic_ids": [
-      "natural__affect_restoration",
-      "natural__affect_negative_stress"
+      "natural__mechanism",
+      "natural__affect_restoration"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -10556,8 +10856,8 @@
     ],
     "dv_focuses": [
       "cog.performance",
-      "affect.restoration",
-      "affect.negative.stress"
+      "mechanism",
+      "affect.restoration"
     ],
     "theories": [
       "Attention Restoration Theory",
@@ -10600,30 +10900,29 @@
   {
     "paper_id": "PDF-0691",
     "topic_ids": [
-      "acoustic__affect_soundscape"
+      "acoustic__mechanism"
     ],
-    "primary_topic_id": "acoustic__affect_soundscape",
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
     "dv_focuses": [
-      "affect.soundscape"
+      "mechanism"
     ],
     "theories": [
       "Soundscape Theory"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -10632,18 +10931,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -10770,23 +11071,22 @@
   {
     "paper_id": "PDF-0698",
     "topic_ids": [
-      "acoustic__affect_soundscape"
+      "acoustic__affect_wellbeing"
     ],
-    "primary_topic_id": "acoustic__affect_soundscape",
+    "primary_topic_id": "acoustic__affect_wellbeing",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
     "dv_focuses": [
-      "affect.soundscape"
+      "affect.wellbeing"
     ],
     "theories": [
       "Principal Component Analysis of Perception",
@@ -10794,7 +11094,7 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -10835,23 +11135,22 @@
   {
     "paper_id": "PDF-0701",
     "topic_ids": [
-      "acoustic__affect_soundscape"
+      "acoustic__mechanism"
     ],
-    "primary_topic_id": "acoustic__affect_soundscape",
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
     "dv_focuses": [
-      "affect.soundscape"
+      "mechanism"
     ],
     "theories": [
       "Appraisal Theory",
@@ -10860,20 +11159,20 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0702",
     "topic_ids": [
+      "acoustic__physio",
       "acoustic__affect_negative_stress",
-      "acoustic__cog_performance",
-      "acoustic__cog_attention"
+      "acoustic__cog_performance"
     ],
-    "primary_topic_id": "acoustic__affect_negative_stress",
+    "primary_topic_id": "acoustic__physio",
     "secondary_topic_ids": [
-      "acoustic__cog_performance",
-      "acoustic__cog_attention"
+      "acoustic__affect_negative_stress",
+      "acoustic__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -10886,9 +11185,9 @@
       "acoustic"
     ],
     "dv_focuses": [
+      "physio",
       "affect.negative.stress",
-      "cog.performance",
-      "cog.attention"
+      "cog.performance"
     ],
     "theories": [
       "Attention Restoration Theory",
@@ -10927,29 +11226,30 @@
   {
     "paper_id": "PDF-0705",
     "topic_ids": [
-      "natural__affect_restoration"
+      "natural__mechanism"
     ],
-    "primary_topic_id": "natural__affect_restoration",
+    "primary_topic_id": "natural__mechanism",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.6,
     "evidence_basis": [
-      "theory_fallback"
+      "theory_fallback",
+      "claim_derived"
     ],
     "assignment_method": "theory_fallback",
     "iv_roots": [
       "natural"
     ],
     "dv_focuses": [
-      "affect.restoration"
+      "mechanism"
     ],
     "theories": [
       "Attention Restoration Theory"
     ],
     "provenance": {
       "iv_method": "theory_fallback",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -11096,24 +11396,28 @@
   },
   {
     "paper_id": "PDF-0716",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -11173,22 +11477,23 @@
   {
     "paper_id": "PDF-0723",
     "topic_ids": [
-      "spatial__neural"
+      "spatial__affect_wellbeing"
     ],
-    "primary_topic_id": "spatial__neural",
+    "primary_topic_id": "spatial__affect_wellbeing",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.6,
     "evidence_basis": [
-      "theory_fallback"
+      "theory_fallback",
+      "claim_derived"
     ],
     "assignment_method": "theory_fallback",
     "iv_roots": [
       "spatial"
     ],
     "dv_focuses": [
-      "neural"
+      "affect.wellbeing"
     ],
     "theories": [
       "Embodied Cognition",
@@ -11196,7 +11501,7 @@
     ],
     "provenance": {
       "iv_method": "theory_fallback",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -11286,14 +11591,14 @@
   {
     "paper_id": "PDF-0730",
     "topic_ids": [
+      "spatial__mechanism",
       "spatial__cog_performance",
-      "spatial__affect_restoration",
-      "spatial__social"
+      "spatial__affect_restoration"
     ],
-    "primary_topic_id": "spatial__cog_performance",
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [
-      "spatial__affect_restoration",
-      "spatial__social"
+      "spatial__cog_performance",
+      "spatial__affect_restoration"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -11306,9 +11611,9 @@
       "spatial"
     ],
     "dv_focuses": [
+      "mechanism",
       "cog.performance",
-      "affect.restoration",
-      "social"
+      "affect.restoration"
     ],
     "theories": [
       "Place Attachment Theory"
@@ -11320,69 +11625,81 @@
   },
   {
     "paper_id": "PDF-0734",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__behav_navigation"
+    ],
+    "primary_topic_id": "spatial__behav_navigation",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "behav.navigation"
+    ],
     "theories": [
       "Environmental Psychology",
       "Wayfinding Theory"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0735",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Evidence-Based Design"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0739",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Architectural Cognition",
       "Dementia Care Design",
@@ -11390,7 +11707,7 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -11550,14 +11867,14 @@
   {
     "paper_id": "PDF-0746",
     "topic_ids": [
+      "spatial__mechanism",
       "spatial__cog_performance",
-      "spatial__cog_attention",
-      "spatial__affect_wellbeing"
+      "spatial__cog_attention"
     ],
-    "primary_topic_id": "spatial__cog_performance",
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [
-      "spatial__cog_attention",
-      "spatial__affect_wellbeing"
+      "spatial__cog_performance",
+      "spatial__cog_attention"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -11570,9 +11887,9 @@
       "spatial"
     ],
     "dv_focuses": [
+      "mechanism",
       "cog.performance",
-      "cog.attention",
-      "affect.wellbeing"
+      "cog.attention"
     ],
     "theories": [
       "Attention Restoration Theory"
@@ -11749,27 +12066,31 @@
   },
   {
     "paper_id": "PDF-0756",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Cognitive-Affective Psychology",
       "Environmental Psychology"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -11811,10 +12132,13 @@
   {
     "paper_id": "PDF-0759",
     "topic_ids": [
+      "luminous__mechanism",
       "luminous__affect_wellbeing"
     ],
-    "primary_topic_id": "luminous__affect_wellbeing",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "luminous__mechanism",
+    "secondary_topic_ids": [
+      "luminous__affect_wellbeing"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -11826,6 +12150,7 @@
       "luminous"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.wellbeing"
     ],
     "theories": [
@@ -11865,23 +12190,22 @@
   {
     "paper_id": "PDF-0762",
     "topic_ids": [
-      "luminous__physio"
+      "luminous__mechanism"
     ],
-    "primary_topic_id": "luminous__physio",
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
     "dv_focuses": [
-      "physio"
+      "mechanism"
     ],
     "theories": [
       "Circadian Lighting",
@@ -11889,32 +12213,36 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0763",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Non-Visual Effects of Light",
       "Occupational Health"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -11945,10 +12273,13 @@
   {
     "paper_id": "PDF-0765",
     "topic_ids": [
+      "spatial__mechanism",
       "spatial__health"
     ],
-    "primary_topic_id": "spatial__health",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "spatial__mechanism",
+    "secondary_topic_ids": [
+      "spatial__health"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -11960,6 +12291,7 @@
       "spatial"
     ],
     "dv_focuses": [
+      "mechanism",
       "health"
     ],
     "theories": [
@@ -12064,22 +12396,23 @@
   {
     "paper_id": "PDF-0769",
     "topic_ids": [
-      "luminous__physio"
+      "luminous__mechanism"
     ],
-    "primary_topic_id": "luminous__physio",
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.6,
     "evidence_basis": [
-      "theory_fallback"
+      "theory_fallback",
+      "claim_derived"
     ],
     "assignment_method": "theory_fallback",
     "iv_roots": [
       "luminous"
     ],
     "dv_focuses": [
-      "physio"
+      "mechanism"
     ],
     "theories": [
       "Chronobiology",
@@ -12088,25 +12421,29 @@
     ],
     "provenance": {
       "iv_method": "theory_fallback",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0771",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Daylighting Design",
       "Non-Visual Effects of Light",
@@ -12114,32 +12451,36 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0772",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__mechanism"
+    ],
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Indoor Environmental Quality",
       "Post-Occupancy Evaluation"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -12480,27 +12821,31 @@
   },
   {
     "paper_id": "PDF-0788",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__mechanism"
+    ],
+    "primary_topic_id": "spatial__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Adaptive Architecture",
       "Biomimicry"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -12665,38 +13010,44 @@
   },
   {
     "paper_id": "PDF-0796",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Industrial Design Theory",
       "Materials Experience"
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0797",
     "topic_ids": [
-      "material__affect_restoration",
-      "material__physio"
+      "material__physio",
+      "material__mechanism",
+      "material__affect_restoration"
     ],
-    "primary_topic_id": "material__affect_restoration",
+    "primary_topic_id": "material__physio",
     "secondary_topic_ids": [
-      "material__physio"
+      "material__mechanism",
+      "material__affect_restoration"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -12709,8 +13060,9 @@
       "material"
     ],
     "dv_focuses": [
-      "affect.restoration",
-      "physio"
+      "physio",
+      "mechanism",
+      "affect.restoration"
     ],
     "theories": [
       "Biophilic Design",
@@ -13045,10 +13397,13 @@
   {
     "paper_id": "PDF-0814",
     "topic_ids": [
+      "material__mechanism",
       "material__affect_preference"
     ],
-    "primary_topic_id": "material__affect_preference",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "material__mechanism",
+    "secondary_topic_ids": [
+      "material__affect_preference"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -13060,6 +13415,7 @@
       "material"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.preference"
     ],
     "theories": [
@@ -13107,36 +13463,42 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
-    "confidence": 0.1,
-    "evidence_basis": [
-      "none"
-    ],
-    "assignment_method": "provisional_repair",
-    "iv_roots": [],
-    "dv_focuses": [],
-    "theories": [],
-    "provenance": {
-      "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
-    }
-  },
-  {
-    "paper_id": "PDF-0818",
-    "topic_ids": [],
-    "primary_topic_id": "",
-    "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
       "claim_derived"
     ],
     "assignment_method": "provisional_repair",
+    "iv_roots": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
+    "theories": [],
+    "provenance": {
+      "iv_method": "unresolvable",
+      "dv_method": "claim_derived"
+    }
+  },
+  {
+    "paper_id": "PDF-0818",
+    "topic_ids": [
+      "spatial__behav_navigation"
+    ],
+    "primary_topic_id": "spatial__behav_navigation",
+    "secondary_topic_ids": [],
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
+    "evidence_basis": [
+      "claim_derived"
+    ],
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "behav.navigation"
+    ],
     "theories": [
       "Material Experience",
       "Universal Design",
@@ -13144,7 +13506,7 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -13179,20 +13541,24 @@
   },
   {
     "paper_id": "PDF-0820",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "material__mechanism"
+    ],
+    "primary_topic_id": "material__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "material"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Cross-modal Processing",
       "Material Perception",
@@ -13200,7 +13566,7 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -13262,10 +13628,13 @@
   {
     "paper_id": "PDF-0824",
     "topic_ids": [
+      "control__physio",
       "control__cog_attention"
     ],
-    "primary_topic_id": "control__cog_attention",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "control__physio",
+    "secondary_topic_ids": [
+      "control__cog_attention"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -13277,6 +13646,7 @@
       "control"
     ],
     "dv_focuses": [
+      "physio",
       "cog.attention"
     ],
     "theories": [
@@ -13370,14 +13740,14 @@
   {
     "paper_id": "PDF-0830",
     "topic_ids": [
+      "spatial__physio",
       "spatial__affect_negative_stress",
-      "spatial__cog_performance",
-      "spatial__physio"
+      "spatial__cog_performance"
     ],
-    "primary_topic_id": "spatial__affect_negative_stress",
+    "primary_topic_id": "spatial__physio",
     "secondary_topic_ids": [
-      "spatial__cog_performance",
-      "spatial__physio"
+      "spatial__affect_negative_stress",
+      "spatial__cog_performance"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -13390,9 +13760,9 @@
       "spatial"
     ],
     "dv_focuses": [
+      "physio",
       "affect.negative.stress",
-      "cog.performance",
-      "physio"
+      "cog.performance"
     ],
     "theories": [
       "Multimodal Measurement",
@@ -13406,20 +13776,24 @@
   },
   {
     "paper_id": "PDF-0831",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__mechanism"
+    ],
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Acoustic Design",
       "Inclusive Design",
@@ -13427,7 +13801,7 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -13559,23 +13933,22 @@
   {
     "paper_id": "PDF-0836",
     "topic_ids": [
-      "acoustic__affect_soundscape"
+      "acoustic__mechanism"
     ],
-    "primary_topic_id": "acoustic__affect_soundscape",
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
     "dv_focuses": [
-      "affect.soundscape"
+      "mechanism"
     ],
     "theories": [
       "Individual Differences",
@@ -13584,7 +13957,7 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -13646,14 +14019,14 @@
   {
     "paper_id": "PDF-0839",
     "topic_ids": [
-      "acoustic__affect_negative_stress",
       "acoustic__neural",
-      "acoustic__affect_restoration"
+      "acoustic__physio",
+      "acoustic__affect_negative_stress"
     ],
-    "primary_topic_id": "acoustic__affect_negative_stress",
+    "primary_topic_id": "acoustic__neural",
     "secondary_topic_ids": [
-      "acoustic__neural",
-      "acoustic__affect_restoration"
+      "acoustic__physio",
+      "acoustic__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -13666,9 +14039,9 @@
       "acoustic"
     ],
     "dv_focuses": [
-      "affect.negative.stress",
       "neural",
-      "affect.restoration"
+      "physio",
+      "affect.negative.stress"
     ],
     "theories": [
       "Music Therapy",
@@ -13739,10 +14112,13 @@
   {
     "paper_id": "PDF-0842",
     "topic_ids": [
+      "acoustic__mechanism",
       "acoustic__affect_negative_stress"
     ],
-    "primary_topic_id": "acoustic__affect_negative_stress",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "acoustic__mechanism",
+    "secondary_topic_ids": [
+      "acoustic__affect_negative_stress"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -13754,6 +14130,7 @@
       "acoustic"
     ],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [
@@ -13771,13 +14148,13 @@
     "paper_id": "PDF-0844",
     "topic_ids": [
       "acoustic__neural",
-      "acoustic__affect_negative_stress",
-      "acoustic__cog_attention"
+      "acoustic__mechanism",
+      "acoustic__affect_negative_stress"
     ],
     "primary_topic_id": "acoustic__neural",
     "secondary_topic_ids": [
-      "acoustic__affect_negative_stress",
-      "acoustic__cog_attention"
+      "acoustic__mechanism",
+      "acoustic__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -13791,8 +14168,8 @@
     ],
     "dv_focuses": [
       "neural",
-      "affect.negative.stress",
-      "cog.attention"
+      "mechanism",
+      "affect.negative.stress"
     ],
     "theories": [
       "Biophilic Design",
@@ -13949,10 +14326,13 @@
   {
     "paper_id": "PDF-0850",
     "topic_ids": [
+      "luminous__mechanism",
       "luminous__physio"
     ],
-    "primary_topic_id": "luminous__physio",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "luminous__mechanism",
+    "secondary_topic_ids": [
+      "luminous__physio"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -13964,6 +14344,7 @@
       "luminous"
     ],
     "dv_focuses": [
+      "mechanism",
       "physio"
     ],
     "theories": [
@@ -13978,20 +14359,24 @@
   },
   {
     "paper_id": "PDF-0851",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "luminous__mechanism"
+    ],
+    "primary_topic_id": "luminous__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "luminous"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Circadian Rhythm",
       "Light and Health",
@@ -13999,20 +14384,20 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0852",
     "topic_ids": [
+      "material__physio",
       "material__affect_negative_stress",
-      "material__affect_restoration",
-      "material__physio"
+      "material__affect_restoration"
     ],
-    "primary_topic_id": "material__affect_negative_stress",
+    "primary_topic_id": "material__physio",
     "secondary_topic_ids": [
-      "material__affect_restoration",
-      "material__physio"
+      "material__affect_negative_stress",
+      "material__affect_restoration"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -14025,9 +14410,9 @@
       "material"
     ],
     "dv_focuses": [
+      "physio",
       "affect.negative.stress",
-      "affect.restoration",
-      "physio"
+      "affect.restoration"
     ],
     "theories": [
       "Biophilic Design",
@@ -14043,14 +14428,14 @@
   {
     "paper_id": "PDF-0853",
     "topic_ids": [
+      "material__physio",
       "material__neural",
-      "material__affect_negative_stress",
-      "material__physio"
+      "material__affect_wellbeing"
     ],
-    "primary_topic_id": "material__neural",
+    "primary_topic_id": "material__physio",
     "secondary_topic_ids": [
-      "material__affect_negative_stress",
-      "material__physio"
+      "material__neural",
+      "material__affect_wellbeing"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -14063,9 +14448,9 @@
       "material"
     ],
     "dv_focuses": [
+      "physio",
       "neural",
-      "affect.negative.stress",
-      "physio"
+      "affect.wellbeing"
     ],
     "theories": [
       "Biophilic Design",
@@ -14112,14 +14497,14 @@
   {
     "paper_id": "PDF-0855",
     "topic_ids": [
+      "natural__physio",
       "natural__affect_negative_stress",
-      "natural__affect_restoration",
-      "natural__physio"
+      "natural__affect_restoration"
     ],
-    "primary_topic_id": "natural__affect_negative_stress",
+    "primary_topic_id": "natural__physio",
     "secondary_topic_ids": [
-      "natural__affect_restoration",
-      "natural__physio"
+      "natural__affect_negative_stress",
+      "natural__affect_restoration"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -14133,9 +14518,9 @@
       "natural"
     ],
     "dv_focuses": [
+      "physio",
       "affect.negative.stress",
-      "affect.restoration",
-      "physio"
+      "affect.restoration"
     ],
     "theories": [
       "Ambient Scent",
@@ -14212,20 +14597,25 @@
   },
   {
     "paper_id": "PDF-0861",
-    "topic_ids": [],
-    "primary_topic_id": "",
-    "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
-    "evidence_basis": [
-      "theory_fallback"
+    "topic_ids": [
+      "natural__mechanism"
     ],
-    "assignment_method": "provisional_repair",
+    "primary_topic_id": "natural__mechanism",
+    "secondary_topic_ids": [],
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.6,
+    "evidence_basis": [
+      "theory_fallback",
+      "claim_derived"
+    ],
+    "assignment_method": "theory_fallback",
     "iv_roots": [
       "natural"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Biophilic Design",
       "Child Development",
@@ -14234,7 +14624,7 @@
     ],
     "provenance": {
       "iv_method": "theory_fallback",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -14385,20 +14775,24 @@
   },
   {
     "paper_id": "PDF-0870",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "acoustic__mechanism"
+    ],
+    "primary_topic_id": "acoustic__mechanism",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "acoustic"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [
       "Biophilic Design",
       "Stress Recovery Theory",
@@ -14406,25 +14800,25 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-0872",
     "topic_ids": [
-      "natural__cog_performance",
       "natural__neural",
+      "natural__cog_performance",
       "natural__affect_restoration",
-      "material__cog_performance",
       "material__neural",
+      "material__cog_performance",
       "material__affect_restoration"
     ],
-    "primary_topic_id": "natural__cog_performance",
+    "primary_topic_id": "natural__neural",
     "secondary_topic_ids": [
-      "natural__neural",
+      "natural__cog_performance",
       "natural__affect_restoration",
-      "material__cog_performance",
       "material__neural",
+      "material__cog_performance",
       "material__affect_restoration"
     ],
     "visibility": "visible",
@@ -14440,8 +14834,8 @@
       "material"
     ],
     "dv_focuses": [
-      "cog.performance",
       "neural",
+      "cog.performance",
       "affect.restoration"
     ],
     "theories": [
@@ -14547,13 +14941,13 @@
     "paper_id": "PDF-0879",
     "topic_ids": [
       "acoustic__physio",
-      "acoustic__affect_negative_stress",
-      "acoustic__cog_attention"
+      "acoustic__mechanism",
+      "acoustic__affect_negative_stress"
     ],
     "primary_topic_id": "acoustic__physio",
     "secondary_topic_ids": [
-      "acoustic__affect_negative_stress",
-      "acoustic__cog_attention"
+      "acoustic__mechanism",
+      "acoustic__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -14567,8 +14961,8 @@
     ],
     "dv_focuses": [
       "physio",
-      "affect.negative.stress",
-      "cog.attention"
+      "mechanism",
+      "affect.negative.stress"
     ],
     "theories": [
       "Soundscape Ecology",
@@ -14613,14 +15007,14 @@
   {
     "paper_id": "PDF-0881",
     "topic_ids": [
-      "natural__cog_attention",
       "natural__neural",
-      "natural__affect_negative_stress"
+      "natural__physio",
+      "natural__cog_attention"
     ],
-    "primary_topic_id": "natural__cog_attention",
+    "primary_topic_id": "natural__neural",
     "secondary_topic_ids": [
-      "natural__neural",
-      "natural__affect_negative_stress"
+      "natural__physio",
+      "natural__cog_attention"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -14633,9 +15027,9 @@
       "natural"
     ],
     "dv_focuses": [
-      "cog.attention",
       "neural",
-      "affect.negative.stress"
+      "physio",
+      "cog.attention"
     ],
     "theories": [
       "Attention Restoration Theory",
@@ -14673,12 +15067,12 @@
     "topic_ids": [
       "luminous__cog_performance",
       "luminous__cog_cognitive_load",
-      "luminous__health"
+      "luminous__affect_wellbeing"
     ],
     "primary_topic_id": "luminous__cog_performance",
     "secondary_topic_ids": [
       "luminous__cog_cognitive_load",
-      "luminous__health"
+      "luminous__affect_wellbeing"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -14693,7 +15087,7 @@
     "dv_focuses": [
       "cog.performance",
       "cog.cognitive_load",
-      "health"
+      "affect.wellbeing"
     ],
     "theories": [
       "Circadian Lighting",
@@ -14757,13 +15151,13 @@
     "paper_id": "PDF-0886",
     "topic_ids": [
       "spatial__cog_performance",
-      "spatial__affect_negative_stress",
-      "spatial__cog_attention"
+      "spatial__neural",
+      "spatial__affect_negative_stress"
     ],
     "primary_topic_id": "spatial__cog_performance",
     "secondary_topic_ids": [
-      "spatial__affect_negative_stress",
-      "spatial__cog_attention"
+      "spatial__neural",
+      "spatial__affect_negative_stress"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -14777,8 +15171,8 @@
     ],
     "dv_focuses": [
       "cog.performance",
-      "affect.negative.stress",
-      "cog.attention"
+      "neural",
+      "affect.negative.stress"
     ],
     "theories": [
       "EEG-Architecture",
@@ -14793,23 +15187,22 @@
   {
     "paper_id": "PDF-0887",
     "topic_ids": [
-      "control__neural"
+      "control__affect_wellbeing"
     ],
-    "primary_topic_id": "control__neural",
+    "primary_topic_id": "control__affect_wellbeing",
     "secondary_topic_ids": [],
     "visibility": "visible",
     "hide_reason": "",
-    "confidence": 0.5,
+    "confidence": 0.85,
     "evidence_basis": [
-      "theory_fallback",
       "claim_derived"
     ],
-    "assignment_method": "claim_derived",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "control"
     ],
     "dv_focuses": [
-      "neural"
+      "affect.wellbeing"
     ],
     "theories": [
       "Environmental Psychology",
@@ -14818,7 +15211,7 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "theory_fallback"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -14946,10 +15339,12 @@
     "paper_id": "PDF-0896",
     "topic_ids": [
       "luminous__neural",
+      "luminous__mechanism",
       "luminous__cog_performance"
     ],
     "primary_topic_id": "luminous__neural",
     "secondary_topic_ids": [
+      "luminous__mechanism",
       "luminous__cog_performance"
     ],
     "visibility": "visible",
@@ -14964,6 +15359,7 @@
     ],
     "dv_focuses": [
       "neural",
+      "mechanism",
       "cog.performance"
     ],
     "theories": [
@@ -15035,10 +15431,12 @@
     "paper_id": "PDF-0902",
     "topic_ids": [
       "luminous__cog_performance",
+      "luminous__mechanism",
       "luminous__affect_negative_stress"
     ],
     "primary_topic_id": "luminous__cog_performance",
     "secondary_topic_ids": [
+      "luminous__mechanism",
       "luminous__affect_negative_stress"
     ],
     "visibility": "visible",
@@ -15053,6 +15451,7 @@
     ],
     "dv_focuses": [
       "cog.performance",
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [
@@ -15101,10 +15500,13 @@
   {
     "paper_id": "PDF-0904",
     "topic_ids": [
+      "luminous__mechanism",
       "luminous__cog_creativity"
     ],
-    "primary_topic_id": "luminous__cog_creativity",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "luminous__mechanism",
+    "secondary_topic_ids": [
+      "luminous__cog_creativity"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -15116,6 +15518,7 @@
       "luminous"
     ],
     "dv_focuses": [
+      "mechanism",
       "cog.creativity"
     ],
     "theories": [
@@ -15275,20 +15678,24 @@
   },
   {
     "paper_id": "PDF-0911",
-    "topic_ids": [],
-    "primary_topic_id": "",
+    "topic_ids": [
+      "spatial__behav_navigation"
+    ],
+    "primary_topic_id": "spatial__behav_navigation",
     "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
-    "confidence": 0.1,
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
     "evidence_basis": [
       "claim_derived"
     ],
-    "assignment_method": "provisional_repair",
+    "assignment_method": "authority_match",
     "iv_roots": [
       "spatial"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "behav.navigation"
+    ],
     "theories": [
       "Environmental Psychology",
       "Spatial Cognition",
@@ -15297,7 +15704,7 @@
     ],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -15336,10 +15743,13 @@
   {
     "paper_id": "PDF-0915",
     "topic_ids": [
+      "luminous__mechanism",
       "luminous__cog_performance"
     ],
-    "primary_topic_id": "luminous__cog_performance",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "luminous__mechanism",
+    "secondary_topic_ids": [
+      "luminous__cog_performance"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -15351,6 +15761,7 @@
       "luminous"
     ],
     "dv_focuses": [
+      "mechanism",
       "cog.performance"
     ],
     "theories": [
@@ -15409,10 +15820,13 @@
   {
     "paper_id": "PDF-0922",
     "topic_ids": [
+      "thermal__mechanism",
       "thermal__physio"
     ],
-    "primary_topic_id": "thermal__physio",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "thermal__mechanism",
+    "secondary_topic_ids": [
+      "thermal__physio"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -15424,6 +15838,7 @@
       "thermal"
     ],
     "dv_focuses": [
+      "mechanism",
       "physio"
     ],
     "theories": [
@@ -15662,6 +16077,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "physio",
       "affect.negative.stress",
       "affect.restoration"
     ],
@@ -15781,10 +16197,13 @@
   {
     "paper_id": "PDF-0997",
     "topic_ids": [
-      "spatial__cog_performance"
+      "spatial__cog_performance",
+      "spatial__behav_navigation"
     ],
     "primary_topic_id": "spatial__cog_performance",
-    "secondary_topic_ids": [],
+    "secondary_topic_ids": [
+      "spatial__behav_navigation"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -15796,7 +16215,8 @@
       "spatial"
     ],
     "dv_focuses": [
-      "cog.performance"
+      "cog.performance",
+      "behav.navigation"
     ],
     "theories": [
       "Cognitive Map Theory",
@@ -15925,31 +16345,33 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
     "paper_id": "PDF-1025",
     "topic_ids": [
       "spatial__physio",
-      "spatial__cog_performance",
-      "spatial__neural"
+      "spatial__neural",
+      "spatial__mechanism"
     ],
     "primary_topic_id": "spatial__physio",
     "secondary_topic_ids": [
-      "spatial__cog_performance",
-      "spatial__neural"
+      "spatial__neural",
+      "spatial__mechanism"
     ],
     "visibility": "visible",
     "hide_reason": "",
@@ -15963,8 +16385,8 @@
     ],
     "dv_focuses": [
       "physio",
-      "cog.performance",
-      "neural"
+      "neural",
+      "mechanism"
     ],
     "theories": [
       "Attention Restoration Theory",
@@ -15981,18 +16403,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -16069,6 +16493,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "physio",
       "cog.performance"
     ],
     "theories": [],
@@ -16151,6 +16576,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "physio",
       "cog.attention",
       "cog.performance"
     ],
@@ -16332,18 +16758,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -16360,6 +16788,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -16374,40 +16803,46 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
-    "confidence": 0.1,
-    "evidence_basis": [
-      "none"
-    ],
-    "assignment_method": "provisional_repair",
-    "iv_roots": [],
-    "dv_focuses": [],
-    "theories": [],
-    "provenance": {
-      "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
-    }
-  },
-  {
-    "paper_id": "PDF-1107",
-    "topic_ids": [],
-    "primary_topic_id": "",
-    "secondary_topic_ids": [],
-    "visibility": "hidden",
-    "hide_reason": "unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
       "claim_derived"
     ],
     "assignment_method": "provisional_repair",
+    "iv_roots": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
+    "theories": [],
+    "provenance": {
+      "iv_method": "unresolvable",
+      "dv_method": "claim_derived"
+    }
+  },
+  {
+    "paper_id": "PDF-1107",
+    "topic_ids": [
+      "thermal__mechanism"
+    ],
+    "primary_topic_id": "thermal__mechanism",
+    "secondary_topic_ids": [],
+    "visibility": "visible",
+    "hide_reason": "",
+    "confidence": 0.85,
+    "evidence_basis": [
+      "claim_derived"
+    ],
+    "assignment_method": "authority_match",
     "iv_roots": [
       "thermal"
     ],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "claim_derived",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -16603,18 +17038,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -16680,6 +17117,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress",
       "cog.attention",
       "affect.restoration"
@@ -16704,6 +17142,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "physio",
       "affect.negative.stress",
       "cog.attention"
     ],
@@ -16727,6 +17166,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "cog.attention"
     ],
     "theories": [],
@@ -16796,6 +17236,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -16818,9 +17259,9 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "cog.attention",
       "neural",
-      "physio"
+      "physio",
+      "cog.attention"
     ],
     "theories": [],
     "provenance": {
@@ -16862,8 +17303,9 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "cog.performance",
       "neural",
+      "physio",
+      "cog.performance",
       "affect.restoration"
     ],
     "theories": [],
@@ -16988,10 +17430,13 @@
   {
     "paper_id": "PDF-1268",
     "topic_ids": [
+      "luminous__mechanism",
       "luminous__social"
     ],
-    "primary_topic_id": "luminous__social",
-    "secondary_topic_ids": [],
+    "primary_topic_id": "luminous__mechanism",
+    "secondary_topic_ids": [
+      "luminous__social"
+    ],
     "visibility": "visible",
     "hide_reason": "",
     "confidence": 0.85,
@@ -17003,6 +17448,7 @@
       "luminous"
     ],
     "dv_focuses": [
+      "mechanism",
       "social"
     ],
     "theories": [
@@ -17056,6 +17502,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "physio",
       "cog.attention"
     ],
     "theories": [],
@@ -17202,6 +17649,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress",
       "cog.performance"
     ],
@@ -17287,8 +17735,9 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "cog.performance",
       "neural",
+      "physio",
+      "cog.performance",
       "affect.restoration"
     ],
     "theories": [],
@@ -17331,9 +17780,10 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "neural",
+      "mechanism",
       "affect.negative.stress",
       "cog.performance",
-      "neural",
       "cog.attention"
     ],
     "theories": [],
@@ -17399,6 +17849,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -17442,18 +17893,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -17484,18 +17937,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -17607,18 +18062,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -17719,6 +18176,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress",
       "cog.performance",
       "cog.cognitive_load",
@@ -17766,6 +18224,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -17828,6 +18287,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -17866,21 +18326,23 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "physio"
+    ],
     "theories": [
       "Do the hospital rooms make a difference for patients' stress?",
       "Jour- nal of Environmental Psychology, 26, 2006."
     ],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -17929,18 +18391,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -17977,6 +18441,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -18011,18 +18476,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -18039,8 +18506,9 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "cog.performance",
-      "neural"
+      "neural",
+      "physio",
+      "cog.performance"
     ],
     "theories": [],
     "provenance": {
@@ -18102,6 +18570,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "cog.attention"
     ],
     "theories": [],
@@ -18156,18 +18625,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "affect.wellbeing"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -18184,6 +18655,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "cog.attention",
       "cog.performance"
     ],
@@ -18219,18 +18691,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -18247,6 +18721,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress",
       "cog.performance",
       "cog.attention",
@@ -18272,9 +18747,10 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "neural",
+      "mechanism",
       "affect.negative.stress",
       "cog.performance",
-      "neural",
       "cog.attention"
     ],
     "theories": [],
@@ -18297,9 +18773,10 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "affect.negative.stress",
       "neural",
       "physio",
+      "mechanism",
+      "affect.negative.stress",
       "affect.restoration"
     ],
     "theories": [],
@@ -18322,6 +18799,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -18345,6 +18823,7 @@
     "iv_roots": [],
     "dv_focuses": [
       "cog.performance",
+      "mechanism",
       "cog.attention"
     ],
     "theories": [],
@@ -18368,8 +18847,8 @@
     "iv_roots": [],
     "dv_focuses": [
       "cog.performance",
-      "cog.attention",
       "neural",
+      "cog.attention",
       "affect.restoration"
     ],
     "theories": [],
@@ -18384,18 +18863,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -18412,6 +18893,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -18451,18 +18933,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -18480,6 +18964,7 @@
     "iv_roots": [],
     "dv_focuses": [
       "neural",
+      "mechanism",
       "affect.negative.stress",
       "cog.performance",
       "affect.restoration",
@@ -18505,8 +18990,8 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
-      "affect.negative.stress",
       "neural",
+      "affect.negative.stress",
       "affect.restoration",
       "cog.attention"
     ],
@@ -18769,18 +19254,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -18833,18 +19320,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -18862,8 +19351,8 @@
     "iv_roots": [],
     "dv_focuses": [
       "neural",
-      "affect.negative.stress",
-      "physio"
+      "physio",
+      "affect.negative.stress"
     ],
     "theories": [],
     "provenance": {
@@ -18885,6 +19374,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "cog.attention"
     ],
     "theories": [],
@@ -18950,6 +19440,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -18992,6 +19483,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -19026,18 +19518,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -19046,18 +19540,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -19177,6 +19673,7 @@
     "iv_roots": [],
     "dv_focuses": [
       "neural",
+      "physio",
       "cog.attention"
     ],
     "theories": [],
@@ -19219,6 +19716,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -19261,6 +19759,7 @@
     "assignment_method": "provisional_repair",
     "iv_roots": [],
     "dv_focuses": [
+      "mechanism",
       "affect.negative.stress"
     ],
     "theories": [],
@@ -19295,18 +19794,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {
@@ -19315,18 +19816,20 @@
     "primary_topic_id": "",
     "secondary_topic_ids": [],
     "visibility": "hidden",
-    "hide_reason": "unresolvable_iv|unresolvable_dv",
+    "hide_reason": "unresolvable_iv",
     "confidence": 0.1,
     "evidence_basis": [
-      "none"
+      "claim_derived"
     ],
     "assignment_method": "provisional_repair",
     "iv_roots": [],
-    "dv_focuses": [],
+    "dv_focuses": [
+      "mechanism"
+    ],
     "theories": [],
     "provenance": {
       "iv_method": "unresolvable",
-      "dv_method": "unresolvable"
+      "dv_method": "claim_derived"
     }
   },
   {

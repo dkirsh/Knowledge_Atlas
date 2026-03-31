@@ -661,6 +661,7 @@
             }
         }
     </style>
+<script src="../ka_config.js"></script>
 </head>
 <body>
     <!-- Navigation -->
@@ -1297,7 +1298,7 @@ window.KA_ABOUT_PAGE = {
 // Calls GET /api/assignments on ka_auth_server.py (port 8765) if a token is present.
 // Gracefully no-ops if server is unreachable or user is not authenticated.
 (function() {
-  const KA_AUTH_API = window.__KA_CONFIG__?.apiBase || 'http://localhost:8765';
+  const KA_AUTH_API = window.__KA_CONFIG__?.apiBase ?? '';
   const token = localStorage.getItem('ka_access_token');
   if (!token) return;  // not logged in via JWT — skip silently
 

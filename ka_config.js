@@ -16,7 +16,7 @@
  */
 window.__KA_CONFIG__ = {
   // ── Change this for production deployment ──
-  apiBase: 'http://localhost:8765',
+  apiBase: '',  // empty = same origin (API and pages on same port)
 
   // ── Other site-wide settings ──
   siteName: 'Knowledge Atlas',

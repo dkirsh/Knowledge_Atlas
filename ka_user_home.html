@@ -687,6 +687,7 @@
       .workflow-grid { grid-template-columns: 1fr; }
     }
   </style>
+<script src="ka_config.js"></script>
 </head>
 <body>
 
@@ -844,7 +845,7 @@
 (function () {
   'use strict';
 
-  const KA_AUTH_API = window.__KA_CONFIG__?.apiBase || 'http://localhost:8765';
+  const KA_AUTH_API = window.__KA_CONFIG__?.apiBase ?? '';
 
   /* ── User / Auth State ───────────────────────────────────────────────── */
 

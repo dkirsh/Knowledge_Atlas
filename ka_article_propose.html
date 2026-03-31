@@ -132,6 +132,7 @@
     .btn-ok{background:var(--teal);color:#fff;border:none;padding:9px 22px;border-radius:6px;font-size:0.85rem;font-weight:600;cursor:pointer;font-family:Arial,sans-serif}
     .version-badge{position:fixed;bottom:12px;left:16px;background:var(--navy);color:#A8C8BF;font-size:10px;padding:3px 8px;border-radius:4px;opacity:.6;z-index:50}
   </style>
+<script src="ka_config.js"></script>
 </head>
 <body>
 
@@ -723,7 +724,7 @@ function resolveSelectedCitation() {
 }
 
 /* ── SERVER CONFIG ── */
-const KA_API = window.__KA_CONFIG__?.apiBase || 'http://localhost:8765';
+const KA_API = window.__KA_CONFIG__?.apiBase ?? '';
 
 async function stagePendingFiles() {
   const stageable = PENDING_FILES.filter(item => item.status !== 'duplicate' && !item.staged);
