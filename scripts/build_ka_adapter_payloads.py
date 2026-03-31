@@ -1,5 +1,6 @@
 #!/usr/bin/env python3
 import json
+import os
 import re
 import sqlite3
 import shutil
@@ -17,13 +18,15 @@ TITLE_REJECT_PATTERNS = [
 ABSTRACT_TRIM_MARKERS = [' Published by', ' 1. Introduction', '1. Introduction', ' Introduction ', ' * Corresponding author', ' Contents lists available at ScienceDirect ', ' Contents lists available at']
 
 
-ROOT = Path('/Users/davidusa/REPOS')
-AE = ROOT / 'Article_Eater_PostQuinean_v1_recovery'
-OUT = ROOT / 'Knowledge_Atlas' / 'data' / 'ka_payloads'
+SCRIPT_PATH = Path(__file__).resolve()
+KA_REPO = Path(os.environ.get('KA_REPO_PATH', SCRIPT_PATH.parents[1]))
+ROOT = Path(os.environ.get('KA_REPOS_ROOT', KA_REPO.parent))
+AE = Path(os.environ.get('KA_AE_REPO_PATH', ROOT / 'Article_Eater_PostQuinean_v1_recovery'))
+OUT = KA_REPO / 'data' / 'ka_payloads'
 OUT.mkdir(parents=True, exist_ok=True)
 VISUALS_OUT = OUT / 'article_visuals'
 VISUALS_OUT.mkdir(parents=True, exist_ok=True)
-WORKFLOW_DB_PATH = ROOT / 'Knowledge_Atlas' / 'data' / 'ka_workflow.db'
+WORKFLOW_DB_PATH = KA_REPO / 'data' / 'ka_workflow.db'
 REBUILD_DB_PATH = AE / 'data' / 'rebuild' / 'web_persistence_v5.db'
 REGISTRY_DB_PATH = AE / 'data' / 'verification_runs' / 'v7_gold_extraction_registry.db'
 
