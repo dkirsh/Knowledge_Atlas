@@ -4,6 +4,8 @@ __pycache__/
 *.pyc
 .env
 data/ka_auth.db
+data/ka_auth.db-shm
+data/ka_auth.db-wal
 data/ka_auth_secret.txt
 data/storage/
 logs/
