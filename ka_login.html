@@ -511,7 +511,25 @@
         if (role === 'instructor' || role === 'admin') {
           window.location.href = 'ka_approve.html';
         } else {
-          window.location.href = 'ka_user_home.html';
+          // For students: check A0 completion status
+          try {
+            const progressRes = await fetch('/api/student/progress/' + encodeURIComponent(data.user.user_id || data.user.email));
+            if (progressRes.ok) {
+              const progress = await progressRes.json();
+              if (progress.a0_complete) {
+                window.location.href = '160sp/ka_schedule.html';
+              } else {
+                window.location.href = '160sp/ka_student_setup.html';
+              }
+            } else {
+              // API not available, default to setup page
+              window.location.href = '160sp/ka_student_setup.html';
+            }
+          } catch(e) {
+            // Progress check failed, default to setup page
+            console.warn('[KA] Could not check A0 progress:', e);
+            window.location.href = '160sp/ka_student_setup.html';
+          }
         }
 
       } catch(ex) {

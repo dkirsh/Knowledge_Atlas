@@ -336,6 +336,30 @@
     }
     .title-only-add-btn:hover { background: #0d1e35; }
 
+    /* ── Breadcrumb ─────────────────────────────────────── */
+    .breadcrumb-bar {
+      background: #e8edf2;
+      padding: 10px 2rem;
+      border-bottom: 1px solid #d0d8e4;
+      font-size: 0.82rem;
+    }
+    .breadcrumb-bar a {
+      color: #2A7868;
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .breadcrumb-bar a:hover {
+      text-decoration: underline;
+    }
+    .breadcrumb-bar .sep {
+      color: #999;
+      margin: 0 6px;
+    }
+    .breadcrumb-bar .current {
+      color: #182B49;
+      font-weight: 700;
+    }
+
     /* ── Responsive ─────────────────────────────────────── */
     @media (max-width: 720px) {
       .progress-overview { grid-template-columns: 1fr; }
@@ -371,6 +395,15 @@
     <span>Signed in as <span class="username" id="display-name">—</span></span>
     <a href="#" class="logout" onclick="handleLogout()">Sign out</a>
   </div>
+</div>
+
+<!-- ── Breadcrumb ────────────────────────────────────────── -->
+<div class="breadcrumb-bar">
+  <a href="ka_student_setup.html">COGS160 Start</a>
+  <span class="sep">></span>
+  <a href="../ka_ai_methodology.html">AI Methodology</a>
+  <span class="sep">></span>
+  <span class="current">Collect Articles</span>
 </div>
 
 <!-- ── Student hero ──────────────────────────────────────── -->
@@ -1292,11 +1325,11 @@ if (token && savedUser) {
 <div style="background:#182B49;padding:2rem;margin-top:2rem;border-radius:10px 10px 0 0;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:1rem;">
   <div>
     <div style="font-size:0.72rem;font-weight:700;letter-spacing:0.12em;text-transform:uppercase;color:#C69214;margin-bottom:0.3rem;">Next step</div>
-    <div style="font-size:1rem;color:#fff;font-weight:600;">Finished uploading? Read the AI Methodology guide before your first track sprint.</div>
+    <div style="font-size:1rem;color:#fff;font-weight:600;">Finished uploading 10 articles? Choose your track for the rest of the quarter.</div>
   </div>
   <div style="display:flex;gap:0.75rem;flex-wrap:wrap;">
     <a href="ka_student_setup.html" style="display:inline-block;padding:0.65rem 1.3rem;background:rgba(255,255,255,0.1);border:1px solid rgba(255,255,255,0.2);color:#fff;border-radius:6px;text-decoration:none;font-weight:600;font-size:0.88rem;">← Back to Student Home</a>
-    <a href="../ka_ai_methodology.html" style="display:inline-block;padding:0.65rem 1.3rem;background:#C69214;color:#fff;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;">Read AI Methodology* →</a>
+    <a href="ka_tracks.html" style="display:inline-block;padding:0.65rem 1.3rem;background:#C69214;color:#fff;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;">Choose Your Track →</a>
   </div>
 </div>
 

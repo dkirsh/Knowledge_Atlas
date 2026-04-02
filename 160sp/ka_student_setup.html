@@ -249,6 +249,30 @@
     .tab-content { display: none; }
     .tab-content.active { display: block; }
 
+    /* ── Breadcrumb ── */
+    .breadcrumb-bar {
+      background: var(--light);
+      padding: 10px 40px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .breadcrumb-bar a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .breadcrumb-bar a:hover {
+      text-decoration: underline;
+    }
+    .breadcrumb-bar .sep {
+      color: var(--muted);
+      margin: 0 6px;
+    }
+    .breadcrumb-bar .current {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
     /* ── Version badge ── */
     .version-badge {
       position: fixed; bottom: 14px; left: 24px; z-index: 400;
@@ -288,6 +312,11 @@
     <div class="mode-pill" id="setup-mode-pill">STUDENT EXPLORER</div>
   </div>
 </nav>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+  <span class="current">COGS160 Start</span>
+</div>
 
 <div class="page-hero">
   <div class="eyebrow">COGS 160 · Student Setup</div>

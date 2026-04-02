@@ -1958,3 +1958,52 @@ async def classify_single_paper(request: Request):
         "is_experimental": art_type == "experimental",
         "signals": classification["signals"]
     }
+
+
+@student_router.get("/progress/{student_id}")
+async def get_student_progress(student_id: str):
+    """
+    Returns the student's A0 completion status.
+    A0 is complete when task1_count >= 10 (10 experimental articles for Q1).
+    Used for client-side redirect logic after login.
+    """
+    db = _get_db()
+
+    # Get all claims for this student
+    rows = db.execute("""
+        SELECT question_id, task1_count, task2_count, round
+        FROM question_claims
+        WHERE user_id = ? AND released_at IS NULL
+        ORDER BY round, question_id
+    """, (student_id,)).fetchall()
+
+    q1_experimental = 0
+    q2_any_type = 0
+    brownie_count = 0
+
+    for row in rows:
+        qid = row["question_id"]
+        t1 = row["task1_count"] or 0
+        t2 = row["task2_count"] or 0
+        rnd = row["round"] or 1
+
+        if rnd == 1:
+            # Round 1: Q1 = experimental, Q2 = mixed
+            if "q1" in qid.lower() or qid.endswith("-1"):
+                q1_experimental = t1
+            else:
+                q2_any_type = t2
+        else:
+            # Round 2+: brownie questions
+            brownie_count += 1 if t2 >= 10 else 0
+
+    a0_complete = q1_experimental >= 10
+
+    return {
+        "student_id": student_id,
+        "a0_complete": a0_complete,
+        "q1_experimental_count": q1_experimental,
+        "q2_any_type_count": q2_any_type,
+        "brownie_questions_complete": brownie_count,
+        "redirect_to": "ka_schedule.html" if a0_complete else "ka_student_setup.html"
+    }

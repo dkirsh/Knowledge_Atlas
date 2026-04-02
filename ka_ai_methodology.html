@@ -373,6 +373,64 @@
       }
     }
 
+    /* ── Breadcrumb ── */
+    .breadcrumb-bar {
+      background: var(--light);
+      padding: 10px 40px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .breadcrumb-bar a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .breadcrumb-bar a:hover {
+      text-decoration: underline;
+    }
+    .breadcrumb-bar .sep {
+      color: var(--muted);
+      margin: 0 6px;
+    }
+    .breadcrumb-bar .current {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ── CTA Footer ── */
+    .cta-footer {
+      background: var(--navy);
+      padding: 28px 32px;
+      margin-top: 40px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .cta-footer-text {
+      color: #A8C8BF;
+      font-size: 0.95rem;
+    }
+    .cta-footer-text strong {
+      color: #F5F0E8;
+      font-weight: 700;
+    }
+    .cta-footer-btn {
+      display: inline-block;
+      padding: 10px 24px;
+      background: var(--amber);
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: opacity 0.15s;
+    }
+    .cta-footer-btn:hover {
+      opacity: 0.9;
+    }
 
     </style>
 </head>
@@ -402,6 +460,13 @@
     <span class="profile-avatar" id="ai-method-avatar">JL</span>
   </div>
 </nav>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+  <a href="160sp/ka_student_setup.html">COGS160 Start</a>
+  <span class="sep">></span>
+  <span class="current">AI Methodology</span>
+</div>
 
 <div class="page-hero">
   <div class="eyebrow">COGS 160 · AI-Directed Development</div>
@@ -1443,6 +1508,17 @@ window.KA_SHELL_USER.applyUser({
 
   document.addEventListener('DOMContentLoaded', initPagination);
 </script>
+
+<!-- CTA: Collect Articles Assignment -->
+<div style="max-width:900px;margin:0 auto;padding:20px 32px 0;">
+  <div class="cta-footer">
+    <div class="cta-footer-text">
+      <strong>Ready for your first assignment?</strong><br>
+      Collect 10 experimental research articles on your assigned topic.
+    </div>
+    <a href="160sp/collect-articles-upload.html" class="cta-footer-btn">Collect Articles Assignment →</a>
+  </div>
+</div>
 
 <!-- Asterisk footnote -->
 <div style="max-width:900px;margin:0 auto;padding:20px 32px 40px;">

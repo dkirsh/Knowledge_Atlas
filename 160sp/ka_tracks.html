@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Choose Your Track — COGS 160</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy:   #1C3D3A;
+      --amber:  #E8872A;
+      --cream:  #F7F4EF;
+      --green:  #2A7868;
+      --text:   #2D2010;
+      --muted:  #6A5E50;
+      --border: #DDD6CD;
+      --light:  #EDE8E0;
+    }
+
+    body {
+      font-family: Arial, sans-serif;
+      background: var(--cream);
+      color: var(--text);
+      line-height: 1.65;
+    }
+
+    /* ── Nav ── */
+    nav {
+      position: sticky; top: 0; z-index: 500;
+      background: var(--navy); display: flex; align-items: center;
+      gap: 24px; padding: 0 28px; min-height: 52px;
+      border-bottom: 2px solid var(--amber);
+    }
+    .nav-brand { color: #A8C8BF; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; }
+    .nav-brand:hover { color: var(--amber); }
+    .nav-center { display:flex; align-items:center; gap:14px; flex:1; }
+    nav a.nav-link { color: #7AACA0; font-size: 0.8rem; text-decoration: none;
+      transition: color 0.15s, background 0.15s; padding: 6px 10px; border-radius: 6px; }
+    nav a.nav-link:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    nav a.nav-link.active { color: #F5A623; background: rgba(232,135,42,0.12); }
+    .nav-right { display:flex; align-items:center; gap:12px; }
+    .mode-select {
+      font-size: 0.76rem; padding: 6px 10px; border-radius: 16px;
+      border: 1px solid rgba(168, 200, 191, 0.34); background: rgba(255,255,255,0.05);
+      color: #D8EAE4;
+    }
+    .mode-select option { color: var(--navy); }
+    .mode-pill {
+      background: rgba(42,120,104,0.3); color: #5AC8AA; padding: 4px 12px;
+      border-radius: 20px; font-family: Arial, sans-serif; font-size: 0.75rem;
+      font-weight: 700; letter-spacing: 0.05em;
+    }
+
+    /* ── Breadcrumb ── */
+    .breadcrumb-bar {
+      background: var(--light);
+      padding: 10px 40px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .breadcrumb-bar a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .breadcrumb-bar a:hover {
+      text-decoration: underline;
+    }
+    .breadcrumb-bar .sep {
+      color: var(--muted);
+      margin: 0 6px;
+    }
+    .breadcrumb-bar .current {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ── Hero ── */
+    .page-hero {
+      background: linear-gradient(135deg, var(--navy) 0%, #163230 100%);
+      padding: 48px 40px 40px;
+      border-bottom: 3px solid var(--amber);
+    }
+    .page-hero .eyebrow {
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+      text-transform: uppercase; color: #7AACA0; margin-bottom: 12px;
+    }
+    .page-hero h1 {
+      font-family: Georgia, serif; font-size: 2rem; font-weight: 400;
+      color: #F5F0E8; line-height: 1.25; margin-bottom: 14px;
+    }
+    .page-hero p {
+      font-size: 1rem; color: #A8C8BF; line-height: 1.7;
+      max-width: 640px;
+    }
+
+    /* ── Layout ── */
+    .outer { max-width: 1000px; margin: 0 auto; padding: 32px 32px 72px; }
+
+    /* ── Track grid ── */
+    .track-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 24px;
+      margin-top: 8px;
+    }
+    .track-card {
+      border-radius: 12px; padding: 32px 28px;
+      display: flex; flex-direction: column; gap: 16px;
+      transition: transform 0.2s, box-shadow 0.2s;
+      text-decoration: none; color: inherit;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.08);
+    }
+    .track-card:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 8px 20px rgba(0,0,0,0.12);
+    }
+    .track-card h3 {
+      font-family: Georgia, serif; font-size: 1.2rem; font-weight: 600;
+      margin: 0; line-height: 1.3;
+    }
+    .track-card p {
+      margin: 0; font-size: 0.92rem; line-height: 1.6; opacity: 0.95;
+    }
+    .track-card .tagline {
+      margin-top: auto; font-size: 0.88rem; opacity: 0.85; font-style: italic;
+      padding-top: 8px;
+    }
+    .track-card .cta-button {
+      margin-top: 16px; padding: 12px 16px;
+      border-radius: 8px;
+      font-weight: 700; font-size: 0.88rem;
+      text-align: center;
+      display: inline-block;
+      transition: opacity 0.15s;
+      text-decoration: none;
+    }
+    .track-card:hover .cta-button { opacity: 0.95; }
+
+    .t1 { background: #FFF0CC; color: #7A4F00; }
+    .t2 { background: #E3F4EC; color: #1A5C30; }
+    .t3 { background: #E8F0FD; color: #1A3A7A; }
+    .t4 { background: #FDE8F4; color: #7A1A5C; }
+
+    /* ── Version badge ── */
+    .version-badge {
+      position: fixed; bottom: 14px; left: 24px; z-index: 400;
+      background: rgba(28,61,58,0.7); color: #7AACA0;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      padding: 3px 10px; border-radius: 8px;
+    }
+
+    @media (max-width: 768px) {
+      .track-grid { grid-template-columns: 1fr; }
+    }
+  </style>
+</head>
+<body>
+
+<nav>
+  <a href="../ka_home.html" class="nav-brand">Knowledge Atlas</a>
+  <div class="nav-center">
+    <a id="nav-shell-explore" href="../ka_topics.html" class="nav-link">Explore</a>
+    <a id="nav-shell-evidence" href="../ka_evidence.html" class="nav-link">Evidence</a>
+    <a id="nav-shell-gaps" href="../ka_gaps.html" class="nav-link">Gaps</a>
+    <a id="nav-shell-articles" href="../ka_article_search.html" class="nav-link">Articles</a>
+    <a id="nav-shell-contribute" href="../ka_contribute.html" class="nav-link">Contribute</a>
+    <a id="nav-shell-course" href="ka_student_setup.html" class="nav-link active">Course</a>
+  </div>
+  <div class="nav-right">
+    <select class="mode-select" id="tracks-mode-select" aria-label="Switch user mode">
+      <option value="student_explorer">Student explorer</option>
+      <option value="researcher">Researcher</option>
+      <option value="contributor">Contributor</option>
+      <option value="instructor">Instructor</option>
+      <option value="practitioner">Practitioner</option>
+      <option value="theory_mechanism_explorer">Theory Explorer</option>
+    </select>
+    <div class="mode-pill" id="tracks-mode-pill">STUDENT EXPLORER</div>
+  </div>
+</nav>
+
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+  <a href="ka_student_setup.html">COGS160 Start</a>
+  <span class="sep">></span>
+  <a href="../ka_ai_methodology.html">AI Methodology</a>
+  <span class="sep">></span>
+  <a href="collect-articles-upload.html">Collect Articles</a>
+  <span class="sep">></span>
+  <span class="current">The 4 Tracks</span>
+</div>
+
+<div class="page-hero">
+  <div class="eyebrow">COGS 160 · Choose Your Path</div>
+  <h1>Choose Your Track</h1>
+  <p>
+    Now that you've completed the article collection assignment, spend the rest of the quarter on one of four specialized tracks. Each track builds different skills while contributing to the Knowledge Atlas.
+  </p>
+</div>
+
+<div class="outer">
+
+  <div class="track-grid">
+    <!-- Track 1 -->
+    <a href="ka_track1_tagging.html" class="track-card t1">
+      <h3>Track ONE: Image Tagging</h3>
+      <p>
+        Develop annotation tools that label architectural and environmental images with evidence-based tags aligned with K-ATLAS propositions. Learn data verification and pipeline architecture.
+      </p>
+      <div class="tagline">View track overview and syllabus</div>
+      <div class="cta-button">View Track 1 →</div>
+    </a>
+
+    <!-- Track 2 -->
+    <a href="ka_track2_pipeline.html" class="track-card t2">
+      <h3>Track TWO: AI Article Pipeline</h3>
+      <p>
+        Build automated article discovery systems using RAG and AI. Implement relevance scoring, Value of Information prioritization, and quality gates for evidence gathering.
+      </p>
+      <div class="tagline">View track overview and syllabus</div>
+      <div class="cta-button">View Track 2 →</div>
+    </a>
+
+    <!-- Track 3 -->
+    <a href="ka_track3_vr.html" class="track-card t3">
+      <h3>Track THREE: VR for Experiments</h3>
+      <p>
+        Create a library of configurable VR environments for controlled experiments. Build parametric scenes with integrated eye tracking and behavioral measurement.
+      </p>
+      <div class="tagline">View track overview and syllabus</div>
+      <div class="cta-button">View Track 3 →</div>
+    </a>
+
+    <!-- Track 4 -->
+    <a href="ka_track4_ux.html" class="track-card t4">
+      <h3>Track FOUR: Interaction Design & Evaluation</h3>
+      <p>
+        Understand how different user types navigate the K-Atlas system. Analyze journeys, improve information architecture, and measure task completion.
+      </p>
+      <div class="tagline">View track overview and syllabus</div>
+      <div class="cta-button">View Track 4 →</div>
+    </a>
+  </div>
+
+</div><!-- /outer -->
+
+<footer style="background:#1C3D3A; padding:28px 32px; margin-top:40px; display:flex; justify-content:space-between; align-items:center; border-radius:8px 8px 0 0;">
+  <a href="collect-articles-upload.html" style="color:#A8C8BF; font-size:0.85rem; text-decoration:none;">← Back to Article Collection</a>
+  <div style="display:flex; gap:12px;">
+    <a href="ka_schedule.html" style="background:#2A7868; color:#F7F4EF; padding:8px 18px; border-radius:6px; text-decoration:none; font-size:0.85rem; font-weight:600;">View Course Schedule →</a>
+  </div>
+</footer>
+
+<div class="version-badge">KA UI · v0.5</div>
+
+<script src="../ka_mode_switch.js"></script>
+<script src="../ka_site_shell.js"></script>
+<script src="../ka_data_adapter.js"></script>
+<script src="../ka_live_context.js"></script>
+<script>
+window.KA_SHELL.initShell({
+  navContainerSelector: '.nav-center',
+  modeSelectId: 'tracks-mode-select',
+  modePillId: 'tracks-mode-pill',
+  defaultMode: 'student_explorer'
+});
+</script>
+
+</body>
+</html>
