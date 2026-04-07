@@ -13,9 +13,14 @@
   'use strict';
 
   // ── Auth helpers ─────────────────────────────────────────────────
-  function getToken()   { return localStorage.getItem('ka_access_token'); }
+  function getToken()   { return localStorage.getItem('ka_access_token') || localStorage.getItem('katlas_token'); }
   function getUser()    {
-    try { return JSON.parse(localStorage.getItem('ka_current_user') || 'null'); } catch (_) { return null; }
+    try {
+      var user = JSON.parse(localStorage.getItem('ka_current_user') || 'null');
+      if (user) return user;
+    } catch (_) {}
+    var legacyUser = localStorage.getItem('katlas_user');
+    return legacyUser ? { email: legacyUser } : null;
   }
   function isLoggedIn() { return !!(getToken() && getUser()); }
 
@@ -73,9 +78,200 @@
     '.ka-aw-menu-item { display:block; width:100%; text-align:left; padding:10px 16px; background:none; border:none; font-size:0.84rem; color:#4A3E32; cursor:pointer; text-decoration:none; }',
     '.ka-aw-menu-item:hover { background:#F7F4EF; }',
     '.ka-aw-menu-sep { border-top:1px solid #EDE8E0; margin:4px 0; }',
-    '.ka-aw-menu-item.logout { color:#c0392b; }'
+    '.ka-aw-menu-item.logout { color:#c0392b; }',
+    '.ka-160sp-nav-fallback { background:#1C3D3A; display:flex; align-items:center; gap:18px; padding:0 28px; min-height:52px; position:sticky; top:0; z-index:500; border-bottom:2px solid #E8872A; }',
+    '.ka-160sp-nav-fallback .ka-nav-home { color:#A8C8BF; font-size:0.78rem; font-weight:700; letter-spacing:0.08em; text-transform:uppercase; text-decoration:none; }',
+    '.ka-160sp-breadcrumb-fallback { background:#EDE8E0; padding:8px 28px; font-size:0.78rem; color:#6A5E50; display:flex; align-items:center; gap:6px; flex-wrap:wrap; }',
+    '.ka-160sp-breadcrumb-fallback a { color:#1C3D3A; text-decoration:none; font-weight:600; }',
+    '.ka-week-links { margin-left:auto; display:flex; align-items:center; gap:8px; flex-wrap:wrap; font-size:0.76rem; }',
+    '.ka-week-links-label { font-weight:800; color:#1C3D3A; white-space:nowrap; }',
+    '.ka-week-link { color:#2A7868; text-decoration:none; font-weight:650; white-space:nowrap; }',
+    '.ka-week-link:hover { color:#1C3D3A; text-decoration:underline; }',
+    '.ka-160sp-nav-center { display:flex; align-items:center; gap:14px; flex:1; }',
+    '.ka-160sp-nav-center .nav-link { color:#7AACA0; font-size:0.8rem; text-decoration:none; padding:6px 10px; border-radius:6px; }',
+    '.ka-160sp-nav-center .nav-link:hover { color:#fff; background:rgba(255,255,255,0.08); }'
   ].join('\n');
   document.head.appendChild(css);
+
+  // ── COGS 160 header helpers ─────────────────────────────────────
+  var CANONICAL_160SP_NAV = [
+    { id: 'nav-shell-explore', label: 'Explore', href: '../ka_topics.html' },
+    { id: 'nav-shell-evidence', label: 'Evidence', href: '../ka_evidence.html' },
+    { id: 'nav-shell-gaps', label: 'Gaps', href: '../ka_gaps.html' },
+    { id: 'nav-shell-articles', label: 'Articles', href: '../ka_article_search.html' },
+    { id: 'nav-shell-contribute', label: 'Contribute', href: '../ka_contribute.html' },
+    { id: 'nav-shell-course', label: 'Course', href: 'ka_student_setup.html' },
+    { id: 'nav-shell-syllabus', label: '160 Syllabus', href: 'ka_schedule.html' }
+  ];
+
+  var WEEK_LINKS = {
+    1: [
+      { label: 'Week 1 Agenda', href: 'week1_agenda.html' },
+      { label: 'Register', href: '../ka_register.html' },
+      { label: 'Topics', href: '../ka_topics.html' },
+      { label: 'Question Maker', href: '../ka_question_maker.html' },
+      { label: 'Submit Articles', href: '../ka_article_propose.html' }
+    ],
+    2: [
+      { label: 'Week 2 Agenda', href: 'week2_agenda.html' },
+      { label: 'Programming Exercises', href: 'week2_exercises.html' },
+      { label: 'Demo: PDF Relevance Filter', href: 'demo_pdf_relevance_filter.html' },
+      { label: 'Live Demo', href: 'week2_agenda.html' },
+      { label: 'Technical Setup', href: 'ka_technical_setup.html' }
+    ],
+    3: [
+      { label: 'Week 3 Agenda', href: 'week3_agenda.html' },
+      { label: 'Student Setup', href: 'ka_student_setup.html' },
+      { label: 'Tracks', href: 'ka_tracks.html' }
+    ],
+    4: [
+      { label: 'Week 4 Agenda', href: 'week4_agenda.html' },
+      { label: 'T1 Workbook', href: 'ka_tag_assignment.html' },
+      { label: 'T2 Workbook', href: 'ka_article_finder_assignment.html' },
+      { label: 'T3 Workbook', href: 'ka_vr_assignment.html' },
+      { label: 'T4 Workbook', href: 'ka_gui_assignment.html' }
+    ],
+    5: [{ label: 'Week 5 Agenda', href: 'week5_agenda.html' }],
+    6: [{ label: 'Week 6 Agenda', href: 'week6_agenda.html' }],
+    7: [{ label: 'Week 7 Agenda', href: 'week7_agenda.html' }],
+    8: [
+      { label: 'Week 8 Agenda', href: 'week8_agenda.html' },
+      { label: 'Phase 3 Assignment', href: '../Designing_Experiments/docs/student_tracks/phase3_wk08.html' }
+    ],
+    9: [{ label: 'Phase 3 Week 9', href: '../Designing_Experiments/docs/student_tracks/phase3_wk09.html' }],
+    10: [{ label: 'Phase 3 Week 10', href: '../Designing_Experiments/docs/student_tracks/phase3_wk10.html' }]
+  };
+
+  var PAGE_WEEK_OVERRIDES = {
+    'week1_agenda.html': 1,
+    'week2_agenda.html': 2,
+    'week2_exercises.html': 2,
+    'atlas_system_architecture.html': 2,
+    'demo_pdf_relevance_filter.html': 2,
+    'ex0_mechanism_pathway_tracer.html': 2,
+    'ka_technical_setup.html': 2,
+    'week3_agenda.html': 3,
+    'week4_agenda.html': 4,
+    'ka_tag_assignment.html': 4,
+    'ka_article_finder_assignment.html': 4,
+    'ka_vr_assignment.html': 4,
+    'ka_gui_assignment.html': 4,
+    'week5_agenda.html': 5,
+    'week6_agenda.html': 6,
+    'week7_agenda.html': 7,
+    'week8_agenda.html': 8
+  };
+
+  function is160spPage() {
+    return /\/160sp\//.test(window.location.pathname);
+  }
+
+  function currentCourseWeek() {
+    var weekOneMonday = new Date(2026, 2, 30); // First Monday of Spring 2026 Week 1.
+    var today = new Date();
+    var todayStart = new Date(today.getFullYear(), today.getMonth(), today.getDate());
+    var days = Math.floor((todayStart - weekOneMonday) / 86400000);
+    return Math.max(1, Math.min(10, Math.floor(days / 7) + 1));
+  }
+
+  function pageWeek() {
+    var file = window.location.pathname.split('/').pop() || '';
+    var m = file.match(/^week(\d+)_agenda\.html$/);
+    if (m) return Math.max(1, Math.min(10, parseInt(m[1], 10)));
+    return PAGE_WEEK_OVERRIDES[file] || currentCourseWeek();
+  }
+
+  function makeNavLink(item) {
+    var a = document.createElement('a');
+    a.id = item.id;
+    a.href = item.href;
+    a.className = 'nav-link';
+    a.textContent = item.label;
+    return a;
+  }
+
+  function ensure160spNav() {
+    if (!is160spPage()) return;
+    var nav = document.querySelector('nav.top-nav, nav.ka-nav, nav');
+    if (!nav) {
+      nav = document.createElement('nav');
+      nav.className = 'top-nav';
+      document.body.insertBefore(nav, document.body.firstChild);
+    }
+
+    var navCenter = nav.querySelector('.nav-center');
+    if (!navCenter) {
+      navCenter = document.createElement('div');
+      navCenter.className = 'nav-center ka-160sp-nav-center';
+      var right = nav.querySelector('.nav-right');
+      nav.insertBefore(navCenter, right || null);
+      Array.prototype.slice.call(nav.children).forEach(function(el) {
+        if (el.tagName === 'A' && el.classList.contains('nav-link')) el.parentNode.removeChild(el);
+        if (el.classList.contains('nav-sep')) el.parentNode.removeChild(el);
+      });
+    } else {
+      navCenter.classList.add('ka-160sp-nav-center');
+    }
+
+    Array.prototype.slice.call(navCenter.children).forEach(function(child) {
+      navCenter.removeChild(child);
+    });
+    CANONICAL_160SP_NAV.forEach(function(item) {
+      navCenter.appendChild(makeNavLink(item));
+    });
+  }
+
+  function looksLikeBreadcrumb(el) {
+    if (!el || el.querySelector('.ka-week-links')) return false;
+    var text = (el.textContent || '').toLowerCase();
+    return text.indexOf('home') !== -1 && (text.indexOf('cogs 160') !== -1 || text.indexOf('schedule') !== -1 || text.indexOf('dashboard') !== -1 || text.indexOf('start') !== -1);
+  }
+
+  function findBreadcrumb() {
+    var direct = document.querySelector('.ka-breadcrumb, .breadcrumb-bar');
+    if (direct) return direct;
+    var candidates = Array.prototype.slice.call(document.querySelectorAll('body > div, body > header + div'));
+    var found = candidates.find(looksLikeBreadcrumb);
+    if (found) return found;
+
+    var nav = document.querySelector('nav.top-nav, nav.ka-nav, nav');
+    var breadcrumb = document.createElement('div');
+    breadcrumb.className = 'ka-160sp-breadcrumb-fallback';
+    breadcrumb.innerHTML = '<a href="../ka_home.html">Home</a><span>/</span><a href="ka_student_setup.html">COGS 160 Start</a><span>/</span><span>Course Page</span>';
+    if (nav && nav.parentNode) nav.parentNode.insertBefore(breadcrumb, nav.nextSibling);
+    else document.body.insertBefore(breadcrumb, document.body.firstChild);
+    return breadcrumb;
+  }
+
+  function add160spWeekLinks() {
+    if (!is160spPage()) return;
+    var breadcrumb = findBreadcrumb();
+    if (!breadcrumb) return;
+    breadcrumb.style.display = 'flex';
+    breadcrumb.style.alignItems = 'center';
+    breadcrumb.style.gap = breadcrumb.style.gap || '6px';
+    breadcrumb.style.flexWrap = 'wrap';
+
+    var week = pageWeek();
+    var links = WEEK_LINKS[week] || WEEK_LINKS[currentCourseWeek()] || [];
+    var strip = document.createElement('div');
+    strip.className = 'ka-week-links';
+    strip.setAttribute('aria-label', 'Course week links');
+
+    var label = document.createElement('span');
+    label.className = 'ka-week-links-label';
+    label.textContent = 'Week ' + week + ':';
+    strip.appendChild(label);
+
+    links.forEach(function(item) {
+      var a = document.createElement('a');
+      a.className = 'ka-week-link';
+      a.href = item.href;
+      a.textContent = item.label;
+      strip.appendChild(a);
+    });
+    breadcrumb.appendChild(strip);
+  }
 
   // ── Build widget ─────────────────────────────────────────────────
   function buildWidget() {
@@ -149,6 +345,9 @@
 
   // ── Inject into page nav ─────────────────────────────────────────
   function inject() {
+    ensure160spNav();
+    add160spWeekLinks();
+
     var widget = buildWidget();
 
     // Strategy 1: page already has a dedicated auth area we should replace

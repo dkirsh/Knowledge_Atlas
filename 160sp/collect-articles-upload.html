@@ -278,6 +278,12 @@
     .login-back a { font-size: 0.82rem; color: #888; text-decoration: none; }
     .login-back a:hover { color: #182B49; }
     .login-error { color: #c0392b; font-size: 0.82rem; margin-top: 0.4rem; display: none; }
+    .login-recovery-note {
+      margin-top: 0.9rem; padding: 0.75rem 0.85rem; border-radius: 8px;
+      background: #fff8e8; border: 1px solid #f1d08a; color: #5a3800;
+      font-size: 0.78rem; line-height: 1.45; text-align: left;
+    }
+    .login-recovery-note a { color: #1C3D3A; font-weight: 700; }
 
     /* ── Manifest upload ──────────────────────────────── */
     .manifest-toggle {
@@ -354,6 +360,14 @@
     }
     .title-only-add-btn:hover { background: #0d1e35; }
 
+    .upload-recovery-notice {
+      margin: 1rem 2rem 0; padding: 1rem 1.1rem; border-radius: 10px;
+      background: #fff8e8; border: 1.5px solid #f1d08a; color: #4f3300;
+      font-size: 0.88rem; line-height: 1.55;
+    }
+    .upload-recovery-notice strong { color: #182B49; }
+    .upload-recovery-notice a { color: #1C3D3A; font-weight: 700; }
+
     /* ── Responsive ─────────────────────────────────────── */
     @media (max-width: 720px) {
       .progress-overview { grid-template-columns: 1fr; }
@@ -391,6 +405,11 @@
     </div>
     <p class="login-error" id="login-error">Invalid username or password.</p>
     <button class="btn-sign-in" onclick="handleLogin()">Sign In</button>
+    <div class="login-recovery-note">
+      <strong>Upload page recovery note:</strong>
+      if you already registered, do not register again. Sign in with your existing account.
+      If your password does not work, contact the instructor with the email address you registered with.
+    </div>
     <div class="login-back"><a href="ka_collect_articles.html">← Back to assignment page</a></div>
   </div>
 </div>
@@ -451,6 +470,14 @@
     <a href="../ka_ai_methodology.html" class="hero-cta-btn">AI Methodology</a>
     <a href="ka_student_setup.html" class="hero-cta-btn">The Four Tracks</a>
   </div>
+</div>
+
+<div class="upload-recovery-notice" id="upload-recovery-notice">
+  <strong>Upload recovery note:</strong>
+  if you tried to work on the A0 assignment early and saw sample/demo article rows,
+  those sample rows were not saved to K-ATLAS. Your saved progress, if any, is loaded above from the server.
+  If your progress did not change, please re-upload those papers here.
+  You do not need to re-register; use your existing account, or contact the instructor with your registered email if login fails.
 </div>
 
 <!-- ── Progress overview ─────────────────────────────────── -->
@@ -1133,6 +1160,15 @@ function updateExpCountPreview(which) {
   }
 }
 
+function showUploadError(which, message) {
+  const note = document.getElementById(`fetch-note-${which}`);
+  if (note) {
+    note.textContent = message;
+    note.style.color = '#c0392b';
+  }
+  window.alert(message);
+}
+
 // ── Drag and drop ──────────────────────────────────────────
 ['q1', 'q2'].forEach(which => {
   const zone = document.getElementById(`dropzone-${which}`);
@@ -1154,6 +1190,12 @@ async function fetchAbstracts(which) {
 
   const token = getToken();
   const questionId = which === 'q1' ? assignments.q1?.question_id : assignments.q2?.question_id;
+  if (!token) {
+    showUploadError(which, 'Your login session is missing. Please log in again before uploading papers.');
+    btn.disabled = false;
+    spinner.style.display = 'none';
+    return;
+  }
 
   // Build submission payload
   const papers = pendingFiles[which]
@@ -1189,7 +1231,15 @@ async function fetchAbstracts(which) {
       body: formData
     });
 
-    if (!resp.ok) throw new Error('Server error');
+    if (resp.status === 401) { handleLogout(); return; }
+    if (!resp.ok) {
+      let detail = 'Upload failed. Please try again, or tell the instructor if it keeps happening.';
+      try {
+        const err = await resp.json();
+        detail = err.detail || err.error || detail;
+      } catch (_) {}
+      throw new Error(detail);
+    }
     const data = await resp.json();
 
     renderResultsTable(which, data.papers);
@@ -1241,11 +1291,12 @@ async function fetchAbstracts(which) {
     pendingFiles[which] = [];
     document.getElementById(`papers-form-${which}`).innerHTML = '';
     const totalCount = (data.papers.length || 0) + (titleOnlyEntries[which] ? titleOnlyEntries[which].filter(e => e.title).length : 0);
-    document.getElementById(`fetch-note-${which}`).textContent = `✓ ${totalCount} papers processed`;
+    const note = document.getElementById(`fetch-note-${which}`);
+    note.textContent = `✓ ${totalCount} papers processed`;
+    note.style.color = '#27ae60';
 
   } catch (e) {
-    // Demo: render mock results
-    renderDemoResults(which);
+    showUploadError(which, e.message || 'Upload failed. Please try again, or tell the instructor if it keeps happening.');
   }
 
   spinner.style.display = 'none';
@@ -1527,7 +1578,7 @@ if (_initToken && _initUser) {
     <a href="../ka_ai_methodology.html" style="display:inline-block;padding:0.65rem 1.3rem;background:#C69214;color:#fff;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;">Read AI Methodology* →</a>
   </div>
 </div>
-<script src="../ka_auth_widget.js"></script>
+<script src="../ka_auth_widget.js?v=20260407b"></script>
 
 </body>
 </html>

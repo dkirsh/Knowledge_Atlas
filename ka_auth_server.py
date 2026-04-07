@@ -31,8 +31,9 @@ Notes
 - HTTPS: not used in local dev; do not deploy this as-is to a public server
 """
 
-import os, sys, sqlite3, secrets, hashlib, time, json, re
+import os, sys, sqlite3, secrets, hashlib, time, json, re, smtplib, ssl
 from datetime import datetime, timedelta, timezone
+from email.message import EmailMessage
 from pathlib import Path
 
 # ── Third-party (install: pip3 install fastapi uvicorn python-jose[cryptography] passlib[bcrypt])
@@ -55,6 +56,14 @@ ALGORITHM  = "HS256"
 ACCESS_TOKEN_EXPIRE_MINUTES  = 60
 REFRESH_TOKEN_EXPIRE_DAYS    = 30
 RESET_TOKEN_EXPIRE_MINUTES   = 60
+PUBLIC_SITE_URL = os.getenv("KA_PUBLIC_SITE_URL", "https://xrlab.ucsd.edu/ka").rstrip("/")
+SMTP_HOST = os.getenv("KA_SMTP_HOST", "")
+SMTP_PORT = int(os.getenv("KA_SMTP_PORT", "465"))
+SMTP_USER = os.getenv("KA_SMTP_USER", "")
+SMTP_PASSWORD = os.getenv("KA_SMTP_PASSWORD", "")
+SMTP_FROM = os.getenv("KA_SMTP_FROM", SMTP_USER or "no-reply@ucsd.edu")
+SMTP_USE_SSL = os.getenv("KA_SMTP_SSL", "1").lower() not in ("0", "false", "no")
+SMTP_USE_STARTTLS = os.getenv("KA_SMTP_STARTTLS", "0").lower() in ("1", "true", "yes")
 
 # Load or generate JWT secret
 def _get_secret() -> str:
@@ -69,6 +78,44 @@ def _get_secret() -> str:
 SECRET_KEY = _get_secret()
 pwd_context = CryptContext(schemes=["bcrypt"], deprecated="auto")
 bearer_scheme = HTTPBearer(auto_error=False)
+
+def send_password_reset_email(to_email: str, display_name: str, reset_url: str) -> bool:
+    if not SMTP_HOST:
+        print("[KA-AUTH] SMTP not configured; password-reset email not sent.")
+        return False
+
+    msg = EmailMessage()
+    msg["Subject"] = "K-ATLAS password reset"
+    msg["From"] = SMTP_FROM
+    msg["To"] = to_email
+    msg.set_content(
+        f"Hello {display_name or 'K-ATLAS user'},\n\n"
+        "A password reset was requested for your K-ATLAS account.\n\n"
+        f"Reset your password here:\n{reset_url}\n\n"
+        f"This link expires in {RESET_TOKEN_EXPIRE_MINUTES} minutes. "
+        "If you did not request this reset, you can ignore this message.\n\n"
+        "K-ATLAS\n"
+    )
+
+    try:
+        if SMTP_USE_SSL:
+            with smtplib.SMTP_SSL(SMTP_HOST, SMTP_PORT, context=ssl.create_default_context(), timeout=20) as smtp:
+                if SMTP_USER:
+                    smtp.login(SMTP_USER, SMTP_PASSWORD)
+                smtp.send_message(msg)
+        else:
+            with smtplib.SMTP(SMTP_HOST, SMTP_PORT, timeout=20) as smtp:
+                smtp.ehlo()
+                if SMTP_USE_STARTTLS:
+                    smtp.starttls(context=ssl.create_default_context())
+                    smtp.ehlo()
+                if SMTP_USER:
+                    smtp.login(SMTP_USER, SMTP_PASSWORD)
+                smtp.send_message(msg)
+        return True
+    except Exception as exc:
+        print(f"[KA-AUTH] Password-reset email failed for {to_email}: {exc}")
+        return False
 
 # ════════════════════════════════════════════════
 # DATABASE
@@ -440,8 +487,9 @@ def forgot_password(req: ForgotPasswordRequest):
     exp   = (datetime.now(timezone.utc) + timedelta(minutes=RESET_TOKEN_EXPIRE_MINUTES)).isoformat()
     db.execute("INSERT INTO reset_tokens VALUES (?,?,?,0)", (token, row["user_id"], exp))
     db.commit(); db.close()
-    # In local dev: print the link to console instead of sending email
-    reset_url = f"http://localhost:8765/reset?token={token}"
+    reset_url = f"{PUBLIC_SITE_URL}/ka_reset_password.html?token={token}"
+    display_name = f"{row['first_name']} {row['last_name']}".strip()
+    email_sent = send_password_reset_email(email, display_name, reset_url)
     print(f"\n[KA-AUTH] PASSWORD RESET REQUEST")
     print(f"  Email:     {email}")
     print(f"  Name:      {row['first_name']} {row['last_name']}")
@@ -449,8 +497,7 @@ def forgot_password(req: ForgotPasswordRequest):
     print(f"  Expires:   {exp}\n")
     return {
         "message": "If that email is registered, a reset link has been sent.",
-        "_dev_note": "Running in local mode — reset link printed to server console.",
-        "_dev_reset_url": reset_url  # Only exposed in local/dev mode
+        "email_sent": email_sent
     }
 
 # ── RESET PASSWORD

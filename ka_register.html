@@ -960,7 +960,7 @@
         } else {
           const regs = window.KA_WORKFLOW_STORE ? window.KA_WORKFLOW_STORE.pendingRegistrations() : JSON.parse(localStorage.getItem('ka_pending_registrations') || '[]');
           if (regs.find(r => r.email.toLowerCase() === email.toLowerCase())) {
-            showErr('email','An account with this email already exists.'); ok = false;
+            showErr('email','An account with this email already exists. Please log in instead, or contact the instructor if you cannot remember your password.'); ok = false;
           } else clearErr('email');
         }
 
@@ -1009,6 +1009,7 @@
 
         // POST to auth server so the account exists in SQLite for login
         let serverRegistered = false;
+        let duplicateAccount = false;
         try {
           const is160 = document.getElementById('is160Student').checked;
           const regBody = {
@@ -1030,13 +1031,26 @@
             serverRegistered = true;
             userData.id = regData.user_id;
           } else if (regRes.status === 409) {
-            // Account already exists — that's fine, they can sign in
-            serverRegistered = true;
+            duplicateAccount = true;
           } else {
             console.warn('[KA] Server registration returned error:', regData.detail);
           }
         } catch (e) {
           console.warn('[KA] Auth server not reachable, saving locally only:', e);
+        }
+
+        if (duplicateAccount) {
+          document.getElementById('registerForm').style.display = 'none';
+          const screen = document.getElementById('successScreen');
+          screen.classList.add('visible');
+          screen.querySelector('.success-icon').textContent = '!';
+          screen.querySelector('h2').textContent = 'You are already registered';
+          screen.querySelector('p').textContent = 'An account with that email already exists. Do not register again.';
+          document.getElementById('successDetail').innerHTML =
+            '<strong>Email:</strong> ' + email + '<br>' +
+            '<strong>What to do:</strong> go back to Sign In and use your existing account. If you cannot remember your password, contact the instructor with this email address so it can be reset.';
+          screen.scrollIntoView({ behavior: 'smooth' });
+          return;
         }
 
         // Fallback: also persist to localStorage for offline/demo use
