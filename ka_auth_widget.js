@@ -20,6 +20,8 @@
   function isLoggedIn() { return !!(getToken() && getUser()); }
 
   function logout() {
+    localStorage.removeItem('katlas_token');
+    localStorage.removeItem('katlas_user');
     localStorage.removeItem('ka_access_token');
     localStorage.removeItem('ka_refresh_token');
     localStorage.removeItem('ka_current_user');
