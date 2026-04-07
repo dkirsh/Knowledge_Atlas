@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>ATLAS System Architecture · COGS 160</title>
+<style>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+:root {
+  --navy: #1C3D3A; --teal: #2A7868; --amber: #E8872A; --cream: #F7F4EF;
+  --ink: #2C2C2C; --muted: #6B6B6B; --border: #D8D0C5; --white: #FFFFFF;
+}
+body { font-family: Arial, sans-serif; background: var(--cream); color: var(--ink); line-height: 1.65; }
+.top-nav { background: var(--navy); padding: 0 1.5rem; display: flex; align-items: center; height: 52px; gap: 1.2rem; font-size: 0.85rem; position: sticky; top: 0; z-index: 100; }
+.nav-brand { color: var(--amber); font-weight: 800; font-size: 1.05rem; text-decoration: none; }
+.nav-link { color: #b2dfdb; text-decoration: none; padding: 4px 10px; border-radius: 5px; }
+.nav-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
+.nav-right { margin-left: auto; color: rgba(255,255,255,0.5); font-size: 0.75rem; }
+.breadcrumb { background: #EDE8E0; padding: 8px 28px; font-size: 0.78rem; color: #6A5E50; display: flex; gap: 6px; align-items: center; }
+.breadcrumb a { color: var(--navy); text-decoration: none; font-weight: 600; }
+.hero { background: linear-gradient(135deg, var(--navy) 0%, #152e2b 100%); color: #fff; padding: 3rem 2rem 2.5rem; text-align: center; }
+.hero-eyebrow { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); font-weight: 600; margin-bottom: 0.5rem; }
+.hero h1 { font-family: Georgia, serif; font-size: clamp(1.8rem, 4vw, 2.6rem); line-height: 1.15; margin-bottom: 0.5rem; }
+.hero-sub { font-size: 1rem; color: rgba(255,255,255,0.72); max-width: 760px; margin: 0 auto; }
+.page-wrap { max-width: 1180px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
+.image-card { background: var(--white); border: 1px solid var(--border); border-radius: 14px; padding: 1rem; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.image-card img { display: block; width: 100%; height: auto; border-radius: 10px; }
+.note { margin-top: 1rem; color: var(--muted); font-size: 0.92rem; }
+.page-links { display: flex; flex-wrap: wrap; gap: 0.6rem; margin-top: 1.4rem; }
+.page-link { display: inline-flex; padding: 0.55rem 1rem; border-radius: 6px; background: var(--navy); color: #fff; text-decoration: none; font-size: 0.86rem; font-weight: 700; }
+.page-link.secondary { background: #E6F5F0; color: var(--navy); border: 1px solid var(--teal); }
+</style>
+</head>
+<body>
+<nav class="top-nav">
+  <a href="../ka_home.html" class="nav-brand">Knowledge Atlas</a>
+  <a href="week2_agenda.html" class="nav-link">Week 2</a>
+  <a href="ka_schedule.html" class="nav-link">Schedule</a>
+  <a href="ka_technical_setup.html" class="nav-link">Technical Setup</a>
+  <span class="nav-right">COGS 160 · Spring 2026</span>
+</nav>
+<div class="breadcrumb">
+  <a href="../ka_home.html">Home</a> <span>/</span>
+  <a href="week2_agenda.html">Week 2</a> <span>/</span>
+  <span>ATLAS System Architecture</span>
+</div>
+<header class="hero">
+  <p class="hero-eyebrow">COGS 160 · Introduction to the System</p>
+  <h1>ATLAS Multi-Repo System Architecture</h1>
+  <p class="hero-sub">This diagram shows how the Article Finder, Article Eater, Knowledge Atlas, and supporting repos fit together as a typed evidence and course-production system.</p>
+</header>
+<main class="page-wrap">
+  <div class="image-card">
+    <img src="atlas_boxology.png" alt="ATLAS multi-repo system architecture diagram">
+  </div>
+  <p class="note">Use this diagram to orient Week 2 work: the class is not building isolated widgets, but small components that connect to a larger evidence intake, semantic authority, extraction, modeling, and presentation stack.</p>
+  <div class="page-links">
+    <a href="week2_agenda.html" class="page-link">Back to Week 2 Agenda</a>
+    <a href="ex0_mechanism_pathway_tracer.html" class="page-link secondary">Exercise 0: Mechanism Pathway Tracer</a>
+    <a href="demo_pdf_relevance_filter.html" class="page-link secondary">Demo: PDF Relevance Filter</a>
+  </div>
+</main>
+<script src="../ka_auth_widget.js"></script>
+</body>
+</html>
