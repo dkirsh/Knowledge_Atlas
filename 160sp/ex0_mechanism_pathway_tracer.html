@@ -1,0 +1,906 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Mechanism Pathway Tracer — Knowledge Atlas</title>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/d3/7.8.5/d3.min.js"></script>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --navy: #1C3D3A;
+    --amber: #E8872A;
+    --cream: #F7F4EF;
+    --green: #2A7868;
+    --text: #2D2010;
+    --muted: #6A5E50;
+    --border: #D8D0C5;
+    --light: #EDE8E0;
+  }
+
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+    background: var(--cream);
+    color: var(--text);
+    line-height: 1.55;
+  }
+
+  /* ── Header ── */
+  .page-header {
+    background: linear-gradient(135deg, var(--navy) 0%, #163230 100%);
+    padding: 28px 32px 24px;
+    border-bottom: 3px solid var(--amber);
+  }
+  .page-header .eyebrow {
+    font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
+    text-transform: uppercase; color: var(--amber); margin-bottom: 8px;
+  }
+  .page-header h1 {
+    font-family: Georgia, serif; font-size: 1.6rem; font-weight: 400;
+    color: #F5F0E8; line-height: 1.25; margin-bottom: 8px;
+  }
+  .page-header p {
+    font-size: 0.9rem; color: #A8C8BF; max-width: 640px;
+  }
+
+  /* ── Controls ── */
+  .controls {
+    max-width: 960px; margin: 24px auto 0; padding: 0 24px;
+  }
+  .control-row {
+    display: flex; gap: 12px; align-items: flex-end; flex-wrap: wrap;
+  }
+  .field {
+    display: flex; flex-direction: column; gap: 4px;
+  }
+  .field label {
+    font-size: 0.75rem; font-weight: 700; text-transform: uppercase;
+    letter-spacing: 0.08em; color: var(--muted);
+  }
+  .field input, .field select {
+    padding: 8px 12px; border: 1.5px solid var(--border); border-radius: 6px;
+    font-size: 0.9rem; background: #fff; color: var(--text);
+    min-width: 200px;
+  }
+  .field input:focus, .field select:focus {
+    outline: none; border-color: var(--green);
+  }
+  .btn {
+    padding: 9px 20px; border: none; border-radius: 6px;
+    font-size: 0.88rem; font-weight: 700; cursor: pointer;
+    transition: opacity 0.15s;
+  }
+  .btn:hover { opacity: 0.85; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--text); }
+
+  /* ── Results area ── */
+  .results {
+    max-width: 960px; margin: 20px auto 0; padding: 0 24px;
+  }
+  .status-bar {
+    padding: 10px 16px; border-radius: 8px; font-size: 0.88rem;
+    margin-bottom: 16px;
+  }
+  .status-info { background: #E6F5F0; border-left: 4px solid var(--green); color: #1a4a3f; }
+  .status-warn { background: #FFF3E0; border-left: 4px solid var(--amber); color: #5D4000; }
+  .status-error { background: #fdf0ef; border-left: 4px solid #A84F6B; color: #6b2030; }
+
+  /* ── Graph ── */
+  .graph-container {
+    background: #fff; border: 1px solid var(--border); border-radius: 12px;
+    padding: 16px; min-height: 400px; position: relative;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.06);
+  }
+
+  /* D3 node styling */
+  .node-group { cursor: pointer; }
+  .node-rect {
+    rx: 8; ry: 8;
+    stroke-width: 1.5;
+    transition: filter 0.15s;
+  }
+  .node-group:hover .node-rect { filter: brightness(0.95); }
+  .node-label {
+    font-size: 11px; fill: var(--text);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .node-meta {
+    font-size: 9.5px; fill: var(--muted);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+  .edge-label {
+    font-size: 9px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  }
+
+  /* ── Legend ── */
+  .legend {
+    display: flex; gap: 20px; flex-wrap: wrap;
+    margin-top: 12px; font-size: 0.8rem; color: var(--muted);
+  }
+  .legend-item { display: flex; align-items: center; gap: 6px; }
+  .legend-swatch {
+    width: 28px; height: 4px; border-radius: 2px;
+  }
+  .legend-swatch.dashed {
+    background: repeating-linear-gradient(90deg, #A84F6B 0, #A84F6B 4px, transparent 4px, transparent 8px);
+  }
+
+  /* ── Path info ── */
+  .path-info {
+    background: var(--light); border-radius: 8px; padding: 16px;
+    margin-top: 16px; font-size: 0.88rem;
+  }
+  .path-info h3 {
+    font-family: Georgia, serif; font-size: 1rem;
+    color: var(--navy); margin-bottom: 8px;
+  }
+  .path-step {
+    display: flex; gap: 12px; padding: 8px 0;
+    border-bottom: 1px solid var(--border);
+  }
+  .path-step:last-child { border-bottom: none; }
+  .step-num {
+    background: var(--navy); color: #A8C8BF;
+    font-size: 0.7rem; font-weight: 700;
+    width: 24px; height: 24px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    flex-shrink: 0;
+  }
+  .step-text { flex: 1; }
+  .step-text .claim { font-size: 0.88rem; color: var(--text); margin-bottom: 2px; }
+  .step-text .meta { font-size: 0.78rem; color: var(--muted); }
+
+  .alternatives {
+    margin-top: 12px; padding: 10px 14px;
+    background: #fff; border: 1px solid var(--border); border-radius: 8px;
+  }
+  .alternatives h4 {
+    font-size: 0.82rem; color: var(--muted); font-weight: 600; margin-bottom: 6px;
+  }
+  .alt-link {
+    font-size: 0.82rem; color: var(--green); cursor: pointer;
+    text-decoration: underline; margin-right: 12px;
+  }
+
+  /* ── Tooltip ── */
+  .tooltip {
+    position: absolute; background: #fff; border: 1px solid var(--border);
+    border-radius: 8px; padding: 12px 14px; max-width: 320px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.12); font-size: 0.82rem;
+    pointer-events: none; z-index: 100; opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .tooltip.visible { opacity: 1; }
+  .tooltip .tt-title { font-weight: 700; color: var(--navy); margin-bottom: 4px; }
+  .tooltip .tt-body { color: var(--text); line-height: 1.5; }
+  .tooltip .tt-meta { color: var(--muted); font-size: 0.78rem; margin-top: 4px; }
+
+  /* ── Footer ── */
+  .page-footer {
+    max-width: 960px; margin: 32px auto; padding: 0 24px;
+    font-size: 0.8rem; color: var(--muted);
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">Exercise 0 &middot; Live Demo</div>
+  <h1>Mechanism Pathway Tracer</h1>
+  <p>Enter an independent variable (cause) and dependent variable (outcome). The tracer finds the mechanistic chain connecting them through the K-ATLAS evidence network.</p>
+</div>
+
+<div class="controls">
+  <div class="control-row">
+    <div class="field">
+      <label for="iv-input">Independent Variable (cause)</label>
+      <input type="text" id="iv-input" placeholder="e.g., natural light, noise, biophilia" value="natural light">
+    </div>
+    <div class="field">
+      <label for="dv-input">Dependent Variable (outcome)</label>
+      <input type="text" id="dv-input" placeholder="e.g., task performance, stress, well-being" value="task performance">
+    </div>
+    <div class="field">
+      <label for="max-depth">Max depth</label>
+      <select id="max-depth">
+        <option value="3">3 hops</option>
+        <option value="4" selected>4 hops</option>
+        <option value="5">5 hops</option>
+        <option value="6">6 hops</option>
+      </select>
+    </div>
+    <button class="btn btn-primary" id="trace-btn">Trace Pathway</button>
+    <button class="btn btn-outline" id="clear-btn">Clear</button>
+  </div>
+</div>
+
+<div class="results" id="results">
+  <div class="status-bar status-info" id="status">
+    Enter an IV and DV above, then click <strong>Trace Pathway</strong>. Try "noise" &rarr; "stress" for a rich example.
+  </div>
+  <div class="graph-container" id="graph-container">
+    <svg id="graph-svg" width="100%" height="500"></svg>
+    <div class="tooltip" id="tooltip"></div>
+  </div>
+  <div class="legend">
+    <div class="legend-item"><div class="legend-swatch" style="background:#1A7A50;"></div> Strong support (&gt;0.7)</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#E8872A;"></div> Moderate support (0.4&ndash;0.7)</div>
+    <div class="legend-item"><div class="legend-swatch" style="background:#A84F6B;"></div> Weak support (&lt;0.4)</div>
+    <div class="legend-item"><div class="legend-swatch dashed"></div> Attack edge</div>
+  </div>
+  <div id="path-info-container"></div>
+</div>
+
+<div class="page-footer">
+  Knowledge Atlas &middot; COGS 160 Exercise 0 &middot; Data: argumentation.json (~1,900 claims, ~4,810 edges)
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// Mechanism Pathway Tracer — Exercise 0 Implementation
+// ═══════════════════════════════════════════════════════
+
+let argData = null;
+let nodeMap = {};
+let adjSupport = {};  // source -> [{target, edge}]
+let adjAttack = {};   // target -> [edge]
+
+// ── Data Loading ──
+async function loadData() {
+  const status = document.getElementById('status');
+  status.className = 'status-bar status-info';
+  status.innerHTML = 'Loading argumentation.json...';
+
+  try {
+    const resp = await fetch('../data/ka_payloads/argumentation.json');
+    if (!resp.ok) throw new Error(`HTTP ${resp.status}`);
+    argData = await resp.json();
+
+    // Build node lookup
+    for (const node of argData.claim_nodes) {
+      nodeMap[node.belief_id] = node;
+    }
+
+    // Build adjacency lists from support/attack edges
+    for (const node of argData.claim_nodes) {
+      for (const s of (node.top_supports || [])) {
+        if (!adjSupport[s.source]) adjSupport[s.source] = [];
+        adjSupport[s.source].push({ target: s.target, edge: s });
+      }
+      for (const a of (node.top_attacks || [])) {
+        if (!adjAttack[a.target]) adjAttack[a.target] = [];
+        adjAttack[a.target].push(a);
+      }
+    }
+
+    status.innerHTML = `Loaded <strong>${argData.claim_nodes.length}</strong> claims with <strong>${Object.values(adjSupport).reduce((s,a)=>s+a.length,0)}</strong> support edges and <strong>${Object.values(adjAttack).reduce((s,a)=>s+a.length,0)}</strong> attack edges. Ready.`;
+  } catch (err) {
+    status.className = 'status-bar status-error';
+    status.innerHTML = `Failed to load data: ${err.message}. Make sure argumentation.json is accessible.`;
+  }
+}
+
+// ── Term Matching ──
+function findMatchingNodes(term) {
+  const lower = term.toLowerCase().trim();
+  const words = lower.split(/\s+/);
+  const matches = [];
+
+  for (const node of argData.claim_nodes) {
+    const preview = node.content_preview.toLowerCase();
+    // Score: count how many search words appear
+    let score = 0;
+    for (const w of words) {
+      if (preview.includes(w)) score++;
+    }
+    // Require at least one word match, prefer all words
+    if (score > 0) {
+      matches.push({ node, score: score / words.length });
+    }
+  }
+
+  // Sort by match quality, take top matches
+  matches.sort((a, b) => b.score - a.score);
+  return matches.filter(m => m.score >= 0.5).slice(0, 50);
+}
+
+// ── Pathfinding (BFS with path tracking) ──
+function findAllPaths(startIds, targetIds, maxDepth) {
+  const paths = [];
+  const queue = []; // {nodeId, path, edges}
+
+  for (const sid of startIds) {
+    queue.push({ nodeId: sid, path: [sid], edges: [] });
+  }
+
+  const targetSet = new Set(targetIds);
+  let iterations = 0;
+  const MAX_ITER = 100000;
+
+  while (queue.length > 0 && iterations < MAX_ITER) {
+    iterations++;
+    const { nodeId, path, edges } = queue.shift();
+
+    if (path.length > 1 && targetSet.has(nodeId)) {
+      paths.push({ path: [...path], edges: [...edges] });
+      if (paths.length >= 20) break; // cap results
+      continue;
+    }
+
+    if (path.length > maxDepth + 1) continue;
+
+    for (const neighbor of (adjSupport[nodeId] || [])) {
+      if (!path.includes(neighbor.target)) {
+        queue.push({
+          nodeId: neighbor.target,
+          path: [...path, neighbor.target],
+          edges: [...edges, neighbor.edge]
+        });
+      }
+    }
+  }
+
+  return paths;
+}
+
+// ── Score a path by average edge strength ──
+function pathScore(p) {
+  if (p.edges.length === 0) return 0;
+  return p.edges.reduce((s, e) => s + (e.strength || 0.5), 0) / p.edges.length;
+}
+
+// ── Closest suggestions when no match ──
+function suggestClosest(term) {
+  const lower = term.toLowerCase();
+  const words = new Set(lower.split(/\s+/));
+  const candidates = {};
+  for (const node of argData.claim_nodes) {
+    const pw = node.content_preview.toLowerCase().split(/\s+/);
+    for (const w of pw) {
+      if (w.length > 4) {
+        for (const sw of words) {
+          if (w.includes(sw) || sw.includes(w)) {
+            candidates[w] = (candidates[w] || 0) + 1;
+          }
+        }
+      }
+    }
+  }
+  return Object.entries(candidates)
+    .sort((a, b) => b[1] - a[1])
+    .slice(0, 5)
+    .map(e => e[0]);
+}
+
+// ── Edge color by strength ──
+function edgeColor(strength) {
+  if (strength > 0.7) return '#1A7A50';
+  if (strength > 0.4) return '#E8872A';
+  return '#A84F6B';
+}
+
+// ── Truncate text ──
+function truncate(text, maxLen) {
+  if (!text) return '';
+  if (text.length <= maxLen) return text;
+  return text.substring(0, maxLen - 3) + '...';
+}
+
+// ── Main trace function ──
+function tracePathway() {
+  const ivTerm = document.getElementById('iv-input').value.trim();
+  const dvTerm = document.getElementById('dv-input').value.trim();
+  const maxDepth = parseInt(document.getElementById('max-depth').value);
+  const status = document.getElementById('status');
+  const pathContainer = document.getElementById('path-info-container');
+
+  if (!ivTerm || !dvTerm) {
+    status.className = 'status-bar status-warn';
+    status.innerHTML = 'Please enter both an IV and a DV.';
+    return;
+  }
+
+  if (!argData) {
+    status.className = 'status-bar status-error';
+    status.innerHTML = 'Data not loaded yet. Please wait.';
+    return;
+  }
+
+  // Find matching nodes
+  const ivMatches = findMatchingNodes(ivTerm);
+  const dvMatches = findMatchingNodes(dvTerm);
+
+  if (ivMatches.length === 0) {
+    const suggestions = suggestClosest(ivTerm);
+    status.className = 'status-bar status-error';
+    status.innerHTML = `No claims found matching "<strong>${ivTerm}</strong>".` +
+      (suggestions.length ? ` Try: ${suggestions.map(s => `<em>${s}</em>`).join(', ')}` : '');
+    clearGraph();
+    pathContainer.innerHTML = '';
+    return;
+  }
+  if (dvMatches.length === 0) {
+    const suggestions = suggestClosest(dvTerm);
+    status.className = 'status-bar status-error';
+    status.innerHTML = `No claims found matching "<strong>${dvTerm}</strong>".` +
+      (suggestions.length ? ` Try: ${suggestions.map(s => `<em>${s}</em>`).join(', ')}` : '');
+    clearGraph();
+    pathContainer.innerHTML = '';
+    return;
+  }
+
+  // Find paths
+  const ivIds = ivMatches.map(m => m.node.belief_id);
+  const dvIds = dvMatches.map(m => m.node.belief_id);
+  const allPaths = findAllPaths(ivIds, dvIds, maxDepth);
+
+  if (allPaths.length === 0) {
+    // Try reverse direction
+    const reversePaths = findAllPaths(dvIds, ivIds, maxDepth);
+    if (reversePaths.length > 0) {
+      // Reverse each path
+      for (const p of reversePaths) {
+        p.path.reverse();
+        p.edges.reverse();
+        allPaths.push(p);
+      }
+    }
+  }
+
+  if (allPaths.length === 0) {
+    status.className = 'status-bar status-warn';
+    status.innerHTML = `<strong>No mechanism chain found</strong> connecting "${ivTerm}" to "${dvTerm}" within ${maxDepth} hops. ` +
+      `Found ${ivMatches.length} claims matching IV and ${dvMatches.length} matching DV, but no support-edge path connects them. ` +
+      `Try increasing max depth or using broader terms.`;
+    clearGraph();
+
+    // Show partial info
+    pathContainer.innerHTML = `
+      <div class="path-info">
+        <h3>Closest partial matches</h3>
+        <p style="font-size:0.85rem;color:var(--muted);margin-bottom:8px;">
+          These are the strongest claims matching each term, but no path connects them.
+        </p>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:16px;">
+          <div>
+            <strong style="font-size:0.8rem;color:var(--navy);">IV: "${ivTerm}" (${ivMatches.length} matches)</strong>
+            ${ivMatches.slice(0,3).map(m => `<div style="font-size:0.82rem;padding:6px 0;border-bottom:1px solid var(--border);">${truncate(m.node.content_preview, 120)}<br><span style="color:var(--muted);font-size:0.75rem;">${m.node.belief_id} · ${m.node.warrant_status}</span></div>`).join('')}
+          </div>
+          <div>
+            <strong style="font-size:0.8rem;color:var(--navy);">DV: "${dvTerm}" (${dvMatches.length} matches)</strong>
+            ${dvMatches.slice(0,3).map(m => `<div style="font-size:0.82rem;padding:6px 0;border-bottom:1px solid var(--border);">${truncate(m.node.content_preview, 120)}<br><span style="color:var(--muted);font-size:0.75rem;">${m.node.belief_id} · ${m.node.warrant_status}</span></div>`).join('')}
+          </div>
+        </div>
+      </div>`;
+    return;
+  }
+
+  // Sort paths by score (highest confidence first)
+  allPaths.sort((a, b) => pathScore(b) - pathScore(a));
+  const bestPath = allPaths[0];
+
+  status.className = 'status-bar status-info';
+  status.innerHTML = `Found <strong>${allPaths.length}</strong> pathway${allPaths.length > 1 ? 's' : ''} connecting "${ivTerm}" to "${dvTerm}". ` +
+    `Showing highest-confidence path (${bestPath.path.length} nodes, avg strength ${pathScore(bestPath).toFixed(2)}).`;
+
+  // Render the graph
+  renderGraph(bestPath, allPaths);
+
+  // Render path info
+  renderPathInfo(bestPath, allPaths);
+}
+
+// ── Clear graph ──
+function clearGraph() {
+  d3.select('#graph-svg').selectAll('*').remove();
+}
+
+// ── Render D3 graph ──
+function renderGraph(bestPath, allPaths) {
+  clearGraph();
+
+  const svg = d3.select('#graph-svg');
+  const container = document.getElementById('graph-container');
+  const width = container.clientWidth - 32;
+
+  // Collect unique nodes and edges for the best path, plus attack edges on those nodes
+  const pathNodeIds = new Set(bestPath.path);
+  const nodes = bestPath.path.map((id, i) => {
+    const n = nodeMap[id] || { belief_id: id, content_preview: id, warrant_status: 'UNKNOWN' };
+    return {
+      id,
+      index: i,
+      label: truncate(n.content_preview, 60),
+      fullText: n.content_preview,
+      warrant: n.warrant_status,
+      supports: n.incoming_support_count || 0,
+      attacks: n.incoming_attack_count || 0,
+      qualifier: n.qualifier || '',
+      isStart: i === 0,
+      isEnd: i === bestPath.path.length - 1,
+    };
+  });
+
+  // Support edges on the path
+  const supportEdges = bestPath.edges.map((e, i) => ({
+    source: i,
+    target: i + 1,
+    strength: e.strength || 0.5,
+    scheme: e.scheme_hint || 'generic_support',
+    type: 'support'
+  }));
+
+  // Attack edges on path nodes
+  const attackEdges = [];
+  for (const nodeId of pathNodeIds) {
+    for (const atk of (adjAttack[nodeId] || [])) {
+      // Only show attacks from nodes NOT already in path (external attacks)
+      if (!pathNodeIds.has(atk.source)) {
+        const targetIdx = bestPath.path.indexOf(nodeId);
+        if (targetIdx >= 0) {
+          // Add the attacking node
+          const atkNode = nodeMap[atk.source];
+          if (atkNode) {
+            const atkIdx = nodes.length;
+            nodes.push({
+              id: atk.source,
+              index: atkIdx,
+              label: truncate(atkNode.content_preview, 50),
+              fullText: atkNode.content_preview,
+              warrant: atkNode.warrant_status,
+              supports: atkNode.incoming_support_count || 0,
+              attacks: atkNode.incoming_attack_count || 0,
+              qualifier: atkNode.qualifier || '',
+              isAttacker: true
+            });
+            attackEdges.push({
+              source: atkIdx,
+              target: targetIdx,
+              strength: atk.strength || 0.5,
+              scheme: atk.scheme_hint || 'unknown',
+              defeatType: atk.defeat_type || 'REBUTTING',
+              type: 'attack'
+            });
+          }
+        }
+      }
+    }
+  }
+
+  // Limit attack nodes to keep graph readable
+  const maxAttacks = 4;
+  const finalAttackEdges = attackEdges.slice(0, maxAttacks);
+  const usedAttackNodeIds = new Set(finalAttackEdges.map(e => nodes[e.source].id));
+
+  // Remove unused attack nodes
+  const finalNodes = nodes.filter((n, i) => {
+    if (n.isAttacker && !usedAttackNodeIds.has(n.id)) return false;
+    return true;
+  });
+
+  // Re-index
+  const idToIdx = {};
+  finalNodes.forEach((n, i) => { n.index = i; idToIdx[n.id] = i; });
+
+  const finalSupportEdges = bestPath.edges.map((e, i) => ({
+    source: idToIdx[bestPath.path[i]],
+    target: idToIdx[bestPath.path[i + 1]],
+    strength: e.strength || 0.5,
+    scheme: e.scheme_hint || 'generic_support',
+    type: 'support'
+  }));
+
+  const remappedAttackEdges = finalAttackEdges.map(e => ({
+    ...e,
+    source: idToIdx[nodes[e.source].id],
+    target: idToIdx[nodes[e.target].id]
+  })).filter(e => e.source !== undefined && e.target !== undefined);
+
+  const allEdges = [...finalSupportEdges, ...remappedAttackEdges];
+
+  // Layout: path nodes left-to-right, attack nodes above/below
+  const pathLen = bestPath.path.length;
+  const nodeW = 160;
+  const nodeH = 70;
+  const hSpacing = Math.min(180, (width - nodeW) / Math.max(pathLen - 1, 1));
+  const startX = 40;
+  const pathY = 200;
+
+  let atkOffsetUp = 0, atkOffsetDown = 0;
+
+  for (const n of finalNodes) {
+    if (n.isAttacker) {
+      // Place attack nodes above or below the path, alternating
+      const targetN = finalNodes[remappedAttackEdges.find(e => e.source === n.index)?.target];
+      if (targetN) {
+        n.x = targetN.x + 30;
+        if (atkOffsetUp <= atkOffsetDown) {
+          n.y = pathY - 120;
+          atkOffsetUp++;
+        } else {
+          n.y = pathY + 120;
+          atkOffsetDown++;
+        }
+      } else {
+        n.x = startX; n.y = pathY - 120;
+      }
+    } else {
+      const pathIdx = bestPath.path.indexOf(n.id);
+      n.x = startX + pathIdx * hSpacing;
+      n.y = pathY;
+    }
+  }
+
+  // Adjust SVG height
+  const svgHeight = Math.max(450, pathY + 180);
+  svg.attr('height', svgHeight);
+  svg.attr('viewBox', `0 0 ${width} ${svgHeight}`);
+
+  // Arrow markers
+  const defs = svg.append('defs');
+
+  defs.append('marker')
+    .attr('id', 'arrow-support')
+    .attr('viewBox', '0 0 10 6').attr('refX', 10).attr('refY', 3)
+    .attr('markerWidth', 8).attr('markerHeight', 6).attr('orient', 'auto')
+    .append('path').attr('d', 'M0,0 L10,3 L0,6 Z').attr('fill', '#1A7A50');
+
+  defs.append('marker')
+    .attr('id', 'arrow-attack')
+    .attr('viewBox', '0 0 10 6').attr('refX', 10).attr('refY', 3)
+    .attr('markerWidth', 8).attr('markerHeight', 6).attr('orient', 'auto')
+    .append('path').attr('d', 'M0,0 L10,3 L0,6 Z').attr('fill', '#A84F6B');
+
+  // Draw edges
+  const edgeGroup = svg.append('g').attr('class', 'edges');
+
+  for (const edge of allEdges) {
+    const sn = finalNodes[edge.source];
+    const tn = finalNodes[edge.target];
+    if (!sn || !tn) continue;
+
+    const x1 = sn.x + nodeW / 2;
+    const y1 = sn.y + nodeH / 2;
+    const x2 = tn.x + nodeW / 2;
+    const y2 = tn.y + nodeH / 2;
+
+    // Adjust endpoints to node edges
+    const dx = x2 - x1, dy = y2 - y1;
+    const dist = Math.sqrt(dx * dx + dy * dy) || 1;
+    const sx = x1 + (dx / dist) * (nodeW / 2);
+    const sy = y1 + (dy / dist) * (nodeH / 2);
+    const ex = x2 - (dx / dist) * (nodeW / 2 + 8);
+    const ey = y2 - (dy / dist) * (nodeH / 2 + 8);
+
+    if (edge.type === 'attack') {
+      edgeGroup.append('line')
+        .attr('x1', sx).attr('y1', sy).attr('x2', ex).attr('y2', ey)
+        .attr('stroke', '#A84F6B').attr('stroke-width', 2)
+        .attr('stroke-dasharray', '6,4')
+        .attr('marker-end', 'url(#arrow-attack)');
+
+      // Defeat type label
+      edgeGroup.append('text')
+        .attr('x', (sx + ex) / 2).attr('y', (sy + ey) / 2 - 6)
+        .attr('text-anchor', 'middle')
+        .attr('class', 'edge-label')
+        .attr('fill', '#A84F6B')
+        .text(edge.defeatType || 'attack');
+    } else {
+      const color = edgeColor(edge.strength);
+      edgeGroup.append('line')
+        .attr('x1', sx).attr('y1', sy).attr('x2', ex).attr('y2', ey)
+        .attr('stroke', color).attr('stroke-width', Math.max(1.5, edge.strength * 4))
+        .attr('marker-end', 'url(#arrow-support)');
+
+      // Strength label
+      edgeGroup.append('text')
+        .attr('x', (sx + ex) / 2).attr('y', (sy + ey) / 2 - 8)
+        .attr('text-anchor', 'middle')
+        .attr('class', 'edge-label')
+        .attr('fill', color)
+        .text(`${edge.scheme.replace(/_/g, ' ')} (${edge.strength.toFixed(2)})`);
+    }
+  }
+
+  // Draw nodes
+  const nodeGroup = svg.selectAll('.node-group')
+    .data(finalNodes)
+    .enter().append('g')
+    .attr('class', 'node-group')
+    .attr('transform', d => `translate(${d.x}, ${d.y})`);
+
+  // Node rectangles
+  nodeGroup.append('rect')
+    .attr('class', 'node-rect')
+    .attr('width', nodeW).attr('height', nodeH)
+    .attr('fill', d => {
+      if (d.isStart) return '#E6F5F0';
+      if (d.isEnd) return '#E8F0FD';
+      if (d.isAttacker) return '#fdf0ef';
+      return '#fff';
+    })
+    .attr('stroke', d => {
+      if (d.isStart) return '#1A7A50';
+      if (d.isEnd) return '#3A6EA8';
+      if (d.isAttacker) return '#A84F6B';
+      return '#D8D0C5';
+    });
+
+  // Role tag
+  nodeGroup.append('text')
+    .attr('x', 6).attr('y', 14)
+    .attr('class', 'node-meta')
+    .attr('fill', d => d.isStart ? '#1A7A50' : d.isEnd ? '#3A6EA8' : d.isAttacker ? '#A84F6B' : '#6A5E50')
+    .attr('font-weight', 700)
+    .text(d => {
+      if (d.isStart) return 'IV START';
+      if (d.isEnd) return 'DV END';
+      if (d.isAttacker) return 'ATTACK';
+      return `STEP ${bestPath.path.indexOf(d.id)}`;
+    });
+
+  // Claim text (wrapped)
+  nodeGroup.each(function(d) {
+    const g = d3.select(this);
+    const words = d.label.split(/\s+/);
+    let line = '';
+    let lineNum = 0;
+    const maxLines = 3;
+    const lineHeight = 13;
+
+    for (const word of words) {
+      const test = line ? line + ' ' + word : word;
+      if (test.length > 22 && line) {
+        g.append('text')
+          .attr('x', 6).attr('y', 28 + lineNum * lineHeight)
+          .attr('class', 'node-label')
+          .text(line);
+        lineNum++;
+        if (lineNum >= maxLines) { line = '...'; break; }
+        line = word;
+      } else {
+        line = test;
+      }
+    }
+    if (line && lineNum < maxLines) {
+      g.append('text')
+        .attr('x', 6).attr('y', 28 + lineNum * lineHeight)
+        .attr('class', 'node-label')
+        .text(line);
+    }
+  });
+
+  // Warrant badge
+  nodeGroup.append('text')
+    .attr('x', 6).attr('y', nodeH - 6)
+    .attr('class', 'node-meta')
+    .text(d => `${d.warrant} · sup:${d.supports} att:${d.attacks}`);
+
+  // Tooltip on hover
+  const tooltip = document.getElementById('tooltip');
+
+  nodeGroup.on('mouseenter', function(event, d) {
+    tooltip.innerHTML = `
+      <div class="tt-title">${d.id}</div>
+      <div class="tt-body">${d.fullText}</div>
+      <div class="tt-meta">Status: ${d.warrant} · Qualifier: ${d.qualifier}<br>
+      Support: ${d.supports} · Attacks: ${d.attacks}</div>
+    `;
+    tooltip.classList.add('visible');
+    const rect = container.getBoundingClientRect();
+    tooltip.style.left = (event.clientX - rect.left + 12) + 'px';
+    tooltip.style.top = (event.clientY - rect.top - 10) + 'px';
+  }).on('mousemove', function(event) {
+    const rect = container.getBoundingClientRect();
+    tooltip.style.left = (event.clientX - rect.left + 12) + 'px';
+    tooltip.style.top = (event.clientY - rect.top - 10) + 'px';
+  }).on('mouseleave', function() {
+    tooltip.classList.remove('visible');
+  });
+
+  const container = document.getElementById('graph-container');
+}
+
+// ── Render path info panel ──
+function renderPathInfo(bestPath, allPaths) {
+  const container = document.getElementById('path-info-container');
+
+  let html = `<div class="path-info">
+    <h3>Pathway: ${bestPath.path.length} steps, avg confidence ${pathScore(bestPath).toFixed(2)}</h3>`;
+
+  for (let i = 0; i < bestPath.path.length; i++) {
+    const nid = bestPath.path[i];
+    const n = nodeMap[nid];
+    const edge = i > 0 ? bestPath.edges[i - 1] : null;
+
+    html += `<div class="path-step">
+      <div class="step-num">${i + 1}</div>
+      <div class="step-text">
+        <div class="claim">${n ? truncate(n.content_preview, 180) : nid}</div>
+        <div class="meta">
+          ${n ? `${n.belief_id} · ${n.warrant_status} · qualifier: ${n.qualifier}` : ''}
+          ${edge ? `<br>Connected via: <strong>${edge.scheme_hint?.replace(/_/g, ' ') || 'support'}</strong> (strength: ${(edge.strength || 0).toFixed(2)})` : '<br><em>Starting node</em>'}
+        </div>
+      </div>
+    </div>`;
+  }
+
+  // Show attack info on path nodes
+  const attacksOnPath = [];
+  for (const nid of bestPath.path) {
+    for (const atk of (adjAttack[nid] || [])) {
+      const atkNode = nodeMap[atk.source];
+      if (atkNode) {
+        attacksOnPath.push({ target: nid, attack: atk, attacker: atkNode });
+      }
+    }
+  }
+
+  if (attacksOnPath.length > 0) {
+    html += `<div style="margin-top:12px;padding-top:12px;border-top:2px solid var(--border);">
+      <strong style="color:#A84F6B;font-size:0.85rem;">Attacks on this pathway (${attacksOnPath.length}):</strong>`;
+    for (const a of attacksOnPath.slice(0, 5)) {
+      html += `<div style="font-size:0.82rem;padding:4px 0;border-bottom:1px solid var(--border);">
+        <span style="color:#A84F6B;font-weight:600;">${a.attack.defeat_type || 'ATTACK'}</span> on ${a.target}:
+        ${truncate(a.attacker.content_preview, 100)}
+        <span style="color:var(--muted);">(strength: ${(a.attack.strength || 0).toFixed(2)}, scheme: ${a.attack.scheme_hint || '?'})</span>
+      </div>`;
+    }
+    if (attacksOnPath.length > 5) {
+      html += `<div style="font-size:0.82rem;color:var(--muted);padding:4px 0;">...and ${attacksOnPath.length - 5} more attacks</div>`;
+    }
+    html += '</div>';
+  }
+
+  // Alternative paths
+  if (allPaths.length > 1) {
+    html += `<div class="alternatives">
+      <h4>${allPaths.length - 1} alternative pathway${allPaths.length > 2 ? 's' : ''} found</h4>`;
+    for (let i = 1; i < Math.min(allPaths.length, 6); i++) {
+      const p = allPaths[i];
+      html += `<span class="alt-link" onclick="renderAlternative(${i})">
+        Path ${i + 1}: ${p.path.length} steps, confidence ${pathScore(p).toFixed(2)}
+      </span>`;
+    }
+    html += '</div>';
+  }
+
+  html += '</div>';
+  container.innerHTML = html;
+
+  // Store allPaths globally for alt rendering
+  window._allPaths = allPaths;
+}
+
+// ── Render alternative path ──
+function renderAlternative(idx) {
+  const allPaths = window._allPaths;
+  if (!allPaths || !allPaths[idx]) return;
+  renderGraph(allPaths[idx], allPaths);
+  renderPathInfo(allPaths[idx], allPaths);
+}
+
+// ── Event handlers ──
+document.getElementById('trace-btn').addEventListener('click', tracePathway);
+document.getElementById('clear-btn').addEventListener('click', () => {
+  clearGraph();
+  document.getElementById('path-info-container').innerHTML = '';
+  document.getElementById('status').className = 'status-bar status-info';
+  document.getElementById('status').innerHTML = 'Enter an IV and DV above, then click <strong>Trace Pathway</strong>. Try "noise" &rarr; "stress" for a rich example.';
+});
+
+// Enter key triggers trace
+document.getElementById('iv-input').addEventListener('keydown', e => { if (e.key === 'Enter') tracePathway(); });
+document.getElementById('dv-input').addEventListener('keydown', e => { if (e.key === 'Enter') tracePathway(); });
+
+// Load data on page load
+loadData();
+</script>
+
+</body>
+</html>

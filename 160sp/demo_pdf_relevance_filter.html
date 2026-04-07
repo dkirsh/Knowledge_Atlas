@@ -1,0 +1,1052 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>PDF Relevance Filter — Live Demo — COGS 160</title>
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  :root {
+    --navy: #1C3D3A; --teal: #2A7868; --teal-lt: #5AC8AA; --teal-bg: #E6F5F0;
+    --amber: #E8872A; --amber-lt: #FFF3E0; --amber-dk: #9a5010;
+    --cream: #F7F4EF; --ink: #2C2C2C; --muted: #6B6B6B; --border: #D8D0C5;
+    --white: #FFFFFF; --rose: #A84F6B; --green: #1A7A50; --blue: #3A6EA8;
+  }
+  body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--cream); color: var(--ink); line-height: 1.6; }
+
+  /* ── Header ── */
+  .page-header {
+    background: linear-gradient(135deg, var(--navy) 0%, #152e2b 100%);
+    padding: 32px 32px 28px; border-bottom: 3px solid var(--amber);
+  }
+  .eyebrow { font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; color: var(--amber); margin-bottom: 8px; }
+  .page-header h1 { font-family: Georgia, serif; font-size: 1.7rem; font-weight: 400; color: #F5F0E8; margin-bottom: 8px; }
+  .page-header p { font-size: 0.92rem; color: #A8C8BF; max-width: 680px; }
+
+  /* ── Layout ── */
+  .outer { max-width: 1000px; margin: 0 auto; padding: 24px 24px 60px; }
+
+  /* ── Section ── */
+  .section { margin-bottom: 28px; }
+  .section-title {
+    font-family: Georgia, serif; font-size: 1.15rem; font-weight: 700;
+    color: var(--navy); margin-bottom: 12px;
+    padding-bottom: 8px; border-bottom: 2px solid var(--border);
+  }
+  .section-title .num {
+    display: inline-block; background: var(--navy); color: #A8C8BF;
+    font-size: 0.68rem; font-weight: 700; padding: 2px 8px; border-radius: 4px;
+    margin-right: 8px; vertical-align: middle;
+  }
+
+  /* ── Form ── */
+  .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
+  .form-full { grid-column: 1 / -1; }
+  label { display: block; font-size: 0.78rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; color: var(--muted); margin-bottom: 4px; }
+  input, select, textarea {
+    width: 100%; padding: 9px 12px; border: 1.5px solid var(--border);
+    border-radius: 6px; font-size: 0.9rem; background: #fff; color: var(--ink);
+    font-family: inherit;
+  }
+  input:focus, select:focus, textarea:focus { outline: none; border-color: var(--teal); }
+  textarea { resize: vertical; min-height: 80px; }
+
+  .btn {
+    padding: 10px 24px; border: none; border-radius: 6px;
+    font-size: 0.9rem; font-weight: 700; cursor: pointer; transition: all 0.15s;
+  }
+  .btn:hover { opacity: 0.88; }
+  .btn-primary { background: var(--navy); color: #fff; }
+  .btn-outline { background: transparent; border: 1.5px solid var(--border); color: var(--ink); }
+  .btn-sm { padding: 6px 14px; font-size: 0.82rem; }
+  .btn-row { display: flex; gap: 10px; margin-top: 16px; flex-wrap: wrap; }
+
+  /* ── Question card ── */
+  .question-card {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 10px;
+    padding: 16px 20px; margin-bottom: 12px; cursor: pointer;
+    transition: border-color 0.15s, box-shadow 0.15s;
+  }
+  .question-card:hover { border-color: var(--teal); box-shadow: 0 2px 8px rgba(42,120,104,0.1); }
+  .question-card.selected { border-color: var(--teal); background: var(--teal-bg); }
+  .q-id { font-size: 0.72rem; font-weight: 700; color: var(--teal); letter-spacing: 0.06em; }
+  .q-text { font-size: 0.92rem; margin-top: 4px; }
+  .q-meta { font-size: 0.78rem; color: var(--muted); margin-top: 4px; }
+  .q-meta span { margin-right: 12px; }
+
+  /* ── Search/filter for questions ── */
+  .q-search { margin-bottom: 12px; }
+  .q-list { max-height: 320px; overflow-y: auto; border: 1px solid var(--border); border-radius: 8px; padding: 8px; background: #FAFAF5; }
+
+  /* ── Pipeline steps ── */
+  .pipeline { margin-top: 20px; }
+  .check-step {
+    background: #fff; border: 1.5px solid var(--border); border-radius: 10px;
+    margin-bottom: 10px; overflow: hidden;
+    transition: border-color 0.3s;
+  }
+  .check-step.pass { border-color: var(--green); }
+  .check-step.fail { border-color: var(--rose); }
+  .check-step.warn { border-color: var(--amber); }
+  .check-step.pending { border-color: var(--border); opacity: 0.6; }
+
+  .check-header {
+    display: flex; align-items: center; gap: 12px;
+    padding: 12px 16px; cursor: pointer;
+  }
+  .check-icon {
+    width: 28px; height: 28px; border-radius: 50%;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 0.9rem; font-weight: 700; flex-shrink: 0;
+  }
+  .check-step.pass .check-icon { background: var(--teal-bg); color: var(--green); }
+  .check-step.fail .check-icon { background: #fdf0ef; color: var(--rose); }
+  .check-step.warn .check-icon { background: var(--amber-lt); color: var(--amber-dk); }
+  .check-step.pending .check-icon { background: #f0f0f0; color: #999; }
+
+  .check-name { font-weight: 700; font-size: 0.9rem; color: var(--navy); flex: 1; }
+  .check-verdict { font-size: 0.82rem; font-weight: 600; }
+  .check-step.pass .check-verdict { color: var(--green); }
+  .check-step.fail .check-verdict { color: var(--rose); }
+  .check-step.warn .check-verdict { color: var(--amber-dk); }
+
+  .check-body {
+    display: none; padding: 0 16px 14px;
+    font-size: 0.88rem; line-height: 1.65; color: var(--ink);
+  }
+  .check-body.open { display: block; }
+  .check-body .reasoning {
+    background: #FAFAF5; border-radius: 6px; padding: 10px 12px;
+    margin-top: 8px; font-size: 0.85rem; border-left: 3px solid var(--border);
+  }
+  .check-body .evidence {
+    display: flex; flex-wrap: wrap; gap: 6px; margin-top: 8px;
+  }
+  .tag { display: inline-block; padding: 2px 8px; border-radius: 12px; font-size: 0.75rem; font-weight: 600; }
+  .tag-green { background: var(--teal-bg); color: var(--green); }
+  .tag-red { background: #fdf0ef; color: var(--rose); }
+  .tag-amber { background: var(--amber-lt); color: var(--amber-dk); }
+  .tag-blue { background: #e8f0fd; color: var(--blue); }
+
+  /* ── Final verdict ── */
+  .final-verdict {
+    border-radius: 12px; padding: 24px; margin-top: 20px;
+    text-align: center;
+  }
+  .verdict-accept { background: var(--teal-bg); border: 2px solid var(--green); }
+  .verdict-reject { background: #fdf0ef; border: 2px solid var(--rose); }
+  .verdict-review { background: var(--amber-lt); border: 2px solid var(--amber); }
+  .verdict-label { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.14em; margin-bottom: 6px; }
+  .verdict-title { font-family: Georgia, serif; font-size: 1.4rem; font-weight: 700; margin-bottom: 8px; }
+  .verdict-accept .verdict-title { color: var(--green); }
+  .verdict-reject .verdict-title { color: var(--rose); }
+  .verdict-review .verdict-title { color: var(--amber-dk); }
+  .verdict-body { font-size: 0.9rem; max-width: 600px; margin: 0 auto; color: var(--ink); }
+  .tier-badge {
+    display: inline-block; padding: 4px 16px; border-radius: 20px;
+    font-size: 0.82rem; font-weight: 700; margin-top: 10px;
+  }
+
+  /* ── Example papers ── */
+  .example-row { display: flex; gap: 8px; flex-wrap: wrap; margin: 12px 0; }
+  .example-btn {
+    padding: 6px 12px; border: 1px solid var(--border); border-radius: 6px;
+    background: #fff; cursor: pointer; font-size: 0.8rem; transition: all 0.15s;
+  }
+  .example-btn:hover { border-color: var(--teal); background: var(--teal-bg); }
+
+  /* ── Callout ── */
+  .callout { border-left: 4px solid; border-radius: 0 8px 8px 0; padding: 12px 16px; margin: 16px 0; font-size: 0.88rem; }
+  .callout-info { border-color: var(--teal); background: var(--teal-bg); }
+  .callout-warn { border-color: var(--amber); background: var(--amber-lt); }
+
+  /* no animations — they cause flicker */
+
+  /* ── Responsive ── */
+  @media (max-width: 700px) { .form-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body>
+
+<div class="page-header">
+  <div class="eyebrow">COGS 160 &middot; Live Demo &middot; The 7-Step Method in Action</div>
+  <h1>PDF Relevance Filter</h1>
+  <p>Given a K-ATLAS question and a submitted paper, determine whether the paper provides evidence relevant to that question. This is the foundation of quality control for the entire corpus.</p>
+</div>
+
+<div class="outer">
+
+  <!-- ══════════════════════════════════════════════════════ -->
+  <!-- THE 7-STEP METHOD WALKTHROUGH                         -->
+  <!-- ══════════════════════════════════════════════════════ -->
+
+  <!-- ── THE PROBLEM ── -->
+  <div class="section">
+    <div class="section-title"><span class="num">THE PROBLEM</span></div>
+    <p style="font-size:0.95rem;">
+      Knowledge Atlas has a question bank of 130 research questions spanning 34 topics &mdash; from Attention Restoration Theory to Fractal Patterns. Students and automated pipelines submit PDFs as evidence for these questions. But how do you know a paper is actually relevant? A paper about &ldquo;attention deficit hyperactivity disorder in natural classroom settings&rdquo; mentions both &ldquo;attention&rdquo; and &ldquo;natural,&rdquo; but it is about clinical ADHD, not attention restoration from nature exposure. A paper about forest bathing and cortisol is adjacent to an attention restoration question &mdash; same environment, wrong outcome measure. If irrelevant papers enter the corpus, every downstream analysis is contaminated.
+    </p>
+    <p style="font-size:0.95rem;">
+      We need a filter that takes a K-ATLAS question and a submitted PDF and determines: <strong>does this paper provide evidence relevant to this specific question?</strong> The filter must understand what &ldquo;relevant&rdquo; means in the context of each question&rsquo;s evidence type, population, and environmental variable. This is the foundation of quality control for the entire system.
+    </p>
+  </div>
+
+  <!-- ── STEP 1: CONVENE PANEL ── -->
+  <div class="section">
+    <div class="section-title"><span class="num">STEP 1</span> Convene Panel</div>
+    <div style="background:#1a1a2e;color:#e0e0e0;border-radius:8px;padding:1rem 1.2rem;margin:0.8rem 0;font-family:'SF Mono','Fira Code',Consolas,monospace;font-size:0.82rem;line-height:1.55;white-space:pre-wrap;word-break:break-word;">
+<span style="font-size:0.68rem;font-weight:700;text-transform:uppercase;letter-spacing:0.1em;color:var(--amber);display:block;margin-bottom:0.3rem;">Panel Prompt</span>
+You are running a design panel for a PDF relevance filter.
+The panelists are:
+
+- Susan Haack (epistemology, foundherentism): What makes evidence
+  "relevant" vs. merely topically adjacent? When does a paper
+  that mentions the right keywords still fail to provide evidence?
+- A research librarian (information science): What metadata fields
+  reliably distinguish on-topic from off-topic papers? What are
+  the failure modes of keyword-based filtering?
+- A COGS 160 student submitting articles (target user): What
+  feedback would help me understand WHY a paper was rejected,
+  not just THAT it was?
+
+The filter takes a K-ATLAS question (with topic, search hints,
+and difficulty) and a paper (title + abstract). It must produce
+a verdict: ACCEPT, REJECT, or MANUAL REVIEW, with step-by-step
+reasoning.
+
+The corpus has 760 papers across 34 topics with these document
+types: 472 empirical_research, 85 narrative_review, 54 review,
+51 theoretical, 22 systematic_review, and 76 others.
+
+Each panelist: state your top 3 requirements and one thing that
+would make the filter misleading or dangerous.</div>
+  </div>
+
+  <!-- ── STEP 2: WRITE SPEC ── -->
+  <div class="section">
+    <div class="section-title"><span class="num">STEP 2</span> Write Spec</div>
+    <div style="background:#f8f6f2;border:1.5px solid var(--border);border-radius:8px;padding:1rem 1.2rem;margin:0.8rem 0;font-family:'SF Mono','Fira Code',Consolas,monospace;font-size:0.82rem;line-height:1.55;white-space:pre-wrap;">
+COMPONENT: PDFRelevanceFilter
+INPUT: question (from question_bank, 130 questions across 34 topics)
+       paper_title (string), paper_abstract (string)
+       paper_type (optional enum), paper_year (optional int)
+OUTPUT: Verdict (ACCEPT / REJECT / MANUAL_REVIEW) with per-check reasoning
+
+DATA SOURCE: question_bank.json (130 questions with topic, search_hints, difficulty)
+             articles.json (760 papers with article_type distribution)
+             Topic keyword banks (env-side + outcome-side + false-keyword exclusions)
+
+PIPELINE (7 sequential checks, stops on hard failure):
+
+  CHECK 1 — Document Type Acceptability
+    Accept: empirical_research, systematic_review, meta_analysis,
+            narrative_review, case_study, mixed_methods, qualitative
+    Marginal (warn): theoretical, conference_paper, thesis, book_chapter
+    Reject: editorial, book_review, preprint, computational_simulation
+    Auto-detect from abstract if not specified
+
+  CHECK 2 — False Keyword Detection
+    Each topic has an exclusion list of terms that LOOK relevant but
+    indicate a different domain:
+    - ART: "attention deficit", "ADHD", "attention disorder"
+    - SRT: "heat stress", "material stress", "structural stress"
+    - Lighting: "light rail", "light microscopy"
+    Paper containing ANY exclusion term → REJECT with explanation
+
+  CHECK 3 — Topic Overlap (Both Sides)
+    Each question maps to environment keywords AND outcome keywords.
+    Paper must match at LEAST ONE from EACH side.
+    - Both matched → PASS
+    - One side only → WARN (partial relevance)
+    - Neither → FAIL
+
+  CHECK 4 — Evidence Type Match
+    Detect empirical markers (statistics, sample sizes, methods)
+    vs. review markers vs. theoretical markers in abstract.
+    Empirical or review → PASS. Theoretical only → WARN.
+
+  CHECK 5 — Dependent Variable Alignment
+    Extract expected DVs from question text and search hints.
+    Match against paper abstract.
+    Key case: shinrin-yoku paper measures cortisol (stress DV)
+    but question SQ-001 asks about attention (cognitive DV).
+    Same environment, wrong outcome → WARN (not PASS).
+
+  CHECK 6 — Relevance Tier Classification
+    DIRECT: topic match + DV match + evidence match
+    INDIRECT: topic match but wrong DV (adjacent)
+    CONTEXTUAL: right DV but wrong environment
+    IRRELEVANT: neither matches
+
+  CHECK 7 — Final Reasoning
+    Synthesize all checks into human-readable verdict.
+    All pass → ACCEPT. Any fail → REJECT. Warnings → MANUAL_REVIEW.
+
+EDGE CASES:
+  - Topic not in keyword bank → extract keywords from question text
+  - Abstract too short to detect type → default to empirical, flag uncertainty
+  - Paper relevant to DIFFERENT question → note which question it fits</div>
+  </div>
+
+  <!-- ── STEP 3: ACCEPTANCE TESTS ── -->
+  <div class="section">
+    <div class="section-title"><span class="num">STEP 3</span> Acceptance Tests</div>
+    <div style="background:#f8f6f2;border:1.5px solid var(--border);border-radius:8px;padding:1rem 1.2rem;margin:0.8rem 0;font-family:'SF Mono','Fira Code',Consolas,monospace;font-size:0.82rem;line-height:1.55;white-space:pre-wrap;">
+QUESTION: SQ-001 (Attention Restoration Theory, easy)
+"What empirical evidence supports the claim that natural environments
+restore directed attention better than urban environments?"
+
+TEST 1: Direct hit — ART experiment
+  INPUT: "Attention restoration and performance enhancement in a
+          simulated natural environment after cognitive fatigue"
+  EXPECT: ACCEPT, Tier DIRECT, all 7 checks pass
+  VERIFY: Environment keywords (nature, natural) AND outcome
+          keywords (attention, fatigue, restoration) both match
+
+TEST 2: Off-topic — structural engineering
+  INPUT: "Structural analysis of reinforced concrete beams under
+          cyclic loading conditions"
+  EXPECT: REJECT at Check 1 (document type: computational_simulation)
+  VERIFY: Checks 2–7 show "Skipped (pipeline stopped)"
+
+TEST 3: Adjacent but wrong DV — shinrin-yoku/cortisol
+  INPUT: "Shinrin-yoku (forest bathing) and salivary cortisol
+          responses: A field experiment in temperate forests"
+  EXPECT: MANUAL REVIEW, Tier INDIRECT
+  VERIFY: Check 3 (topic overlap) passes — nature keywords match
+          Check 5 (DV alignment) warns — cortisol ≠ attention
+          This is the HARD case. The filter must not accept it
+          as DIRECT evidence for an attention question.
+
+TEST 4: False keyword match — ADHD study
+  INPUT: "Attention deficit hyperactivity disorder in natural
+          and urban classroom settings: A comparative study"
+  EXPECT: REJECT at Check 2 (false keyword: "attention deficit")
+  VERIFY: The word "attention" appears but in clinical context.
+          Filter catches "attention deficit" as exclusion term.
+
+TEST 5: Indirect methodological — ARS validation
+  INPUT: "Measuring directed attention fatigue: Validation of the
+          Attention Restoration Scale across three populations"
+  EXPECT: MANUAL REVIEW, Tier INDIRECT or DIRECT
+  VERIFY: Relevant to the question's theoretical framework
+          but measures instrument validity, not the IV→DV effect.</div>
+  </div>
+
+  <!-- ── STEPS 4–7: LIVE IMPLEMENTATION ── -->
+  <div class="section">
+    <div class="section-title"><span class="num">STEPS 4–7</span> Build, Verify, Diagnose, Iterate</div>
+    <p style="font-size:0.95rem;margin-bottom:16px;">
+      This is where the live demo happens. Select a question, load a test case, run the 7-check pipeline, and see whether the filter produces the expected verdict. When it gets a case wrong &mdash; and it will &mdash; the diagnosis requires going back to the spec (the keyword banks, the DV extraction logic, the tier classification rules), not staring at code.
+    </p>
+  </div>
+
+  <!-- ═══════ INTERACTIVE: Select a Question ═══════ -->
+  <div class="section">
+    <div class="section-title"><span class="num">TRY IT</span> Select a K-ATLAS Question</div>
+    <div class="q-search">
+      <input type="text" id="q-search-input" placeholder="Search questions by topic, keyword, or ID...">
+    </div>
+    <div class="q-list" id="q-list">
+      <!-- Populated dynamically -->
+    </div>
+    <div id="selected-question" style="margin-top:12px;"></div>
+  </div>
+
+  <!-- ═══════ STEP 2: Enter Paper Metadata ═══════ -->
+  <div class="section">
+    <div class="section-title"><span class="num">TRY IT</span> Enter Paper Information</div>
+    <p style="font-size:0.88rem;color:var(--muted);margin-bottom:12px;">
+      Paste the title and abstract from a submitted PDF. In production, this would be extracted automatically via Mathpix OCR.
+    </p>
+
+    <div class="example-row">
+      <span style="font-size:0.8rem;color:var(--muted);padding:6px 0;">Try an example:</span>
+      <button class="example-btn" onclick="loadExample('direct_hit')">Direct hit (ART)</button>
+      <button class="example-btn" onclick="loadExample('off_topic')">Off-topic (engineering)</button>
+      <button class="example-btn" onclick="loadExample('adjacent_wrong_dv')">Adjacent but wrong DV</button>
+      <button class="example-btn" onclick="loadExample('false_keyword')">False keyword match</button>
+      <button class="example-btn" onclick="loadExample('indirect')">Indirect methodological</button>
+    </div>
+
+    <div class="form-grid">
+      <div class="form-full">
+        <label for="paper-title">Paper Title</label>
+        <input type="text" id="paper-title" placeholder="e.g., Effects of natural environments on directed attention...">
+      </div>
+      <div class="form-full">
+        <label for="paper-abstract">Abstract</label>
+        <textarea id="paper-abstract" rows="5" placeholder="Paste the paper's abstract here..."></textarea>
+      </div>
+      <div>
+        <label for="paper-type">Document Type (if known)</label>
+        <select id="paper-type">
+          <option value="">Auto-detect from abstract</option>
+          <option value="empirical_research">Empirical Research</option>
+          <option value="systematic_review">Systematic Review</option>
+          <option value="meta_analysis">Meta-Analysis</option>
+          <option value="narrative_review">Narrative Review</option>
+          <option value="theoretical">Theoretical/Conceptual</option>
+          <option value="case_study">Case Study</option>
+          <option value="thesis">Thesis/Dissertation</option>
+          <option value="book_chapter">Book Chapter</option>
+          <option value="editorial">Editorial/Commentary</option>
+          <option value="conference_paper">Conference Paper</option>
+        </select>
+      </div>
+      <div>
+        <label for="paper-year">Year</label>
+        <input type="number" id="paper-year" placeholder="2024" min="1950" max="2026">
+      </div>
+    </div>
+
+    <div class="btn-row">
+      <button class="btn btn-primary" id="run-filter-btn" onclick="runFilter()">Run 7-Check Filter</button>
+      <button class="btn btn-outline" onclick="clearAll()">Clear</button>
+    </div>
+  </div>
+
+  <!-- ═══════ STEP 3: Pipeline Results ═══════ -->
+  <div class="section" id="pipeline-section" style="display:none;">
+    <div class="section-title"><span class="num">RESULT</span> Filter Pipeline &mdash; 7 Checks</div>
+
+    <div class="callout callout-info" style="margin-bottom:16px;">
+      <strong>How to read this:</strong> Each check runs in sequence. A paper must pass all 7 to be accepted. Click any check to see its reasoning.
+    </div>
+
+    <div class="pipeline" id="pipeline">
+      <!-- Checks rendered dynamically -->
+    </div>
+
+    <div id="final-verdict-container"></div>
+  </div>
+
+  <!-- ── WHAT TO NOTICE ── -->
+  <div class="section">
+    <div class="callout callout-info">
+      <strong style="font-size:0.75rem;text-transform:uppercase;letter-spacing:0.08em;color:var(--teal);display:block;margin-bottom:6px;">What to Notice</strong>
+      <p style="margin-bottom:8px;">The spec did most of the intellectual work. The 7 checks, the keyword banks, the tier classification rules, the false-keyword exclusions &mdash; all of that was designed <em>before</em> a single line of code was written. The AI wrote the JavaScript in minutes. But the spec is where the epistemology lives.</p>
+      <p style="margin-bottom:8px;">Test 3 (shinrin-yoku/cortisol) is the case that matters most. A naive keyword filter would accept it &mdash; &ldquo;forest,&rdquo; &ldquo;nature,&rdquo; &ldquo;experiment&rdquo; all match. But the question asks about <em>attention</em>, and this paper measures <em>cortisol</em>. Same environment, wrong dependent variable. The filter catches this at Check 5 (DV Alignment) and classifies the paper as INDIRECT rather than DIRECT. That distinction is the difference between a contaminated corpus and a clean one.</p>
+      <p style="margin:0;">When something goes wrong during the demo, the fix is always in the spec &mdash; adding a missing keyword, adjusting a tier rule, refining a false-keyword exclusion &mdash; never in the rendering code.</p>
+    </div>
+  </div>
+
+</div>
+
+<script>
+// ═══════════════════════════════════════════════════════
+// PDF Relevance Filter — 7-Check Pipeline
+// ═══════════════════════════════════════════════════════
+
+let questionBank = [];
+let selectedQuestion = null;
+
+// ── Acceptable document types ──
+const ACCEPTABLE_TYPES = new Set([
+  'empirical_research', 'systematic_review', 'meta_analysis',
+  'narrative_review', 'case_study', 'mixed_methods', 'qualitative'
+]);
+const MARGINAL_TYPES = new Set([
+  'theoretical', 'conference_paper', 'thesis', 'book_chapter'
+]);
+const REJECTED_TYPES = new Set([
+  'editorial', 'book_review', 'preprint', 'physics_paper',
+  'not_applicable', 'design_review', 'pedagogical_study',
+  'instrument_validation', 'computational_simulation'
+]);
+
+// ── Topic keyword banks ──
+// These map K-ATLAS topics to required environment-side and outcome-side keywords
+const TOPIC_KEYWORDS = {
+  'Attention Restoration Theory': {
+    env: ['nature', 'natural', 'green', 'garden', 'park', 'forest', 'vegetation', 'landscape', 'outdoor', 'biophilic', 'tree', 'plant', 'window view'],
+    outcome: ['attention', 'directed attention', 'cognitive', 'restoration', 'fatigue', 'concentration', 'executive function', 'working memory'],
+    exclude_false: ['attention deficit', 'ADHD', 'attention disorder', 'clinical attention']
+  },
+  'Stress Recovery Theory': {
+    env: ['nature', 'natural', 'green', 'garden', 'park', 'forest', 'vegetation', 'landscape', 'outdoor', 'biophilic', 'water'],
+    outcome: ['stress', 'cortisol', 'heart rate', 'physiological', 'recovery', 'anxiety', 'blood pressure', 'skin conductance', 'relaxation'],
+    exclude_false: ['heat stress', 'material stress', 'structural stress', 'mechanical stress']
+  },
+  'Lighting': {
+    env: ['light', 'lighting', 'illumina', 'daylight', 'lux', 'CCT', 'colour temperature', 'color temperature', 'LED', 'fluorescent', 'window'],
+    outcome: ['alertness', 'mood', 'performance', 'productivity', 'circadian', 'melatonin', 'sleep', 'wellbeing', 'comfort'],
+    exclude_false: ['light rail', 'light microscopy', 'light chain']
+  },
+  'Acoustic Environment': {
+    env: ['sound', 'noise', 'acoustic', 'audio', 'birdsong', 'music', 'speech', 'decibel', 'dB', 'soundscape'],
+    outcome: ['cognitive', 'performance', 'stress', 'annoyance', 'comfort', 'concentration', 'productivity', 'wellbeing', 'health'],
+    exclude_false: ['acoustic emission testing', 'acoustic microscopy']
+  },
+  'Urban Green Space': {
+    env: ['green space', 'urban park', 'urban green', 'city park', 'neighborhood green', 'street tree', 'urban forest', 'urban nature'],
+    outcome: ['mental health', 'wellbeing', 'physical activity', 'depression', 'anxiety', 'social cohesion', 'life satisfaction'],
+    exclude_false: ['green building certification', 'green chemistry']
+  },
+  'Views of Nature': {
+    env: ['window view', 'nature view', 'visual access', 'prospect', 'vista', 'scenic', 'landscape view'],
+    outcome: ['recovery', 'stress', 'satisfaction', 'wellbeing', 'pain', 'hospital', 'healing'],
+    exclude_false: []
+  },
+  'Color Psychology': {
+    env: ['color', 'colour', 'hue', 'chromatic', 'paint', 'wall color', 'interior color'],
+    outcome: ['mood', 'arousal', 'performance', 'preference', 'productivity', 'wellbeing', 'perception'],
+    exclude_false: ['color blindness test', 'color rendering index']
+  },
+  'Biophilia': {
+    env: ['biophili', 'nature', 'natural', 'plant', 'green', 'water feature', 'wood', 'organic', 'fractal', 'living wall'],
+    outcome: ['wellbeing', 'productivity', 'stress', 'creativity', 'satisfaction', 'health', 'cognitive'],
+    exclude_false: []
+  }
+};
+
+// ── Evidence type keywords ──
+const EVIDENCE_TYPES = {
+  empirical: ['experiment', 'study', 'participant', 'sample', 'n =', 'p <', 'p =', 'significant', 'ANOVA', 'regression', 'correlation', 'measured', 'observed', 'randomized', 'controlled', 'pre-post', 'between-subjects', 'within-subjects'],
+  review: ['review', 'literature', 'systematic', 'meta-analy', 'synthesis', 'overview', 'survey of'],
+  theoretical: ['framework', 'model', 'theory', 'proposes', 'conceptual', 'hypothetical', 'philosophical'],
+  qualitative: ['interview', 'qualitative', 'thematic analysis', 'grounded theory', 'ethnograph', 'phenomeno', 'focus group']
+};
+
+// ── Example papers ──
+const EXAMPLES = {
+  direct_hit: {
+    title: "Attention restoration and performance enhancement in a simulated natural environment after cognitive fatigue",
+    abstract: "This study examined whether exposure to a simulated natural environment restores directed attention capacity following cognitive fatigue. Sixty-eight university students completed a sustained attention task to induce fatigue, then were randomly assigned to view either nature images (n=34) or urban images (n=34) for 10 minutes. Post-exposure, participants completed the Attention Network Test. The nature group showed significantly better performance on the executive attention network (F(1,66) = 8.34, p = .005, d = 0.71) and reported lower subjective fatigue. These findings support Attention Restoration Theory (Kaplan, 1995) and suggest that even simulated nature exposure can restore directed attention after cognitive depletion.",
+    type: "empirical_research",
+    year: 2023
+  },
+  off_topic: {
+    title: "Structural analysis of reinforced concrete beams under cyclic loading conditions",
+    abstract: "This paper presents a finite element analysis of reinforced concrete beam-column joints subjected to reversed cyclic loading. Using ABAQUS software, we modeled the nonlinear behavior of concrete under compression and tension, accounting for steel reinforcement yielding and bond-slip effects. Results from 12 numerical models were validated against experimental data from full-scale tests. The proposed model accurately predicts ultimate load capacity within 8% error. Parametric studies reveal that transverse reinforcement ratio and concrete compressive strength are the dominant factors affecting joint shear capacity. Design recommendations are provided for seismic regions.",
+    type: "computational_simulation",
+    year: 2022
+  },
+  adjacent_wrong_dv: {
+    title: "Shinrin-yoku (forest bathing) and salivary cortisol responses: A field experiment in temperate forests",
+    abstract: "We investigated the effects of forest bathing (shinrin-yoku) on salivary cortisol levels in 45 healthy adults. Participants spent 2 hours walking in either a temperate forest or an urban commercial district in a crossover design. Salivary cortisol was measured at baseline, 30 min, 60 min, and 120 min. Forest exposure produced significantly lower cortisol at 60 min (p = .003) and 120 min (p < .001) compared to urban exposure. Heart rate variability also shifted toward parasympathetic dominance during forest walks. These results demonstrate physiological stress reduction from nature exposure, supporting Ulrich's Stress Recovery Theory.",
+    type: "empirical_research",
+    year: 2024
+  },
+  false_keyword: {
+    title: "Attention deficit hyperactivity disorder in natural and urban classroom settings: A comparative study",
+    abstract: "This study compared ADHD symptom severity in children attending schools in rural natural settings versus urban settings. We assessed 120 children diagnosed with ADHD (ages 8-12) using the Conners Rating Scale across two school types. While children in rural schools showed marginally lower hyperactivity scores, the differences were not statistically significant after controlling for socioeconomic status and medication usage. The nature of attention deficits in ADHD appears largely invariant to environmental setting, suggesting that environmental interventions alone are insufficient for clinical populations.",
+    type: "empirical_research",
+    year: 2023
+  },
+  indirect: {
+    title: "Measuring directed attention fatigue: Validation of the Attention Restoration Scale across three populations",
+    abstract: "This study validates the Attention Restoration Scale (ARS) as a measure of perceived restorative quality of environments. Three samples were collected: university students (n=312), office workers (n=188), and hospital patients (n=97). Confirmatory factor analysis supported the four-factor structure (fascination, being-away, extent, compatibility) across all samples (CFI > .95, RMSEA < .06). Internal consistency was acceptable (alpha = .82-.89). The ARS showed significant correlations with the Perceived Restorativeness Scale (r = .74) and negative correlations with subjective fatigue (r = -.41). We provide normative data and recommend cutoff scores for use in environmental design research.",
+    type: "empirical_research",
+    year: 2024
+  }
+};
+
+// ══════════════════════════════════════════
+// Load question bank
+// ══════════════════════════════════════════
+async function loadQuestions() {
+  try {
+    const resp = await fetch('../data/ka_payloads/question_bank.json');
+    const data = await resp.json();
+    questionBank = data.questions;
+    renderQuestionList(questionBank);
+  } catch (err) {
+    document.getElementById('q-list').innerHTML =
+      '<div style="padding:16px;color:var(--rose);">Failed to load question bank. Check that question_bank.json is accessible.</div>';
+  }
+}
+
+function renderQuestionList(questions) {
+  const list = document.getElementById('q-list');
+  list.innerHTML = questions.map(q => `
+    <div class="question-card ${selectedQuestion?.question_id === q.question_id ? 'selected' : ''}"
+         onclick="selectQuestion('${q.question_id}')">
+      <div class="q-id">${q.question_id}</div>
+      <div class="q-text">${q.question_text}</div>
+      <div class="q-meta">
+        <span class="tag tag-blue">${q.topic}</span>
+        <span class="tag ${q.difficulty === 'easy' ? 'tag-green' : q.difficulty === 'hard' ? 'tag-red' : 'tag-amber'}">${q.difficulty}</span>
+        ${q.subtopic ? `<span>${q.subtopic}</span>` : ''}
+      </div>
+    </div>
+  `).join('');
+}
+
+function selectQuestion(qid) {
+  selectedQuestion = questionBank.find(q => q.question_id === qid);
+  renderQuestionList(questionBank.filter(q => matchesSearch(q, document.getElementById('q-search-input').value)));
+
+  const box = document.getElementById('selected-question');
+  if (selectedQuestion) {
+    box.innerHTML = `
+      <div style="background:var(--teal-bg);border:1.5px solid var(--teal);border-radius:8px;padding:12px 16px;">
+        <div style="font-size:0.75rem;font-weight:700;color:var(--teal);margin-bottom:4px;">SELECTED QUESTION</div>
+        <div style="font-size:0.95rem;font-weight:600;color:var(--navy);">${selectedQuestion.question_id}: ${selectedQuestion.question_text}</div>
+        <div style="font-size:0.82rem;color:var(--muted);margin-top:4px;">
+          Topic: ${selectedQuestion.topic} &middot; Difficulty: ${selectedQuestion.difficulty}
+          ${selectedQuestion.description ? `<br>${selectedQuestion.description}` : ''}
+        </div>
+        ${selectedQuestion.search_hints?.length ? `
+          <div style="margin-top:6px;">
+            ${selectedQuestion.search_hints.map(h => `<span class="tag tag-blue">${h}</span>`).join(' ')}
+          </div>` : ''}
+      </div>`;
+  }
+}
+
+function matchesSearch(q, term) {
+  if (!term) return true;
+  const lower = term.toLowerCase();
+  return q.question_id.toLowerCase().includes(lower) ||
+         q.question_text.toLowerCase().includes(lower) ||
+         q.topic.toLowerCase().includes(lower) ||
+         (q.subtopic || '').toLowerCase().includes(lower);
+}
+
+document.getElementById('q-search-input').addEventListener('input', function() {
+  const filtered = questionBank.filter(q => matchesSearch(q, this.value));
+  renderQuestionList(filtered);
+});
+
+// ══════════════════════════════════════════
+// Load example papers
+// ══════════════════════════════════════════
+function loadExample(key) {
+  const ex = EXAMPLES[key];
+  if (!ex) return;
+  document.getElementById('paper-title').value = ex.title;
+  document.getElementById('paper-abstract').value = ex.abstract;
+  document.getElementById('paper-type').value = ex.type || '';
+  document.getElementById('paper-year').value = ex.year || '';
+}
+
+function clearAll() {
+  document.getElementById('paper-title').value = '';
+  document.getElementById('paper-abstract').value = '';
+  document.getElementById('paper-type').value = '';
+  document.getElementById('paper-year').value = '';
+  document.getElementById('pipeline-section').style.display = 'none';
+  document.getElementById('pipeline').innerHTML = '';
+  document.getElementById('final-verdict-container').innerHTML = '';
+}
+
+// ══════════════════════════════════════════
+// The 7-Check Pipeline
+// ══════════════════════════════════════════
+function runFilter() {
+  if (!selectedQuestion) {
+    alert('Please select a K-ATLAS question first.');
+    return;
+  }
+  const title = document.getElementById('paper-title').value.trim();
+  const abstract = document.getElementById('paper-abstract').value.trim();
+  if (!title || !abstract) {
+    alert('Please enter both a paper title and abstract.');
+    return;
+  }
+
+  const paperType = document.getElementById('paper-type').value;
+  const paperYear = document.getElementById('paper-year').value;
+  const fullText = (title + ' ' + abstract).toLowerCase();
+
+  document.getElementById('pipeline-section').style.display = 'block';
+  document.getElementById('pipeline-section').scrollIntoView({ behavior: 'smooth' });
+
+  const checks = [];
+  let stopped = false;
+
+  // ─── CHECK 1: Document Type ───
+  const detectedType = paperType || detectDocType(abstract);
+  const typeAcceptable = ACCEPTABLE_TYPES.has(detectedType);
+  const typeMarginal = MARGINAL_TYPES.has(detectedType);
+
+  checks.push({
+    name: 'Document Type Acceptability',
+    status: typeAcceptable ? 'pass' : typeMarginal ? 'warn' : 'fail',
+    verdict: typeAcceptable ? `Acceptable (${formatType(detectedType)})` :
+             typeMarginal ? `Marginal (${formatType(detectedType)}) — requires manual review` :
+             `Rejected (${formatType(detectedType)})`,
+    reasoning: typeAcceptable
+      ? `This paper is classified as ${formatType(detectedType)}, which is an accepted document type for the K-ATLAS corpus. Empirical research, systematic reviews, meta-analyses, narrative reviews, and case studies all contribute usable evidence.`
+      : typeMarginal
+      ? `This paper is classified as ${formatType(detectedType)}, which is marginal. It may contain useful evidence but requires manual review to determine whether its claims are evidence-backed or purely speculative.`
+      : `This paper is classified as ${formatType(detectedType)}, which is not accepted. The K-ATLAS corpus requires papers that report, synthesize, or review empirical evidence. ${formatType(detectedType)} papers typically don't provide the kind of evidence we can extract.`,
+    tags: [{ label: formatType(detectedType), type: typeAcceptable ? 'green' : typeMarginal ? 'amber' : 'red' }]
+  });
+
+  if (!typeAcceptable && !typeMarginal) stopped = true;
+
+  // ─── CHECK 2: False Keyword Detection ───
+  const topicKW = getTopicKeywords(selectedQuestion.topic);
+  const falseMatches = [];
+  for (const fk of (topicKW.exclude_false || [])) {
+    if (fullText.includes(fk.toLowerCase())) {
+      falseMatches.push(fk);
+    }
+  }
+
+  if (!stopped) {
+    checks.push({
+      name: 'False Keyword Detection',
+      status: falseMatches.length === 0 ? 'pass' : 'fail',
+      verdict: falseMatches.length === 0 ? 'No false keyword matches' : `False match detected: ${falseMatches.join(', ')}`,
+      reasoning: falseMatches.length === 0
+        ? `The paper was checked for terms that look relevant but indicate a different domain (e.g., "attention deficit" when the question is about attention restoration in healthy adults, or "heat stress" when the question is about psychological stress). No false keyword matches were found.`
+        : `The paper contains the term(s) "${falseMatches.join('", "')}" which indicate it addresses a different domain than the question. For example, a paper about clinical ADHD is not relevant to a question about attention restoration from nature exposure in healthy populations, even though both mention "attention."`,
+      tags: falseMatches.map(f => ({ label: f, type: 'red' }))
+    });
+    if (falseMatches.length > 0) stopped = true;
+  }
+
+  // ─── CHECK 3: Topic Overlap ───
+  if (!stopped) {
+    const envMatches = [];
+    const outcomeMatches = [];
+    for (const kw of (topicKW.env || [])) {
+      if (fullText.includes(kw.toLowerCase())) envMatches.push(kw);
+    }
+    for (const kw of (topicKW.outcome || [])) {
+      if (fullText.includes(kw.toLowerCase())) outcomeMatches.push(kw);
+    }
+
+    const hasEnv = envMatches.length > 0;
+    const hasOutcome = outcomeMatches.length > 0;
+    const bothSides = hasEnv && hasOutcome;
+
+    checks.push({
+      name: 'Topic Overlap (Both Sides)',
+      status: bothSides ? 'pass' : (hasEnv || hasOutcome) ? 'warn' : 'fail',
+      verdict: bothSides ? `Matches both environment and outcome keywords` :
+               hasEnv ? `Environment match only — missing outcome keywords` :
+               hasOutcome ? `Outcome match only — missing environment keywords` :
+               'No topic overlap with question domain',
+      reasoning: bothSides
+        ? `A relevant paper must address BOTH sides of the question: the environmental variable (e.g., "${topicKW.env.slice(0,3).join('", "')}") AND the outcome variable (e.g., "${topicKW.outcome.slice(0,3).join('", "')}"). This paper matches ${envMatches.length} environment keywords and ${outcomeMatches.length} outcome keywords.`
+        : `The question "${selectedQuestion.question_id}" requires evidence about BOTH an environment/intervention AND an outcome. ${hasEnv ? 'The paper discusses the environment but not the measured outcome.' : hasOutcome ? 'The paper discusses the outcome but not in the context of the relevant environment.' : 'The paper does not appear to discuss either the environment or the outcome relevant to this question.'}`,
+      tags: [
+        ...envMatches.map(k => ({ label: `ENV: ${k}`, type: 'green' })),
+        ...outcomeMatches.map(k => ({ label: `OUT: ${k}`, type: 'blue' })),
+        ...((!hasEnv) ? [{ label: 'Missing environment', type: 'red' }] : []),
+        ...((!hasOutcome) ? [{ label: 'Missing outcome', type: 'red' }] : [])
+      ]
+    });
+
+    if (!hasEnv && !hasOutcome) stopped = true;
+  }
+
+  // ─── CHECK 4: Evidence Type Match ───
+  if (!stopped) {
+    const evidenceTypes = detectEvidenceTypes(abstract);
+    const hasEmpirical = evidenceTypes.includes('empirical');
+    const hasReview = evidenceTypes.includes('review');
+
+    checks.push({
+      name: 'Evidence Type Match',
+      status: hasEmpirical || hasReview ? 'pass' : 'warn',
+      verdict: hasEmpirical ? 'Contains empirical evidence markers' :
+               hasReview ? 'Review paper with evidence synthesis' :
+               'No clear evidence markers found',
+      reasoning: hasEmpirical
+        ? `The abstract contains markers of empirical evidence: statistical results, sample sizes, experimental methodology, or measured outcomes. This is the strongest evidence type for the K-ATLAS corpus.`
+        : hasReview
+        ? `The paper appears to be a review or synthesis. While it may not report new data, it can provide useful meta-level evidence about the state of a field.`
+        : `The abstract does not contain clear markers of empirical evidence (no statistics, sample sizes, or experimental methods mentioned). It may still be relevant but requires manual review.`,
+      tags: evidenceTypes.map(t => ({ label: t, type: t === 'empirical' ? 'green' : t === 'review' ? 'blue' : 'amber' }))
+    });
+  }
+
+  // ─── CHECK 5: DV Alignment ───
+  if (!stopped) {
+    const questionDVs = extractQuestionDVs(selectedQuestion);
+    const dvMatches = [];
+    const dvMisses = [];
+    for (const dv of questionDVs) {
+      if (fullText.includes(dv.toLowerCase())) {
+        dvMatches.push(dv);
+      } else {
+        dvMisses.push(dv);
+      }
+    }
+
+    const dvAligned = dvMatches.length > 0;
+    checks.push({
+      name: 'Dependent Variable Alignment',
+      status: dvAligned ? 'pass' : 'warn',
+      verdict: dvAligned ? `Measures relevant DVs: ${dvMatches.join(', ')}` : 'DV alignment uncertain — may measure different outcomes',
+      reasoning: dvAligned
+        ? `The question asks about specific outcomes. The paper explicitly addresses ${dvMatches.length > 1 ? 'multiple relevant DVs' : 'the relevant DV'}: ${dvMatches.join(', ')}. This means the evidence can directly inform the question.`
+        : `The question expects evidence about: ${questionDVs.join(', ')}. The paper does not clearly mention these outcomes. It may measure related but different constructs — for instance, measuring cortisol (physiological stress) when the question asks about cognitive attention. This is the "adjacent but wrong DV" problem.`,
+      tags: [
+        ...dvMatches.map(d => ({ label: `DV: ${d}`, type: 'green' })),
+        ...dvMisses.map(d => ({ label: `Missing: ${d}`, type: 'amber' }))
+      ]
+    });
+  }
+
+  // ─── CHECK 6: Tier Classification ───
+  if (!stopped) {
+    const tier = classifyTier(checks);
+    const tierColors = { DIRECT: 'green', INDIRECT: 'amber', CONTEXTUAL: 'amber', IRRELEVANT: 'red' };
+
+    checks.push({
+      name: 'Relevance Tier Classification',
+      status: tier.tier === 'DIRECT' ? 'pass' : tier.tier === 'IRRELEVANT' ? 'fail' : 'warn',
+      verdict: `Tier: ${tier.tier}`,
+      reasoning: tier.explanation,
+      tags: [{ label: tier.tier, type: tierColors[tier.tier] || 'amber' }]
+    });
+
+    if (tier.tier === 'IRRELEVANT') stopped = true;
+  }
+
+  // ─── CHECK 7: Reasoning Summary ───
+  if (!stopped) {
+    const overall = generateOverallReasoning(checks, selectedQuestion, title);
+    checks.push({
+      name: 'Final Reasoning',
+      status: overall.accept ? 'pass' : 'warn',
+      verdict: overall.accept ? 'Accept into corpus' : 'Needs manual review',
+      reasoning: overall.reasoning,
+      tags: []
+    });
+  }
+
+  // Render pipeline
+  renderPipeline(checks, stopped);
+}
+
+// ── Helper: detect document type from abstract ──
+function detectDocType(abstract) {
+  const lower = abstract.toLowerCase();
+  for (const [type, keywords] of Object.entries(EVIDENCE_TYPES)) {
+    let hits = 0;
+    for (const kw of keywords) {
+      if (lower.includes(kw.toLowerCase())) hits++;
+    }
+    if (type === 'empirical' && hits >= 3) return 'empirical_research';
+    if (type === 'review' && hits >= 2) return 'narrative_review';
+    if (type === 'theoretical' && hits >= 2) return 'theoretical';
+    if (type === 'qualitative' && hits >= 2) return 'qualitative';
+  }
+  return 'empirical_research'; // default assumption
+}
+
+// ── Helper: detect evidence types ──
+function detectEvidenceTypes(abstract) {
+  const lower = abstract.toLowerCase();
+  const found = [];
+  for (const [type, keywords] of Object.entries(EVIDENCE_TYPES)) {
+    let hits = 0;
+    for (const kw of keywords) {
+      if (lower.includes(kw.toLowerCase())) hits++;
+    }
+    if (hits >= 2) found.push(type);
+  }
+  return found;
+}
+
+// ── Helper: get topic keywords (with fallback) ──
+function getTopicKeywords(topic) {
+  // Direct match
+  if (TOPIC_KEYWORDS[topic]) return TOPIC_KEYWORDS[topic];
+
+  // Fuzzy match
+  for (const [key, val] of Object.entries(TOPIC_KEYWORDS)) {
+    if (topic.toLowerCase().includes(key.toLowerCase()) || key.toLowerCase().includes(topic.toLowerCase())) {
+      return val;
+    }
+  }
+
+  // Extract keywords from question text as fallback
+  if (selectedQuestion) {
+    const words = selectedQuestion.question_text.toLowerCase().split(/\s+/).filter(w => w.length > 4);
+    return { env: words.slice(0, 5), outcome: words.slice(5, 10), exclude_false: [] };
+  }
+
+  return { env: [], outcome: [], exclude_false: [] };
+}
+
+// ── Helper: extract DVs from question ──
+function extractQuestionDVs(q) {
+  const dvTerms = [];
+  const text = q.question_text.toLowerCase();
+
+  // Common DV patterns
+  const dvPatterns = [
+    'attention', 'cognitive', 'performance', 'stress', 'cortisol', 'wellbeing',
+    'well-being', 'mood', 'anxiety', 'depression', 'health', 'recovery',
+    'satisfaction', 'productivity', 'creativity', 'pain', 'sleep', 'fatigue',
+    'alertness', 'comfort', 'heart rate', 'blood pressure', 'restoration'
+  ];
+
+  for (const dv of dvPatterns) {
+    if (text.includes(dv)) dvTerms.push(dv);
+  }
+
+  // Also extract from search hints
+  for (const hint of (q.search_hints || [])) {
+    const words = hint.toLowerCase().split(/\s+/);
+    for (const dv of dvPatterns) {
+      if (hint.toLowerCase().includes(dv) && !dvTerms.includes(dv)) {
+        dvTerms.push(dv);
+      }
+    }
+  }
+
+  return [...new Set(dvTerms)];
+}
+
+// ── Helper: classify relevance tier ──
+function classifyTier(checks) {
+  const topicCheck = checks.find(c => c.name.includes('Topic Overlap'));
+  const dvCheck = checks.find(c => c.name.includes('DV Alignment'));
+  const evidenceCheck = checks.find(c => c.name.includes('Evidence Type'));
+
+  const topicPass = topicCheck?.status === 'pass';
+  const dvPass = dvCheck?.status === 'pass';
+  const evidencePass = evidenceCheck?.status === 'pass';
+
+  if (topicPass && dvPass && evidencePass) {
+    return { tier: 'DIRECT', explanation: 'The paper directly addresses both the environmental variable and the outcome variable of the question, with empirical evidence. This is the highest relevance tier — the paper provides evidence that can be extracted and integrated into the K-ATLAS knowledge base.' };
+  }
+  if (topicPass && dvPass) {
+    return { tier: 'DIRECT', explanation: 'The paper addresses both sides of the question (environment and outcome). Even without strong empirical markers, the topic alignment makes it directly relevant.' };
+  }
+  if (topicPass && !dvPass) {
+    return { tier: 'INDIRECT', explanation: 'The paper discusses the right environmental domain but may measure different outcomes than the question asks about. It provides context and background evidence but may not directly answer the question. Example: a paper about nature exposure measuring cortisol when the question asks about attention.' };
+  }
+  if (!topicPass && dvPass) {
+    return { tier: 'CONTEXTUAL', explanation: 'The paper measures relevant outcomes but in a different environmental context. It could provide methodological insights or comparative benchmarks but does not address the specific environment-outcome relationship the question targets.' };
+  }
+  return { tier: 'IRRELEVANT', explanation: 'The paper does not clearly address either the environmental variable or the outcome variable of the question. It should not be included in the corpus for this question.' };
+}
+
+// ── Helper: generate overall reasoning ──
+function generateOverallReasoning(checks, question, title) {
+  const allPass = checks.every(c => c.status === 'pass');
+  const anyFail = checks.some(c => c.status === 'fail');
+  const warns = checks.filter(c => c.status === 'warn');
+
+  if (allPass) {
+    return {
+      accept: true,
+      reasoning: `The paper "${title}" passes all checks for question ${question.question_id}. It is an acceptable document type, matches both the environment and outcome keywords, provides empirical evidence, and directly addresses the question's dependent variables. Recommendation: ACCEPT into corpus.`
+    };
+  }
+  if (anyFail) {
+    const failChecks = checks.filter(c => c.status === 'fail');
+    return {
+      accept: false,
+      reasoning: `The paper failed ${failChecks.length} check(s): ${failChecks.map(c => c.name).join(', ')}. Recommendation: REJECT — the paper does not provide evidence relevant to this question.`
+    };
+  }
+  return {
+    accept: false,
+    reasoning: `The paper passed core checks but has ${warns.length} warning(s): ${warns.map(c => c.name + ' (' + c.verdict + ')').join('; ')}. Recommendation: MANUAL REVIEW — a human should evaluate whether the evidence is sufficiently aligned with the question.`
+  };
+}
+
+// ── Format type name ──
+function formatType(t) {
+  return (t || 'unknown').replace(/_/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+}
+
+// ══════════════════════════════════════════
+// Render pipeline
+// ══════════════════════════════════════════
+function renderPipeline(checks, stopped) {
+  const pipeline = document.getElementById('pipeline');
+  const totalChecks = 7;
+
+  let html = '';
+  for (let i = 0; i < totalChecks; i++) {
+    if (i < checks.length) {
+      const c = checks[i];
+      html += `
+        <div class="check-step ${c.status}" onclick="toggleCheck(this)">
+          <div class="check-header">
+            <div class="check-icon">${c.status === 'pass' ? '✓' : c.status === 'fail' ? '✗' : '!'}</div>
+            <div class="check-name">Check ${i + 1}: ${c.name}</div>
+            <div class="check-verdict">${c.verdict}</div>
+          </div>
+          <div class="check-body">
+            <div class="reasoning">${c.reasoning}</div>
+            ${c.tags.length ? `<div class="evidence">${c.tags.map(t => `<span class="tag tag-${t.type}">${t.label}</span>`).join('')}</div>` : ''}
+          </div>
+        </div>`;
+    } else {
+      // Pending checks (not reached because pipeline stopped)
+      const pendingNames = [
+        'Document Type Acceptability', 'False Keyword Detection', 'Topic Overlap (Both Sides)',
+        'Evidence Type Match', 'Dependent Variable Alignment', 'Relevance Tier Classification', 'Final Reasoning'
+      ];
+      html += `
+        <div class="check-step pending">
+          <div class="check-header">
+            <div class="check-icon">—</div>
+            <div class="check-name">Check ${i + 1}: ${pendingNames[i]}</div>
+            <div class="check-verdict">Skipped (pipeline stopped)</div>
+          </div>
+        </div>`;
+    }
+  }
+  pipeline.innerHTML = html;
+
+  // Final verdict
+  const lastCheck = checks[checks.length - 1];
+  const anyFail = checks.some(c => c.status === 'fail');
+  const allPass = checks.every(c => c.status === 'pass');
+
+  const verdictContainer = document.getElementById('final-verdict-container');
+  if (anyFail || stopped) {
+    verdictContainer.innerHTML = `
+      <div class="final-verdict verdict-reject">
+        <div class="verdict-label">Pipeline Verdict</div>
+        <div class="verdict-title">REJECT</div>
+        <div class="verdict-body">
+          This paper does not provide evidence relevant to question ${selectedQuestion.question_id}.
+          The pipeline stopped at Check ${checks.length}: ${checks[checks.length - 1].name}.
+          <br><br><strong>Reason:</strong> ${checks[checks.length - 1].verdict}
+        </div>
+        <div class="tier-badge" style="background:#fdf0ef;color:var(--rose);">IRRELEVANT</div>
+      </div>`;
+  } else if (allPass) {
+    const tierCheck = checks.find(c => c.name.includes('Tier'));
+    const tier = tierCheck?.verdict?.replace('Tier: ', '') || 'DIRECT';
+    verdictContainer.innerHTML = `
+      <div class="final-verdict verdict-accept">
+        <div class="verdict-label">Pipeline Verdict</div>
+        <div class="verdict-title">ACCEPT</div>
+        <div class="verdict-body">
+          This paper provides evidence relevant to question ${selectedQuestion.question_id} and should be included in the K-ATLAS corpus.
+          All 7 checks passed.
+        </div>
+        <div class="tier-badge" style="background:var(--teal-bg);color:var(--green);">${tier}</div>
+      </div>`;
+  } else {
+    const tierCheck = checks.find(c => c.name.includes('Tier'));
+    const tier = tierCheck?.verdict?.replace('Tier: ', '') || 'INDIRECT';
+    verdictContainer.innerHTML = `
+      <div class="final-verdict verdict-review">
+        <div class="verdict-label">Pipeline Verdict</div>
+        <div class="verdict-title">MANUAL REVIEW NEEDED</div>
+        <div class="verdict-body">
+          The paper may be relevant to question ${selectedQuestion.question_id} but has ${checks.filter(c => c.status === 'warn').length} warning(s) that require human judgment.
+        </div>
+        <div class="tier-badge" style="background:var(--amber-lt);color:var(--amber-dk);">${tier}</div>
+      </div>`;
+  }
+}
+
+function toggleCheck(el) {
+  const body = el.querySelector('.check-body');
+  if (body) body.classList.toggle('open');
+}
+
+// ── Init ──
+loadQuestions();
+</script>
+
+</body>
+</html>

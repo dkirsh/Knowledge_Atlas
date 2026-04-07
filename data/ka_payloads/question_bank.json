@@ -1,0 +1,1596 @@
+{
+  "questions": [
+    {
+      "question_id": "SQ-006",
+      "question_text": "What studies have attempted to empirically separate ART (attention fatigue restoration) from SRT (physiological stress recovery) pathways in the same experimental design?",
+      "topic": "ART vs SRT",
+      "subtopic": "Empirical confound",
+      "difficulty": "hard",
+      "description": "This is the central confound in the field. Finding a decisive dissociation study would be a major contribution.",
+      "search_hints": [
+        "ART SRT dissociation",
+        "attention restoration stress recovery compare",
+        "Kaplan Ulrich same study mechanism"
+      ]
+    },
+    {
+      "question_id": "SQ-014",
+      "question_text": "What is the evidence that natural sounds (birdsong, flowing water) reduce stress or improve cognitive performance compared to urban noise?",
+      "topic": "Acoustic Environment",
+      "subtopic": "Nature sounds",
+      "difficulty": "easy",
+      "description": "Acoustic biophilia \u2014 an important and growing literature.",
+      "search_hints": [
+        "birdsong stress reduction",
+        "nature sounds cognitive performance",
+        "acoustic environment wellbeing"
+      ]
+    },
+    {
+      "question_id": "SQ-015",
+      "question_text": "How does noise from open-plan offices affect cognitive performance and stress, and what acoustic interventions most reduce the harm?",
+      "topic": "Acoustic Environment",
+      "subtopic": "Open-plan offices",
+      "difficulty": "medium",
+      "description": "Highly practical question with a large applied literature.",
+      "search_hints": [
+        "open plan office noise cognitive",
+        "acoustic privacy office",
+        "speech intelligibility distraction"
+      ]
+    },
+    {
+      "question_id": "SQ-107",
+      "question_text": "What evidence from large-scale epidemiological studies shows that neighbourhood walkability scores\u2014combining land use mix, street connectivity, and residential density\u2014independently predict objectively measured physical activity and cardiovascular health outcomes after adjusting for individual-level confounders?",
+      "topic": "Active Design",
+      "subtopic": "Walkability and health",
+      "difficulty": "easy",
+      "description": "Walkability and physical activity \u2014 well-studied but confounding is a persistent challenge.",
+      "search_hints": [
+        "Neighbourhood walkability score physical activity cardiovascular health evidence epidemiological",
+        "Do walkable neighbourhoods cause higher physical activity and better health after controlling for confounders?"
+      ]
+    },
+    {
+      "question_id": "SQ-108",
+      "question_text": "What evidence shows that architectural interventions improving stairwell attractiveness\u2014including natural light, artwork, music, or point-of-decision prompts\u2014meaningfully increase stair use over elevator or escalator use in real workplace or public-building settings?",
+      "topic": "Active Design",
+      "subtopic": "Stair design and behaviour",
+      "difficulty": "easy",
+      "description": "Active design in buildings \u2014 point-of-choice prompts and aesthetic stairwells.",
+      "search_hints": [
+        "Stairwell design attractiveness stair use elevator preference evidence active design",
+        "Do attractive naturally lit stairwells increase stair climbing compared to elevators evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-109",
+      "question_text": "What evidence shows that nature-integrated school play environments\u2014including loose parts, naturalistic landforms, vegetation, and water features\u2014increase the vigour and duration of children's physical activity at recess compared to conventional equipment-focused playgrounds?",
+      "topic": "Active Design",
+      "subtopic": "Natural play environments",
+      "difficulty": "medium",
+      "description": "Nature play and physical activity \u2014 connects landscape design to public health.",
+      "search_hints": [
+        "Nature play schoolyard physical activity recess vigour evidence compared traditional playground",
+        "Do naturalistic school playgrounds with loose parts and vegetation increase children's physical activity?"
+      ]
+    },
+    {
+      "question_id": "SQ-110",
+      "question_text": "What evidence shows that proximity to quality urban parks\u2014controlling for socioeconomic status, age, and self-selection\u2014independently predicts objectively measured moderate-to-vigorous physical activity levels in adults and children?",
+      "topic": "Active Design",
+      "subtopic": "Park access and activity",
+      "difficulty": "medium",
+      "description": "Park access and physical activity \u2014 self-selection bias is a major challenge in this literature.",
+      "search_hints": [
+        "Urban park proximity physical activity adults children evidence controlling self-selection socioeconomic",
+        "Does living near parks independently increase physical activity controlling for income and self-selection?"
+      ]
+    },
+    {
+      "question_id": "SQ-001",
+      "question_text": "What empirical evidence supports the claim that natural environments restore directed attention better than urban environments?",
+      "topic": "Attention Restoration Theory",
+      "subtopic": "Core evidence",
+      "difficulty": "easy",
+      "description": "Tests Kaplan & Kaplan (1989) core ART prediction. Good starter question with broad literature.",
+      "search_hints": [
+        "attention restoration theory",
+        "directed attention fatigue",
+        "nature restorative",
+        "Kaplan involuntary attention"
+      ]
+    },
+    {
+      "question_id": "SQ-002",
+      "question_text": "What studies distinguish fascination as the active mechanism in attention restoration from mere relaxation or positive affect?",
+      "topic": "Attention Restoration Theory",
+      "subtopic": "Mechanism",
+      "difficulty": "medium",
+      "description": "Targets the mechanism question \u2014 does fascination per se do the work, or is it confounded with mood?",
+      "search_hints": [
+        "fascination attention restoration",
+        "involuntary attention mechanism",
+        "ART mechanism isolation"
+      ]
+    },
+    {
+      "question_id": "SQ-003",
+      "question_text": "Can built indoor environments (offices, classrooms, hospitals) produce attention restoration effects comparable to outdoor nature?",
+      "topic": "Attention Restoration Theory",
+      "subtopic": "Built environment",
+      "difficulty": "medium",
+      "description": "Tests ART transferability to built interiors \u2014 especially relevant for biophilic design.",
+      "search_hints": [
+        "indoor nature restorative",
+        "biophilic design attention",
+        "window view restoration office"
+      ]
+    },
+    {
+      "question_id": "SQ-007",
+      "question_text": "What experimental evidence supports the biophilia hypothesis \u2014 an innate human affinity for natural environments \u2014 as opposed to learned preference?",
+      "topic": "Biophilia",
+      "subtopic": "Evolutionary basis",
+      "difficulty": "medium",
+      "description": "Tests Wilson (1984) innate claim. Cross-cultural and infant studies most relevant.",
+      "search_hints": [
+        "biophilia hypothesis evidence",
+        "innate nature preference",
+        "cross-cultural biophilia Wilson"
+      ]
+    },
+    {
+      "question_id": "SQ-008",
+      "question_text": "What design features \u2014 plants, water, natural light, natural materials \u2014 show the strongest evidence for reducing stress or improving wellbeing in offices?",
+      "topic": "Biophilia",
+      "subtopic": "Design translation",
+      "difficulty": "medium",
+      "description": "Applied biophilic design question. Connects theory to practice.",
+      "search_hints": [
+        "biophilic design office wellbeing",
+        "indoor plants stress reduction",
+        "natural light workplace health"
+      ]
+    },
+    {
+      "question_id": "SQ-009",
+      "question_text": "How well do findings from Japanese forest-bathing (shinrin-yoku) studies generalise to Western or urban populations?",
+      "topic": "Biophilia",
+      "subtopic": "Population transfer",
+      "difficulty": "medium",
+      "description": "Population transfer question \u2014 directly relevant to the K-ATLAS corpus gap around East Asian study cohorts.",
+      "search_hints": [
+        "shinrin-yoku Western populations",
+        "forest bathing generalisation",
+        "cross-cultural nature stress Japan"
+      ]
+    },
+    {
+      "question_id": "SQ-128",
+      "question_text": "What evidence shows that contact with biodiverse natural environments\u2014soil microbiota, plant surfaces, woodland air\u2014affects the human gut and skin microbiome in ways that subsequently modulate immune function, inflammation markers, and mental health via the gut-brain axis?",
+      "topic": "Biophilia",
+      "subtopic": "Microbiome and nature contact",
+      "difficulty": "hard",
+      "description": "The microbiome mechanism for nature-mental health links \u2014 an emerging but rapidly growing literature.",
+      "search_hints": [
+        "Nature contact microbiome gut brain axis immune function mental health evidence",
+        "Does contact with natural environments change the microbiome in ways that improve mental health evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-129",
+      "question_text": "What evidence shows that structured nature-based mindfulness programmes\u2014including forest bathing with guided meditative attention\u2014produce greater reductions in stress, anxiety, and rumination than equivalent time spent in nature without guided mindfulness, or mindfulness practice in indoor settings?",
+      "topic": "Biophilia",
+      "subtopic": "Mindfulness and nature",
+      "difficulty": "medium",
+      "description": "Nature + mindfulness interaction \u2014 is the combination superadditive?",
+      "search_hints": [
+        "Nature mindfulness forest bathing guided meditation stress anxiety rumination evidence",
+        "Is mindfulness combined with nature more effective than nature alone or indoor mindfulness evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-130",
+      "question_text": "What evidence shows that restorative and stress-reducing effects of natural environments vary significantly across seasons\u2014with winter bare-canopy urban parks producing weaker effects than the same parks in summer\u2014and what design or programming interventions offset seasonal degradation of restorative quality?",
+      "topic": "Biophilia",
+      "subtopic": "Seasonal variation in effect",
+      "difficulty": "medium",
+      "description": "Seasonal variation in restorative environments \u2014 a practical question for park design and management.",
+      "search_hints": [
+        "Seasonal variation restorative environment winter summer nature effect evidence",
+        "Are parks and natural environments less restorative in winter compared to summer evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-023",
+      "question_text": "What experimental evidence supports specific colour recommendations (e.g. blue for focus, green for calm) in educational or healthcare interior design?",
+      "topic": "Color Psychology",
+      "subtopic": "Built environment",
+      "difficulty": "easy",
+      "description": "Applied colour psychology \u2014 a domain where popular claims often outrun the evidence.",
+      "search_hints": [
+        "colour psychology built environment",
+        "blue green mood productivity",
+        "color classroom healthcare evidence"
+      ]
+    },
+    {
+      "question_id": "SQ-099",
+      "question_text": "What experimental evidence shows that walking in natural environments\u2014as opposed to equivalent urban walks or treadmill walking\u2014specifically enhances scores on divergent and convergent creative thinking tests, and what mechanism\u2014ART, positive affect, or reduced rumination\u2014best explains the effect?",
+      "topic": "Creativity and Cognition",
+      "subtopic": "Nature and divergent thinking",
+      "difficulty": "medium",
+      "description": "Walking, nature, and creativity \u2014 the mechanism is genuinely disputed.",
+      "search_hints": [
+        "Walking nature divergent thinking creativity mechanism ART positive affect evidence",
+        "Does walking in nature enhance creative thinking more than urban walking and why evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-100",
+      "question_text": "What evidence shows that moderate ambient noise\u2014approximately 65\u201370 dB, as found in coffee shops\u2014enhances performance on divergent thinking tasks compared to silence, and how does this relate to the effect of noise on analytical versus creative work?",
+      "topic": "Creativity and Cognition",
+      "subtopic": "Ambient noise and creativity",
+      "difficulty": "medium",
+      "description": "The Starbucks effect \u2014 evidence for and against creativity-friendly noise levels.",
+      "search_hints": [
+        "Ambient noise 70 dB coffee shop creative thinking divergent evidence",
+        "Does moderate background noise like a coffee shop enhance divergent creative thinking evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-101",
+      "question_text": "What experimental evidence tests the prediction that high-ceiling spaces promote abstract, categorical, and creative thinking while low-ceiling spaces promote concrete, detail-focused thinking, and how replicable is the original Meyers-Levy finding?",
+      "topic": "Creativity and Cognition",
+      "subtopic": "Ceiling height and abstract thought",
+      "difficulty": "medium",
+      "description": "Ceiling height and abstraction \u2014 the replication record matters for K-ATLAS credence.",
+      "search_hints": [
+        "Ceiling height abstract thinking creativity Meyers-Levy replication evidence",
+        "Does ceiling height affect abstract thinking and creativity replication evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-102",
+      "question_text": "What evidence shows that creative professionals in naturally lit studio or office environments\u2014compared to artificially lit equivalent spaces\u2014produce higher originality ratings, more varied outputs, and report higher creative self-efficacy?",
+      "topic": "Creativity and Cognition",
+      "subtopic": "Daylighting and creative output",
+      "difficulty": "medium",
+      "description": "Natural light and creative performance \u2014 extends daylighting evidence beyond productivity.",
+      "search_hints": [
+        "Natural daylight creative studio originality creative performance evidence",
+        "Does natural light in design studios improve creative output quality compared to artificial light evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-082",
+      "question_text": "What evidence shows that perceived residential crowding\u2014independent of objective density\u2014is associated with elevated cortisol, disrupted sleep, reduced cognitive performance, and impaired children's reading scores?",
+      "topic": "Crowding and Privacy",
+      "subtopic": "Perceived crowding and cognition",
+      "difficulty": "medium",
+      "description": "Perceived vs. objective crowding distinction \u2014 critical for understanding equity effects of housing.",
+      "search_hints": [
+        "Perceived crowding residential cortisol sleep cognitive performance children evidence",
+        "Is perceived crowding independent of objective density associated with stress and cognitive impairment evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-083",
+      "question_text": "What evidence shows that the degree of acoustic and visual privacy available in workplace settings independently affects willingness to disclose sensitive information, perceived psychological safety, and quality of interpersonal conversations?",
+      "topic": "Crowding and Privacy",
+      "subtopic": "Acoustic privacy and trust",
+      "difficulty": "medium",
+      "description": "Privacy and trust \u2014 connects spatial design to organisational psychology and safety culture.",
+      "search_hints": [
+        "Acoustic privacy workplace psychological safety trust sensitive conversation evidence",
+        "Does acoustic privacy in offices affect trust and willingness to share sensitive information evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-084",
+      "question_text": "What evidence shows that public transport crowding\u2014measured by passenger density at peak hours\u2014increases salivary cortisol, perceived interpersonal threat, and subsequent social withdrawal behaviour compared to uncrowded journeys of equal length?",
+      "topic": "Crowding and Privacy",
+      "subtopic": "Transport crowding and withdrawal",
+      "difficulty": "medium",
+      "description": "Transport crowding and social sequelae \u2014 bridges environmental psychology and public health.",
+      "search_hints": [
+        "Public transport crowding cortisol stress social withdrawal evidence commuting",
+        "Does crowded public transport increase stress hormones and social avoidance evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-085",
+      "question_text": "What evidence shows that designing open-plan offices with semi-private territorial zones\u2014including visual barriers, acoustic enclosures, and clearly demarcated personal areas\u2014reduces reports of territorial conflict, perceived crowding, and job strain?",
+      "topic": "Crowding and Privacy",
+      "subtopic": "Territorial design and conflict",
+      "difficulty": "medium",
+      "description": "Territoriality in open offices \u2014 a design strategy to restore personal space without physical walls.",
+      "search_hints": [
+        "Territorial design open plan office semi-private zones territorial conflict crowding evidence",
+        "Do semi-private zones and territorial cues in open offices reduce conflict and perceived crowding?"
+      ]
+    },
+    {
+      "question_id": "SQ-029",
+      "question_text": "How does cultural background shape preferences for natural versus built environments, and what are the implications for universal design guidelines?",
+      "topic": "Cultural Variation",
+      "subtopic": "Nature preference",
+      "difficulty": "medium",
+      "description": "Cross-cultural validity of Western-derived environmental psychology principles.",
+      "search_hints": [
+        "cross-cultural nature preference",
+        "biophilic design culture",
+        "cultural variation restorative environment"
+      ]
+    },
+    {
+      "question_id": "SQ-026",
+      "question_text": "What evidence shows that daylighting strategies in buildings reduce seasonal mood changes or depressive symptoms beyond clinical SAD populations?",
+      "topic": "Daylighting",
+      "subtopic": "Seasonal and mood effects",
+      "difficulty": "medium",
+      "description": "Extends the SAD literature to general populations \u2014 important for building code and design.",
+      "search_hints": [
+        "daylighting seasonal depression",
+        "light therapy SAD generalisation",
+        "window daylighting mood nonclinical"
+      ]
+    },
+    {
+      "question_id": "SQ-059",
+      "question_text": "What peer-reviewed evidence\u2014including large-scale longitudinal studies such as the Heschong Mahone daylighting studies\u2014shows that classroom daylighting quality predicts reading and mathematics achievement in elementary school students after controlling for socioeconomic factors?",
+      "topic": "Educational Design",
+      "subtopic": "Classroom daylighting and achievement",
+      "difficulty": "easy",
+      "description": "The Heschong Mahone studies are the most cited classroom daylighting evidence \u2014 but have been contested on methodology.",
+      "search_hints": [
+        "Classroom daylighting natural light student achievement reading mathematics evidence",
+        "Does more daylight in classrooms improve student academic performance Heschong Mahone evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-060",
+      "question_text": "What evidence shows that excessive reverberation and background noise levels in primary school classrooms\u2014above the recommended signal-to-noise ratio of +15 dB\u2014impair phonological processing, reading fluency, and language development in young children?",
+      "topic": "Educational Design",
+      "subtopic": "Classroom acoustics and language",
+      "difficulty": "medium",
+      "description": "Acoustic standards for classrooms \u2014 the evidence base for ANSI S12.60 classroom acoustics guidelines.",
+      "search_hints": [
+        "Classroom noise reverberation phonological processing reading language development children evidence",
+        "How does acoustic quality in schools affect language development and reading in children?"
+      ]
+    },
+    {
+      "question_id": "SQ-061",
+      "question_text": "What evidence shows that access to nature-rich schoolyards\u2014with trees, gardens, and unstructured natural materials\u2014improves children's attention, reduces behavioural problems, and supports executive function compared to conventional paved playgrounds?",
+      "topic": "Educational Design",
+      "subtopic": "Outdoor learning and behaviour",
+      "difficulty": "medium",
+      "description": "Schoolyard nature and child development \u2014 connects ART to educational outcomes.",
+      "search_hints": [
+        "Nature-rich schoolyard attention behavioural problems executive function children evidence",
+        "Does access to green naturalistic schoolyards improve attention and reduce conduct problems in children?"
+      ]
+    },
+    {
+      "question_id": "SQ-062",
+      "question_text": "What evidence shows that elevated CO2 concentrations\u2014above 1000 ppm\u2014in poorly ventilated classrooms impair students' cognitive performance on decision-making and information-use tasks, and what ventilation interventions most effectively reduce these concentrations?",
+      "topic": "Educational Design",
+      "subtopic": "Indoor air quality and cognition",
+      "difficulty": "medium",
+      "description": "CO2 and cognition in classrooms \u2014 a surprisingly strong effect with very practical design implications.",
+      "search_hints": [
+        "CO2 concentration classroom ventilation student cognitive performance evidence",
+        "Does high carbon dioxide in poorly ventilated classrooms impair student thinking and decision making?"
+      ]
+    },
+    {
+      "question_id": "SQ-063",
+      "question_text": "What evidence from controlled comparisons shows that flexible classroom furniture arrangements\u2014including moveable seating, varied table configurations, and maker-space zones\u2014improve student engagement, collaborative behaviour, and learning outcomes compared to fixed row seating?",
+      "topic": "Educational Design",
+      "subtopic": "Flexible furniture and engagement",
+      "difficulty": "medium",
+      "description": "Flexible furniture and active learning \u2014 increasingly popular but evidence quality varies widely.",
+      "search_hints": [
+        "Flexible classroom furniture learning outcomes engagement evidence comparison traditional",
+        "Do flexible moveable classroom furniture arrangements improve student engagement and achievement?"
+      ]
+    },
+    {
+      "question_id": "SQ-064",
+      "question_text": "What evidence shows that the physical condition and maintenance quality of school buildings\u2014including roof leaks, broken heating systems, and poor lighting\u2014independently affects student achievement, absenteeism, and teacher retention after controlling for school demographics?",
+      "topic": "Educational Design",
+      "subtopic": "School building condition",
+      "difficulty": "easy",
+      "description": "School building condition and equity \u2014 a policy-relevant question with strong implications for capital investment.",
+      "search_hints": [
+        "School building condition maintenance quality student achievement teacher retention evidence",
+        "Does poor school building condition affect student outcomes and teacher retention independently of demographics?"
+      ]
+    },
+    {
+      "question_id": "SQ-065",
+      "question_text": "What evidence shows that biophilic classroom elements\u2014including indoor plants, nature views, natural materials, and daylight\u2014reduce cortisol levels and attentional difficulties specifically in children diagnosed with ADHD or attention difficulties?",
+      "topic": "Educational Design",
+      "subtopic": "Biophilic design and ADHD",
+      "difficulty": "medium",
+      "description": "Biophilic design + ADHD \u2014 a high-value clinical translation of ART predictions.",
+      "search_hints": [
+        "Biophilic classroom design ADHD attention cortisol children evidence plants daylight",
+        "Do nature elements in classrooms specifically help children with ADHD maintain attention evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-116",
+      "question_text": "What evidence shows that the psychosocial benefits of biophilic design\u2014including stress reduction, improved mood, enhanced social contact, and cognitive restoration\u2014differ systematically by income level, racial background, or housing tenure, suggesting that urban green inequity is also a health equity issue?",
+      "topic": "Environmental Justice",
+      "subtopic": "Differential biophilic access",
+      "difficulty": "medium",
+      "description": "Green space equity \u2014 the distribution of biophilic benefits across social groups.",
+      "search_hints": [
+        "Biophilic design benefits income race housing inequality evidence equity green space",
+        "Do the mental health benefits of nature and green space differ by income or race evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-117",
+      "question_text": "What evidence from longitudinal studies spanning five or more years shows that sustained residential exposure to high-quality biophilic environments\u2014compared to nature-deprived urban settings\u2014produces cumulative reductions in allostatic load, chronic stress markers, and cardiovascular disease risk?",
+      "topic": "Environmental Justice",
+      "subtopic": "Long-term cumulative exposure",
+      "difficulty": "hard",
+      "description": "Long-term cumulative biophilic benefit \u2014 the strongest possible argument for biophilic design investment.",
+      "search_hints": [
+        "Longitudinal biophilic environment exposure allostatic load chronic stress cardiovascular evidence five years",
+        "What longitudinal evidence shows cumulative health benefits of living near nature over multiple years?"
+      ]
+    },
+    {
+      "question_id": "SQ-118",
+      "question_text": "What evidence supports Richard Louv's nature deficit disorder hypothesis\u2014that children growing up with limited access to natural environments show measurable increases in attention difficulties, anxiety, and sensory processing problems compared to children with regular nature contact?",
+      "topic": "Environmental Justice",
+      "subtopic": "Nature deficit disorder in children",
+      "difficulty": "medium",
+      "description": "Nature deficit disorder \u2014 widely cited in public discourse but empirical evidence is contested.",
+      "search_hints": [
+        "Nature deficit disorder children attention anxiety sensory problems evidence Richard Louv",
+        "Is there empirical evidence that children with limited nature contact have more attention and anxiety problems?"
+      ]
+    },
+    {
+      "question_id": "SQ-010",
+      "question_text": "What is the evidence for a Goldilocks optimal fractal dimension (approximately D=1.3\u20131.5) in visual patterns that reduces psychophysiological stress?",
+      "topic": "Fractal Patterns",
+      "subtopic": "Optimal range",
+      "difficulty": "medium",
+      "description": "Tests the D=1.3-1.5 finding from Taylor et al. and related work.",
+      "search_hints": [
+        "fractal dimension stress reduction",
+        "Taylor fractal 1.3",
+        "visual complexity psychophysiology"
+      ]
+    },
+    {
+      "question_id": "SQ-011",
+      "question_text": "Is the stress-reducing effect of fractal patterns explained by fractal self-similarity per se, or by spatial frequency and luminance contrast?",
+      "topic": "Fractal Patterns",
+      "subtopic": "Mechanism dispute",
+      "difficulty": "hard",
+      "description": "Tests the mechanism question raised in the fractal dimension literature. A genuine open question.",
+      "search_hints": [
+        "fractal self-similarity mechanism",
+        "spatial frequency fractal",
+        "luminance contrast visual preference"
+      ]
+    },
+    {
+      "question_id": "SQ-051",
+      "question_text": "What peer-reviewed evidence shows that single-patient hospital rooms\u2014compared to shared multi-bed wards\u2014reduce healthcare-acquired infection rates, improve sleep quality, and accelerate post-surgical recovery?",
+      "topic": "Healthcare Design",
+      "subtopic": "Single rooms and outcomes",
+      "difficulty": "medium",
+      "description": "Single-patient room evidence base \u2014 a major capital investment decision driven by limited evidence.",
+      "search_hints": [
+        "Single patient hospital rooms infection rates sleep recovery evidence systematic review",
+        "Do single hospital rooms versus shared wards improve patient outcomes peer-reviewed evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-052",
+      "question_text": "What evidence shows that dynamic circadian lighting protocols in intensive care units\u2014designed to preserve melatonin rhythms through graduated blue-light exposure across the 24-hour cycle\u2014reduce ICU delirium and accelerate patient discharge?",
+      "topic": "Healthcare Design",
+      "subtopic": "ICU circadian lighting",
+      "difficulty": "hard",
+      "description": "ICU delirium and lighting \u2014 one of the highest-stakes biophilic/circadian design questions.",
+      "search_hints": [
+        "Circadian lighting ICU delirium reduction melatonin evidence randomized controlled trial",
+        "Does daylight-aligned lighting in intensive care units reduce confusion delirium and length of stay?"
+      ]
+    },
+    {
+      "question_id": "SQ-053",
+      "question_text": "What evidence shows that exposure to original artworks or nature-themed images in hospital corridors, waiting rooms, and patient rooms reduces self-reported pain, anxiety, and length of stay?",
+      "topic": "Healthcare Design",
+      "subtopic": "Art in hospitals",
+      "difficulty": "easy",
+      "description": "Hospital art evidence \u2014 a surprisingly contested area given its widespread implementation.",
+      "search_hints": [
+        "Hospital art corridors patient rooms pain anxiety length of stay evidence",
+        "Does artwork in hospitals reduce patient pain and anxiety peer-reviewed evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-054",
+      "question_text": "What evidence shows that access to secure outdoor gardens or indoor horticultural programmes in psychiatric inpatient units reduces agitation episodes, seclusion use, and psychotropic medication requirements?",
+      "topic": "Healthcare Design",
+      "subtopic": "Psychiatric gardens",
+      "difficulty": "medium",
+      "description": "Green space in psychiatric settings \u2014 important for both patient safety and biophilic design advocacy.",
+      "search_hints": [
+        "Psychiatric hospital garden access agitation seclusion medication reduction evidence",
+        "Do outdoor gardens in psychiatric inpatient units reduce agitation and medication use evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-055",
+      "question_text": "What evidence shows that acoustic redesign of neonatal intensive care units\u2014including sound attenuation, family-centred quiet periods, and exposure to recorded maternal voice\u2014affects neurological development and discharge outcomes in preterm infants born before 32 weeks gestation?",
+      "topic": "Healthcare Design",
+      "subtopic": "Acoustic design in NICU",
+      "difficulty": "hard",
+      "description": "Sound environment and neurodevelopment in the most vulnerable population.",
+      "search_hints": [
+        "NICU acoustic design noise reduction preterm infant neurodevelopment discharge outcomes evidence",
+        "Does sound attenuation in neonatal ICU improve neurological outcomes in premature babies?"
+      ]
+    },
+    {
+      "question_id": "SQ-056",
+      "question_text": "What evidence shows that domestic-scale, nature-integrated dementia care environments\u2014characterised by familiar room layouts, distinctive colour coding, secure garden access, and reduced institutional features\u2014reduce agitation, wandering, and physical restraint use compared to conventional memory care wards?",
+      "topic": "Healthcare Design",
+      "subtopic": "Dementia ward design",
+      "difficulty": "medium",
+      "description": "Dementia design evidence \u2014 one of the strongest applied cases for K-ATLAS biophilic claims.",
+      "search_hints": [
+        "Dementia care environment design agitation wandering reduction domestic scale evidence",
+        "Does nature-integrated dementia ward design reduce agitation and improve quality of life evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-057",
+      "question_text": "What evidence shows that wayfinding design failures in hospitals\u2014including poor signage systems, confusing spatial sequences, and identical-looking corridors\u2014increase patient anxiety, missed appointments, and staff time spent giving directions?",
+      "topic": "Healthcare Design",
+      "subtopic": "Wayfinding and patient anxiety",
+      "difficulty": "medium",
+      "description": "Wayfinding anxiety in healthcare \u2014 a tangible cost that motivates spatial legibility investment.",
+      "search_hints": [
+        "Hospital wayfinding signage patient anxiety missed appointments spatial complexity evidence",
+        "How does poor hospital wayfinding affect patient stress and operational efficiency evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-058",
+      "question_text": "What evidence shows that lighting quality in operating theatres\u2014including colour rendering accuracy, illuminance level uniformity, and surgeon-controlled dimming\u2014affects surgical precision, fatigue, and error rates in complex procedures?",
+      "topic": "Healthcare Design",
+      "subtopic": "Operating theatre lighting",
+      "difficulty": "hard",
+      "description": "Surgeon performance and theatre design \u2014 high-stakes application of lighting science.",
+      "search_hints": [
+        "Operating theatre lighting quality surgeon performance fatigue error rate evidence",
+        "How does surgical lighting design affect operative precision and surgeon fatigue peer-reviewed studies?"
+      ]
+    },
+    {
+      "question_id": "SQ-027",
+      "question_text": "Do indoor plants measurably improve air quality or cognitive performance, or do effects stem primarily from visual and psychological pathways?",
+      "topic": "Indoor Air Quality",
+      "subtopic": "Plants and cognition",
+      "difficulty": "medium",
+      "description": "Tests two competing explanations for the plant-wellbeing relationship.",
+      "search_hints": [
+        "indoor plants air quality evidence",
+        "houseplants cognition",
+        "plant volatile organic compounds wellbeing"
+      ]
+    },
+    {
+      "question_id": "SQ-016",
+      "question_text": "What evidence shows that dynamic or daylight-aligned lighting in workplaces improves sleep quality, alertness, or mood in non-clinical populations?",
+      "topic": "Lighting",
+      "subtopic": "Circadian alignment",
+      "difficulty": "medium",
+      "description": "Circadian lighting \u2014 a rapidly growing evidence base relevant to workplace and school design.",
+      "search_hints": [
+        "dynamic lighting circadian workplace",
+        "daylight spectrum alertness",
+        "melanopic light sleep quality"
+      ]
+    },
+    {
+      "question_id": "SQ-017",
+      "question_text": "How does colour temperature (warm vs. cool white light) affect alertness, mood, or productivity in educational or office settings?",
+      "topic": "Lighting",
+      "subtopic": "Colour temperature",
+      "difficulty": "easy",
+      "description": "Accessible, practical, and well-studied question with immediate design relevance.",
+      "search_hints": [
+        "colour temperature alertness office",
+        "warm cool light mood",
+        "CCT cognitive performance classroom"
+      ]
+    },
+    {
+      "question_id": "SQ-091",
+      "question_text": "What evidence shows that the visual presence of exposed timber\u2014including wood-grain ceilings, timber-clad walls, and structural wood frames\u2014in educational or healthcare environments produces lower blood pressure, lower cortisol, and higher reported comfort compared to equivalent spaces finished in steel, glass, or concrete?",
+      "topic": "Materials and Form",
+      "subtopic": "Timber and physiological response",
+      "difficulty": "medium",
+      "description": "Wood and stress \u2014 a growing literature driven partly by mass-timber construction advocates.",
+      "search_hints": [
+        "Exposed timber wood interior cortisol blood pressure comfort wellbeing evidence classroom office",
+        "Does visible timber in building interiors reduce stress compared to concrete steel glass finishes evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-092",
+      "question_text": "What evidence from experimental aesthetics and neuroarchitecture shows that curved architectural forms\u2014in facades, room profiles, and furniture\u2014are preferred over sharply angular forms, and what neural or evolutionary mechanism explains this preference?",
+      "topic": "Materials and Form",
+      "subtopic": "Building curvature vs. angularity",
+      "difficulty": "medium",
+      "description": "The Damasio curvature preference \u2014 widely cited but the mechanism is disputed.",
+      "search_hints": [
+        "Curved versus angular architecture preference neural mechanism experimental aesthetics evidence",
+        "Do people prefer curved over angular architectural forms and what explains this curvature preference evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-093",
+      "question_text": "What evidence shows that prospect-conferring architectural elements\u2014including elevated platforms, interior mezzanines, panoramic glazing, and long view corridors\u2014activate approach-related motivation and increase reported preference for and dwell time in a space?",
+      "topic": "Materials and Form",
+      "subtopic": "Prospect elements and approach",
+      "difficulty": "medium",
+      "description": "Appleton's prospect theory at the interior scale \u2014 a gap between landscape preference and architectural preference.",
+      "search_hints": [
+        "Prospect architectural elements mezzanine panoramic view preference approach motivation evidence",
+        "Do elevated views and prospect features in buildings increase preference and dwell time evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-037",
+      "question_text": "What do neuroimaging studies using fMRI reveal about amygdala reactivity when healthy adults view natural landscapes versus urban scenes, and does reduced amygdala activation explain the stress-buffering effect of nature exposure?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Amygdala and nature vs. urban",
+      "difficulty": "hard",
+      "description": "Direct neural mechanism for SRT's claim that nature reduces threat appraisal. Updating IC\u2192DC for SRT's safety-signalling warrant.",
+      "search_hints": [
+        "fMRI studies amygdala activation nature vs urban scenes stress reduction",
+        "Neuroimaging evidence that natural environments reduce amygdala reactivity compared to urban environments"
+      ]
+    },
+    {
+      "question_id": "SQ-038",
+      "question_text": "What neuroimaging evidence shows that viewing natural environments modulates default mode network activity\u2014including self-referential processing and mind-wandering\u2014and how does this relate to the restorative effects described by Attention Restoration Theory?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Default mode network and nature",
+      "difficulty": "hard",
+      "description": "DMN-ART link: the neural mechanism underlying 'being away' and soft fascination in ART.",
+      "search_hints": [
+        "Default mode network activity natural environments restoration neuroimaging",
+        "Does nature exposure change default mode network self-referential processing fMRI?"
+      ]
+    },
+    {
+      "question_id": "SQ-039",
+      "question_text": "What evidence from cognitive neuroscience shows that sustained exposure to urban noise\u2014traffic, construction, and crowd sounds\u2014impairs prefrontal cortex-dependent functions including executive attention, inhibitory control, and working memory capacity?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Prefrontal cortex and urban noise",
+      "difficulty": "hard",
+      "description": "Neural mechanism for why urban noise drains ART resources \u2014 connects acoustic environment to directed attention via PFC.",
+      "search_hints": [
+        "Urban noise exposure prefrontal cortex working memory cognitive neuroscience evidence",
+        "Does traffic noise impair executive attention through prefrontal cortex mechanisms?"
+      ]
+    },
+    {
+      "question_id": "SQ-040",
+      "question_text": "What EEG studies demonstrate that biophilic design features\u2014including natural light, indoor plants, and water sounds\u2014increase posterior alpha-band activity (8\u201313 Hz), an index of relaxed attentiveness, compared to conventional built environments?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Alpha waves and biophilic design",
+      "difficulty": "hard",
+      "description": "EEG-level evidence for biophilic design's relaxation claim. Alpha waves are an established psychophysiology marker.",
+      "search_hints": [
+        "EEG alpha waves biophilic design natural environments relaxation studies",
+        "Do indoor plants or nature sounds increase alpha brain wave activity EEG research?"
+      ]
+    },
+    {
+      "question_id": "SQ-041",
+      "question_text": "What evidence from autonomic neuroscience shows that nature exposure specifically activates the parasympathetic nervous system\u2014as measured by high-frequency heart rate variability (HRV)\u2014and what dose of nature (duration, intensity) is required to produce this effect?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "HRV and parasympathetic activation",
+      "difficulty": "medium",
+      "description": "HRV is the best non-invasive index of parasympathetic tone. Dose-response question is critical for design guidelines.",
+      "search_hints": [
+        "Heart rate variability parasympathetic activation nature exposure dose-response evidence",
+        "How much nature exposure is needed to increase heart rate variability HRV systematically review?"
+      ]
+    },
+    {
+      "question_id": "SQ-042",
+      "question_text": "What neuroimaging and cognitive evidence shows that the spatial layout of buildings\u2014including corridor complexity, landmark placement, and room-to-room connectivity\u2014affects hippocampal-dependent spatial memory consolidation and navigation performance?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Hippocampus and spatial cognition",
+      "difficulty": "hard",
+      "description": "Connects architectural design to hippocampal function \u2014 wayfinding stress mechanism at the neural level.",
+      "search_hints": [
+        "Hippocampal spatial memory building layout navigation cognitive neuroscience",
+        "How does building complexity affect hippocampal activation and spatial memory in neuroimaging studies?"
+      ]
+    },
+    {
+      "question_id": "SQ-043",
+      "question_text": "What neuroimaging or psychophysiological evidence supports the hypothesis that fractal visual patterns at the preferred complexity range (D=1.3\u20131.5) activate midline cortical reward circuitry and reduce autonomic arousal compared to high-complexity or low-complexity patterns?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Fractal patterns and reward circuits",
+      "difficulty": "hard",
+      "description": "Neural mechanism for the Taylor fractal stress-reduction claim \u2014 the IC for this claim needs neural evidence to raise DC.",
+      "search_hints": [
+        "Fractal visual patterns reward neural activation psychophysiology fMRI",
+        "Do fractal patterns at optimal complexity D=1.3 activate reward circuits and reduce stress neuroimaging?"
+      ]
+    },
+    {
+      "question_id": "SQ-044",
+      "question_text": "What empirical evidence tests the embodied cognition prediction that high-ceiling architectural spaces promote abstract and categorical thinking\u2014via expanded attentional scope\u2014while low-ceiling spaces promote concrete and detail-focused cognition?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Ceiling height and abstract cognition",
+      "difficulty": "hard",
+      "description": "Meyers-Levy & Zhu (2007) ceiling height effect \u2014 needs neural or cognitive replication.",
+      "search_hints": [
+        "Does ceiling height affect abstract vs concrete thinking embodied cognition experimental evidence?",
+        "Ceiling height and cognitive flexibility abstract thinking replication study evidence"
+      ]
+    },
+    {
+      "question_id": "SQ-045",
+      "question_text": "What evidence from affective neuroscience and empirical aesthetics shows that architecturally sublime spaces\u2014characterised by vastness, light, and complexity\u2014elicit awe responses with measurable physiological and neural correlates, including changes in default mode network activity and pro-social cognition?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Awe and architectural sublime",
+      "difficulty": "hard",
+      "description": "Awe in architecture \u2014 connects aesthetic theory to the neuroscience of self-transcendence.",
+      "search_hints": [
+        "Neuroimaging awe architectural spaces vast light default mode network evidence",
+        "What neural correlates of awe are activated by large cathedral-like or sublime architectural spaces?"
+      ]
+    },
+    {
+      "question_id": "SQ-046",
+      "question_text": "What neuroscientific evidence shows that urban crowding\u2014measured by population density, noise level, and social density within a space\u2014activates the hypothalamic-pituitary-adrenal axis differently from natural crowding such as in forests or parks, and what design interventions attenuate this activation?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "HPA axis and urban crowding",
+      "difficulty": "hard",
+      "description": "HPA axis activation as the mechanism for urban stress \u2014 distinguishes social from ecological crowding.",
+      "search_hints": [
+        "HPA axis cortisol activation urban crowding versus natural environments neuroscience evidence",
+        "Does urban density activate stress hormones through different mechanisms than natural crowding?"
+      ]
+    },
+    {
+      "question_id": "SQ-047",
+      "question_text": "What portable EEG studies conducted in real-world architectural environments\u2014using mobile brain-body imaging\u2014reveal about the relationship between spatial enclosure, ceiling height, light quality, and emotional valence as indexed by frontal alpha asymmetry?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "EEG and built space affect",
+      "difficulty": "hard",
+      "description": "Mobile EEG in real buildings \u2014 the most ecologically valid neural evidence for environmental psychology.",
+      "search_hints": [
+        "Mobile EEG portable brain imaging built environment emotional response frontal asymmetry",
+        "What do real-world EEG studies walking through buildings show about emotional responses to architectural space?"
+      ]
+    },
+    {
+      "question_id": "SQ-048",
+      "question_text": "What neuroimaging evidence supports the hypothesis that the brain uses embodied simulation\u2014activating somatosensory and motor cortices\u2014when visually perceiving architectural surfaces, textures, and spatial enclosure, and does this predict aesthetic preference or aversive responses?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Embodied simulation and materials",
+      "difficulty": "hard",
+      "description": "Embodied simulation in architectural perception \u2014 links mirror neuron system to aesthetic response.",
+      "search_hints": [
+        "Embodied simulation somatosensory cortex architectural perception texture space neuroimaging",
+        "Does visual perception of building materials and space activate motor or somatosensory cortex evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-049",
+      "question_text": "What evidence from stress neuroscience links urban environmental stressors\u2014including noise, crowding, and visual complexity\u2014to locus coeruleus-norepinephrine system activation, and how does this explain the cognitive fatigue associated with urban living?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Norepinephrine and urban arousal",
+      "difficulty": "hard",
+      "description": "LC-NE system as the arousal mechanism for urban stress and cognitive fatigue \u2014 bridges SRT and ART at the neural level.",
+      "search_hints": [
+        "Locus coeruleus norepinephrine activation urban stress cognitive fatigue neuroscience",
+        "How does urban noise and visual complexity activate the norepinephrine arousal system and cause mental fatigue?"
+      ]
+    },
+    {
+      "question_id": "SQ-050",
+      "question_text": "What evidence from circadian neuroscience shows that morning blue-spectrum light exposure in buildings activates the suprachiasmatic nucleus and the retinohypothalamic tract in ways that improve afternoon cortical arousal, mood, and executive performance?",
+      "topic": "Neural Mechanisms",
+      "subtopic": "Circadian light and cortical arousal",
+      "difficulty": "medium",
+      "description": "Neural pathway from building daylighting to cognitive performance \u2014 SCN \u2192 cortisol \u2192 PFC.",
+      "search_hints": [
+        "Morning blue light suprachiasmatic nucleus circadian cortical arousal afternoon performance evidence",
+        "How does morning light exposure in buildings affect the circadian system and cognitive performance neuroscience?"
+      ]
+    },
+    {
+      "question_id": "SQ-103",
+      "question_text": "What evidence shows that streetscapes with historical continuity\u2014characterised by architectural diversity across periods, vernacular character, and preserved original facades\u2014predict residents' place attachment, community identity, and neighbourhood satisfaction more strongly than uniform contemporary streetscapes?",
+      "topic": "Place Attachment",
+      "subtopic": "Architectural heritage and identity",
+      "difficulty": "medium",
+      "description": "Heritage conservation and wellbeing \u2014 the psychological cost of erasing historical character.",
+      "search_hints": [
+        "Historical streetscape architectural heritage place attachment community identity satisfaction evidence",
+        "Does architectural historical continuity in streetscapes predict resident place attachment evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-104",
+      "question_text": "What evidence shows that forced relocation due to urban redevelopment or demolition of longstanding neighbourhoods produces measurable psychological distress\u2014including grief, depression, and disrupted social identity\u2014in displaced long-term residents, and what aspects of replacement housing design mitigate these effects?",
+      "topic": "Place Attachment",
+      "subtopic": "Forced relocation and grief",
+      "difficulty": "medium",
+      "description": "Place loss and psychological grief \u2014 the social cost of regeneration.",
+      "search_hints": [
+        "Forced relocation urban demolition psychological distress grief depression evidence",
+        "What evidence shows psychological harm from forced relocation due to urban redevelopment?"
+      ]
+    },
+    {
+      "question_id": "SQ-105",
+      "question_text": "What evidence tests Kevin Lynch's theoretical framework of city imageability\u2014paths, edges, districts, nodes, and landmarks\u2014by demonstrating that more legible cities, as scored by these elements, produce lower wayfinding stress, faster orientation, and higher resident satisfaction?",
+      "topic": "Place Attachment",
+      "subtopic": "Lynch legibility and navigation",
+      "difficulty": "medium",
+      "description": "Lynch's Image of the City tested empirically \u2014 influential but lacking rigorous empirical tests.",
+      "search_hints": [
+        "Kevin Lynch city imageability legibility paths nodes landmarks wayfinding satisfaction evidence",
+        "What empirical evidence tests Kevin Lynch's urban legibility theory with navigation or stress outcomes?"
+      ]
+    },
+    {
+      "question_id": "SQ-106",
+      "question_text": "What evidence shows that urban monuments, public sculptures, and community murals affect collective memory consolidation, civic identity, and emotional wellbeing outcomes in surrounding communities, and do effects differ between communities that participated in commissioning the work versus those that did not?",
+      "topic": "Place Attachment",
+      "subtopic": "Public art and memory",
+      "difficulty": "medium",
+      "description": "Public art and community wellbeing \u2014 participation and co-production may be the active ingredient.",
+      "search_hints": [
+        "Public art monuments collective memory civic identity community wellbeing evidence",
+        "Do urban public artworks and monuments improve community wellbeing and civic identity evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-025",
+      "question_text": "How well do post-occupancy evaluation (POE) studies control for self-selection bias and social desirability when measuring wellbeing in biophilic buildings?",
+      "topic": "Post-Occupancy Evaluation",
+      "subtopic": "Method quality",
+      "difficulty": "hard",
+      "description": "Methodological question \u2014 tests the quality of the evidentiary base for biophilic design claims.",
+      "search_hints": [
+        "post-occupancy evaluation methodology",
+        "biophilic building POE",
+        "self-selection wellbeing workspace bias"
+      ]
+    },
+    {
+      "question_id": "SQ-030",
+      "question_text": "How well have the foundational environmental psychology findings of Ulrich (1984) and Kaplan & Kaplan (1989) replicated with larger or more diverse samples?",
+      "topic": "Replication Crisis",
+      "subtopic": "Environmental psychology",
+      "difficulty": "hard",
+      "description": "Replication and robustness question \u2014 encourages critical appraisal of the field's evidentiary base.",
+      "search_hints": [
+        "Ulrich replication window view",
+        "Kaplan ART replication",
+        "environmental psychology replication crisis"
+      ]
+    },
+    {
+      "question_id": "SQ-111",
+      "question_text": "What evidence demonstrates the criterion validity and ecological validity of ecological momentary assessment (EMA) methods\u2014using smartphone prompts to capture real-time wellbeing\u2014for measuring environmental psychology responses to built environment features in naturalistic field settings?",
+      "topic": "Research Methods",
+      "subtopic": "EMA validity in built environment",
+      "difficulty": "hard",
+      "description": "EMA validation for built environment research \u2014 a methodological question with broad implications.",
+      "search_hints": [
+        "Ecological momentary assessment EMA validity built environment wellbeing field studies evidence",
+        "Is ecological momentary assessment a valid method for measuring wellbeing responses to built environments?"
+      ]
+    },
+    {
+      "question_id": "SQ-112",
+      "question_text": "What evidence demonstrates that wearable physiological sensors\u2014including actigraphy, photoplethysmography (PPG), and electrodermal activity (EDA) monitors\u2014produce valid and reliable measures of stress in real-world built environment studies compared to laboratory gold standards?",
+      "topic": "Research Methods",
+      "subtopic": "Wearable sensors and stress",
+      "difficulty": "medium",
+      "description": "Wearable sensor validation \u2014 essential as the field moves toward ambulatory measurement.",
+      "search_hints": [
+        "Wearable sensors PPG EDA stress validity reliability built environment real world evidence",
+        "How valid are wearable EDA and heart rate sensors for measuring stress compared to lab gold standards?"
+      ]
+    },
+    {
+      "question_id": "SQ-113",
+      "question_text": "What evidence shows that virtual reality simulations of built environments produce psychophysiological responses\u2014cortisol, skin conductance, heart rate\u2014comparable to those in matched real-world conditions, validating VR as an experimental platform for architectural and environmental psychology research?",
+      "topic": "Research Methods",
+      "subtopic": "VR as research tool",
+      "difficulty": "medium",
+      "description": "VR ecological validity for environmental psychology \u2014 key for scaling up controlled studies.",
+      "search_hints": [
+        "Virtual reality built environment psychophysiology validity cortisol skin conductance evidence",
+        "Do VR simulations of buildings produce the same physiological stress responses as real buildings evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-114",
+      "question_text": "What evidence shows that eye-tracking measures\u2014including fixation duration, gaze path, and pupillary dilation\u2014in architectural preference studies predict subsequent wellbeing responses, stated preference ratings, and environmental satisfaction independently of self-report measures?",
+      "topic": "Research Methods",
+      "subtopic": "Eye-tracking and preference",
+      "difficulty": "hard",
+      "description": "Eye-tracking as an implicit preference measure in architecture \u2014 does fixation predict preference?",
+      "search_hints": [
+        "Eye tracking fixation architectural preference wellbeing prediction evidence",
+        "Does eye tracking gaze data predict architectural preference and wellbeing independently of self-report?"
+      ]
+    },
+    {
+      "question_id": "SQ-115",
+      "question_text": "What evidence demonstrates that sketch-map and cognitive mapping tasks reliably measure the psychological legibility of built environments, and do higher legibility scores on these tasks predict lower navigational anxiety, faster route completion, and higher environmental satisfaction?",
+      "topic": "Research Methods",
+      "subtopic": "Cognitive mapping and legibility",
+      "difficulty": "medium",
+      "description": "Cognitive mapping as a legibility measure \u2014 bridges Lynch's qualitative framework and quantitative methods.",
+      "search_hints": [
+        "Cognitive mapping sketch map legibility environmental satisfaction navigation anxiety evidence",
+        "Do cognitive map tasks validly measure how easy buildings are to navigate and predict anxiety evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-124",
+      "question_text": "What evidence of publication bias exists in the environmental psychology literature on biophilic design\u2014specifically, are positive effects of nature and biophilic design more likely to be published than null or negative results, and how does this bias affect meta-analytic effect size estimates?",
+      "topic": "Research Methods",
+      "subtopic": "Publication bias",
+      "difficulty": "hard",
+      "description": "Publication bias in the biophilic design literature \u2014 crucial for calibrating K-ATLAS credences.",
+      "search_hints": [
+        "Publication bias biophilic design environmental psychology nature studies evidence funnel plot",
+        "Is there publication bias in nature and biophilic design research that inflates reported effect sizes?"
+      ]
+    },
+    {
+      "question_id": "SQ-125",
+      "question_text": "What do meta-analyses reveal about typical effect sizes for biophilic and nature-based environmental interventions on standardised outcome measures of stress (cortisol, blood pressure), attention (ADHD rating scales, sustained attention tests), and mood (PANAS, DASS)?",
+      "topic": "Research Methods",
+      "subtopic": "Effect size benchmarks",
+      "difficulty": "hard",
+      "description": "Effect size calibration across the field \u2014 what counts as a clinically or practically significant effect.",
+      "search_hints": [
+        "Effect size meta-analysis biophilic design nature interventions cortisol attention mood standardised",
+        "What are the typical effect sizes for nature-based interventions on stress attention and mood meta-analysis?"
+      ]
+    },
+    {
+      "question_id": "SQ-126",
+      "question_text": "What is the track record of pre-registered replication attempts of key findings in environmental psychology\u2014including the attention restoration effects of nature walks, the window view hospital recovery study, and classroom daylighting achievement studies\u2014and what does this reveal about the robustness of the field?",
+      "topic": "Research Methods",
+      "subtopic": "Pre-registration and replication",
+      "difficulty": "hard",
+      "description": "Replication and open science in environmental psychology \u2014 the meta-scientific health of the field.",
+      "search_hints": [
+        "Pre-registered replication environmental psychology attention restoration window view classroom light evidence",
+        "How well have the most cited environmental psychology findings replicated in pre-registered studies?"
+      ]
+    },
+    {
+      "question_id": "SQ-127",
+      "question_text": "What evidence shows that ecological quality of urban green spaces\u2014measured by plant species richness, insect biodiversity, and soundscape naturalness\u2014predicts wellbeing and restoration outcomes more strongly than visual greenery alone, and what mechanisms explain this richness effect?",
+      "topic": "Research Methods",
+      "subtopic": "Species richness and wellbeing",
+      "difficulty": "medium",
+      "description": "Biodiversity and wellbeing \u2014 an important question for green space management beyond greenery coverage.",
+      "search_hints": [
+        "Biodiversity species richness urban green space wellbeing restoration evidence mechanism",
+        "Does ecological richness and biodiversity in parks produce greater wellbeing than simple greenery area evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-072",
+      "question_text": "What epidemiological evidence, controlling for socioeconomic status, links residential density, building height, and proximity to green space to mental health outcomes including depression, anxiety, and loneliness in urban residents?",
+      "topic": "Residential Design",
+      "subtopic": "Housing density and mental health",
+      "difficulty": "medium",
+      "description": "Density and mental health \u2014 one of the most important policy questions in urban design.",
+      "search_hints": [
+        "Residential density building height mental health depression anxiety evidence controlling socioeconomic",
+        "Does living in high-density urban housing increase risk of depression and anxiety evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-073",
+      "question_text": "What evidence shows that intentional co-housing designs\u2014incorporating shared kitchens, living rooms, and gardens\u2014improve social cohesion, reduce loneliness, and lower healthcare utilisation compared to conventional apartment living?",
+      "topic": "Residential Design",
+      "subtopic": "Co-housing and social cohesion",
+      "difficulty": "medium",
+      "description": "Co-housing as an antidote to urban loneliness \u2014 an emerging evidence base.",
+      "search_hints": [
+        "Co-housing intentional community shared spaces loneliness social cohesion evidence",
+        "Does co-housing design with shared facilities reduce loneliness compared to conventional apartments evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-074",
+      "question_text": "What evidence shows that access to private outdoor space\u2014including gardens, balconies, and roof terraces\u2014buffers the mental health effects of urban density and indoor confinement, particularly during periods of enforced social isolation such as the COVID-19 pandemic?",
+      "topic": "Residential Design",
+      "subtopic": "Private outdoor space",
+      "difficulty": "medium",
+      "description": "Private green space and mental health resilience \u2014 dramatically highlighted by COVID-19 lockdowns.",
+      "search_hints": [
+        "Private garden balcony mental health urban density confinement COVID-19 evidence",
+        "Does access to private outdoor space protect mental health during urban confinement and lockdown evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-075",
+      "question_text": "What evidence shows that high-rise residential living\u2014particularly above the 10th floor and without green space access\u2014is independently associated with reduced physical activity, increased loneliness, and poorer mental health outcomes after adjusting for income and household composition?",
+      "topic": "Residential Design",
+      "subtopic": "High-rise living",
+      "difficulty": "medium",
+      "description": "High-rise living and wellbeing \u2014 contested since the 1970s housing debates.",
+      "search_hints": [
+        "High-rise apartment living mental health physical activity loneliness evidence",
+        "Is living in high-rise buildings associated with worse mental health outcomes evidence independent of income?"
+      ]
+    },
+    {
+      "question_id": "SQ-076",
+      "question_text": "What evidence shows that the ability to individually control indoor temperature in residential settings\u2014through operable windows, personal thermostats, or ceiling fans\u2014improves sleep quality, morning alertness, and self-reported thermal comfort compared to centrally controlled HVAC systems?",
+      "topic": "Residential Design",
+      "subtopic": "Thermal control and sleep",
+      "difficulty": "medium",
+      "description": "Personal control over thermal environment and sleep \u2014 connects autonomy, circadian health, and building systems.",
+      "search_hints": [
+        "Individual temperature control residential sleep quality thermal comfort evidence",
+        "Does ability to control indoor temperature personally improve sleep quality evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-077",
+      "question_text": "What evidence shows that multisensory environmental coherence\u2014in which visual biophilic elements, natural sounds, natural scents, and thermal conditions reinforce a consistent nature theme\u2014produces stronger restoration and stress reduction than any single sensory channel alone?",
+      "topic": "Sensory Design",
+      "subtopic": "Multisensory coherence",
+      "difficulty": "hard",
+      "description": "Multisensory integration and ART/SRT \u2014 tests whether sensory cross-modal reinforcement produces superadditive effects.",
+      "search_hints": [
+        "Multisensory coherent environment combined nature sounds scents visuals restoration evidence",
+        "Is a multisensory biophilic environment more restorative than single-channel nature stimuli evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-078",
+      "question_text": "What experimental evidence shows that forest-derived olfactory compounds\u2014specifically phytoncides such as alpha-pinene, limonene, and cedar oil\u2014reduce salivary cortisol, lower blood pressure, and activate the parasympathetic nervous system when diffused in indoor environments?",
+      "topic": "Sensory Design",
+      "subtopic": "Natural scents and stress",
+      "difficulty": "medium",
+      "description": "Phytoncides as the active ingredient in shinrin-yoku \u2014 important for understanding transferability to built interiors.",
+      "search_hints": [
+        "Phytoncides alpha-pinene forest scent cortisol blood pressure indoor stress reduction evidence",
+        "Do forest phytoncide scents diffused indoors reduce stress and cortisol evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-079",
+      "question_text": "What evidence from experimental aesthetics and environmental psychology shows that haptic qualities of building surfaces\u2014including the thermal warmth of wood versus metal, the texture of stone, and the compliance of natural fabric\u2014produce measurable differences in affective responses and perceived environmental quality?",
+      "topic": "Sensory Design",
+      "subtopic": "Haptic materials and affect",
+      "difficulty": "medium",
+      "description": "Haptic architecture \u2014 a neglected sensory channel relative to vision and sound.",
+      "search_hints": [
+        "Haptic surface texture wood metal stone affective response architectural quality evidence",
+        "Do building material textures wood versus metal affect emotional responses evidence experimental?"
+      ]
+    },
+    {
+      "question_id": "SQ-080",
+      "question_text": "What evidence shows that visual exposure to natural material textures\u2014including wood grain, stone variation, woven natural textiles, and moss surfaces\u2014produces lower electrodermal arousal and higher preference ratings than synthetic materials with uniform, non-fractal surfaces?",
+      "topic": "Sensory Design",
+      "subtopic": "Visual texture of natural materials",
+      "difficulty": "medium",
+      "description": "Visual texture perception and the nature-synthetic divide \u2014 extends fractal complexity research to materials.",
+      "search_hints": [
+        "Natural material texture wood grain visual preference arousal EDA evidence comparison synthetic",
+        "Do natural textures like wood grain produce lower arousal than synthetic uniform surfaces evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-081",
+      "question_text": "What evidence shows that reverberation time (RT60) in architectural spaces affects not only speech intelligibility and concentration but also perceived spatial size, emotional valence, and the sense of awe in larger reverberant spaces such as cathedrals and concert halls?",
+      "topic": "Sensory Design",
+      "subtopic": "Reverberation and spaciousness",
+      "difficulty": "medium",
+      "description": "Reverberation beyond intelligibility \u2014 the emotional and aesthetic dimensions of room acoustics.",
+      "search_hints": [
+        "Reverberation RT60 spaciousness emotional response awe architectural acoustics evidence",
+        "How does reverberation time affect emotional experience and perceived spaciousness in buildings?"
+      ]
+    },
+    {
+      "question_id": "SQ-031",
+      "question_text": "What design features of indoor common spaces\u2014such as lobbies, courtyards, and shared kitchens\u2014promote spontaneous social interaction among building occupants, and what peer-reviewed evidence links increased interaction to wellbeing outcomes?",
+      "topic": "Social Interaction",
+      "subtopic": "Common-space design",
+      "difficulty": "medium",
+      "description": "Design for social contact \u2014 connects physical affordances to loneliness and cohesion outcomes.",
+      "search_hints": [
+        "What design features in shared indoor spaces promote spontaneous social interaction?",
+        "How does common-space design in office or residential buildings affect social cohesion and wellbeing?"
+      ]
+    },
+    {
+      "question_id": "SQ-032",
+      "question_text": "What peer-reviewed evidence shows that the degree of spatial enclosure in public plazas and urban squares affects the number, duration, and quality of spontaneous social encounters between strangers?",
+      "topic": "Social Interaction",
+      "subtopic": "Spatial enclosure and encounter",
+      "difficulty": "medium",
+      "description": "Tests William H. Whyte's social life of small urban spaces empirically.",
+      "search_hints": [
+        "What evidence links spatial enclosure in public plazas to frequency of social encounters?",
+        "How does street and plaza design affect spontaneous social interaction in urban spaces peer-reviewed studies?"
+      ]
+    },
+    {
+      "question_id": "SQ-033",
+      "question_text": "What evidence shows that biophilic features in public spaces\u2014including water elements, seating near trees, and planted courtyards\u2014increase dwell time and incidental social contact compared to unplanted hardscape spaces?",
+      "topic": "Social Interaction",
+      "subtopic": "Biophilia and social contact",
+      "difficulty": "medium",
+      "description": "Links biophilic design to social affordance \u2014 important because biophilia is usually measured individually.",
+      "search_hints": [
+        "Do biophilic design features in public spaces increase social interaction and dwell time?",
+        "Evidence that green spaces and water features in urban plazas promote social contact"
+      ]
+    },
+    {
+      "question_id": "SQ-034",
+      "question_text": "What does peer-reviewed research show about the effect of shared communal gardens in residential apartment buildings on social cohesion, loneliness, and mental health in urban dwellers?",
+      "topic": "Social Interaction",
+      "subtopic": "Communal gardens and cohesion",
+      "difficulty": "medium",
+      "description": "Communal gardens as social infrastructure \u2014 fills a gap between horticultural therapy and environmental psychology.",
+      "search_hints": [
+        "Does access to communal gardens in apartment buildings reduce loneliness and improve mental health?",
+        "Peer-reviewed evidence on shared residential gardens and social cohesion in urban housing"
+      ]
+    },
+    {
+      "question_id": "SQ-035",
+      "question_text": "What evidence links the absence or poor quality of third-place spaces\u2014such as coffee shops, libraries, and community parks\u2014in built environments to increased social isolation and mental health difficulties, particularly in car-dependent neighbourhoods?",
+      "topic": "Social Interaction",
+      "subtopic": "Third places",
+      "difficulty": "medium",
+      "description": "Oldenburg's third place theory applied to mental health \u2014 empirical test of the planning-isolation hypothesis.",
+      "search_hints": [
+        "How does the absence of third-place spaces in suburban or car-dependent areas affect social isolation?",
+        "Evidence linking lack of community spaces libraries parks to loneliness mental health"
+      ]
+    },
+    {
+      "question_id": "SQ-036",
+      "question_text": "What evidence shows that physical proximity\u2014desk-sharing, open adjacency, and collocation\u2014between employees in knowledge-work organisations increases spontaneous communication, cross-team learning, and creative output?",
+      "topic": "Social Interaction",
+      "subtopic": "Workspace and collaboration",
+      "difficulty": "hard",
+      "description": "The MIT Building 20 hypothesis \u2014 physical proximity drives intellectual serendipity.",
+      "search_hints": [
+        "Does physical proximity between workers increase collaboration and creative output evidence?",
+        "How does office layout and desk proximity affect spontaneous knowledge sharing in organisations?"
+      ]
+    },
+    {
+      "question_id": "SQ-021",
+      "question_text": "How does building spatial complexity and legibility affect wayfinding-related stress and cognitive load in hospital or campus environments?",
+      "topic": "Spatial Complexity",
+      "subtopic": "Wayfinding and stress",
+      "difficulty": "medium",
+      "description": "Tests spatial navigation theory \u2014 hippocampal mapping and environmental clarity predictions.",
+      "search_hints": [
+        "wayfinding stress hospital",
+        "building legibility cognitive load",
+        "spatial complexity stress navigation"
+      ]
+    },
+    {
+      "question_id": "SQ-022",
+      "question_text": "What levels of architectural visual complexity do people prefer, and how does preference relate to environmental familiarity or cultural background?",
+      "topic": "Spatial Complexity",
+      "subtopic": "Aesthetic preference",
+      "difficulty": "medium",
+      "description": "Berlyne / Wohlwill optimal complexity theory applied to architecture.",
+      "search_hints": [
+        "optimal complexity preference architecture",
+        "Berlyne arousal aesthetic",
+        "architectural complexity preference cross-cultural"
+      ]
+    },
+    {
+      "question_id": "SQ-086",
+      "question_text": "What evidence shows that sensory-modulated architectural design\u2014including reduced luminance contrast, matte non-reflective surfaces, acoustic dampening, predictable spatial sequences, and neutral colour palettes\u2014improves behavioural outcomes and reduces meltdown frequency in children with autism spectrum disorder?",
+      "topic": "Specific Populations",
+      "subtopic": "ASD and sensory design",
+      "difficulty": "medium",
+      "description": "ASD-inclusive design evidence \u2014 a growing field with strong clinical implications.",
+      "search_hints": [
+        "Autism spectrum disorder sensory architecture design meltdown behavioural outcomes evidence",
+        "Does sensory-modulated building design reduce meltdowns and improve behaviour in children with autism?"
+      ]
+    },
+    {
+      "question_id": "SQ-087",
+      "question_text": "What evidence shows that biophilic interventions in memory care units\u2014including living plants, aquaria, bird feeders, and access to secured gardens\u2014specifically reduce agitation episodes and antipsychotic medication use in residents with moderate to severe dementia?",
+      "topic": "Specific Populations",
+      "subtopic": "Dementia and biophilic design",
+      "difficulty": "medium",
+      "description": "Biophilic design in dementia care \u2014 a high-value clinical application with medication-reduction implications.",
+      "search_hints": [
+        "Biophilic design dementia memory care agitation antipsychotic medication reduction evidence plants aquarium",
+        "Do plants, aquaria and gardens in dementia care units reduce agitation and drug use evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-088",
+      "question_text": "What evidence shows that older adults (65+) in care or residential settings with access to maintained outdoor gardens or nature views experience lower rates of depression, lower fall incidence, and higher self-reported quality of life compared to those in comparable settings without nature access?",
+      "topic": "Specific Populations",
+      "subtopic": "Elderly and outdoor access",
+      "difficulty": "medium",
+      "description": "Nature access and healthy ageing \u2014 connects biophilic design to evidence-based care.",
+      "search_hints": [
+        "Older adults garden access residential care depression falls quality of life evidence",
+        "Does nature access in care homes for elderly people reduce depression and improve quality of life?"
+      ]
+    },
+    {
+      "question_id": "SQ-089",
+      "question_text": "What evidence shows that classroom acoustic design\u2014including sound-field amplification systems, lower reverberation ceilings, and reduced background noise\u2014differentially benefits children with hearing impairment, auditory processing disorder, or English as a second language?",
+      "topic": "Specific Populations",
+      "subtopic": "Hearing-impaired and classroom acoustics",
+      "difficulty": "medium",
+      "description": "Acoustic equity in classrooms \u2014 the intersection of design and disability justice.",
+      "search_hints": [
+        "Classroom acoustic design hearing impairment auditory processing sound field amplification evidence",
+        "Do acoustic improvements in classrooms benefit children with hearing impairment more than typical peers?"
+      ]
+    },
+    {
+      "question_id": "SQ-090",
+      "question_text": "What evidence shows that physical environment features in palliative care settings\u2014including single rooms, family accommodation, access to outdoor views, and patient control of light and sound\u2014are associated with higher quality end-of-life experience as rated by patients and bereaved families?",
+      "topic": "Specific Populations",
+      "subtopic": "Palliative care environment",
+      "difficulty": "medium",
+      "description": "End-of-life environment quality \u2014 evidence base for hospice design.",
+      "search_hints": [
+        "Palliative care environment design quality end of life experience family satisfaction evidence",
+        "Does hospice or palliative care building design affect patient experience and family-rated quality of dying?"
+      ]
+    },
+    {
+      "question_id": "SQ-004",
+      "question_text": "What physiological markers (cortisol, heart rate, skin conductance) show recovery after exposure to natural versus urban environments?",
+      "topic": "Stress Recovery Theory",
+      "subtopic": "Physiological measures",
+      "difficulty": "easy",
+      "description": "Tests Ulrich (1983) SRT with objective measures. Well-represented in the literature.",
+      "search_hints": [
+        "Ulrich stress recovery nature",
+        "cortisol nature exposure",
+        "physiological stress urban nature"
+      ]
+    },
+    {
+      "question_id": "SQ-005",
+      "question_text": "What evidence directly tests the hypothesis that safety signalling \u2014 rather than mere pleasantness \u2014 explains why savanna-like landscapes reduce stress?",
+      "topic": "Stress Recovery Theory",
+      "subtopic": "Safety signalling",
+      "difficulty": "hard",
+      "description": "Tests the evolutionary safety-signal mechanism in SRT. Sparse direct evidence; good gap question.",
+      "search_hints": [
+        "savanna hypothesis stress",
+        "prospect refuge theory Appleton",
+        "evolutionary landscape preference safety"
+      ]
+    },
+    {
+      "question_id": "SQ-028",
+      "question_text": "Are Attention Restoration Theory, Stress Recovery Theory, and the Biophilia Hypothesis three distinct theories or do they converge on the same underlying mechanism?",
+      "topic": "Theory Comparison",
+      "subtopic": "ART + SRT + Biophilia",
+      "difficulty": "hard",
+      "description": "Meta-theoretical question \u2014 encourages students to think about explanatory architecture and theoretical redundancy.",
+      "search_hints": [
+        "ART SRT biophilia unified",
+        "nature theories comparison mechanism",
+        "restorative environment theories synthesis"
+      ]
+    },
+    {
+      "question_id": "SQ-119",
+      "question_text": "What evidence directly compares the magnitude of restorative and stress-reducing effects between authentic natural environments\u2014parks, forests, gardens\u2014and high-quality built biophilic simulations of equivalent sensory complexity, using matched physiological and self-report outcome measures?",
+      "topic": "Theory Comparison",
+      "subtopic": "Built biophilic vs. natural",
+      "difficulty": "hard",
+      "description": "Real nature vs. biophilic design \u2014 the dose equivalence question for design guidelines.",
+      "search_hints": [
+        "Real nature versus biophilic design restorative effects comparison magnitude evidence",
+        "How does the stress reduction from biophilic building design compare to real nature exposure evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-120",
+      "question_text": "What evidence shows that individual differences\u2014including trait anxiety, nature connectedness scores, urban versus rural upbringing, and sensory processing sensitivity\u2014moderate the magnitude of biophilic and restorative design effects, and should design standards account for such variability?",
+      "topic": "Theory Comparison",
+      "subtopic": "Individual differences",
+      "difficulty": "medium",
+      "description": "Individual moderators of environmental psychology effects \u2014 critical for moving from mean effects to personalised design.",
+      "search_hints": [
+        "Individual differences nature connectedness trait anxiety moderate biophilic restoration evidence",
+        "Do personality and nature connectedness traits moderate how much people benefit from biophilic design evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-121",
+      "question_text": "What evidence characterises dose-response relationships in environmental psychology\u2014specifically, what minimum amount or quality of nature (duration of exposure, proximity, species richness, canopy cover) is required to produce statistically and clinically significant reductions in cortisol or improvements in attention?",
+      "topic": "Theory Comparison",
+      "subtopic": "Dose-response relationships",
+      "difficulty": "hard",
+      "description": "Dose-response question \u2014 essential for translating evidence into actionable design thresholds.",
+      "search_hints": [
+        "Nature exposure dose response cortisol attention minimum duration quality evidence",
+        "What is the minimum nature exposure duration or quality needed for measurable stress reduction evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-122",
+      "question_text": "What evidence from post-occupancy evaluations of buildings certified under the WELL Building Standard, LEED, or the Living Building Challenge shows that certified buildings actually achieve their predicted health, wellbeing, and performance outcomes compared to non-certified counterparts?",
+      "topic": "Theory Comparison",
+      "subtopic": "Validated design certifications",
+      "difficulty": "medium",
+      "description": "Green building certification and actual outcomes \u2014 a gap between design intent and measured effect.",
+      "search_hints": [
+        "WELL Building Standard LEED certification post-occupancy health outcomes evidence",
+        "Do WELL or LEED certified buildings actually improve occupant health and performance post-occupancy evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-123",
+      "question_text": "What evidence shows that buildings widely considered aesthetically aversive or institutionally oppressive\u2014including brutalist housing blocks, windowless offices, and legacy public housing estates\u2014produce measurable negative psychological effects independent of the material conditions they provide?",
+      "topic": "Theory Comparison",
+      "subtopic": "Nocebo effects of built form",
+      "difficulty": "hard",
+      "description": "Aesthetic aversion and wellbeing \u2014 distinguishes the visual experience of architecture from functional adequacy.",
+      "search_hints": [
+        "Aesthetically aversive architecture brutalist housing psychological wellbeing negative effects evidence",
+        "Do ugly or aesthetically oppressive buildings cause psychological harm independent of physical conditions evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-018",
+      "question_text": "What is the optimal temperature range for cognitive performance in office settings, and how much do deviations above or below this range impair output?",
+      "topic": "Thermal Comfort",
+      "subtopic": "Cognitive performance",
+      "difficulty": "medium",
+      "description": "Classic indoor environment quality question with practical design implications.",
+      "search_hints": [
+        "temperature cognitive performance office",
+        "thermal comfort productivity",
+        "ASHRAE 55 cognitive impairment"
+      ]
+    },
+    {
+      "question_id": "SQ-019",
+      "question_text": "What epidemiological evidence links residential proximity to urban green spaces with better mental health outcomes?",
+      "topic": "Urban Green Space",
+      "subtopic": "Mental health",
+      "difficulty": "easy",
+      "description": "Population-level green space health question \u2014 large epidemiological literature.",
+      "search_hints": [
+        "urban green space mental health",
+        "park proximity anxiety depression",
+        "greenery residential health outcomes"
+      ]
+    },
+    {
+      "question_id": "SQ-020",
+      "question_text": "How does access to green space affect cognitive development and sustained attention in children, particularly those diagnosed with ADHD?",
+      "topic": "Urban Green Space",
+      "subtopic": "Children and ADHD",
+      "difficulty": "medium",
+      "description": "Children, ADHD, and green space \u2014 a strong sub-literature with policy implications.",
+      "search_hints": [
+        "green space children attention",
+        "ADHD nature exposure",
+        "outdoor play cognitive development"
+      ]
+    },
+    {
+      "question_id": "SQ-094",
+      "question_text": "What evidence shows that neighbourhood-level urban tree canopy cover\u2014at density thresholds above 20\u201330%\u2014measurably reduces ambient surface temperatures, reduces perceived heat stress in pedestrians, and lowers indoor cooling energy demand in buildings below the canopy?",
+      "topic": "Urban Green Space",
+      "subtopic": "Tree canopy and heat stress",
+      "difficulty": "easy",
+      "description": "Urban tree canopy density thresholds \u2014 design guidance needs quantitative evidence.",
+      "search_hints": [
+        "Urban tree canopy cover threshold temperature reduction heat stress pedestrian evidence",
+        "What percentage of urban tree canopy is needed to measurably reduce heat stress and temperature?"
+      ]
+    },
+    {
+      "question_id": "SQ-095",
+      "question_text": "What evidence shows that exterior living walls and green facades on urban buildings produce net benefits across thermal insulation, urban biodiversity, and the wellbeing of building occupants who can view them, after accounting for maintenance costs and irrigation requirements?",
+      "topic": "Urban Green Space",
+      "subtopic": "Living walls and building performance",
+      "difficulty": "medium",
+      "description": "Green facades \u2014 multi-criteria evidence synthesis needed for design decisions.",
+      "search_hints": [
+        "Living wall green facade building thermal performance biodiversity occupant wellbeing evidence",
+        "Do exterior green walls on buildings reduce energy use and improve occupant wellbeing net benefit evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-096",
+      "question_text": "What evidence shows that proximity to urban water bodies\u2014rivers, canals, coastal shorelines, and urban fountains\u2014independently predicts higher physical activity, lower stress, and better mental health in nearby residents, beyond what is explained by general green space access?",
+      "topic": "Urban Green Space",
+      "subtopic": "Waterfront and blue space",
+      "difficulty": "medium",
+      "description": "Blue space effect independent of green space \u2014 an important distinction for urban planning.",
+      "search_hints": [
+        "Blue space urban water proximity physical activity mental health independent green space evidence",
+        "Does living near urban water bodies improve mental health independently of access to green spaces?"
+      ]
+    },
+    {
+      "question_id": "SQ-097",
+      "question_text": "What evidence shows that street lighting quality\u2014including illuminance level, colour rendering, uniformity, and spectral composition\u2014affects pedestrian-perceived safety, fear of crime, and actual pedestrian injury or assault rates in urban environments?",
+      "topic": "Urban Green Space",
+      "subtopic": "Night lighting and safety",
+      "difficulty": "medium",
+      "description": "Street lighting and public safety \u2014 evidence for CPTED and night-time economy design.",
+      "search_hints": [
+        "Street lighting quality safety fear crime pedestrian injury evidence urban",
+        "How does street lighting level and quality affect actual crime rates and fear of crime evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-098",
+      "question_text": "What empirical evidence supports the predictions of Jan Gehl's urban design principles\u2014including human scale, active building frontages, and permeability\u2014for pedestrian density, dwell time, spontaneous social interaction, and perceived street quality?",
+      "topic": "Urban Green Space",
+      "subtopic": "Jan Gehl street design",
+      "difficulty": "medium",
+      "description": "Gehl's design principles tested empirically \u2014 influential but surprisingly few controlled studies.",
+      "search_hints": [
+        "Jan Gehl urban design principles pedestrian density dwell time social interaction evidence",
+        "What empirical evidence tests Jan Gehl's human scale active frontage principles for pedestrian activity?"
+      ]
+    },
+    {
+      "question_id": "SQ-012",
+      "question_text": "What evidence shows that hospital patients with window views of nature recover faster or report lower pain than those with views of walls or urban scenes?",
+      "topic": "Views of Nature",
+      "subtopic": "Hospital recovery",
+      "difficulty": "easy",
+      "description": "Classic Ulrich (1984) window view study and subsequent replication attempts.",
+      "search_hints": [
+        "Ulrich window view hospital recovery",
+        "nature view patient outcomes",
+        "hospital design nature window"
+      ]
+    },
+    {
+      "question_id": "SQ-013",
+      "question_text": "Do virtual or simulated nature views (screens, VR, projected scenes) produce restorative effects comparable to real windows onto nature?",
+      "topic": "Views of Nature",
+      "subtopic": "Virtual nature",
+      "difficulty": "medium",
+      "description": "Important for healthcare and office design where real windows are not possible.",
+      "search_hints": [
+        "virtual nature restorative",
+        "nature video stress recovery",
+        "simulated window view wellbeing VR"
+      ]
+    },
+    {
+      "question_id": "SQ-024",
+      "question_text": "What evidence shows that water features (fountains, indoor water walls, water sounds) reduce stress or improve wellbeing in built environments?",
+      "topic": "Water Features",
+      "subtopic": "Restorative effects",
+      "difficulty": "medium",
+      "description": "Blue space research \u2014 an emerging literature complementing green space findings.",
+      "search_hints": [
+        "blue space wellbeing",
+        "water feature stress fountain",
+        "aquatic environment restoration indoor"
+      ]
+    },
+    {
+      "question_id": "SQ-066",
+      "question_text": "What peer-reviewed evidence shows that activity-based working environments\u2014where employees choose their workspace according to task type rather than having assigned desks\u2014improve job satisfaction, cross-team collaboration, and productivity compared to conventional assigned-desk offices?",
+      "topic": "Workplace Design",
+      "subtopic": "Activity-based working",
+      "difficulty": "medium",
+      "description": "ABW is now ubiquitous in corporate real estate but the evidence base is contested.",
+      "search_hints": [
+        "Activity-based working hot desking productivity satisfaction collaboration evidence systematic review",
+        "Does activity-based working improve employee wellbeing and productivity compared to assigned desks?"
+      ]
+    },
+    {
+      "question_id": "SQ-067",
+      "question_text": "What evidence shows that the provision of designated quiet zones and fully enclosed private focus spaces in open-plan offices reduces noise-related distraction and improves self-reported deep-work performance for knowledge workers?",
+      "topic": "Workplace Design",
+      "subtopic": "Quiet zones and focus work",
+      "difficulty": "medium",
+      "description": "Quiet zones in open-plan offices \u2014 a partial mitigation strategy with growing evidence.",
+      "search_hints": [
+        "Quiet zones private focus rooms open plan office distraction productivity evidence",
+        "Do quiet private spaces in open plan offices reduce noise distraction for knowledge workers?"
+      ]
+    },
+    {
+      "question_id": "SQ-068",
+      "question_text": "What evidence shows that restorative break environments within workplace buildings\u2014including access to courtyard gardens, nature-view lounges, or quiet green spaces\u2014reduce afternoon cognitive fatigue and improve sustained attention performance compared to break rooms without nature access?",
+      "topic": "Workplace Design",
+      "subtopic": "Break environments and fatigue",
+      "difficulty": "medium",
+      "description": "Break room design and recovery \u2014 links ART micro-restoration to afternoon work performance.",
+      "search_hints": [
+        "Workplace break room garden nature view cognitive fatigue recovery afternoon performance evidence",
+        "Do nature-integrated office break spaces reduce afternoon fatigue compared to conventional break rooms?"
+      ]
+    },
+    {
+      "question_id": "SQ-069",
+      "question_text": "What evidence shows that the ability to personalise one's workspace\u2014by displaying personal photographs, plants, or decorative objects\u2014affects employees' psychological ownership, job satisfaction, and organisational commitment, and do these effects differ between hot-desking and assigned-desk conditions?",
+      "topic": "Workplace Design",
+      "subtopic": "Workspace personalisation",
+      "difficulty": "medium",
+      "description": "Personalisation and ownership \u2014 a psychological loss associated with activity-based working.",
+      "search_hints": [
+        "Workspace personalisation psychological ownership job satisfaction evidence office",
+        "Does allowing workers to personalise their desks improve psychological ownership and retention evidence?"
+      ]
+    },
+    {
+      "question_id": "SQ-070",
+      "question_text": "What systematic review or longitudinal evidence supports the claim that the presence of indoor vegetation\u2014living walls, desktop plants, or atrium gardens\u2014in office workplaces reduces employee absenteeism and self-reported wellbeing scores?",
+      "topic": "Workplace Design",
+      "subtopic": "Indoor plants and absenteeism",
+      "difficulty": "easy",
+      "description": "The absenteeism claim for office plants is widely cited but needs scrutiny.",
+      "search_hints": [
+        "Indoor office plants absenteeism wellbeing evidence systematic review",
+        "Do indoor plants in offices measurably reduce absenteeism evidence peer-reviewed?"
+      ]
+    },
+    {
+      "question_id": "SQ-071",
+      "question_text": "What evidence shows that lighting design in deep-plan offices without window access\u2014using high colour rendering index (CRI \u2265 90), tunable white light, and biodynamic lighting systems\u2014compensates for the absence of natural light in terms of mood, alertness, and visual comfort?",
+      "topic": "Workplace Design",
+      "subtopic": "Deep-plan lighting",
+      "difficulty": "medium",
+      "description": "Artificial light compensation for windowless offices \u2014 an important equity and health question.",
+      "search_hints": [
+        "Deep plan office artificial lighting CRI tunable white mood alertness evidence",
+        "Can high-quality artificial lighting compensate for lack of natural light in windowless offices evidence?"
+      ]
+    }
+  ],
+  "count": 130
+}
