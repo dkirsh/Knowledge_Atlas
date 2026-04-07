@@ -34,19 +34,43 @@
       line-height: 1.7;
     }
 
-    /* Header */
+    /* Nav */
+    .ka-nav {
+      background: var(--navy); display: flex; align-items: center;
+      gap: 24px; padding: 0 28px; min-height: 52px;
+      position: sticky; top: 0; z-index: 500;
+      border-bottom: 2px solid var(--gold);
+    }
+    .ka-nav .nav-brand { color: #A8C8BF; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; }
+    .ka-nav .nav-brand:hover { color: var(--gold); }
+    .ka-nav .nav-center { display: flex; align-items: center; gap: 14px; flex: 1; }
+    .ka-nav a.nav-link { color: #7AACA0; font-size: 0.8rem; text-decoration: none;
+      padding: 6px 10px; border-radius: 6px; transition: color 0.15s; }
+    .ka-nav a.nav-link:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .ka-nav a.nav-link.active { color: #F5A623; background: rgba(232,135,42,0.12); }
+
+    /* Breadcrumb */
+    .ka-breadcrumb {
+      background: #EDE8E0; padding: 8px 28px; font-size: 0.78rem;
+      color: #6A5E50; display: flex; align-items: center; gap: 6px;
+    }
+    .ka-breadcrumb a { color: #1C3D3A; text-decoration: none; font-weight: 600; }
+    .ka-breadcrumb a:hover { text-decoration: underline; }
+    .ka-breadcrumb .sep { color: #B0A898; }
+
+    /* Back to A0 link */
+    .back-to-a0 {
+      display: inline-block; padding: 8px 16px; margin: 16px 0;
+      color: #1C3D3A; font-size: 0.85rem; font-weight: 600;
+      text-decoration: none; border: 1.5px solid #D4C9BC; border-radius: 6px;
+      background: #fff;
+    }
+    .back-to-a0:hover { background: #F7F4EF; border-color: var(--gold); }
+
+    /* Legacy header (removed) */
     .site-header {
-      background: var(--navy);
-      color: #fff;
-      padding: 0 2rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      height: 56px;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+      display: none;
     }
     .header-brand { display: flex; align-items: center; gap: 0.8rem; }
     .header-logo { font-size: 1.25rem; font-weight: 900; color: #fff; }
@@ -288,24 +312,58 @@
       .main { padding: 2rem 1.5rem; }
       .compare-grid { grid-template-columns: 1fr; }
     }
-  </style>
+  
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.wordmark-icon { width: 30px; height: 30px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wm-top { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: #A8C8BF; }
+.wm-bottom { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em; color: #fff; }
+.wm-bottom span { color: #F5A623; }
+</style>
 </head>
 <body>
 
-<header class="site-header">
-  <div class="header-brand">
-    <div>
-      <div class="header-logo">K-<span>ATLAS</span></div>
-      <div class="header-tag">UC San Diego · Cognitive Science</div>
+<nav class="ka-nav">
+  <a class="wordmark" href="../ka_home.html">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
     </div>
+  </a>
+  <div class="nav-center">
+    <a href="../ka_topics.html" class="nav-link">Explore</a>
+    <a href="../ka_evidence.html" class="nav-link">Evidence</a>
+    <a href="../ka_gaps.html" class="nav-link">Gaps</a>
+    <a href="../ka_article_search.html" class="nav-link">Articles</a>
+    <a href="../ka_contribute.html" class="nav-link">Contribute</a>
+    <a href="ka_student_setup.html" class="nav-link active">Course</a>
+    <a href="ka_schedule.html" class="nav-link">160 Syllabus</a>
   </div>
-  <nav class="header-nav">
-    <a href="../ka_home.html">Home</a>
-    <a href="ka_collect_articles.html">A0 Assignment</a>
-    <a href="ka_student_setup.html">Setup</a>
-    <a href="ka_schedule.html">Schedule</a>
-  </nav>
-</header>
+</nav>
+<div class="ka-breadcrumb">
+  <a href="../ka_home.html">Home</a> <span class="sep">/</span>
+  <a href="ka_student_setup.html">COGS 160 Start</a> <span class="sep">/</span>
+  <a href="ka_collect_articles.html">A0: Collect Articles</a> <span class="sep">/</span>
+  <span>Google AI Search Guide</span>
+</div>
+<div style="padding:0 28px;">
+  <a href="ka_collect_articles.html" class="back-to-a0">&larr; Back to A0</a>
+</div>
 
 <div class="layout">
 
@@ -1239,5 +1297,9 @@ tocLinks.forEach(a => {
   });
 });
 </script>
+<div style="padding:20px 28px 40px; text-align:center;">
+  <a href="ka_collect_articles.html" class="back-to-a0">&larr; Back to A0: Collect Articles</a>
+</div>
+<script src="../ka_auth_widget.js"></script>
 </body>
 </html>

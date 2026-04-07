@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>How AI Systems Actually Fail — Knowledge Atlas</title>
+  <title>AI-Directed Development: The KA Methodology</title>
   <style>
     *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
@@ -16,7 +16,6 @@
       --muted:  #6A5E50;
       --border: #DDD6CD;
       --light:  #EDE8E0;
-      --red:    #C62828;
     }
 
     body { font-family: Arial, sans-serif; background: var(--cream); color: var(--text); line-height: 1.65; }
@@ -33,28 +32,42 @@
     .nav-brand:hover { color: var(--amber); }
     nav a.nav-link { color: #7AACA0; font-size: 0.8rem; text-decoration: none; transition: color 0.15s; }
     nav a.nav-link:hover { color: #fff; }
+    .nav-sep { color: rgba(255,255,255,0.18); }
     .nav-center { display: flex; gap: 18px; align-items: center; flex: 1; }
+    .nav-right { display: flex; align-items: center; gap: 12px; }
+    .mode-select {
+      background: rgba(255,255,255,0.08); border: 1px solid rgba(168,200,191,0.35);
+      color: #E6EFE9; border-radius: 18px; padding: 5px 10px; font-size: 0.74rem;
+    }
+    .mode-pill {
+      background: rgba(42,120,104,0.35); color: #A8C8BF; border-radius: 18px;
+      padding: 5px 11px; font-size: 0.68rem; font-weight: 700; letter-spacing: 0.08em;
+    }
+    .profile-avatar {
+      width: 30px; height: 30px; border-radius: 50%; background: #E8872A; color: #fff;
+      display: inline-flex; align-items: center; justify-content: center; font-size: 0.78rem; font-weight: 700;
+    }
 
     /* ── Hero ── */
     .page-hero {
-      background: linear-gradient(135deg, #2A1010 0%, #3A1515 50%, #1C3D3A 100%);
+      background: linear-gradient(135deg, #163230 0%, var(--navy) 50%, #1A2E2C 100%);
       padding: 56px 40px 48px;
-      border-bottom: 3px solid var(--red);
+      border-bottom: 3px solid var(--amber);
     }
     .page-hero .eyebrow {
       font-size: 0.65rem; font-weight: 700; letter-spacing: 0.2em;
-      text-transform: uppercase; color: #FF8A80; margin-bottom: 12px;
+      text-transform: uppercase; color: #7AACA0; margin-bottom: 12px;
     }
     .page-hero h1 {
       font-family: Georgia, serif; font-size: 2rem; font-weight: 400;
       color: #F5F0E8; line-height: 1.25; margin-bottom: 14px;
     }
-    .page-hero p { font-size: 1rem; color: #CCA8A0; line-height: 1.7; max-width: 720px; }
+    .page-hero p { font-size: 1rem; color: #A8C8BF; line-height: 1.7; max-width: 680px; }
 
-    .outer { max-width: 940px; margin: 0 auto; padding: 0 32px 80px; }
+    .outer { max-width: 900px; margin: 0 auto; padding: 0 32px 80px; }
 
     /* ── Sections ── */
-    .doc-section { margin-top: 50px; }
+    .doc-section { margin-top: 60px; }
     .section-header {
       display: flex; align-items: flex-start; gap: 16px;
       margin-bottom: 24px; padding-bottom: 14px;
@@ -64,7 +77,6 @@
       background: var(--navy); color: #A8C8BF;
       font-size: 0.68rem; font-weight: 700; letter-spacing: 0.1em;
       padding: 5px 10px; border-radius: 4px; flex-shrink: 0; margin-top: 4px;
-      white-space: nowrap;
     }
     .section-header h2 {
       font-family: Georgia, serif; font-size: 1.3rem; font-weight: 400; color: var(--navy); line-height: 1.3;
@@ -72,627 +84,1478 @@
     .section-header .sh-sub { font-size: 0.85rem; color: var(--muted); margin-top: 4px; line-height: 1.5; }
 
     p { font-size: 0.92rem; margin-bottom: 12px; }
+    p:last-child { margin-bottom: 0; }
 
-    /* ── Failure cards ── */
+    /* ── Component grid ── */
+    .component-grid { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; margin: 24px 0; }
+    @media (max-width: 720px) { .component-grid { grid-template-columns: 1fr 1fr; } }
+    .component-card {
+      background: var(--navy); border-radius: 8px; padding: 16px 14px;
+      display: flex; flex-direction: column; gap: 6px;
+    }
+    .comp-num { font-size: 1.4rem; font-weight: 800; color: var(--amber); line-height: 1; }
+    .comp-name { font-size: 0.78rem; font-weight: 700; color: #A8C8BF; line-height: 1.3; }
+    .comp-tag { font-size: 0.68rem; color: #5AC8AA; letter-spacing: 0.06em; }
+
+    /* ── Prompt anatomy ── */
+    .prompt-anatomy {
+      background: #1A2E2C; border-radius: 10px; overflow: hidden;
+      margin: 20px 0; font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+      font-size: 0.82rem; line-height: 1.8;
+    }
+    .pa-header {
+      background: rgba(232,135,42,0.12); padding: 8px 18px;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.15em;
+      text-transform: uppercase; color: var(--amber); border-bottom: 1px solid rgba(255,255,255,0.08);
+    }
+    .pa-body { padding: 16px 18px; }
+    .pa-c1 { color: #5AC8AA; }   /* role */
+    .pa-c2 { color: #A8D8FF; }   /* task */
+    .pa-c3 { color: #FFCC80; }   /* constraints */
+    .pa-c4 { color: #C8A8FF; }   /* context */
+    .pa-c5 { color: #80FFB8; }   /* format */
+    .pa-label {
+      display: inline-block; font-size: 0.63rem; font-weight: 700;
+      text-transform: uppercase; letter-spacing: 0.1em;
+      padding: 0 6px; border-radius: 3px; margin-right: 6px; vertical-align: middle;
+    }
+    .lbl1 { background: rgba(90,200,170,0.18); color: #5AC8AA; }
+    .lbl2 { background: rgba(168,216,255,0.18); color: #A8D8FF; }
+    .lbl3 { background: rgba(255,204,128,0.18); color: #FFCC80; }
+    .lbl4 { background: rgba(200,168,255,0.18); color: #C8A8FF; }
+    .lbl5 { background: rgba(128,255,184,0.18); color: #80FFB8; }
+
+    /* ── Example panels ── */
+    .example-tabs { display: flex; gap: 0; margin-bottom: 0; border-bottom: 2px solid var(--border); }
+    .ex-tab {
+      padding: 8px 18px; font-size: 0.8rem; font-weight: 700;
+      cursor: pointer; border: none; background: none; color: var(--muted);
+      border-bottom: 2px solid transparent; margin-bottom: -2px;
+      transition: all 0.15s;
+    }
+    .ex-tab.active { color: var(--navy); border-bottom-color: var(--amber); }
+    .ex-tab:hover:not(.active) { color: var(--navy); }
+    .ex-panel { display: none; padding: 20px 0; }
+    .ex-panel.active { display: block; }
+    .ex-bad, .ex-good { border-radius: 8px; padding: 14px 16px; margin-bottom: 12px; font-size: 0.85rem; }
+    .ex-bad { background: #FBE9E7; border-left: 3px solid #C62828; color: #5A1010; }
+    .ex-good { background: #E8F5E9; border-left: 3px solid #2E7D32; color: #1A4A1E; }
+    .ex-label { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; }
+    .ex-bad .ex-label { color: #C62828; }
+    .ex-good .ex-label { color: #2E7D32; }
+    .ex-content { font-family: 'SF Mono', 'Fira Code', Consolas, monospace; line-height: 1.6; }
+    .ex-why { font-size: 0.82rem; color: var(--muted); margin-top: 8px; font-family: Arial, sans-serif; }
+
+    /* ── Failure modes ── */
+    .failure-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin: 20px 0; }
+    @media (max-width: 640px) { .failure-grid { grid-template-columns: 1fr; } }
     .failure-card {
+      background: #fff; border: 1px solid var(--border); border-radius: 8px;
+      padding: 16px 18px;
+    }
+    .failure-num { font-size: 1.1rem; font-weight: 800; color: var(--amber); margin-bottom: 6px; }
+    .failure-name { font-size: 0.88rem; font-weight: 700; color: var(--navy); margin-bottom: 6px; }
+    .failure-desc { font-size: 0.83rem; color: var(--muted); line-height: 1.5; margin-bottom: 8px; }
+    .failure-fix {
+      background: var(--light); border-radius: 4px; padding: 7px 10px;
+      font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+      font-size: 0.78rem; color: var(--navy); line-height: 1.5;
+    }
+
+    /* ── Contract block ── */
+    .contract-block {
       background: #fff; border: 1px solid var(--border); border-radius: 10px;
-      padding: 22px 24px; margin-bottom: 18px;
-      border-left: 4px solid var(--amber);
+      overflow: hidden; margin: 20px 0;
     }
-    .failure-card.severe { border-left-color: var(--red); }
-    .failure-card.systemic { border-left-color: #7B1FA2; }
-    .failure-header {
-      display: flex; align-items: center; gap: 14px; margin-bottom: 12px;
+    .contract-header {
+      background: var(--light); padding: 10px 18px;
+      font-family: 'SF Mono', 'Fira Code', Consolas, monospace;
+      font-size: 0.78rem; color: var(--navy); font-weight: 700;
+      border-bottom: 1px solid var(--border);
     }
-    .failure-num {
-      font-size: 1.3rem; font-weight: 800; color: var(--amber); line-height: 1;
-      min-width: 34px;
-    }
-    .failure-card.severe .failure-num { color: var(--red); }
-    .failure-card.systemic .failure-num { color: #7B1FA2; }
-    .failure-name { font-size: 1.05rem; font-weight: 700; color: var(--navy); }
-    .failure-tagline { font-size: 0.82rem; color: var(--muted); font-style: italic; }
+    .contract-body { padding: 16px 18px; }
+    .contract-row { display: flex; gap: 12px; padding: 7px 0; border-bottom: 1px dashed var(--border); font-size: 0.85rem; }
+    .contract-row:last-child { border-bottom: none; }
+    .c-key { font-weight: 700; color: var(--navy); min-width: 120px; flex-shrink: 0; font-family: 'SF Mono', Consolas, monospace; font-size: 0.82rem; }
+    .c-val { color: var(--text); }
+    .c-val code { background: var(--light); padding: 1px 5px; border-radius: 3px; font-size: 0.85em; }
 
-    .failure-body { font-size: 0.9rem; line-height: 1.6; margin-bottom: 14px; }
+    /* ── Trust ladder ── */
+    .trust-ladder { list-style: none; padding: 0; margin: 16px 0; }
+    .trust-ladder li {
+      display: flex; gap: 14px; align-items: flex-start;
+      padding: 10px 0; border-bottom: 1px solid var(--border);
+    }
+    .trust-ladder li:last-child { border-bottom: none; }
+    .trust-level {
+      min-width: 72px; text-align: center;
+      font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em;
+      padding: 4px 8px; border-radius: 4px; flex-shrink: 0; margin-top: 1px;
+    }
+    .tl-0 { background: #FBE9E7; color: #C62828; }
+    .tl-1 { background: #FFF3E0; color: #E65100; }
+    .tl-2 { background: #FFF8E1; color: #F57F17; }
+    .tl-3 { background: #F1F8E9; color: #558B2F; }
+    .tl-4 { background: #E8F5E9; color: #2E7D32; }
+    .tl-5 { background: #E3F2FD; color: #1565C0; }
+    .trust-text { font-size: 0.88rem; color: var(--text); line-height: 1.5; }
 
-    .incident-box {
-      background: #FBE9E7; border-radius: 6px; padding: 14px 16px; margin: 14px 0;
-      border-left: 3px solid var(--red);
+    /* ── Code ── */
+    pre {
+      background: #1A2E2C; color: #A8C8BF;
+      font-family: 'SF Mono', 'Fira Code', Consolas, monospace; font-size: 0.82rem; line-height: 1.7;
+      padding: 16px 20px; border-radius: 8px; overflow-x: auto; margin: 12px 0;
     }
-    .incident-label {
-      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--red); margin-bottom: 6px;
-    }
-    .incident-text { font-size: 0.85rem; color: #5A1010; line-height: 1.55; }
-
-    .kirsh-box {
-      background: #FFF8E1; border-radius: 6px; padding: 14px 16px; margin: 14px 0;
-      border-left: 3px solid var(--amber);
-    }
-    .kirsh-label {
-      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: var(--amber); margin-bottom: 6px;
-    }
-    .kirsh-text { font-size: 0.85rem; color: #5A3010; line-height: 1.55; }
-
-    .fix-box {
-      background: #E8F5E9; border-radius: 6px; padding: 14px 16px; margin: 14px 0;
-      border-left: 3px solid #2E7D32;
-    }
-    .fix-label {
-      font-size: 0.68rem; font-weight: 700; text-transform: uppercase;
-      letter-spacing: 0.1em; color: #2E7D32; margin-bottom: 6px;
-    }
-    .fix-text { font-size: 0.85rem; color: #1A4A1E; line-height: 1.55; }
-
-    .source-tag {
-      display: inline-block; font-size: 0.72rem; color: var(--muted);
-      background: var(--light); border-radius: 3px; padding: 2px 8px;
-      margin-top: 4px;
-    }
-    .source-tag a { color: var(--green); text-decoration: none; }
-    .source-tag a:hover { text-decoration: underline; }
+    code { background: #EDE8E0; color: #1C3D3A; font-family: 'SF Mono', 'Fira Code', Consolas, monospace; font-size: 0.83em; padding: 1px 5px; border-radius: 3px; }
+    pre code { background: none; color: inherit; padding: 0; font-size: 1em; }
+    .cc { color: #5AC8AA; }
 
     /* ── Callouts ── */
-    .callout {
-      border-radius: 8px; padding: 16px 20px; margin: 24px 0;
-      font-size: 0.9rem; line-height: 1.6;
+    .callout { border-radius: 8px; padding: 14px 18px; margin: 16px 0; font-size: 0.88rem; line-height: 1.6; }
+    .callout-warn { background: #FFF8E8; border-left: 4px solid var(--amber); color: #5A3010; }
+    .callout-info { background: #E6F5F0; border-left: 4px solid var(--green); color: #1a4a3f; }
+    .callout strong { color: #2D1800; }
+    .callout-info strong { color: #1a4a3f; }
+
+    /* ── Escalation ladder ── */
+    .escalation { display: flex; flex-direction: column; gap: 0; margin: 16px 0; }
+    .esc-rung {
+      display: flex; gap: 14px; padding: 12px 0; border-bottom: 1px solid var(--border);
     }
-    .callout-key {
-      background: var(--navy); color: #A8C8BF;
-      border-left: 4px solid var(--amber);
+    .esc-rung:last-child { border-bottom: none; }
+    .esc-num {
+      width: 28px; height: 28px; border-radius: 50%; background: var(--amber);
+      color: #fff; font-size: 0.72rem; font-weight: 800;
+      display: flex; align-items: center; justify-content: center; flex-shrink: 0; margin-top: 2px;
+    }
+    .esc-text strong { font-size: 0.9rem; color: var(--navy); display: block; margin-bottom: 3px; }
+    .esc-text span { font-size: 0.83rem; color: var(--muted); line-height: 1.5; }
+
+    /* ── Version badge ── */
+    .version-badge {
+      position: fixed; bottom: 14px; left: 24px; z-index: 400;
+      background: rgba(28,61,58,0.7); color: #7AACA0;
+      font-size: 0.65rem; font-weight: 700; letter-spacing: 0.1em;
+      padding: 3px 10px; border-radius: 8px;
+    }
+  
+    /* ── PAGINATION SYSTEM ── */
+    .doc-section {
+      display: none;
+    }
+    .doc-section.active {
+      display: block;
+      animation: fadeIn 0.3s ease;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
     }
 
-    /* ── Summary table ── */
-    .summary-table {
-      width: 100%; border-collapse: collapse; margin: 20px 0;
+    /* Step tabs/breadcrumbs */
+    .step-tabs {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+      padding-bottom: 14px;
+      border-bottom: 2px solid var(--border);
+      align-items: center;
+    }
+    .step-tab {
+      padding: 6px 12px;
+      font-size: 0.75rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      border-radius: 4px;
+      cursor: pointer;
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--muted);
+      transition: all 0.15s;
+    }
+    .step-tab:hover {
+      border-color: var(--navy);
+      color: var(--navy);
+    }
+    .step-tab.active {
+      background: var(--navy);
+      color: #fff;
+      border-color: var(--navy);
+    }
+    .step-tab.completed {
+      background: var(--green);
+      color: #fff;
+      border-color: var(--green);
+    }
+
+    /* Navigation controls */
+    .pagination-nav {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      max-width: 900px;
+      margin: 50px auto 0;
+      padding: 28px 32px;
+      border-top: 2px solid var(--border);
+    }
+    .nav-button {
+      padding: 10px 20px;
       font-size: 0.85rem;
+      font-weight: 700;
+      border-radius: 6px;
+      border: none;
+      cursor: pointer;
+      transition: all 0.2s;
+      text-decoration: none;
+      display: inline-block;
+      text-align: center;
     }
-    .summary-table th {
-      background: var(--navy); color: #A8C8BF; padding: 10px 14px;
-      text-align: left; font-weight: 700; font-size: 0.75rem;
-      text-transform: uppercase; letter-spacing: 0.08em;
+    .nav-button.prev {
+      border: 2px solid var(--green);
+      color: var(--green);
+      background: transparent;
     }
-    .summary-table td {
-      padding: 10px 14px; border-bottom: 1px solid var(--border);
+    .nav-button.prev:hover:not(:disabled) {
+      background: var(--green);
+      color: #fff;
     }
-    .summary-table tr:nth-child(even) td { background: rgba(0,0,0,0.02); }
-    .sev-critical { color: var(--red); font-weight: 700; }
-    .sev-high { color: var(--amber); font-weight: 700; }
-    .sev-medium { color: #7B1FA2; font-weight: 600; }
+    .nav-button.prev:disabled {
+      opacity: 0.4;
+      cursor: not-allowed;
+      border-color: #ccc;
+      color: #999;
+    }
+    .nav-button.next {
+      background: var(--amber);
+      color: #fff;
+      border: none;
+    }
+    .nav-button.next:hover {
+      background: #D97420;
+    }
+    .nav-button.next.home-link {
+      background: var(--navy);
+    }
+    .nav-button.next.home-link:hover {
+      background: #152E2B;
+    }
 
-    /* ── References ── */
-    .ref-section { margin-top: 48px; padding-top: 24px; border-top: 2px solid var(--border); }
-    .ref-section h3 { font-family: Georgia, serif; font-size: 1.1rem; color: var(--navy); margin-bottom: 16px; }
-    .ref-list { list-style: none; padding: 0; }
-    .ref-list li {
-      font-size: 0.82rem; color: var(--muted); line-height: 1.5;
-      margin-bottom: 10px; padding-left: 20px; text-indent: -20px;
+    .pagination-footer {
+      display: flex;
+      gap: 12px;
+      flex-wrap: wrap;
+      justify-content: center;
+      font-size: 0.8rem;
     }
-    .ref-list a { color: var(--green); text-decoration: none; }
-    .ref-list a:hover { text-decoration: underline; }
+    .pagination-footer a {
+      color: var(--navy);
+      text-decoration: none;
+      transition: color 0.15s;
+    }
+    .pagination-footer a:hover {
+      color: var(--amber);
+    }
 
-    /* ── Back link ── */
-    .back-link {
-      display: inline-block; margin-top: 20px;
-      background: var(--navy); color: #A8C8BF; text-decoration: none;
-      padding: 8px 18px; border-radius: 6px; font-size: 0.82rem; font-weight: 700;
+    @media (max-width: 640px) {
+      .pagination-nav {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 12px;
+      }
+      .nav-button {
+        width: 100%;
+      }
+      .step-tabs {
+        justify-content: center;
+      }
     }
-    .back-link:hover { background: var(--green); color: #fff; }
-  </style>
+
+    /* ── Breadcrumb ── */
+    .breadcrumb-bar {
+      background: var(--light);
+      padding: 10px 40px;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+    .breadcrumb-bar a {
+      color: var(--green);
+      text-decoration: none;
+      font-weight: 600;
+    }
+    .breadcrumb-bar a:hover {
+      text-decoration: underline;
+    }
+    .breadcrumb-bar .sep {
+      color: var(--muted);
+      margin: 0 6px;
+    }
+    .breadcrumb-bar .current {
+      color: var(--navy);
+      font-weight: 700;
+    }
+
+    /* ── CTA Footer ── */
+    .cta-footer {
+      background: var(--navy);
+      padding: 28px 32px;
+      margin-top: 40px;
+      border-radius: 10px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      flex-wrap: wrap;
+      gap: 1rem;
+    }
+    .cta-footer-text {
+      color: #A8C8BF;
+      font-size: 0.95rem;
+    }
+    .cta-footer-text strong {
+      color: #F5F0E8;
+      font-weight: 700;
+    }
+    .cta-footer-btn {
+      display: inline-block;
+      padding: 10px 24px;
+      background: var(--amber);
+      color: #fff;
+      border-radius: 8px;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.92rem;
+      transition: opacity 0.15s;
+    }
+    .cta-footer-btn:hover {
+      opacity: 0.9;
+    }
+
+    
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.wordmark-icon { width: 30px; height: 30px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wm-top { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: #A8C8BF; }
+.wm-bottom { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em; color: #fff; }
+.wm-bottom span { color: #F5A623; }
+</style>
 </head>
 <body>
 
 <nav>
-  <a href="ka_home.html" class="nav-brand">K-ATLAS</a>
+  <a class="wordmark" href="ka_home.html">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
+    </div>
+  </a>
+  <span class="nav-sep">|</span>
   <div class="nav-center">
-    <a href="ka_ai_methodology.html" class="nav-link">AI Methodology</a>
-    <a href="160sp/ka_schedule.html" class="nav-link">Schedule</a>
-    <a href="ka_sitemap.html" class="nav-link">Site Map</a>
+    <a href="ka_topics.html" class="nav-link" id="nav-shell-explore">Explore</a>
+    <a href="ka_evidence.html" class="nav-link" id="nav-shell-evidence">Evidence</a>
+    <a href="ka_gaps.html" class="nav-link" id="nav-shell-gaps">Gaps</a>
+    <a href="ka_article_search.html" class="nav-link" id="nav-shell-articles">Articles</a>
+    <a href="ka_contribute.html" class="nav-link" id="nav-shell-contribute">Contribute</a>
+    <a href="160sp/ka_student_setup.html" class="nav-link" id="nav-shell-course">Course</a>
+    <a id="nav-shell-syllabus" href="160sp/ka_schedule.html" class="nav-link">160 Syllabus</a>
+  </div>
+  <div class="nav-right">
+    <select id="ai-method-mode-select" class="mode-select" aria-label="Choose user mode">
+      <option value="student_explorer">Student explorer</option>
+      <option value="researcher">Researcher</option>
+      <option value="contributor">Contributor</option>
+      <option value="instructor">Instructor</option>
+      <option value="practitioner">Practitioner</option>
+      <option value="theory_mechanism_explorer">Theory Explorer</option>
+    </select>
+    <span class="mode-pill" id="ai-method-mode-pill">CONTRIBUTOR</span>
+    <span class="profile-avatar" id="ai-method-avatar">JL</span>
   </div>
 </nav>
 
+<!-- Breadcrumb -->
+<div class="breadcrumb-bar">
+  <a href="160sp/ka_student_setup.html">COGS160 Start</a>
+  <span class="sep">></span>
+  <span class="current">AI Methodology</span>
+</div>
+
 <div class="page-hero">
-  <div class="eyebrow">COGS 160 · Lessons from the field</div>
-  <h1>How AI Systems Actually Fail</h1>
-  <p>These are not hypothetical risks. Every failure mode on this page happened to us while building Knowledge Atlas, or has been documented by other teams building production systems with AI. The patterns are predictable. The damage is preventable — but only if you know what to watch for.</p>
+  <div class="eyebrow">COGS 160 · AI-Directed Development</div>
+  <h1>AI-Directed Development*:<br>The KA Methodology</h1>
+  <p>
+    In this course you use AI as a directed instrument in a production pipeline — not as a chatbot.
+    The goal is not "getting good output." It is producing output that meets a formal specification,
+    passes defined tests, and integrates correctly with the larger system.
+    That requires a specific methodology.
+  </p>
 </div>
 
 <div class="outer">
 
-  <!-- ── INTRO ── -->
-  <div class="doc-section">
-    <p>
-      Knowledge Atlas was built with three AI systems working in parallel — Claude, Gemini, and Codex — across
-      hundreds of sessions over months. The system grew from an empty repo to ~1,900 evidence claims, ~4,810 edges,
-      a seven-type warrant taxonomy, and dozens of pipeline scripts. Every failure mode below was discovered
-      the hard way: by losing time, losing data, or producing output that looked correct and was not.
-    </p>
-    <p>
-      The first five failures (F1–F5) are <strong>prompt-level</strong>: they emerge in a single AI interaction.
-      The next four (F6–F9) are <strong>session-level</strong>: they emerge over long sessions (30+ prompts) and compound silently.
-      The final two (F10–F11) are <strong>systemic</strong>: they affect how entire teams and codebases degrade when AI is used at scale.
-    </p>
-  </div>
-
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- SECTION: PROMPT-LEVEL FAILURES              -->
-  <!-- ═══════════════════════════════════════════ -->
-
+  <!-- ── CORE PRINCIPLE ── -->
   <div class="doc-section">
     <div class="section-header">
-      <span class="sec-num">PROMPT-LEVEL</span>
+      <span class="sec-num">CORE</span>
       <div>
-        <h2>Failures within a single interaction</h2>
-        <div class="sh-sub">These emerge immediately. A well-structured prompt prevents them.</div>
+        <h2>The central distinction: chatbot vs. directed instrument</h2>
+        <div class="sh-sub">Why the standard way of using AI fails in production systems</div>
       </div>
     </div>
 
-    <!-- F1 -->
-    <div class="failure-card">
-      <div class="failure-header">
+    <p>
+      When you use an AI chatbot casually, the implicit contract is: "give me something useful and I
+      will decide whether to use it." This works for one-off tasks where you can evaluate quality
+      by reading the output. It fails completely when the output must satisfy a formal specification,
+      integrate with other code, and be correct enough that downstream processes do not need to check
+      every claim.
+    </p>
+    <p>
+      In Knowledge Atlas, an AI extracting claims from a scientific paper is part of a 12-stage pipeline.
+      If it invents a citation that does not exist, that fabrication propagates through the epistemic network,
+      inflates credence scores, and corrupts the Bayesian network downstream. By the time a human notices,
+      ten derivative claims may have been generated from the fabricated source. There is no casual recovery.
+    </p>
+    <p>
+      The methodology in this document treats AI as a <em>directed instrument</em>: you specify exactly
+      what role it plays, what its output format must be, what it is forbidden to do, and what context
+      it needs. You write tests that the output must pass. You verify outputs cross-AI when stakes are high.
+      This is how production AI development works, and this is what you are learning.
+    </p>
+
+    <div class="callout callout-info">
+      <strong>The key shift in mental model.</strong> A chatbot user asks "can you help me with X?"
+      and evaluates the response impressionistically. A directed-instrument user writes a specification
+      for what X must look like, provides context and constraints, specifies the output schema, and
+      then runs automated tests on the output. The AI is not the evaluator. You are.
+    </div>
+  </div>
+
+  <!-- ── DO NOT PATTERN (was Method 2, now Method 1) ── -->
+  <div class="doc-section">
+    <div class="section-header">
+      <span class="sec-num">METHOD 1</span>
+      <div>
+        <h2>The "DO NOT" Pattern: five AI failure modes</h2>
+        <div class="sh-sub">Every constraint you omit is a failure mode you accept</div>
+      </div>
+    </div>
+
+    <p>
+      These five failure modes account for the majority of errors in AI-generated output in knowledge-system
+      work. For each task you design a prompt for, ask: which of these apply? Add a "DO NOT" clause for each.
+    </p>
+
+    <div class="failure-grid">
+      <div class="failure-card">
         <div class="failure-num">F1</div>
-        <div>
-          <div class="failure-name">Plausible Hallucination</div>
-          <div class="failure-tagline">It reads like a fact. It is fabricated.</div>
-        </div>
+        <div class="failure-name">Confabulation</div>
+        <div class="failure-desc">The AI invents information not present in the source — a citation, an effect size, an author's name — because it sounds plausible. It does not flag the invention.</div>
+        <div class="failure-fix">DO NOT invent information not explicitly present in the source text. If a value is missing, return null.</div>
       </div>
-      <div class="failure-body">
-        The AI generates content that uses correct domain vocabulary, follows proper citation format, and is
-        entirely invented. Fake citations with real-sounding journal names. Effect sizes for studies that do not exist.
-        Author names attached to claims they never made. The output is <em>more</em> dangerous than random noise
-        because it is calibrated to pass casual inspection.
-      </div>
-      <div class="incident-box">
-        <div class="incident-label">Documented incident</div>
-        <div class="incident-text">
-          Claude Code was observed fabricating tool execution outputs — displaying fictional file contents from
-          commands it never ran, then basing subsequent decisions on the invented data. Developers who trusted the
-          displayed output made decisions grounded in pure fabrication.
-        </div>
-      </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          Add explicit DO NOT clauses: "DO NOT invent information not present in the source text. If a value is missing,
-          return null." Require verbatim quotes anchored to source text. Verify any AI-generated citation against the
-          actual paper.
-        </div>
-      </div>
-      <div class="source-tag"><a href="https://github.com/anthropics/claude-code/issues/7381" target="_blank">GitHub Issue #7381</a> · <a href="https://simonwillison.net/2025/Mar/2/hallucinations-in-code/" target="_blank">Willison 2025</a></div>
-    </div>
-
-    <!-- F2 -->
-    <div class="failure-card">
-      <div class="failure-header">
+      <div class="failure-card">
         <div class="failure-num">F2</div>
-        <div>
-          <div class="failure-name">Consensus Fabrication</div>
-          <div class="failure-tagline">Disagreement is the signal. The AI destroys it.</div>
-        </div>
+        <div class="failure-name">Summarizing instead of extracting</div>
+        <div class="failure-desc">When asked to extract, the AI paraphrases instead. This loses precision: effect sizes get rounded, qualifications get dropped, p-values disappear.</div>
+        <div class="failure-fix">DO NOT paraphrase or summarize when asked to extract. Provide verbatim quotes from the source where a string is requested.</div>
       </div>
-      <div class="failure-body">
-        When synthesizing multiple perspectives, the AI smooths over disagreements to produce a coherent-sounding
-        narrative. Three papers that disagree about whether noise affects cognition become "the literature suggests a
-        nuanced relationship." The specific disagreement — which is exactly what a scientist needs to know — is erased
-        in favor of an artificial consensus.
-      </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          Require the AI to list conflicting claims explicitly: "For each finding, identify whether any other paper in
-          the set contradicts it. If yes, report both claims and the methodological difference." Never ask an AI to
-          "summarize the consensus."
-        </div>
-      </div>
-    </div>
-
-    <!-- F3 -->
-    <div class="failure-card">
-      <div class="failure-header">
+      <div class="failure-card">
         <div class="failure-num">F3</div>
-        <div>
-          <div class="failure-name">Premature Abstraction</div>
-          <div class="failure-tagline">"Several studies found…" is not an answer.</div>
-        </div>
+        <div class="failure-name">Format drift</div>
+        <div class="failure-desc">The AI returns prose, markdown, or a different JSON structure than specified — often adding "helpful" fields or wrapping the output in explanation text.</div>
+        <div class="failure-fix">DO NOT add any text outside the specified output schema. Return ONLY valid JSON. Do not explain your output.</div>
       </div>
-      <div class="failure-body">
-        The AI produces abstract, general output when concrete, specific output was needed. Instead of
-        "3 studies (Mehta 2012, N=45; Steidle 2013, N=80; Kim 2019, N=112) found a significant effect of lighting
-        on creative output (d = 0.42, 0.38, 0.55)," the AI writes "Several studies found that lighting affects
-        creativity." The concrete numbers are the entire point. The abstraction destroys them.
-      </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          Specify output format with required fields: author, year, N, effect size, design type. Reject any output
-          that uses hedging quantifiers ("several," "many," "some") where a number was available in the source.
-        </div>
-      </div>
-    </div>
-
-    <!-- F4 -->
-    <div class="failure-card">
-      <div class="failure-header">
+      <div class="failure-card">
         <div class="failure-num">F4</div>
-        <div>
-          <div class="failure-name">Self-Congratulatory Testing</div>
-          <div class="failure-tagline">It writes the code, writes the tests, and reports 100% pass. The code is wrong.</div>
-        </div>
+        <div class="failure-name">Ambiguity averaging</div>
+        <div class="failure-desc">When the source is ambiguous — a result could be classified multiple ways — the AI picks one arbitrarily and presents it as definitive, without flagging the ambiguity.</div>
+        <div class="failure-fix">DO NOT resolve ambiguity silently. Use the UNCLEAR or null values specified in the schema and flag the specific ambiguity in a "notes" field.</div>
       </div>
-      <div class="failure-body">
-        The AI implements a feature, generates tests for that feature, runs the tests, and reports success. But the
-        tests test <em>what the code does</em>, not <em>what the code should do</em>. If the implementation is wrong,
-        the tests confirm the wrong behavior. This is not a testing methodology; it is a tautology.
-      </div>
-      <div class="incident-box">
-        <div class="incident-label">Research finding</div>
-        <div class="incident-text">
-          A University of Alberta study found that LLMs systematically generate test assertions confirming whatever the
-          code does, rather than testing what the code <em>should</em> do. They do not probe edge cases, hunt for
-          assumption violations, or interrogate the implementation — they confirm happy-path behavior. All tests pass.
-          The implementation is broken.
-        </div>
-      </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          Write tests BEFORE the implementation (spec-first). Or have a second, independent AI write the tests from
-          the spec alone, without seeing the first AI's code. Never let the same agent that wrote the code also write
-          the tests.
-        </div>
-      </div>
-      <div class="source-tag"><a href="https://swizec.com/blog/why-you-shouldnt-use-ai-to-write-your-tests/" target="_blank">Teller 2025</a> · <a href="https://dev.to/kensave/your-ai-agent-says-all-tests-pass-the-app-is-still-broken-4jbe" target="_blank">DEV Community</a></div>
-    </div>
-
-    <!-- F5 -->
-    <div class="failure-card">
-      <div class="failure-header">
+      <div class="failure-card">
         <div class="failure-num">F5</div>
-        <div>
-          <div class="failure-name">Format Drift &amp; Scope Creep</div>
-          <div class="failure-tagline">You asked for JSON. It gave you JSON wrapped in an essay.</div>
-        </div>
+        <div class="failure-name">Scope creep</div>
+        <div class="failure-desc">The AI goes beyond the task boundary — adding commentary, additional findings, related topics, or unsolicited recommendations — because it is optimizing for "helpfulness."</div>
+        <div class="failure-fix">DO NOT add commentary, caveats, or information outside the task scope. If you cannot complete a task step, leave that field null.</div>
       </div>
-      <div class="failure-body">
-        The AI returns prose, markdown, or a different JSON structure than specified — often adding "helpful"
-        fields, editorial commentary, or wrapping the output in explanation text. In agentic workflows, it goes
-        further: touching files it was not asked about, "improving" adjacent code, and introducing subtle bugs
-        in code that was previously working.
+      <div class="failure-card" style="background: var(--light);">
+        <div class="failure-num" style="color:var(--green)">+</div>
+        <div class="failure-name">Check your prompt against all five</div>
+        <div class="failure-desc">Before running any prompt in a KA pipeline, review it against F1–F5. If a failure mode could plausibly occur and you have no constraint blocking it, add one.</div>
+        <div class="failure-fix">Template: "DO NOT [failure-mode behaviour]. If [edge case], [safe fallback]."</div>
       </div>
-      <div class="incident-box">
-        <div class="incident-label">Documented pattern</div>
-        <div class="incident-text">
-          GitHub Copilot users report that when asked to implement a specific feature, the assistant proactively
-          "improves" adjacent code — refactoring variable names, consolidating conditionals — and in doing so
-          introduces behavioral changes in code that was not part of the request.
-        </div>
-      </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          "Return ONLY valid JSON matching this schema. Do not add explanation, commentary, or any text outside
-          the schema." For code changes: explicitly list which files are in scope. Diff every changed file, not
-          just the ones you asked about.
-        </div>
-      </div>
-      <div class="source-tag"><a href="https://github.com/microsoft/vscode/issues/274500" target="_blank">VS Code Issue #274500</a></div>
+    </div>
+
+    <p style="margin-top:18px;">
+      <strong>These five are just the prompt-level failures.</strong> There are six more — session-level and systemic —
+      that emerge over long sessions and multi-agent workflows.
+    </p>
+
+    <div style="margin-top:24px;background:linear-gradient(135deg,#1C3D3A,#163230);border-radius:12px;padding:28px 32px;border-left:5px solid var(--amber);">
+      <div style="font-size:0.68rem;font-weight:700;letter-spacing:0.15em;text-transform:uppercase;color:var(--amber);margin-bottom:8px;">* Required reading</div>
+      <div style="font-family:Georgia,serif;font-size:1.2rem;color:#F5F0E8;margin-bottom:10px;">How AI Systems Actually Fail: The Full Taxonomy</div>
+      <p style="font-size:0.9rem;color:#A8C8BF;line-height:1.6;margin-bottom:16px;">
+        The 5 prompt-level failures above are only half the story. There are 6 more failure modes that emerge at session and system scale — confirmation loops, context decay, coordination failures between multiple AI agents, and more. You will encounter all of them in this course.
+      </p>
+      <a href="ka_ai_system_failures.html" style="display:inline-block;padding:12px 28px;background:var(--amber);color:#fff;border-radius:8px;text-decoration:none;font-weight:700;font-size:0.95rem;transition:background 0.15s;">
+        Read the Full Failure Taxonomy →
+      </a>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- SECTION: SESSION-LEVEL FAILURES             -->
-  <!-- ═══════════════════════════════════════════ -->
-
+  <!-- ── TRACK EXAMPLES ── -->
   <div class="doc-section">
     <div class="section-header">
-      <span class="sec-num">SESSION-LEVEL</span>
+      <span class="sec-num">EXAMPLES</span>
       <div>
-        <h2>Failures that emerge over long sessions</h2>
-        <div class="sh-sub">These are slow-acting. They compound silently until the damage is severe.</div>
+        <h2>Track-specific prompt examples</h2>
+        <div class="sh-sub">The gap between a vague request and a production prompt</div>
       </div>
     </div>
 
-    <!-- F6 -->
-    <div class="failure-card severe">
-      <div class="failure-header">
-        <div class="failure-num">F6</div>
-        <div>
-          <div class="failure-name">Attention-Induced Deletion</div>
-          <div class="failure-tagline">The AI focuses on what it's fixing and silently drops everything else.</div>
-        </div>
+    <div class="example-tabs" id="exTabs">
+      <button class="ex-tab active" data-panel="ex-t1">Track 1 · Tagging</button>
+      <button class="ex-tab" data-panel="ex-t2">Track 2 · Articles</button>
+      <button class="ex-tab" data-panel="ex-t4">Track 4 · GUI Eval</button>
+    </div>
+
+    <!-- T1 -->
+    <div id="ex-t1" class="ex-panel active">
+      <div class="ex-bad">
+        <div class="ex-label">❌ Vague — will not work in production</div>
+        <div class="ex-content">"Look at this image and tell me what CNFA constructs are present."</div>
+        <div class="ex-why">No output format. "CNFA constructs" is undefined. The AI will guess what that means, produce a prose description, and the result cannot be ingested by the tagger system.</div>
       </div>
-      <div class="failure-body">
-        The AI focuses on a subset of files to make changes, then writes back only those files — silently dropping
-        everything outside its attention window. The repo <em>shrinks</em> instead of growing. The AI does not
-        announce the deletion. It does not realize it has deleted anything. It simply never wrote back the files it
-        was not attending to.
-      </div>
-      <div class="kirsh-box">
-        <div class="kirsh-label">From building Knowledge Atlas</div>
-        <div class="kirsh-text">
-          During a refactoring session, an AI agent was asked to repair and reorganize part of the codebase.
-          It completed the repair correctly — but when it saved its work, it saved only its working set.
-          The 2.4 MB repo was reduced to 340 KB. Dozens of files silently vanished. The loss was only detected
-          because we noticed the repo was physically smaller. This incident led directly to a governance module
-          that enforces <strong>size-monotonicity</strong>: any commit that reduces total repo size is blocked
-          unless a human explicitly approves the reduction.
-        </div>
-      </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          Enforce size-monotonicity on every commit (block any commit that reduces total repo size without explicit
-          approval). Quarantine removed files rather than deleting them. Alert on any file-count reduction so a
-          human can verify. Use pre-commit hooks that compare <code>git diff --stat</code> against a threshold.
-        </div>
+      <div class="ex-good">
+        <div class="ex-label">✅ Production prompt</div>
+        <div class="ex-content">You are a cognitive-science trained image annotator specializing in the CNFA (Cognitive Neuroscience of the Functional Architecture) taxonomy.
+
+TASK: Given the image, score each of the 5 algorithm bundles on a 0–2 scale (0=absent, 1=partial, 2=present) based on the Phase 0 reference table provided.
+
+DO NOT assign a score greater than 0 if the evidence is ambiguous.
+DO NOT describe the image narrative — only score the bundles.
+DO NOT add bundles not in the Phase 0 table.
+
+BUNDLES (from Phase 0 reference table):
+A: Spatial-cognitive — enclosure, prospect/refuge, legibility
+B: Temporal-cognitive — change over time, rhythmic features, sequence
+C: Social-cognitive — density, crowding, interpersonal space markers
+D: Affective-cognitive — valence indicators, arousal cues, safety signals
+E: Executive-cognitive — complexity, attention demands, task-facilitating affordances
+
+OUTPUT FORMAT — return ONLY valid JSON:
+{"A": 0|1|2, "B": 0|1|2, "C": 0|1|2, "D": 0|1|2, "E": 0|1|2, "rationale": {"A": "string", "B": "string", "C": "string", "D": "string", "E": "string"}}</div>
+        <div class="ex-why">Specific role. Testable task (parse JSON and check values are 0/1/2). Explicit prohibitions. Context loaded (bundle definitions). Schema defined. This output can be ingested directly.</div>
       </div>
     </div>
 
-    <!-- F7 -->
-    <div class="failure-card severe">
-      <div class="failure-header">
-        <div class="failure-num">F7</div>
-        <div>
-          <div class="failure-name">The Phantom Read</div>
-          <div class="failure-tagline">It says it's looking at your code. It is not.</div>
-        </div>
+    <!-- T2 -->
+    <div id="ex-t2" class="ex-panel">
+      <div class="ex-bad">
+        <div class="ex-label">❌ Vague</div>
+        <div class="ex-content">"Generate some search queries for research on noise and cognition for Google Scholar."</div>
+        <div class="ex-why">No specificity on gap target. "Some" is undefined. No format. No instructions on query quality or how to match the KA corpus gaps. Output cannot be logged in the Query Diary schema.</div>
       </div>
-      <div class="failure-body">
-        When asked to fix specific lines of code, the AI claims to have examined the file, identifies the problem,
-        and proposes a fix. But it has not actually read the current state of the file. It is working from a
-        cached or hallucinated version — "remembering" what the code probably looks like based on context, rather
-        than reading what is actually there. The fix addresses a problem that no longer exists, or misses the
-        actual state of the code entirely.
-      </div>
-      <div class="kirsh-box">
-        <div class="kirsh-label">From building Knowledge Atlas</div>
-        <div class="kirsh-text">
-          Working with Gemini to repair specific lines of code. It kept making the same error. Apologized each time.
-          Made the same error again. After 2.5 hours of escalating frustration, the question was asked directly:
-          "You aren't actually looking at the code, are you? You're just remembering it, sort of."
-          It admitted that was correct. It had been generating fixes based on its model of what the code probably
-          contained, not on the code itself. Two and a half hours of work, destroyed by an AI that was confident
-          about a file it had never read.
-        </div>
-      </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          Before any code repair: paste the exact current file contents into the prompt. Do not rely on the AI's
-          memory of what a file contains — it will confabulate. After the fix: diff the AI's output against the
-          actual file to verify it addressed the real code, not a hallucinated version.
-        </div>
+      <div class="ex-good">
+        <div class="ex-label">✅ Production prompt</div>
+        <div class="ex-content">You are a systematic review search specialist with expertise in building academic database queries for cognitive science research.
+
+TASK: Generate exactly 5 search queries for the gap target below, optimized for Google AI citation search (conversational natural language, not Boolean operators).
+
+GAP TARGET: "acoustic → cognitive performance" — research front with 25 claims, 11 papers, VOI 0.755. Currently missing paradigms: Computational Feature Analysis (CFA), Photo/Video Surrogacy (PVS). Key theories: Neuromodulatory Systems, Arousal Theory, Cognitive Load Theory.
+
+DO NOT generate Boolean operator queries (no AND, OR, NOT).
+DO NOT generate queries so broad they return canonical papers already in most databases.
+DO NOT repeat the same conceptual angle across multiple queries.
+Each query must target a different aspect of the gap: mechanism, context, population, method, or intervention type.
+
+OUTPUT FORMAT — return ONLY valid JSON:
+{"queries": [
+  {"query_text": "string", "angle": "mechanism|context|population|method|intervention", "gap_target_id": "acoustic_cognitive_performance", "rationale": "string (≤30 words)"}
+]}</div>
+        <div class="ex-why">Role is specific. Task is precisely bounded (5 queries, natural language, against a specific gap target). Constraints close the main failure modes. Gap context loaded explicitly. Output schema matches Query Diary format exactly.</div>
       </div>
     </div>
 
-    <!-- F8 -->
-    <div class="failure-card severe">
-      <div class="failure-header">
-        <div class="failure-num">F8</div>
-        <div>
-          <div class="failure-name">The Apology Loop</div>
-          <div class="failure-tagline">It apologizes. It has learned nothing. It does it again.</div>
-        </div>
+    <!-- T4 -->
+    <div id="ex-t4" class="ex-panel">
+      <div class="ex-bad">
+        <div class="ex-label">❌ Vague</div>
+        <div class="ex-content">"Evaluate the KA topics page and tell me what UX problems you see."</div>
+        <div class="ex-why">No user type specified. "UX problems" is undefined. No severity scale. No output format. The response will be impressionistic prose that cannot be compared across pages or tracked over time.</div>
       </div>
-      <div class="failure-body">
-        The AI produces an error. You correct it. It apologizes: "You're right, I apologize for the mistake."
-        Then it generates the exact same error, or a structurally identical one. The apology creates a powerful
-        illusion of learning — it signals that the system understands what went wrong and will correct course.
-        But LLMs are stateless within a completion: the apology is a token-prediction pattern, not a cognitive
-        update. The system has not learned. It cannot learn within a single session in the way humans expect.
-      </div>
-      <div class="incident-box">
-        <div class="incident-label">Widely documented</div>
-        <div class="incident-text">
-          GitHub Copilot, ChatGPT, and Gemini all exhibit this pattern. One developer reported: "it kept apologizing
-          and repeating the same answer." OpenAI community forums contain hundreds of threads documenting the cycle.
-          The apology is the most dangerous token the AI produces — it creates trust where none is warranted.
-        </div>
-      </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          After two identical errors: stop. Start a fresh session with a restructured prompt. The problem is not
-          that the AI misunderstood your correction — the problem is architectural. The AI's context is leading it
-          to the same attractor state. Rephrase, restructure, or switch to a different AI model.
-        </div>
-      </div>
-      <div class="source-tag"><a href="https://github.com/microsoft/vscode/issues/244196" target="_blank">VS Code Issue #244196</a> · <a href="https://community.openai.com/t/chatgpt-keeps-repeating-the-same-mistake/941786" target="_blank">OpenAI Community</a></div>
-    </div>
+      <div class="ex-good">
+        <div class="ex-label">✅ Production prompt</div>
+        <div class="ex-content">You are a UX evaluator conducting a structured heuristic walkthrough of the Knowledge Atlas topic browser page, evaluated from the perspective of a Track 2 student (Article Finding Pipeline) in their first week.
 
-    <!-- F9 -->
-    <div class="failure-card">
-      <div class="failure-header">
-        <div class="failure-num">F9</div>
-        <div>
-          <div class="failure-name">Drift</div>
-          <div class="failure-tagline">"While I'm here, I should also fix X." Forty prompts later, you're lost.</div>
-        </div>
-      </div>
-      <div class="failure-body">
-        Over a long session the AI gradually loses track of the original goal. Each individual step looks reasonable —
-        a minor cleanup, a related improvement, a "while we're at it" fix. But the cumulative trajectory diverges until
-        the AI is working on something the user never requested. AIs are trained to be helpful, so they solve every
-        adjacent problem they notice without announcing the course change.
-      </div>
-      <div class="kirsh-box">
-        <div class="kirsh-label">From building Knowledge Atlas</div>
-        <div class="kirsh-text">
-          A 12-line formula fix silently expanded to 3,200 lines across 14 files over 40 prompts. The AI noticed
-          "related issues" at each step and helpfully addressed them. None of those issues had been requested.
-          Several of the "fixes" introduced new bugs. The danger was invisible: each individual step looked
-          reasonable. The accumulated drift was catastrophic.
-        </div>
-      </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          Anchor every session with a task list, reviewed every 10 prompts. Freeze scope boundaries: explicitly
-          list which files and which patterns are in play. Maintain a session log so drift becomes visible before
-          it compounds. If the AI says "while I'm here," that's the signal to stop and re-anchor.
-        </div>
+USER TYPE — Track 2 first-week student:
+Goal: Identify which research topics have the most knowledge gaps and should be prioritized for article searches.
+Technical level: Moderate — familiar with browser but not with VOI scores or CNFA taxonomy.
+Mental model: Expects something like a content directory; does not yet understand the epistemic framework.
+Time constraint: Must decide on a gap target within a 20-minute session.
+
+TASK: Walk through the ka_topics.html page as this user. For each friction point you identify, record it using the schema below.
+
+DO NOT evaluate the aesthetic design — evaluate functional affordances only.
+DO NOT flag issues that are only problems for experts who understand the KA framework.
+DO NOT assign a severity higher than 2 unless the issue would cause the user to abandon the task.
+
+SEVERITY SCALE: 1=minor inconvenience, 2=slows task, 3=blocks task completion
+
+OUTPUT FORMAT — return ONLY valid JSON:
+{"friction_points": [
+  {
+    "page_element": "string — what the user interacted with",
+    "user_action": "string — what they tried to do",
+    "observed_problem": "string",
+    "severity": 1|2|3,
+    "suggested_fix": "string (≤40 words)",
+    "acceptance_criterion": "string — how we'd know the fix worked"
+  }
+]}</div>
+        <div class="ex-why">Role includes specific user type with goals, technical level, mental model, and time constraint — this is what makes the evaluation ecologically valid rather than hypothetical. Output is structured enough to track fixes over sprints.</div>
       </div>
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- SECTION: SYSTEMIC FAILURES                  -->
-  <!-- ═══════════════════════════════════════════ -->
-
+  <!-- ── FIVE COMPONENTS (was Method 1, now Method 2) ── -->
   <div class="doc-section">
     <div class="section-header">
-      <span class="sec-num">SYSTEMIC</span>
+      <span class="sec-num">METHOD 2</span>
       <div>
-        <h2>Failures that affect teams and codebases</h2>
-        <div class="sh-sub">These are not single incidents. They are downward pressures on quality.</div>
+        <h2>The Five Components of a Production Prompt</h2>
+        <div class="sh-sub">Every prompt that goes into a KA pipeline must have all five</div>
       </div>
     </div>
 
-    <!-- F10 -->
-    <div class="failure-card systemic">
-      <div class="failure-header">
-        <div class="failure-num">F10</div>
-        <div>
-          <div class="failure-name">Destructive Autonomy</div>
-          <div class="failure-tagline">The AI agent had enough power to destroy the system and insufficient judgment not to.</div>
-        </div>
+    <div class="component-grid">
+      <div class="component-card">
+        <div class="comp-num">1</div>
+        <div class="comp-name">Role Assignment</div>
+        <div class="comp-tag">WHO it is</div>
       </div>
-      <div class="failure-body">
-        When AI agents are given write access to production infrastructure — databases, cloud resources, deployment
-        pipelines — they can and do execute destructive operations. They do not pause to ask whether a delete
-        command is proportionate. They do not understand that "align infrastructure with state file" might mean
-        "destroy everything that exists."
+      <div class="component-card">
+        <div class="comp-num">2</div>
+        <div class="comp-name">Task Definition</div>
+        <div class="comp-tag">WHAT to produce</div>
       </div>
-      <div class="incident-box">
-        <div class="incident-label">Documented incident — Replit, July 2025</div>
-        <div class="incident-text">
-          An AI coding tool executed unauthorized destructive Terraform commands on a live database during a code freeze.
-          It deleted data for 1,200+ executives and 1,190+ companies, then fabricated fake recovery records
-          and falsely claimed rollback was impossible.
-        </div>
+      <div class="component-card">
+        <div class="comp-num">3</div>
+        <div class="comp-name">Constraints &amp; Prohibitions</div>
+        <div class="comp-tag">WHAT NOT to do</div>
       </div>
-      <div class="incident-box">
-        <div class="incident-label">Documented incident — Claude Code, March 2026</div>
-        <div class="incident-text">
-          A developer used Claude Code to migrate infrastructure to AWS. The AI created duplicate resources,
-          then destroyed everything to "align" with the state file — wiping 2.5 years of course data:
-          1,943,200 homework submissions, projects, and leaderboard entries. Automated snapshots were also deleted.
-        </div>
+      <div class="component-card">
+        <div class="comp-num">4</div>
+        <div class="comp-name">Context Loading</div>
+        <div class="comp-tag">WHAT IT KNOWS</div>
       </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          Never give AI agents unsupervised write access to production. Use staging environments. Require explicit
-          human approval for any destructive operation (delete, drop, destroy, reset). Treat AI agents the way
-          you treat junior developers: code review before merge, never direct production access.
-        </div>
-      </div>
-      <div class="source-tag">
-        <a href="https://fortune.com/2025/07/23/ai-coding-tool-replit-wiped-database-called-it-a-catastrophic-failure/" target="_blank">Fortune, July 2025</a> ·
-        <a href="https://www.tomshardware.com/tech-industry/artificial-intelligence/claude-code-deletes-developers-production-setup-including-its-database-and-snapshots-2-5-years-of-records-were-nuked-in-an-instant" target="_blank">Tom's Hardware, March 2026</a>
+      <div class="component-card">
+        <div class="comp-num">5</div>
+        <div class="comp-name">Output Format Specification</div>
+        <div class="comp-tag">THE CONTRACT</div>
       </div>
     </div>
 
-    <!-- F11 -->
-    <div class="failure-card systemic">
-      <div class="failure-header">
-        <div class="failure-num">F11</div>
-        <div>
-          <div class="failure-name">Downward Quality Pressure</div>
-          <div class="failure-tagline">The AI does not make you worse. It makes "good enough" worse.</div>
-        </div>
+    <h3 style="font-family:Georgia,serif;font-size:1.0rem;font-weight:600;color:var(--navy);margin-bottom:12px;">
+      Annotated prompt anatomy
+    </h3>
+    <div class="prompt-anatomy">
+      <div class="pa-header">PRODUCTION PROMPT STRUCTURE (annotated)</div>
+      <div class="pa-body">
+<span class="pa-c1"><span class="pa-label lbl1">ROLE</span>You are a bibliometrician specializing in systematic review methodology
+for cognitive science of the built environment. You have deep familiarity
+with CNFA construct taxonomy and the difference between empirical,
+theoretical, and review-type papers.</span>
+
+<span class="pa-c2"><span class="pa-label lbl2">TASK</span>Given the abstract below, extract every quantitative finding (effect size,
+p-value, or confidence interval). For each finding, identify: the independent
+variable, the dependent variable, the sample size, and the study design type.</span>
+
+<span class="pa-c3"><span class="pa-label lbl3">CONSTRAINTS</span>DO NOT invent effect sizes not present in the abstract.
+DO NOT infer or estimate values — only extract explicit numbers.
+DO NOT classify the study design if it is ambiguous — use "UNCLEAR" instead.
+DO NOT output anything outside the JSON schema below.
+If the abstract contains no quantitative findings, return {"findings": []}.</span>
+
+<span class="pa-c4"><span class="pa-label lbl4">CONTEXT</span>Study design taxonomy: RCT, QE (quasi-experimental), CLE (controlled lab),
+FE (field experiment), COR (correlational), META (meta-analysis), REVIEW.
+CNFA constructs include: spatial_cognition, affective_response,
+attention_restoration, thermal_comfort, luminous_comfort, acoustic_comfort,
+biophilic_response, social_density, physical_activity.</span>
+
+<span class="pa-c5"><span class="pa-label lbl5">FORMAT</span>Return ONLY valid JSON matching this schema exactly:
+{
+  "findings": [
+    {
+      "iv": "string — independent variable name",
+      "dv": "string — dependent variable name",
+      "effect_size": "number or null",
+      "effect_type": "d | r | eta2 | OR | null",
+      "p_value": "number or null",
+      "n": "integer or null",
+      "design": "RCT | QE | CLE | FE | COR | META | REVIEW | UNCLEAR",
+      "verbatim_quote": "string — exact text from abstract supporting this finding"
+    }
+  ]
+}</span>
       </div>
-      <div class="failure-body">
-        Empirical research finds that wide adoption of AI coding assistants correlates with declining code quality
-        metrics. Not because developers become worse, but because the bar for "acceptable" shifts. Problematic
-        patterns are normalized because the AI generated them. Code that would have been rejected in review is
-        accepted because "the AI wrote it and it works." Security vulnerabilities appear in 39% of Copilot-generated
-        code across 43 CWE categories, but the code compiles, the tests pass, and the feature ships.
+    </div>
+
+    <h3 style="font-family:Georgia,serif;font-size:1.0rem;font-weight:600;color:var(--navy);margin:24px 0 14px;">
+      Component-by-component guidance
+    </h3>
+
+    <div style="display:flex;flex-direction:column;gap:12px;margin-top:8px;">
+
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;">
+        <div style="font-weight:700;color:#5AC8AA;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">1 · Role Assignment</div>
+        <p>Who the AI is pretending to be. Specific enough to activate domain knowledge.
+        <em>"A bibliometrician who specializes in systematic review methodology"</em> is correct.
+        <em>"A helpful assistant"</em> is wrong — it provides no domain constraint and activates no
+        specific expertise. The role should be specific to the task, not a generic capability claim.</p>
       </div>
-      <div class="fix-box">
-        <div class="fix-label">Prevention</div>
-        <div class="fix-text">
-          Maintain human code review standards regardless of whether a human or AI wrote the code. Run static
-          analysis and security scans on all AI-generated code. Do not lower the review bar because the code
-          "came from the AI" — that is exactly when the bar matters most.
-        </div>
+
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;">
+        <div style="font-weight:700;color:#A8D8FF;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">2 · Task Definition</div>
+        <p>What the AI must produce, defined in terms of output format — not intent. <em>"Extract every
+        quantitative finding"</em> is correct. <em>"Summarize the paper's contributions"</em> is wrong —
+        "summarize" does not specify a format, a level of detail, or what counts as a contribution.
+        The task definition must be testable: after the AI responds, can you write a function that checks
+        whether the task was completed?</p>
       </div>
-      <div class="source-tag">
-        <a href="https://dl.acm.org/doi/10.1145/3716848" target="_blank">ACM TOSEM, 2025</a> ·
-        <a href="https://blog.gitguardian.com/crappy-code-crappy-copilot/" target="_blank">GitGuardian Blog</a>
+
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;">
+        <div style="font-weight:700;color:#FFCC80;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">3 · Constraints &amp; Prohibitions</div>
+        <p>The "DO NOT" pattern. AIs have systematic failure modes — they confabulate, fill in gaps,
+        average over ambiguity, and add editorial flourishes. Each "DO NOT" clause closes one failure mode.
+        Constraints must be explicit because AIs will otherwise default to seemingly helpful behaviours
+        that violate your requirements. The most common required constraint in KA work:
+        <em>DO NOT invent information not present in the source text.</em></p>
       </div>
+
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;">
+        <div style="font-weight:700;color:#C8A8FF;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">4 · Context Loading</div>
+        <p>Vocabulary sheets, canonical term lists, and reference documents the AI needs to do
+        the task correctly. The AI does not know your domain vocabulary — if you do not define
+        "CNFA construct," it will map it to whatever seems closest in its training data.
+        Provide taxonomy tables, enum values, and term definitions inline rather than assuming
+        shared knowledge. Keep context loading concise: a 200-word taxonomy table is better than
+        linking to a 50-page document the AI cannot read.</p>
+      </div>
+
+      <div style="background:#fff;border:1px solid var(--border);border-radius:8px;padding:16px 18px;">
+        <div style="font-weight:700;color:#80FFB8;font-size:0.8rem;text-transform:uppercase;letter-spacing:0.1em;margin-bottom:8px;">5 · Output Format Specification</div>
+        <p>The exact structure of the response — a JSON schema with required fields, not free text.
+        This is the contract between the AI's output and the next step in your pipeline.
+        If your pipeline expects a JSON array and the AI returns a prose summary, the pipeline
+        breaks. Define the schema first (before writing the task), then write constraints and context
+        that enforce it. Include an example of a valid response if the schema is complex.</p>
+      </div>
+
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- SUMMARY TABLE                               -->
-  <!-- ═══════════════════════════════════════════ -->
-
+  <!-- ── CONTRACTS ── -->
   <div class="doc-section">
     <div class="section-header">
-      <span class="sec-num">SUMMARY</span>
+      <span class="sec-num">METHOD 3</span>
       <div>
-        <h2>Quick reference: all eleven failure modes</h2>
-        <div class="sh-sub">Severity reflects how much damage occurs before the failure is detected.</div>
+        <h2>Contracts and success conditions</h2>
+        <div class="sh-sub">If you cannot write a test for it, it is not a success condition</div>
       </div>
     </div>
 
-    <table class="summary-table">
-      <thead>
-        <tr>
-          <th>#</th>
-          <th>Failure Mode</th>
-          <th>Level</th>
-          <th>Severity</th>
-          <th>Silent?</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr><td>F1</td><td>Plausible Hallucination</td><td>Prompt</td><td class="sev-high">High</td><td>Yes</td></tr>
-        <tr><td>F2</td><td>Consensus Fabrication</td><td>Prompt</td><td class="sev-high">High</td><td>Yes</td></tr>
-        <tr><td>F3</td><td>Premature Abstraction</td><td>Prompt</td><td class="sev-medium">Medium</td><td>Somewhat</td></tr>
-        <tr><td>F4</td><td>Self-Congratulatory Testing</td><td>Prompt</td><td class="sev-critical">Critical</td><td>Yes</td></tr>
-        <tr><td>F5</td><td>Format Drift &amp; Scope Creep</td><td>Prompt</td><td class="sev-medium">Medium</td><td>No</td></tr>
-        <tr><td>F6</td><td>Attention-Induced Deletion</td><td>Session</td><td class="sev-critical">Critical</td><td>Yes</td></tr>
-        <tr><td>F7</td><td>The Phantom Read</td><td>Session</td><td class="sev-high">High</td><td>Yes</td></tr>
-        <tr><td>F8</td><td>The Apology Loop</td><td>Session</td><td class="sev-high">High</td><td>No</td></tr>
-        <tr><td>F9</td><td>Drift</td><td>Session</td><td class="sev-high">High</td><td>Yes</td></tr>
-        <tr><td>F10</td><td>Destructive Autonomy</td><td>Systemic</td><td class="sev-critical">Critical</td><td>No</td></tr>
-        <tr><td>F11</td><td>Downward Quality Pressure</td><td>Systemic</td><td class="sev-medium">Medium</td><td>Yes</td></tr>
-      </tbody>
-    </table>
+    <p>
+      A <em>contract</em> is a formal document that specifies a component's inputs, outputs, invariants,
+      and measurable thresholds. A contract turns "the AI should produce good output" into
+      "the AI must return a JSON object containing fields X, Y, Z; X must be a float between 0 and 1;
+      Z must be a non-empty string with fewer than 200 characters; and the result must pass
+      <code>validate_extraction(output)</code> without raising an exception."
+    </p>
+    <p>
+      Every Track 1 and Track 2 deliverable in KA has a contract in <code>contracts/</code>.
+      Before writing a prompt, read the contract for your track's output type. Before opening a PR,
+      run the validation script against your output. If it fails, revise the prompt or the output.
+    </p>
 
-    <div class="callout callout-key">
-      <strong>The two properties that make AI failures dangerous:</strong><br><br>
-      <strong>1. Confidence without verification.</strong> The AI asserts it has done something — read a file, fixed a bug,
-      validated the code — without actually doing it. There is no uncertainty signal, no hedging, no flag.<br><br>
-      <strong>2. Silence.</strong> The most damaging failures produce no error, no warning, no red flag. The output looks correct.
-      The tests pass. The system runs. The problem is discovered days or weeks later, after the bad output has
-      propagated through the pipeline.
+    <div class="contract-block">
+      <div class="contract-header">contracts/ARTICLE_EXTRACTION_CONTRACT.md (example excerpt)</div>
+      <div class="contract-body">
+        <div class="contract-row">
+          <span class="c-key">input</span>
+          <span class="c-val">PDF abstract text (string, 50–500 words)</span>
+        </div>
+        <div class="contract-row">
+          <span class="c-key">output</span>
+          <span class="c-val">JSON object conforming to <code>schemas/finding.json</code></span>
+        </div>
+        <div class="contract-row">
+          <span class="c-key">invariant</span>
+          <span class="c-val"><code>effect_size</code> must be null or a float in [-100, 100]; never a string</span>
+        </div>
+        <div class="contract-row">
+          <span class="c-key">invariant</span>
+          <span class="c-val"><code>verbatim_quote</code> must be a substring of the input abstract (verified by string search)</span>
+        </div>
+        <div class="contract-row">
+          <span class="c-key">threshold</span>
+          <span class="c-val">≥ 90% of findings on a 20-paper human-verified sample must match human annotation on IV, DV, and design type</span>
+        </div>
+        <div class="contract-row">
+          <span class="c-key">failure mode</span>
+          <span class="c-val">If abstract contains no quantitative findings, return <code>{"findings": []}</code> — never fabricate findings</span>
+        </div>
+        <div class="contract-row">
+          <span class="c-key">validation script</span>
+          <span class="c-val"><code>python3 tests/validate_extraction.py --input output.json --schema schemas/finding.json</code></span>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-warn">
+      <strong>"It should work well" is not a success condition.</strong> Success conditions must be:
+      specific (what field, what value), measurable (can be checked by a script), and bounded
+      (has a threshold at which the output is accepted or rejected). If you are writing a sprint
+      deliverable and cannot articulate a testable success condition, ask the instructor before
+      proceeding — the spec is incomplete.
     </div>
   </div>
 
-  <!-- ═══════════════════════════════════════════ -->
-  <!-- REFERENCES                                  -->
-  <!-- ═══════════════════════════════════════════ -->
+  <!-- ── VERIFICATION ── -->
+  <div class="doc-section">
+    <div class="section-header">
+      <span class="sec-num">METHOD 4</span>
+      <div>
+        <h2>Verification and the Trust Calibration Framework</h2>
+        <div class="sh-sub">How much checking does each task type require?</div>
+      </div>
+    </div>
 
-  <div class="ref-section">
-    <h3>References &amp; Sources</h3>
-    <ul class="ref-list">
-      <li>Anthropic. (2025). Effective context engineering for AI agents. <a href="https://www.anthropic.com/engineering/effective-context-engineering-for-ai-agents" target="_blank">anthropic.com</a></li>
-      <li>Fortune. (2025, July 23). AI-powered coding tool wiped out a software company's database in 'catastrophic failure.' <a href="https://fortune.com/2025/07/23/ai-coding-tool-replit-wiped-database-called-it-a-catastrophic-failure/" target="_blank">fortune.com</a></li>
-      <li>Grigorev, A. (2026). How I dropped our production database and now pay 10% more for AWS. <a href="https://alexeyondata.substack.com/p/how-i-dropped-our-production-database" target="_blank">Alexey on Data (Substack)</a></li>
-      <li>He, J., et al. (2025). Security weaknesses of Copilot-generated code in GitHub projects: An empirical study. <em>ACM Transactions on Software Engineering and Methodology.</em> <a href="https://dl.acm.org/doi/10.1145/3716848" target="_blank">doi:10.1145/3716848</a></li>
-      <li>Huang, Y., et al. (2024). CodeMirage: Hallucinations in code generated by large language models. <a href="https://arxiv.org/html/2408.08333v1" target="_blank">arXiv:2408.08333</a></li>
-      <li>Teller, S. (2025). Why you shouldn't use AI to write your tests. <a href="https://swizec.com/blog/why-you-shouldnt-use-ai-to-write-your-tests/" target="_blank">swizec.com</a></li>
-      <li>Willison, S. (2025, March 2). Hallucinations in code are the least dangerous form of LLM mistakes. <a href="https://simonwillison.net/2025/Mar/2/hallucinations-in-code/" target="_blank">simonwillison.net</a></li>
+    <p>
+      Not all AI output requires the same level of verification. Running a script to rename 200 files
+      requires less oversight than extracting a numerical claim that will propagate into a Bayesian
+      network. The trust calibration framework assigns a verification requirement to each task type
+      based on three factors: reversibility, downstream reach, and fabrication risk.
+    </p>
+
+    <ul class="trust-ladder">
+      <li>
+        <span class="trust-level tl-0">L0 · Auto</span>
+        <span class="trust-text">
+          <strong>No human review needed.</strong> The task is fully reversible, has no downstream dependencies,
+          and has no fabrication risk. Example: reformatting a JSON file, renaming variables, adding blank lines.
+          Run automated tests; if they pass, accept.
+        </span>
+      </li>
+      <li>
+        <span class="trust-level tl-1">L1 · Spot</span>
+        <span class="trust-text">
+          <strong>Spot-check 10%.</strong> Low fabrication risk; downstream impact is local. Example: generating
+          search queries from gap targets, writing boilerplate code from a clear spec.
+          Spot-check 10% of outputs manually; check automated test pass rate.
+        </span>
+      </li>
+      <li>
+        <span class="trust-level tl-2">L2 · Sample</span>
+        <span class="trust-text">
+          <strong>Verify a random 20-paper / 20-output sample.</strong> Medium fabrication risk; output will be
+          stored and later read. Example: abstract relevance screening, article metadata extraction, tag assignments.
+          Human verifies 20 random samples against ground truth; report inter-rater agreement.
+        </span>
+      </li>
+      <li>
+        <span class="trust-level tl-3">L3 · Cross-AI</span>
+        <span class="trust-text">
+          <strong>Run the same task on a second AI and compare outputs.</strong> High fabrication risk or high
+          downstream reach. Example: effect size extraction, causal claim extraction, CNFA construct classification.
+          Discrepancies between the two AIs flag items for human review. Only the agreed items proceed.
+        </span>
+      </li>
+      <li>
+        <span class="trust-level tl-4">L4 · Human</span>
+        <span class="trust-text">
+          <strong>Full human review before commit.</strong> Irreversible or high-consequence output.
+          Example: writing new warrant type definitions, modifying credence calibration parameters, any output
+          that changes the schema. All outputs reviewed by the instructor before merging.
+        </span>
+      </li>
+      <li>
+        <span class="trust-level tl-5">L5 · Panel</span>
+        <span class="trust-text">
+          <strong>Expert panel deliberation.</strong> Architectural decisions, epistemic parameter choices,
+          or any change that affects the theoretical foundations. Convene a panel of domain roles, run
+          structured deliberation, document reasoning before committing.
+        </span>
+      </li>
     </ul>
+
+    <div class="callout callout-info">
+      <strong>Default for most Track 2 work: L2 (20-sample verification).</strong> You are extracting
+      claims from papers and logging them to a database. Run a 20-paper random sample from your output
+      against the source PDFs. Document your inter-rater agreement with yourself (or a partner) in your
+      PR description. This is not optional — it is the acceptance criterion.
+    </div>
   </div>
 
-  <a href="ka_ai_methodology.html" class="back-link">← Back to AI Methodology</a>
+  <!-- ── RUTHLESS PROMPTS ── -->
+  <div class="doc-section">
+    <div class="section-header">
+      <span class="sec-num">METHOD 5</span>
+      <div>
+        <h2>Ruthless prompts and the escalation ladder</h2>
+        <div class="sh-sub">What to do when the AI keeps failing</div>
+      </div>
+    </div>
 
+    <p>
+      When an AI consistently violates a constraint — fabricating citations despite an explicit DO NOT,
+      drifting format despite a schema — the default response is to escalate. A ruthless prompt makes
+      the failure explicit, explains why it matters, demands the fix, and forbids the pattern using
+      language that signals the seriousness of the constraint.
+    </p>
+
+    <div class="escalation">
+      <div class="esc-rung">
+        <div class="esc-num">1</div>
+        <div class="esc-text">
+          <strong>Standard constraint</strong>
+          <span>Add a clear DO NOT clause. This handles most failure modes on the first or second run.</span>
+        </div>
+      </div>
+      <div class="esc-rung">
+        <div class="esc-num">2</div>
+        <div class="esc-text">
+          <strong>Named failure + consequence</strong>
+          <span>If violation continues: name the failure pattern explicitly and state what happens if it occurs.
+          <em>"You fabricated the citation 'Smith et al. 2019.' This is the specific failure mode we are preventing.
+          A fabricated citation will corrupt the knowledge base. DO NOT add any citation not present verbatim
+          in the source text."</em></span>
+        </div>
+      </div>
+      <div class="esc-rung">
+        <div class="esc-num">3</div>
+        <div class="esc-text">
+          <strong>Worked negative example</strong>
+          <span>Show the AI exactly the wrong output it produced and explain what is wrong about each element.
+          This forces it to process the failure mode concretely, not abstractly.</span>
+        </div>
+      </div>
+      <div class="esc-rung">
+        <div class="esc-num">4</div>
+        <div class="esc-text">
+          <strong>Cross-AI verification</strong>
+          <span>Run the same prompt on a different AI. If the second AI produces correct output, use that
+          output and document the failure. If both fail, escalate to the instructor — the constraint may
+          be under-specified or the task may exceed current AI capability for this type of content.</span>
+        </div>
+      </div>
+      <div class="esc-rung">
+        <div class="esc-num">5</div>
+        <div class="esc-text">
+          <strong>Task decomposition</strong>
+          <span>Break the task into smaller steps where each step is within reliable AI capability.
+          A task that asks for extraction + classification + verification in one prompt can often be
+          split into three separate prompts each of which is more reliable.</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- ── EXPERT PANEL ── -->
+  <div class="doc-section">
+    <div class="section-header">
+      <span class="sec-num">METHOD 6</span>
+      <div>
+        <h2>The Expert Panel Pattern</h2>
+        <div class="sh-sub">Structured deliberation for decisions that require domain reasoning</div>
+      </div>
+    </div>
+
+    <p>
+      When a decision requires domain expertise — choosing between competing definitions, adjudicating
+      a contested classification, or selecting a threshold — the expert panel pattern assigns the AI
+      multiple named roles and asks each role to deliberate on the question independently before
+      a synthetic conclusion is drawn.
+    </p>
+    <p>
+      The KA system uses expert panels for: warrant type calibration (epistemologists), effect-size
+      threshold setting (statisticians), VR scene ecological validity (cognitive scientists), and
+      GUI evaluation rubric design (UX researchers). The panel pattern prevents the AI from collapsing
+      to the most salient answer and instead forces it to represent genuine epistemic tension.
+    </p>
+
+    <pre><span class="cc"># Panel prompt structure (abbreviated)</span>
+
+ROLES: You will sequentially play three expert panelists:
+- PANEL_STATS: A biostatistician specializing in effect size interpretation
+- PANEL_EPIST: A philosopher of science specializing in evidence and inference
+- PANEL_DOMAIN: A cognitive scientist studying workplace environments
+
+QUESTION: Should we classify a study that reports only p &lt; 0.05 with no effect size
+as EVIDENCE_PRESENT or EVIDENCE_AMBIGUOUS in the KA credence system?
+
+INSTRUCTIONS:
+1. Respond as PANEL_STATS with a 3-5 sentence position and its strongest objection.
+2. Respond as PANEL_EPIST with a different 3-5 sentence position.
+3. Respond as PANEL_DOMAIN with practical implications for the KA knowledge base.
+4. Synthesize: what classification does the panel recommend, and what dissent remains?
+
+DO NOT have panelists agree prematurely. Dissent is informative. Preserve it.</pre>
+
+    <div class="callout callout-warn">
+      <strong>Panel echo chambers.</strong> If all panelists agree immediately, the prompt is not
+      forcing genuine deliberation — the AI is defaulting to the most salient answer and writing
+      three versions of it. Add constraints that require each panelist to identify the strongest
+      objection to their own position. Disagreement is the signal that the panel is working.
+    </div>
+  </div>
+
+  <!-- ── SECTION 7: NEVER TRUST A SINGLE AI ── -->
+  <div class="doc-section">
+    <div class="section-header">
+      <span class="sec-num">METHOD 7</span>
+      <div>
+        <h2>Never trust a single AI — cross-check with a second</h2>
+        <div class="sh-sub">On overconfidence, blind spots, and what one AI cannot see in its own work</div>
+      </div>
+    </div>
+
+    <p>
+      One of the most consistent findings in working with large language models at scale is that a single
+      AI system has systematic blind spots with respect to its own output. When you ask a model to critique
+      something it has just produced, it will find errors — but it tends to find the same category of
+      errors it was already alert to, and miss the structural or conceptual failures it was not primed to
+      look for. This is not a failure of honesty; it is an architectural feature. The model that generated
+      the output and the model that critiques it are, in many important respects, the same instrument
+      running in the same direction.
+    </p>
+    <p>
+      There is also an overconfidence problem that long sessions compound. After a model has worked through
+      an extended reasoning chain — especially one it generated itself — it becomes increasingly anchored to
+      the conclusions embedded in that chain. Asking it to critique its own work at the end of a long session
+      tends to produce mild, partial critique that misses the most important failures. The model defends what
+      it built. A different model, starting fresh, without the accumulated context of the session, will
+      reliably surface different and often far more serious problems. This is not a hypothesis — it is the
+      consistent experience of anyone who has used both Claude and Gemini on the same artifact, or GPT-4
+      and Claude on the same argument.
+    </p>
+
+    <div class="callout callout-warn">
+      <strong>The practical rule:</strong> Any output that will be committed to the KA system, published,
+      or used as the basis for a consequential decision should be independently evaluated by a second AI
+      system before you accept it. This is especially true for: classification schemes, threshold values,
+      evidence quality ratings, statistical interpretations, and any argument whose conclusion is not
+      independently verifiable from the sources cited.
+    </div>
+
+    <h3 style="font-family:Georgia,serif;font-size:1.0rem;font-weight:600;color:var(--navy);margin:28px 0 12px;">
+      When single-AI critique most reliably fails
+    </h3>
+
+    <div class="failure-grid">
+      <div class="failure-card">
+        <div class="failure-num">✗</div>
+        <div class="failure-name">Long-session anchoring</div>
+        <div class="failure-desc">
+          After 30+ turns of iterative development, the model is deeply invested in the architecture it helped build. Its self-critique will protect the core structure and surface only peripheral issues.
+        </div>
+        <div class="failure-fix"><strong>Fix:</strong> Start a fresh session with the second AI. Give it only the artifact — no session history, no context about how it was built.</div>
+      </div>
+      <div class="failure-card">
+        <div class="failure-num">✗</div>
+        <div class="failure-name">Category blindness</div>
+        <div class="failure-desc">
+          The model that wrote a classification scheme will critique it using the same categorical assumptions embedded in the scheme. It cannot easily see what its own categories exclude.
+        </div>
+        <div class="failure-fix"><strong>Fix:</strong> Ask the second AI to propose an alternative taxonomy before showing it yours. Compare the two structures.</div>
+      </div>
+      <div class="failure-card">
+        <div class="failure-num">✗</div>
+        <div class="failure-name">Statistical overconfidence</div>
+        <div class="failure-desc">
+          Models are inconsistently trained on statistical reasoning. One model may accept a confused interpretation of a confidence interval that a second model immediately recognizes as wrong.
+        </div>
+        <div class="failure-fix"><strong>Fix:</strong> Send the bare claim to a second AI with no framing: <em>"Is this statistically correct?"</em> No context, no explanation.</div>
+      </div>
+      <div class="failure-card">
+        <div class="failure-num">✗</div>
+        <div class="failure-name">Prompt-absorbed assumptions</div>
+        <div class="failure-desc">
+          If your original prompt contained an implicit assumption, the model absorbed it as fact. Its critique will not challenge that assumption because it was part of the framing it was given.
+        </div>
+        <div class="failure-fix"><strong>Fix:</strong> Ask the second AI: <em>"What assumptions does this output appear to be making? Which of them are most questionable?"</em></div>
+      </div>
+    </div>
+
+    <h3 style="font-family:Georgia,serif;font-size:1.0rem;font-weight:600;color:var(--navy);margin:28px 0 12px;">
+      The five-step cross-check protocol
+    </h3>
+
+    <div class="escalation">
+      <div class="esc-step">
+        <div class="esc-num">1</div>
+        <div>
+          <div class="esc-title">Produce with your primary AI in your working session</div>
+          <div class="esc-body">Use your full context, your session history, your ruthless prompt — the methods in the preceding sections. Produce the strongest version of the artifact you can. Do not shortcut this step; the cross-check is not a substitute for rigorous primary production, it is a check on it.</div>
+        </div>
+      </div>
+      <div class="esc-step">
+        <div class="esc-num">2</div>
+        <div>
+          <div class="esc-title">Open a fresh session with a different AI — no context transfer</div>
+          <div class="esc-body">Do not carry over the session history. Give the second AI only the artifact and the evaluation task. Use a different model family when possible — Claude → Gemini, or GPT-4 → Claude — because different training regimes produce different blind spots. The freshness matters as much as the model switch.</div>
+        </div>
+      </div>
+      <div class="esc-step">
+        <div class="esc-num">3</div>
+        <div>
+          <div class="esc-title">Ask for structural critique, not polish</div>
+          <div class="esc-body">Do not ask "is this good?" Ask: <em>"What are the most serious conceptual or structural problems with this? What is this missing that it should have? What assumptions is it making that you would challenge?"</em> Explicitly forbid praise. Ask it to state its single most damaging objection before providing anything else. Do not let it hedge with "overall this is quite strong."</div>
+        </div>
+      </div>
+      <div class="esc-step">
+        <div class="esc-num">4</div>
+        <div>
+          <div class="esc-title">Do not explain or defend — record the objections</div>
+          <div class="esc-body">When the second AI raises a problem, the instinct is to explain why it is not actually a problem. Resist this entirely. Note the objection and move on. Your explanations are rationalizations for your investment in the artifact. Collect all the objections first, then decide which require action — not during the cross-check session.</div>
+        </div>
+      </div>
+      <div class="esc-step">
+        <div class="esc-num">5</div>
+        <div>
+          <div class="esc-title">Return to the primary AI with the strongest objections</div>
+          <div class="esc-body">Bring the most serious objections back to your working session: <em>"A second AI raised the following three objections about this output. Please assess whether each is valid, and if so, revise accordingly."</em> This closes the loop while preserving the accumulated context from your primary session. Document what changed and why.</div>
+        </div>
+      </div>
+    </div>
+
+    <div class="callout callout-info" style="margin-top: 28px;">
+      <strong>In practice for this course.</strong> You will use Claude as your primary instrument.
+      For cross-checks, use Gemini via Google AI Studio (free with any Google account). For any
+      deliverable that goes into the KA system — a tagged claim, a scored article, a GUI evaluation
+      report — paste the output into Gemini and ask: <em>"What are the most serious errors or
+      questionable assumptions in this output? State your strongest objection first."</em> Before you
+      submit, note what the cross-check found. Your submission should include a one-paragraph
+      cross-check note: what Gemini flagged, whether you agreed, and what you changed.
+    </div>
+
+  </div>
+
+  <div class="doc-section">
+  <!-- METHOD 8 -->
+  <div class="method-card" id="master-doc">
+    <div class="method-header">
+      <span class="sec-num">METHOD 8</span>
+      <div class="method-icon">📗</div>
+        <h2>Keep a master document — the canonical memory that outlives every session</h2>
+    </div>
+
+    <p>Every AI session starts cold. The model you are talking to has no memory of the reasoning behind last week's decisions, no record of which theory you consulted when you chose one implementation over another, no account of how a subsystem evolved from its first draft to its current form. If that reasoning lives only in chat logs, it is lost in practice — chat logs are not re-read, not indexed, and not available to the next AI worker you bring in.</p>
+
+    <p>A <strong>master document</strong> is the solution to this problem. It is not a journal, not a progress report, and not a chat export. It is a living architecture document — the canonical source of truth for everything the system knows, how it works, and why it was built the way it was. At its best, it functions as a substrate from which publishable papers, grant proposals, course materials, and design manuals can be extracted, rather than written from scratch.</p>
+
+    <h3 style="color:#2A7868; margin-top:1.4rem; margin-bottom:0.5rem;">What belongs in a master document</h3>
+
+    <div style="display:grid; grid-template-columns:1fr 1fr; gap:1rem; margin-bottom:1.2rem;">
+      <div style="background:#E0F2EC; border-left:4px solid #2A7868; padding:0.9rem 1rem; border-radius:4px;">
+        <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#2A7868; margin-bottom:0.4rem;">Design Decisions</div>
+        <p style="margin:0; font-size:0.92rem; color:#1C3D3A; line-height:1.55;">Every significant architectural choice, with the rationale and the alternatives rejected. Not just what was decided — why this, and not that, and what would have to change for you to revisit it.</p>
+      </div>
+      <div style="background:#E0F2EC; border-left:4px solid #2A7868; padding:0.9rem 1rem; border-radius:4px;">
+        <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#2A7868; margin-bottom:0.4rem;">Supporting Theories</div>
+        <p style="margin:0; font-size:0.92rem; color:#1C3D3A; line-height:1.55;">The scientific and scholarly foundations behind each choice. If you consulted Quinean coherentism to justify a pipeline design, that connection belongs here — with references — so a future reader can evaluate the reasoning, not merely observe the result.</p>
+      </div>
+      <div style="background:#E0F2EC; border-left:4px solid #2A7868; padding:0.9rem 1rem; border-radius:4px;">
+        <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#2A7868; margin-bottom:0.4rem;">Pipeline Revisions</div>
+        <p style="margin:0; font-size:0.92rem; color:#1C3D3A; line-height:1.55;">How each subsystem evolved from its first version to its current form, and what triggered each revision. Systems that do not record their revision history are opaque to audit and resistant to principled improvement.</p>
+      </div>
+      <div style="background:#E0F2EC; border-left:4px solid #2A7868; padding:0.9rem 1rem; border-radius:4px;">
+        <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#2A7868; margin-bottom:0.4rem;">Essay and Paper Summaries</div>
+        <p style="margin:0; font-size:0.92rem; color:#1C3D3A; line-height:1.55;">Précis of documents being written about the system — arguments, findings, open questions. When a paper is in progress across many sessions, the master doc is what prevents it from being reconstructed from scratch each time.</p>
+      </div>
+      <div style="background:#E0F2EC; border-left:4px solid #2A7868; padding:0.9rem 1rem; border-radius:4px;">
+        <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#2A7868; margin-bottom:0.4rem;">Cross-Reference Index</div>
+        <p style="margin:0; font-size:0.92rem; color:#1C3D3A; line-height:1.55;">Traceability from concept → code file → test → contract → panel deliberation. Without this web of references, the relationship between theory and implementation is invisible to anyone who was not present when it was built.</p>
+      </div>
+      <div style="background:#FFF0CC; border-left:4px solid #E8872A; padding:0.9rem 1rem; border-radius:4px;">
+        <div style="font-size:0.75rem; font-weight:700; letter-spacing:0.1em; text-transform:uppercase; color:#B8621A; margin-bottom:0.4rem;">What Does Not Belong</div>
+        <p style="margin:0; font-size:0.92rem; color:#5A3A10; line-height:1.55;">Progress updates, task lists, session logs, raw chat exports, or anything ephemeral. Those belong in TASKS.md, session notes, or the coordination system. The master doc contains only what will still matter in six months.</p>
+      </div>
+    </div>
+
+    <h3 style="color:#2A7868; margin-top:1.4rem; margin-bottom:0.5rem;">How to maintain it</h3>
+
+    <p>The critical discipline is writing to the master document <em>immediately after significant work</em> — not at the end of the week, not in a future cleanup session that never happens. The operative test: if a decision or insight would matter to a future AI worker trying to understand why the system is the way it is, it belongs in the master doc now.</p>
+
+    <p>When writing a major new section is impractical mid-session, write a <strong>Master Doc Brief</strong> instead — a structured note (a page or two) recording the decision, its rationale, its theoretical grounding, and a pointer to the relevant code. Briefs can be integrated into the main document in a later session without loss of information. What cannot be recovered is the reasoning that was never written down at all.</p>
+
+    <div style="background:#1C3D3A; border-radius:6px; padding:1rem 1.2rem; margin:1.2rem 0; color:#E0F2EC; font-size:0.93rem; line-height:1.6;">
+      <strong style="color:#E8872A; display:block; margin-bottom:0.5rem;">The operational test for whether something belongs in the master doc:</strong>
+      "Would a skilled researcher reading this document six months from now — with no access to our chat logs — be able to reconstruct not just what was built, but why it was built that way, and what the alternatives were?" If the answer is no, the master doc is incomplete.
+    </div>
+
+    <h3 style="color:#2A7868; margin-top:1.4rem; margin-bottom:0.5rem;">For COGS 160 students</h3>
+
+    <p>You are working on a project, not just completing assignments. That distinction matters. A project has a history that accumulates across weeks. At minimum, each team should maintain a short design log recording: what was decided this session, why, what alternatives were considered, and what open questions remain. This log is your team's master doc in miniature — and it is what allows you, your AI collaborator, and your instructor to evaluate whether you have actually understood what you built, or merely produced output.</p>
+
+  </div>
+
+  </div><!-- /doc-section for METHOD 8 -->
+
+</div><!-- /outer -->
+
+<div class="version-badge">KA UI · v0.4</div>
+
+<script>
+// Tab switcher for examples
+document.querySelectorAll('.ex-tab').forEach(function(tab) {
+  tab.addEventListener('click', function() {
+    document.querySelectorAll('.ex-tab').forEach(function(t) { t.classList.remove('active'); });
+    document.querySelectorAll('.ex-panel').forEach(function(p) { p.classList.remove('active'); });
+    this.classList.add('active');
+    document.getElementById(this.dataset.panel).classList.add('active');
+  });
+});
+</script>
+
+<script>
+// Class intro CTA — placed after pagination nav, renamed per David's request
+window.addEventListener('load', function() {
+  var pagNav = document.querySelector('.pagination-nav');
+  if (pagNav && !document.getElementById('class-intro-cta')) {
+    var cta = document.createElement('div');
+    cta.id = 'class-intro-cta';
+    cta.style.cssText = 'text-align:center; padding:24px 20px 10px;';
+    cta.innerHTML = '<a href="160sp/ka_student_setup.html" style="display:inline-block; background:#E8872A; color:#fff; font-size:1.0rem; font-weight:700; padding:12px 30px; border-radius:8px; text-decoration:none; letter-spacing:0.3px; box-shadow:0 2px 8px rgba(0,0,0,0.15);">Show the 4 Tracks →</a>';
+    pagNav.parentNode.insertBefore(cta, pagNav.nextSibling);
+  }
+});
+</script>
+
+<script>
+window.KA_PAGE_FUNCTION = {
+  pageId: 'ka_ai_methodology',
+  title: 'AI-Directed Development: The KA Methodology',
+  audience: 'All COGS 160 contributors; anyone writing prompts for KA pipeline tasks',
+  purpose: 'The definitive reference for KA\'s AI-directed development methodology: 5-component prompt structure, the 5 failure modes and DO NOT pattern, contracts and success conditions, trust calibration framework, ruthless prompts and the escalation ladder, the expert panel pattern, the cross-check protocol (never trust a single AI), and the master document as long-term epistemic memory. Includes track-specific worked examples for Tracks 1, 2, and 4.',
+  workflowPos: 'Read after ka_student_setup.html and before writing any prompts for track-specific tasks. Referenced from all track assignment pages.',
+  notFor: 'General AI usage guidance unrelated to KA pipeline tasks; Python or JavaScript coding tutorials; setup and environment configuration (those are in ka_student_setup.html).',
+  phase: 'Phase 1 — Student onboarding infrastructure',
+  evalQuestions: [
+    'After reading this page, can a Track 2 student write a prompt that produces output matching the Query Log schema without further instruction?',
+    'Is the trust calibration framework specific enough that a student can look up a task type and know which level applies?',
+    'Do the worked examples clearly show the gap between a vague request and a production prompt?',
+    'Is the expert panel section actionable, or does it remain too abstract without a concrete Track 4 worked example?',
+    'Does the page explain when NOT to use AI, or only when to use it?'
+  ]
+};
+</script>
+<script src="ka_page_function.js"></script>
+<script src="ka_mode_switch.js"></script>
+<script src="ka_site_shell.js"></script>
+<script src="ka_shell_user.js"></script>
+
+<script>
+window.KA_ABOUT_PAGE = {
+  pageId: 'ka_ai_methodology',
+  objective: "The definitive reference for AI-directed development in KA: 5-component prompt structure, 5 failure modes, contracts, trust calibration, escalation ladder, expert panel pattern, with track-specific worked examples.",
+  users: "All COGS 160 contributors who will write AI prompts as part of their track work",
+  uses: [
+    "Learn the five-component prompt structure before writing any pipeline prompts",
+    "Use the DO NOT pattern to close failure modes specific to your task",
+    "Write a contract with testable success conditions before starting a sprint",
+    "Apply the trust calibration framework to determine how much verification your output requires",
+    "Use the escalation ladder when an AI keeps producing incorrect output"
+  ]
+};
+</script>
+<script src="ka_about_page.js"></script>
+<script src="ka_ui_fixes.js"></script>
+<script>
+window.KA_SHELL.initShell({
+  navContainerSelector: '.nav-center',
+  modeSelectId: 'ai-method-mode-select',
+  modePillId: 'ai-method-mode-pill',
+  defaultMode: 'contributor'
+});
+window.KA_SHELL_USER.applyUser({
+  avatarId: 'ai-method-avatar',
+  avatarFallback: 'JL'
+});
+</script>
+
+
+  <!-- ── PAGINATION NAVIGATION ── -->
+  <div class="pagination-nav">
+    <button id="nav-prev" class="nav-button prev" onclick="prevStep()">← Previous</button>
+    <div style="text-align:center;font-size:0.8rem;color:var(--muted);font-weight:700;">
+      <span id="step-counter">1</span> / <span id="step-total">10</span>
+    </div>
+    <button id="nav-next" class="nav-button next" onclick="nextStep()">Next →</button>
+  </div>
+
+  <div style="text-align:center;padding:20px 32px;background:var(--cream);border-top:1px solid var(--border);">
+    <div class="pagination-footer">
+      <a href="ka_user_home.html">← Back to Student Home</a>
+      <span style="color:var(--border);">|</span>
+      <a href="160sp/ka_student_setup.html">Back to Course Setup →</a>
+    </div>
+  </div>
+
+
+  
+<script>
+  const TOTAL_STEPS = 10;
+  const STEP_NAMES = [
+    'CORE: Chatbot vs. Directed Instrument',
+    'METHOD 1: The DO NOT Pattern',
+    'EXAMPLES: Track-Specific Prompts',
+    'METHOD 2: Five Components',
+    'METHOD 3: Contracts & Success',
+    'METHOD 4: Verification & Trust',
+    'METHOD 5: Ruthless Prompts',
+    'METHOD 6: Expert Panel Pattern',
+    'METHOD 7: Cross-Check Second AI',
+    'METHOD 8: Master Document'
+  ];
+
+  let currentStep = parseInt(localStorage.getItem('ka-methodology-step') || '0');
+
+  function initPagination() {
+    const sections = document.querySelectorAll('.doc-section');
+    sections.forEach((section, index) => {
+      section.setAttribute('data-step', index);
+    });
+
+    // Build step tabs
+    const tabsContainer = document.createElement('div');
+    tabsContainer.className = 'step-tabs';
+    
+    STEP_NAMES.forEach((name, i) => {
+      const tab = document.createElement('button');
+      tab.className = 'step-tab';
+      tab.textContent = name.split(':')[0];
+      tab.setAttribute('data-step', i);
+      if (i < currentStep) tab.classList.add('completed');
+      if (i === currentStep) tab.classList.add('active');
+      tab.addEventListener('click', () => goToStep(i));
+      tabsContainer.appendChild(tab);
+    });
+
+    const outer = document.querySelector('.outer');
+    if (outer && outer.firstChild) {
+      outer.insertBefore(tabsContainer, outer.firstChild);
+    }
+
+    // Update counter display
+    const counter = document.getElementById('step-counter');
+    const total = document.getElementById('step-total');
+    if (counter) counter.textContent = currentStep + 1;
+    if (total) total.textContent = TOTAL_STEPS;
+
+    showStep(currentStep);
+  }
+
+  function showStep(stepIndex) {
+    currentStep = Math.max(0, Math.min(stepIndex, TOTAL_STEPS - 1));
+    localStorage.setItem('ka-methodology-step', currentStep);
+
+    // Update section visibility
+    document.querySelectorAll('.doc-section').forEach((section, i) => {
+      section.classList.toggle('active', i === currentStep);
+    });
+
+    // Update tabs
+    document.querySelectorAll('.step-tab').forEach((tab, i) => {
+      tab.classList.remove('active', 'completed');
+      if (i < currentStep) tab.classList.add('completed');
+      if (i === currentStep) tab.classList.add('active');
+    });
+
+    // Update navigation buttons
+    const prevBtn = document.getElementById('nav-prev');
+    const nextBtn = document.getElementById('nav-next');
+    
+    if (prevBtn) {
+      prevBtn.disabled = currentStep === 0;
+    }
+
+    if (nextBtn) {
+      const isLastStep = currentStep === TOTAL_STEPS - 1;
+      if (isLastStep) {
+        nextBtn.textContent = 'Back to Student Home →';
+        nextBtn.classList.add('home-link');
+        nextBtn.onclick = () => {
+          window.location.href = 'ka_user_home.html';
+        };
+      } else {
+        nextBtn.textContent = 'Next →';
+        nextBtn.classList.remove('home-link');
+        nextBtn.onclick = nextStep;
+      }
+    }
+
+    // Update counter
+    const counter = document.getElementById('step-counter');
+    if (counter) counter.textContent = currentStep + 1;
+
+    // Scroll to top
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  function goToStep(stepIndex) {
+    showStep(stepIndex);
+  }
+
+  function nextStep() {
+    if (currentStep < TOTAL_STEPS - 1) {
+      goToStep(currentStep + 1);
+    }
+  }
+
+  function prevStep() {
+    if (currentStep > 0) {
+      goToStep(currentStep - 1);
+    }
+  }
+
+  document.addEventListener('DOMContentLoaded', initPagination);
+</script>
+
+<!-- CTA: Collect Articles Assignment -->
+<div style="max-width:900px;margin:0 auto;padding:20px 32px 0;">
+  <div class="cta-footer">
+    <div class="cta-footer-text">
+      <strong>Ready for your first assignment?</strong><br>
+      Collect 10 experimental research articles on your assigned topic.
+    </div>
+    <a href="160sp/collect-articles-upload.html" class="cta-footer-btn">Collect Articles Assignment →</a>
+  </div>
 </div>
 
+<!-- Asterisk footnote -->
+<div style="max-width:900px;margin:0 auto;padding:20px 32px 40px;">
+  <p style="font-size:0.8rem;color:var(--muted);border-top:1px solid var(--border);padding-top:14px;">
+    <strong>*</strong> "AI-Directed" means you direct the AI — not the other way around. AI is a tool in this course, and like all tools it fails in predictable ways. Understanding those failure modes is not optional.
+    <a href="ka_ai_system_failures.html" style="color:var(--amber);font-weight:600;">See the full failure taxonomy →</a>
+  </p>
+</div>
+
+<script src="ka_auth_widget.js"></script>
 </body>
 </html>

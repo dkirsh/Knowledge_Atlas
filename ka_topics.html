@@ -153,28 +153,71 @@ nav a.active { color: #F5A623; }
   font-size: 0.76rem; color: #8A9A96; font-weight: 600; align-self: center;
 }
 
-/* ── TOPIC GRID ── */
-.topic-grid {
-  max-width: 1100px; margin: 20px auto 0; padding: 0 24px 60px;
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px;
+/* ── COMPACT TOPIC GRID ── */
+.compact-grid-wrap {
+  max-width: 1100px; margin: 20px auto 0; padding: 0 24px;
 }
-@media (max-width: 960px) { .topic-grid { grid-template-columns: repeat(2,1fr); } }
-@media (max-width: 600px) { .topic-grid { grid-template-columns: 1fr; } }
+.compact-grid {
+  display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px;
+}
+@media (max-width: 960px) { .compact-grid { grid-template-columns: repeat(3, 1fr); } }
+@media (max-width: 600px) { .compact-grid { grid-template-columns: repeat(2, 1fr); } }
 
-.topic-card {
-  background: #fff; border: 1.5px solid #E0D8CC; border-radius: 12px;
-  padding: 20px; display: flex; flex-direction: column; gap: 12px;
-  transition: box-shadow 0.15s, transform 0.12s; cursor: pointer;
+.compact-topic {
+  position: relative;
+  padding: 10px 12px; border: 1.5px solid #E0D8CC; border-radius: 8px;
+  background: #fff; cursor: pointer;
+  transition: all 0.15s; text-align: left;
+  display: flex; align-items: center; gap: 8px;
 }
-.topic-card:hover { box-shadow: 0 6px 20px rgba(0,0,0,0.08); transform: translateY(-2px); }
-.topic-card.hidden { display: none; }
+.compact-topic:hover { border-color: #2A7868; background: #F0FAF6; box-shadow: 0 2px 8px rgba(0,0,0,0.06); }
+.compact-topic.selected { border-color: #1C3D3A; background: #E6F5F0; box-shadow: 0 2px 8px rgba(0,0,0,0.08); }
+.compact-topic.hidden { display: none; }
 
-.tc-top {
-  display: flex; align-items: flex-start; justify-content: space-between; gap: 10px;
+.ct-name {
+  font-size: 0.82rem; font-weight: 600; color: #1C3D3A; line-height: 1.3; flex: 1;
 }
-.tc-name {
-  font-family: Georgia, serif; font-size: 1.02rem; font-weight: 700;
-  color: #1C3D3A; line-height: 1.35; flex: 1;
+.ct-cat-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0;
+}
+.ct-cat-dot.cognitive   { background: #1A56A0; }
+.ct-cat-dot.physiological { background: #1A7050; }
+.ct-cat-dot.environmental { background: #985E0A; }
+.ct-cat-dot.neuroscience { background: #6B2FA0; }
+.ct-cat-dot.methodology { background: #888; }
+
+/* Tooltip on hover */
+.compact-topic .ct-tooltip {
+  display: none; position: absolute; bottom: calc(100% + 8px); left: 50%;
+  transform: translateX(-50%); width: 280px; max-width: 90vw;
+  background: #1C3D3A; color: #E8E4DC; padding: 10px 12px;
+  border-radius: 8px; font-size: 0.78rem; line-height: 1.5;
+  box-shadow: 0 4px 16px rgba(0,0,0,0.2); z-index: 50; pointer-events: none;
+}
+.compact-topic .ct-tooltip::after {
+  content: ''; position: absolute; top: 100%; left: 50%;
+  transform: translateX(-50%); border: 6px solid transparent;
+  border-top-color: #1C3D3A;
+}
+.compact-topic:hover .ct-tooltip { display: block; }
+
+/* ── SELECTED TOPIC DETAIL ── */
+.topic-detail-wrap {
+  max-width: 1100px; margin: 24px auto 0; padding: 0 24px 60px;
+}
+.topic-detail-empty {
+  text-align: center; padding: 40px 24px; color: #A09080; font-size: 0.9rem;
+}
+.topic-detail-card {
+  background: #fff; border: 1.5px solid #E0D8CC; border-radius: 14px;
+  padding: 24px; display: grid; gap: 16px;
+}
+.td-header {
+  display: flex; align-items: flex-start; justify-content: space-between; gap: 12px; flex-wrap: wrap;
+}
+.td-name {
+  font-family: Georgia, serif; font-size: 1.4rem; font-weight: 700;
+  color: #1C3D3A; line-height: 1.25;
 }
 .cat-badge {
   flex-shrink: 0; font-size: 0.65rem; font-weight: 700; letter-spacing: 0.08em;
@@ -186,13 +229,11 @@ nav a.active { color: #F5A623; }
 .cat-neuroscience { background: #F3E8FE; color: #6B2FA0; }
 .cat-methodology { background: #F0F0F0; color: #555; }
 
-.tc-desc {
-  font-size: 0.86rem; color: #5A5A5A; line-height: 1.5;
-  display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; overflow: hidden;
+.td-desc {
+  font-size: 0.92rem; color: #5A5A5A; line-height: 1.6;
 }
-
-.tc-meta {
-  display: flex; gap: 12px; align-items: center; flex-wrap: wrap;
+.td-meta-row {
+  display: flex; gap: 20px; align-items: center; flex-wrap: wrap;
 }
 
 .tc-metric {
@@ -275,97 +316,34 @@ nav a.active { color: #F5A623; }
 }
 .tc-cta:hover { text-decoration: underline; }
 
-/* ── DETAIL PANEL (MODAL) ── */
-.detail-panel {
-  position: fixed; right: -400px; top: 0; width: 400px; height: 100vh;
-  background: #fff; box-shadow: -2px 0 12px rgba(0,0,0,0.15);
-  overflow-y: auto; z-index: 200; transition: right 0.25s;
-  border-left: 2px solid #E0D8CC;
+/* ── DETAIL SECTIONS ── */
+.td-section-title {
+  font-size: 0.72rem; font-weight: 700; letter-spacing: 0.12em;
+  text-transform: uppercase; color: #8A9A96; margin-bottom: 6px;
 }
-.detail-panel.active { right: 0; }
-.detail-close {
-  position: absolute; top: 12px; right: 12px; width: 32px; height: 32px;
-  border: none; background: transparent; cursor: pointer; font-size: 1.2rem;
-  color: #8A9A96; transition: color 0.15s;
+.td-constructs {
+  display: flex; gap: 6px; flex-wrap: wrap;
 }
-.detail-close:hover { color: #2D2D2D; }
-.detail-inner {
-  padding: 20px; padding-top: 44px;
-}
-.detail-name {
-  font-family: Georgia, serif; font-size: 1.2rem; font-weight: 700;
-  color: #1C3D3A; margin-bottom: 12px; line-height: 1.3;
-}
-.detail-cat {
-  display: inline-block; font-size: 0.65rem; font-weight: 700;
-  letter-spacing: 0.08em; text-transform: uppercase; padding: 3px 9px;
-  border-radius: 20px; margin-bottom: 16px;
-}
-.detail-desc {
-  font-size: 0.9rem; color: #5A5A5A; line-height: 1.6; margin-bottom: 16px;
-}
-.detail-section {
-  margin-bottom: 20px;
-}
-.detail-section-title {
-  font-size: 0.75rem; font-weight: 700; letter-spacing: 0.15em;
-  text-transform: uppercase; color: #8A9A96; margin-bottom: 8px;
-}
-.detail-constructs {
-  display: flex; gap: 5px; flex-wrap: wrap;
-}
-.detail-tag {
-  font-size: 0.7rem; font-weight: 600; padding: 4px 10px;
+.construct-tag {
+  font-size: 0.72rem; font-weight: 600; padding: 3px 9px;
   border-radius: 14px; background: #E8F8F2; color: #1A7050;
 }
-.detail-list {
+.td-theories {
   font-size: 0.85rem; color: #5A5A5A; line-height: 1.6;
 }
-.detail-list li {
-  margin-bottom: 4px;
+.td-theories li { margin-bottom: 4px; }
+.td-actions {
+  display: flex; gap: 8px; flex-wrap: wrap; margin-top: 4px;
 }
-.detail-metrics {
-  display: flex; flex-direction: column; gap: 8px;
+.td-btn {
+  padding: 9px 16px; border: none; border-radius: 6px;
+  font-size: 0.82rem; font-weight: 600; cursor: pointer;
+  text-decoration: none; transition: all 0.15s;
 }
-.detail-metric-row {
-  display: flex; justify-content: space-between; align-items: center;
-  padding: 8px 0; border-bottom: 1px solid #F0EBE2;
-}
-.detail-metric-row:last-child {
-  border-bottom: none;
-}
-.detail-metric-label {
-  font-size: 0.85rem; font-weight: 600; color: #2D2D2D;
-}
-.detail-metric-value {
-  font-size: 0.85rem; font-weight: 700; color: #1C3D3A;
-}
-.detail-voi-explain {
-  background: #FEF3E2; border-left: 3px solid #E8872A;
-  padding: 10px 12px; border-radius: 4px; font-size: 0.75rem;
-  color: #5A5A5A; line-height: 1.5; margin-top: 8px;
-}
-.detail-actions {
-  display: flex; flex-direction: column; gap: 8px; margin-top: 16px;
-}
-.detail-btn {
-  padding: 10px 14px; border: none; border-radius: 6px;
-  font-size: 0.85rem; font-weight: 600; cursor: pointer;
-  text-decoration: none; text-align: center; transition: all 0.15s;
-  display: block;
-}
-.detail-btn-primary {
-  background: #1C3D3A; color: #fff;
-}
-.detail-btn-primary:hover {
-  background: #2A7868;
-}
-.detail-btn-secondary {
-  background: #F0EBE2; color: #2D2D2D;
-}
-.detail-btn-secondary:hover {
-  background: #E0D8CC;
-}
+.td-btn-primary { background: #1C3D3A; color: #fff; }
+.td-btn-primary:hover { background: #2A7868; }
+.td-btn-secondary { background: #F0EBE2; color: #2D2D2D; }
+.td-btn-secondary:hover { background: #E0D8CC; }
 
 /* ── EMPTY STATE ── */
 .empty-state {
@@ -423,6 +401,15 @@ nav a.active { color: #F5A623; }
   margin-top: 6px; line-height: 1.5;
 }
 
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.wordmark-icon { width: 30px; height: 30px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wm-top { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: #A8C8BF; }
+.wm-bottom { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em; color: #fff; }
+.wm-bottom span { color: #F5A623; }
 </style>
 </head>
 <body>
@@ -430,8 +417,24 @@ nav a.active { color: #F5A623; }
 <nav>
   <div class="nav-left">
     <div>
-      <div class="wordmark">Knowledge Atlas</div>
-      <div class="wordmark-sub">COGS 160</div>
+      <a class="wordmark" href="ka_home.html">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
+    </div>
+  </a>
     </div>
     <ul>
       <li><a id="nav-shell-explore" href="ka_topics.html" class="active">Explore</a></li>
@@ -441,6 +444,7 @@ nav a.active { color: #F5A623; }
       <li><a id="nav-shell-articles" href="ka_article_search.html">Articles</a></li>
       <li><a id="nav-shell-contribute" href="ka_contribute.html">Contribute</a></li>
       <li><a id="nav-shell-course" href="160sp/ka_student_setup.html">Course</a></li>
+      <li><a id="nav-shell-syllabus" href="160sp/ka_schedule.html">160 Syllabus</a></li>
     </ul>
   </div>
   <div class="nav-right">
@@ -467,7 +471,8 @@ nav a.active { color: #F5A623; }
   <p class="hero-mode-note" id="topics-mode-note">
     Student mode starts with broad literature exploration and practical entry points.
   </p>
-  <div class="hero-stats">
+  <!-- Stats hidden for now — re-enable when corpus is larger -->
+  <div class="hero-stats" style="display:none;">
     <div class="hero-stat">
       <div class="hero-stat-num" id="stat-papers">263</div>
       <div class="hero-stat-label">Papers ingested</div>
@@ -519,8 +524,8 @@ nav a.active { color: #F5A623; }
 
 <!-- TAB: BROWSE ALL -->
 <div class="tab-content active" id="tab-browse">
-  <div class="topics-container">
-    <div class="topic-grid" id="grid-browse"></div>
+  <div class="compact-grid-wrap">
+    <div class="compact-grid" id="grid-browse"></div>
     <div class="empty-state" id="empty-browse">No topics match your search and filters.</div>
   </div>
 </div>
@@ -532,8 +537,8 @@ nav a.active { color: #F5A623; }
       Emerging fronts — tighter active lines of work with lighter coverage, where a new contribution can matter quickly.
     </div>
   </div>
-  <div class="topics-container">
-    <div class="topic-grid" id="grid-new"></div>
+  <div class="compact-grid-wrap">
+    <div class="compact-grid" id="grid-new"></div>
     <div class="empty-state" id="empty-new">No emerging topics in this filter.</div>
   </div>
 </div>
@@ -545,8 +550,8 @@ nav a.active { color: #F5A623; }
       Best-studied topics — the deepest evidence base in the current corpus, sorted by paper count.
     </div>
   </div>
-  <div class="topics-container">
-    <div class="topic-grid" id="grid-active"></div>
+  <div class="compact-grid-wrap">
+    <div class="compact-grid" id="grid-active"></div>
     <div class="empty-state" id="empty-active">No topics match this filter.</div>
   </div>
 </div>
@@ -558,16 +563,16 @@ nav a.active { color: #F5A623; }
       Value of Information (VOI) scores rank topics by how much a new well-designed study would reduce the system's uncertainty. Higher VOI means the next good study would teach us the most.
     </div>
   </div>
-  <div class="topics-container">
-    <div class="topic-grid" id="grid-priority"></div>
+  <div class="compact-grid-wrap">
+    <div class="compact-grid" id="grid-priority"></div>
     <div class="empty-state" id="empty-priority">No topics match this filter.</div>
   </div>
 </div>
 
-<!-- DETAIL PANEL (MODAL) -->
-<div class="detail-panel" id="detail-panel">
-  <button class="detail-close" onclick="closeDetail()">✕</button>
-  <div class="detail-inner" id="detail-inner"></div>
+<!-- SELECTED TOPIC DETAIL (appears below compact grid on click) -->
+<div class="topic-detail-wrap" id="topic-detail-wrap">
+  <div class="topic-detail-empty" id="topic-detail-empty">Click any topic above to see its full details here.</div>
+  <div class="topic-detail-card" id="topic-detail-card" style="display:none;"></div>
 </div>
 
 <!-- PAGE PURPOSE NOTE -->
@@ -766,124 +771,78 @@ function catClass(cat) {
   return 'cat-' + cat.toLowerCase();
 }
 
-function buildCard(c) {
-  const constructs = (c.shared_constructs || []).slice(0, 3);
-  const constructHtml = constructs.length > 0 ? `
-    <div class="tc-constructs">
-      ${constructs.map(ct => `<span class="construct-tag">${ct}</span>`).join('')}
-    </div>
-  ` : '';
-
-  const askQ = encodeURIComponent('What does KA know about ' + c.name + '?');
+function buildCompactItem(c) {
+  // Truncate desc for tooltip
+  const shortDesc = c.desc.length > 160 ? c.desc.substring(0, 157) + '...' : c.desc;
   return `
-    <div class="topic-card" data-cat="${c.cat}" data-id="${c.id}" data-voi="${c.voi}" data-papers="${c.n}" onclick="openDetail('${c.id}')">
-      <div class="tc-top">
-        <div class="tc-name">${cleanTopicName(c.name)}</div>
-        <div class="cat-badge ${catClass(c.cat)}">${c.cat}</div>
-      </div>
-      <div class="tc-desc">${c.desc}</div>
-      <div class="tc-meta">
-        <div class="tc-metric">
-          <span class="tc-metric-label">Papers</span>
-          <span class="tc-metric-val">${c.n}</span>
-        </div>
-        <div class="voi-indicator">
-          <span class="tc-metric-label">VOI</span>
-          <div class="voi-dot ${voiClass(c.voi)}"></div>
-          <span class="voi-num">${c.voi.toFixed(2)}</span>
-        </div>
-      </div>
-      ${constructHtml}
-      ${c.maturity ? `<div class="tc-maturity">${c.maturity}</div>` : ''}
-      <div class="tc-actions">
-        <a class="tc-btn tc-btn-ask" href="ka_demo_v04.html?q=${askQ}" title="Ask KA" onclick="event.stopPropagation();">🔍</a>
-        <a class="tc-btn tc-btn-articles" href="ka_article_search.html" title="Find articles" onclick="event.stopPropagation();">📄</a>
-        <a class="tc-btn tc-btn-question" href="ka_question_maker.html" title="Make a question" onclick="event.stopPropagation();">❓</a>
-        <a class="tc-btn tc-btn-build" href="ka_hypothesis_builder.html" title="Design study" onclick="event.stopPropagation();">🧪</a>
-        <button class="ka-workspace-save-btn" style="padding:4px 9px" onclick="saveTopicCard(event, '${c.id}')" title="Save topic">Save</button>
-      </div>
-      <a class="tc-cta" href="ka_argumentation.html" onclick="event.stopPropagation();">See debate structure →</a>
+    <div class="compact-topic" data-cat="${c.cat}" data-id="${c.id}" onclick="selectTopic('${c.id}')">
+      <span class="ct-cat-dot ${c.cat.toLowerCase()}"></span>
+      <span class="ct-name">${cleanTopicName(c.name)}</span>
+      <div class="ct-tooltip">${shortDesc}<br><em style="color:#A8C8BF;">${c.n} papers · VOI ${c.voi.toFixed(2)} · ${c.maturity || ''}</em></div>
     </div>`;
 }
 
-function buildDetailPanel(id) {
+let selectedTopicId = null;
+
+function selectTopic(id) {
   const c = CLUSTERS.find(x => x.id === id);
-  if (!c) return '';
+  if (!c) return;
+  selectedTopicId = id;
+
+  // Update selected state in compact grid
+  document.querySelectorAll('.compact-topic').forEach(el => {
+    el.classList.toggle('selected', el.dataset.id === id);
+  });
 
   const constructs = c.shared_constructs || [];
   const theories = c.theories || [];
-
   const askQ = encodeURIComponent('What does KA know about ' + c.name + '?');
 
-  return `
-    <div class="detail-name">${c.name}</div>
-    <div class="detail-cat ${catClass(c.cat)}">${c.cat}</div>
-    <div class="detail-desc">${c.desc}</div>
-
+  document.getElementById('topic-detail-empty').style.display = 'none';
+  const card = document.getElementById('topic-detail-card');
+  card.style.display = '';
+  card.innerHTML = `
+    <div class="td-header">
+      <div class="td-name">${c.name}</div>
+      <div class="cat-badge ${catClass(c.cat)}">${c.cat}</div>
+    </div>
+    <div class="td-desc">${c.desc}</div>
+    <div class="td-meta-row">
+      <div class="tc-metric">
+        <span class="tc-metric-label">Papers</span>
+        <span class="tc-metric-val">${c.n}</span>
+      </div>
+      <div class="voi-indicator">
+        <span class="tc-metric-label">VOI</span>
+        <div class="voi-dot ${voiClass(c.voi)}"></div>
+        <span class="voi-num">${c.voi.toFixed(2)}</span>
+      </div>
+      ${c.maturity ? `<div class="tc-maturity">${c.maturity}</div>` : ''}
+      ${c.contradictions !== undefined ? `<div class="tc-metric"><span class="tc-metric-label">Contradictions</span><span class="tc-metric-val">${c.contradictions}</span></div>` : ''}
+      ${c.replications !== undefined ? `<div class="tc-metric"><span class="tc-metric-label">Replications</span><span class="tc-metric-val">${c.replications}</span></div>` : ''}
+    </div>
     ${constructs.length > 0 ? `
-    <div class="detail-section">
-      <div class="detail-section-title">Constructs</div>
-      <div class="detail-constructs">
-        ${constructs.map(ct => `<span class="detail-tag">${ct}</span>`).join('')}
-      </div>
-    </div>
-    ` : ''}
-
+    <div>
+      <div class="td-section-title">Constructs</div>
+      <div class="td-constructs">${constructs.map(ct => `<span class="construct-tag">${ct}</span>`).join('')}</div>
+    </div>` : ''}
     ${theories.length > 0 ? `
-    <div class="detail-section">
-      <div class="detail-section-title">Theories</div>
-      <ul class="detail-list">
-        ${theories.map(th => `<li>${th}</li>`).join('')}
-      </ul>
-    </div>
-    ` : ''}
-
-    <div class="detail-section">
-      <div class="detail-section-title">Metrics</div>
-      <div class="detail-metrics">
-        <div class="detail-metric-row">
-          <span class="detail-metric-label">Papers in corpus</span>
-          <span class="detail-metric-value">${c.n}</span>
-        </div>
-        <div class="detail-metric-row">
-          <span class="detail-metric-label">Value of Information</span>
-          <span class="detail-metric-value">${c.voi.toFixed(3)}</span>
-        </div>
-        ${c.maturity ? `
-        <div class="detail-metric-row">
-          <span class="detail-metric-label">Maturity</span>
-          <span class="detail-metric-value">${c.maturity}</span>
-        </div>
-        ` : ''}
-        ${c.contradictions !== undefined ? `
-        <div class="detail-metric-row">
-          <span class="detail-metric-label">Contradictions</span>
-          <span class="detail-metric-value">${c.contradictions}</span>
-        </div>
-        ` : ''}
-        ${c.replications !== undefined ? `
-        <div class="detail-metric-row">
-          <span class="detail-metric-label">Replications</span>
-          <span class="detail-metric-value">${c.replications}</span>
-        </div>
-        ` : ''}
-      </div>
-      <div class="detail-voi-explain">
-        <strong>What is VOI?</strong> Value of Information measures how much a new well-designed study on this topic would reduce the system's uncertainty. Higher VOI = studying this topic would teach us the most.
-      </div>
-    </div>
-
-    <div class="detail-section">
-      <div class="detail-section-title">Actions</div>
-      <div class="detail-actions">
-        <a class="detail-btn detail-btn-primary" href="ka_demo_v04.html?q=${askQ}">Ask about this topic</a>
-        <a class="detail-btn detail-btn-secondary" href="ka_article_search.html">Find articles</a>
-        <a class="detail-btn detail-btn-secondary" href="ka_argumentation.html">See debate structure</a>
-        <a class="detail-btn detail-btn-secondary" href="ka_hypothesis_builder.html">Design a study</a>
-        <button class="ka-workspace-save-btn" onclick="saveTopicDetail('${c.id}')">Save to Workspace</button>
-      </div>
+    <div>
+      <div class="td-section-title">Theories</div>
+      <ul class="td-theories">${theories.map(th => `<li>${th}</li>`).join('')}</ul>
+    </div>` : ''}
+    <div class="td-actions">
+      <a class="td-btn td-btn-primary" href="ka_demo_v04.html?q=${askQ}">Ask about this topic</a>
+      <a class="td-btn td-btn-secondary" href="ka_article_search.html">Find articles</a>
+      <a class="td-btn td-btn-secondary" href="ka_argumentation.html">Debate structure</a>
+      <a class="td-btn td-btn-secondary" href="ka_hypothesis_builder.html">Design a study</a>
+      <a class="td-btn td-btn-secondary" href="ka_question_maker.html">Make a question</a>
+      <button class="ka-workspace-save-btn td-btn td-btn-secondary" onclick="saveTopicDetail('${c.id}')">Save to Workspace</button>
     </div>
   `;
+
+  // Scroll detail into view
+  card.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 function saveTopicRecord(topicId) {
@@ -999,21 +958,19 @@ function renderAllGrids() {
       grid.innerHTML = '';
       empty.classList.add('visible');
     } else {
-      grid.innerHTML = data.map(buildCard).join('');
+      grid.innerHTML = data.map(buildCompactItem).join('');
       empty.classList.remove('visible');
+      // Re-apply selected state
+      if (selectedTopicId) {
+        grid.querySelectorAll('.compact-topic').forEach(el => {
+          el.classList.toggle('selected', el.dataset.id === selectedTopicId);
+        });
+      }
     }
   });
 }
 
-function openDetail(id) {
-  const inner = document.getElementById('detail-inner');
-  inner.innerHTML = buildDetailPanel(id);
-  document.getElementById('detail-panel').classList.add('active');
-}
-
-function closeDetail() {
-  document.getElementById('detail-panel').classList.remove('active');
-}
+// Detail is now inline below the grid — see selectTopic()
 
 // ─────────────────────────────────────────────────────────────────────────────
 // INITIALIZATION
@@ -1046,7 +1003,7 @@ async function initializeTopicsPage() {
 </script>
 
 <script src="ka_page_function.js"></script>
-<script src="ka_demo_wiring.js"></script>
+<!-- ka_demo_wiring.js removed: live backend active -->
 <script src="ka_mode_switch.js"></script>
 <script src="ka_site_shell.js"></script>
 <script src="ka_data_adapter.js"></script>
@@ -1113,6 +1070,7 @@ window.KA_ABOUT_PAGE = {
 <script src="ka_ui_fixes.js"></script>
 <script src="ka_workspace.js"></script>
 <script src="ka_route_cta.js"></script>
+<script src="ka_auth_widget.js"></script>
 
 </body>
 </html>

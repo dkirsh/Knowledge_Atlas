@@ -178,6 +178,9 @@
   }
 
   document.addEventListener('DOMContentLoaded', function () {
+    // System State banner disabled — dev/debug feature, not for students.
+    // To re-enable: set window.KA_LIVE_CONTEXT_FORCE = true before this script loads.
+    if (!window.KA_LIVE_CONTEXT_FORCE) return;
     const config = window.KA_LIVE_CONTEXT_CONFIG;
     if (!config) return;
     render(config).catch(function (err) {

@@ -11,31 +11,49 @@
       background: #f4f6f8; color: #1a1a1a; font-size: 15px; line-height: 1.6;
     }
 
-    /* ── Top bar ─────────────────────────────────────────── */
-    .topbar {
-      background: #182B49; color: #fff; display: flex; align-items: center;
-      justify-content: space-between; padding: 0.75rem 1.5rem;
-      position: sticky; top: 0; z-index: 100; box-shadow: 0 2px 8px rgba(0,0,0,0.3);
+    /* ── Top bar (legacy, hidden — replaced by ka-nav) ──── */
+    .topbar { display: none; }
+
+    /* ── KA standard nav ─────────────────────────────────── */
+    .ka-nav {
+      background: #1C3D3A; display: flex; align-items: center;
+      gap: 24px; padding: 0 28px; min-height: 52px;
+      position: sticky; top: 0; z-index: 500;
+      border-bottom: 2px solid #E8872A;
     }
-    .topbar-logo {
-      font-weight: 900; font-size: 1.15rem; color: #C69214; letter-spacing: 0.04em;
+    .ka-nav .nav-brand { color: #A8C8BF; font-size: 0.78rem; font-weight: 700;
+      letter-spacing: 0.08em; text-transform: uppercase; text-decoration: none; }
+    .ka-nav .nav-brand:hover { color: #E8872A; }
+    .ka-nav .nav-center { display: flex; align-items: center; gap: 14px; flex: 1; }
+    .ka-nav a.nav-link { color: #7AACA0; font-size: 0.8rem; text-decoration: none;
+      padding: 6px 10px; border-radius: 6px; transition: color 0.15s; }
+    .ka-nav a.nav-link:hover { color: #fff; background: rgba(255,255,255,0.08); }
+    .ka-nav a.nav-link.active { color: #F5A623; background: rgba(232,135,42,0.12); }
+    .ka-breadcrumb {
+      background: #EDE8E0; padding: 8px 28px; font-size: 0.78rem;
+      color: #6A5E50; display: flex; align-items: center; gap: 6px;
     }
-    .topbar-logo span { color: #fff; font-weight: 400; font-size: 0.85rem; margin-left: 0.5rem; }
-    .topbar-user { display: flex; align-items: center; gap: 1rem; font-size: 0.85rem; }
-    .topbar-user .username { color: #C69214; font-weight: 700; }
-    .topbar-user .logout {
-      color: rgba(255,255,255,0.5); text-decoration: none; font-size: 0.8rem;
-    }
-    .topbar-user .logout:hover { color: #fff; }
+    .ka-breadcrumb a { color: #1C3D3A; text-decoration: none; font-weight: 600; }
+    .ka-breadcrumb a:hover { text-decoration: underline; }
+    .ka-breadcrumb .sep { color: #B0A898; }
 
     /* ── Student hero ─────────────────────────────────────── */
     .student-hero {
       background: linear-gradient(135deg, #1a3a60, #182B49);
       padding: 1.5rem 2rem; color: #fff; border-bottom: 3px solid #C69214;
+      display: flex; align-items: center; justify-content: space-between; gap: 24px;
     }
     .student-hero h1 { font-size: 1.4rem; font-weight: 800; margin-bottom: 0.2rem; }
     .student-hero h1 span { color: #C69214; }
     .student-hero p { font-size: 0.85rem; color: rgba(255,255,255,0.65); }
+    .hero-ctas { display: flex; gap: 10px; flex-shrink: 0; }
+    .hero-cta-btn {
+      display: inline-block; padding: 8px 16px; border-radius: 6px;
+      font-size: 0.78rem; font-weight: 700; text-decoration: none;
+      border: 1.5px solid rgba(255,255,255,0.25); color: #fff;
+      transition: background 0.15s, border-color 0.15s;
+    }
+    .hero-cta-btn:hover { background: rgba(255,255,255,0.12); border-color: rgba(255,255,255,0.5); }
 
     /* ── Progress overview ───────────────────────────────── */
     .progress-overview {
@@ -341,7 +359,17 @@
       .progress-overview { grid-template-columns: 1fr; }
       .paper-fields { grid-template-columns: 1fr; }
     }
-  </style>
+  
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.wordmark-icon { width: 30px; height: 30px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wm-top { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: #A8C8BF; }
+.wm-bottom { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em; color: #fff; }
+.wm-bottom span { color: #F5A623; }
+</style>
 </head>
 <body>
 
@@ -356,7 +384,10 @@
     </div>
     <div class="login-field">
       <label>Password</label>
-      <input type="password" id="login-pass" placeholder="Your K-ATLAS password" autocomplete="current-password">
+      <div style="position:relative;">
+        <input type="password" id="login-pass" placeholder="Your K-ATLAS password" autocomplete="current-password" style="padding-right:2.5rem;">
+        <button type="button" onclick="togglePwdVis(this)" aria-label="Show password" style="position:absolute;right:8px;top:50%;transform:translateY(-50%);background:none;border:none;cursor:pointer;font-size:1.1rem;color:#888;padding:4px;" tabindex="-1">&#128065;</button>
+      </div>
     </div>
     <p class="login-error" id="login-error">Invalid username or password.</p>
     <button class="btn-sign-in" onclick="handleLogin()">Sign In</button>
@@ -364,9 +395,46 @@
   </div>
 </div>
 
-<!-- ── Top bar ───────────────────────────────────────────── -->
+<!-- ── KA standard nav ───────────────────────────────────── -->
+<nav class="ka-nav">
+  <a class="wordmark" href="../ka_home.html">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
+    </div>
+  </a>
+  <div class="nav-center">
+    <a href="../ka_topics.html" class="nav-link">Explore</a>
+    <a href="../ka_evidence.html" class="nav-link">Evidence</a>
+    <a href="../ka_gaps.html" class="nav-link">Gaps</a>
+    <a href="../ka_article_search.html" class="nav-link">Articles</a>
+    <a href="../ka_contribute.html" class="nav-link">Contribute</a>
+    <a href="ka_student_setup.html" class="nav-link active">Course</a>
+    <a href="ka_schedule.html" class="nav-link">160 Syllabus</a>
+  </div>
+</nav>
+<div class="ka-breadcrumb">
+  <a href="../ka_home.html">Home</a> <span class="sep">/</span>
+  <a href="ka_student_setup.html">COGS 160 Start</a> <span class="sep">/</span>
+  <a href="ka_collect_articles.html">A0: Collect Articles</a> <span class="sep">/</span>
+  <span>Upload</span>
+</div>
+
+<!-- ── Legacy top bar (hidden, kept for JS references) ──── -->
 <div class="topbar">
-  <span class="topbar-logo">K-ATLAS <span>/ Collect Articles</span></span>
+  <a href="../ka_home.html" class="topbar-logo" style="text-decoration:none;color:#C69214;">K-ATLAS <span>/ Collect Articles</span></a>
   <div class="topbar-user">
     <span>Signed in as <span class="username" id="display-name">—</span></span>
     <a href="#" class="logout" onclick="handleLogout()">Sign out</a>
@@ -375,8 +443,14 @@
 
 <!-- ── Student hero ──────────────────────────────────────── -->
 <div class="student-hero">
-  <h1>My Article Collection — <span id="hero-name">Loading…</span></h1>
-  <p id="hero-status">Loading your assigned questions…</p>
+  <div>
+    <h1>My Article Collection — <span id="hero-name">Loading…</span></h1>
+    <p id="hero-status">Loading your assigned questions…</p>
+  </div>
+  <div class="hero-ctas">
+    <a href="../ka_ai_methodology.html" class="hero-cta-btn">AI Methodology</a>
+    <a href="ka_student_setup.html" class="hero-cta-btn">The Four Tracks</a>
+  </div>
 </div>
 
 <!-- ── Progress overview ─────────────────────────────────── -->
@@ -392,12 +466,12 @@
   </div>
   <!-- Q2 card -->
   <div class="prog-card prog-card-mixed" id="prog-q2">
-    <span class="prog-label">Question 2 — Mixed</span>
+    <span class="prog-label">Question 2 — You Choose</span>
     <div class="prog-q-id" id="prog-q2-id">—</div>
-    <div class="prog-q-text" id="prog-q2-text">Loading…</div>
+    <div class="prog-q-text" id="prog-q2-text">Choose your own topic below</div>
     <div class="prog-bar-wrap"><div class="prog-bar" id="prog-bar-q2" style="width:0%"></div></div>
     <div class="prog-count" id="prog-count-q2">0 / 10 papers</div>
-    <div class="prog-note">All article types count toward your 10</div>
+    <div class="prog-note">All article types count — you pick the topic</div>
   </div>
   <!-- Brownie card (hidden until Q2 complete) -->
   <div class="prog-card prog-card-brownie" id="prog-brownie">
@@ -414,7 +488,7 @@
       Q1 — Experimental <span class="tab-badge tab-badge-exp">10-EXP</span>
     </button>
     <button class="tab" onclick="switchTab('q2', this)">
-      Q2 — Open Corpus <span class="tab-badge tab-badge-mixed">MIXED</span>
+      Part 2: Q2 — Open Corpus <span class="tab-badge tab-badge-mixed">MIXED</span>
     </button>
     <button class="tab locked" id="tab-brownie" onclick="switchTab('brownie', this)">
       Brownie Questions <span class="tab-badge tab-badge-brownie">⭐</span>
@@ -436,9 +510,11 @@
       <li style="margin-bottom:0.5rem;"><strong>Upload the PDFs</strong> that correspond to those citations. Each PDF is classified in real time — you'll see ✓ or ✗ immediately.</li>
       <li style="margin-bottom:1rem;"><strong>We automatically verify</strong> that they are articles about experiments (not theory, reviews, or meta-analyses) and that they are on the topic we assigned you.</li>
     </ol>
-    <p style="font-size:0.93rem;line-height:1.7;margin:1rem 0 0;border-top:2px solid #e8e8e8;padding-top:1rem;color:#1a1a1a;">Then:</p>
-    <ol style="margin:1rem 0 0;padding-left:1.5rem;font-size:0.93rem;line-height:1.8;">
-      <li><strong>Create a question</strong> for Google AI Scholar on one of our CNFA Topics and repeat the same APA + PDF upload process — but this time you can upload the 10 articles you think are the best, regardless of article type.</li>
+    <p style="font-size:0.93rem;line-height:1.7;margin:1rem 0 0;border-top:2px solid #e8e8e8;padding-top:1rem;color:#1a1a1a;"><strong>Then, for Q2 — you choose your own topic:</strong></p>
+    <ol style="margin:0.5rem 0 0;padding-left:1.5rem;font-size:0.93rem;line-height:1.8;">
+      <li style="margin-bottom:0.5rem;"><strong>Pick a topic</strong> from the Q2 tab — we'll show you which topics the corpus needs most.</li>
+      <li style="margin-bottom:0.5rem;"><strong>Craft a Google AI Scholar query</strong> from the question text. See the <a href="ka_google_search_guide.html" style="color:#1C3D3A;font-weight:700;">Search Guide</a> for tips.</li>
+      <li><strong>Upload 10 papers</strong> of <em>any type</em> (experimental, review, theoretical, etc.) — all count toward your 10.</li>
     </ol>
   </div>
 
@@ -470,11 +546,24 @@
     </p>
   </div>
 
-  <!-- Brownie offer (appears after Q2 complete) -->
+  <!-- A0 complete: track selection + brownie offer (appears after Q1+Q2 complete) -->
   <div class="brownie-offer" id="brownie-offer">
-    <h3>🎉 Both questions complete! Want a brownie point?</h3>
-    <p>You have met the full requirement. Accept an additional question to earn extra credit — brownie points are taken into account when final grades are assigned. No cap on how many you can earn.</p>
-    <button class="btn-brownie" onclick="acceptBrownie()">Yes, give me a brownie question!</button>
+    <div style="background:linear-gradient(135deg,#1C3D3A,#2A5C58);border-radius:10px;padding:1.5rem;margin-bottom:1.5rem;color:#fff;">
+      <h3 style="font-size:1.15rem;font-weight:800;margin-bottom:0.5rem;">Assignment 0 complete!</h3>
+      <p style="font-size:0.92rem;color:#A8C8BF;line-height:1.6;margin-bottom:1rem;">You have met the A0 requirement. Your next step is to <strong style="color:#F5A623;">choose a track</strong> for the rest of the quarter. Each track has different assignments and skills.</p>
+      <div style="display:flex;gap:10px;flex-wrap:wrap;">
+        <a href="ka_student_setup.html" style="display:inline-block;padding:10px 20px;background:#E8872A;color:#fff;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.9rem;">Choose Your Track</a>
+        <a href="ka_track1_tagging.html" style="padding:10px 14px;border:1.5px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;text-decoration:none;font-size:0.82rem;">Track 1: Tagging</a>
+        <a href="ka_track2_pipeline.html" style="padding:10px 14px;border:1.5px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;text-decoration:none;font-size:0.82rem;">Track 2: Articles</a>
+        <a href="ka_track3_vr.html" style="padding:10px 14px;border:1.5px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;text-decoration:none;font-size:0.82rem;">Track 3: VR</a>
+        <a href="ka_track4_ux.html" style="padding:10px 14px;border:1.5px solid rgba(255,255,255,0.3);color:#fff;border-radius:6px;text-decoration:none;font-size:0.82rem;">Track 4: UX</a>
+      </div>
+    </div>
+    <div style="background:#fff;border:2px solid #C69214;border-radius:10px;padding:1.25rem;">
+      <h3 style="font-size:1rem;font-weight:800;color:#182B49;margin-bottom:0.4rem;">Want a brownie point?</h3>
+      <p style="font-size:0.88rem;color:#555;margin-bottom:0.75rem;">Accept an additional question to earn extra credit. Brownie points are taken into account when final grades are assigned. No cap on how many you can earn.</p>
+      <button class="btn-brownie" onclick="acceptBrownie()">Yes, give me a brownie question!</button>
+    </div>
   </div>
 
   <!-- Q1 Tab Panel -->
@@ -560,9 +649,26 @@
 
   <!-- Q2 Tab Panel -->
   <div class="tab-panel" id="panel-q2">
+    <!-- Q2 topic chooser (shown when no Q2 assigned yet) -->
+    <div id="q2-chooser" style="background:#f0f7f5;border:2px solid #27ae60;border-radius:10px;padding:1.5rem;margin-bottom:1.5rem;">
+      <h3 style="font-size:1.05rem;color:#1C3D3A;margin-bottom:0.5rem;">Part 2: Choose Your Own Question</h3>
+      <p style="font-size:0.9rem;color:#444;line-height:1.6;margin-bottom:0.75rem;">
+        For Question 2, <strong>you pick your own topic</strong> from the K-ATLAS research questions.
+        All article types count toward your 10 papers (experimental, review, theoretical, etc.).
+      </p>
+      <p style="font-size:0.88rem;color:#444;line-height:1.6;margin-bottom:1rem;">
+        <strong>Tip:</strong> Choose a topic the corpus needs most — these have the fewest papers so far.
+        Then craft a Google AI Scholar query from the question text. See the
+        <a href="ka_google_search_guide.html" style="color:#1C3D3A;font-weight:700;">Google Scholar Search Guide</a> for how to write effective queries.
+      </p>
+      <button onclick="loadTopicsNeeded()" style="padding:0.6rem 1.2rem;background:#C69214;color:#fff;border:none;border-radius:6px;font-size:0.9rem;font-weight:700;cursor:pointer;margin-bottom:1rem;">See Topics We Need the Most</button>
+      <div id="topics-needed-list" style="display:none;max-height:400px;overflow-y:auto;border:1px solid #ddd;border-radius:8px;background:#fff;margin-bottom:1rem;"></div>
+      <div id="q2-chosen-msg" style="display:none;padding:0.75rem 1rem;background:#d4edda;border-radius:8px;color:#155724;font-weight:600;margin-top:0.5rem;"></div>
+    </div>
+
     <div class="alert alert-info" id="alert-q2" style="display:block">
       <strong>Q2 — Open Corpus:</strong> All article types count toward your 10. Experimental, review,
-      theoretical, and other types are all welcome.
+      theoretical, and other types are all welcome. <em>Your question appears above once you choose a topic.</em>
     </div>
 
     <!-- Manifest Upload Toggle & Form -->
@@ -646,7 +752,7 @@
 
 <script>
 // ── State ─────────────────────────────────────────────────
-const API = '/api';
+const API = '';  // Auth server serves at root: /auth/login, /api/student/*, /api/articles/*
 let studentId = null;
 let assignments = { q1: null, q2: null, brownie: [] };
 let pendingFiles = { q1: [], q2: [] };
@@ -669,7 +775,9 @@ async function handleLogin() {
     if (!resp.ok) throw new Error('Invalid credentials');
     const data = await resp.json();
     localStorage.setItem('katlas_token', data.access_token);
+    localStorage.setItem('ka_access_token', data.access_token);
     localStorage.setItem('katlas_user', email);
+    if (data.user) localStorage.setItem('ka_current_user', JSON.stringify(data.user));
     document.getElementById('login-overlay').style.display = 'none';
     studentId = email;
     initPage();
@@ -684,16 +792,45 @@ function handleLogout() {
   window.location.reload();
 }
 
+// ── Password visibility toggle (universal)
+function togglePwdVis(btn) {
+  const inp = btn.parentElement.querySelector('input');
+  if (inp.type === 'password') { inp.type = 'text'; btn.innerHTML = '&#128064;'; btn.setAttribute('aria-label','Hide password'); }
+  else { inp.type = 'password'; btn.innerHTML = '&#128065;'; btn.setAttribute('aria-label','Show password'); }
+}
+
+// ── Resolve token: accept katlas_token OR ka_access_token (set by ka_login.html)
+function getToken() {
+  return localStorage.getItem('katlas_token') || localStorage.getItem('ka_access_token') || '';
+}
+function getUser() {
+  const u = localStorage.getItem('katlas_user');
+  if (u) return u;
+  try {
+    const obj = JSON.parse(localStorage.getItem('ka_current_user') || 'null');
+    return obj ? (obj.email || obj.user_id || '') : '';
+  } catch(e) { return ''; }
+}
+function getUserDisplayName() {
+  try {
+    const obj = JSON.parse(localStorage.getItem('ka_current_user') || 'null');
+    if (obj && (obj.first_name || obj.firstName)) return (obj.first_name || obj.firstName) + ' ' + (obj.last_name || obj.lastName || '');
+    if (obj && obj.email) return obj.email;
+  } catch(e) {}
+  return localStorage.getItem('katlas_user') || '';
+}
+
 // ── Page init ─────────────────────────────────────────────
 async function initPage() {
-  const token = localStorage.getItem('katlas_token');
-  const user = localStorage.getItem('katlas_user');
+  const token = getToken();
+  const user = getUser();
   if (!token || !user) return;
 
   studentId = user;
   document.getElementById('login-overlay').style.display = 'none';
-  document.getElementById('display-name').textContent = user;
-  document.getElementById('hero-name').textContent = user;
+  const displayName = getUserDisplayName();
+  document.getElementById('display-name').textContent = displayName;
+  document.getElementById('hero-name').textContent = displayName;
 
   // Load assignments from API
   try {
@@ -738,11 +875,95 @@ function renderAssignments(data) {
   if (data.q2) {
     document.getElementById('prog-q2-id').textContent = data.q2.question_id;
     document.getElementById('prog-q2-text').textContent = data.q2.question_text;
+    document.getElementById('q2-chooser').style.display = 'none'; // Already chosen
+  } else {
+    // Q2 not yet chosen — show the chooser, disable the upload form
+    document.getElementById('q2-chooser').style.display = 'block';
+    document.getElementById('prog-q2-text').textContent = 'Not yet chosen — select your topic in the Q2 tab';
+    // Auto-load topics list
+    loadTopicsNeeded();
+  }
+}
+
+async function loadTopicsNeeded() {
+  const token = getToken();
+  const list = document.getElementById('topics-needed-list');
+  list.style.display = 'block';
+  list.innerHTML = '<p style="padding:1rem;color:#888;">Loading topics…</p>';
+  try {
+    const resp = await fetch('/api/student/topics-needed', {
+      headers: { 'Authorization': 'Bearer ' + token }
+    });
+    const data = await resp.json();
+    if (!data.topics || data.topics.length === 0) {
+      list.innerHTML = '<p style="padding:1rem;color:#888;">No topics available.</p>';
+      return;
+    }
+    let html = '<table style="width:100%;border-collapse:collapse;font-size:0.85rem;">';
+    html += '<thead><tr style="background:#f0f0f0;text-align:left;">';
+    html += '<th style="padding:0.5rem 0.75rem;">Need</th>';
+    html += '<th style="padding:0.5rem 0.75rem;">ID</th>';
+    html += '<th style="padding:0.5rem 0.75rem;">Domain</th>';
+    html += '<th style="padding:0.5rem 0.75rem;">Question</th>';
+    html += '<th style="padding:0.5rem 0.75rem;">Papers</th>';
+    html += '<th style="padding:0.5rem 0.75rem;"></th>';
+    html += '</tr></thead><tbody>';
+    data.topics.forEach(function(t) {
+      const needBadge = t.need_level === 'high'
+        ? '<span style="background:#dc3545;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.75rem;font-weight:700;">HIGH NEED</span>'
+        : t.need_level === 'medium'
+        ? '<span style="background:#ffc107;color:#333;padding:2px 8px;border-radius:10px;font-size:0.75rem;font-weight:700;">MEDIUM</span>'
+        : '<span style="background:#28a745;color:#fff;padding:2px 8px;border-radius:10px;font-size:0.75rem;font-weight:700;">Good</span>';
+      html += '<tr style="border-bottom:1px solid #eee;">';
+      html += '<td style="padding:0.6rem 0.75rem;">' + needBadge + '</td>';
+      html += '<td style="padding:0.6rem 0.75rem;font-weight:600;white-space:nowrap;">' + t.question_id + '</td>';
+      html += '<td style="padding:0.6rem 0.75rem;color:#666;font-size:0.8rem;">' + t.domain + '</td>';
+      html += '<td style="padding:0.6rem 0.75rem;max-width:400px;">' + t.label + '<br><span style="color:#888;font-size:0.8rem;">' + (t.text.length > 120 ? t.text.substring(0,120) + '…' : t.text) + '</span></td>';
+      html += '<td style="padding:0.6rem 0.75rem;text-align:center;">' + t.total_articles + '</td>';
+      html += '<td style="padding:0.6rem 0.75rem;"><button onclick="chooseQ2(\'' + t.question_id + '\')" style="padding:0.4rem 0.8rem;background:#1C3D3A;color:#fff;border:none;border-radius:5px;font-size:0.8rem;font-weight:600;cursor:pointer;white-space:nowrap;">Choose This</button></td>';
+      html += '</tr>';
+    });
+    html += '</tbody></table>';
+    list.innerHTML = html;
+  } catch (e) {
+    list.innerHTML = '<p style="padding:1rem;color:#c00;">Could not load topics. Is the server running?</p>';
+  }
+}
+
+async function chooseQ2(questionId) {
+  const token = getToken();
+  const msg = document.getElementById('q2-chosen-msg');
+  try {
+    const resp = await fetch('/api/student/choose-q2', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json', 'Authorization': 'Bearer ' + token },
+      body: JSON.stringify({ question_id: questionId })
+    });
+    const data = await resp.json();
+    if (resp.ok) {
+      msg.style.display = 'block';
+      msg.innerHTML = '&#10003; Q2 assigned: <strong>' + data.question_id + '</strong> — ' + data.question_text;
+      document.getElementById('prog-q2-id').textContent = data.question_id;
+      document.getElementById('prog-q2-text').textContent = data.question_text;
+      document.getElementById('topics-needed-list').style.display = 'none';
+      // Update assignments state
+      assignments.q2 = data;
+      // Hide chooser after a moment
+      setTimeout(function() { document.getElementById('q2-chooser').style.display = 'none'; }, 3000);
+    } else {
+      msg.style.display = 'block';
+      msg.style.background = '#f8d7da'; msg.style.color = '#721c24';
+      msg.textContent = data.detail || 'Could not assign Q2.';
+    }
+  } catch(e) {
+    msg.style.display = 'block';
+    msg.style.background = '#f8d7da'; msg.style.color = '#721c24';
+    msg.textContent = 'Server error. Please try again.';
   }
 }
 
 async function loadProgress() {
-  const token = localStorage.getItem('katlas_token');
+  const token = getToken();
   try {
     const resp = await fetch(`${API}/api/student/progress`, {
       headers: { 'Authorization': `Bearer ${token}` }
@@ -858,7 +1079,7 @@ async function classifyOneFile(which, idx, file) {
   const badge = document.getElementById(`classify-badge-${which}-${idx}`);
   if (!badge) return;
 
-  const token = localStorage.getItem('katlas_token');
+  const token = getToken();
   try {
     const formData = new FormData();
     formData.append('pdf', file, file.name);
@@ -925,7 +1146,7 @@ async function fetchAbstracts(which) {
   btn.disabled = true;
   spinner.style.display = 'block';
 
-  const token = localStorage.getItem('katlas_token');
+  const token = getToken();
   const questionId = which === 'q1' ? assignments.q1?.question_id : assignments.q2?.question_id;
 
   // Build submission payload
@@ -1195,7 +1416,7 @@ function renderDemoResults(which) {
 
 // ── Brownie ────────────────────────────────────────────────
 async function acceptBrownie() {
-  const token = localStorage.getItem('katlas_token');
+  const token = getToken();
   try {
     const resp = await fetch(`${API}/api/student/accept-brownie`, {
       method: 'POST',
@@ -1280,12 +1501,13 @@ function handleCitationFile(file) {
 }
 
 // ── On load ────────────────────────────────────────────────
-const token = localStorage.getItem('katlas_token');
-const savedUser = localStorage.getItem('katlas_user');
-if (token && savedUser) {
-  studentId = savedUser;
+const _initToken = getToken();
+const _initUser = getUser();
+if (_initToken && _initUser) {
+  studentId = _initUser;
   initPage();
 }
+// If not logged in, the login overlay remains visible (display:flex in CSS)
 </script>
 
 <!-- ── Footer CTA ── -->
@@ -1299,6 +1521,7 @@ if (token && savedUser) {
     <a href="../ka_ai_methodology.html" style="display:inline-block;padding:0.65rem 1.3rem;background:#C69214;color:#fff;border-radius:6px;text-decoration:none;font-weight:700;font-size:0.88rem;">Read AI Methodology* →</a>
   </div>
 </div>
+<script src="../ka_auth_widget.js"></script>
 
 </body>
 </html>

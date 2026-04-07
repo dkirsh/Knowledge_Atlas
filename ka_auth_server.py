@@ -497,6 +497,30 @@ def me(user=Depends(get_current_user)):
     return {k: user[k] for k in
             ("user_id","email","first_name","last_name","role","status","track","question_id","last_login")}
 
+# ── UPDATE TRACK
+class UpdateTrackRequest(BaseModel):
+    track: str
+
+@app.post("/auth/update-track")
+def update_track(req: UpdateTrackRequest, user=Depends(get_current_user)):
+    valid_tracks = {"track1", "track2", "track3", "track4"}
+    if req.track not in valid_tracks:
+        raise HTTPException(400, f"Invalid track. Must be one of: {', '.join(sorted(valid_tracks))}")
+    db = get_db()
+    db.execute("UPDATE users SET track=? WHERE user_id=?", (req.track, user["user_id"]))
+    db.commit(); db.close()
+    track_names = {
+        "track1": "Track 1: Image Tagging",
+        "track2": "Track 2: AI Article Pipeline",
+        "track3": "Track 3: VR for Experiments",
+        "track4": "Track 4: Interaction Design & Evaluation"
+    }
+    return {
+        "message": f"You have joined {track_names.get(req.track, req.track)}!",
+        "track": req.track,
+        "track_name": track_names.get(req.track, req.track)
+    }
+
 # ── ASSIGNMENTS
 @app.get("/api/assignments")
 def get_assignment(user=Depends(get_current_user)):

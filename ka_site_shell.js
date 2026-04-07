@@ -18,12 +18,12 @@
   };
 
   const NAV_ORDERS = {
-    student_explorer: ['nav-shell-explore', 'nav-shell-evidence', 'nav-shell-gaps', 'nav-shell-articles', 'nav-shell-contribute', 'nav-shell-course'],
-    researcher: ['nav-shell-evidence', 'nav-shell-gaps', 'nav-shell-articles', 'nav-shell-explore', 'nav-shell-contribute', 'nav-shell-course'],
-    contributor: ['nav-shell-contribute', 'nav-shell-articles', 'nav-shell-evidence', 'nav-shell-explore', 'nav-shell-gaps', 'nav-shell-course'],
-    instructor: ['nav-shell-course', 'nav-shell-contribute', 'nav-shell-explore', 'nav-shell-evidence', 'nav-shell-gaps', 'nav-shell-articles'],
-    practitioner: ['nav-shell-explore', 'nav-shell-evidence', 'nav-shell-articles', 'nav-shell-gaps', 'nav-shell-contribute', 'nav-shell-course'],
-    theory_mechanism_explorer: ['nav-shell-explore', 'nav-shell-evidence', 'nav-shell-gaps', 'nav-shell-articles', 'nav-shell-course', 'nav-shell-contribute']
+    student_explorer: ['nav-shell-explore', 'nav-shell-evidence', 'nav-shell-gaps', 'nav-shell-articles', 'nav-shell-contribute', 'nav-shell-course', 'nav-shell-syllabus'],
+    researcher: ['nav-shell-evidence', 'nav-shell-gaps', 'nav-shell-articles', 'nav-shell-explore', 'nav-shell-contribute', 'nav-shell-course', 'nav-shell-syllabus'],
+    contributor: ['nav-shell-contribute', 'nav-shell-articles', 'nav-shell-evidence', 'nav-shell-explore', 'nav-shell-gaps', 'nav-shell-course', 'nav-shell-syllabus'],
+    instructor: ['nav-shell-course', 'nav-shell-syllabus', 'nav-shell-contribute', 'nav-shell-explore', 'nav-shell-evidence', 'nav-shell-gaps', 'nav-shell-articles'],
+    practitioner: ['nav-shell-explore', 'nav-shell-evidence', 'nav-shell-articles', 'nav-shell-gaps', 'nav-shell-contribute', 'nav-shell-course', 'nav-shell-syllabus'],
+    theory_mechanism_explorer: ['nav-shell-explore', 'nav-shell-evidence', 'nav-shell-gaps', 'nav-shell-articles', 'nav-shell-course', 'nav-shell-syllabus', 'nav-shell-contribute']
   };
 
   function moveItem(navContainer, el) {

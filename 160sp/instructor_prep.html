@@ -1,283 +1,1428 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Instructor Pre-Class Checklist · COGS 160 Spring 2026</title>
-<style>
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-:root {
-  --navy: #1C3D3A; --teal: #2A7868; --teal-lt: #5AC8AA; --teal-bg: #E6F5F0;
-  --amber: #E8872A; --amber-lt: #FFF3E0; --amber-dk: #9a5010;
-  --cream: #F7F4EF; --ink: #2C2C2C; --muted: #6B6B6B; --border: #D8D0C5;
-  --white: #FFFFFF; --rose: #A84F6B; --green: #1A7A50;
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>K-ATLAS — COGS 160 Article Finder Assignment</title>
+  <style>
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    :root {
+      --navy: #182B49;
+      --gold: #C69214;
+      --gold-light: #f5e5b8;
+      --blue-mid: #2a4a80;
+      --text: #1a1a2e;
+      --muted: #556;
+      --bg: #f4f6fa;
+      --border: #dde3eb;
+      --green: #1a7a4a;
+      --green-bg: #eaf7ef;
+      --red: #c0392b;
+      --red-bg: #fdf0ef;
+      --amber: #7a5800;
+      --amber-bg: #fff8e6;
+      --code-bg: #1e2a3a;
+      --code-text: #e8f0fe;
+      --teal: #0e7490;
+      --teal-bg: #ecfeff;
+    }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Georgia, serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.72;
+    }
+
+    /* ─── Header ─── */
+    .site-header {
+      background: var(--navy); color: #fff;
+      padding: 0 2rem; display: flex; align-items: center;
+      justify-content: space-between; height: 56px;
+      position: sticky; top: 0; z-index: 100;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.3);
+    }
+    .header-logo { font-size: 1.25rem; font-weight: 900; color: #fff; }
+    .header-logo span { color: var(--gold); }
+    .header-tag { font-size: 0.72rem; color: #7a9bbf; text-transform: uppercase; letter-spacing: 0.1em; }
+    .header-nav { display: flex; gap: 0.5rem; }
+    .header-nav a {
+      color: #cfd8e8; text-decoration: none; font-size: 0.82rem; font-weight: 500;
+      padding: 0.3rem 0.7rem; border-radius: 6px; transition: background 0.15s;
+    }
+    .header-nav a:hover { background: rgba(255,255,255,0.1); color: #fff; }
+
+    /* ─── Layout ─── */
+    .layout {
+      display: grid; grid-template-columns: 260px 1fr;
+      max-width: 1280px; margin: 0 auto;
+      min-height: calc(100vh - 56px);
+    }
+
+    /* ─── Sidebar ─── */
+    .sidebar {
+      position: sticky; top: 56px; height: calc(100vh - 56px);
+      overflow-y: auto; padding: 2rem 1.2rem 2rem 1.5rem;
+      border-right: 1px solid var(--border); background: #fff;
+    }
+    .toc-title { font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--muted); margin-bottom: 1rem; }
+    .toc-list { list-style: none; }
+    .toc-list li { margin-bottom: 0.1rem; }
+    .toc-list a {
+      display: block; padding: 0.3rem 0.6rem; border-radius: 6px;
+      font-size: 0.82rem; color: var(--navy); text-decoration: none;
+      transition: background 0.12s, color 0.12s; border-left: 3px solid transparent;
+    }
+    .toc-list a:hover { background: var(--bg); color: var(--gold); }
+    .toc-list a.active { border-left-color: var(--gold); background: var(--gold-light); color: var(--navy); font-weight: 600; }
+    .toc-section { font-size: 0.7rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.09em; color: var(--muted); margin: 1.2rem 0.6rem 0.4rem; }
+
+    /* ─── Main ─── */
+    .main { padding: 3rem 3.5rem; max-width: 860px; }
+
+    .page-eyebrow { font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.12em; color: var(--gold); margin-bottom: 0.5rem; }
+    .page-title { font-size: 2.1rem; font-weight: 900; color: var(--navy); line-height: 1.2; margin-bottom: 0.7rem; }
+    .page-subtitle { font-size: 1rem; color: var(--muted); margin-bottom: 2.5rem; border-bottom: 2px solid var(--border); padding-bottom: 1.5rem; }
+
+    h2 { font-size: 1.45rem; font-weight: 800; color: var(--navy); margin: 3rem 0 1rem; padding-top: 0.5rem; border-top: 2px solid var(--border); }
+    h2:first-of-type { margin-top: 1.5rem; border-top: none; }
+    h3 { font-size: 1.1rem; font-weight: 700; color: var(--blue-mid); margin: 2rem 0 0.7rem; }
+    h4 { font-size: 0.92rem; font-weight: 700; color: var(--navy); margin: 1.5rem 0 0.5rem; text-transform: uppercase; letter-spacing: 0.05em; }
+    p { margin-bottom: 1rem; }
+    ul, ol { margin: 0.5rem 0 1rem 1.4rem; }
+    li { margin-bottom: 0.4rem; }
+    code { background: #e8edf5; padding: 1px 5px; border-radius: 3px; font-size: 0.88em; font-family: "SF Mono", monospace; }
+
+    /* ─── Callouts ─── */
+    .callout { border-radius: 10px; padding: 1.1rem 1.3rem; margin: 1.5rem 0; border-left: 4px solid; }
+    .callout-title { font-weight: 700; font-size: 0.82rem; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 0.4rem; }
+    .callout.tip { background: var(--amber-bg); border-color: var(--gold); }
+    .callout.tip .callout-title { color: var(--amber); }
+    .callout.tip p, .callout.tip li { color: #4a3800; }
+    .callout.info { background: #eef4ff; border-color: var(--blue-mid); }
+    .callout.info .callout-title { color: var(--blue-mid); }
+    .callout.info p, .callout.info li { color: #1a2a4a; }
+    .callout.warn { background: var(--red-bg); border-color: var(--red); }
+    .callout.warn .callout-title { color: var(--red); }
+    .callout.warn p { color: #4a1a14; }
+    .callout.good { background: var(--green-bg); border-color: var(--green); }
+    .callout.good .callout-title { color: var(--green); }
+    .callout.good p { color: #1d3a2a; }
+    .callout.teal { background: var(--teal-bg); border-color: var(--teal); }
+    .callout.teal .callout-title { color: var(--teal); }
+    .callout.teal p, .callout.teal li { color: #083344; }
+
+    /* ─── Week blocks ─── */
+    .week-header {
+      background: var(--navy); color: #fff; border-radius: 10px 10px 0 0;
+      padding: 0.9rem 1.3rem; display: flex; align-items: center; gap: 1rem; margin-top: 2rem;
+    }
+    .week-badge { background: var(--gold); color: var(--navy); font-weight: 900; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.08em; padding: 3px 10px; border-radius: 4px; white-space: nowrap; }
+    .week-title { font-size: 1.05rem; font-weight: 700; }
+    .week-dates { font-size: 0.78rem; color: #7a9bbf; margin-left: auto; }
+    .week-body {
+      background: #fff; border: 1.5px solid var(--border); border-top: none;
+      border-radius: 0 0 10px 10px; padding: 1.3rem 1.5rem; margin-bottom: 0.5rem;
+    }
+
+    /* ─── Filter approach cards ─── */
+    .approach-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem; margin: 1.2rem 0; }
+    .approach-card { border: 1.5px solid var(--border); border-radius: 10px; padding: 1rem 1.1rem; background: #fff; }
+    .approach-name { font-weight: 700; font-size: 0.95rem; color: var(--navy); margin-bottom: 0.3rem; }
+    .approach-badge { display: inline-block; font-size: 0.68rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; padding: 2px 8px; border-radius: 4px; margin-bottom: 0.6rem; }
+    .ab-easy { background: var(--green-bg); color: var(--green); }
+    .ab-med { background: var(--amber-bg); color: var(--amber); }
+    .ab-hard { background: #eef4ff; color: var(--blue-mid); }
+    .approach-desc { font-size: 0.82rem; color: var(--muted); line-height: 1.5; }
+
+    /* ─── Code blocks ─── */
+    .code-block {
+      background: var(--code-bg); color: var(--code-text);
+      border-radius: 8px; padding: 1rem 1.2rem;
+      font-family: "SF Mono", "Fira Code", monospace;
+      font-size: 0.84rem; line-height: 1.6; margin: 0.8rem 0 1.2rem; overflow-x: auto;
+    }
+
+    /* ─── Search log table ─── */
+    .log-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.83rem; }
+    .log-table th { background: var(--navy); color: #fff; padding: 0.6rem 0.8rem; text-align: left; font-size: 0.74rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .log-table td { padding: 0.6rem 0.8rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .log-table tr:nth-child(even) td { background: var(--bg); }
+    .tool-tag { display: inline-block; font-size: 0.68rem; font-weight: 700; padding: 1px 6px; border-radius: 3px; white-space: nowrap; }
+    .tt-gai { background: #dbeafe; color: #1e40af; }
+    .tt-elicit { background: var(--green-bg); color: var(--green); }
+    .tt-consensus { background: var(--amber-bg); color: var(--amber); }
+    .tt-connected { background: var(--teal-bg); color: var(--teal); }
+
+    /* ─── Deliverables ─── */
+    .deliv-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+    .deliv-table th { background: var(--navy); color: #fff; padding: 0.6rem 0.9rem; text-align: left; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .deliv-table td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .deliv-table tr:nth-child(even) td { background: var(--bg); }
+    .pts { display: inline-block; background: var(--gold-light); color: var(--amber); font-weight: 700; font-size: 0.8rem; padding: 2px 8px; border-radius: 4px; white-space: nowrap; }
+
+    /* ─── Checklist ─── */
+    .checklist { list-style: none; margin: 0.8rem 0; }
+    .checklist li { display: flex; align-items: flex-start; gap: 0.6rem; padding: 0.5rem 0; border-bottom: 1px solid var(--border); font-size: 0.88rem; }
+    .checklist li:last-child { border-bottom: none; }
+    .check-icon { flex-shrink: 0; width: 20px; height: 20px; margin-top: 1px; }
+
+    /* ─── Component table ─── */
+    .comp-table { width: 100%; border-collapse: collapse; margin: 1rem 0; font-size: 0.85rem; }
+    .comp-table th { background: var(--navy); color: #fff; padding: 0.6rem 0.9rem; text-align: left; font-size: 0.78rem; text-transform: uppercase; letter-spacing: 0.06em; }
+    .comp-table td { padding: 0.6rem 0.9rem; border-bottom: 1px solid var(--border); vertical-align: top; }
+    .comp-table tr:nth-child(even) td { background: var(--bg); }
+    .comp-badge { display: inline-block; padding: 2px 8px; border-radius: 4px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
+    .comp-req { background: #dbeafe; color: #1e40af; }
+    .comp-opt { background: #f3f4f6; color: #6b7280; }
+
+    /* ─── Filter pipeline diagram ─── */
+    .pipeline {
+      display: flex; align-items: center; gap: 0;
+      background: #fff; border: 1.5px solid var(--border);
+      border-radius: 12px; padding: 1.2rem 1.5rem;
+      margin: 1.2rem 0; overflow-x: auto;
+    }
+    .pipe-step {
+      flex-shrink: 0; text-align: center;
+      background: var(--bg); border: 1.5px solid var(--border);
+      border-radius: 8px; padding: 0.6rem 0.9rem; min-width: 100px;
+    }
+    .pipe-step-name { font-size: 0.78rem; font-weight: 700; color: var(--navy); }
+    .pipe-step-sub { font-size: 0.68rem; color: var(--muted); margin-top: 3px; }
+    .pipe-arrow { flex-shrink: 0; padding: 0 0.5rem; color: var(--gold); font-size: 1.2rem; font-weight: 900; }
+
+    footer { background: var(--navy); color: #7a9bbf; text-align: center; padding: 1.5rem; font-size: 0.78rem; margin-top: 4rem; }
+
+    @media (max-width: 900px) {
+      .layout { grid-template-columns: 1fr; }
+      .sidebar { display: none; }
+      .main { padding: 2rem 1.5rem; }
+      .approach-grid { grid-template-columns: 1fr; }
+    }
+  
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
 }
-body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif; background: var(--cream); color: var(--ink); line-height: 1.65; }
-.top-nav { background: var(--navy); padding: 0 1.5rem; display: flex; align-items: center; height: 52px; gap: 1.2rem; font-size: 0.85rem; position: sticky; top: 0; z-index: 100; }
-.nav-brand { color: var(--amber); font-weight: 800; font-size: 1.05rem; text-decoration: none; }
-.nav-sep { color: rgba(255,255,255,0.2); }
-.nav-link { color: #b2dfdb; text-decoration: none; padding: 4px 10px; border-radius: 5px; transition: background 0.15s; }
-.nav-link:hover { background: rgba(255,255,255,0.1); color: #fff; }
-.nav-right { margin-left: auto; color: rgba(255,255,255,0.4); font-size: 0.75rem; }
-
-.hero { background: linear-gradient(135deg, var(--navy) 0%, #152e2b 100%); color: #fff; padding: 2.5rem 2rem 2rem; text-align: center; }
-.hero-eyebrow { font-size: 0.72rem; letter-spacing: 0.14em; text-transform: uppercase; color: var(--amber); font-weight: 600; margin-bottom: 0.5rem; }
-.hero h1 { font-family: Georgia, serif; font-size: clamp(1.6rem, 3.5vw, 2.2rem); font-weight: 700; line-height: 1.2; margin-bottom: 0.4rem; }
-.hero-sub { font-size: 0.95rem; color: rgba(255,255,255,0.65); max-width: 640px; margin: 0 auto; }
-
-.page-wrap { max-width: 860px; margin: 0 auto; padding: 2rem 1.5rem 3rem; }
-
-/* Phase sections */
-.phase { margin-bottom: 2rem; }
-.phase-header { display: flex; align-items: center; gap: 0.75rem; margin-bottom: 1rem; padding-bottom: 0.5rem; border-bottom: 2px solid var(--teal); }
-.phase-badge { padding: 0.3rem 0.8rem; border-radius: 5px; font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.06em; }
-.phase-badge-now { background: var(--rose); color: #fff; }
-.phase-badge-soon { background: var(--amber); color: #fff; }
-.phase-badge-later { background: var(--muted); color: #fff; }
-.phase-title { font-family: Georgia, serif; font-size: 1.2rem; font-weight: 700; color: var(--navy); }
-
-/* Checklist items */
-.check-item { display: flex; gap: 0.75rem; padding: 0.9rem 1rem; background: var(--white); border-radius: 8px; margin-bottom: 0.6rem; box-shadow: 0 1px 4px rgba(0,0,0,0.05); align-items: flex-start; }
-.check-box { width: 22px; height: 22px; border: 2px solid var(--border); border-radius: 4px; flex-shrink: 0; margin-top: 0.1rem; cursor: pointer; display: flex; align-items: center; justify-content: center; transition: all 0.15s; }
-.check-box:hover { border-color: var(--teal); }
-.check-box.done { background: var(--teal); border-color: var(--teal); }
-.check-box.done::after { content: '✓'; color: #fff; font-size: 0.75rem; font-weight: 700; }
-.check-body { flex: 1; }
-.check-body h3 { font-size: 0.92rem; font-weight: 700; color: var(--navy); margin-bottom: 0.2rem; }
-.check-body p { font-size: 0.85rem; color: var(--muted); margin: 0; }
-.check-body .status { display: inline-block; font-size: 0.7rem; font-weight: 700; padding: 1px 6px; border-radius: 3px; margin-left: 0.4rem; }
-.status-done { background: var(--teal-bg); color: var(--teal); }
-.status-todo { background: var(--amber-lt); color: var(--amber-dk); }
-.status-blocked { background: #fdf0ef; color: var(--rose); }
-.check-item.done-item { opacity: 0.6; }
-.check-item.done-item h3 { text-decoration: line-through; }
-
-/* Notes */
-.note { background: var(--teal-bg); border-left: 3px solid var(--teal); border-radius: 0 6px 6px 0; padding: 0.8rem 1rem; margin: 1rem 0; font-size: 0.85rem; }
-.note-label { font-weight: 700; color: var(--teal); font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.06em; margin-bottom: 0.25rem; }
-
-/* Progress bar */
-.progress-bar { background: var(--border); border-radius: 6px; height: 8px; margin: 1rem 0 2rem; overflow: hidden; }
-.progress-fill { background: var(--teal); height: 100%; border-radius: 6px; transition: width 0.3s; }
-.progress-text { font-size: 0.78rem; color: var(--muted); margin-top: -0.5rem; margin-bottom: 1.5rem; }
+.wordmark-icon { width: 30px; height: 30px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wm-top { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: #A8C8BF; }
+.wm-bottom { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em; color: #fff; }
+.wm-bottom span { color: #F5A623; }
 </style>
 </head>
 <body>
 
-<nav class="top-nav">
-  <a href="../ka_home.html" class="nav-brand">K-ATLAS</a>
-  <span class="nav-sep">|</span>
-  <a href="ka_schedule.html" class="nav-link">Schedule</a>
-  <a href="week1_agenda.html" class="nav-link">Week 1</a>
-  <a href="ka_student_setup.html" class="nav-link">Setup</a>
-  <span class="nav-right">Instructor View · COGS 160</span>
-</nav>
-
-<header class="hero">
-  <p class="hero-eyebrow">COGS 160 · Spring 2026 · Instructor</p>
-  <h1>Pre-Class Preparation Checklist</h1>
-  <p class="hero-sub">Everything that needs to be ready before Day 1 and through the first three weeks.</p>
-</header>
-
-<div class="page-wrap">
-
-  <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width:0%"></div></div>
-  <div class="progress-text" id="progressText">0 of 0 items completed</div>
-
-  <!-- ════════════════════════════════════════════
-       BEFORE DAY 1
-  ════════════════════════════════════════════ -->
-  <div class="phase">
-    <div class="phase-header">
-      <span class="phase-badge phase-badge-now">Do now</span>
-      <span class="phase-title">Before Day 1 (Tuesday Week 1)</span>
-    </div>
-
-    <div class="check-item" data-group="before">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>KA site is live and registration works</h3>
-        <p>Test the full flow: ka_register.html → ka_login.html → ka_user_home.html. Confirm the auth server is running and students can create accounts. Test on a fresh browser with no cached state.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="before">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>GitHub repo is public and cloneable</h3>
-        <p>Verify <code>git clone https://github.com/dkirsh/Knowledge_Atlas.git</code> works from a machine that has never accessed the repo. Students need this by Week 3 but you should confirm it now.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="before">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>Question bank has enough questions for all students</h3>
-        <p>Each student gets 2 questions (A0 assignment). With N students you need at least 2N unique question assignments. The QUERY_BANK has 130 questions across 11 topics. Prepare the assignment sheet mapping student → questions.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="before">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>AI subscription recommendation is accurate</h3>
-        <p>Confirm pricing for Claude Desktop ($20/mo), ChatGPT Plus ($20/mo), and alternatives. Verify that free tiers are genuinely insufficient for sustained multi-turn sessions so the recommendation is honest.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="before">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>Week 1 slides or talking points ready</h3>
-        <p>You need material for: syllabus overview, KA system walkthrough (use ka_explain_system.html live), 7 AI failure modes presentation, and A0 assignment introduction. The failure modes content is in the Designing_Experiments course site and also embedded in the Week 1 agenda page.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="before">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>A0 assignment page is complete and linked</h3>
-        <p>Verify ka_collect_articles.html renders correctly, links to the Google search guide, and the contribute page accepts article submissions. Test the upload flow end to end.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="before">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>All weekly agenda pages are live</h3>
-        <p>Eight agenda pages (week1–8), the track signup page, and the schedule page with "View Full Agenda" links. Navigate the full chain: Week 1 → 2 → 3 → … → 8 using the next buttons. Verify no broken links.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="before">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>Push all local commits to GitHub</h3>
-        <p>You are currently 8+ commits ahead of origin. Run <code>git push origin master</code> from your Mac terminal. Students cannot see the new pages until they are on GitHub.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ════════════════════════════════════════════
-       BEFORE WEEK 2
-  ════════════════════════════════════════════ -->
-  <div class="phase">
-    <div class="phase-header">
-      <span class="phase-badge phase-badge-soon">Week 2 prep</span>
-      <span class="phase-title">Before Week 2 (AI Demo Day)</span>
-    </div>
-
-    <div class="check-item" data-group="week2">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>Demo task prepared: PDF Relevance Filter</h3>
-        <p>The Week 2 demo requires a pre-loaded first prompt (role setup + context + spec). Write and test this prompt in advance. Have 3–5 labeled example PDFs ready (known relevant and known irrelevant) for the verification step. The other prompts are named but intentionally unscripted — you will improvise based on the AI's output.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="week2">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>Student task bank populated</h3>
-        <p>Students begin their own AI tasks in Week 2. The tasks should be drawn from ka_thursday_tasks.html or equivalent. Each task needs a corresponding context file (in 160sp/context/). Verify that context files exist for all four tracks.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="week2">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>Submission mechanism for methodology logs</h3>
-        <p>Students must submit their methodology log and task output at the end of Week 2. Decide: Google Form? Canvas? Git commit? Email? Whatever you choose, test it and include the link on the Week 2 agenda page.</p>
-      </div>
-    </div>
-  </div>
-
-  <!-- ════════════════════════════════════════════
-       BEFORE WEEK 3
-  ════════════════════════════════════════════ -->
-  <div class="phase">
-    <div class="phase-header">
-      <span class="phase-badge phase-badge-later">Week 3 prep</span>
-      <span class="phase-title">Before Week 3 (Track Formation)</span>
-    </div>
-
-    <div class="check-item" data-group="week3">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>Track signup page is functional</h3>
-        <p>Verify ka_track_signup.html renders correctly and the signup form submits data somewhere you can read it. Students finalize track choice this week.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="week3">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>GitHub branch structure ready for teams</h3>
-        <p>Create the four staging branches: <code>track/1-staging</code>, <code>track/2-staging</code>, <code>track/3-staging</code>, <code>track/4-staging</code>. Students will create personal branches off these. Set branch protection rules if desired.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="week3">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>Sprint 1 contract template available</h3>
-        <p>Students write Sprint 1 contracts on Thursday. Provide a template or example contract. The format is described in the Week 3 agenda but a downloadable template saves time.</p>
-      </div>
-    </div>
-
-    <div class="check-item" data-group="week3">
-      <div class="check-box" onclick="toggleCheck(this)"></div>
-      <div class="check-body">
-        <h3>Track assignment pages reviewed for clarity</h3>
-        <p>Each track assignment page (ka_tag_assignment, ka_article_finder_assignment, ka_vr_assignment, ka_gui_assignment) must be self-explanatory — reading it alone should be enough for a student to understand their Sprint 1 deliverable. Read them fresh, as if you were a student, and fix any ambiguity.</p>
-      </div>
-    </div>
-  </div>
-
-  <div class="note">
-    <div class="note-label">Ongoing throughout the quarter</div>
-    <p>Keep the methodology log submission system working. Review and approve Sprint contracts within 48 hours of submission. Monitor the article corpus for quality — spot-check 10% of student-submitted PDFs for relevance. Update weekly agenda pages if plans change.</p>
-  </div>
-
+<div style="background:#c0392b;color:#fff;text-align:center;padding:10px 20px;font-size:0.85rem;font-weight:600;">
+  ⚠️ ARCHIVED PAGE — This is the original individual article-finder assignment (v1). The current version is
+  <a href="ka_article_finder_assignment.html" style="color:#f5e5b8;text-decoration:underline;">here</a>.
+  Kept as reference for the relevance filter pedagogy, calibration methodology, and Python code examples.
 </div>
 
+<header class="site-header">
+  <div>
+    <div class="header-logo">K-<span>ATLAS</span></div>
+    <div class="header-tag">UC San Diego · Cognitive Science</div>
+  </div>
+  <nav class="header-nav">
+    <a href="index.html">Home</a>
+    <a href="student-assignment.html">My Assignment</a>
+    <a href="teach-google-search.html">Search Guide</a>
+    <a href="image-tagger-assignment.html">Image Tagger</a>
+    <a href="login.html">Sign In</a>
+  </nav>
+</header>
+<div style="background:#EDE8E0;padding:8px 28px;font-size:0.78rem;color:#6A5E50;display:flex;align-items:center;gap:6px;">
+  <a class="wordmark" href="../ka_home.html">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
+    </div>
+  </a> <span style="color:#B0A898;">/</span>
+  <a href="ka_student_setup.html" style="color:#1C3D3A;text-decoration:none;font-weight:600;">COGS 160 Start</a> <span style="color:#B0A898;">/</span>
+  <span>Instructor Prep</span>
+</div>
+
+<div class="layout">
+
+  <aside class="sidebar">
+    <p class="toc-title">On This Page</p>
+    <ul class="toc-list">
+      <li><a href="#overview">What is this assignment?</a></li>
+      <li><a href="#intellectual-challenge">The intellectual challenge</a></li>
+      <li><a href="#queue-priority">How the question queue works</a></li>
+      <li><a href="#katlas-tools">K-ATLAS tools provided</a></li>
+      <span class="toc-section">Week by Week</span>
+      <li><a href="#week1">Week 1 — Claim &amp; explore</a></li>
+      <li><a href="#week2">Week 2 — Build the filter</a></li>
+      <li><a href="#week3">Week 3 — Validate &amp; calibrate</a></li>
+      <li><a href="#week4">Week 4 — Submit &amp; reflect</a></li>
+      <span class="toc-section">The Relevance Filter</span>
+      <li><a href="#filter-why">Why build a filter?</a></li>
+      <li><a href="#filter-approaches">Three approaches</a></li>
+      <li><a href="#filter-implement">Implementation guide</a></li>
+      <li><a href="#filter-calibrate">Calibration and validation</a></li>
+      <li><a href="#filter-integrate">K-ATLAS integration</a></li>
+      <span class="toc-section">Search Methodology</span>
+      <li><a href="#search-log">Search log format</a></li>
+      <li><a href="#query-variants">Query variant strategy</a></li>
+      <li><a href="#tools">Elicit, Consensus, Connected Papers</a></li>
+      <li><a href="#duplicate-check">Duplicate checking</a></li>
+      <span class="toc-section">Submission</span>
+      <li><a href="#csv-format">CSV format</a></li>
+      <li><a href="#reflection">Reflection report</a></li>
+      <li><a href="#deliverables">Deliverables &amp; grading</a></li>
+      <li><a href="#checklist">Final checklist</a></li>
+    </ul>
+  </aside>
+
+  <main class="main">
+    <div class="page-eyebrow">COGS 160 · Spring Quarter</div>
+    <h1 class="page-title">Article Finder Assignment</h1>
+    <p class="page-subtitle">
+      Find ten peer-reviewed empirical papers that address your assigned K-ATLAS search question,
+      build a relevance filter that automates the screening decision, validate it against your
+      own manual judgments, and contribute both the papers and the filter to the K-ATLAS corpus.
+    </p>
+
+    <!-- OVERVIEW -->
+    <section id="overview">
+      <h2>What Is This Assignment?</h2>
+      <p>
+        K-ATLAS's knowledge base grows by ingesting peer-reviewed papers about
+        environment–behavior relationships. Each paper that enters the system adds evidence
+        that can update the credence values the system assigns to theoretical claims —
+        for example, raising the default credence (DC) of the claim that natural environments
+        reduce amygdala activation, or strengthening the warrant connecting fractal complexity
+        to stress recovery. But the system needs a way to decide, quickly and reliably,
+        whether a given paper is <em>relevant</em> to a particular search question.
+        That is where you come in.
+      </p>
+      <p>
+        Your assignment has two interlocking parts. The first is a systematic article search:
+        using Google AI Citation, Elicit, Consensus, and related tools, you will find ten
+        peer-reviewed, empirical papers not currently in K-ATLAS that directly address your
+        assigned search question. The second is a technical contribution: you will build a
+        <em>relevance filter</em> — a Python program that takes a search question and a paper's
+        abstract and outputs a relevance score and binary judgment. You will calibrate this
+        filter against your own manual labels, validate it on a held-out set, and integrate
+        it into K-ATLAS as a callable function.
+      </p>
+      <p>
+        Both parts depend on each other. The filter is calibrated on papers you find
+        during your search. The filter, in turn, helps you screen candidates quickly
+        during extended searches. Understanding what the filter gets right and wrong
+        will deepen your understanding of what relevance means in this domain.
+      </p>
+
+      <div class="callout teal">
+        <div class="callout-title">Individual work</div>
+        <p>The article finder assignment is completed individually — unlike the image tagger,
+        which is a group project. You claim one question from the K-ATLAS question bank
+        (questions marked <strong>available</strong>), and that question becomes yours
+        for the duration of the assignment. No two students work on the same question.</p>
+      </div>
+    </section>
+
+    <!-- INTELLECTUAL CHALLENGE -->
+    <section id="intellectual-challenge">
+      <h2>The Intellectual Challenge</h2>
+      <p>
+        Relevance is not a binary property of papers — it is a relational judgment that
+        depends on the specificity of the question, the evidence type sought, and the
+        theoretical frame being used. A paper that reports cortisol reduction after
+        a 20-minute walk in a forest is relevant to a question about physiological
+        stress recovery in natural environments, but may or may not be relevant to a
+        question specifically about Stress Recovery Theory, depending on whether the
+        paper engages SRT as a theoretical frame or merely reports the finding.
+        A paper on aquatic soundscapes and relaxation might be relevant to a question
+        about water feature design, but irrelevant to one specifically asking about
+        <em>visual</em> features.
+      </p>
+      <p>
+        This is precisely why building a relevance filter is intellectually interesting:
+        you must make these distinctions explicit. The act of defining what counts as
+        relevant — precisely enough that a program can reproduce your judgment — forces
+        clarity about the question's scope and the theoretical claims it is trying to support.
+        You will discover that some of your initial intuitions about relevance are inconsistent,
+        and resolving those inconsistencies is part of the work.
+      </p>
+    </section>
+
+    <!-- QUEUE PRIORITY -->
+    <section id="queue-priority">
+      <h2>How the Question Queue Works</h2>
+      <p>
+        K-ATLAS begins with 130 search questions. As students complete assignments —
+        each submission represents approximately ten new papers for a given question —
+        the marginal value of additional submissions for that question diminishes.
+        Most of the high-profile, easily-discoverable papers for a well-trodden question
+        will already be in the corpus after the first two or three submissions.
+        A fourth student working on the same question faces a harder search task
+        and produces less new value for the system.
+      </p>
+      <p>
+        For this reason, the question bank is a <em>priority queue</em>: questions with
+        zero completed submissions are listed first and are flagged as high priority.
+        Questions with one or two completed submissions are listed next. Questions with
+        three or more completed submissions appear at the end of the queue and are
+        flagged as lower priority — not because the question is unimportant, but because
+        the corpus coverage for that question is already substantial.
+      </p>
+      <p>
+        When you log in to the student portal and browse available questions, you will
+        see a priority badge next to each question. Claiming a high-priority question
+        is better for K-ATLAS and, practically, means a more open search landscape —
+        fewer papers to rule out as already-in-corpus. The queue updates in real time
+        as other students submit, so check it before finalising your choice.
+      </p>
+      <div class="callout tip">
+        <div class="callout-title">Queue priority badges</div>
+        <p><strong>🟢 HIGH</strong> — 0 completed submissions. Open territory; most good papers are available.<br>
+        <strong>🟡 MEDIUM</strong> — 1–2 completed submissions. Still worthwhile; expect ~20–30% corpus overlap.<br>
+        <strong>🔴 LOW</strong> — 3+ completed submissions. Hard mode; most accessible papers already taken.<br>
+        <strong>✅ COMPLETE</strong> — 10+ completed submissions. Only available for extra-credit bonus work.</p>
+      </div>
+    </section>
+
+    <!-- KATLAS TOOLS -->
+    <section id="katlas-tools">
+      <h2>Two Tools K-ATLAS Provides</h2>
+      <p>
+        Rather than building all search and filtering infrastructure from scratch,
+        K-ATLAS provides two scripts that handle the heaviest parts of the pipeline.
+        You are expected to use both, understand what each does, and report on their
+        output in your reflection report. The relevance filter <em>you build</em>
+        sits inside this infrastructure as the question-specific scoring layer.
+      </p>
+
+      <h3>1. <code>auto_search.py</code> — Automatic paper discovery</h3>
+      <p>
+        Given your question ID, this script queries the Semantic Scholar and OpenAlex
+        academic APIs and returns a ranked CSV of candidate papers. It performs
+        lightweight TF-IDF relevance scoring, checks each DOI against the K-ATLAS corpus,
+        and flags open-access papers with downloadable PDFs. Use it at the start of
+        your search to get an initial candidate pool quickly.
+      </p>
+      <div class="code-block">
+        python3 scripts/auto_search.py \\
+            --question-id SQ-031 \\
+            --db ./ae.db \\
+            --output ./search_results/SQ-031_candidates.csv
+      </div>
+      <p>
+        The output CSV is sorted by relevance score (new-to-corpus papers first).
+        Open-access papers include a direct PDF URL in the <code>open_access_url</code>
+        column — download those PDFs for processing in the next step.
+        The script is a starting point, not a complete solution. It typically returns
+        15–25 candidates per run; you should also search manually using Google AI
+        Citation and Elicit to find papers that APIs miss.
+      </p>
+
+      <h3>2. <code>process_submitted_pdfs.py</code> — PDF drop and review table</h3>
+      <p>
+        This is the core workflow tool. Once you have a folder of PDF candidates —
+        from auto-search downloads, from Google AI Citation, from Elicit, or from
+        your library — drop them all into a folder and run this script. It reads
+        each PDF, extracts the title, DOI, and abstract automatically, checks the
+        DOI against the K-ATLAS corpus, runs a three-stage relevance assessment,
+        and outputs a review table with a recommendation for each paper.
+      </p>
+      <div class="code-block">
+        python3 scripts/process_submitted_pdfs.py \\
+            --folder ~/Downloads/my_candidate_pdfs/ \\
+            --question-id SQ-031 \\
+            --db ./ae.db
+      </div>
+      <p>
+        The output table has one row per PDF and the following key columns:
+        <code>in_corpus</code> (yes/no — papers already in K-ATLAS cannot count toward your ten),
+        <code>question_score</code> (cosine similarity of the PDF's abstract and title to your assigned question),
+        <code>domain_score</code> (maximum cosine similarity across all 130 K-ATLAS questions — indicates whether the paper is in the right field even if not your specific question),
+        <code>is_empirical</code> (heuristic detection of methods-section language),
+        and <code>recommendation</code> (SUBMIT / REVIEW / SKIP).
+      </p>
+      <p>
+        The script uses both the abstract <em>and</em> the full PDF text. The abstract
+        is used for relevance scoring (it is the most concentrated statement of the paper's
+        contribution). The full text is used for the empirical detector — methods-section
+        language (sample sizes, statistical terms, data collection descriptions) appears
+        in the body, not the abstract. This dual-source approach catches cases where a
+        paper has a relevant abstract but is actually a commentary or theoretical essay
+        without data.
+      </p>
+      <div class="callout info">
+        <div class="callout-title">What you build vs. what K-ATLAS provides</div>
+        <p>The provided scripts handle domain filtering (Pass 1: is this paper in our field?)
+        and empirical detection (Pass 3: does this paper report data?).
+        The relevance filter <strong>you build</strong> is Pass 2: the question-specific
+        scoring layer calibrated to your assigned question. Your filter is what makes
+        the pipeline precise for your question specifically — it is also what
+        gets integrated into K-ATLAS's infrastructure permanently.</p>
+      </div>
+    </section>
+
+    <!-- WEEK 1 -->
+    <section id="week1">
+      <div class="week-header">
+        <span class="week-badge">Week 1</span>
+        <span class="week-title">Claim Your Question and Begin Searching</span>
+        <span class="week-dates">Days 1–7</span>
+      </div>
+      <div class="week-body">
+        <p>
+          Log in to K-ATLAS and claim a question from the available question bank,
+          choosing from the high-priority end of the queue. Read your question carefully
+          several times before beginning any search. Ask yourself: what exactly is being
+          asked? What kind of evidence would answer it most directly — an RCT, an fMRI
+          study, a post-occupancy survey, a meta-analysis? What theory does it anchor to,
+          and what would a paper need to say to be genuinely relevant rather than merely
+          topically adjacent?
+        </p>
+        <p>
+          You have two search modes, and you should use both during the week.
+        </p>
+        <p>
+          <em>Automatic mode</em>: run <code>auto_search.py</code> with your question ID.
+          This queries Semantic Scholar and OpenAlex and returns a ranked CSV of
+          15–25 candidates within a minute. Download the open-access PDFs listed
+          in the output for processing in Week 2. Record the session in your search log
+          with <code>query_variant = original</code> and <code>tool = SemanticScholar</code>
+          or <code>OpenAlex</code>.
+        </p>
+        <p>
+          <em>Manual mode</em>: read the <a href="teach-google-search.html">Google AI Citation
+          teaching module</a> in full, then run your assigned query verbatim in Google
+          and examine the AI Overview citations. Open each cited paper in a new tab,
+          read the abstract, and make a quick relevance judgment. Download the PDFs
+          of candidate papers. Run additional searches in Elicit and Consensus.
+          Record every session in your search log — including rejected papers.
+        </p>
+        <p>
+          By the end of Week 1, your PDF candidate folder should contain at least
+          20 PDFs and you should have a search log covering at least three sessions
+          across at least two tools. These PDFs feed directly into the Week 2 workflow.
+        </p>
+        <div class="callout tip">
+          <div class="callout-title">Collect PDFs, not just titles</div>
+          <p>The PDF drop workflow in Week 2 requires actual PDF files. During Week 1,
+          whenever you find a candidate paper, download the PDF immediately — via the
+          open-access URL, your library proxy, Unpaywall, or the author's page. It is
+          much harder to track down PDFs later than to grab them when you first encounter
+          the paper.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- WEEK 2 -->
+    <section id="week2">
+      <div class="week-header">
+        <span class="week-badge">Week 2</span>
+        <span class="week-title">PDF Drop, Review Table, and Build Your Filter</span>
+        <span class="week-dates">Days 8–14</span>
+      </div>
+      <div class="week-body">
+        <p>
+          At the start of Week 2, run the PDF processor on your full candidate folder:
+        </p>
+        <div class="code-block">
+          python3 scripts/process_submitted_pdfs.py \\
+              --folder ~/my_candidate_pdfs/ \\
+              --question-id SQ-031 \\
+              --db ./ae.db
+        </div>
+        <p>
+          The script produces a review table — a CSV with one row per PDF, showing
+          whether each paper is already in the corpus, its relevance scores (question-specific
+          and domain-wide), whether it appears to be empirical, and a recommendation
+          of SUBMIT, REVIEW, or SKIP. Open this table in Excel or Numbers and work
+          through it: confirm SUBMIT papers by reading their abstracts, investigate
+          REVIEW papers to resolve the ambiguity, and spot-check a few SKIP papers
+          to verify the recommendation is correct.
+        </p>
+        <p>
+          The review table is your ground truth data for building your relevance filter.
+          Add a column <code>my_label</code> and fill it in as you review each paper:
+          1 (relevant), 0 (not relevant), 0.5 (uncertain). These labels — your own
+          considered judgments — are what your filter will be trained and validated against.
+        </p>
+        <p>
+          Then implement your chosen filter approach (see the section below on the three
+          options). Run it on all your labeled papers and examine the score distribution.
+          Where does it correctly rank relevant papers above non-relevant ones? Where does
+          it fail? By end of Week 2: working Python filter, complete manual-label CSV,
+          and a first calibration plot.
+        </p>
+      </div>
+    </section>
+
+    <!-- WEEK 3 -->
+    <section id="week3">
+      <div class="week-header">
+        <span class="week-badge">Week 3</span>
+        <span class="week-title">Validate, Calibrate, and Complete Your Paper Set</span>
+        <span class="week-dates">Days 15–21</span>
+      </div>
+      <div class="week-body">
+        <p>
+          This week has two concurrent workstreams. The first is filter validation:
+          hold out 10–15 papers from your calibration set, run the filter on them,
+          and compute precision, recall, F1, and AUC-ROC comparing filter predictions
+          to your manual labels. Examine false positives and false negatives.
+          Write a brief analysis of what failure modes reveal about the filter's
+          limitations and about the scope of your search question.
+        </p>
+        <p>
+          The second workstream is completing your paper set. If you have ten
+          qualifying papers already, verify them: check each DOI against the
+          K-ATLAS corpus, confirm the papers are empirical and peer-reviewed,
+          confirm each abstract directly addresses the mechanism or outcome
+          specified in your question, and collect full-text PDFs. If you do not
+          yet have ten qualifying papers, run additional search sessions using
+          the query variant strategy described below.
+        </p>
+        <p>
+          Apply your calibrated filter to any new candidate papers found this week —
+          this is the practical payoff of building it. Papers that score below your
+          calibrated threshold are likely not qualifying; examine them briefly before
+          discarding to confirm the filter's recommendation is correct.
+        </p>
+      </div>
+    </section>
+
+    <!-- WEEK 4 -->
+    <section id="week4">
+      <div class="week-header">
+        <span class="week-badge">Week 4</span>
+        <span class="week-title">Submit and Reflect</span>
+        <span class="week-dates">Days 22–28</span>
+      </div>
+      <div class="week-body">
+        <p>
+          Upload your article CSV and PDFs through the K-ATLAS student portal.
+          Commit your relevance filter code to the designated repo location.
+          Write your reflection report (see the specification below).
+        </p>
+        <p>
+          Attend the lab session in Week 4 prepared to describe, in about five minutes:
+          your search question, the most interesting paper you found and why,
+          one case where the filter failed and what that reveals about relevance,
+          and one thing you would do differently if you were designing the search
+          question rather than answering it.
+        </p>
+      </div>
+    </section>
+
+    <!-- FILTER: WHY -->
+    <section id="filter-why">
+      <h2>The Relevance Filter</h2>
+      <h3>Why Build a Filter?</h3>
+      <p>
+        A relevance filter serves two purposes. Practically, it speeds up your search:
+        once calibrated, you can run it on a batch of candidate abstracts in seconds
+        and get a ranked list of likely-relevant papers to prioritise for closer reading.
+        Intellectually, it makes your relevance criteria explicit and testable.
+        Any judgment that can be operationalised can be scrutinised, refined, and improved.
+        A filter that performs poorly is not a failure — it is evidence that your
+        relevance criteria are underspecified or that the question is ambiguous in ways
+        that matter for K-ATLAS's evidence base.
+      </p>
+      <p>
+        More importantly: K-ATLAS needs a relevance filter for every question in its bank.
+        Your filter will be integrated as a callable function that the system can invoke
+        when new papers arrive and need to be matched to open questions. You are not
+        just doing an assignment — you are contributing infrastructure.
+      </p>
+
+      <p>
+        The full relevance pipeline has three stages. K-ATLAS provides Pass 1 and Pass 3
+        as infrastructure (inside <code>process_submitted_pdfs.py</code>). You build Pass 2.
+      </p>
+
+      <div class="pipeline">
+        <div class="pipe-step" style="border-color:#1a7a4a; background:#eaf7ef;">
+          <div class="pipe-step-name" style="color:#1a7a4a;">Pass 1</div>
+          <div class="pipe-step-sub">Domain filter<br><em style="font-size:0.66rem;">max sim vs all 130 questions<br>provided by K-ATLAS</em></div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" style="border-color:#182B49; background:#eef4ff;">
+          <div class="pipe-step-name" style="color:#182B49;">Pass 2</div>
+          <div class="pipe-step-sub">Question filter<br><em style="font-size:0.66rem;">your calibrated filter<br><strong>← you build this</strong></em></div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step" style="border-color:#7a5800; background:#fff8e6;">
+          <div class="pipe-step-name" style="color:#7a5800;">Pass 3</div>
+          <div class="pipe-step-sub">Empirical detector<br><em style="font-size:0.66rem;">full-text heuristic<br>provided by K-ATLAS</em></div>
+        </div>
+        <div class="pipe-arrow">→</div>
+        <div class="pipe-step">
+          <div class="pipe-step-name">Verdict</div>
+          <div class="pipe-step-sub">SUBMIT / REVIEW / SKIP</div>
+        </div>
+      </div>
+
+      <p>
+        Pass 1 checks domain membership: does this paper belong to the field of
+        environmental psychology / built environment research? It does this by computing
+        the maximum cosine similarity of the paper's abstract against the embeddings
+        of all 130 K-ATLAS search questions. A paper scoring below 0.28 on this measure
+        is almost certainly outside the domain — an economics paper cited in a footnote,
+        a methods paper on a different topic, etc.
+      </p>
+      <p>
+        Pass 2 is your contribution: the question-specific filter calibrated to your
+        assigned question. Papers that pass the domain filter but score below your
+        calibrated threshold on question similarity are in the right field but answering
+        a different question. The system flags them as potentially useful for other
+        K-ATLAS questions — your Pass 2 output includes a <code>best_other_question</code>
+        field showing which question they best match.
+      </p>
+      <p>
+        Pass 3 checks whether the paper is empirical. It runs on the full PDF text
+        (not just the abstract), looking for methods-section language: sample sizes,
+        statistical terms, data collection descriptions, physiological measure mentions.
+        A paper that passes Passes 1 and 2 but fails Pass 3 is flagged REVIEW rather
+        than SUBMIT — it may be a theoretical essay, a commentary, or a review article
+        that does not count as one of your ten empirical papers.
+      </p>
+    </section>
+
+    <!-- FILTER: APPROACHES -->
+    <section id="filter-approaches">
+      <h3>Three Approaches</h3>
+      <p>
+        You must choose one of the following three approaches. They increase in
+        sophistication and in the quality of results you can expect. The third is
+        recommended unless you have no prior Python experience.
+      </p>
+
+      <div class="approach-grid">
+        <div class="approach-card">
+          <div class="approach-name">Approach A</div>
+          <div class="approach-badge ab-easy">Baseline</div>
+          <div class="approach-desc">
+            <strong>Concept keyword matching.</strong> Manually extract 8–12 key concepts
+            from the search question (mechanism terms, theory names, outcome words,
+            environmental features). Check how many appear in each abstract.
+            Score = fraction present. Simple and transparent; brittle to synonyms
+            and paraphrase. Use as a baseline comparison if implementing Approach C.
+          </div>
+        </div>
+        <div class="approach-card">
+          <div class="approach-name">Approach B</div>
+          <div class="approach-badge ab-med">Intermediate</div>
+          <div class="approach-desc">
+            <strong>TF-IDF cosine similarity.</strong> Represent the query as a
+            pseudo-document; fit a TF-IDF vectorizer on all abstracts plus the query;
+            compute cosine similarity between query vector and each abstract vector.
+            No GPU needed; captures term weighting; still misses semantically equivalent
+            terms using different vocabulary.
+          </div>
+        </div>
+        <div class="approach-card">
+          <div class="approach-name">Approach C</div>
+          <div class="approach-badge ab-hard">Recommended</div>
+          <div class="approach-desc">
+            <strong>Sentence-transformer embedding similarity.</strong> Use a pre-trained
+            sentence transformer (all-MiniLM-L6-v2, ~80 MB) to embed both the query
+            and each abstract into a shared semantic space; compute cosine similarity.
+            Captures paraphrase and synonym relationships. Runs on CPU in under
+            a second per abstract.
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- FILTER: IMPLEMENTATION -->
+    <section id="filter-implement">
+      <h3>Implementation Guide</h3>
+
+      <h4>Setup (Approach C — recommended)</h4>
+      <div class="code-block">
+        pip install sentence-transformers scikit-learn numpy pandas
+      </div>
+
+      <h4>Core filter function</h4>
+      <div class="code-block">
+        from sentence_transformers import SentenceTransformer
+        import numpy as np
+
+        # Load once; reuse across calls (slow to load, fast to run)
+        _model = SentenceTransformer('all-MiniLM-L6-v2')
+
+        def compute_relevance(question: str, paper: dict,
+                              threshold: float = 0.38) -> dict:
+            """
+            Args:
+                question : the search question (string)
+                paper    : dict with keys 'title', 'abstract'
+                threshold: cosine similarity cutoff (calibrated per question)
+            Returns:
+                {
+                    'score'    : float,  # cosine similarity in [0, 1]
+                    'relevant' : bool,   # True if score >= threshold
+                    'method'   : str,    # 'sentence_transformer_MiniLM'
+                    'model'    : str     # model name for reproducibility
+                }
+            """
+            # Concatenate title and abstract for richer signal
+            paper_text = (paper.get('title', '') + ' ' +
+                          paper.get('abstract', '')).strip()
+
+            q_emb = _model.encode(question, normalize_embeddings=True)
+            p_emb = _model.encode(paper_text, normalize_embeddings=True)
+
+            score = float(np.dot(q_emb, p_emb))   # cosine sim (vectors are normalised)
+
+            return {
+                'score'    : round(score, 4),
+                'relevant' : score >= threshold,
+                'method'   : 'sentence_transformer_MiniLM',
+                'model'    : 'all-MiniLM-L6-v2'
+            }
+      </div>
+
+      <h4>Batch scoring your candidate pool</h4>
+      <div class="code-block">
+        import pandas as pd
+
+        df = pd.read_csv('my_candidate_papers.csv')   # must have 'title', 'abstract'
+        question = "What peer-reviewed evidence shows that..."   # your question text
+
+        results = [compute_relevance(question, row) for _, row in df.iterrows()]
+        df['filter_score']    = [r['score']    for r in results]
+        df['filter_relevant'] = [r['relevant'] for r in results]
+
+        # Sort by score descending to see your best candidates first
+        df = df.sort_values('filter_score', ascending=False)
+        df.to_csv('my_candidates_scored.csv', index=False)
+
+        print(df[['title', 'filter_score', 'filter_relevant',
+                   'my_label']].to_string(index=False))
+      </div>
+
+      <div class="callout info">
+        <div class="callout-title">Approach B — TF-IDF alternative</div>
+        <p>If you choose Approach B, use <code>sklearn.feature_extraction.text.TfidfVectorizer</code>
+        and <code>sklearn.metrics.pairwise.cosine_similarity</code>. Fit the vectorizer on
+        a list containing the question plus all abstracts, then extract the query vector
+        (index 0) and compute its cosine similarity with each abstract vector (indices 1+).
+        The rest of the calibration and validation pipeline is identical.</p>
+      </div>
+    </section>
+
+    <!-- FILTER: CALIBRATE -->
+    <section id="filter-calibrate">
+      <h3>Calibration and Validation</h3>
+      <p>
+        The default threshold of 0.38 is a starting point — it will not be optimal
+        for your specific question. You must calibrate it using your manual labels
+        and validate the result on a held-out set. The process is as follows.
+      </p>
+      <p>
+        <em>Calibration set</em>: take your manually labeled papers (minimum 20,
+        ideally 25–30; at least 8 labeled 1 and 8 labeled 0). Compute filter scores
+        for all of them. Plot precision, recall, and F1 as a function of threshold
+        (try thresholds from 0.20 to 0.60 in steps of 0.02). Choose the threshold
+        that maximises F1 on the calibration set. This is your calibrated threshold T*.
+      </p>
+      <p>
+        <em>Held-out validation set</em>: hold out 10–15 labeled papers not used
+        for calibration. Apply the filter with T* and compute precision, recall, F1,
+        and AUC-ROC on this set. This is your honest performance estimate.
+      </p>
+      <p>
+        Report all four metrics in your reflection report. Also produce two figures:
+        a precision-recall-F1 vs. threshold curve (calibration), and a scatter plot
+        with filter score on the x-axis and your manual label (0/1) on the y-axis,
+        with the calibrated threshold shown as a vertical line.
+      </p>
+
+      <h4>Computing AUC-ROC</h4>
+      <div class="code-block">
+        from sklearn.metrics import (precision_score, recall_score,
+                                     f1_score, roc_auc_score)
+        import numpy as np
+
+        # held_out_labels: list of your manual labels (0 or 1)
+        # held_out_scores: list of filter scores for the same papers
+
+        threshold = 0.38   # replace with your calibrated T*
+
+        preds = [1 if s >= threshold else 0 for s in held_out_scores]
+
+        print('Precision:', precision_score(held_out_labels, preds))
+        print('Recall:   ', recall_score(held_out_labels, preds))
+        print('F1:       ', f1_score(held_out_labels, preds))
+        print('AUC-ROC:  ', roc_auc_score(held_out_labels, held_out_scores))
+      </div>
+
+      <div class="callout warn">
+        <div class="callout-title">Small-sample statistics deserve caution</div>
+        <p>With 10–15 papers in the validation set, all statistics will have wide
+        confidence intervals. Report exact counts alongside percentages — "3 of 6
+        relevant papers were retrieved (recall = 0.50)" is more informative than
+        just "recall = 0.50." Interpret your results with appropriate epistemic
+        humility, and use the error analysis to make qualitative claims that the
+        numbers alone cannot support.</p>
+      </div>
+
+      <h4>Error analysis (required)</h4>
+      <p>
+        List every false positive (filter said relevant, you said not) and every
+        false negative (filter said not relevant, you said yes) in the validation set.
+        For each case, write one sentence explaining what the filter misunderstood.
+        Then write a paragraph synthesising the pattern: what does the filter reliably
+        miss, and why? This analysis is worth more to K-ATLAS than the numeric F1 score,
+        because it tells the system's maintainers where the filter needs human review.
+      </p>
+    </section>
+
+    <!-- FILTER: INTEGRATE -->
+    <section id="filter-integrate">
+      <h3>K-ATLAS Integration</h3>
+      <p>
+        Package your filter as a module at
+        <code>src/services/relevance_filters/{your_question_id}.py</code>.
+        The module must export a <code>score()</code> function with the following signature
+        exactly — K-ATLAS's ingestion pipeline will call it by name.
+      </p>
+      <div class="code-block">
+        # File: src/services/relevance_filters/SQ_031.py
+        # (replace SQ_031 with your question ID)
+
+        QUESTION = "What evidence shows that the design and placement..."
+        CALIBRATED_THRESHOLD = 0.41   # your calibrated T*
+        MODEL_NAME = 'all-MiniLM-L6-v2'
+
+        def score(paper: dict) -> dict:
+            """
+            Standard K-ATLAS relevance filter interface.
+
+            Args:
+                paper: dict with at minimum 'title' (str) and 'abstract' (str).
+                       May also contain 'year', 'doi', 'authors'.
+            Returns:
+                {
+                    'question_id'  : str,   # e.g. 'SQ-031'
+                    'score'        : float, # cosine similarity in [0, 1]
+                    'relevant'     : bool,  # True if score >= CALIBRATED_THRESHOLD
+                    'threshold'    : float, # CALIBRATED_THRESHOLD (for auditability)
+                    'method'       : str,   # approach used
+                    'validation_f1': float  # F1 on held-out validation set
+                }
+            """
+            ...   # your implementation here
+      </div>
+      <p>
+        Also add a JSON entry to <code>data/relevance_filters/filter_registry.json</code>
+        with the following fields: <code>question_id</code>, <code>question_text</code>
+        (first 120 characters), <code>module_path</code>, <code>calibrated_threshold</code>,
+        <code>validation_f1</code>, <code>validation_n</code>, <code>approach</code>
+        (one of: <code>keyword</code>, <code>tfidf</code>, <code>sentence_transformer</code>),
+        <code>model_name</code>, <code>known_failure_modes</code> (one sentence).
+      </p>
+    </section>
+
+    <!-- SEARCH LOG -->
+    <section id="search-log">
+      <h2>Search Log Format</h2>
+      <p>
+        Every search session must be documented in a structured search log.
+        The log is a required deliverable and serves as an audit trail showing
+        that you conducted a systematic search rather than collecting papers
+        opportunistically. It must be submitted as a CSV with the following columns.
+      </p>
+
+      <table class="log-table">
+        <thead>
+          <tr>
+            <th>Column</th>
+            <th>Description</th>
+            <th>Example</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>session_id</code></td>
+            <td>Sequential integer for each search session</td>
+            <td>3</td>
+          </tr>
+          <tr>
+            <td><code>date</code></td>
+            <td>ISO date (YYYY-MM-DD)</td>
+            <td>2026-04-08</td>
+          </tr>
+          <tr>
+            <td><code>tool</code></td>
+            <td>Tool used: <span class="tool-tag tt-gai">GoogleAI</span> <span class="tool-tag tt-elicit">Elicit</span> <span class="tool-tag tt-consensus">Consensus</span> <span class="tool-tag tt-connected">ConnectedPapers</span></td>
+            <td>GoogleAI</td>
+          </tr>
+          <tr>
+            <td><code>query_used</code></td>
+            <td>The exact text pasted into the search tool</td>
+            <td>"What peer-reviewed evidence shows that…"</td>
+          </tr>
+          <tr>
+            <td><code>query_variant</code></td>
+            <td>How this query differs from your assigned question (original / method-signal / population / anchor)</td>
+            <td>method-signal</td>
+          </tr>
+          <tr>
+            <td><code>candidates_found</code></td>
+            <td>Number of papers in the returned results</td>
+            <td>7</td>
+          </tr>
+          <tr>
+            <td><code>new_candidates_added</code></td>
+            <td>Papers added to your candidate pool this session (not duplicates of prior sessions)</td>
+            <td>4</td>
+          </tr>
+          <tr>
+            <td><code>notes</code></td>
+            <td>One sentence on result quality, coverage gaps, or surprises</td>
+            <td>"Elicit returned two relevant meta-analyses not found by GoogleAI"</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <p>
+        A separate CSV (<code>candidate_papers.csv</code>) records every paper
+        encountered, whether or not it ended up in your final set. This CSV uses
+        the standard K-ATLAS format plus two additional columns:
+        <code>my_label</code> (1 / 0 / 0.5) and <code>inclusion_decision</code>
+        (included / excluded / pending) with a <code>exclusion_reason</code>
+        column (already_in_corpus / not_peer_reviewed / not_empirical /
+        not_relevant / pdf_unavailable / other).
+      </p>
+    </section>
+
+    <!-- QUERY VARIANTS -->
+    <section id="query-variants">
+      <h2>Query Variant Strategy</h2>
+      <p>
+        If your primary assigned query does not yield ten qualifying papers,
+        apply systematic variations. Each variant probes a different sector
+        of the literature. Document every variant in your search log with
+        the <code>query_variant</code> field.
+      </p>
+
+      <h4>Variant 1: Change the evidence type signal</h4>
+      <p>
+        Replace the evidence type phrase with a different method.
+        If the original asks for "experimental studies," try "meta-analyses,"
+        "post-occupancy evaluations," "longitudinal studies," or "neuroimaging evidence."
+        Different methods address the same question from different angles and appear
+        in different papers.
+      </p>
+
+      <h4>Variant 2: Change the population or context</h4>
+      <p>
+        If the original specifies "office workers," try "university students,"
+        "hospital patients," "urban residents," or "adults generally."
+        Many environmental psychology findings are studied across multiple populations
+        and the papers may not appear in searches tied to a specific group.
+      </p>
+
+      <h4>Variant 3: Change the theoretical anchor</h4>
+      <p>
+        If the original anchors to ART, try SRT, biophilia hypothesis,
+        or prospect-refuge theory. Different theoretical communities produce
+        papers that address the same empirical question under different names.
+      </p>
+
+      <h4>Variant 4: Decompose the question</h4>
+      <p>
+        If your question asks about both a mechanism and an outcome,
+        search for each separately. A paper might not address the full
+        question but might address the mechanism half — and still qualify
+        if the abstract is directly relevant to the mechanism the question specifies.
+      </p>
+
+      <h4>Variant 5: Citation chaining via Connected Papers</h4>
+      <p>
+        Take the most relevant paper found so far and paste its title into
+        Connected Papers (connectedpapers.com). The resulting graph shows
+        papers that cite it or are cited by it — a productive way to find
+        closely related work that shares neither your terminology nor your
+        theoretical framing but addresses the same empirical question.
+      </p>
+    </section>
+
+    <!-- TOOLS -->
+    <section id="tools">
+      <h2>Using Elicit, Consensus, and Connected Papers</h2>
+
+      <h3>Elicit (elicit.org)</h3>
+      <p>
+        Elicit is particularly useful for two tasks. First, abstract screening:
+        paste your query and Elicit returns papers with structured summaries
+        (sample size, methods, key findings, effect sizes) that let you assess
+        relevance faster than reading abstracts. Second, extraction: once you
+        have your ten papers, use Elicit's extraction table to pull structured
+        data — this will partially fill your CSV's abstract field and note column.
+      </p>
+      <p>
+        Elicit works best with research questions phrased as Google AI Citation
+        queries (complete sentences, not Boolean). The results overlap with but
+        do not duplicate Google AI Citation — typically 30–50% of Elicit's
+        results are not in Google's top results.
+      </p>
+
+      <h3>Consensus (consensus.app)</h3>
+      <p>
+        Consensus synthesises evidence across papers and presents "consensus
+        claims" — statements supported by a specified percentage of relevant
+        papers. It is useful for quickly locating core papers in a well-studied
+        area, and for confirming that your question is genuinely contested
+        (if Consensus shows high agreement, the IC→DC update your papers can
+        produce is large; if it shows mixed evidence, your papers are
+        especially valuable for resolving uncertainty).
+      </p>
+
+      <h3>Connected Papers (connectedpapers.com)</h3>
+      <p>
+        Enter the DOI or title of the single most relevant paper you find.
+        Connected Papers builds a visual graph of papers with similar references
+        and citation relationships. Papers in the same "cluster" as your seed
+        paper are strong candidates. Papers on the periphery of the cluster
+        may represent adjacent theoretical traditions — worth examining,
+        but apply the relevance filter before adding to your shortlist.
+      </p>
+
+      <div class="callout good">
+        <div class="callout-title">Suggested multi-tool workflow</div>
+        <p>Run Google AI Citation first (primary). For each paper found, check Elicit
+        for structured extraction. Use Consensus to confirm theoretical framing.
+        Take your best paper and run Connected Papers to expand into adjacent literature.
+        Apply your relevance filter to all candidates before deciding inclusion. Document
+        every step in your search log.</p>
+      </div>
+    </section>
+
+    <!-- DUPLICATE CHECK -->
+    <section id="duplicate-check">
+      <h2>Duplicate Checking</h2>
+      <p>
+        A paper already in the K-ATLAS corpus does not count toward your ten qualifying
+        papers. Before adding any paper to your final set, check its DOI against the corpus.
+        There are two ways to do this.
+      </p>
+      <p>
+        From your student assignment page, use the built-in duplicate checker: paste the DOI
+        into the check field and the system will return "already in corpus" or "not found."
+        Alternatively, from a terminal with access to the K-ATLAS database:
+      </p>
+      <div class="code-block">
+        python3 scripts/check_duplicate.py --doi "https://doi.org/10.xxxx/xxx"
+        # Returns: FOUND (already in corpus) or NOT FOUND (eligible)
+      </div>
+      <p>
+        If a paper is already in the corpus, it still appears in your search log
+        and candidate CSV with <code>exclusion_reason = already_in_corpus</code>.
+        Do not discard it from your records — it is evidence that your search is
+        finding the right literature, even if the paper itself does not count.
+      </p>
+    </section>
+
+    <!-- CSV FORMAT -->
+    <section id="csv-format">
+      <h2>Final Submission CSV Format</h2>
+      <p>
+        Your ten qualifying papers must be submitted as a CSV with the following
+        required and optional columns. Use the template download button on your
+        assignment page to get a correctly formatted starter file.
+      </p>
+
+      <table class="comp-table">
+        <thead>
+          <tr><th>Column</th><th>Status</th><th>Format / Notes</th></tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><code>title</code></td>
+            <td><span class="comp-badge comp-req">Required</span></td>
+            <td>Full paper title, no truncation</td>
+          </tr>
+          <tr>
+            <td><code>authors</code></td>
+            <td><span class="comp-badge comp-req">Required</span></td>
+            <td>Surname, Initials; multiple authors separated by " ; "</td>
+          </tr>
+          <tr>
+            <td><code>year</code></td>
+            <td><span class="comp-badge comp-req">Required</span></td>
+            <td>Four-digit year of publication</td>
+          </tr>
+          <tr>
+            <td><code>doi</code></td>
+            <td><span class="comp-badge comp-req">Required</span></td>
+            <td>Full DOI URL: <code>https://doi.org/10.xxxx/xxx</code></td>
+          </tr>
+          <tr>
+            <td><code>abstract</code></td>
+            <td><span class="comp-badge comp-req">Required</span></td>
+            <td>Full abstract text. Wrap in double-quotes to protect commas.</td>
+          </tr>
+          <tr>
+            <td><code>source</code></td>
+            <td><span class="comp-badge comp-req">Required</span></td>
+            <td>Journal name or conference name</td>
+          </tr>
+          <tr>
+            <td><code>filter_score</code></td>
+            <td><span class="comp-badge comp-req">Required</span></td>
+            <td>Your relevance filter's score for this paper (0–1, 4 decimal places)</td>
+          </tr>
+          <tr>
+            <td><code>my_label</code></td>
+            <td><span class="comp-badge comp-req">Required</span></td>
+            <td>Your manual relevance label: 1 (relevant), 0 (not), 0.5 (uncertain)</td>
+          </tr>
+          <tr>
+            <td><code>notes</code></td>
+            <td><span class="comp-badge comp-opt">Recommended</span></td>
+            <td>One sentence explaining the paper's specific relevance to your question</td>
+          </tr>
+          <tr>
+            <td><code>elicit_methods</code></td>
+            <td><span class="comp-badge comp-opt">Optional</span></td>
+            <td>Study methods extracted via Elicit (e.g., "RCT, n=48, cortisol measure")</td>
+          </tr>
+          <tr>
+            <td><code>elicit_finding</code></td>
+            <td><span class="comp-badge comp-opt">Optional</span></td>
+            <td>Key finding extracted via Elicit (one sentence)</td>
+          </tr>
+        </tbody>
+      </table>
+
+      <div class="callout tip">
+        <div class="callout-title">Including your filter score and label in the CSV</div>
+        <p>The <code>filter_score</code> and <code>my_label</code> columns are required
+        even for your final ten papers. This allows K-ATLAS to audit filter performance
+        across all article finder submissions — aggregate data across all students
+        will be used to improve the default threshold for each question.</p>
+      </div>
+    </section>
+
+    <!-- REFLECTION REPORT -->
+    <section id="reflection">
+      <h2>Reflection Report</h2>
+      <p>
+        The reflection report is a 4–6 page academic document (APA format,
+        with references) covering the following five sections. It is not a diary
+        entry — it is a structured scientific account of your methodology,
+        findings, and analysis.
+      </p>
+      <p>
+        <strong>Section 1 — The Question and Its Scope.</strong> Restate your assigned
+        question and explain what theoretical claims it is designed to support in K-ATLAS.
+        What kind of evidence would most directly answer it? What evidence would be
+        relevant but insufficient? What evidence would be clearly out of scope?
+        This section establishes the conceptual frame that justifies your inclusion
+        and exclusion decisions.
+      </p>
+      <p>
+        <strong>Section 2 — Search Methodology.</strong> Summarise your search process:
+        how many sessions, which tools, which query variants, and how many candidates
+        each session yielded. Include a table derived from your search log. Describe
+        any systematic gaps you noticed — topics adjacent to your question that the
+        literature treats sparsely, or terminology communities that do not appear
+        in each other's citation trails.
+      </p>
+      <p>
+        <strong>Section 3 — Relevance Filter.</strong> Describe your implementation approach,
+        justify your choice, report your calibration procedure, and present your
+        validation results (all four metrics plus the two required figures). Your
+        error analysis — the detailed examination of false positives and false negatives
+        — must be here. Conclude with a statement about what the filter's failure modes
+        reveal about the boundaries of your question's scope.
+      </p>
+      <p>
+        <strong>Section 4 — The Ten Papers.</strong> Present your ten qualifying papers
+        in a summary table (author, year, title, DOI, one-sentence finding). Then discuss
+        in prose: which two or three papers are most directly relevant and why; whether the
+        papers converge on a single answer to your question or whether they present
+        conflicting evidence; and what the set of papers tells us about the state of
+        evidence on this question (strong / mixed / emerging / under-studied).
+      </p>
+      <p>
+        <strong>Section 5 — Contribution to K-ATLAS.</strong> Estimate qualitatively what
+        IC-to-DC update your ten papers might enable. Which warrants in K-ATLAS's knowledge
+        base does this evidence support? Are there papers in your set that speak to
+        neural or physiological mechanisms — the highest-value evidence type for strong
+        credence updates? End with one paragraph on what you would search for next if
+        you had another week.
+      </p>
+    </section>
+
+    <!-- DELIVERABLES -->
+    <section id="deliverables">
+      <h2>Deliverables and Grade Weighting</h2>
+
+      <table class="deliv-table">
+        <thead>
+          <tr>
+            <th>Deliverable</th>
+            <th>Due</th>
+            <th>Points</th>
+            <th>Notes</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr>
+            <td><strong>Question claim confirmation</strong> — confirmation of your claimed question ID submitted via student portal</td>
+            <td>Day 1</td>
+            <td><span class="pts">ungraded</span></td>
+            <td>First-come, first-served; must claim before searching</td>
+          </tr>
+          <tr>
+            <td><strong>Search log CSV</strong> — all search sessions documented with tool, query, candidates found, and notes</td>
+            <td>End of Week 3</td>
+            <td><span class="pts">10 pts</span></td>
+            <td>Minimum 6 sessions; at least 2 different tools used</td>
+          </tr>
+          <tr>
+            <td><strong>Candidate papers CSV</strong> — full candidate pool (≥ 20 papers) with manual labels and inclusion decisions</td>
+            <td>End of Week 3</td>
+            <td><span class="pts">10 pts</span></td>
+            <td>Must include excluded papers with reason codes</td>
+          </tr>
+          <tr>
+            <td><strong>Relevance filter code</strong> — working Python module implementing <code>score()</code>, with calibration notebook showing threshold selection</td>
+            <td>End of Week 3</td>
+            <td><span class="pts">20 pts</span></td>
+            <td>Must implement the standard K-ATLAS interface exactly</td>
+          </tr>
+          <tr>
+            <td><strong>Filter validation results</strong> — precision, recall, F1, AUC-ROC on held-out set; two required figures; error analysis paragraph</td>
+            <td>End of Week 3</td>
+            <td><span class="pts">15 pts</span></td>
+            <td>Submitted as a section of the reflection report</td>
+          </tr>
+          <tr>
+            <td><strong>Ten qualifying papers — CSV + PDFs</strong> — uploaded through the K-ATLAS student portal; all required fields complete</td>
+            <td>End of Week 4</td>
+            <td><span class="pts">20 pts</span></td>
+            <td>All DOIs verified not in corpus; all PDFs uploaded</td>
+          </tr>
+          <tr>
+            <td><strong>Reflection report</strong> — 4–6 pages, five sections, APA format</td>
+            <td>End of Week 4</td>
+            <td><span class="pts">20 pts</span></td>
+            <td>Must include all five required sections</td>
+          </tr>
+          <tr>
+            <td><strong>Lab presentation</strong> — 5-minute description of one interesting paper and one filter failure case</td>
+            <td>Week 4 lab</td>
+            <td><span class="pts">5 pts</span></td>
+            <td>No slides required; conversational</td>
+          </tr>
+        </tbody>
+      </table>
+    </section>
+
+    <!-- CHECKLIST -->
+    <section id="checklist">
+      <h2>Final Submission Checklist</h2>
+      <p>Confirm every item before the Week 4 deadline.</p>
+
+      <ul class="checklist">
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>My search log documents at least six sessions using at least two different tools, with exact query text recorded for every session.</span>
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>My candidate pool has at least 20 papers including both included and excluded ones, with manual relevance labels for all of them.</span>
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>My relevance filter implements the standard <code>score(paper)</code> interface and runs without error on a paper dict with 'title' and 'abstract' keys.</span>
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>I calibrated my threshold using my labeled papers, validated it on a held-out set, and report all four metrics (Precision, Recall, F1, AUC-ROC).</span>
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>My filter validation includes the two required figures and a written error analysis examining all false positives and false negatives.</span>
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>All ten papers have been verified as NOT already in the K-ATLAS corpus via the duplicate checker.</span>
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>My final CSV includes all required columns including <code>filter_score</code> and <code>my_label</code> for each of the ten qualifying papers.</span>
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>PDFs have been uploaded for all ten papers, or I have noted which are behind paywalls and provided full abstracts and Elicit extraction data in those cases.</span>
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>My reflection report has all five sections, is 4–6 pages, and follows APA format with a references section.</span>
+        </li>
+        <li>
+          <svg class="check-icon" viewBox="0 0 20 20" fill="none"><rect width="20" height="20" rx="4" fill="#182B49"/><path d="M5 10l4 4 6-8" stroke="#C69214" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span>My filter module and the filter registry JSON entry have been committed to the K-ATLAS repo at the correct paths.</span>
+        </li>
+      </ul>
+
+      <div class="callout info">
+        <div class="callout-title">Questions?</div>
+        <p>Post to the COGS 160 Piazza board under the <strong>[ArticleFinder]</strong> tag,
+        or email <strong>dkirsh@ucsd.edu</strong> with subject line
+        <em>[COGS160 ArticleFinder] [your question ID]</em>.</p>
+      </div>
+    </section>
+
+  </main>
+</div>
+
+<footer>
+  K-ATLAS · UC San Diego Department of Cognitive Science · Prof. David Kirsh ·
+  COGS 160 Environmental Psychology · Spring Quarter
+</footer>
+
 <script>
-function toggleCheck(el) {
-  el.classList.toggle('done');
-  el.closest('.check-item').classList.toggle('done-item');
-  updateProgress();
-  saveState();
-}
-
-function updateProgress() {
-  const total = document.querySelectorAll('.check-box').length;
-  const done = document.querySelectorAll('.check-box.done').length;
-  const pct = Math.round((done / total) * 100);
-  document.getElementById('progressFill').style.width = pct + '%';
-  document.getElementById('progressText').textContent = done + ' of ' + total + ' items completed (' + pct + '%)';
-}
-
-function saveState() {
-  const states = [];
-  document.querySelectorAll('.check-box').forEach((el, i) => {
-    states.push(el.classList.contains('done') ? 1 : 0);
-  });
-  try { sessionStorage.setItem('instrPrep', JSON.stringify(states)); } catch(e) {}
-}
-
-function loadState() {
-  try {
-    const saved = JSON.parse(sessionStorage.getItem('instrPrep'));
-    if (saved) {
-      document.querySelectorAll('.check-box').forEach((el, i) => {
-        if (saved[i]) { el.classList.add('done'); el.closest('.check-item').classList.add('done-item'); }
+const tocLinks = document.querySelectorAll('.toc-list a');
+const observer = new IntersectionObserver(entries => {
+  entries.forEach(entry => {
+    if (entry.isIntersecting) {
+      const id = entry.target.id;
+      tocLinks.forEach(a => {
+        a.classList.toggle('active', a.getAttribute('href') === '#' + id);
       });
     }
-  } catch(e) {}
-  updateProgress();
-}
+  });
+}, { rootMargin: '-10% 0px -75% 0px' });
 
-loadState();
+document.querySelectorAll('[id]').forEach(el => observer.observe(el));
+tocLinks.forEach(a => {
+  a.addEventListener('click', e => {
+    e.preventDefault();
+    const t = document.querySelector(a.getAttribute('href'));
+    if (t) t.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  });
+});
 </script>
+<script src="../ka_auth_widget.js"></script>
 </body>
 </html>

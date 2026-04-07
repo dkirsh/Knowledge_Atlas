@@ -406,7 +406,7 @@ body { font-family: Arial, sans-serif; color: #2D2D2D; overflow-x: hidden; }
 
 <!-- TOP NAV -->
 <nav class="topnav">
-  <a class="wordmark" href="#">
+  <a class="wordmark" href="ka_home.html">
     <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none">
       <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
       <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
@@ -649,10 +649,19 @@ body { font-family: Arial, sans-serif; color: #2D2D2D; overflow-x: hidden; }
 
     </div>
 
-    <div class="tracks-register-bar">
-      <p>Not yet registered? Submit your track preference and skills statement for instructor review. Already registered? <a href="160sp/ka_student_setup.html" style="color:#E8872A;font-weight:600;">Get started →</a></p>
-      <a href="ka_register.html" class="btn-register-big">Register as a contributor →</a>
+    <div class="tracks-register-bar" id="tracks-register-bar">
+      <p>Not yet registered? Submit your track preference and skills statement for instructor review. Already registered? <a href="ka_login.html" style="color:#E8872A;font-weight:600;">Sign in →</a></p>
+      <a href="ka_register.html?student=1" class="btn-register-big">Register as a COGS 160 student →</a>
     </div>
+    <script>
+    (function() {
+      if (localStorage.getItem('ka_access_token') && localStorage.getItem('ka_current_user')) {
+        var bar = document.getElementById('tracks-register-bar');
+        bar.innerHTML = '<p>You\'re registered! Head to your first assignment.</p>' +
+          '<a href="160sp/collect-articles-upload.html" class="btn-register-big">Go to Assignment 0 →</a>';
+      }
+    })();
+    </script>
 
   </div>
 </section>
@@ -914,7 +923,7 @@ window.KA_PAGE_FUNCTION = {
 };
 </script>
 <script src="ka_page_function.js"></script>
-<script src="ka_demo_wiring.js"></script>
+<!-- ka_demo_wiring.js removed: live backend active -->
 <script src="ka_mode_switch.js"></script>
 <script src="ka_data_adapter.js"></script>
 <script>
@@ -923,7 +932,7 @@ window.KA_PAGE_FUNCTION = {
     student_explorer: {
       navOrder: ['nav-home-explore', 'nav-home-about', 'nav-home-theory', 'nav-home-docs'],
       primary: { text: 'Explore Topics →', href: 'ka_topics.html' },
-      secondary: { text: 'Get Started as a Student', href: '160sp/ka_student_setup.html' },
+      secondary: { text: 'Get Started as a Student', href: 'ka_register.html?student=1' },
       note: 'Student mode foregrounds topics, evidence, and course entry points so the literature becomes the first thing to explore.'
     },
     researcher: {
@@ -958,6 +967,8 @@ window.KA_PAGE_FUNCTION = {
     }
   };
 
+  var isLoggedIn = !!(localStorage.getItem('ka_access_token') && localStorage.getItem('ka_current_user'));
+
   function applyHomeMode(mode) {
     const cfg = HOME_MODE_COPY[mode] || HOME_MODE_COPY.student_explorer;
     const nav = document.querySelector('.nav-public');
@@ -972,8 +983,14 @@ window.KA_PAGE_FUNCTION = {
     primary.href = cfg.primary.href;
 
     const secondary = document.getElementById('home-secondary-cta');
-    secondary.textContent = cfg.secondary.text;
-    secondary.href = cfg.secondary.href;
+    // If logged in, send to A0 upload instead of registration
+    if (isLoggedIn && cfg.secondary.href.includes('ka_register')) {
+      secondary.textContent = 'Go to Assignment 0 →';
+      secondary.href = '160sp/collect-articles-upload.html';
+    } else {
+      secondary.textContent = cfg.secondary.text;
+      secondary.href = cfg.secondary.href;
+    }
 
     document.getElementById('home-mode-note').textContent = cfg.note;
   }
@@ -1062,5 +1079,6 @@ window.KA_ABOUT_PAGE = {
 <!-- Usability Critique Agent — visible for COGS160 Spring students -->
 <script src="ka_usability_critic.js"></script>
 
+<script src="ka_auth_widget.js"></script>
 </body>
 </html>

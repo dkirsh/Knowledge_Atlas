@@ -531,33 +531,39 @@
                 left: 16px;
             }
         }
-    </style>
+    
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.wordmark-icon { width: 30px; height: 30px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wm-top { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: #A8C8BF; }
+.wm-bottom { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em; color: #fff; }
+.wm-bottom span { color: #F5A623; }
+</style>
 </head>
 <body>
     <!-- Navigation -->
     <nav>
-        <a href="ka_home.html" class="nav-brand">
-            <svg class="ka-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#A8C8BF;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="40" fill="url(#grad1)" opacity="0.1"/>
-                <circle cx="30" cy="30" r="4" fill="#F5A623"/>
-                <circle cx="70" cy="30" r="4" fill="#A8C8BF"/>
-                <circle cx="50" cy="70" r="4" fill="#2A7868"/>
-                <line x1="30" y1="30" x2="70" y2="30" stroke="#F5A623" stroke-width="1.5" opacity="0.6"/>
-                <line x1="30" y1="30" x2="50" y2="70" stroke="#A8C8BF" stroke-width="1.5" opacity="0.6"/>
-                <line x1="70" y1="30" x2="50" y2="70" stroke="#2A7868" stroke-width="1.5" opacity="0.6"/>
-                <circle cx="50" cy="50" r="3" fill="#2A7868"/>
-            </svg>
-            <div class="ka-wordmark">
-                <div class="ka-wordmark-top">KNOWLEDGE</div>
-                <div class="ka-wordmark-bottom">Atla<span style="color: #A8C8BF;">s</span></div>
-            </div>
-        </a>
+        <a class="wordmark" href="ka_home.html">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
+    </div>
+  </a>
         <div class="nav-center">
             <a id="nav-shell-explore" href="ka_topics.html" class="nav-link">Explore</a>
             <a id="nav-shell-evidence" href="ka_evidence.html" class="nav-link">Evidence</a>
@@ -565,6 +571,7 @@
             <a id="nav-shell-articles" href="ka_article_search.html" class="nav-link">Articles</a>
             <a id="nav-shell-contribute" href="ka_contribute.html" class="nav-link active">Contribute</a>
             <a id="nav-shell-course" href="160sp/ka_student_setup.html" class="nav-link">Course</a>
+            <a id="nav-shell-syllabus" href="160sp/ka_schedule.html" class="nav-link">160 Syllabus</a>
         </div>
         <div class="nav-right">
             <select class="mode-select" id="register-mode-select" aria-label="Switch user mode">
@@ -650,17 +657,36 @@
                             <div class="form-group-row">
                                 <div class="form-group">
                                     <label for="password">Password</label>
-                                    <input type="password" id="password" name="password" required autocomplete="new-password">
+                                    <div style="position:relative;">
+                                        <input type="password" id="password" name="password" required autocomplete="new-password" style="padding-right:2.5rem;">
+                                        <button type="button" class="pwd-eye-btn" aria-label="Show password" style="position:absolute;right:10px;top:12px;background:none;border:none;cursor:pointer;font-size:1.1rem;color:#888;padding:4px;" tabindex="-1">&#128065;</button>
+                                    </div>
                                     <div class="pw-strength-wrap"><div class="pw-strength-bar" id="pwBar"></div></div>
                                     <div class="pw-hint" id="pwHint">At least 8 characters</div>
                                     <span class="field-error" id="err-password">Password must be at least 8 characters.</span>
                                 </div>
                                 <div class="form-group">
                                     <label for="confirmPassword">Confirm password</label>
-                                    <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password">
+                                    <div style="position:relative;">
+                                        <input type="password" id="confirmPassword" name="confirmPassword" required autocomplete="new-password" style="padding-right:2.5rem;">
+                                        <button type="button" class="pwd-eye-btn" aria-label="Show password" style="position:absolute;right:10px;top:12px;background:none;border:none;cursor:pointer;font-size:1.1rem;color:#888;padding:4px;" tabindex="-1">&#128065;</button>
+                                    </div>
                                     <span class="field-error" id="err-confirmPassword">Passwords do not match.</span>
                                 </div>
                             </div>
+                        </div>
+
+                        <!-- COGS 160 student checkbox -->
+                        <div class="form-section" id="cogs160Section">
+                            <div class="checkbox-group">
+                                <div class="checkbox-item" style="background:#FFF8F0;border:1.5px solid #E8872A;border-radius:10px;padding:14px 16px;">
+                                    <input type="checkbox" id="is160Student" name="is160Student">
+                                    <label for="is160Student" style="font-weight:700;color:#1C3D3A;">I am a COGS 160 student <span style="font-weight:400;color:#7A6E62;">(Spring 2026)</span></label>
+                                </div>
+                            </div>
+                            <p id="cogs160Note" style="display:none;font-size:0.82rem;color:#7A6E62;margin-top:8px;line-height:1.5;">
+                                Your account will be set up for COGS 160 with the A0 article-collection assignment. You can choose your track after orientation.
+                            </p>
                         </div>
 
                         <!-- Section 2: Profile -->
@@ -786,6 +812,15 @@
     <div class="version-badge">KA UI · v0.4</div>
 
     <script>
+    // Password show/hide toggle (event listener, not inline onclick)
+    document.querySelectorAll('.pwd-eye-btn').forEach(function(btn) {
+      btn.addEventListener('click', function(e) {
+        e.preventDefault();
+        var inp = this.parentElement.querySelector('input');
+        if (inp.type === 'password') { inp.type = 'text'; this.innerHTML = '&#128064;'; }
+        else { inp.type = 'password'; this.innerHTML = '&#128065;'; }
+      });
+    });
     (function() {
       const NAV_PREFERENCE_BY_TYPE = {
         student_explorer: 'explore_literature',
@@ -808,6 +843,26 @@
       if (storedMode && document.getElementById('userTypeChoice')) {
         document.getElementById('userTypeChoice').value = storedMode;
       }
+
+      // ── COGS 160 student checkbox ───────────────────────────────────
+      const is160Checkbox = document.getElementById('is160Student');
+      const cogs160Note   = document.getElementById('cogs160Note');
+      const urlParams = new URLSearchParams(window.location.search);
+      if (urlParams.get('student') === '1') {
+        is160Checkbox.checked = true;
+        cogs160Note.style.display = 'block';
+      }
+      is160Checkbox.addEventListener('change', function() {
+        cogs160Note.style.display = this.checked ? 'block' : 'none';
+        if (this.checked) {
+          document.getElementById('institution').value = document.getElementById('institution').value || 'UC San Diego';
+          document.getElementById('department').value = 'COGS 160';
+          document.getElementById('roleUG').checked = true;
+          document.getElementById('userTypeChoice').value = 'student_explorer';
+        }
+      });
+      // Fire change if pre-checked from URL
+      if (is160Checkbox.checked) is160Checkbox.dispatchEvent(new Event('change'));
 
       // ── Password strength ────────────────────────────────────────────
       const pwInput = document.getElementById('password');
@@ -887,7 +942,7 @@
       });
 
       // ── Form submission ──────────────────────────────────────────────
-      document.getElementById('registerForm').addEventListener('submit', function(e) {
+      document.getElementById('registerForm').addEventListener('submit', async function(e) {
         e.preventDefault();
         let ok = true;
 
@@ -931,15 +986,19 @@
           return;
         }
 
-        // ── All valid: persist to localStorage ──────────────────────────
+        // ── All valid: register with the auth server ────────────────────
+        const KA_AUTH_API = window.__KA_CONFIG__?.apiBase ?? '';
+        const firstName = document.getElementById('firstName').value.trim();
+        const lastName  = document.getElementById('lastName').value.trim();
+        const department = document.getElementById('department').value.trim();
+
         const userData = {
-          id: 'student_' + Date.now(),
-          firstName: document.getElementById('firstName').value.trim(),
-          lastName:  document.getElementById('lastName').value.trim(),
+          firstName: firstName,
+          lastName:  lastName,
           email:     email,
           role:      document.querySelector('input[name="role"]:checked')?.value || 'undergrad',
           institution: document.getElementById('institution').value.trim(),
-          department:  document.getElementById('department').value.trim(),
+          department:  department,
           userType: document.getElementById('userTypeChoice').value,
           navPreference: NAV_PREFERENCE_BY_TYPE[document.getElementById('userTypeChoice').value] || 'explore_literature',
           trackChoice1: track1,
@@ -948,11 +1007,42 @@
           status: 'approved'
         };
 
-        // Auto-approve: save directly to approved registrations
-        // (Instructor can review/revoke later via ka_approve.html)
+        // POST to auth server so the account exists in SQLite for login
+        let serverRegistered = false;
+        try {
+          const is160 = document.getElementById('is160Student').checked;
+          const regBody = {
+            email:      email,
+            password:   pw,
+            first_name: firstName,
+            last_name:  lastName,
+            department: is160 ? 'COGS 160' : department,
+            track:      track1
+          };
+          if (is160) regBody.question_id = 'A0';
+          const regRes = await fetch(KA_AUTH_API + '/auth/register', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify(regBody)
+          });
+          const regData = await regRes.json();
+          if (regRes.ok) {
+            serverRegistered = true;
+            userData.id = regData.user_id;
+          } else if (regRes.status === 409) {
+            // Account already exists — that's fine, they can sign in
+            serverRegistered = true;
+          } else {
+            console.warn('[KA] Server registration returned error:', regData.detail);
+          }
+        } catch (e) {
+          console.warn('[KA] Auth server not reachable, saving locally only:', e);
+        }
+
+        // Fallback: also persist to localStorage for offline/demo use
+        if (!userData.id) userData.id = 'student_' + Date.now();
         if (window.KA_WORKFLOW_STORE) {
           window.KA_WORKFLOW_STORE.addPendingRegistration(userData);
-          // Also immediately approve in the store
           if (window.KA_WORKFLOW_STORE.approveRegistration) {
             window.KA_WORKFLOW_STORE.approveRegistration(userData.id, userData.trackChoice1);
           }
@@ -975,14 +1065,25 @@
         sessionStorage.setItem('ka_active_mode', userData.userType);
 
         // ── Show success screen ──────────────────────────────────────────
+        const is160Success = document.getElementById('is160Student').checked;
         document.getElementById('registerForm').style.display = 'none';
         const screen = document.getElementById('successScreen');
         screen.classList.add('visible');
+        const statusMsg = serverRegistered
+          ? 'Active — ready to sign in'
+          : 'Saved locally (auth server offline) — sign in when server is running';
         document.getElementById('successDetail').innerHTML =
           '<strong>Name:</strong> ' + userData.firstName + ' ' + userData.lastName + '<br>' +
           '<strong>Email:</strong> ' + userData.email + '<br>' +
           '<strong>Track requested:</strong> ' + (TRACK_NAMES[track1] || track1) + '<br>' +
-          '<strong>Status:</strong> Active — ready to sign in';
+          '<strong>Status:</strong> ' + statusMsg;
+
+        // 160 students: auto-redirect to student setup after brief pause
+        if (is160Success && serverRegistered) {
+          document.getElementById('successDetail').innerHTML +=
+            '<br><br>Redirecting to Student Orientation\u2026';
+          setTimeout(function() { window.location.href = '160sp/ka_student_setup.html'; }, 2000);
+        }
         screen.scrollIntoView({ behavior: 'smooth' });
       });
     })();
@@ -1050,7 +1151,7 @@ window.KA_PAGE_FUNCTION = {
 };
 </script>
 <script src="ka_page_function.js"></script>
-<script src="ka_demo_wiring.js"></script>
+<!-- ka_demo_wiring.js removed: real auth backend is now live -->
 <script>
 window.KA_ABOUT_PAGE = {
   pageId: 'ka_register',
@@ -1066,5 +1167,6 @@ window.KA_ABOUT_PAGE = {
 <script src="ka_about_page.js"></script>
 <script src="ka_ui_fixes.js"></script>
 
+<script src="ka_auth_widget.js"></script>
 </body>
 </html>

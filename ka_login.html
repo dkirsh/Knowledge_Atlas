@@ -3,594 +3,221 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - Knowledge Atlas</title>
+    <title>Log In - Knowledge Atlas</title>
+    <script src="ka_config.js"></script>
     <style>
-        * {
-            margin: 0;
-            padding: 0;
-            box-sizing: border-box;
-        }
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body { font-family: Arial, sans-serif; background-color: #F7F4EF; color: #4A3E32; }
 
-        body {
-            font-family: Arial, sans-serif;
-            background-color: #F7F4EF;
-            color: #4A3E32;
-        }
-
-        /* Navigation */
         nav {
-            position: fixed;
-            top: 0;
-            left: 0;
-            right: 0;
-            height: 56px;
-            background-color: #1C3D3A;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            padding: 0 32px;
-            z-index: 1000;
+            position: fixed; top: 0; left: 0; right: 0; height: 56px;
+            background-color: #1C3D3A; display: flex; align-items: center;
+            justify-content: space-between; padding: 0 32px; z-index: 1000;
             box-shadow: 0 2px 4px rgba(0,0,0,0.08);
         }
+        .nav-brand { display: flex; align-items: center; gap: 12px; text-decoration: none; }
+        .nav-brand-text { color: #A8C8BF; font-weight: 700; font-size: 1.15rem; letter-spacing: 0.04em; }
+        .nav-links { display: flex; gap: 16px; align-items: center; }
+        .nav-links a {
+            color: #7AACA0; font-size: 0.85rem; text-decoration: none;
+            padding: 6px 12px; border-radius: 6px; transition: color 0.15s;
+        }
+        .nav-links a:hover { color: #fff; }
+        .nav-links .btn-register-nav {
+            background: #E8872A; color: #fff; font-weight: 600;
+            padding: 6px 16px; border-radius: 6px;
+        }
+        .nav-links .btn-register-nav:hover { opacity: 0.9; color: #fff; }
 
-        .nav-brand {
-            display: flex;
-            align-items: center;
-            gap: 12px;
-            text-decoration: none;
+        .page-wrapper {
+            display: flex; justify-content: center; align-items: center;
+            min-height: 100vh; padding: 80px 20px 40px;
         }
-
-        .ka-icon {
-            width: 28px;
-            height: 28px;
+        .card {
+            background: #fff; border-radius: 16px; padding: 48px 40px;
+            box-shadow: 0 4px 24px rgba(0,0,0,0.06); max-width: 440px; width: 100%;
         }
-
-        .ka-wordmark {
-            display: flex;
-            flex-direction: column;
-            gap: 2px;
-        }
-
-        .ka-wordmark-top {
-            font-size: 10px;
-            font-weight: 600;
-            letter-spacing: 2px;
-            color: #A8C8BF;
-            line-height: 1;
-        }
-
-        .ka-wordmark-bottom {
-            font-size: 13px;
-            font-weight: 700;
-            color: #F5A623;
-            line-height: 1;
-        }
-
-        .nav-right {
-            display: flex;
-            gap: 16px;
-            align-items: center;
-        }
-        .nav-center {
-            display: flex;
-            gap: 14px;
-            align-items: center;
-            flex: 1;
-            justify-content: center;
-        }
-
-        .nav-link {
-            color: #A8C8BF;
-            text-decoration: none;
-            font-size: 13px;
-            padding: 6px 12px;
-            border-radius: 4px;
-            transition: all 0.2s ease;
-        }
-
-        .nav-link:hover {
-            color: #F5A623;
-            background-color: rgba(232,135,42,0.1);
-        }
-        .mode-select {
-            background: rgba(255,255,255,0.08);
-            border: 1px solid rgba(168,200,191,0.35);
-            color: #E6EFE9;
-            border-radius: 18px;
-            padding: 5px 10px;
-            font-size: 12px;
-        }
-        .mode-pill {
-            background: rgba(42, 120, 104, 0.3);
-            color: #A8C8BF;
-            font-size: 11px;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            padding: 4px 12px;
-            border-radius: 20px;
-            text-transform: uppercase;
-        }
-
-        /* Main content */
-        main {
-            margin-top: 56px;
-            padding: 60px 32px;
-            min-height: calc(100vh - 56px);
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .login-container {
-            width: 100%;
-            max-width: 420px;
-        }
-
-        .login-header {
-            text-align: center;
-            margin-bottom: 40px;
-        }
-
-        .login-header .ka-icon {
-            width: 60px;
-            height: 60px;
-            margin-bottom: 20px;
-        }
-
-        .login-card {
-            background: white;
-            border-radius: 12px;
-            padding: 40px;
-            border: 1px solid #E0DAD3;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.04);
-        }
-
-        .login-card h1 {
-            font-size: 20px;
-            font-weight: 700;
-            color: #1C3D3A;
+        .card h1 {
+            font-family: Georgia, serif; font-size: 1.5rem; color: #1C3D3A;
             margin-bottom: 8px;
-            text-align: center;
         }
-
-        .login-card .subtitle {
-            text-align: center;
-            color: #8A7A68;
-            font-size: 13px;
-            margin-bottom: 32px;
+        .card p.subtitle {
+            font-size: 0.9rem; color: #7A6E62; margin-bottom: 28px; line-height: 1.5;
         }
-
-        .form-group {
-            margin-bottom: 20px;
-        }
-
-        label {
-            display: block;
-            font-size: 13px;
-            font-weight: 600;
-            margin-bottom: 6px;
-            color: #4A3E32;
-        }
-
+        label { display: block; font-size: 0.85rem; font-weight: 600; margin-bottom: 6px; color: #4A3E32; }
         input[type="email"],
         input[type="password"] {
-            width: 100%;
-            padding: 10px 12px;
-            border: 1px solid #E0DAD3;
-            border-radius: 6px;
-            font-family: Arial, sans-serif;
-            font-size: 13px;
-            color: #4A3E32;
-            background-color: #fff;
-            transition: all 0.2s ease;
+            width: 100%; padding: 12px 14px; border: 1.5px solid #D4C9BC;
+            border-radius: 8px; font-size: 0.95rem; background: #FDFCFA;
+            transition: border-color 0.2s; margin-bottom: 16px;
         }
-
         input[type="email"]:focus,
-        input[type="password"]:focus {
-            outline: none;
-            border-color: #E8872A;
-            box-shadow: 0 0 0 3px rgba(232,135,42,0.14);
+        input[type="password"]:focus { outline: none; border-color: #1C3D3A; }
+
+        .password-wrap {
+            position: relative;
+        }
+        .password-wrap input { padding-right: 2.8rem; margin-bottom: 16px; }
+        .pwd-toggle {
+            position: absolute; right: 10px; top: 12px;
+            background: none; border: none; cursor: pointer;
+            font-size: 1.1rem; color: #888; padding: 2px 4px;
         }
 
-        input::placeholder {
-            color: #8A7A68;
-        }
-
-        .forgot-password-wrapper {
-            text-align: right;
-            margin-bottom: 24px;
-        }
-
-        .forgot-password {
-            font-size: 12px;
-            color: #E8872A;
-            text-decoration: none;
-            transition: all 0.2s ease;
-        }
-
-        .forgot-password:hover {
-            text-decoration: underline;
-        }
-
-        /* Buttons */
         .btn {
-            padding: 12px 24px;
-            border: none;
-            border-radius: 6px;
-            font-size: 13px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: all 0.2s ease;
-            text-decoration: none;
-            display: inline-block;
-            text-align: center;
-            font-family: Arial, sans-serif;
+            width: 100%; padding: 14px; margin-top: 4px;
+            background-color: #1C3D3A; color: #fff; border: none; border-radius: 8px;
+            font-size: 1rem; font-weight: 600; cursor: pointer; transition: opacity 0.15s;
         }
+        .btn:hover { opacity: 0.9; }
+        .btn:disabled { opacity: 0.5; cursor: not-allowed; }
 
-        .btn-primary {
-            width: 100%;
-            background-color: #E8872A;
-            color: white;
+        .msg {
+            margin-top: 16px; padding: 12px 16px; border-radius: 8px;
+            font-size: 0.9rem; font-weight: 600; display: none;
         }
+        .msg-error { background: #f8d7da; color: #721c24; }
 
-        .btn-primary:hover {
-            background-color: #C05A1F;
-            transform: translateY(-1px);
-            box-shadow: 0 4px 12px rgba(232,135,42,0.3);
+        .links {
+            margin-top: 24px; text-align: center;
+            display: flex; flex-direction: column; gap: 10px;
         }
-
-        .btn-primary:active {
-            transform: translateY(0);
+        .links a {
+            color: #1C3D3A; font-size: 0.9rem; text-decoration: none;
         }
-
-        /* Divider */
-        .divider {
-            display: flex;
-            align-items: center;
-            margin: 24px 0;
-            color: #8A7A68;
-            font-size: 12px;
+        .links a:hover { text-decoration: underline; }
+        .links .register-link {
+            display: inline-block; margin-top: 4px; padding: 10px 20px;
+            background: #E8872A; color: #fff; font-weight: 600;
+            border-radius: 8px; text-decoration: none; font-size: 0.95rem;
         }
-
-        .divider:before,
-        .divider:after {
-            content: "";
-            flex: 1;
-            height: 1px;
-            background-color: #E0DAD3;
-        }
-
-        .divider:before {
-            margin-right: 12px;
-        }
-
-        .divider:after {
-            margin-left: 12px;
-        }
-
-        /* Register link */
-        .register-link {
-            text-align: center;
-            margin-top: 24px;
-        }
-
-        .register-link a {
-            color: #E8872A;
-            text-decoration: none;
-            font-size: 13px;
-            font-weight: 600;
-        }
-
-        .register-link a:hover {
-            text-decoration: underline;
-        }
-
-        /* Footer */
-        .login-footer {
-            text-align: center;
-            margin-top: 40px;
-            font-size: 11px;
-            color: #8A7A68;
-        }
-
-        /* Version badge */
-        .version-badge {
-            position: fixed;
-            bottom: 24px;
-            left: 24px;
-            background-color: #1C3D3A;
-            color: #A8C8BF;
-            padding: 8px 12px;
-            border-radius: 20px;
-            font-size: 11px;
-            font-weight: 600;
-            letter-spacing: 0.5px;
-            z-index: 100;
-        }
-
-        /* Responsive */
-        @media (max-width: 640px) {
-            nav {
-                padding: 0 16px;
-            }
-
-            main {
-                padding: 40px 16px;
-            }
-
-            .login-card {
-                padding: 32px;
-            }
-
-            .login-header {
-                margin-bottom: 32px;
-            }
-
-            .version-badge {
-                bottom: 16px;
-                left: 16px;
-            }
-        }
-    </style>
-<script src="ka_config.js"></script>
+        .links .register-link:hover { opacity: 0.9; text-decoration: none; }
+    
+.wordmark {
+  display: flex; align-items: center; gap: 10px;
+  text-decoration: none; flex-shrink: 0;
+}
+.wordmark-icon { width: 30px; height: 30px; }
+.wordmark-text { display: flex; flex-direction: column; line-height: 1.1; }
+.wm-top { font-size: 0.66rem; font-weight: 400; letter-spacing: 0.24em; text-transform: uppercase; color: #A8C8BF; }
+.wm-bottom { font-size: 1.05rem; font-weight: 700; letter-spacing: 0.03em; color: #fff; }
+.wm-bottom span { color: #F5A623; }
+</style>
 </head>
 <body>
-    <!-- Navigation -->
-    <nav>
-        <a href="/" class="nav-brand">
-            <svg class="ka-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                <defs>
-                    <linearGradient id="grad1" x1="0%" y1="0%" x2="100%" y2="100%">
-                        <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
-                        <stop offset="100%" style="stop-color:#A8C8BF;stop-opacity:1" />
-                    </linearGradient>
-                </defs>
-                <circle cx="50" cy="50" r="40" fill="url(#grad1)" opacity="0.1"/>
-                <circle cx="30" cy="30" r="4" fill="#F5A623"/>
-                <circle cx="70" cy="30" r="4" fill="#A8C8BF"/>
-                <circle cx="50" cy="70" r="4" fill="#2A7868"/>
-                <line x1="30" y1="30" x2="70" y2="30" stroke="#F5A623" stroke-width="1.5" opacity="0.6"/>
-                <line x1="30" y1="30" x2="50" y2="70" stroke="#A8C8BF" stroke-width="1.5" opacity="0.6"/>
-                <line x1="70" y1="30" x2="50" y2="70" stroke="#2A7868" stroke-width="1.5" opacity="0.6"/>
-                <circle cx="50" cy="50" r="3" fill="#2A7868"/>
-            </svg>
-            <div class="ka-wordmark">
-                <div class="ka-wordmark-top">KNOWLEDGE</div>
-                <div class="ka-wordmark-bottom">Atla<span style="color: #A8C8BF;">s</span></div>
+
+<nav>
+    <a class="wordmark" href="ka_home.html">
+    <svg class="wordmark-icon" viewBox="0 0 32 32" fill="none">
+      <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
+      <circle cx="16" cy="5"  r="2.5" fill="#A8C8BF"/>
+      <circle cx="27" cy="22" r="2.5" fill="#A8C8BF"/>
+      <circle cx="5"  cy="22" r="2.5" fill="#A8C8BF"/>
+      <line x1="16"   y1="7.5"  x2="16"   y2="12.5" stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="24.8" y1="20.2" x2="19.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="7.2"  y1="20.2" x2="13.0" y2="17.3"  stroke="#F5A623" stroke-width="1.5" stroke-opacity="0.9"/>
+      <line x1="16" y1="7.5"  x2="25.5" y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="25.5" y1="20" x2="6.5"   y2="20" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+      <line x1="6.5"  y1="20" x2="16"    y2="7.5" stroke="#fff" stroke-width="0.8" stroke-opacity="0.18"/>
+    </svg>
+    <div class="wordmark-text">
+      <span class="wm-top">Knowledge</span>
+      <span class="wm-bottom">At<span>las</span></span>
+    </div>
+  </a>
+    <div class="nav-links">
+        <a href="ka_home.html">Home</a>
+        <a href="ka_topics.html">Explore</a>
+        <a class="btn-register-nav" href="ka_register.html">Register</a>
+    </div>
+</nav>
+
+<div class="page-wrapper">
+    <div class="card">
+        <h1>Sign in to Knowledge Atlas</h1>
+        <p class="subtitle">Enter your email and password to access your workspace, assignments, and course tools.</p>
+
+        <form id="login-form" autocomplete="on">
+            <label for="login-email">Email address</label>
+            <input type="email" id="login-email" name="email" placeholder="you@ucsd.edu" required autocomplete="email">
+
+            <label for="login-password">Password</label>
+            <div class="password-wrap">
+                <input type="password" id="login-password" name="password" placeholder="Your ATLAS password" required autocomplete="current-password">
+                <button type="button" class="pwd-toggle" id="pwd-toggle" aria-label="Show password">&#128065;</button>
             </div>
-        </a>
-        <div class="nav-center">
-            <a href="ka_topics.html" class="nav-link" id="nav-shell-explore">Explore</a>
-            <a href="ka_evidence.html" class="nav-link" id="nav-shell-evidence">Evidence</a>
-            <a href="ka_gaps.html" class="nav-link" id="nav-shell-gaps">Gaps</a>
-            <a href="ka_article_search.html" class="nav-link" id="nav-shell-articles">Articles</a>
-            <a href="ka_contribute.html" class="nav-link" id="nav-shell-contribute">Contribute</a>
-            <a href="160sp/ka_student_setup.html" class="nav-link" id="nav-shell-course">Course</a>
+
+            <button type="submit" class="btn" id="submit-btn">Log in</button>
+        </form>
+
+        <div id="msg" class="msg"></div>
+
+        <div class="links">
+            <a href="ka_forgot_password.html">Forgot your password?</a>
+            <span style="color:#7A6E62; font-size:0.88rem;">Don't have an account yet?</span>
+            <a class="register-link" href="ka_register.html">Register</a>
         </div>
-        <div class="nav-right">
-            <select id="login-mode-select" class="mode-select" aria-label="Choose user mode">
-                <option value="student_explorer">Student explorer</option>
-                <option value="researcher">Researcher</option>
-                <option value="contributor">Contributor</option>
-                <option value="instructor">Instructor</option>
-                <option value="practitioner">Practitioner</option>
-                <option value="theory_mechanism_explorer">Theory Explorer</option>
-            </select>
-            <span class="mode-pill" id="login-mode-pill">STUDENT EXPLORER</span>
-            <a href="ka_register.html" class="nav-link">Register</a>
-        </div>
-    </nav>
+    </div>
+</div>
 
-    <!-- Main content -->
-    <main>
-        <div class="login-container">
-            <!-- Header -->
-            <div class="login-header">
-                <svg class="ka-icon" viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
-                    <defs>
-                        <linearGradient id="grad2" x1="0%" y1="0%" x2="100%" y2="100%">
-                            <stop offset="0%" style="stop-color:#F5A623;stop-opacity:1" />
-                            <stop offset="100%" style="stop-color:#A8C8BF;stop-opacity:1" />
-                        </linearGradient>
-                    </defs>
-                    <circle cx="50" cy="50" r="40" fill="url(#grad2)" opacity="0.2"/>
-                    <circle cx="30" cy="30" r="4" fill="#F5A623"/>
-                    <circle cx="70" cy="30" r="4" fill="#A8C8BF"/>
-                    <circle cx="50" cy="70" r="4" fill="#F5A623"/>
-                    <circle cx="20" cy="70" r="3" fill="#A8C8BF"/>
-                    <circle cx="80" cy="70" r="3" fill="#A8C8BF"/>
-                    <line x1="30" y1="30" x2="70" y2="30" stroke="#F5A623" stroke-width="2" opacity="0.7"/>
-                    <line x1="30" y1="30" x2="50" y2="70" stroke="#A8C8BF" stroke-width="2" opacity="0.7"/>
-                    <line x1="70" y1="30" x2="50" y2="70" stroke="#F5A623" stroke-width="2" opacity="0.7"/>
-                    <line x1="50" y1="70" x2="20" y2="70" stroke="#A8C8BF" stroke-width="1.5" opacity="0.6"/>
-                    <line x1="50" y1="70" x2="80" y2="70" stroke="#A8C8BF" stroke-width="1.5" opacity="0.6"/>
-                    <circle cx="50" cy="50" r="3" fill="#F5A623"/>
-                </svg>
-            </div>
+<script>
+const KA_AUTH_API = window.__KA_CONFIG__?.apiBase ?? '';
 
-            <!-- Login card -->
-            <div class="login-card">
-                <h1>Welcome back</h1>
-                <p class="subtitle">Sign in to Knowledge Atlas</p>
+document.getElementById('pwd-toggle').addEventListener('click', function() {
+    const inp = document.getElementById('login-password');
+    const show = inp.type === 'password';
+    inp.type = show ? 'text' : 'password';
+    this.textContent = show ? '\u{1F648}' : '\u{1F441}';
+});
 
-                <form id="loginForm">
-                    <div class="form-group">
-                        <label for="email">Email address</label>
-                        <input type="email" id="email" name="email" placeholder="you@example.com" required>
-                    </div>
+document.getElementById('login-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const email = document.getElementById('login-email').value.trim();
+    const password = document.getElementById('login-password').value;
+    if (!email || !password) return;
 
-                    <div class="form-group">
-                        <label for="password">Password</label>
-                        <input type="password" id="password" name="password" placeholder="••••••••" required>
-                        <div class="forgot-password-wrapper">
-                            <a href="ka_forgot_password.html" class="forgot-password">Forgot password?</a>
-                        </div>
-                    </div>
+    const btn = document.getElementById('submit-btn');
+    const msg = document.getElementById('msg');
+    btn.disabled = true;
+    btn.textContent = 'Logging in\u2026';
+    msg.style.display = 'none';
 
-                    <button type="submit" class="btn btn-primary">Sign In</button>
-                </form>
-
-                <div class="divider">or</div>
-
-                <div class="register-link">
-                    <a href="ka_register.html">Register as a contributor →</a>
-                </div>
-            </div>
-
-            <!-- Footer -->
-            <div class="login-footer">
-                Knowledge Atlas · UCSD Cognitive Science
-            </div>
-        </div>
-    </main>
-
-    <!-- Version badge -->
-    <div class="version-badge">KA UI · v0.4</div>
-
-    <script src="data/ka_payloads/workflow.js"></script>
-    <script src="ka_workflow_store.js"></script>
-    <script>
-    // ── Real JWT auth (requires ka_auth_server.py running on port 8765)
-    const KA_AUTH_API = window.__KA_CONFIG__?.apiBase ?? '';
-
-    // Show an error banner under the form
-    function showLoginError(msg) {
-      let el = document.getElementById('ka-login-error');
-      if (!el) {
-        el = document.createElement('div');
-        el.id = 'ka-login-error';
-        el.style.cssText = 'background:#FEE2E2;border:1px solid #FCA5A5;color:#7F1D1D;' +
-          'border-radius:6px;padding:11px 14px;font-size:.85rem;margin-top:12px;line-height:1.5';
-        document.querySelector('#loginForm button[type=submit]').after(el);
-      }
-      el.textContent = msg;
-      el.style.display = 'block';
-    }
-    function clearLoginError() {
-      const el = document.getElementById('ka-login-error');
-      if (el) el.style.display = 'none';
-    }
-
-    document.getElementById('loginForm').addEventListener('submit', async function(e) {
-      e.preventDefault();
-      clearLoginError();
-      const email    = document.getElementById('email').value.trim();
-      const password = document.getElementById('password').value;
-      const btn      = this.querySelector('button[type=submit]');
-      btn.disabled   = true;
-      btn.textContent = 'Signing in…';
-
-      try {
-        const res = await fetch(`${KA_AUTH_API}/auth/login`, {
-          method: 'POST',
-          headers: {'Content-Type': 'application/json'},
-          body: JSON.stringify({email, password})
+    try {
+        const res = await fetch(KA_AUTH_API + '/auth/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ email: email, password: password })
         });
         const data = await res.json();
 
         if (!res.ok) {
-          showLoginError(data.detail || 'Login failed. Check your email and password.');
-          btn.disabled = false;
-          btn.textContent = 'Sign In';
-          return;
+            msg.className = 'msg msg-error';
+            msg.textContent = data.detail || 'Login failed. Please check your credentials.';
+            msg.style.display = 'block';
+            btn.textContent = 'Log in';
+            btn.disabled = false;
+            return;
         }
 
-        // Store tokens and user info in localStorage
-        localStorage.setItem('ka_access_token',  data.access_token);
+        // Store auth state
+        localStorage.setItem('ka_access_token', data.access_token);
         localStorage.setItem('ka_refresh_token', data.refresh_token);
-        localStorage.setItem('ka_current_user',  JSON.stringify(data.user));
+        localStorage.setItem('ka_current_user', JSON.stringify(data.user));
         localStorage.setItem('ka_logged_in', '1');
-        sessionStorage.setItem('ka_logged_in', '1');
 
-        // Backward-compat: keep workflow store in sync
-        if (window.KA_WORKFLOW_STORE) window.KA_WORKFLOW_STORE.setLoggedIn(true);
+        // Redirect to student setup / orientation
+        window.location.href = '160sp/ka_student_setup.html';
 
-        // Route by role
-        const role = data.user.role || 'student';
-        if (role === 'instructor' || role === 'admin') {
-          window.location.href = 'ka_approve.html';
-        } else {
-          window.location.href = 'ka_user_home.html';
-        }
-
-      } catch(ex) {
-        // Auth server unreachable — fall back to demo mode
-        console.warn('[KA] Auth server not reachable, using demo mode:', ex);
-        showLoginError(
-          'Auth server not reachable (is ka_auth_server.py running?). ' +
-          'Falling back to demo mode — click Sign In again to continue.'
-        );
-        // Second click: proceed with demo mode
-        btn.textContent = 'Continue in demo mode →';
+    } catch (err) {
+        msg.className = 'msg msg-error';
+        msg.textContent = 'Could not reach the authentication server. Please try again later.';
+        msg.style.display = 'block';
+        btn.textContent = 'Log in';
         btn.disabled = false;
-        btn.onclick = function() {
-          localStorage.setItem('ka_logged_in', '1');
-          sessionStorage.setItem('ka_logged_in', '1');
-          if (window.KA_WORKFLOW_STORE) window.KA_WORKFLOW_STORE.setLoggedIn(true);
-          const dest = email.includes('instructor') || email.includes('prof')
-            ? 'ka_approve.html' : 'ka_user_home.html';
-          window.location.href = dest;
-        };
-      }
-    });
-    </script>
-
-<script>
-window.KA_PAGE_FUNCTION = {
-  pageId: 'ka_login',
-  title: 'Knowledge Atlas — Login',
-  audience: 'Returning contributors, students, instructors, and administrators',
-  purpose: 'Authenticates returning users and routes them to the appropriate landing page based on role: students go to the dashboard, contributors to the tagger or articles page, instructors to the approval and review queue. Currently a static form; requires JWT authentication backend to function.',
-  workflowPos: 'Gate before any authenticated workflow. The walkthrough uses a DB-backed workflow snapshot plus a browser login overlay so authenticated page affordances can be exercised without a full auth server.',
-  notFor: 'New user registration (link to Register page), password reset (separate flow), or any content browsing.',
-  phase: 'Phase 1 — Foundation Infrastructure (P0 — blocks all authenticated features)',
-  evalQuestions: [
-    'Is it immediately clear whether the user should Log In or Register?',
-    'Is the role-based routing explained anywhere, or does the user land somewhere confusing?',
-    'Is there a visible path back to the home page or demo without logging in?',
-    'Does the form give clear error feedback (wrong password, account not yet approved)?',
-    'Is the "Instructor Approve" path discoverable for new instructors?'
-  ]
-};
-</script>
-<script src="ka_page_function.js"></script>
-<script src="ka_demo_wiring.js"></script>
-<script src="ka_mode_switch.js"></script>
-<script src="ka_site_shell.js"></script>
-<script src="ka_data_adapter.js"></script>
-<script src="ka_live_context.js"></script>
-
-<script>
-window.KA_LIVE_CONTEXT_CONFIG = {
-  surface: 'auth',
-  title: 'System State',
-  status: 'Local identity prototype',
-  warn: true
-};
-</script>
-<script>
-window.KA_ABOUT_PAGE = {
-  pageId: 'ka_login',
-  objective: "Authenticates returning contributors and routes them to the appropriate workflow based on their assigned role.",
-  users: "Returning contributors, students, instructors, and administrators",
-  uses: [
-    "Sign in with an approved account to access authenticated KA pages",
-    "Access role-specific landing pages (student → dashboard; instructor → approval queue)",
-    "Navigate to the registration page if not yet enrolled"
-  ]
-};
-</script>
-<script src="ka_about_page.js"></script>
-<script src="ka_ui_fixes.js"></script>
-<script>
-window.KA_SHELL.initShell({
-  navContainerSelector: '.nav-center',
-  modeSelectId: 'login-mode-select',
-  modePillId: 'login-mode-pill',
-  defaultMode: 'student_explorer'
+    }
 });
 </script>
 
+<script src="ka_auth_widget.js"></script>
 </body>
 </html>
