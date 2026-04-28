@@ -1,0 +1,133 @@
+# Classifier Integration Contract — Task 1
+**Author:** Dhruv Sood  
+**Date:** 2026-04-28  
+**Repo:** Knowledge_Atlas  
+**Task:** Track 2 · Task 1 — Fix the Contribute Page
+
+---
+
+## 1. Inputs
+
+| Source | Field | Format | Required |
+|--------|-------|--------|----------|
+| Multipart form upload | `file` | PDF binary, ≤ 100 MB | Optional (at least one of file or citation) |
+| Form field | `citation` | Free-text APA/DOI/title string, newline-separated | Optional |
+| Form field | `why_it_matters` | Free text | Optional |
+| Form field | `email` | Email address | Optional |
+
+At least one of `file` or `citation` must be present; otherwise the endpoint returns HTTP 400.
+
+---
+
+## 2. Processing
+
+### Step 1 — Validate the PDF (if present)
+- Check magic bytes (`%PDF-`). If invalid → mark `rejected_bad_file`, skip all further steps for this file.
+- Check file size ≤ 100 MB. If over → reject.
+- Compute SHA-256 hash.
+
+### Step 2 — Duplicate probe (before any storage)
+Run `_check_duplicate()` in `ka_article_endpoints.py`:
+- SHA-256 hash match → definitive duplicate, do not store.
+- DOI match (extracted from first 5 KB of PDF) → definitive duplicate, do not store.
+- Fuzzy title match (≤ 1 word edit distance) → probable duplicate, do not store.
+
+Any duplicate match sets `verdict = "duplicate"` and bypasses classification and storage.
+
+### Step 3 — Extract text for classification
+Attempt to read title + abstract from the PDF:
+- Use `pdfplumber` (if available) to extract the first page's text.
+- Fall back to decoding the first 4 KB of raw PDF bytes as latin-1.
+- For citation-only submissions, use the parsed title and authors from `_parse_citation_line()`.
+
+### Step 4 — Classify article type
+Call `atlas_shared.HeuristicArticleTypeClassifier().classify(abstract=..., title=..., keywords=[])`.  
+Result: `ArticleTypeDecision {value, confidence, source, evidence}`.
+
+### Step 5 — Assess relevance
+Load `QuestionConstitution` objects from  
+`atlas_shared/src/atlas_shared/data/question_constitutions_starter.json`.  
+Call `QuestionArticleRelevanceFilter().assess(constitution, article)` for each.  
+Take the constitution with the highest-confidence non-reject verdict.  
+Result: `RelevanceAssessment {verdict, confidence, question_id, topic, environment_hits, outcome_hits}`.
+
+### Step 6 — Decide verdict and storage tier
+| Condition | Verdict | Store? | Status |
+|-----------|---------|--------|--------|
+| Best assessment = `accept`, confidence ≥ 0.55 | `accept` | Yes — quarantine dir + DB row | `staged_pending_review` |
+| Best assessment = `edge_case`, OR accept with confidence < 0.55 | `edge_case` | Yes — quarantine dir + DB row with `validation_notes` flag `"edge_case:true"` | `staged_pending_review` |
+| All constitutions return `reject` | `reject` | No storage | — |
+| Duplicate match | `duplicate` | No new storage | — |
+| Bad PDF | `rejected_bad_file` | No storage | — |
+
+REJECT papers are returned in the API response for display but never written to disk or DB.
+
+### Step 7 — Return response
+JSON response per submission item:
+```json
+{
+  "filename": "paper.pdf",
+  "verdict": "accept | edge_case | reject | duplicate | rejected_bad_file",
+  "article_type": "empirical_research",
+  "article_type_confidence": 0.81,
+  "topic": "Nature and Attention",
+  "question_id": "SQ-ART-001",
+  "topic_confidence": 0.90,
+  "environment_hits": ["nature", "green space"],
+  "outcome_hits": ["attention", "directed attention"],
+  "reasons": ["matches environment side: nature", "matches outcome side: attention"],
+  "article_id": "KA-ART-000042",
+  "status": "staged_pending_review"
+}
+```
+
+---
+
+## 3. Outputs
+
+### On the page
+A results section (`<div id="__ka_results">`) below the form renders one card per submitted item showing:
+- Verdict badge (green = accept, yellow = edge_case, red = reject/duplicate)
+- Article type + confidence percentage
+- Matched topic + question ID
+- Environment and outcome term hits
+- Classifier reasons
+
+Results accumulate across submissions in the same session (new results append, old results stay visible).
+
+### Storage (for ACCEPT and EDGE_CASE only)
+- PDF binary written to `data/storage/quarantine/<YYYY-MM>/<article_id>.pdf`
+- Row inserted into `articles` table in `data/ka_workflow.db` with:
+  - `article_id`, `submission_id`, `input_mode = "pdf_single"`
+  - `article_type`, `status = "staged_pending_review"`
+  - `validation_notes` includes `"edge_case:true"` for EDGE_CASE items
+  - `metadata_confidence` derived from whether DOI was extractable
+- Audit row written to `audit_log`
+
+---
+
+## 4. Success Conditions
+
+1. **Schema validity**: the `/api/articles/suggest` endpoint returns valid JSON matching the response format above for all four test-paper types.
+2. **On-topic empirical PDF** → verdict = `accept`; row exists in DB; PDF on disk.
+3. **Off-topic PDF** (ML paper) → verdict = `reject`; NO row in DB; NO file on disk.
+4. **Edge-case PDF** (architectural theory, no empirical data) → verdict = `edge_case`; row in DB with `validation_notes` containing `"edge_case:true"`; PDF on disk.
+5. **Citation-only submission** → verdict assigned (accept/edge_case/reject); for accept/edge_case a DB row is inserted with `input_mode = "citation_text"` and no PDF path.
+6. **Duplicate submission** → any paper submitted twice returns `verdict = "duplicate"` on the second submission; no new DB row is created.
+7. **Multi-submission session** → submitting 3 papers in one page session shows 3 result cards without any being overwritten.
+8. **Classifier confidence** → `article_type_confidence` is always between 0.0 and 1.0.
+9. **Results persist on refresh** — results section is reset on page load (not persisted across page refreshes; session-only).
+
+---
+
+## 5. Test Checklist
+
+- [ ] On-topic empirical PDF → `accept`, PDF saved at quarantine path, DB row exists
+- [ ] Off-topic PDF → `reject`, NO file in `data/storage/`, NO DB row
+- [ ] Edge-case PDF (theory/review) → `edge_case`, DB row has `validation_notes` with `edge_case:true`
+- [ ] Citation-only → endpoint handles, returns verdict, DB row for accept/edge_case
+- [ ] Same PDF submitted twice → second call returns `duplicate`, no duplicate row
+- [ ] Bad/non-PDF file → `rejected_bad_file`, no storage
+- [ ] Multiple submissions in one session → all result cards visible simultaneously
+- [ ] `article_type_confidence` in [0, 1] for every response
+- [ ] `article_id` is absent from response for reject/duplicate/bad-file verdicts
