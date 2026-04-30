@@ -565,56 +565,5 @@ function switchTab(event, tabId) {
 }
 </script>
 
-<script src="../ka_mode_switch.js"></script>
-<script src="../ka_site_shell.js"></script>
-<script src="../ka_data_adapter.js"></script><script>
-window.KA_SHELL.initShell({
-  navContainerSelector: '.nav-center',
-  modeSelectId: 'setup-mode-select',
-  modePillId: 'setup-mode-pill',
-  defaultMode: 'student_explorer'
-});
-</script>
-
-<script>
-/* SYSTEM STATE banner suppressed — debug info not for students */
-/* */
-</script>
-<script>
-window.KA_PAGE_FUNCTION = {
-  pageId: 'ka_student_setup',
-  title: 'Student Orientation Hub',
-  audience: 'New COGS 160 students on their first day; any contributor starting a new track',
-  purpose: 'A fast, discoverable orientation hub that explains what Knowledge Atlas is, directs students to their track assignment page, covers bare-minimum environment setup, and teaches the AI-directed development methodology. Eliminates the need for verbal onboarding or email instructions.',
-  workflowPos: 'First landing page for students. Should send them to their track page within 1–2 minutes.',
-  notFor: 'Track-specific assignment details, database schema docs, or advanced git operations (those are on track pages).',
-  phase: 'Phase 1 — Student onboarding infrastructure',
-  evalQuestions: [
-    'Can a student pick their track and navigate to the right assignment page in under 1 minute?',
-    'Is the "ask AI" guidance clear enough that a stuck student will actually use it?',
-    'Does the page feel short and inviting, or overwhelming?',
-    'Are the track descriptions compelling enough to help students decide?'
-  ]
-};
-</script>
-<script src="../ka_page_function.js"></script>
-
-<script>
-window.KA_ABOUT_PAGE = {
-  pageId: 'ka_student_setup',
-  objective: 'A concise orientation hub where students land on Day 1, pick their track in a visual grid, and navigate to their assignment page. Covers minimal environment setup (deferred to track pages) and teaches the AI-directed development methodology.',
-  users: 'New COGS 160 students; any contributor joining a track for the first time',
-  uses: [
-    'Understand what Knowledge Atlas is and what the four tracks do',
-    'Pick your track and navigate to the assignment page',
-    'Install Python 3.12, git, and VS Code (with OS-specific tabs)',
-    'Learn to use AI as a development tool, not a shortcut',
-    'Find quick answers to common first-day questions'
-  ]
-};
-</script>
-<script src="../ka_about_page.js"></script>
-<script src="../ka_ui_fixes.js"></script>
-
 </body>
 </html>
