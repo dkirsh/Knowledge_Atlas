@@ -614,6 +614,9 @@
         }
         const displayUrl = p.area === 'research' ? '' : `<div class="result-path">${p.path}</div>`;
         const pdfId = p.pdf_id || '';
+        const articleId = pdfId ? ` id="result-${pdfId}"` : '';
+        const titleHref = pdfId ? `#result-${pdfId}` : (p.url || '#');
+        const titleAction = pdfId ? ` onclick="event.preventDefault(); deepDive(this, '${pdfId}')"` : '';
         const paperBtns = (p.area === 'research' && pdfId)
           ? `<div class="paper-actions">
                <button onclick="toggleShortSummary(this, '${pdfId}')" title="Show short summary">📋 Summary</button>
@@ -622,12 +625,12 @@
              <div id="expand-${pdfId}"></div>`
           : '';
         return `
-        <article class="result" data-pdf-id="${pdfId}" data-source-num="${idx + 1}">
+        <article class="result" ${articleId} data-pdf-id="${pdfId}" data-source-num="${idx + 1}">
           <div class="result-head">
             <span class="area-pill area-${p.area}">${areaLabel}</span>
             ${trackPill}
           </div>
-          <a class="result-title" href="${p.url}">${highlightTitle(p.title, tokens)}</a>
+          <a class="result-title" href="${titleHref}"${titleAction}>${highlightTitle(p.title, tokens)}</a>
           ${metaLine}
           ${displayUrl}
           <div class="result-snippet">${snippet}</div>
@@ -870,7 +873,8 @@
       return scored.slice(0, n).map(({p}, i) => {
         const id = p.pdf_id || p.path;
         const label = p.title ? `${id}: ${p.title}` : id;
-        return `<a href="${p.url || '#'}">[${i+1}] ${label}</a>`;
+        const href = p.pdf_id ? `#result-${p.pdf_id}` : (p.url || '#');
+        return `<a href="${href}">[${i+1}] ${label}</a>`;
       }).join(' &nbsp;·&nbsp; ');
     }
 
@@ -1043,7 +1047,8 @@
         .map(({p, num}) => {
           const id = p.pdf_id || p.path;
           const label = p.title ? `${id}: ${p.title}` : id;
-          return `<a href="${p.url || '#'}">[${num}] ${label}</a>`;
+          const href = p.pdf_id ? `#result-${p.pdf_id}` : (p.url || '#');
+          return `<a href="${href}">[${num}] ${label}</a>`;
         }).join(' &nbsp;·&nbsp; ');
     }
 
