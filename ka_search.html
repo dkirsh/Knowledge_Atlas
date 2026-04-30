@@ -123,6 +123,7 @@
     .area-pill.area-articles,
     .area-pill.area-topics      { background: var(--blue-lt); color: var(--blue); }
     .area-pill.area-contribute  { background: var(--rose-lt); color: var(--rose); }
+    .area-pill.area-research    { background: #E8E0F8; color: #5A3E9E; }
     .area-pill.area-admin,
     .area-pill.area-site-utility { background: #efe9e0; color: #6a6258; }
     .area-pill.area-home        { background: var(--teal); color: #fff; }
@@ -148,6 +149,14 @@
       font-family: ui-monospace, Menlo, monospace; font-size: 0.74rem; color: var(--muted);
       margin-bottom: 8px; word-break: break-all;
     }
+    .result-meta {
+      font-size: 0.78rem; color: var(--muted); margin-bottom: 6px;
+      display: flex; gap: 10px; flex-wrap: wrap; align-items: center;
+    }
+    .result-meta .meta-tag {
+      background: #f4efe6; padding: 1px 7px; border-radius: 6px;
+      font-size: 0.7rem; color: #6a6258;
+    }
     .result-snippet { font-size: 0.85rem; color: #444; line-height: 1.55; }
     .result-snippet mark { background: #fff3c4; color: #5a4500; padding: 0 2px; border-radius: 2px; }
 
@@ -168,6 +177,108 @@
     }
     .footer a { color: var(--teal); text-decoration: none; }
     .footer a:hover { text-decoration: underline; }
+
+    /* AI SYNTHESIS */
+    .synth-bar { display:flex; align-items:center; gap:10px; margin-bottom:14px; }
+    .synth-btn {
+      background: linear-gradient(135deg, #5A3E9E 0%, #2A7868 100%);
+      color:#fff; border:none; border-radius:8px; padding:8px 18px;
+      font-size:0.85rem; font-weight:600; cursor:pointer;
+      transition: opacity 0.15s, transform 0.1s;
+    }
+    .synth-btn:hover { opacity:0.9; transform:translateY(-1px); }
+    .synth-btn:disabled { opacity:0.5; cursor:wait; }
+    .synth-btn .spark { margin-right:5px; }
+    .settings-gear {
+      background:none; border:1px solid var(--border); border-radius:6px;
+      padding:5px 9px; cursor:pointer; font-size:1rem; color:var(--muted);
+    }
+    .settings-gear:hover { color:var(--ink); border-color:var(--ink); }
+    .settings-gear.has-key { color:#2A7868; border-color:#2A7868; }
+
+    .answer-panel {
+      background: var(--white); border:1px solid #c8b8e8;
+      border-left: 4px solid #5A3E9E;
+      border-radius: 8px; padding:18px 22px; margin-bottom:18px;
+      font-size:0.9rem; line-height:1.65; color: var(--ink);
+      animation: fadeSlide 0.3s ease;
+    }
+    @keyframes fadeSlide { from { opacity:0; transform:translateY(-8px); } to { opacity:1; transform:translateY(0); } }
+    .answer-panel .answer-header {
+      display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;
+    }
+    .answer-panel .answer-label {
+      font-family:Georgia,serif; font-size:0.82rem; color:#5A3E9E;
+      text-transform:uppercase; letter-spacing:0.06em; font-weight:700;
+    }
+    .answer-panel .answer-close {
+      background:none; border:none; font-size:1.1rem; color:var(--muted);
+      cursor:pointer; padding:2px 6px; border-radius:4px;
+    }
+    .elaborate-btn {
+      display:inline-flex; align-items:center; gap:5px;
+      background:none; border:1px solid #c8b8e8; border-radius:6px;
+      padding:5px 14px; font-size:0.8rem; color:#5A3E9E;
+      cursor:pointer; margin-top:10px; transition: background 0.15s;
+    }
+    .elaborate-btn:hover { background:#f0e8f8; }
+    .elaborate-btn:disabled { opacity:0.5; cursor:wait; }
+    .paper-actions { display:flex; gap:6px; margin-top:6px; }
+    .paper-actions button {
+      background:none; border:1px solid var(--border); border-radius:5px;
+      padding:3px 9px; font-size:0.7rem; color:var(--muted); cursor:pointer;
+      transition: all 0.12s;
+    }
+    .paper-actions button:hover { border-color:#5A3E9E; color:#5A3E9E; background:#f8f4fc; }
+    .paper-actions button:disabled { opacity:0.5; cursor:wait; }
+    .paper-expand {
+      margin-top:8px; padding:10px 12px; background:#faf8fd; border-radius:6px;
+      font-size:0.82rem; line-height:1.55; color:var(--ink); animation: fadeSlide 0.2s ease;
+    }
+    .paper-expand .expand-close {
+      float:right; background:none; border:none; color:var(--muted); cursor:pointer; font-size:0.9rem;
+    }
+    .answer-panel .answer-close:hover { background:#f0e8f8; color:#5A3E9E; }
+    .answer-panel .answer-body p { margin-bottom:10px; }
+    .answer-panel .answer-sources {
+      margin-top:12px; padding-top:10px; border-top:1px solid #e8e0f0;
+      font-size:0.78rem; color:var(--muted);
+    }
+    .answer-panel .answer-sources a { color:#5A3E9E; text-decoration:none; }
+    .answer-panel .answer-sources a:hover { text-decoration:underline; }
+    .answer-panel .typing { color:var(--muted); font-style:italic; }
+    .answer-panel .typing::after {
+      content:''; animation: dots 1.2s steps(4,end) infinite;
+    }
+    @keyframes dots {
+      0%{content:''} 25%{content:'.'} 50%{content:'..'} 75%{content:'...'}
+    }
+
+    /* SETTINGS MODAL */
+    .modal-overlay {
+      display:none; position:fixed; inset:0; background:rgba(0,0,0,0.4);
+      z-index:2000; justify-content:center; align-items:center;
+    }
+    .modal-overlay.open { display:flex; }
+    .modal-box {
+      background:var(--white); border-radius:12px; padding:28px 32px;
+      max-width:460px; width:90%; box-shadow:0 8px 32px rgba(0,0,0,.18);
+    }
+    .modal-box h3 { font-family:Georgia,serif; font-size:1.1rem; margin-bottom:12px; color:var(--navy); }
+    .modal-box p { font-size:0.85rem; color:var(--muted); margin-bottom:14px; line-height:1.5; }
+    .modal-box input[type="password"] {
+      width:100%; padding:10px 12px; border:1px solid var(--border);
+      border-radius:6px; font-size:0.9rem; font-family:ui-monospace,Menlo,monospace;
+    }
+    .modal-box input:focus { outline:none; border-color:#5A3E9E; }
+    .modal-box .modal-actions { display:flex; gap:10px; margin-top:16px; justify-content:flex-end; }
+    .modal-box .modal-actions button {
+      padding:8px 18px; border-radius:6px; font-size:0.85rem; cursor:pointer;
+    }
+    .modal-box .btn-save { background:#5A3E9E; color:#fff; border:none; }
+    .modal-box .btn-save:hover { background:#4a3080; }
+    .modal-box .btn-cancel { background:#fff; border:1px solid var(--border); color:var(--muted); }
+    .modal-box .btn-clear-key { background:none; border:none; color:var(--rose); font-size:0.8rem; cursor:pointer; margin-right:auto; }
   </style>
 </head>
 <body data-ka-regime="global">
@@ -175,7 +286,7 @@
 
 <header class="hero">
     <h1>Search the Knowledge Atlas</h1>
-    <p class="sub">Find pages, track assignments, evidence, gaps, and contributors across the whole site.</p>
+    <p class="sub">Search across site pages <em>and</em> the research corpus — 800+ science writer summaries from the Web of Belief.</p>
     <div class="search-shell">
       <span class="search-icon" aria-hidden="true">⌕</span>
       <input id="q" type="search" autofocus
@@ -197,20 +308,42 @@
     </aside>
 
     <main>
+      <div class="synth-bar" id="synth-bar" style="display:none">
+        <button class="synth-btn" id="synth-btn" type="button">
+          <span class="spark">✦</span> Synthesize answer
+        </button>
+        <button class="settings-gear" id="settings-gear" type="button" title="API key settings">⚙</button>
+      </div>
+      <div id="answer-slot"></div>
       <div class="results-meta" id="results-meta">Loading index…</div>
       <div id="results"></div>
     </main>
 
   </div>
 
+  <!-- Settings Modal -->
+  <div class="modal-overlay" id="settings-modal">
+    <div class="modal-box">
+      <h3>Gemini API Key</h3>
+      <p>Enter your free Gemini API key to enable AI-synthesized answers.
+         Get one at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a>.
+         The key is stored only in your browser's localStorage.</p>
+      <input type="password" id="api-key-input" placeholder="AIza…" autocomplete="off">
+      <div class="modal-actions">
+        <button class="btn-clear-key" id="btn-clear-key" type="button">Clear key</button>
+        <button class="btn-cancel" id="btn-cancel" type="button">Cancel</button>
+        <button class="btn-save" id="btn-save" type="button">Save</button>
+      </div>
+    </div>
+  </div>
+
   <footer class="footer">
     <p>
-      Static search across <span id="indexed-count">…</span> pages.
-      The index is rebuilt by <code>scripts/build_search_index.py</code>; if a page you expect is missing,
-      run that script and reload. <a href="ka_sitemap.html">Browse the site map</a> ·
-      <a href="ka_home.html">Global home</a>.
+      Static search across <span id="indexed-count">…</span> site pages + <span id="research-count">…</span> research papers.
+      Site index: <code>scripts/build_search_index.py</code> · Research index: <code>scripts/build_research_index.py</code>.
+      <a href="ka_sitemap.html">Browse the site map</a> · <a href="ka_home.html">Global home</a>.
     </p>
-    <p style="margin-top:6px">Index generated <span id="index-when">—</span>.</p>
+    <p style="margin-top:6px">Site index: <span id="index-when">—</span>  ·  Research index: <span id="research-when">—</span></p>
   </footer>
 
   <script>
@@ -221,6 +354,7 @@
     // Configuration
     // -----------------------------------------------------------------
     const INDEX_URL = 'search_index.json';
+    const RESEARCH_INDEX_URL = 'research_index.json';
     const MAX_RESULTS = 80;
 
     // Friendly labels for the area buckets
@@ -231,6 +365,7 @@
       'evidence':        'Evidence',
       'gaps':            'Gaps',
       'contribute':      'Contribute',
+      'research':        'Research · Web of Belief',
       'track-overview':  'COGS 160 — Track overview',
       'track-task':      'COGS 160 — Track task',
       'track-submission':'COGS 160 — Submissions',
@@ -244,21 +379,112 @@
     // Stopwords stripped from queries to avoid stupid matches
     const STOPWORDS = new Set(['the','a','an','of','for','to','and','or','in','on','is','are','be','this','that','what','how','why']);
 
+    // Synonym map for query expansion — environment-behavior research vocabulary
+    const SYNONYMS = {
+      // Views & scenery
+      'view':['vista','prospect','scenery','panorama','outlook','window','landscape'],
+      'sea':['ocean','water','marine','aquatic','blue space','coastal','waterfront'],
+      'ocean':['sea','water','marine','aquatic','blue space','coastal'],
+      'water':['sea','ocean','aquatic','blue space','marine','coastal','waterfront'],
+      'landscape':['scenery','view','vista','terrain','outdoor'],
+      'window':['view','vista','daylight','glazing','prospect','outlook'],
+      // Restoration & stress
+      'restorative':['restoration','stress-reducing','stress reduction','recovery','calming','relaxation','recuperative'],
+      'restoration':['restorative','stress-reducing','recovery','calming','relaxation','recuperative'],
+      'stress':['anxiety','cortisol','arousal','strain','stress-reducing','distress','tension'],
+      'stress-reducing':['restorative','calming','relaxation','recovery','restoration','de-stressing'],
+      'relaxation':['calming','restorative','stress-reducing','restoration','recovery'],
+      'anxiety':['stress','cortisol','arousal','worry','distress'],
+      'calming':['soothing','relaxation','restorative','stress-reducing','tranquil'],
+      // Emotion & affect
+      'feeling':['emotion','affect','mood','valence','sentiment'],
+      'feelings':['emotions','affect','mood','valence','sentiments'],
+      'emotion':['affect','mood','valence','feeling','sentiment','arousal'],
+      'emotions':['affects','moods','feelings','sentiments'],
+      'mood':['affect','emotion','feeling','valence','wellbeing'],
+      // Cognition
+      'concentration':['focus','attention','attentional','vigilance','sustained attention'],
+      'focus':['concentration','attention','attentional','vigilance'],
+      'attention':['focus','concentration','attentional','vigilance','alertness'],
+      'cognitive':['cognition','mental','thinking','reasoning','processing'],
+      'memory':['recall','retention','working memory','spatial memory'],
+      'creativity':['creative','divergent','ideation','innovation','imaginative'],
+      'creative':['creativity','divergent','ideation','innovation'],
+      // Wellbeing
+      'wellbeing':['well-being','wellness','health','satisfaction','quality of life'],
+      'well-being':['wellbeing','wellness','health','satisfaction'],
+      'health':['wellbeing','wellness','salutogenic','healthy'],
+      'comfort':['thermal comfort','satisfaction','pleasant','comfortable','discomfort'],
+      // Sensory — sound
+      'noise':['sound','acoustic','auditory','soundscape'],
+      'sound':['noise','acoustic','auditory','soundscape'],
+      'acoustic':['sound','noise','auditory','soundscape','reverberation'],
+      'soundscape':['sound','noise','acoustic','auditory'],
+      // Sensory — light
+      'light':['lighting','illumination','luminance','lux','daylight','daylighting'],
+      'lighting':['light','illumination','luminance','lux','daylight'],
+      'daylight':['natural light','daylighting','sunlight','window','illumination'],
+      'daylighting':['daylight','natural light','sunlight','window'],
+      // Sensory — color
+      'color':['colour','hue','chromatic','pigment','tint','wall color'],
+      'colour':['color','hue','chromatic','pigment','tint'],
+      'hue':['color','colour','chromatic','tint','saturation'],
+      // Nature & biophilia
+      'nature':['biophilic','biophilia','natural','greenery','vegetation','plants','garden'],
+      'biophilic':['nature','biophilia','natural','greenery','vegetation','plants'],
+      'biophilia':['biophilic','nature','natural','greenery'],
+      'garden':['nature','greenery','vegetation','plants','landscape','outdoor'],
+      'greenery':['nature','vegetation','plants','biophilic','green','foliage'],
+      'plants':['greenery','vegetation','nature','biophilic','indoor plants'],
+      // Spatial qualities
+      'prospect':['openness','vista','view','window','panorama','outlook'],
+      'refuge':['enclosure','shelter','privacy','enclosed','nook','alcove'],
+      'enclosure':['refuge','enclosed','containment','room','shelter'],
+      'ceiling':['overhead','room height','vertical','height','spatial'],
+      'room':['space','interior','indoor','enclosure','chamber'],
+      'space':['room','interior','spatial','environment','place'],
+      // Thermal
+      'temperature':['thermal','warmth','heat','cold','thermoregulation'],
+      'thermal':['temperature','warmth','heat','thermal comfort'],
+      // Performance
+      'productivity':['performance','efficiency','output','work performance'],
+      'performance':['productivity','efficiency','cognitive','output','task performance'],
+      // Circadian
+      'sleep':['circadian','melatonin','chronotype','insomnia','rest'],
+      'circadian':['sleep','melatonin','chronotype','diurnal','biological clock'],
+      // Materials
+      'wood':['timber','wooden','natural material','material'],
+      'material':['wood','timber','concrete','stone','texture','surface'],
+      // Air quality
+      'ventilation':['air quality','co2','fresh air','airflow','hvac'],
+      'air':['ventilation','co2','air quality','indoor air','airflow'],
+      'co2':['carbon dioxide','ventilation','air quality','indoor air'],
+    };
+
     // -----------------------------------------------------------------
     // State
     // -----------------------------------------------------------------
     let INDEX = [];
     let activeAreas = new Set();   // empty = all
     let lastQuery = '';
+    let lastScoredResults = [];    // stashed by render() for synthesis
+    let synthDebounce = null;      // auto-synthesis debounce timer
 
     // -----------------------------------------------------------------
     // Tokenize and score
     // -----------------------------------------------------------------
     function tokenize(s){
-      return (s || '').toLowerCase()
+      const base = (s || '').toLowerCase()
         .replace(/[^\w\s\-]/g, ' ')
         .split(/\s+/)
         .filter(t => t.length >= 2 && !STOPWORDS.has(t));
+      // Expand with synonyms
+      const expanded = new Set(base);
+      for (const t of base) {
+        const syns = SYNONYMS[t];
+        if (syns) syns.forEach(s => expanded.add(s));
+      }
+      return Array.from(expanded);
     }
 
     function score(page, tokens){
@@ -330,7 +556,9 @@
         scored.sort((a,b) => b.s - a.s || a.p.title.localeCompare(b.p.title));
       }
 
-      const shown = scored.slice(0, MAX_RESULTS);
+      // When searching, only show the top N that the AI will also see
+      const limit = (tokens.length > 0) ? SYNTH_TOP_N : MAX_RESULTS;
+      const shown = scored.slice(0, limit);
 
       if (q && shown.length === 0){
         meta.textContent = '';
@@ -366,24 +594,55 @@
           (activeAreas.size ? ` in selected area${activeAreas.size === 1 ? '' : 's'}` : '. Type a query above to search the full index.');
       }
 
-      const html = shown.map(({p}) => {
+      const html = shown.map(({p}, idx) => {
         const areaLabel = AREA_LABEL[p.area] || p.area;
-        const snippet = highlight(p.excerpt, tokens);
+        // Clean markdown from excerpt before highlighting
+        const cleanExcerpt = (p.area === 'research') ? cleanMarkdown(p.excerpt || '') : (p.excerpt || '');
+        const snippet = highlight(cleanExcerpt, tokens);
         const trackPill = (p.track && p.track !== 'none')
           ? `<span class="track-pill track-${p.track}">${p.track.replace('track', 'Track ')}</span>`
           : '';
+        // Research-specific metadata line
+        let metaLine = '';
+        if (p.area === 'research') {
+          const parts = [];
+          if (p.authors) parts.push(p.authors);
+          if (p.year) parts.push(p.year);
+          if (p.article_type) parts.push(`<span class="meta-tag">${p.article_type}</span>`);
+          if (p.word_count) parts.push(`${p.word_count} words`);
+          if (parts.length) metaLine = `<div class="result-meta">${parts.join(' · ')}</div>`;
+        }
+        const displayUrl = p.area === 'research' ? '' : `<div class="result-path">${p.path}</div>`;
+        const pdfId = p.pdf_id || '';
+        const paperBtns = (p.area === 'research' && pdfId)
+          ? `<div class="paper-actions">
+               <button onclick="toggleShortSummary(this, '${pdfId}')" title="Show short summary">📋 Summary</button>
+               <button onclick="deepDive(this, '${pdfId}')" title="Show full summary">📖 Full text</button>
+             </div>
+             <div id="expand-${pdfId}"></div>`
+          : '';
         return `
-        <article class="result">
+        <article class="result" data-pdf-id="${pdfId}" data-source-num="${idx + 1}">
           <div class="result-head">
             <span class="area-pill area-${p.area}">${areaLabel}</span>
             ${trackPill}
           </div>
           <a class="result-title" href="${p.url}">${highlightTitle(p.title, tokens)}</a>
-          <div class="result-path">${p.path}</div>
+          ${metaLine}
+          ${displayUrl}
           <div class="result-snippet">${snippet}</div>
+          ${paperBtns}
         </article>`;
       }).join('');
       results.innerHTML = html;
+
+      // Show/hide synth bar and auto-synthesize
+      const synthBar = document.getElementById('synth-bar');
+      lastScoredResults = scored;  // stash for synthesis
+      synthBar.style.display = (q && scored.length > 0) ? 'flex' : 'none';
+
+      // Clear previous answer on new search
+      document.getElementById('answer-slot').innerHTML = '';
     }
 
     function highlightTitle(title, tokens){
@@ -401,7 +660,7 @@
     function buildFilters(){
       const counts = {};
       INDEX.forEach(p => { counts[p.area] = (counts[p.area] || 0) + 1; });
-      const order = ['home','track-overview','track-task','track-submission','160sp-syllabus','160sp-other',
+      const order = ['home','research','track-overview','track-task','track-submission','160sp-syllabus','160sp-other',
                      'topics','articles','evidence','gaps','contribute','admin','site-utility','other'];
       const list = document.getElementById('filter-list');
       list.innerHTML = order
@@ -467,23 +726,491 @@
       }
     }
 
-    fetch(INDEX_URL, { cache: 'no-cache' })
-      .then(r => {
-        if (!r.ok) throw new Error('failed to load index');
-        return r.json();
-      })
-      .then(data => {
-        INDEX = data.pages || [];
-        document.getElementById('indexed-count').textContent = data.page_count || INDEX.length;
-        document.getElementById('index-when').textContent = (data.generated_at || '').replace('T', ' ').replace(/\..*/, '');
-        buildFilters();
-        setupSearchInput();
-        render();
-      })
-      .catch(err => {
-        document.getElementById('results-meta').innerHTML =
-          'Could not load <code>search_index.json</code>. Run <code>python3 scripts/build_search_index.py</code> from the repo root and reload.';
+    // Load both indexes in parallel, merge, then boot the UI
+    const siteP = fetch(INDEX_URL, { cache: 'no-cache' })
+      .then(r => r.ok ? r.json() : null)
+      .catch(() => null);
+
+    const researchP = fetch(RESEARCH_INDEX_URL, { cache: 'no-cache' })
+      .then(r => r.ok ? r.json() : null)
+      .catch(() => null);
+
+    Promise.all([siteP, researchP]).then(([siteData, researchData]) => {
+      const sitePages = siteData ? (siteData.pages || []) : [];
+      const researchPapers = researchData ? (researchData.papers || []) : [];
+
+      INDEX = [...sitePages, ...researchPapers];
+
+      document.getElementById('indexed-count').textContent = sitePages.length;
+      document.getElementById('research-count').textContent = researchPapers.length;
+      document.getElementById('index-when').textContent =
+        siteData ? (siteData.generated_at || '').replace('T', ' ').replace(/\..*/, '') : '—';
+      document.getElementById('research-when').textContent =
+        researchData ? (researchData.generated_at || '').replace('T', ' ').replace(/\..*/, '') : 'not yet built';
+
+      buildFilters();
+      setupSearchInput();
+      render();
+    }).catch(err => {
+      document.getElementById('results-meta').innerHTML =
+        'Could not load search indexes. Run <code>python3 scripts/build_search_index.py</code> and <code>python3 scripts/build_research_index.py</code> and reload.';
+    });
+
+    // -----------------------------------------------------------------
+    // AI Synthesis (Gemini RAG)
+    // -----------------------------------------------------------------
+    const GEMINI_MODEL = 'gemini-2.5-flash';
+    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+    const SYNTH_TOP_N = 8;
+    const LS_KEY = 'ka_gemini_api_key';
+    const FULL_TEXT_URL = 'research_full.json';
+
+    // Clean markdown formatting for display
+    function cleanMarkdown(text) {
+      let cleaned = text;
+
+      // Strip the leading "# PDF-XXXX: Title..." line entirely
+      cleaned = cleaned.replace(/^\s*#\s+PDF-\d+:?[^\n]*\n*/i, '');
+
+      // Find and format Paper Type section
+      const ptMatch = cleaned.match(/(^|\n)##?\s*Paper\s*Type\s*\n/i);
+      if (ptMatch) {
+        // Everything before Paper Type is preamble — strip it
+        const beforePT = cleaned.slice(0, ptMatch.index).trim();
+        const afterPT = cleaned.slice(ptMatch.index + ptMatch[0].length);
+        const typeLineMatch = afterPT.match(/^\s*(.+?)\s*$/m);
+        const paperType = typeLineMatch ? typeLineMatch[1].trim() : '';
+        const afterTypeLine = afterPT.slice(typeLineMatch ? typeLineMatch.index + typeLineMatch[0].length : 0);
+        // Start with "Paper Type: value." then the rest
+        cleaned = 'Paper Type: ' + paperType + '.' + afterTypeLine;
+      }
+
+      cleaned = cleaned
+        // Remove any remaining # Heading lines (with or without newline before)
+        .replace(/(^|\n)#{1,3}\s+/g, '$1\n… ')
+        // Add colon after section names that follow …
+        .replace(/… ([^\n:]+)(?=\n)/g, '… $1:')
+        // Remove markdown bold/italic
+        .replace(/\*\*(.+?)\*\*/g, '$1')
+        .replace(/\*(.+?)\*/g, '$1')
+        .replace(/_(.+?)_/g, '$1')
+        // Clean up excessive whitespace
+        .replace(/\n{3,}/g, '\n\n')
+        // Remove leading whitespace/newlines
+        .replace(/^\s+/, '')
+        .trim();
+
+      return cleaned;
+    }
+
+    // Lazy-loaded full-text cache
+    let _fullTextCache = null;
+    async function getFullText(pdfId) {
+      if (!_fullTextCache) {
+        try {
+          const resp = await fetch(FULL_TEXT_URL, { cache: 'no-cache' });
+          if (resp.ok) {
+            const data = await resp.json();
+            _fullTextCache = data.papers || {};
+          } else {
+            _fullTextCache = {};
+          }
+        } catch(e) { _fullTextCache = {}; }
+      }
+      return _fullTextCache[pdfId] || null;
+    }
+
+    function getApiKey() { return localStorage.getItem(LS_KEY) || ''; }
+    function setApiKey(k) { localStorage.setItem(LS_KEY, k); updateGearIcon(); }
+    function clearApiKey() { localStorage.removeItem(LS_KEY); updateGearIcon(); }
+    function updateGearIcon() {
+      const gear = document.getElementById('settings-gear');
+      if (gear) gear.classList.toggle('has-key', !!getApiKey());
+    }
+
+    // Settings modal
+    function setupSettingsModal() {
+      const modal = document.getElementById('settings-modal');
+      const keyInput = document.getElementById('api-key-input');
+      document.getElementById('settings-gear').addEventListener('click', () => {
+        keyInput.value = getApiKey();
+        modal.classList.add('open');
+        keyInput.focus();
       });
+      modal.addEventListener('click', (e) => {
+        if (e.target === modal) modal.classList.remove('open');
+      });
+      document.getElementById('btn-cancel').addEventListener('click', () => modal.classList.remove('open'));
+      document.getElementById('btn-save').addEventListener('click', () => {
+        setApiKey(keyInput.value.trim());
+        modal.classList.remove('open');
+      });
+      document.getElementById('btn-clear-key').addEventListener('click', () => {
+        clearApiKey();
+        keyInput.value = '';
+      });
+      updateGearIcon();
+    }
+    // Wire modal immediately (DOM is already present)
+    setupSettingsModal();
+
+    // Pack context from top search results
+    function packContext(scored, n) {
+      return scored.slice(0, n).map(({p}, i) => {
+        const id = p.pdf_id || p.path || `source-${i+1}`;
+        const title = p.title || id;
+        const text = (p.excerpt || '').slice(0, 1200);
+        const meta = [p.authors, p.year, p.article_type].filter(Boolean).join(', ');
+        return `--- SOURCE ${i+1}: ${id} ---\nTitle: ${title}\n${meta ? 'Meta: ' + meta + '\n' : ''}${text}`;
+      }).join('\n\n');
+    }
+
+    // Build source citations list
+    function buildSourcesList(scored, n) {
+      return scored.slice(0, n).map(({p}, i) => {
+        const id = p.pdf_id || p.path;
+        const label = p.title ? `${id}: ${p.title}` : id;
+        return `<a href="${p.url || '#'}">[${i+1}] ${label}</a>`;
+      }).join(' &nbsp;·&nbsp; ');
+    }
+
+    // Call Gemini API — returns answer + relevance-ranked source order
+    async function synthesize() {
+      const key = getApiKey();
+      if (!key) {
+        document.getElementById('settings-gear').click();
+        return;
+      }
+      const q = lastQuery.trim();
+      if (!q || lastScoredResults.length === 0) return;
+
+      const btn = document.getElementById('synth-btn');
+      const slot = document.getElementById('answer-slot');
+      btn.disabled = true;
+
+      // Show typing indicator
+      slot.innerHTML = `
+        <div class="answer-panel">
+          <div class="answer-header">
+            <span class="answer-label">✦ Synthesized Answer</span>
+          </div>
+          <div class="answer-body"><p class="typing">Searching the web of belief</p></div>
+        </div>`;
+
+      const context = packContext(lastScoredResults, SYNTH_TOP_N);
+      const systemPrompt = [
+        'You are a research assistant for the Knowledge Atlas, a corpus of environment-behavior research.',
+        'Answer the user\'s question using ONLY the provided source excerpts.',
+        'Be specific: cite findings with effect sizes, p-values, or concrete numbers when available.',
+        'Cite sources inline as [1], [2], etc. corresponding to the SOURCE numbers.',
+        '',
+        'GENERALIZATION RULE: If no source DIRECTLY addresses the specific question,',
+        'DO NOT simply say "there are no articles on X." Instead:',
+        '1. Acknowledge that no source specifically addresses the exact query.',
+        '2. Identify the broader topic (e.g., "wall color" → color, hue, chromatic environment).',
+        '3. Discuss what the available sources DO say about that broader topic.',
+        '4. Draw out any implications or connections to the user\'s specific question.',
+        'The user is looking for useful research context, not a dead end.',
+        '',
+        'Write 2-4 concise paragraphs. Do not use markdown headers or formatting.',
+        '',
+        'IMPORTANT: After your answer, output a line exactly like this:',
+        'RELEVANCE_ORDER: 3,1,5,2,4,6,7,8',
+        'This line must list ALL source numbers (1 through N) ranked from MOST to LEAST relevant to the question.',
+        'Sources that are not relevant at all should still appear at the end.',
+      ].join('\n');
+
+      const body = {
+        system_instruction: { parts: [{ text: systemPrompt }] },
+        contents: [{
+          parts: [{ text: `QUESTION: ${q}\n\n${context}` }]
+        }],
+        generationConfig: { temperature: 0.3, maxOutputTokens: 2048 }
+      };
+
+      try {
+        const resp = await fetch(`${GEMINI_URL}?key=${key}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          const msg = err?.error?.message || `HTTP ${resp.status}`;
+          throw new Error(msg);
+        }
+        const data = await resp.json();
+        const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+
+        // Parse relevance order from response
+        let answerText = raw;
+        let rankOrder = null;
+        const rankMatch = raw.match(/RELEVANCE_ORDER:\s*([\d,\s]+)/i);
+        if (rankMatch) {
+          answerText = raw.slice(0, rankMatch.index).trim();
+          rankOrder = rankMatch[1].split(',').map(s => parseInt(s.trim(), 10)).filter(n => !isNaN(n));
+        }
+
+        // Parse which sources were actually cited in the answer
+        const citedNums = new Set();
+        const citeRegex = /\[(\d+)\]/g;
+        let cm;
+        while ((cm = citeRegex.exec(answerText)) !== null) {
+          citedNums.add(parseInt(cm[1], 10));
+        }
+
+        // Reorder results if we got a ranking
+        if (rankOrder && rankOrder.length > 0) {
+          reorderResults(rankOrder);
+        }
+
+        // Filter results to only show AI-cited papers
+        if (citedNums.size > 0) {
+          filterToCited(citedNums);
+        }
+
+        // Build sources list from only cited sources
+        const sources = buildCitedSourcesList(lastScoredResults, SYNTH_TOP_N, citedNums);
+        const paragraphs = (answerText || 'No response generated.').split(/\n\n+/).filter(Boolean)
+          .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+
+        slot.innerHTML = `
+          <div class="answer-panel">
+            <div class="answer-header">
+              <span class="answer-label">✦ Synthesized Answer</span>
+              <button class="answer-close" title="Close" onclick="document.getElementById('answer-slot').innerHTML=''; showAllResults()">×</button>
+            </div>
+            <div class="answer-body">${paragraphs}</div>
+            <div class="answer-sources">Cited sources: ${sources}</div>
+            <button class="elaborate-btn" id="elaborate-btn" type="button">⤵ Elaborate with full sources</button>
+          </div>`;
+        // Wire elaborate button
+        document.getElementById('elaborate-btn').addEventListener('click', elaborate);
+
+        // Auto-escalate to elaborate if answer seems thin
+        const thinAnswer = citedNums.size <= 1 ||
+          /no (direct|specific|sources|articles|papers)\b/i.test(answerText) ||
+          /not specifically address/i.test(answerText) ||
+          /do not (directly|specifically) address/i.test(answerText);
+        if (thinAnswer) {
+          // Auto-trigger elaborate for a richer answer
+          setTimeout(() => elaborate(), 200);
+        }
+      } catch (e) {
+        slot.innerHTML = `
+          <div class="answer-panel" style="border-left-color:var(--rose)">
+            <div class="answer-header">
+              <span class="answer-label" style="color:var(--rose)">Error</span>
+              <button class="answer-close" title="Close" onclick="document.getElementById('answer-slot').innerHTML=''">×</button>
+            </div>
+            <div class="answer-body"><p>${e.message}</p>
+            <p style="font-size:0.8rem;color:var(--muted)">Check your API key in ⚙ settings. Free tier: 15 req/min, 1500 req/day.</p></div>
+          </div>`;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+
+    // Filter displayed results to only AI-cited papers (uses data-source-num)
+    function filterToCited(citedNums) {
+      const resultsDiv = document.getElementById('results');
+      const articles = Array.from(resultsDiv.querySelectorAll('article.result'));
+      articles.forEach(el => {
+        const srcNum = parseInt(el.dataset.sourceNum, 10);
+        if (!citedNums.has(srcNum)) {
+          el.style.display = 'none';
+          el.dataset.hidden = 'true';
+        }
+      });
+      const meta = document.getElementById('results-meta');
+      if (meta) meta.textContent = `${citedNums.size} relevant source${citedNums.size === 1 ? '' : 's'} cited in answer`;
+    }
+
+    // Show all results again (when answer is dismissed)
+    function showAllResults() {
+      const articles = document.querySelectorAll('article.result[data-hidden]');
+      articles.forEach(el => { el.style.display = ''; delete el.dataset.hidden; });
+      render();
+    }
+    // Make available globally for onclick
+    window.showAllResults = showAllResults;
+
+    // Build sources list from only cited source numbers
+    function buildCitedSourcesList(scored, n, citedNums) {
+      return scored.slice(0, n)
+        .map(({p}, i) => ({p, num: i + 1}))
+        .filter(({num}) => citedNums.has(num))
+        .map(({p, num}) => {
+          const id = p.pdf_id || p.path;
+          const label = p.title ? `${id}: ${p.title}` : id;
+          return `<a href="${p.url || '#'}">[${num}] ${label}</a>`;
+        }).join(' &nbsp;·&nbsp; ');
+    }
+
+    // Per-paper: show short SC summary (first 800 chars from full text)
+    async function toggleShortSummary(btn, pdfId) {
+      const slot = document.getElementById('expand-' + pdfId);
+      if (!slot) return;
+      if (slot.innerHTML) { slot.innerHTML = ''; return; }
+
+      btn.disabled = true;
+      const full = await getFullText(pdfId);
+      btn.disabled = false;
+
+      if (!full || !full.text) {
+        slot.innerHTML = '<div class="paper-expand">No summary available for this paper.</div>';
+        return;
+      }
+      const cleaned = cleanMarkdown(full.text);
+      const text = cleaned.slice(0, 800);
+      const truncated = cleaned.length > 800;
+      slot.innerHTML = `<div class="paper-expand">
+        <button class="expand-close" onclick="document.getElementById('expand-${pdfId}').innerHTML=''">×</button>
+        ${text}${truncated ? ' …' : ''}
+      </div>`;
+    }
+    window.toggleShortSummary = toggleShortSummary;
+
+    // Per-paper: show full SC summary text (no AI call — the text IS the expert summary)
+    async function deepDive(btn, pdfId) {
+      const slot = document.getElementById('expand-' + pdfId);
+      if (!slot) return;
+      if (slot.innerHTML && slot.querySelector('.deep-dive-content')) {
+        slot.innerHTML = '';
+        return;
+      }
+      btn.disabled = true;
+      slot.innerHTML = '<div class="paper-expand"><p class="typing">Loading full summary</p></div>';
+
+      const full = await getFullText(pdfId);
+      btn.disabled = false;
+
+      if (!full || !full.text) {
+        slot.innerHTML = '<div class="paper-expand">Full summary not available. Run build_research_index.py to generate research_full.json.</div>';
+        return;
+      }
+
+      // Format the full text with paragraph breaks, cleaned of markdown
+      const cleaned = cleanMarkdown(full.text);
+      const paras = cleaned.split(/\n\n+/).filter(Boolean).map(p => `<p>${p}</p>`).join('');
+      const meta = [full.authors, full.year, full.article_type].filter(Boolean).join(' · ');
+      slot.innerHTML = `<div class="paper-expand deep-dive-content">
+        <button class="expand-close" onclick="document.getElementById('expand-${pdfId}').innerHTML=''">×</button>
+        <strong style="color:#5A3E9E;font-size:0.75rem">FULL SUMMARY</strong>
+        ${meta ? '<div style="font-size:0.78rem;color:var(--muted);margin:4px 0 8px">' + meta + '</div>' : ''}
+        ${paras}
+      </div>`;
+    }
+    window.deepDive = deepDive;
+
+    // Reorder the displayed results based on Gemini's relevance ranking
+    function reorderResults(rankOrder) {
+      const resultsDiv = document.getElementById('results');
+      const articles = Array.from(resultsDiv.querySelectorAll('article.result'));
+      if (articles.length === 0) return;
+
+      // Build a map from source-num to article element
+      const byNum = {};
+      articles.forEach(el => {
+        const num = parseInt(el.dataset.sourceNum, 10);
+        if (!isNaN(num)) byNum[num] = el;
+      });
+
+      // Reorder: ranked articles first, then any unranked
+      const used = new Set();
+      for (const num of rankOrder) {
+        if (byNum[num]) {
+          resultsDiv.appendChild(byNum[num]);
+          used.add(num);
+        }
+      }
+      // Append remaining articles not in the ranking
+      articles.forEach(el => {
+        const num = parseInt(el.dataset.sourceNum, 10);
+        if (!used.has(num)) resultsDiv.appendChild(el);
+      });
+
+      // Update results-meta to indicate AI ranking
+      const meta = document.getElementById('results-meta');
+      if (meta && !meta.textContent.includes('ranked by')) {
+        meta.textContent = meta.textContent.replace(/"$/, '" — ranked by relevance');
+      }
+    }
+
+    // Elaborate: re-query with full excerpts and higher token budget
+    async function elaborate() {
+      const key = getApiKey();
+      if (!key) return;
+      const q = lastQuery.trim();
+      if (!q || lastScoredResults.length === 0) return;
+
+      // Load full text for elaboration
+      const elabBtn2 = document.getElementById('elaborate-btn');
+      if (elabBtn2) elabBtn2.textContent = 'Loading full texts…';
+
+      const fullContextParts = [];
+      for (let i = 0; i < Math.min(SYNTH_TOP_N, lastScoredResults.length); i++) {
+        const {p} = lastScoredResults[i];
+        const id = p.pdf_id || p.path || `source-${i+1}`;
+        const full = p.pdf_id ? await getFullText(p.pdf_id) : null;
+        const text = full ? full.text : (p.excerpt || '');
+        const title = full ? full.title : (p.title || id);
+        const meta = [p.authors || (full && full.authors), p.year || (full && full.year), p.article_type || (full && full.article_type)].filter(Boolean).join(', ');
+        fullContextParts.push(`--- SOURCE ${i+1}: ${id} ---\nTitle: ${title}\n${meta ? 'Meta: ' + meta + '\n' : ''}${text}`);
+      }
+      const fullContext = fullContextParts.join('\n\n');
+      if (elabBtn2) elabBtn2.textContent = 'Elaborating…';
+
+      const elabPrompt = [
+        'You are a research assistant for the Knowledge Atlas, a corpus of environment-behavior research.',
+        'Provide a DETAILED, comprehensive answer to the user\'s question using ONLY the provided source excerpts.',
+        'Be thorough: include specific findings, effect sizes, p-values, sample sizes, methodology details, and design implications.',
+        'Cite sources inline as [1], [2], etc. corresponding to the SOURCE numbers.',
+        'Discuss convergent and divergent findings across sources. Note limitations and gaps.',
+        'Write 4-8 detailed paragraphs. Do not use markdown headers or formatting.',
+      ].join('\n');
+
+      const body = {
+        system_instruction: { parts: [{ text: elabPrompt }] },
+        contents: [{ parts: [{ text: `QUESTION: ${q}\n\n${fullContext}` }] }],
+        generationConfig: { temperature: 0.3, maxOutputTokens: 4096 }
+      };
+
+      try {
+        const resp = await fetch(`${GEMINI_URL}?key=${key}`, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify(body)
+        });
+        if (!resp.ok) {
+          const err = await resp.json().catch(() => ({}));
+          throw new Error(err?.error?.message || `HTTP ${resp.status}`);
+        }
+        const data = await resp.json();
+        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No response generated.';
+        const sources = buildSourcesList(lastScoredResults, SYNTH_TOP_N);
+        const paragraphs = text.split(/\n\n+/).filter(Boolean)
+          .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');
+
+        const slot = document.getElementById('answer-slot');
+        slot.innerHTML = `
+          <div class="answer-panel">
+            <div class="answer-header">
+              <span class="answer-label">✦ Elaborated Answer</span>
+              <button class="answer-close" title="Close" onclick="document.getElementById('answer-slot').innerHTML=''">×</button>
+            </div>
+            <div class="answer-body">${paragraphs}</div>
+            <div class="answer-sources">Sources: ${sources}</div>
+          </div>`;
+      } catch (e) {
+        if (elabBtn) { elabBtn.disabled = false; elabBtn.textContent = '⤵ Elaborate with full sources'; }
+        alert('Elaborate failed: ' + e.message);
+      }
+    }
+
+    // Wire synth button (manual re-trigger)
+    document.getElementById('synth-btn').addEventListener('click', synthesize);
+
   })();
   </script>
 </body>
