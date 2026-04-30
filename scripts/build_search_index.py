@@ -192,9 +192,10 @@ def main() -> int:
             skipped += 1
             continue
         area, track = classify(rel)
+        rel_url = str(rel).replace("\\", "/")
         pages.append({
-            "path": str(rel).replace("\\", "/"),
-            "url":  "/" + str(rel).replace("\\", "/"),
+            "path": rel_url,
+            "url":  rel_url,
             "title": info["title"] or rel.stem.replace("_", " ").replace("-", " "),
             "area":  area,
             "track": track,

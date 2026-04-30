@@ -468,6 +468,20 @@
     let activeAreas = new Set();   // empty = all
     let lastQuery = '';
     let lastScoredResults = [];    // stashed by render() for synthesis
+
+    function siteHref(url) {
+      const raw = (url || '').trim();
+      if (!raw) return '#';
+      if (/^(https?:|mailto:|tel:|#)/i.test(raw)) return raw;
+      if (!raw.startsWith('/')) return raw;
+
+      const firstSegment = window.location.pathname.split('/').filter(Boolean)[0] || '';
+      if ((firstSegment === 'ka' || firstSegment === 'staging_KA') &&
+          !raw.startsWith('/' + firstSegment + '/')) {
+        return '/' + firstSegment + raw;
+      }
+      return raw;
+    }
     let synthDebounce = null;      // auto-synthesis debounce timer
 
     // -----------------------------------------------------------------
@@ -615,7 +629,7 @@
         const displayUrl = p.area === 'research' ? '' : `<div class="result-path">${p.path}</div>`;
         const pdfId = p.pdf_id || '';
         const articleId = pdfId ? ` id="result-${pdfId}"` : '';
-        const titleHref = pdfId ? `#result-${pdfId}` : (p.url || '#');
+        const titleHref = pdfId ? `#result-${pdfId}` : siteHref(p.url);
         const titleAction = pdfId ? ` onclick="event.preventDefault(); deepDive(this, '${pdfId}')"` : '';
         const paperBtns = (p.area === 'research' && pdfId)
           ? `<div class="paper-actions">
@@ -873,7 +887,7 @@
       return scored.slice(0, n).map(({p}, i) => {
         const id = p.pdf_id || p.path;
         const label = p.title ? `${id}: ${p.title}` : id;
-        const href = p.pdf_id ? `#result-${p.pdf_id}` : (p.url || '#');
+        const href = p.pdf_id ? `#result-${p.pdf_id}` : siteHref(p.url);
         return `<a href="${href}">[${i+1}] ${label}</a>`;
       }).join(' &nbsp;·&nbsp; ');
     }
@@ -1047,7 +1061,7 @@
         .map(({p, num}) => {
           const id = p.pdf_id || p.path;
           const label = p.title ? `${id}: ${p.title}` : id;
-          const href = p.pdf_id ? `#result-${p.pdf_id}` : (p.url || '#');
+          const href = p.pdf_id ? `#result-${p.pdf_id}` : siteHref(p.url);
           return `<a href="${href}">[${num}] ${label}</a>`;
         }).join(' &nbsp;·&nbsp; ');
     }

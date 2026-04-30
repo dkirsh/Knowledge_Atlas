@@ -1,11 +1,11 @@
 {
  "version": "1.0",
- "generated_at": "2026-04-28T03:14:27.448727+00:00",
- "page_count": 283,
+ "generated_at": "2026-04-30T16:08:56.292678+00:00",
+ "page_count": 285,
  "pages": [
   {
    "path": "160sp/article_finder_assignment_v1_archive.html",
-   "url": "/160sp/article_finder_assignment_v1_archive.html",
+   "url": "160sp/article_finder_assignment_v1_archive.html",
    "title": "K-ATLAS — COGS 160 Article Finder Assignment",
    "area": "160sp-other",
    "track": "none",
@@ -41,7 +41,7 @@
   },
   {
    "path": "160sp/collect-articles-upload.html",
-   "url": "/160sp/collect-articles-upload.html",
+   "url": "160sp/collect-articles-upload.html",
    "title": "My Articles — K-ATLAS COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -61,7 +61,7 @@
   },
   {
    "path": "160sp/context/index.html",
-   "url": "/160sp/context/index.html",
+   "url": "160sp/context/index.html",
    "title": "AI Context Files — COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -76,7 +76,7 @@
   },
   {
    "path": "160sp/demo_pdf_relevance_filter.html",
-   "url": "/160sp/demo_pdf_relevance_filter.html",
+   "url": "160sp/demo_pdf_relevance_filter.html",
    "title": "PDF Relevance Filter — Live Demo — COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -89,7 +89,7 @@
   },
   {
    "path": "160sp/ex0_mechanism_pathway_tracer.html",
-   "url": "/160sp/ex0_mechanism_pathway_tracer.html",
+   "url": "160sp/ex0_mechanism_pathway_tracer.html",
    "title": "Mechanism Pathway Tracer — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -102,7 +102,7 @@
   },
   {
    "path": "160sp/grader_page/index.html",
-   "url": "/160sp/grader_page/index.html",
+   "url": "160sp/grader_page/index.html",
    "title": "160sp Grader Dashboard",
    "area": "160sp-other",
    "track": "none",
@@ -113,11 +113,11 @@
    ],
    "excerpt": "160sp Grader Dashboard 🎓 160sp Grader Dashboard Knowledge Atlas — Autograder Suite · 3 Tracks · 9 Tasks · 675 Points Total Grade Submission Track 🏷️ Track 1 📄 Track 2 🥽 Track 3 Task Task 1 Task 2 Task 3 Student Loading... 🎯 Grade This 📋 Request Review Class Roster Name Track Task 1 Task 2 Task 3 Total Email 📊 Export Grades CSV 📋 Export Roster CSV",
    "full_len": 348,
-   "size_kb": 14
+   "size_kb": 15
   },
   {
    "path": "160sp/index.html",
-   "url": "/160sp/index.html",
+   "url": "160sp/index.html",
    "title": "COGS 160 — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -128,7 +128,7 @@
   },
   {
    "path": "160sp/instructor_prep.html",
-   "url": "/160sp/instructor_prep.html",
+   "url": "160sp/instructor_prep.html",
    "title": "Instructor Pre-Class Checklist · COGS 160 Spring 2026",
    "area": "160sp-other",
    "track": "none",
@@ -156,7 +156,7 @@
   },
   {
    "path": "160sp/ka_admin.html",
-   "url": "/160sp/ka_admin.html",
+   "url": "160sp/ka_admin.html",
    "title": "Instructor Admin · COGS 160 Spring 2026",
    "area": "160sp-other",
    "track": "none",
@@ -172,7 +172,7 @@
   },
   {
    "path": "160sp/ka_approve.html",
-   "url": "/160sp/ka_approve.html",
+   "url": "160sp/ka_approve.html",
    "title": "Track Assignment - Knowledge Atlas (Admin)",
    "area": "160sp-other",
    "track": "none",
@@ -186,7 +186,7 @@
   },
   {
    "path": "160sp/ka_article_finder_assignment.html",
-   "url": "/160sp/ka_article_finder_assignment.html",
+   "url": "160sp/ka_article_finder_assignment.html",
    "title": "Track 2 — Article Finder Pipeline · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -199,7 +199,7 @@
   },
   {
    "path": "160sp/ka_collect_articles.html",
-   "url": "/160sp/ka_collect_articles.html",
+   "url": "160sp/ka_collect_articles.html",
    "title": "Collect Articles — K-ATLAS · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -227,7 +227,7 @@
   },
   {
    "path": "160sp/ka_dashboard.html",
-   "url": "/160sp/ka_dashboard.html",
+   "url": "160sp/ka_dashboard.html",
    "title": "Student Dashboard · Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -250,7 +250,7 @@
   },
   {
    "path": "160sp/ka_github_access.html",
-   "url": "/160sp/ka_github_access.html",
+   "url": "160sp/ka_github_access.html",
    "title": "GitHub Access — COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -269,7 +269,7 @@
   },
   {
    "path": "160sp/ka_google_search_guide.html",
-   "url": "/160sp/ka_google_search_guide.html",
+   "url": "160sp/ka_google_search_guide.html",
    "title": "Writing Google AI Citation Queries — K-ATLAS · COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -311,7 +311,7 @@
   },
   {
    "path": "160sp/ka_gui_assignment.html",
-   "url": "/160sp/ka_gui_assignment.html",
+   "url": "160sp/ka_gui_assignment.html",
    "title": "Track 4 — GUI & Use-Case Evaluation · COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -323,8 +323,19 @@
    "size_kb": 70
   },
   {
+   "path": "160sp/ka_sitemap.html",
+   "url": "160sp/ka_sitemap.html",
+   "title": "Site Map · Knowledge Atlas",
+   "area": "160sp-other",
+   "track": "none",
+   "headings": [],
+   "excerpt": "Site Map · Knowledge Atlas Open the Knowledge Atlas site map.",
+   "full_len": 61,
+   "size_kb": 0
+  },
+  {
    "path": "160sp/ka_student_profile.html",
-   "url": "/160sp/ka_student_profile.html",
+   "url": "160sp/ka_student_profile.html",
    "title": "160 Student Profile — COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -341,7 +352,7 @@
   },
   {
    "path": "160sp/ka_student_setup.html",
-   "url": "/160sp/ka_student_setup.html",
+   "url": "160sp/ka_student_setup.html",
    "title": "Student Orientation — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -353,13 +364,13 @@
     "Track THREE: AI & VR",
     "Track FOUR: Interaction Design"
    ],
-   "excerpt": "Student Orientation — Knowledge Atlas Knowledge At las · COGS 160 160 Syllabus A0 A1 Track 1 Track 2 Track 3 Track 4 160 Student Profile COGS160 Start COGS 160 · Student Setup Get Started with COGS 160 Welcome to AI-Directed Knowledge System Building. Most of this page is your track picker — scroll to the four cards below and pick the track you will spend the rest of the quarter on. The two collapsed panels above the picker cover the readings and the first assignment from Week 1; open them only if you still need to review or re-upload. Track 1 Track 2 Track 3 Track 4 1 · DONE Required Reading: How This Course Uses AI Click to open Completed in Week 1 — open only if you need to review ▾ This course is different from most classes you've taken. We use AI as a development tool, not as cheating or a shortcut. Before you start on any track, you need to understand how this works and what \"AI-directed\" actually means. This is not optional. The AI Methodology guide explains the philosophy, the workflow, and your responsibility as a student. Read the AI Methodology Guide → I understand that AI is a tool in this course, not a shortcut 2 · DONE Your First Assignment: Collect Research Articles Click to open Completed in Week 1 — open only to review or re-upload ▾ Your assignment was to: Upload ten APA citations for EXPERIMENT ARTICLES. Upload the PDFs that correspond to those citations. We verified that they are experiment articles on the topic we assigned you. Then: Create a question for",
-   "full_len": 2830,
-   "size_kb": 25
+   "excerpt": "Student Orientation — Knowledge Atlas Knowledge At las · COGS 160 160 Syllabus A0 A1 Track 1 Track 2 Track 3 Track 4 160 Student Profile COGS160 Start COGS 160 · Student Setup Get Started with COGS 160 Welcome to AI-Directed Knowledge System Building. Most of this page is your track picker — scroll to the four cards below and pick the track you will spend the rest of the quarter on. The two collapsed panels above the picker cover the readings and the first assignment from Week 1; open them only if you still need to review or re-upload. Track 1 Track 2 Track 3 Track 4 1 · DONE Required Reading: How This Course Uses AI Completed in Week 1 — open only if you need to review ▾ This course is different from most classes you've taken. We use AI as a development tool, not as cheating or a shortcut. Before you start on any track, you need to understand how this works and what \"AI-directed\" actually means. This is not optional. The AI Methodology guide explains the philosophy, the workflow, and your responsibility as a student. Read the AI Methodology Guide → I understand that AI is a tool in this course, not a shortcut 2 · DONE Your First Assignment: Collect Research Articles Completed in Week 1 — open only to review or re-upload ▾ Your assignment was to: Upload ten APA citations for EXPERIMENT ARTICLES. Upload the PDFs that correspond to those citations. We verified that they are experiment articles on the topic we assigned you. Then: Create a question for Google AI Scholar on one of",
+   "full_len": 2802,
+   "size_kb": 20
   },
   {
    "path": "160sp/ka_t4_a_heuristic_audit.html",
-   "url": "/160sp/ka_t4_a_heuristic_audit.html",
+   "url": "160sp/ka_t4_a_heuristic_audit.html",
    "title": "T4.a — Heuristic audit — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -379,7 +390,7 @@
   },
   {
    "path": "160sp/ka_t4_b2_variant_evaluation.html",
-   "url": "/160sp/ka_t4_b2_variant_evaluation.html",
+   "url": "160sp/ka_t4_b2_variant_evaluation.html",
    "title": "T4.b.2 — Topic-page variant evaluation — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -399,7 +410,7 @@
   },
   {
    "path": "160sp/ka_t4_b_scenarios.html",
-   "url": "/160sp/ka_t4_b_scenarios.html",
+   "url": "160sp/ka_t4_b_scenarios.html",
    "title": "T4.b — Scenario-based walkthroughs — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -419,7 +430,7 @@
   },
   {
    "path": "160sp/ka_t4_c_usability_pilot.html",
-   "url": "/160sp/ka_t4_c_usability_pilot.html",
+   "url": "160sp/ka_t4_c_usability_pilot.html",
    "title": "T4.c — Moderated usability pilot — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -439,7 +450,7 @@
   },
   {
    "path": "160sp/ka_t4_d_severity_backlog.html",
-   "url": "/160sp/ka_t4_d_severity_backlog.html",
+   "url": "160sp/ka_t4_d_severity_backlog.html",
    "title": "T4.d — Severity rubric and backlog — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -459,7 +470,7 @@
   },
   {
    "path": "160sp/ka_t4_e_reproducibility.html",
-   "url": "/160sp/ka_t4_e_reproducibility.html",
+   "url": "160sp/ka_t4_e_reproducibility.html",
    "title": "T4.e — Reproducibility check — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -479,7 +490,7 @@
   },
   {
    "path": "160sp/ka_t4_f_redesign.html",
-   "url": "/160sp/ka_t4_f_redesign.html",
+   "url": "160sp/ka_t4_f_redesign.html",
    "title": "T4.f — Redesign proposal — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -499,7 +510,7 @@
   },
   {
    "path": "160sp/ka_t4_g_final_report.html",
-   "url": "/160sp/ka_t4_g_final_report.html",
+   "url": "160sp/ka_t4_g_final_report.html",
    "title": "T4.g — Final report — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -519,7 +530,7 @@
   },
   {
    "path": "160sp/ka_tag_assignment.html",
-   "url": "/160sp/ka_tag_assignment.html",
+   "url": "160sp/ka_tag_assignment.html",
    "title": "Claim a Tag Assignment – Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -532,7 +543,7 @@
   },
   {
    "path": "160sp/ka_technical_setup.html",
-   "url": "/160sp/ka_technical_setup.html",
+   "url": "160sp/ka_technical_setup.html",
    "title": "Technical Setup — COGS 160 — Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -557,7 +568,7 @@
   },
   {
    "path": "160sp/ka_thursday_tasks.html",
-   "url": "/160sp/ka_thursday_tasks.html",
+   "url": "160sp/ka_thursday_tasks.html",
    "title": "Thursday Exploration Session · Knowledge Atlas",
    "area": "160sp-other",
    "track": "none",
@@ -577,7 +588,7 @@
   },
   {
    "path": "160sp/ka_track1_hub.html",
-   "url": "/160sp/ka_track1_hub.html",
+   "url": "160sp/ka_track1_hub.html",
    "title": "Track 1 · Image Tagger Hub",
    "area": "160sp-other",
    "track": "track1",
@@ -590,7 +601,7 @@
   },
   {
    "path": "160sp/ka_track1_setup.html",
-   "url": "/160sp/ka_track1_setup.html",
+   "url": "160sp/ka_track1_setup.html",
    "title": "Track 1 Setup — Image Tagging — COGS 160",
    "area": "160sp-other",
    "track": "track1",
@@ -610,7 +621,7 @@
   },
   {
    "path": "160sp/ka_track1_tagging.html",
-   "url": "/160sp/ka_track1_tagging.html",
+   "url": "160sp/ka_track1_tagging.html",
    "title": "Track ONE: Image Tagging — COGS 160",
    "area": "160sp-other",
    "track": "track1",
@@ -640,7 +651,7 @@
   },
   {
    "path": "160sp/ka_track2_hub.html",
-   "url": "/160sp/ka_track2_hub.html",
+   "url": "160sp/ka_track2_hub.html",
    "title": "Track 2 · Article Finder Hub",
    "area": "160sp-other",
    "track": "track2",
@@ -654,7 +665,7 @@
   },
   {
    "path": "160sp/ka_track2_intake.html",
-   "url": "/160sp/ka_track2_intake.html",
+   "url": "160sp/ka_track2_intake.html",
    "title": "Track 2 — Article Intake · COGS 160",
    "area": "160sp-other",
    "track": "track2",
@@ -667,7 +678,7 @@
   },
   {
    "path": "160sp/ka_track2_pipeline.html",
-   "url": "/160sp/ka_track2_pipeline.html",
+   "url": "160sp/ka_track2_pipeline.html",
    "title": "Track TWO: Article Finder — COGS 160",
    "area": "160sp-other",
    "track": "track2",
@@ -690,7 +701,7 @@
   },
   {
    "path": "160sp/ka_track2_resources.html",
-   "url": "/160sp/ka_track2_resources.html",
+   "url": "160sp/ka_track2_resources.html",
    "title": "Track 2 · Article Finder Resources",
    "area": "160sp-other",
    "track": "track2",
@@ -703,7 +714,7 @@
   },
   {
    "path": "160sp/ka_track2_setup.html",
-   "url": "/160sp/ka_track2_setup.html",
+   "url": "160sp/ka_track2_setup.html",
    "title": "Track 2 Setup — Article Finder — COGS 160",
    "area": "160sp-other",
    "track": "track2",
@@ -724,7 +735,7 @@
   },
   {
    "path": "160sp/ka_track3_hub.html",
-   "url": "/160sp/ka_track3_hub.html",
+   "url": "160sp/ka_track3_hub.html",
    "title": "Track 3 Overview · Track 3 · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -760,7 +771,7 @@
   },
   {
    "path": "160sp/ka_track3_resources.html",
-   "url": "/160sp/ka_track3_resources.html",
+   "url": "160sp/ka_track3_resources.html",
    "title": "Track 3 · VR Resources",
    "area": "160sp-other",
    "track": "track3",
@@ -773,7 +784,7 @@
   },
   {
    "path": "160sp/ka_track3_setup.html",
-   "url": "/160sp/ka_track3_setup.html",
+   "url": "160sp/ka_track3_setup.html",
    "title": "Track 3 Setup · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -810,7 +821,7 @@
   },
   {
    "path": "160sp/ka_track3_team_hub.html",
-   "url": "/160sp/ka_track3_team_hub.html",
+   "url": "160sp/ka_track3_team_hub.html",
    "title": "Track 3 · AI VR Hub",
    "area": "160sp-other",
    "track": "track3",
@@ -823,7 +834,7 @@
   },
   {
    "path": "160sp/ka_track3_today.html",
-   "url": "/160sp/ka_track3_today.html",
+   "url": "160sp/ka_track3_today.html",
    "title": "Track 3 Today · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -853,7 +864,7 @@
   },
   {
    "path": "160sp/ka_track3_vr.html",
-   "url": "/160sp/ka_track3_vr.html",
+   "url": "160sp/ka_track3_vr.html",
    "title": "Track THREE: AI & VR — COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -875,7 +886,7 @@
   },
   {
    "path": "160sp/ka_track4_hub.html",
-   "url": "/160sp/ka_track4_hub.html",
+   "url": "160sp/ka_track4_hub.html",
    "title": "Track 4 · UX Hub",
    "area": "160sp-other",
    "track": "track4",
@@ -888,7 +899,7 @@
   },
   {
    "path": "160sp/ka_track4_persona_panel.html",
-   "url": "/160sp/ka_track4_persona_panel.html",
+   "url": "160sp/ka_track4_persona_panel.html",
    "title": "Track 4 · In-class Exercise — Persona Panel Prompts",
    "area": "160sp-other",
    "track": "track4",
@@ -907,7 +918,7 @@
   },
   {
    "path": "160sp/ka_track4_setup.html",
-   "url": "/160sp/ka_track4_setup.html",
+   "url": "160sp/ka_track4_setup.html",
    "title": "Track 4 Setup — Interaction Design — COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -924,7 +935,7 @@
   },
   {
    "path": "160sp/ka_track4_ux.html",
-   "url": "/160sp/ka_track4_ux.html",
+   "url": "160sp/ka_track4_ux.html",
    "title": "Track FOUR: Interaction Design — COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -957,7 +968,7 @@
   },
   {
    "path": "160sp/ka_track_signup.html",
-   "url": "/160sp/ka_track_signup.html",
+   "url": "160sp/ka_track_signup.html",
    "title": "Choose Your Track · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -979,7 +990,7 @@
   },
   {
    "path": "160sp/ka_tracks.html",
-   "url": "/160sp/ka_tracks.html",
+   "url": "160sp/ka_tracks.html",
    "title": "Tracks — COGS 160 Spring 2026",
    "area": "160sp-other",
    "track": "none",
@@ -990,7 +1001,7 @@
   },
   {
    "path": "160sp/ka_vr_assignment.html",
-   "url": "/160sp/ka_vr_assignment.html",
+   "url": "160sp/ka_vr_assignment.html",
    "title": "Track 3 — VR Environment Production · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1003,7 +1014,7 @@
   },
   {
    "path": "160sp/track2_hub.html",
-   "url": "/160sp/track2_hub.html",
+   "url": "160sp/track2_hub.html",
    "title": "Track 2 Overview · Article Finder · COGS 160",
    "area": "160sp-other",
    "track": "track2",
@@ -1039,13 +1050,13 @@
     "First working core path",
     "Filtering, ranking, metadata, and handoff"
    ],
-   "excerpt": "Track 2 Overview · Article Finder · COGS 160 COGS 160 · Track 2 Track 2: Article Finder roadmap Your job is not merely to gather papers. It is to build a trustworthy discovery, triage, and handoff path for architectural-cognition literature, and to prove that the path works with explicit tests, visible evidence, and honest limits. Main repo: Article_Finder_v3_2_3 Boundary: AF owns discovery, triage, intake, dedup, and job-bundle handoff Not your repo: Article_Eater extraction internals Track 2 Article Finder Use this page family as the canonical student path. Overview Week 3.5 Week 4 Week 5 Week 6 Week 7 Setup guide Article intake Shared resources Task manifests KA Contextual Docs Treat the older Track 2 hub as the manifest and operations library. Treat this overview and the week pages as the current assignment sequence. Start here If you do only four things before the next class meeting, do these in this order: set up the repo correctly, read the context pack, read the current week page, and then collect evidence on one real AF path rather than discussing abstractions. 1 · Setup Install against the real repo Use the Track 2 setup guide and the actual AF commands: python cli/main.py doctor , python cli/main.py stats , and python cli/main.py ui . 2 · Context Read the system boundary Use KA Contextual Docs to see what AF owns, what AE consumes, what the unified registry is, and where question constitutions fit. 3 · Current week Work from a weekly question Open the current week ",
-   "full_len": 6550,
+   "excerpt": "Track 2 Overview · Article Finder · COGS 160 COGS 160 · Track 2 Track 2: Article Finder roadmap Your job is not merely to gather papers. It is to build a trustworthy discovery, triage, and handoff path for architectural-cognition literature, and to prove that the path works with explicit tests, visible evidence, and honest limits. Main repo: Article_Finder_v3_2_3 Boundary: AF owns discovery, triage, intake, dedup, and job-bundle handoff Not your repo: Article_Eater extraction internals Track 2 Article Finder Use this page family as the canonical student path. Track Intro Task 1 · Fix the Contribute Page Task 2 · Gap Targeting & Query Generation Task 3 · Search Execution & PRISMA Triage The four pages above are the canonical Track 2 assignment surface. Older weekly-cadence pages, the legacy hub, and other supporting documents are retained on disk but reachable only through the site map . Start here If you do only four things before the next class meeting, do these in this order: set up the repo correctly, read the context pack, read the current week page, and then collect evidence on one real AF path rather than discussing abstractions. 1 · Setup Install against the real repo Use the Track 2 setup guide and the actual AF commands: python cli/main.py doctor , python cli/main.py stats , and python cli/main.py ui . 2 · Context Read the system boundary Use KA Contextual Docs to see what AF owns, what AE consumes, what the unified registry is, and where question constitutions fit. ",
+   "full_len": 6617,
    "size_kb": 13
   },
   {
    "path": "160sp/track2_week_3_5.html",
-   "url": "/160sp/track2_week_3_5.html",
+   "url": "160sp/track2_week_3_5.html",
    "title": "Track 2 · Week 3.5 · Article Finder · COGS 160",
    "area": "160sp-other",
    "track": "track2",
@@ -1077,7 +1088,7 @@
   },
   {
    "path": "160sp/track2_week_4.html",
-   "url": "/160sp/track2_week_4.html",
+   "url": "160sp/track2_week_4.html",
    "title": "Track 2 · Week 4 · Article Finder · COGS 160",
    "area": "160sp-other",
    "track": "track2",
@@ -1109,7 +1120,7 @@
   },
   {
    "path": "160sp/track2_week_5.html",
-   "url": "/160sp/track2_week_5.html",
+   "url": "160sp/track2_week_5.html",
    "title": "Track 2 · Week 5 · Article Finder · COGS 160",
    "area": "160sp-other",
    "track": "track2",
@@ -1140,7 +1151,7 @@
   },
   {
    "path": "160sp/track2_week_6.html",
-   "url": "/160sp/track2_week_6.html",
+   "url": "160sp/track2_week_6.html",
    "title": "Track 2 · Week 6 · Article Finder · COGS 160",
    "area": "160sp-other",
    "track": "track2",
@@ -1172,7 +1183,7 @@
   },
   {
    "path": "160sp/track2_week_7.html",
-   "url": "/160sp/track2_week_7.html",
+   "url": "160sp/track2_week_7.html",
    "title": "Track 2 · Week 7 · Article Finder · COGS 160",
    "area": "160sp-other",
    "track": "track2",
@@ -1204,7 +1215,7 @@
   },
   {
    "path": "160sp/track3_hub.html",
-   "url": "/160sp/track3_hub.html",
+   "url": "160sp/track3_hub.html",
    "title": "Track 3 Hub Redirect",
    "area": "160sp-other",
    "track": "track3",
@@ -1215,7 +1226,7 @@
   },
   {
    "path": "160sp/track3_week_1.html",
-   "url": "/160sp/track3_week_1.html",
+   "url": "160sp/track3_week_1.html",
    "title": "Week 1 · Track 3 · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -1237,7 +1248,7 @@
   },
   {
    "path": "160sp/track3_week_2.html",
-   "url": "/160sp/track3_week_2.html",
+   "url": "160sp/track3_week_2.html",
    "title": "Week 2 · Track 3 · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -1258,7 +1269,7 @@
   },
   {
    "path": "160sp/track3_week_3.html",
-   "url": "/160sp/track3_week_3.html",
+   "url": "160sp/track3_week_3.html",
    "title": "Week 3 · Track 3 · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -1279,7 +1290,7 @@
   },
   {
    "path": "160sp/track3_week_4.html",
-   "url": "/160sp/track3_week_4.html",
+   "url": "160sp/track3_week_4.html",
    "title": "Week 4 · Track 3 · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -1299,7 +1310,7 @@
   },
   {
    "path": "160sp/track3_week_5.html",
-   "url": "/160sp/track3_week_5.html",
+   "url": "160sp/track3_week_5.html",
    "title": "Week 5 · Track 3 · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -1319,7 +1330,7 @@
   },
   {
    "path": "160sp/track3_week_6.html",
-   "url": "/160sp/track3_week_6.html",
+   "url": "160sp/track3_week_6.html",
    "title": "Week 6 · Track 3 · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -1339,7 +1350,7 @@
   },
   {
    "path": "160sp/track3_week_7.html",
-   "url": "/160sp/track3_week_7.html",
+   "url": "160sp/track3_week_7.html",
    "title": "Week 7 · Track 3 · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -1359,7 +1370,7 @@
   },
   {
    "path": "160sp/track3_week_7_5.html",
-   "url": "/160sp/track3_week_7_5.html",
+   "url": "160sp/track3_week_7_5.html",
    "title": "Week 7.5 · Track 3 · COGS 160",
    "area": "160sp-other",
    "track": "track3",
@@ -1379,7 +1390,7 @@
   },
   {
    "path": "160sp/track4/answer_shape_catalogue.html",
-   "url": "/160sp/track4/answer_shape_catalogue.html",
+   "url": "160sp/track4/answer_shape_catalogue.html",
    "title": "Five Answer Shapes — Track 4 Schemata",
    "area": "160sp-other",
    "track": "none",
@@ -1392,26 +1403,26 @@
     "4. Contrast pair (n columns)",
     "5. Ranked brief"
    ],
-   "excerpt": "Five Answer Shapes — Track 4 Schemata Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 4 / Task 2 / Answer-Shape Catalogue Five Answer Shapes Every question in the corpus is fitted to one of five canonical answer shapes before it becomes a journey. The shapes are not arbitrary decorations — each one is a different commitment about what would satisfy a reader. A theory-prober wants a Toulmin; a newcomer wants a field map; a sensors-seeker wants a procedure; a measures-shopper wants a contrast pair; a busy PI wants a ranked brief. This page visualises each shape with a worked example from the researcher corpus. 1. Toulmin diagram 2. Field map 3. Procedure 4. Contrast pair 5. Ranked brief 1. Toulmin diagram A horizontal inference from data to claim , tagged with a qualifier on the inference arrow itself (e.g., \"probably\", \"usually\", \"in adult office workers\"). The warrant hangs vertically from the inference arrow and states the rule that licenses the move from data to claim. The backing hangs below the warrant and justifies the warrant itself — typically a theoretical framework, a body of prior literature, or a methodological norm. The rebuttal hangs vertically from the claim and names the conditions under which the claim would fail. The geometry is not decoration: reading top-to-bottom on the left tells you why the inference is licensed; reading top-to-bottom on the right tells you what could undercut it. (A",
-   "full_len": 18716,
-   "size_kb": 44
+   "excerpt": "Five Answer Shapes — Track 4 Schemata Home / 160 Student / Track 4 / Task 2 / Answer-Shape Catalogue Five Answer Shapes Every question in the corpus is fitted to one of five canonical answer shapes before it becomes a journey. The shapes are not arbitrary decorations — each one is a different commitment about what would satisfy a reader. A theory-prober wants a Toulmin; a newcomer wants a field map; a sensors-seeker wants a procedure; a measures-shopper wants a contrast pair; a busy PI wants a ranked brief. This page visualises each shape with a worked example from the researcher corpus. 1. Toulmin diagram 2. Field map 3. Procedure 4. Contrast pair 5. Ranked brief 1. Toulmin diagram A horizontal inference from data to claim , tagged with a qualifier on the inference arrow itself (e.g., \"probably\", \"usually\", \"in adult office workers\"). The warrant hangs vertically from the inference arrow and states the rule that licenses the move from data to claim. The backing hangs below the warrant and justifies the warrant itself — typically a theoretical framework, a body of prior literature, or a methodological norm. The rebuttal hangs vertically from the claim and names the conditions under which the claim would fail. The geometry is not decoration: reading top-to-bottom on the left tells you why the inference is licensed; reading top-to-bottom on the right tells you what could undercut it. (After Toulmin, 1958/2003; the canonical layout is the one used in most logic and rhetoric text",
+   "full_len": 18623,
+   "size_kb": 43
   },
   {
    "path": "160sp/track4/chinn_brewer_response_widget.html",
-   "url": "/160sp/track4/chinn_brewer_response_widget.html",
+   "url": "160sp/track4/chinn_brewer_response_widget.html",
    "title": "Chinn & Brewer (1993) — Seven Responses to Anomalous Data",
    "area": "160sp-other",
    "track": "none",
    "headings": [
     "Seven Responses to Anomalous Data"
    ],
-   "excerpt": "Chinn & Brewer (1993) — Seven Responses to Anomalous Data Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 4 / Task 3 / Chinn & Brewer 7-Response Widget Seven Responses to Anomalous Data Chinn & Brewer (1993) catalogued how readers actually respond when presented with evidence that conflicts with a theory they hold. Their seven-response menu is descriptive, not prescriptive: it tells journey designers what readers do , not what they should do. Use it to anticipate how a reader will receive the evidence on a journey page, and to surface the response options explicitly rather than letting them happen invisibly. Anomalous datum (worked example) A pre-registered replication finds no effect of biophilic indoor plants on perceived restorativeness in office workers, despite a large meta-analytic effect in earlier studies. Worked example: Biophilia replication failure Ceiling-height construal failure Attention restoration vs. affect confound Open all Close all theory-protective · theory-flexible · theory-revising Source: Chinn, C. A., & Brewer, W. F. (1993). The role of anomalous data in knowledge acquisition: A theoretical framework and implications for science instruction. Review of Educational Research , 63(1), 1–49. https://doi.org/10.3102/00346543063001001 Knowledge Atlas, COGS 160 Track 4, v1. Knowledge Atlas Global home Site map COGS 160 SP Tracks portal Track 4 overview This widget Answer-shape catalogue Q",
-   "full_len": 1599,
-   "size_kb": 18
+   "excerpt": "Chinn & Brewer (1993) — Seven Responses to Anomalous Data Home / 160 Student / Track 4 / Task 3 / Chinn & Brewer 7-Response Widget Seven Responses to Anomalous Data Chinn & Brewer (1993) catalogued how readers actually respond when presented with evidence that conflicts with a theory they hold. Their seven-response menu is descriptive, not prescriptive: it tells journey designers what readers do , not what they should do. Use it to anticipate how a reader will receive the evidence on a journey page, and to surface the response options explicitly rather than letting them happen invisibly. Anomalous datum (worked example) A pre-registered replication finds no effect of biophilic indoor plants on perceived restorativeness in office workers, despite a large meta-analytic effect in earlier studies. Worked example: Biophilia replication failure Ceiling-height construal failure Attention restoration vs. affect confound Open all Close all theory-protective · theory-flexible · theory-revising Source: Chinn, C. A., & Brewer, W. F. (1993). The role of anomalous data in knowledge acquisition: A theoretical framework and implications for science instruction. Review of Educational Research , 63(1), 1–49. https://doi.org/10.3102/00346543063001001 Knowledge Atlas, COGS 160 Track 4, v1. Knowledge Atlas Global home Site map COGS 160 SP Tracks portal Track 4 overview This widget Answer-shape catalogue Q-29 worked journey Back to Task 3 COGS 160 Spring 2026 · Prof. David Kirsh, UCSD Cognitive Sc",
+   "full_len": 1506,
+   "size_kb": 17
   },
   {
    "path": "160sp/track4/journey_q29_art_affect_confound.html",
-   "url": "/160sp/track4/journey_q29_art_affect_confound.html",
+   "url": "160sp/track4/journey_q29_art_affect_confound.html",
    "title": "Does ART survive the affective confound? — A worked evidential journey",
    "area": "160sp-other",
    "track": "none",
@@ -1430,13 +1441,13 @@
     "Step 6 · Your response",
     "Which response do you take with this defeater, and why?"
    ],
-   "excerpt": "Does ART survive the affective confound? — A worked evidential journey Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 4 / Task 3 / Worked example: Q-29 Knowledge Atlas · Answer-shape catalogue · Worked journey: Q-29 (researcher persona) Does Attention Restoration Theory survive the affective confound? A worked evidential journey · Toulmin shape · researcher persona · Q-29 in the canonical question corpus. ⌕ The reader has typed the question above. The Atlas will now build a Toulmin argument around it, surface the principal defeater inline, and ask the reader which Chinn & Brewer (1993) response they would take with the rebuttal before they leave. Step 1 · Data Re-analyses controlling for affect attenuate the restoration effect by roughly 40 to 60 per cent. The empirical core of the affect-confound critique is a set of re-analyses of attention-restoration studies in which the analyst statistically partials out the post-exposure improvement in mood. The restoration effect — operationalised either as improved performance on attention-demanding tasks or as self-reported restorativeness — does not vanish under this treatment, but it shrinks substantially. Pooled across the studies that report enough detail to be re-analysed, the shrinkage falls in the 40 to 60 per cent range. ~40–60% attenuation of the restoration effect when affect is statistically controlled. Pooled across roughly a dozen re-analysed studie",
-   "full_len": 8168,
+   "excerpt": "Does ART survive the affective confound? — A worked evidential journey Home / 160 Student / Track 4 / Task 3 / Worked example: Q-29 Knowledge Atlas · Answer-shape catalogue · Worked journey: Q-29 (researcher persona) Does Attention Restoration Theory survive the affective confound? A worked evidential journey · Toulmin shape · researcher persona · Q-29 in the canonical question corpus. ⌕ The reader has typed the question above. The Atlas will now build a Toulmin argument around it, surface the principal defeater inline, and ask the reader which Chinn & Brewer (1993) response they would take with the rebuttal before they leave. Step 1 · Data Re-analyses controlling for affect attenuate the restoration effect by roughly 40 to 60 per cent. The empirical core of the affect-confound critique is a set of re-analyses of attention-restoration studies in which the analyst statistically partials out the post-exposure improvement in mood. The restoration effect — operationalised either as improved performance on attention-demanding tasks or as self-reported restorativeness — does not vanish under this treatment, but it shrinks substantially. Pooled across the studies that report enough detail to be re-analysed, the shrinkage falls in the 40 to 60 per cent range. ~40–60% attenuation of the restoration effect when affect is statistically controlled. Pooled across roughly a dozen re-analysed studies (Joye & van den Berg, 2011; Stevenson et al., 2018); per-study Ns range from ≈30 to ≈400. T",
+   "full_len": 8075,
    "size_kb": 23
   },
   {
    "path": "160sp/track4_hub.html",
-   "url": "/160sp/track4_hub.html",
+   "url": "160sp/track4_hub.html",
    "title": "Track 4 Overview · Interaction Design · COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -1471,7 +1482,7 @@
   },
   {
    "path": "160sp/track4_week_3_5.html",
-   "url": "/160sp/track4_week_3_5.html",
+   "url": "160sp/track4_week_3_5.html",
    "title": "Track 4 · Week 3.5 · Interaction Design · COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -1511,7 +1522,7 @@
   },
   {
    "path": "160sp/track4_week_4.html",
-   "url": "/160sp/track4_week_4.html",
+   "url": "160sp/track4_week_4.html",
    "title": "Track 4 · Week 4 · Interaction Design · COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -1541,7 +1552,7 @@
   },
   {
    "path": "160sp/track4_week_5.html",
-   "url": "/160sp/track4_week_5.html",
+   "url": "160sp/track4_week_5.html",
    "title": "Track 4 · Week 5 · Interaction Design · COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -1569,7 +1580,7 @@
   },
   {
    "path": "160sp/track4_week_6.html",
-   "url": "/160sp/track4_week_6.html",
+   "url": "160sp/track4_week_6.html",
    "title": "Track 4 · Week 6 · Interaction Design · COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -1599,7 +1610,7 @@
   },
   {
    "path": "160sp/track4_week_7.html",
-   "url": "/160sp/track4_week_7.html",
+   "url": "160sp/track4_week_7.html",
    "title": "Track 4 · Week 7 · Interaction Design · COGS 160",
    "area": "160sp-other",
    "track": "track4",
@@ -1635,7 +1646,7 @@
   },
   {
    "path": "160sp/week1_agenda.html",
-   "url": "/160sp/week1_agenda.html",
+   "url": "160sp/week1_agenda.html",
    "title": "Week 1 — Orientation & The Knowledge Atlas · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1658,7 +1669,7 @@
   },
   {
    "path": "160sp/week2_agenda.html",
-   "url": "/160sp/week2_agenda.html",
+   "url": "160sp/week2_agenda.html",
    "title": "Week 2 — AI Demo & Your First Task · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1679,7 +1690,7 @@
   },
   {
    "path": "160sp/week2_exercises.html",
-   "url": "/160sp/week2_exercises.html",
+   "url": "160sp/week2_exercises.html",
    "title": "Week 2: Programming Exercises · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1712,7 +1723,7 @@
   },
   {
    "path": "160sp/week2_quickstart.html",
-   "url": "/160sp/week2_quickstart.html",
+   "url": "160sp/week2_quickstart.html",
    "title": "Week 2 Quickstart — COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1734,7 +1745,7 @@
   },
   {
    "path": "160sp/week2_walkthrough.html",
-   "url": "/160sp/week2_walkthrough.html",
+   "url": "160sp/week2_walkthrough.html",
    "title": "Week 2 Step-by-Step Walkthrough · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1752,7 +1763,7 @@
   },
   {
    "path": "160sp/week3_agenda.html",
-   "url": "/160sp/week3_agenda.html",
+   "url": "160sp/week3_agenda.html",
    "title": "Week 3 — Track Setup & Orientation · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1778,7 +1789,7 @@
   },
   {
    "path": "160sp/week4_agenda.html",
-   "url": "/160sp/week4_agenda.html",
+   "url": "160sp/week4_agenda.html",
    "title": "Week 4 — Sprint 1 Begins · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1798,7 +1809,7 @@
   },
   {
    "path": "160sp/week5_agenda.html",
-   "url": "/160sp/week5_agenda.html",
+   "url": "160sp/week5_agenda.html",
    "title": "Week 5 — Sprint 1 Demo · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1818,7 +1829,7 @@
   },
   {
    "path": "160sp/week6_agenda.html",
-   "url": "/160sp/week6_agenda.html",
+   "url": "160sp/week6_agenda.html",
    "title": "Week 6 — Sprint 2 · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1838,7 +1849,7 @@
   },
   {
    "path": "160sp/week7_agenda.html",
-   "url": "/160sp/week7_agenda.html",
+   "url": "160sp/week7_agenda.html",
    "title": "Week 7 — Sprint 2 Demo & Integration · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1857,7 +1868,7 @@
   },
   {
    "path": "160sp/week8_agenda.html",
-   "url": "/160sp/week8_agenda.html",
+   "url": "160sp/week8_agenda.html",
    "title": "Week 8 — Looking Ahead: COGS 160 Fall · COGS 160",
    "area": "160sp-other",
    "track": "none",
@@ -1877,7 +1888,7 @@
   },
   {
    "path": "160sp/ka_schedule.html",
-   "url": "/160sp/ka_schedule.html",
+   "url": "160sp/ka_schedule.html",
    "title": "Course Schedule · COGS 160 Spring 2026",
    "area": "160sp-syllabus",
    "track": "none",
@@ -1891,7 +1902,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/ka_approve.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/ka_approve.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/ka_approve.html",
    "title": "Track Assignment - Knowledge Atlas (Admin)",
    "area": "admin",
    "track": "none",
@@ -1904,7 +1915,7 @@
   },
   {
    "path": "ka_article.html",
-   "url": "/ka_article.html",
+   "url": "ka_article.html",
    "title": "Article · Knowledge Atlas",
    "area": "articles",
    "track": "none",
@@ -1928,7 +1939,7 @@
   },
   {
    "path": "ka_article_propose.html",
-   "url": "/ka_article_propose.html",
+   "url": "ka_article_propose.html",
    "title": "Propose an Article – Knowledge Atlas",
    "area": "articles",
    "track": "none",
@@ -1943,7 +1954,7 @@
   },
   {
    "path": "ka_article_search.html",
-   "url": "/ka_article_search.html",
+   "url": "ka_article_search.html",
    "title": "Article Search · Knowledge Atlas",
    "area": "articles",
    "track": "none",
@@ -1956,7 +1967,7 @@
   },
   {
    "path": "ka_article_view.html",
-   "url": "/ka_article_view.html",
+   "url": "ka_article_view.html",
    "title": "Article — Knowledge Atlas",
    "area": "articles",
    "track": "none",
@@ -1967,7 +1978,7 @@
   },
   {
    "path": "ka_articles.html",
-   "url": "/ka_articles.html",
+   "url": "ka_articles.html",
    "title": "Articles — Knowledge Atlas",
    "area": "articles",
    "track": "none",
@@ -1980,7 +1991,7 @@
   },
   {
    "path": "ka_contribute.html",
-   "url": "/ka_contribute.html",
+   "url": "ka_contribute.html",
    "title": "Contribute – Knowledge Atlas",
    "area": "contribute",
    "track": "none",
@@ -1993,7 +2004,7 @@
   },
   {
    "path": "ka_contribute_public.html",
-   "url": "/ka_contribute_public.html",
+   "url": "ka_contribute_public.html",
    "title": "Suggest a paper — Knowledge Atlas",
    "area": "contribute",
    "track": "none",
@@ -2010,7 +2021,7 @@
   },
   {
    "path": "ka_evidence.html",
-   "url": "/ka_evidence.html",
+   "url": "ka_evidence.html",
    "title": "Evidence → moved to Topics · Knowledge Atlas",
    "area": "evidence",
    "track": "none",
@@ -2023,7 +2034,7 @@
   },
   {
    "path": "ka_journey_evidence.html",
-   "url": "/ka_journey_evidence.html",
+   "url": "ka_journey_evidence.html",
    "title": "Evidence-landscape map — Knowledge Atlas complicated surfaces",
    "area": "evidence",
    "track": "none",
@@ -2043,7 +2054,7 @@
   },
   {
    "path": "ka_gaps.html",
-   "url": "/ka_gaps.html",
+   "url": "ka_gaps.html",
    "title": "Gaps → moved to Topics · Knowledge Atlas",
    "area": "gaps",
    "track": "none",
@@ -2056,7 +2067,7 @@
   },
   {
    "path": "ka_journey_gaps.html",
-   "url": "/ka_journey_gaps.html",
+   "url": "ka_journey_gaps.html",
    "title": "Gaps in the evidence base — Knowledge Atlas complicated surfaces",
    "area": "gaps",
    "track": "none",
@@ -2076,7 +2087,7 @@
   },
   {
    "path": "ka_home.html",
-   "url": "/ka_home.html",
+   "url": "ka_home.html",
    "title": "Knowledge Atlas — Built Environment, Mind, and Brain",
    "area": "home",
    "track": "none",
@@ -2101,8 +2112,22 @@
    "size_kb": 20
   },
   {
+   "path": "3d_rooms/_scaffold/viewer_starter.html",
+   "url": "3d_rooms/_scaffold/viewer_starter.html",
+   "title": "Track 3 — viewer starter",
+   "area": "other",
+   "track": "none",
+   "headings": [
+    "Track 3 — Parametric Room Viewer (starter)",
+    "Parameters"
+   ],
+   "excerpt": "Track 3 — viewer starter Track 3 — Parametric Room Viewer (starter) Adapt this file. Bind the inputs to your manifest's parameters; call infinigen_wrapper.py via your build step. Parameters Ceiling height 2.7 m Daylight intensity 0.7 Wall warmth 0.5 Re-render Reset Copy params {} Re-render runs infinigen_wrapper.py --params params.json --out renders/... in the background. Without that backend wired up, the viewer shows the most recent pre-rendered glTF only.",
+   "full_len": 462,
+   "size_kb": 6
+  },
+  {
    "path": "Designing_Experiments/COURSE_DESIGN_ARCHIVE_2026-03-24.html",
-   "url": "/Designing_Experiments/COURSE_DESIGN_ARCHIVE_2026-03-24.html",
+   "url": "Designing_Experiments/COURSE_DESIGN_ARCHIVE_2026-03-24.html",
    "title": "Course Design Archive — COGS 160 Pre-4-Track Era",
    "area": "other",
    "track": "none",
@@ -2120,7 +2145,7 @@
   },
   {
    "path": "Designing_Experiments/bn_navigator.html",
-   "url": "/Designing_Experiments/bn_navigator.html",
+   "url": "Designing_Experiments/bn_navigator.html",
    "title": "Bayesian Network Navigator | COGS 160",
    "area": "other",
    "track": "none",
@@ -2133,7 +2158,7 @@
   },
   {
    "path": "Designing_Experiments/cogs160_spring_2026_site.html",
-   "url": "/Designing_Experiments/cogs160_spring_2026_site.html",
+   "url": "Designing_Experiments/cogs160_spring_2026_site.html",
    "title": "COGS 160 Spring 2026 — AI-Directed Knowledge System Building",
    "area": "other",
    "track": "none",
@@ -2175,7 +2200,7 @@
   },
   {
    "path": "Designing_Experiments/course_pilot.html",
-   "url": "/Designing_Experiments/course_pilot.html",
+   "url": "Designing_Experiments/course_pilot.html",
    "title": "COGS 160 — Designing Experiments: AI & VR for Science",
    "area": "other",
    "track": "none",
@@ -2217,7 +2242,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/af_setup_guide.html",
-   "url": "/Designing_Experiments/docs/student_tracks/af_setup_guide.html",
+   "url": "Designing_Experiments/docs/student_tracks/af_setup_guide.html",
    "title": "COGS160 — AF & Image Tagger Track Setup Guide",
    "area": "other",
    "track": "none",
@@ -2238,7 +2263,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/af_track_planning.html",
-   "url": "/Designing_Experiments/docs/student_tracks/af_track_planning.html",
+   "url": "Designing_Experiments/docs/student_tracks/af_track_planning.html",
    "title": "COGS160: AI & VR — Article Finder Track – Planning & Deliverables",
    "area": "other",
    "track": "none",
@@ -2271,7 +2296,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/af_wk03.html",
-   "url": "/Designing_Experiments/docs/student_tracks/af_wk03.html",
+   "url": "Designing_Experiments/docs/student_tracks/af_wk03.html",
    "title": "COGS160: AF Track — Week 3 · D1: Pipeline Orientation",
    "area": "other",
    "track": "none",
@@ -2297,7 +2322,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/af_wk04.html",
-   "url": "/Designing_Experiments/docs/student_tracks/af_wk04.html",
+   "url": "Designing_Experiments/docs/student_tracks/af_wk04.html",
    "title": "Week 4: Platform Evaluation – Article Finder Track | COGS160",
    "area": "other",
    "track": "none",
@@ -2323,7 +2348,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/af_wk05.html",
-   "url": "/Designing_Experiments/docs/student_tracks/af_wk05.html",
+   "url": "Designing_Experiments/docs/student_tracks/af_wk05.html",
    "title": "Week 5: Recall/Precision & D2 Completion – Article Finder Track | COGS160",
    "area": "other",
    "track": "none",
@@ -2354,7 +2379,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/af_wk06.html",
-   "url": "/Designing_Experiments/docs/student_tracks/af_wk06.html",
+   "url": "Designing_Experiments/docs/student_tracks/af_wk06.html",
    "title": "Week 6: Recall/Precision Analysis – Article Finder Track | COGS160",
    "area": "other",
    "track": "none",
@@ -2381,7 +2406,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/af_wk07.html",
-   "url": "/Designing_Experiments/docs/student_tracks/af_wk07.html",
+   "url": "Designing_Experiments/docs/student_tracks/af_wk07.html",
    "title": "Week 7: Improvement Proposal – Article Finder Track | COGS160",
    "area": "other",
    "track": "none",
@@ -2409,7 +2434,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/gui_design_experts_reference.html",
-   "url": "/Designing_Experiments/docs/student_tracks/gui_design_experts_reference.html",
+   "url": "Designing_Experiments/docs/student_tracks/gui_design_experts_reference.html",
    "title": "COGS160: AI & VR — GUI Track: Expert Design Panel Reference",
    "area": "other",
    "track": "none",
@@ -2426,7 +2451,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/gui_track_overview.html",
-   "url": "/Designing_Experiments/docs/student_tracks/gui_track_overview.html",
+   "url": "Designing_Experiments/docs/student_tracks/gui_track_overview.html",
    "title": "Track 4: GUI Evaluation | COGS160: AI & VR",
    "area": "other",
    "track": "none",
@@ -2461,7 +2486,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/gui_visualization_guide.html",
-   "url": "/Designing_Experiments/docs/student_tracks/gui_visualization_guide.html",
+   "url": "Designing_Experiments/docs/student_tracks/gui_visualization_guide.html",
    "title": "COGS160: AI & VR — GUI Track: Visualization Design Guide",
    "area": "other",
    "track": "none",
@@ -2478,7 +2503,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/gui_wk03_user_profiles.html",
-   "url": "/Designing_Experiments/docs/student_tracks/gui_wk03_user_profiles.html",
+   "url": "Designing_Experiments/docs/student_tracks/gui_wk03_user_profiles.html",
    "title": "COGS160: AI & VR — GUI Track Week 3: User Type Profiles",
    "area": "other",
    "track": "none",
@@ -2502,7 +2527,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/gui_wk04_ai_capability.html",
-   "url": "/Designing_Experiments/docs/student_tracks/gui_wk04_ai_capability.html",
+   "url": "Designing_Experiments/docs/student_tracks/gui_wk04_ai_capability.html",
    "title": "COGS160: AI & VR — GUI Track Week 4: AI Capability Boundary",
    "area": "other",
    "track": "none",
@@ -2528,7 +2553,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/gui_wk05_expert_panel.html",
-   "url": "/Designing_Experiments/docs/student_tracks/gui_wk05_expert_panel.html",
+   "url": "Designing_Experiments/docs/student_tracks/gui_wk05_expert_panel.html",
    "title": "COGS160: AI & VR — GUI Track Week 5: Expert Panel Critique",
    "area": "other",
    "track": "none",
@@ -2555,7 +2580,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/gui_wk06_ai_help.html",
-   "url": "/Designing_Experiments/docs/student_tracks/gui_wk06_ai_help.html",
+   "url": "Designing_Experiments/docs/student_tracks/gui_wk06_ai_help.html",
    "title": "COGS160: AI & VR — GUI Track Week 6: Personalization & AI Help System",
    "area": "other",
    "track": "none",
@@ -2576,7 +2601,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/gui_wk07_report.html",
-   "url": "/Designing_Experiments/docs/student_tracks/gui_wk07_report.html",
+   "url": "Designing_Experiments/docs/student_tracks/gui_wk07_report.html",
    "title": "COGS160: AI & VR — GUI Track Week 7: Full Usability Evaluation Report",
    "area": "other",
    "track": "none",
@@ -2599,7 +2624,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/image_tag_table.html",
-   "url": "/Designing_Experiments/docs/student_tracks/image_tag_table.html",
+   "url": "Designing_Experiments/docs/student_tracks/image_tag_table.html",
    "title": "CNFA Registry Tag Browser — v0.2.8 (424 tags)",
    "area": "other",
    "track": "none",
@@ -2612,7 +2637,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/image_tag_visualizer.html",
-   "url": "/Designing_Experiments/docs/student_tracks/image_tag_visualizer.html",
+   "url": "Designing_Experiments/docs/student_tracks/image_tag_visualizer.html",
    "title": "COGS160: AI & VR — Tag Visualizer: 0 → 1",
    "area": "other",
    "track": "none",
@@ -2626,7 +2651,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/image_tagger_guide.html",
-   "url": "/Designing_Experiments/docs/student_tracks/image_tagger_guide.html",
+   "url": "Designing_Experiments/docs/student_tracks/image_tagger_guide.html",
    "title": "COGS160 — Image Tagger: System Architecture, Contracts, and Student Workflow",
    "area": "other",
    "track": "none",
@@ -2666,7 +2691,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/image_track_overview.html",
-   "url": "/Designing_Experiments/docs/student_tracks/image_track_overview.html",
+   "url": "Designing_Experiments/docs/student_tracks/image_track_overview.html",
    "title": "Track 1: Image Tagger | COGS160: AI & VR",
    "area": "other",
    "track": "none",
@@ -2698,7 +2723,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/image_wk03_registry.html",
-   "url": "/Designing_Experiments/docs/student_tracks/image_wk03_registry.html",
+   "url": "Designing_Experiments/docs/student_tracks/image_wk03_registry.html",
    "title": "COGS160: AI & VR — Image Track Week 3: Registry Augmentation",
    "area": "other",
    "track": "none",
@@ -2722,7 +2747,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/image_wk03_triage.html",
-   "url": "/Designing_Experiments/docs/student_tracks/image_wk03_triage.html",
+   "url": "Designing_Experiments/docs/student_tracks/image_wk03_triage.html",
    "title": "COGS160: AI & VR — Image Track Week 3: Tag Triage",
    "area": "other",
    "track": "none",
@@ -2752,7 +2777,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/image_wk05_extractors.html",
-   "url": "/Designing_Experiments/docs/student_tracks/image_wk05_extractors.html",
+   "url": "Designing_Experiments/docs/student_tracks/image_wk05_extractors.html",
    "title": "COGS160: AI & VR — Image Track Week 5: Tag Extractors",
    "area": "other",
    "track": "none",
@@ -2778,7 +2803,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/image_wk06_vlm.html",
-   "url": "/Designing_Experiments/docs/student_tracks/image_wk06_vlm.html",
+   "url": "Designing_Experiments/docs/student_tracks/image_wk06_vlm.html",
    "title": "Track Page Placeholder · Image Week 6",
    "area": "other",
    "track": "none",
@@ -2791,7 +2816,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/index.html",
-   "url": "/Designing_Experiments/docs/student_tracks/index.html",
+   "url": "Designing_Experiments/docs/student_tracks/index.html",
    "title": "COGS160: AI & VR Student Tracks | UC San Diego",
    "area": "other",
    "track": "none",
@@ -2809,7 +2834,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/phase3_wk08.html",
-   "url": "/Designing_Experiments/docs/student_tracks/phase3_wk08.html",
+   "url": "Designing_Experiments/docs/student_tracks/phase3_wk08.html",
    "title": "COGS160 — Phase 3 Week 8: Site Assignment & Walkthrough",
    "area": "other",
    "track": "none",
@@ -2830,7 +2855,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/phase3_wk09.html",
-   "url": "/Designing_Experiments/docs/student_tracks/phase3_wk09.html",
+   "url": "Designing_Experiments/docs/student_tracks/phase3_wk09.html",
    "title": "COGS160 — Phase 3 Week 9: Bug Fixes and Success Conditions",
    "area": "other",
    "track": "none",
@@ -2852,7 +2877,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/phase3_wk10.html",
-   "url": "/Designing_Experiments/docs/student_tracks/phase3_wk10.html",
+   "url": "Designing_Experiments/docs/student_tracks/phase3_wk10.html",
    "title": "COGS160 — Phase 3 Week 10: Final Walkthroughs and Hand-Off",
    "area": "other",
    "track": "none",
@@ -2873,7 +2898,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_track_overview.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_track_overview.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_track_overview.html",
    "title": "COGS160: AI & VR — VR Track Overview",
    "area": "other",
    "track": "none",
@@ -2886,7 +2911,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk02_common.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk02_common.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk02_common.html",
    "title": "Track Page Placeholder · VR Week 2",
    "area": "other",
    "track": "none",
@@ -2899,7 +2924,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk03_specification.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk03_specification.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk03_specification.html",
    "title": "Track Page Placeholder · VR Week 3 Specification",
    "area": "other",
    "track": "none",
@@ -2912,7 +2937,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk03_stimulus_design.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk03_stimulus_design.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk03_stimulus_design.html",
    "title": "COGS160: AI & VR — VR Track Week 3: Stimulus Design Planning",
    "area": "other",
    "track": "none",
@@ -2925,7 +2950,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk04_production.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk04_production.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk04_production.html",
    "title": "COGS160: AI & VR — VR Track Week 4 – Production Sprint 1",
    "area": "other",
    "track": "none",
@@ -2946,7 +2971,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk04_production1.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk04_production1.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk04_production1.html",
    "title": "Track Page Placeholder · VR Week 4 Production I",
    "area": "other",
    "track": "none",
@@ -2959,7 +2984,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk05_production2.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk05_production2.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk05_production2.html",
    "title": "COGS160: AI & VR — VR Track Week 5 – Production Sprint 2 + Preference Testing Setup",
    "area": "other",
    "track": "none",
@@ -2982,7 +3007,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk05_validation.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk05_validation.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk05_validation.html",
    "title": "Track Page Placeholder · VR Week 5 Validation",
    "area": "other",
    "track": "none",
@@ -2995,7 +3020,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk06_07_preference.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk06_07_preference.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk06_07_preference.html",
    "title": "COGS160: AI & VR — VR Track Weeks 6–7 – Adaptive Preference Testing & Analysis",
    "area": "other",
    "track": "none",
@@ -3029,7 +3054,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk06_validation.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk06_validation.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk06_validation.html",
    "title": "Track Page Placeholder · VR Week 6 Validation",
    "area": "other",
    "track": "none",
@@ -3042,7 +3067,7 @@
   },
   {
    "path": "Designing_Experiments/docs/student_tracks/vr_wk08_synthesis.html",
-   "url": "/Designing_Experiments/docs/student_tracks/vr_wk08_synthesis.html",
+   "url": "Designing_Experiments/docs/student_tracks/vr_wk08_synthesis.html",
    "title": "Track Page Placeholder · VR Week 8 Synthesis",
    "area": "other",
    "track": "none",
@@ -3055,7 +3080,7 @@
   },
   {
    "path": "Designing_Experiments/en_navigator.html",
-   "url": "/Designing_Experiments/en_navigator.html",
+   "url": "Designing_Experiments/en_navigator.html",
    "title": "Epistemic Network Navigator — COGS 160",
    "area": "other",
    "track": "none",
@@ -3066,7 +3091,7 @@
   },
   {
    "path": "Designing_Experiments/experiment_wizard.html",
-   "url": "/Designing_Experiments/experiment_wizard.html",
+   "url": "Designing_Experiments/experiment_wizard.html",
    "title": "Experiment Builder Wizard - COGS 160",
    "area": "other",
    "track": "none",
@@ -3087,7 +3112,7 @@
   },
   {
    "path": "Designing_Experiments/hypothesis_builder.html",
-   "url": "/Designing_Experiments/hypothesis_builder.html",
+   "url": "Designing_Experiments/hypothesis_builder.html",
    "title": "Hypothesis Builder — COGS 160",
    "area": "other",
    "track": "none",
@@ -3114,7 +3139,7 @@
   },
   {
    "path": "Designing_Experiments/knowledge_navigator.html",
-   "url": "/Designing_Experiments/knowledge_navigator.html",
+   "url": "Designing_Experiments/knowledge_navigator.html",
    "title": "Knowledge Navigator — COGS 160 Experiment Decision Explorer",
    "area": "other",
    "track": "none",
@@ -3138,7 +3163,7 @@
   },
   {
    "path": "Designing_Experiments/measurement_instruments.html",
-   "url": "/Designing_Experiments/measurement_instruments.html",
+   "url": "Designing_Experiments/measurement_instruments.html",
    "title": "Measurement Instruments & Sensors — COGS 160",
    "area": "other",
    "track": "none",
@@ -3152,7 +3177,7 @@
   },
   {
    "path": "Designing_Experiments/methods_taxonomy.html",
-   "url": "/Designing_Experiments/methods_taxonomy.html",
+   "url": "Designing_Experiments/methods_taxonomy.html",
    "title": "Methods Taxonomy — COGS 160 Experiment Design",
    "area": "other",
    "track": "none",
@@ -3167,7 +3192,7 @@
   },
   {
    "path": "Designing_Experiments/sensor_catalogue.html",
-   "url": "/Designing_Experiments/sensor_catalogue.html",
+   "url": "Designing_Experiments/sensor_catalogue.html",
    "title": "Sensor Catalogue — COGS 160 Experiment Design",
    "area": "other",
    "track": "none",
@@ -3180,7 +3205,7 @@
   },
   {
    "path": "Designing_Experiments/system_inventory.html",
-   "url": "/Designing_Experiments/system_inventory.html",
+   "url": "Designing_Experiments/system_inventory.html",
    "title": "System Inventory & Overseer — ATLAS Knowledge System",
    "area": "other",
    "track": "none",
@@ -3199,7 +3224,7 @@
   },
   {
    "path": "Designing_Experiments/theory_and_experiment_design.html",
-   "url": "/Designing_Experiments/theory_and_experiment_design.html",
+   "url": "Designing_Experiments/theory_and_experiment_design.html",
    "title": "Theory & Experiment Design — COGS 160",
    "area": "other",
    "track": "none",
@@ -3240,7 +3265,7 @@
   },
   {
    "path": "SITEMAP_HIERARCHICAL.html",
-   "url": "/SITEMAP_HIERARCHICAL.html",
+   "url": "SITEMAP_HIERARCHICAL.html",
    "title": "Knowledge Atlas — Complete Site Map",
    "area": "other",
    "track": "none",
@@ -3254,7 +3279,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/collect-articles-upload.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/collect-articles-upload.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/collect-articles-upload.html",
    "title": "My Articles — K-ATLAS COGS 160",
    "area": "other",
    "track": "none",
@@ -3274,7 +3299,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/context/index.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/context/index.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/context/index.html",
    "title": "AI Context Files — COGS 160",
    "area": "other",
    "track": "none",
@@ -3289,7 +3314,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/ka_student_setup.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/ka_student_setup.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/ka_student_setup.html",
    "title": "Student Orientation — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3309,7 +3334,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/ka_technical_setup.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/ka_technical_setup.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/ka_technical_setup.html",
    "title": "Technical Setup — COGS 160 — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3346,7 +3371,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/ka_track1_tagging.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/ka_track1_tagging.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/ka_track1_tagging.html",
    "title": "Track ONE: Image Tagging — COGS 160",
    "area": "other",
    "track": "none",
@@ -3361,7 +3386,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/ka_track2_pipeline.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/ka_track2_pipeline.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/ka_track2_pipeline.html",
    "title": "Track TWO: AI Article Pipeline — COGS 160",
    "area": "other",
    "track": "none",
@@ -3377,7 +3402,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/ka_track3_vr.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/ka_track3_vr.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/ka_track3_vr.html",
    "title": "Track THREE: VR for Experiments — COGS 160",
    "area": "other",
    "track": "none",
@@ -3394,7 +3419,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/ka_track4_ux.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/ka_track4_ux.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/ka_track4_ux.html",
    "title": "Track FOUR: Interaction Design & Evaluation — COGS 160",
    "area": "other",
    "track": "none",
@@ -3411,7 +3436,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/week1_agenda.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/week1_agenda.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/week1_agenda.html",
    "title": "Week 1 — Orientation & The Knowledge Atlas · COGS 160",
    "area": "other",
    "track": "none",
@@ -3434,7 +3459,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/week3_agenda.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/week3_agenda.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/week3_agenda.html",
    "title": "Week 3 — Choose Your Track · COGS 160",
    "area": "other",
    "track": "none",
@@ -3455,7 +3480,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/week4_agenda.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/week4_agenda.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/week4_agenda.html",
    "title": "Week 4 — Sprint 1 Begins · COGS 160",
    "area": "other",
    "track": "none",
@@ -3475,7 +3500,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/160sp/week7_agenda.html",
-   "url": "/archive/pre_track_rename_2026-04-12/160sp/week7_agenda.html",
+   "url": "archive/pre_track_rename_2026-04-12/160sp/week7_agenda.html",
    "title": "Week 7 — Sprint 2 Demo & Integration · COGS 160",
    "area": "other",
    "track": "none",
@@ -3494,7 +3519,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/SITEMAP_HIERARCHICAL.html",
-   "url": "/archive/pre_track_rename_2026-04-12/SITEMAP_HIERARCHICAL.html",
+   "url": "archive/pre_track_rename_2026-04-12/SITEMAP_HIERARCHICAL.html",
    "title": "Knowledge Atlas — Complete Site Map",
    "area": "other",
    "track": "none",
@@ -3508,7 +3533,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/ka_home_contributor.html",
-   "url": "/archive/pre_track_rename_2026-04-12/ka_home_contributor.html",
+   "url": "archive/pre_track_rename_2026-04-12/ka_home_contributor.html",
    "title": "Contributor Home — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3525,7 +3550,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/ka_register.html",
-   "url": "/archive/pre_track_rename_2026-04-12/ka_register.html",
+   "url": "archive/pre_track_rename_2026-04-12/ka_register.html",
    "title": "Register - Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3543,7 +3568,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/ka_user_home.html",
-   "url": "/archive/pre_track_rename_2026-04-12/ka_user_home.html",
+   "url": "archive/pre_track_rename_2026-04-12/ka_user_home.html",
    "title": "My ATLAS — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3556,7 +3581,7 @@
   },
   {
    "path": "docs/crosswalk_gui_mockups.html",
-   "url": "/docs/crosswalk_gui_mockups.html",
+   "url": "docs/crosswalk_gui_mockups.html",
    "title": "Crosswalk GUI mockups — design exploration",
    "area": "other",
    "track": "none",
@@ -3571,7 +3596,7 @@
   },
   {
    "path": "fall160_schedule.html",
-   "url": "/fall160_schedule.html",
+   "url": "fall160_schedule.html",
    "title": "COGS 160 Fall — Experiment Making · Week by Week",
    "area": "other",
    "track": "none",
@@ -3584,7 +3609,7 @@
   },
   {
    "path": "index.html",
-   "url": "/index.html",
+   "url": "index.html",
    "title": "Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3595,7 +3620,7 @@
   },
   {
    "path": "ka_about.html",
-   "url": "/ka_about.html",
+   "url": "ka_about.html",
    "title": "About — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3621,7 +3646,7 @@
   },
   {
    "path": "ka_account_settings.html",
-   "url": "/ka_account_settings.html",
+   "url": "ka_account_settings.html",
    "title": "Account Settings - Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3637,7 +3662,7 @@
   },
   {
    "path": "ka_agents.html",
-   "url": "/ka_agents.html",
+   "url": "ka_agents.html",
    "title": "Agent directory — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3658,7 +3683,7 @@
   },
   {
    "path": "ka_ai_methodology.html",
-   "url": "/ka_ai_methodology.html",
+   "url": "ka_ai_methodology.html",
    "title": "AI-Directed Development: The KA Methodology",
    "area": "other",
    "track": "none",
@@ -3688,7 +3713,7 @@
   },
   {
    "path": "ka_ai_system_failures.html",
-   "url": "/ka_ai_system_failures.html",
+   "url": "ka_ai_system_failures.html",
    "title": "How AI Systems Actually Fail — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3706,7 +3731,7 @@
   },
   {
    "path": "ka_annotations.html",
-   "url": "/ka_annotations.html",
+   "url": "ka_annotations.html",
    "title": "Annotation Inspector · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3720,7 +3745,7 @@
   },
   {
    "path": "ka_archive.html",
-   "url": "/ka_archive.html",
+   "url": "ka_archive.html",
    "title": "Archive · Knowledge Atlas (gated)",
    "area": "other",
    "track": "none",
@@ -3728,12 +3753,12 @@
     "K-ATLAS Archive"
    ],
    "excerpt": "Archive · Knowledge Atlas (gated) Gated archive — Track 4 and Admin only. This index lists retired or deprecated pages that are kept for their design DNA and useful ideas. They are not linked from the public navbar or from sitemap.xml. Accessible only from the Track 4 hub (for UX research on prior patterns) and from the instructor admin console. If you arrived here through a bookmark or direct URL, that is expected — the page itself is not secret, only unlinked. Archive · read-only reference K-ATLAS Archive Pages that have been retired, folded into other surfaces, or held pending redesign. Preserved for study of prior design patterns and for mining useful prose or UX ideas. All categories Retired — not in use Archived — preserved for reference Folded — absorbed into another page Useful DNA — mine for redesigns — ka_evidence.html /ka/ka_evidence.html Evidence-browser page with a mode-switching design. Retired pending decision on whether Evidence folds into Topics as a sub-tab or remains standalone. Useful DNA: the mode-pill pattern, the evidence-card layout, the claim-level provenance surface. Archived 2026-04-17 · Decision deferred Archived Useful DNA View live → Compare to spec → ka_gaps.html /ka/ka_gaps.html Research-gap explorer that surfaces topics with thin coverage. Retired pending decision on whether Gaps becomes a Topics-page sub-tab or a researcher-only standalone. Useful DNA: the VOI (value of investigation) dot system, the gap-density visualisation. Archived 2026-0",
-   "full_len": 3483,
+   "full_len": 3479,
    "size_kb": 11
   },
   {
    "path": "ka_argumentation.html",
-   "url": "/ka_argumentation.html",
+   "url": "ka_argumentation.html",
    "title": "Argumentation Layer · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3750,7 +3775,7 @@
   },
   {
    "path": "ka_datacapture.html",
-   "url": "/ka_datacapture.html",
+   "url": "ka_datacapture.html",
    "title": "Data Capture – Knowledge Atlas Contributor",
    "area": "other",
    "track": "none",
@@ -3766,7 +3791,7 @@
   },
   {
    "path": "ka_demo.html",
-   "url": "/ka_demo.html",
+   "url": "ka_demo.html",
    "title": "Knowledge Atlas — Visual Design Demo",
    "area": "other",
    "track": "none",
@@ -3780,7 +3805,7 @@
   },
   {
    "path": "ka_demo_v04.html",
-   "url": "/ka_demo_v04.html",
+   "url": "ka_demo_v04.html",
    "title": "Knowledge Atlas — UI Demo v0.4",
    "area": "other",
    "track": "none",
@@ -3794,7 +3819,7 @@
   },
   {
    "path": "ka_en_warrants.html",
-   "url": "/ka_en_warrants.html",
+   "url": "ka_en_warrants.html",
    "title": "EN Warrants — Plain-English Breakdown",
    "area": "other",
    "track": "none",
@@ -3816,7 +3841,7 @@
   },
   {
    "path": "ka_explain_system.html",
-   "url": "/ka_explain_system.html",
+   "url": "ka_explain_system.html",
    "title": "Understanding the System — K-ATLAS",
    "area": "other",
    "track": "none",
@@ -3858,7 +3883,7 @@
   },
   {
    "path": "ka_forgot_password.html",
-   "url": "/ka_forgot_password.html",
+   "url": "ka_forgot_password.html",
    "title": "Forgot Password — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3872,7 +3897,7 @@
   },
   {
    "path": "ka_framework_cb.html",
-   "url": "/ka_framework_cb.html",
+   "url": "ka_framework_cb.html",
    "title": "Chronobiological Regulation (CB) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3899,7 +3924,7 @@
   },
   {
    "path": "ka_framework_dp.html",
-   "url": "/ka_framework_dp.html",
+   "url": "ka_framework_dp.html",
    "title": "Default-mode & Place (DP) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3926,7 +3951,7 @@
   },
   {
    "path": "ka_framework_dt.html",
-   "url": "/ka_framework_dt.html",
+   "url": "ka_framework_dt.html",
    "title": "Dual-Task / Attentional Load (DT) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3953,7 +3978,7 @@
   },
   {
    "path": "ka_framework_ec.html",
-   "url": "/ka_framework_ec.html",
+   "url": "ka_framework_ec.html",
    "title": "Embodied Cognition (EC) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -3979,7 +4004,7 @@
   },
   {
    "path": "ka_framework_ic.html",
-   "url": "/ka_framework_ic.html",
+   "url": "ka_framework_ic.html",
    "title": "Interoceptive-Constructionist Affect (IC) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4005,7 +4030,7 @@
   },
   {
    "path": "ka_framework_iedpt.html",
-   "url": "/ka_framework_iedpt.html",
+   "url": "ka_framework_iedpt.html",
    "title": "Implicit-Explicit Dual-Process Theory (IE_DPT) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4032,7 +4057,7 @@
   },
   {
    "path": "ka_framework_ms.html",
-   "url": "/ka_framework_ms.html",
+   "url": "ka_framework_ms.html",
    "title": "Multisensory Integration (MS) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4059,7 +4084,7 @@
   },
   {
    "path": "ka_framework_msi.html",
-   "url": "/ka_framework_msi.html",
+   "url": "ka_framework_msi.html",
    "title": "Motor-Sensory Integration (MSI) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4086,7 +4111,7 @@
   },
   {
    "path": "ka_framework_nm.html",
-   "url": "/ka_framework_nm.html",
+   "url": "ka_framework_nm.html",
    "title": "Neuromodulatory Systems (NM) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4112,7 +4137,7 @@
   },
   {
    "path": "ka_framework_pp.html",
-   "url": "/ka_framework_pp.html",
+   "url": "ka_framework_pp.html",
    "title": "Predictive Processing (PP) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4137,7 +4162,7 @@
   },
   {
    "path": "ka_framework_sn.html",
-   "url": "/ka_framework_sn.html",
+   "url": "ka_framework_sn.html",
    "title": "Salience Networks (SN) · T1 Framework · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4165,7 +4190,7 @@
   },
   {
    "path": "ka_home_contributor.html",
-   "url": "/ka_home_contributor.html",
+   "url": "ka_home_contributor.html",
    "title": "Contributor Home — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4182,7 +4207,7 @@
   },
   {
    "path": "ka_home_instructor.html",
-   "url": "/ka_home_instructor.html",
+   "url": "ka_home_instructor.html",
    "title": "Instructor Dashboard — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4198,7 +4223,7 @@
   },
   {
    "path": "ka_home_practitioner.html",
-   "url": "/ka_home_practitioner.html",
+   "url": "ka_home_practitioner.html",
    "title": "Practitioner Home — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4215,7 +4240,7 @@
   },
   {
    "path": "ka_home_student.html",
-   "url": "/ka_home_student.html",
+   "url": "ka_home_student.html",
    "title": "Student Explorer — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4235,7 +4260,7 @@
   },
   {
    "path": "ka_home_student_new.html",
-   "url": "/ka_home_student_new.html",
+   "url": "ka_home_student_new.html",
    "title": "Student Explorer — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4255,7 +4280,7 @@
   },
   {
    "path": "ka_home_theory.html",
-   "url": "/ka_home_theory.html",
+   "url": "ka_home_theory.html",
    "title": "Theory / Mechanism Explorer — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4282,7 +4307,7 @@
   },
   {
    "path": "ka_hypothesis_builder.html",
-   "url": "/ka_hypothesis_builder.html",
+   "url": "ka_hypothesis_builder.html",
    "title": "Hypothesis Builder · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4295,7 +4320,7 @@
   },
   {
    "path": "ka_instructor_login_recovery.html",
-   "url": "/ka_instructor_login_recovery.html",
+   "url": "ka_instructor_login_recovery.html",
    "title": "Instructor Login Recovery Guide - Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4318,7 +4343,7 @@
   },
   {
    "path": "ka_instructor_review.html",
-   "url": "/ka_instructor_review.html",
+   "url": "ka_instructor_review.html",
    "title": "Article Review - Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4337,7 +4362,7 @@
   },
   {
    "path": "ka_interpretation.html",
-   "url": "/ka_interpretation.html",
+   "url": "ka_interpretation.html",
    "title": "Interpretation Layer \"\" Epistemic Terrain | Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4350,7 +4375,7 @@
   },
   {
    "path": "ka_journey_af_neuro.html",
-   "url": "/ka_journey_af_neuro.html",
+   "url": "ka_journey_af_neuro.html",
    "title": "Plausible Neural Underpinnings — deepening the PNU layer — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4370,7 +4395,7 @@
   },
   {
    "path": "ka_journey_af_references.html",
-   "url": "/ka_journey_af_references.html",
+   "url": "ka_journey_af_references.html",
    "title": "Articles referred to in the corpus — reference-harvest candidate generator — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4390,7 +4415,7 @@
   },
   {
    "path": "ka_journey_af_roi.html",
-   "url": "/ka_journey_af_roi.html",
+   "url": "ka_journey_af_roi.html",
    "title": "ROI-based candidate generator — driven by EN and argumentation analysis — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4410,7 +4435,7 @@
   },
   {
    "path": "ka_journey_argumentation.html",
-   "url": "/ka_journey_argumentation.html",
+   "url": "ka_journey_argumentation.html",
    "title": "Argumentation layer — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4430,7 +4455,7 @@
   },
   {
    "path": "ka_journey_bn.html",
-   "url": "/ka_journey_bn.html",
+   "url": "ka_journey_bn.html",
    "title": "Bayesian Network viewer — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4450,7 +4475,7 @@
   },
   {
    "path": "ka_journey_en.html",
-   "url": "/ka_journey_en.html",
+   "url": "ka_journey_en.html",
    "title": "Epistemic Network (Web of Belief) viewer — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4470,7 +4495,7 @@
   },
   {
    "path": "ka_journey_fronts.html",
-   "url": "/ka_journey_fronts.html",
+   "url": "ka_journey_fronts.html",
    "title": "Research fronts — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4490,7 +4515,7 @@
   },
   {
    "path": "ka_journey_interpretation.html",
-   "url": "/ka_journey_interpretation.html",
+   "url": "ka_journey_interpretation.html",
    "title": "Interpretation layer — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4510,7 +4535,7 @@
   },
   {
    "path": "ka_journey_mechanism.html",
-   "url": "/ka_journey_mechanism.html",
+   "url": "ka_journey_mechanism.html",
    "title": "Mechanism layer — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4531,7 +4556,7 @@
   },
   {
    "path": "ka_journey_ontology.html",
-   "url": "/ka_journey_ontology.html",
+   "url": "ka_journey_ontology.html",
    "title": "Ontology inspector — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4551,7 +4576,7 @@
   },
   {
    "path": "ka_journey_qa.html",
-   "url": "/ka_journey_qa.html",
+   "url": "ka_journey_qa.html",
    "title": "Question-answering layer — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4571,7 +4596,7 @@
   },
   {
    "path": "ka_journey_theory.html",
-   "url": "/ka_journey_theory.html",
+   "url": "ka_journey_theory.html",
    "title": "Theory deep-dive — Knowledge Atlas complicated surfaces",
    "area": "other",
    "track": "none",
@@ -4591,7 +4616,7 @@
   },
   {
    "path": "ka_journeys.html",
-   "url": "/ka_journeys.html",
+   "url": "ka_journeys.html",
    "title": "Complicated journey surfaces — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4612,7 +4637,7 @@
   },
   {
    "path": "ka_login.html",
-   "url": "/ka_login.html",
+   "url": "ka_login.html",
    "title": "Login - Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4625,7 +4650,7 @@
   },
   {
    "path": "ka_mechanisms.html",
-   "url": "/ka_mechanisms.html",
+   "url": "ka_mechanisms.html",
    "title": "Mechanisms · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4644,7 +4669,7 @@
   },
   {
    "path": "ka_my_work.html",
-   "url": "/ka_my_work.html",
+   "url": "ka_my_work.html",
    "title": "My Work — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4659,7 +4684,7 @@
   },
   {
    "path": "ka_neural.html",
-   "url": "/ka_neural.html",
+   "url": "ka_neural.html",
    "title": "Neural Underpinnings · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4672,7 +4697,7 @@
   },
   {
    "path": "ka_neuro_elaboration.html",
-   "url": "/ka_neuro_elaboration.html",
+   "url": "ka_neuro_elaboration.html",
    "title": "PNU Elaboration · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4695,7 +4720,7 @@
   },
   {
    "path": "ka_neuro_grounding_demo.html",
-   "url": "/ka_neuro_grounding_demo.html",
+   "url": "ka_neuro_grounding_demo.html",
    "title": "Neuro Grounding Modal Demo — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4721,7 +4746,7 @@
   },
   {
    "path": "ka_neuro_perspective.html",
-   "url": "/ka_neuro_perspective.html",
+   "url": "ka_neuro_perspective.html",
    "title": "Neuro Perspective — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4746,7 +4771,7 @@
   },
   {
    "path": "ka_question_maker.html",
-   "url": "/ka_question_maker.html",
+   "url": "ka_question_maker.html",
    "title": "Question Maker – Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4760,7 +4785,7 @@
   },
   {
    "path": "ka_register.html",
-   "url": "/ka_register.html",
+   "url": "ka_register.html",
    "title": "Register - Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4778,7 +4803,7 @@
   },
   {
    "path": "ka_reset_password.html",
-   "url": "/ka_reset_password.html",
+   "url": "ka_reset_password.html",
    "title": "Reset Password — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4792,7 +4817,7 @@
   },
   {
    "path": "ka_sensors.html",
-   "url": "/ka_sensors.html",
+   "url": "ka_sensors.html",
    "title": "Signal / Measuring Instrument Catalogue · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4805,7 +4830,7 @@
   },
   {
    "path": "ka_tagger.html",
-   "url": "/ka_tagger.html",
+   "url": "ka_tagger.html",
    "title": "Tag Images · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4818,7 +4843,7 @@
   },
   {
    "path": "ka_theories.html",
-   "url": "/ka_theories.html",
+   "url": "ka_theories.html",
    "title": "Theories · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4857,7 +4882,7 @@
   },
   {
    "path": "ka_theory.html",
-   "url": "/ka_theory.html",
+   "url": "ka_theory.html",
    "title": "Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4876,7 +4901,7 @@
   },
   {
    "path": "ka_theory_adaptive_thermal.html",
-   "url": "/ka_theory_adaptive_thermal.html",
+   "url": "ka_theory_adaptive_thermal.html",
    "title": "Adaptive Thermal Comfort · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4894,7 +4919,7 @@
   },
   {
    "path": "ka_theory_art.html",
-   "url": "/ka_theory_art.html",
+   "url": "ka_theory_art.html",
    "title": "Attention Restoration Theory · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4918,7 +4943,7 @@
   },
   {
    "path": "ka_theory_biophilia.html",
-   "url": "/ka_theory_biophilia.html",
+   "url": "ka_theory_biophilia.html",
    "title": "Biophilia Hypothesis · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4936,7 +4961,7 @@
   },
   {
    "path": "ka_theory_brecvema.html",
-   "url": "/ka_theory_brecvema.html",
+   "url": "ka_theory_brecvema.html",
    "title": "BRECVEMA — Music and Aesthetic Emotion · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4954,7 +4979,7 @@
   },
   {
    "path": "ka_theory_flow_theory.html",
-   "url": "/ka_theory_flow_theory.html",
+   "url": "ka_theory_flow_theory.html",
    "title": "Flow Theory · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4972,7 +4997,7 @@
   },
   {
    "path": "ka_theory_goldilocks_principle.html",
-   "url": "/ka_theory_goldilocks_principle.html",
+   "url": "ka_theory_goldilocks_principle.html",
    "title": "Goldilocks Principle · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -4990,7 +5015,7 @@
   },
   {
    "path": "ka_theory_kaplan_preference.html",
-   "url": "/ka_theory_kaplan_preference.html",
+   "url": "ka_theory_kaplan_preference.html",
    "title": "Kaplan Preference Matrix · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -5008,7 +5033,7 @@
   },
   {
    "path": "ka_theory_place_attachment.html",
-   "url": "/ka_theory_place_attachment.html",
+   "url": "ka_theory_place_attachment.html",
    "title": "Place Attachment · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -5026,7 +5051,7 @@
   },
   {
    "path": "ka_theory_privacy_regulation.html",
-   "url": "/ka_theory_privacy_regulation.html",
+   "url": "ka_theory_privacy_regulation.html",
    "title": "Privacy Regulation Theory · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -5044,7 +5069,7 @@
   },
   {
    "path": "ka_theory_prospect_refuge.html",
-   "url": "/ka_theory_prospect_refuge.html",
+   "url": "ka_theory_prospect_refuge.html",
    "title": "Prospect-Refuge Theory · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -5062,7 +5087,7 @@
   },
   {
    "path": "ka_theory_soundscape.html",
-   "url": "/ka_theory_soundscape.html",
+   "url": "ka_theory_soundscape.html",
    "title": "Soundscape Theory · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -5080,7 +5105,7 @@
   },
   {
    "path": "ka_theory_space_syntax.html",
-   "url": "/ka_theory_space_syntax.html",
+   "url": "ka_theory_space_syntax.html",
    "title": "Space Syntax · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -5098,7 +5123,7 @@
   },
   {
    "path": "ka_theory_srt.html",
-   "url": "/ka_theory_srt.html",
+   "url": "ka_theory_srt.html",
    "title": "Stress Reduction Theory · T1.5 Domain Theory · Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -5116,7 +5141,7 @@
   },
   {
    "path": "ka_user_home.html",
-   "url": "/ka_user_home.html",
+   "url": "ka_user_home.html",
    "title": "My ATLAS — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -5133,7 +5158,7 @@
   },
   {
    "path": "ka_warrants.html",
-   "url": "/ka_warrants.html",
+   "url": "ka_warrants.html",
    "title": "KA Warrants Inspector",
    "area": "other",
    "track": "none",
@@ -5152,7 +5177,7 @@
   },
   {
    "path": "ka_workflow_hub.html",
-   "url": "/ka_workflow_hub.html",
+   "url": "ka_workflow_hub.html",
    "title": "Route — Knowledge Atlas",
    "area": "other",
    "track": "none",
@@ -5165,7 +5190,7 @@
   },
   {
    "path": "archive/pre_track_rename_2026-04-12/ka_sitemap.html",
-   "url": "/archive/pre_track_rename_2026-04-12/ka_sitemap.html",
+   "url": "archive/pre_track_rename_2026-04-12/ka_sitemap.html",
    "title": "KA Site Map · Knowledge Atlas",
    "area": "site-utility",
    "track": "none",
@@ -5178,7 +5203,7 @@
   },
   {
    "path": "ka_home_researcher.html",
-   "url": "/ka_home_researcher.html",
+   "url": "ka_home_researcher.html",
    "title": "Researcher Workspace — Knowledge Atlas",
    "area": "site-utility",
    "track": "none",
@@ -5206,21 +5231,22 @@
   },
   {
    "path": "ka_search.html",
-   "url": "/ka_search.html",
+   "url": "ka_search.html",
    "title": "Search · Knowledge Atlas",
    "area": "site-utility",
    "track": "none",
    "headings": [
     "Search the Knowledge Atlas",
-    "Filter by area"
+    "Filter by area",
+    "Gemini API Key"
    ],
-   "excerpt": "Search · Knowledge Atlas Knowledge Atlas Explore Evidence Gaps Articles Contribute Search Site map Search the Knowledge Atlas Find pages, track assignments, evidence, gaps, and contributors across the whole site. ⌕ × Filter by area Reset filters Loading index… Static search across … pages. The index is rebuilt by scripts/build_search_index.py ; if a page you expect is missing, run that script and reload. Browse the site map · Global home . Index generated — .",
-   "full_len": 463,
-   "size_kb": 20
+   "excerpt": "Search · Knowledge Atlas Search the Knowledge Atlas Search across site pages and the research corpus — 800+ science writer summaries from the Web of Belief. ⌕ × Filter by area Reset filters ✦ Synthesize answer ⚙ Loading index… Gemini API Key Enter your free Gemini API key to enable AI-synthesized answers. Get one at aistudio.google.com . The key is stored only in your browser's localStorage. Clear key Cancel Save Static search across … site pages + … research papers. Site index: scripts/build_search_index.py · Research index: scripts/build_research_index.py . Browse the site map · Global home . Site index: — · Research index: —",
+   "full_len": 635,
+   "size_kb": 54
   },
   {
    "path": "ka_sitemap.html",
-   "url": "/ka_sitemap.html",
+   "url": "ka_sitemap.html",
    "title": "Knowledge Atlas — Site Map",
    "area": "site-utility",
    "track": "none",
@@ -5253,7 +5279,7 @@
   },
   {
    "path": "ka_journey_topic_inspector.html",
-   "url": "/ka_journey_topic_inspector.html",
+   "url": "ka_journey_topic_inspector.html",
    "title": "Topic inspector — Knowledge Atlas complicated surfaces",
    "area": "topics",
    "track": "none",
@@ -5273,7 +5299,7 @@
   },
   {
    "path": "ka_topic_dashboard_view.html",
-   "url": "/ka_topic_dashboard_view.html",
+   "url": "ka_topic_dashboard_view.html",
    "title": "Topic Page (Dashboard View) — Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5286,7 +5312,7 @@
   },
   {
    "path": "ka_topic_facet_view.html",
-   "url": "/ka_topic_facet_view.html",
+   "url": "ka_topic_facet_view.html",
    "title": "Topic Page (Facet View) — Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5306,7 +5332,7 @@
   },
   {
    "path": "ka_topic_full_facets_view.html",
-   "url": "/ka_topic_full_facets_view.html",
+   "url": "ka_topic_full_facets_view.html",
    "title": "Topic Page (Full Facets) — Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5319,7 +5345,7 @@
   },
   {
    "path": "ka_topic_heatmap_view.html",
-   "url": "/ka_topic_heatmap_view.html",
+   "url": "ka_topic_heatmap_view.html",
    "title": "Topic Page (Heatmap View) — Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5332,7 +5358,7 @@
   },
   {
    "path": "ka_topic_hierarchy.html",
-   "url": "/ka_topic_hierarchy.html",
+   "url": "ka_topic_hierarchy.html",
    "title": "Topic Hierarchy Prototype · Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5345,7 +5371,7 @@
   },
   {
    "path": "ka_topic_quick_lookup_view.html",
-   "url": "/ka_topic_quick_lookup_view.html",
+   "url": "ka_topic_quick_lookup_view.html",
    "title": "Topic Page (Quick Lookup) — Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5358,7 +5384,7 @@
   },
   {
    "path": "ka_topics.html",
-   "url": "/ka_topics.html",
+   "url": "ka_topics.html",
    "title": "Topic Page (Classic View) — Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5371,7 +5397,7 @@
   },
   {
    "path": "ka_topics_public_view.html",
-   "url": "/ka_topics_public_view.html",
+   "url": "ka_topics_public_view.html",
    "title": "Research Topics — Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5385,7 +5411,7 @@
   },
   {
    "path": "ka_topics_student_view.html",
-   "url": "/ka_topics_student_view.html",
+   "url": "ka_topics_student_view.html",
    "title": "Topics — COGS 160 student view — Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5398,7 +5424,7 @@
   },
   {
    "path": "ka_topics_v2.html",
-   "url": "/ka_topics_v2.html",
+   "url": "ka_topics_v2.html",
    "title": "Topics · Knowledge Atlas",
    "area": "topics",
    "track": "none",
@@ -5414,7 +5440,7 @@
   },
   {
    "path": "160sp/t1_intro.html",
-   "url": "/160sp/t1_intro.html",
+   "url": "160sp/t1_intro.html",
    "title": "Track 1: Image Tagger · COGS 160",
    "area": "track-overview",
    "track": "track1",
@@ -5425,13 +5451,13 @@
     "Repos you’ll need",
     "How submission works for Track 1"
    ],
-   "excerpt": "Track 1: Image Tagger · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 1 TRACK 1 — IMAGE TAGGER Track 1: Image Tagger Build the visual annotation pipeline for the Knowledge Atlas — collect 500 images, write detectors for 6 latent tags, run them at scale, and ship a public viewer. 3 tasks 10 weeks 75 + 75 + 75 points What you’ll build The Knowledge Atlas studies how buildings shape the people inside them — how ceiling height changes thinking, how daylight shifts mood, how clutter raises stress. To study those effects computationally you need photographs, and you need each photograph to carry both a licence and a measurement. You will start with nothing and finish with a working pipeline. In Task 1 you gather 500 openly-licensed interior photos across fifteen room types, with full provenance for every file. In Task 2 you write six detectors that read those images and output latent tags — numerical scores for social-spatial features like sociopetal seating, prospect, and interactional visibility. In Task 3 you run the detectors over the whole collection and ship a standalone browser that lets anyone search the images by tag or by human effect. The collection, the detectors, and the viewer all become long-lived infrastructure for the Atlas. The three tasks TASK 1 Build an Image Collection Find five openly-licensed image sources, build a search pipeline, and gather 500 architectural-interior photogra",
-   "full_len": 4069,
+   "excerpt": "Track 1: Image Tagger · COGS 160 Home / 160 Student / Track 1 TRACK 1 — IMAGE TAGGER Track 1: Image Tagger Build the visual annotation pipeline for the Knowledge Atlas — collect 500 images, write detectors for 6 latent tags, run them at scale, and ship a public viewer. 3 tasks 10 weeks 75 + 75 + 75 points What you’ll build The Knowledge Atlas studies how buildings shape the people inside them — how ceiling height changes thinking, how daylight shifts mood, how clutter raises stress. To study those effects computationally you need photographs, and you need each photograph to carry both a licence and a measurement. You will start with nothing and finish with a working pipeline. In Task 1 you gather 500 openly-licensed interior photos across fifteen room types, with full provenance for every file. In Task 2 you write six detectors that read those images and output latent tags — numerical scores for social-spatial features like sociopetal seating, prospect, and interactional visibility. In Task 3 you run the detectors over the whole collection and ship a standalone browser that lets anyone search the images by tag or by human effect. The collection, the detectors, and the viewer all become long-lived infrastructure for the Atlas. The three tasks TASK 1 Build an Image Collection Find five openly-licensed image sources, build a search pipeline, and gather 500 architectural-interior photographs with full provenance — source URL, photographer, licence, and room type for every file. 4",
+   "full_len": 3976,
    "size_kb": 9
   },
   {
    "path": "160sp/t2_intro.html",
-   "url": "/160sp/t2_intro.html",
+   "url": "160sp/t2_intro.html",
    "title": "Track 2: Article Finder · COGS 160",
    "area": "track-overview",
    "track": "track2",
@@ -5444,33 +5470,35 @@
     "Repos you’ll need",
     "How submission works for Track 2"
    ],
-   "excerpt": "Track 2: Article Finder · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 2 TRACK 2 — ARTICLE FINDER Track 2: Article Finder Build a PRISMA-compliant article discovery pipeline — fix the contribute page, extract knowledge gaps, generate targeted queries, execute searches, and triage results at the abstract level. 3 tasks 10 weeks 75 + 60 + 75 points +20 contract bonus on Tasks 2 & 3 What you’ll build The Knowledge Atlas needs a steady inflow of papers. Researchers working on environment-and-cognition need to know which questions the literature has answered, which it has only half-answered, and which it has not yet asked. Without a disciplined discovery pipeline, the Atlas drifts on whatever its contributors happen to have read this week. You will build that pipeline end-to-end, and you will build it to the PRISMA reporting standard — the gold-standard checklist for documenting how a literature search found, screened, and selected its papers. PRISMA is the difference between a search someone else can audit and a pile of links nobody can defend. You start in Task 1 with a broken contribute page that accepts PDFs and does nothing with them. You diagnose what is missing, write a contract that specifies the fix, hand the contract to your AI, and verify that submitted papers actually get classified, stored, and reported back to the user. In Task 2 you turn to discovery proper: you read the Article Eate",
-   "full_len": 8236,
+   "excerpt": "Track 2: Article Finder · COGS 160 Home / 160 Student / Track 2 TRACK 2 — ARTICLE FINDER Track 2: Article Finder Build a PRISMA-compliant article discovery pipeline — fix the contribute page, extract knowledge gaps, generate targeted queries, execute searches, and triage results at the abstract level. 3 tasks 10 weeks 75 + 60 + 75 points +20 contract bonus on Tasks 2 & 3 What you’ll build The Knowledge Atlas needs a steady inflow of papers. Researchers working on environment-and-cognition need to know which questions the literature has answered, which it has only half-answered, and which it has not yet asked. Without a disciplined discovery pipeline, the Atlas drifts on whatever its contributors happen to have read this week. You will build that pipeline end-to-end, and you will build it to the PRISMA reporting standard — the gold-standard checklist for documenting how a literature search found, screened, and selected its papers. PRISMA is the difference between a search someone else can audit and a pile of links nobody can defend. You start in Task 1 with a broken contribute page that accepts PDFs and does nothing with them. You diagnose what is missing, write a contract that specifies the fix, hand the contract to your AI, and verify that submitted papers actually get classified, stored, and reported back to the user. In Task 2 you turn to discovery proper: you read the Article Eater’s PNU mechanism templates, identify the knowledge gaps the Atlas most needs filled, score t",
+   "full_len": 8143,
    "size_kb": 15
   },
   {
    "path": "160sp/t3_intro.html",
-   "url": "/160sp/t3_intro.html",
+   "url": "160sp/t3_intro.html",
    "title": "Track 3: VR Studio · COGS 160",
    "area": "track-overview",
    "track": "track3",
    "headings": [
-    "Track 3: VR Studio",
+    "Track 3: VR Studio — Parametric Rooms for Environmental Cognition Research",
     "What you’ll build",
+    "Realism via splat augmentation",
     "The three tasks",
-    "The eight manipulation classes",
+    "The fifteen room types",
+    "The flagship — curved-wall worship room",
     "Tools and accounts you’ll need",
     "Repos you’ll need",
     "How to read these pages",
     "How submission works for Track 3"
    ],
-   "excerpt": "Track 3: VR Studio · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 3 TRACK 3 — VR STUDIO Track 3: VR Studio Build a pipeline that turns natural-language instructions into modified 3D rooms in real time — collect VR-ready interior models, prove every environmental factor can be manipulated, and ship an AI front-end that converts “a cozy library with 4-metre ceilings and exposed brick on the north wall” into an instant scene change. 3 tasks 10 weeks 75 + 75 + 75 points 120+ fps target What you’ll build The Knowledge Atlas catalogues the empirical evidence that interior environments alter human cognition and affect — ceiling height changes thinking, daylight shifts mood, materials change the feel of a room. A neuroarchitecture researcher who wants to test these claims has to vary one feature while holding everything else constant, which means she needs 3D rooms she can modify parametrically. No existing product gives her that. Tools like Veras and Decory produce 2D images, not editable 3D models; Meshy and Luma generate new models, not parametric edits of existing ones. You will close that gap. In Task 1 you assemble a library of at least 20 VR-ready 3D interior models, each annotated so a program knows which mesh is the ceiling, which is the north wall, which is a window. In Task 2 you load those models in a browser-based VR viewer and prove every factor can be modified in real time — sliders for",
-   "full_len": 8866,
-   "size_kb": 19
+   "excerpt": "Track 3: VR Studio · COGS 160 Home / 160 Student / Track 3 TRACK 3 · VR STUDIO Track 3: VR Studio — Parametric Rooms for Environmental Cognition Research Every room in this track is generated parametrically by Infinigen Indoors (Raistrick et al., 2024) — from the floorplan down to the doorknob — and exposed to students through a thin Python wrapper, never through Blender’s UI. The AI front-end you ship in Task 3 translates a natural-language instruction into a validated parameter dict, calls the wrapper, and returns a glTF the browser displays in seconds. The cohort’s flagship deliverable is a single shared parametric module: a curved-wall worship room grounded in Vartanian et al. (2015) on the cathedral effect. 3 tasks 10 weeks 75 + 75 + 75 points Flagship: curved-wall worship room What you’ll build Environmental psychology rests on causal claims: ceiling height changes thought, daylight changes mood, fractal patterning changes affect. Testing those claims demands stimuli a researcher can sweep one factor at a time while holding the rest of the room constant. Veras and Decory output 2D images, not 3D scenes. Meshy and Luma generate fresh models, not parametric edits of existing ones. BuildingNet, ProcTHOR, and HSSD ship beautiful artist-authored scenes, but the parameters are baked into the geometry. None of these tools lets a researcher request the Meyers-Levy high-ceiling condition on a specified office. Infinigen Indoors closes that gap. Princeton’s Vision and Learning La",
+   "full_len": 14551,
+   "size_kb": 27
   },
   {
    "path": "160sp/t4_intro.html",
-   "url": "/160sp/t4_intro.html",
+   "url": "160sp/t4_intro.html",
    "title": "Track 4 Overview · COGS 160",
    "area": "track-overview",
    "track": "track4",
@@ -5485,13 +5513,13 @@
     "How you will be graded",
     "Where to start"
    ],
-   "excerpt": "Track 4 Overview · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 4 TRACK 4 · OVERVIEW GUI & Interactivity: Designing Evidential Journeys The previous tracks build the Atlas's content. Track 4 asks how that content reaches a reader. You will design and prototype an evidential journey : a sequence of pages that takes someone from a question they typed in to an answer that is properly warranted, qualified, and rebuttal-aware in the Toulmin sense — not a finished fact handed down from on high, but a defeasible conclusion the reader could in principle defeat by adducing further evidence. What this track is and is not This is not a usability-testing track. The Atlas is not yet deployed and there are no real users to recruit; the conventional HCI playbook does not apply. What we have instead is a richer, less common problem: design the journeys for personas whose questions, methods, and adequacy conditions vary widely, before any of those personas have actually used the system. The students in this track will spend three weeks (and possibly half of a fourth) producing the artefacts that make journey design possible: a tagged corpus of the questions a chosen persona would actually ask, a working catalog that pairs each question with a canonical answer shape and a defeater economy, and one journey prototype taken end-to-end as a demonstration of what the previous artefacts buy you. The track is heavy on",
-   "full_len": 9846,
+   "excerpt": "Track 4 Overview · COGS 160 Home / 160 Student / Track 4 TRACK 4 · OVERVIEW GUI & Interactivity: Designing Evidential Journeys The previous tracks build the Atlas's content. Track 4 asks how that content reaches a reader. You will design and prototype an evidential journey : a sequence of pages that takes someone from a question they typed in to an answer that is properly warranted, qualified, and rebuttal-aware in the Toulmin sense — not a finished fact handed down from on high, but a defeasible conclusion the reader could in principle defeat by adducing further evidence. What this track is and is not This is not a usability-testing track. The Atlas is not yet deployed and there are no real users to recruit; the conventional HCI playbook does not apply. What we have instead is a richer, less common problem: design the journeys for personas whose questions, methods, and adequacy conditions vary widely, before any of those personas have actually used the system. The students in this track will spend three weeks (and possibly half of a fourth) producing the artefacts that make journey design possible: a tagged corpus of the questions a chosen persona would actually ask, a working catalog that pairs each question with a canonical answer shape and a defeater economy, and one journey prototype taken end-to-end as a demonstration of what the previous artefacts buy you. The track is heavy on conceptual scaffolding because the alternative — design without the scaffolding — produces j",
+   "full_len": 9753,
    "size_kb": 15
   },
   {
    "path": "160sp/t1_submissions.html",
-   "url": "/160sp/t1_submissions.html",
+   "url": "160sp/t1_submissions.html",
    "title": "Submissions · Track 1 · COGS 160",
    "area": "track-submission",
    "track": "track1",
@@ -5501,13 +5529,13 @@
     "How submissions are recorded",
     "What “graded” means here"
    ],
-   "excerpt": "Submissions · Track 1 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 1 / Submissions TRACK 1 · SUBMISSIONS Track 1 Submissions Your submission record for Track 1: Image Tagger. Each task shows when you submitted, the grade you received, and a link to the instructor’s comments and critique. Submission record The table below auto-populates from the grading backend the moment a Pull Request is merged or graded. If you have not yet submitted a task, that row stays empty — that is normal. Task Submitted at Grade Comments & critique Task 1: Build an Image Collection 75 points — — — Task 2: Build Latent Tag Detectors 75 points — — — Task 3: Annotate Collection & Build Image Viewer 75 points — — — Track 1 total — — / 225 — How submissions are recorded Submissions are recorded automatically when you open a Pull Request on GitHub from your track1/<your-name> branch into dkirsh:main . The PR creation timestamp becomes the “Submitted at” entry; the grade and critique link appear after the instructor finishes reviewing. If a row stays empty after you have opened a PR, the registry has not yet picked up your branch — refresh after fifteen minutes. If it still does not appear, message the instructor on the PR thread. Late or revised submissions. If you push additional commits after a grade is posted, the page shows the most recent submission timestamp and a small history of prior submissions for the same tas",
-   "full_len": 2262,
-   "size_kb": 7
+   "excerpt": "Submissions · Track 1 · COGS 160 Home / 160 Student / Track 1 / Submissions TRACK 1 · SUBMISSIONS Track 1 Submissions Your submission record for Track 1: Image Tagger. Each task shows when you submitted, the grade you received, and a link to the instructor’s comments and critique. Submission record The table below auto-populates from the grading backend the moment a Pull Request is merged or graded. If you have not yet submitted a task, that row stays empty — that is normal. Task Submitted at Grade Comments & critique Task 1: Build an Image Collection 75 points — — — Task 2: Build Latent Tag Detectors 75 points — — — Task 3: Annotate Collection & Build Image Viewer 75 points — — — Track 1 total — — / 225 — How submissions are recorded Submissions are recorded automatically when you open a Pull Request on GitHub from your track1/<your-name> branch into dkirsh:main . The PR creation timestamp becomes the “Submitted at” entry; the grade and critique link appear after the instructor finishes reviewing. If a row stays empty after you have opened a PR, the registry has not yet picked up your branch — refresh after fifteen minutes. If it still does not appear, message the instructor on the PR thread. Late or revised submissions. If you push additional commits after a grade is posted, the page shows the most recent submission timestamp and a small history of prior submissions for the same task. Grades are only regenerated when the instructor explicitly re-grades the PR; do not assume",
+   "full_len": 2169,
+   "size_kb": 6
   },
   {
    "path": "160sp/t2_submissions.html",
-   "url": "/160sp/t2_submissions.html",
+   "url": "160sp/t2_submissions.html",
    "title": "Submissions · Track 2 · COGS 160",
    "area": "track-submission",
    "track": "track2",
@@ -5517,13 +5545,13 @@
     "How submissions are recorded",
     "What “graded” means here"
    ],
-   "excerpt": "Submissions · Track 2 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 2 / Submissions TRACK 2 · SUBMISSIONS Track 2 Submissions Your submission record for Track 2: Article Finder. Each task shows when you submitted, the grade you received, and a link to the instructor’s comments and critique. Submission record The table below auto-populates from the grading backend the moment a Pull Request is merged or graded. If you have not yet submitted a task, that row stays empty. Task Submitted at Grade Comments & critique Task 1: Fix the Contribute Page 75 points — — — Task 2: Gap Targeting & Query Generation 60 points (+20 contract bonus) — — — Task 3: Search Execution & Abstract Triage 75 points (+20 contract bonus) — — — Track 2 total — — / 250 — How submissions are recorded Submissions are recorded automatically when you open a Pull Request on GitHub from your track2/<your-name> branch into dkirsh:main . The PR creation timestamp becomes the “Submitted at” entry; the grade and critique link appear after the instructor finishes reviewing. Contract bonus. Tasks 2 and 3 each award up to 20 bonus points for contract quality — the rubric’s contract gate must pass first, and the bonus is added on top of the rubric score. Both numbers appear in the Grade column once posted. What “graded” means here Each task is graded against the rubric on its own page, with the contract gate as a hard prerequisite. Numeri",
-   "full_len": 1911,
+   "excerpt": "Submissions · Track 2 · COGS 160 Home / 160 Student / Track 2 / Submissions TRACK 2 · SUBMISSIONS Track 2 Submissions Your submission record for Track 2: Article Finder. Each task shows when you submitted, the grade you received, and a link to the instructor’s comments and critique. Submission record The table below auto-populates from the grading backend the moment a Pull Request is merged or graded. If you have not yet submitted a task, that row stays empty. Task Submitted at Grade Comments & critique Task 1: Fix the Contribute Page 75 points — — — Task 2: Gap Targeting & Query Generation 60 points (+20 contract bonus) — — — Task 3: Search Execution & Abstract Triage 75 points (+20 contract bonus) — — — Track 2 total — — / 250 — How submissions are recorded Submissions are recorded automatically when you open a Pull Request on GitHub from your track2/<your-name> branch into dkirsh:main . The PR creation timestamp becomes the “Submitted at” entry; the grade and critique link appear after the instructor finishes reviewing. Contract bonus. Tasks 2 and 3 each award up to 20 bonus points for contract quality — the rubric’s contract gate must pass first, and the bonus is added on top of the rubric score. Both numbers appear in the Grade column once posted. What “graded” means here Each task is graded against the rubric on its own page, with the contract gate as a hard prerequisite. Numerical scores reflect the rubric line items; the comments/critique link points at the PR convers",
+   "full_len": 1818,
    "size_kb": 6
   },
   {
    "path": "160sp/t3_submissions.html",
-   "url": "/160sp/t3_submissions.html",
+   "url": "160sp/t3_submissions.html",
    "title": "Submissions · Track 3 · COGS 160",
    "area": "track-submission",
    "track": "track3",
@@ -5533,13 +5561,13 @@
     "How submissions are recorded",
     "What “graded” means here"
    ],
-   "excerpt": "Submissions · Track 3 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 3 / Submissions TRACK 3 · SUBMISSIONS Track 3 Submissions Your submission record for Track 3: VR Studio. Each task shows when you submitted, the grade you received, and a link to the instructor’s comments and critique. Submission record The table below auto-populates from the grading backend the moment a Pull Request is merged or graded. Track 3 also requires screenshots and short screen recordings as deliverables, which live on your branch under track3/<your-name>/media/task<N>/ . Task Submitted at Grade Comments & critique Task 1: Collect & Catalog VR-Ready 3D Models 75 points — — — Task 2: VR Conversion & Manual Factor Testing 75 points — — — Task 3: AI Front-End for Parametric Scene Modification 75 points — — — Track 3 total — — / 225 — How submissions are recorded Submissions are recorded automatically when you open a Pull Request on GitHub from your track3/<your-name> branch into dkirsh:main . The PR creation timestamp becomes the “Submitted at” entry; the grade and critique link appear after the instructor finishes reviewing. Demo videos and screenshots. Track 3 deliverables include before/after screenshots (Task 2) and a 3-minute demo video (Task 3). Files larger than 50 MB go on the course shared drive with the link in the PR body. The instructor may include those links in the comments column once they have reviewed.",
-   "full_len": 2046,
-   "size_kb": 7
+   "excerpt": "Submissions · Track 3 · COGS 160 Home / 160 Student / Track 3 / Submissions TRACK 3 · SUBMISSIONS Track 3 Submissions Your submission record for Track 3: VR Studio. Each task shows when you submitted, the grade you received, and a link to the instructor’s comments and critique. Submission record The table below auto-populates from the grading backend the moment a Pull Request is merged or graded. Track 3 also requires screenshots and short screen recordings as deliverables, which live on your branch under track3/<your-name>/media/task<N>/ . Task Submitted at Grade Comments & critique Task 1: Collect & Catalog VR-Ready 3D Models 75 points — — — Task 2: VR Conversion & Manual Factor Testing 75 points — — — Task 3: AI Front-End for Parametric Scene Modification 75 points — — — Track 3 total — — / 225 — How submissions are recorded Submissions are recorded automatically when you open a Pull Request on GitHub from your track3/<your-name> branch into dkirsh:main . The PR creation timestamp becomes the “Submitted at” entry; the grade and critique link appear after the instructor finishes reviewing. Demo videos and screenshots. Track 3 deliverables include before/after screenshots (Task 2) and a 3-minute demo video (Task 3). Files larger than 50 MB go on the course shared drive with the link in the PR body. The instructor may include those links in the comments column once they have reviewed. What “graded” means here Each task is graded against the rubric on its own page, with the co",
+   "full_len": 1953,
+   "size_kb": 6
   },
   {
    "path": "160sp/t4_submissions.html",
-   "url": "/160sp/t4_submissions.html",
+   "url": "160sp/t4_submissions.html",
    "title": "Submissions · Track 4 · COGS 160",
    "area": "track-submission",
    "track": "track4",
@@ -5549,13 +5577,13 @@
     "How submissions are recorded",
     "What “graded” means here"
    ],
-   "excerpt": "Submissions · Track 4 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 4 / Submissions TRACK 4 · SUBMISSIONS Track 4 Submissions GRADER LIVE · this page auto-populates within minutes of a Pull Request being merged or graded. Your submission record for Track 4: GUI & Interactivity. Each task shows when you submitted, the grade you received, and a link to the instructor's comments and critique. Track 4 deliverables are mostly paper artefacts (corpus, fitting catalog, prototype HTML, reflection); your prototype must also be runnable from your branch. Submission record The table below auto-populates from the grading backend the moment a Pull Request is merged or graded. Track 4 deliverables go on your track4/<your-name> branch under track4/<your-name>/task<N>/ . Task Submitted at Grade Comments & critique Task 1: Build a Persona Question Corpus 75 points — no submission yet — — Task 2: Winnow & Fit Answer Shapes 75 points — no submission yet — — Task 3: Prototype an Evidential Journey 75 points — no submission yet — — Track 4 total — — / 225 — How submissions are recorded Submissions are recorded automatically when you open a Pull Request on GitHub from your track4/<your-name> branch into dkirsh:main . The PR creation timestamp becomes the “Submitted at” entry; the grade and critique link appear after the instructor finishes reviewing. Team-grade component. Each task carries a small team-grade compo",
-   "full_len": 2233,
+   "excerpt": "Submissions · Track 4 · COGS 160 Home / 160 Student / Track 4 / Submissions TRACK 4 · SUBMISSIONS Track 4 Submissions GRADER LIVE · this page auto-populates within minutes of a Pull Request being merged or graded. Your submission record for Track 4: GUI & Interactivity. Each task shows when you submitted, the grade you received, and a link to the instructor's comments and critique. Track 4 deliverables are mostly paper artefacts (corpus, fitting catalog, prototype HTML, reflection); your prototype must also be runnable from your branch. Submission record The table below auto-populates from the grading backend the moment a Pull Request is merged or graded. Track 4 deliverables go on your track4/<your-name> branch under track4/<your-name>/task<N>/ . Task Submitted at Grade Comments & critique Task 1: Build a Persona Question Corpus 75 points — no submission yet — — Task 2: Winnow & Fit Answer Shapes 75 points — no submission yet — — Task 3: Prototype an Evidential Journey 75 points — no submission yet — — Track 4 total — — / 225 — How submissions are recorded Submissions are recorded automatically when you open a Pull Request on GitHub from your track4/<your-name> branch into dkirsh:main . The PR creation timestamp becomes the “Submitted at” entry; the grade and critique link appear after the instructor finishes reviewing. Team-grade component. Each task carries a small team-grade component (10–15%) that scores the collective-review milestone for that week. Your team submits a ",
+   "full_len": 2140,
    "size_kb": 7
   },
   {
    "path": "160sp/t1_task1.html",
-   "url": "/160sp/t1_task1.html",
+   "url": "160sp/t1_task1.html",
    "title": "Task 1: Build an Image Collection · Track 1 · COGS 160",
    "area": "track-task",
    "track": "track1",
@@ -5586,13 +5614,13 @@
     "Submitting Task 1 for review",
     "If you get stuck"
    ],
-   "excerpt": "Task 1: Build an Image Collection · Track 1 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 1 / Task 1: Build an Image Collection Track 1 · Task 1 Build an Image Collection By the end of this task you will own 500 openly-licensed photographs of architectural interiors, organised by room type, with every image traceable back to the web page you found it on. Track: Image Tagger 75 points Contract gate The big picture The Knowledge Atlas studies how buildings shape people — how ceiling height changes thinking, how daylight shifts mood, how clutter raises stress. Studying these effects computationally takes thousands of photographs of real interior spaces. Your job is to gather 500 of them. But \"gather\" does not mean \"drag images off Google.\" Every image must: Carry an open licence — Creative Commons, public domain, or equivalent. No copyright violations. Carry provenance — for every image you know where you found it, who took it, and what licence it carries. Carry a category — you know what kind of room it shows. You will build the tools that make this efficient, then use those tools to gather your 500. The 15 room types The collection must span a wide range of interior spaces. Use these 15 categories: # Room type What to search for Why we need it 1 living_room living room, lounge, sitting room Furniture layout, daylight, biophilia, colour warmth 2 bedroom bedroom, sleeping quarters Lighting warmt",
-   "full_len": 14694,
+   "excerpt": "Task 1: Build an Image Collection · Track 1 · COGS 160 Home / 160 Student / Track 1 / Task 1: Build an Image Collection Track 1 · Task 1 Build an Image Collection By the end of this task you will own 500 openly-licensed photographs of architectural interiors, organised by room type, with every image traceable back to the web page you found it on. Track: Image Tagger 75 points Contract gate The big picture The Knowledge Atlas studies how buildings shape people — how ceiling height changes thinking, how daylight shifts mood, how clutter raises stress. Studying these effects computationally takes thousands of photographs of real interior spaces. Your job is to gather 500 of them. But \"gather\" does not mean \"drag images off Google.\" Every image must: Carry an open licence — Creative Commons, public domain, or equivalent. No copyright violations. Carry provenance — for every image you know where you found it, who took it, and what licence it carries. Carry a category — you know what kind of room it shows. You will build the tools that make this efficient, then use those tools to gather your 500. The 15 room types The collection must span a wide range of interior spaces. Use these 15 categories: # Room type What to search for Why we need it 1 living_room living room, lounge, sitting room Furniture layout, daylight, biophilia, colour warmth 2 bedroom bedroom, sleeping quarters Lighting warmth, enclosure, materials, tranquillity 3 kitchen kitchen, cooking area Component detection (ca",
+   "full_len": 14601,
    "size_kb": 26
   },
   {
    "path": "160sp/t1_task2.html",
-   "url": "/160sp/t1_task2.html",
+   "url": "160sp/t1_task2.html",
    "title": "Task 2: Build Latent Tag Detectors · Track 1 · COGS 160",
    "area": "track-task",
    "track": "track1",
@@ -5627,13 +5655,13 @@
     "Repos this task needs",
     "If you get stuck"
    ],
-   "excerpt": "Task 2: Build Latent Tag Detectors · Track 1 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 1 / Task 2: Build Latent Tag Detectors TRACK 1 · TASK 2 Build Latent Tag Detectors Write working Python detectors for six latent environmental tags. Each detector ships with a design note, a typed contract, and a test suite that runs against a gold-set of labelled images. 75 points Prerequisite: Task 1 Contract gate The big picture In Task 1 you gathered 500 architectural interior photographs with provenance. In Task 2 you tag them — not with simple labels like “living room” or “bedroom,” but with latent tags : numerical measures of environmental features that affect human cognition and behaviour. (Latent because the feature is not directly visible as a noun in the image; you compute it from geometric relationships among visible objects.) What the instructor already did (Sprint 1) Before this course began, the instructor finished Sprint 1: the 18 social-interaction latent variables (L41–L58) from the Environment-Cognition Taxonomy V2.6 (the project’s master vocabulary of environmental tags) are already integrated into the Tagging Contractor registry. That means: Every latent tag (L44 Sociopetal Seating, L17 Prospect, L42 Interactional Visibility, and the rest) already exists in the registry , with a full semantic contract. Each entry has a definition_long field that explains what the tag means in human ",
-   "full_len": 18304,
+   "excerpt": "Task 2: Build Latent Tag Detectors · Track 1 · COGS 160 Home / 160 Student / Track 1 / Task 2: Build Latent Tag Detectors TRACK 1 · TASK 2 Build Latent Tag Detectors Write working Python detectors for six latent environmental tags. Each detector ships with a design note, a typed contract, and a test suite that runs against a gold-set of labelled images. 75 points Prerequisite: Task 1 Contract gate The big picture In Task 1 you gathered 500 architectural interior photographs with provenance. In Task 2 you tag them — not with simple labels like “living room” or “bedroom,” but with latent tags : numerical measures of environmental features that affect human cognition and behaviour. (Latent because the feature is not directly visible as a noun in the image; you compute it from geometric relationships among visible objects.) What the instructor already did (Sprint 1) Before this course began, the instructor finished Sprint 1: the 18 social-interaction latent variables (L41–L58) from the Environment-Cognition Taxonomy V2.6 (the project’s master vocabulary of environmental tags) are already integrated into the Tagging Contractor registry. That means: Every latent tag (L44 Sociopetal Seating, L17 Prospect, L42 Interactional Visibility, and the rest) already exists in the registry , with a full semantic contract. Each entry has a definition_long field that explains what the tag means in human terms. Each entry has a method_family field that specifies how to detect the tag from an imag",
+   "full_len": 18211,
    "size_kb": 30
   },
   {
    "path": "160sp/t1_task3.html",
-   "url": "/160sp/t1_task3.html",
+   "url": "160sp/t1_task3.html",
    "title": "Task 3: Annotate Collection & Build Image Viewer · Track 1 · COGS 160",
    "area": "track-task",
    "track": "track1",
@@ -5669,13 +5697,13 @@
     "Submitting Task 3 for review",
     "If you get stuck"
    ],
-   "excerpt": "Task 3: Annotate Collection & Build Image Viewer · Track 1 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 1 / Task 3: Annotate Collection & Build Image Viewer TRACK 1 · TASK 3 Annotate the Collection & Build the Image Viewer Run your six latent-tag detectors across all 500 images, then ship a standalone HTML viewer that lets anyone browse the collection by tag domain or by human effect. 75 points Prerequisite: Tasks 1 & 2 Phases: 3 Why we need this In Task 2 you built six latent-tag detectors. But you only tested them on a small gold-set. Task 3 runs them on the entire 500-image collection and then ships a viewer so humans can browse, search, and verify the results. The image-tagger repo already has an Explorer app (v3.4.74), but it is a full React/Vite application that needs a running backend, a database, and authentication. It is developer infrastructure — not something a student or researcher can open in a browser and use. The gap looks like this: What exists What's missing 424 tags in the Tagging_Contractor registry, organised across 44 domains No way to browse images by tag without running the full tagger backend 839 outcome terms in the Outcome_Contractor , across 7 domains (Cognitive, Affective, Behavioural, Social, Physiological, Neural, Health) No way to ask \"show me spaces that promote creativity\" and see matching images 832 constitutive bridges that link effects into a hierarchy No ",
-   "full_len": 22084,
-   "size_kb": 35
+   "excerpt": "Task 3: Annotate Collection & Build Image Viewer · Track 1 · COGS 160 Home / 160 Student / Track 1 / Task 3: Annotate Collection & Build Image Viewer TRACK 1 · TASK 3 Annotate the Collection & Build the Image Viewer Run your six latent-tag detectors across all 500 images, then ship a standalone HTML viewer that lets anyone browse the collection by tag domain or by human effect. 75 points Prerequisite: Tasks 1 & 2 Phases: 3 Why we need this In Task 2 you built six latent-tag detectors. But you only tested them on a small gold-set. Task 3 runs them on the entire 500-image collection and then ships a viewer so humans can browse, search, and verify the results. The image-tagger repo already has an Explorer app (v3.4.74), but it is a full React/Vite application that needs a running backend, a database, and authentication. It is developer infrastructure — not something a student or researcher can open in a browser and use. The gap looks like this: What exists What's missing 424 tags in the Tagging_Contractor registry, organised across 44 domains No way to browse images by tag without running the full tagger backend 839 outcome terms in the Outcome_Contractor , across 7 domains (Cognitive, Affective, Behavioural, Social, Physiological, Neural, Health) No way to ask \"show me spaces that promote creativity\" and see matching images 832 constitutive bridges that link effects into a hierarchy No UI that uses this hierarchy for filtering Your 500 images with provenance (Task 1) No searcha",
+   "full_len": 21991,
+   "size_kb": 34
   },
   {
    "path": "160sp/t2_task1.html",
-   "url": "/160sp/t2_task1.html",
+   "url": "160sp/t2_task1.html",
    "title": "Task 1: Fix the Contribute Page · Track 2 · COGS 160",
    "area": "track-task",
    "track": "track2",
@@ -5707,13 +5735,13 @@
     "Submitting Task 1 for review",
     "If you get stuck"
    ],
-   "excerpt": "Task 1: Fix the Contribute Page · Track 2 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 2 / Task 1: Fix the Contribute Page Track 2 · Task 1 Fix the Contribute Page The contribute page accepts PDFs but does nothing with them — no classification, no storage, no feedback. Your job is to repair it so submitted papers get classified, stored in the right place, and reported back to the user. Track: Article Finder Diagnosis · Spec · Fix · Validation Contract gate What this assignment teaches You will use AI to fix a broken page. The point, though, is not the fix — the AI will write the code. The point is the three skills around the AI: Can you diagnose what is broken by asking your AI the right questions? Can you specify the fix precisely enough that the AI builds the right thing? Can you verify that the fix actually works — and catch the silent failures the AI hides from you? Setup: Clone the repositories You need four repositories. All live at github.com/dkirsh : # 1. The Knowledge Atlas site (contains the contribute page you'll fix) git clone https://github.com/dkirsh/Knowledge_Atlas.git # 2. The Article Finder pipeline (the discovery half of the system) git clone https://github.com/dkirsh/Article_Finder.git # 3. The Article Eater extraction engine (the processing half) git clone https://github.com/dkirsh/Article_Eater.git # 4. The shared classifier module (the ID function you'll wire in) git cl",
-   "full_len": 15945,
-   "size_kb": 27
+   "excerpt": "Task 1: Fix the Contribute Page · Track 2 · COGS 160 Home / 160 Student / Track 2 / Task 1: Fix the Contribute Page Track 2 · Task 1 Fix the Contribute Page The contribute page accepts PDFs but does nothing with them — no classification, no storage, no feedback. Your job is to repair it so submitted papers get classified, stored in the right place, and reported back to the user. Track: Article Finder Diagnosis · Spec · Fix · Validation Contract gate What this assignment teaches You will use AI to fix a broken page. The point, though, is not the fix — the AI will write the code. The point is the three skills around the AI: Can you diagnose what is broken by asking your AI the right questions? Can you specify the fix precisely enough that the AI builds the right thing? Can you verify that the fix actually works — and catch the silent failures the AI hides from you? Setup: Clone the repositories You need four repositories. All live at github.com/dkirsh : # 1. The Knowledge Atlas site (contains the contribute page you'll fix) git clone https://github.com/dkirsh/Knowledge_Atlas.git # 2. The Article Finder pipeline (the discovery half of the system) git clone https://github.com/dkirsh/Article_Finder.git # 3. The Article Eater extraction engine (the processing half) git clone https://github.com/dkirsh/Article_Eater.git # 4. The shared classifier module (the ID function you'll wire in) git clone https://github.com/dkirsh/atlas_shared.git cd atlas_shared && pip install -e . && cd .. C",
+   "full_len": 15852,
+   "size_kb": 26
   },
   {
    "path": "160sp/t2_task2.html",
-   "url": "/160sp/t2_task2.html",
+   "url": "160sp/t2_task2.html",
    "title": "Task 2: Gap Targeting & Query Generation · Track 2 · COGS 160",
    "area": "track-task",
    "track": "track2",
@@ -5749,13 +5777,13 @@
     "Submit Task 2 on GitHub",
     "One-time setup (do once at the start of the track)"
    ],
-   "excerpt": "Task 2: Gap Targeting & Query Generation · Track 2 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 2 / Task 2: Gap Targeting & Query Generation Track 2 · Task 2 Gap Targeting & Query Generation Build a gap extractor that reads the Article Eater's 166 PNU templates, scores their knowledge gaps by Value of Information, and turns the highest-priority gaps into matched pairs of natural-language and Boolean search queries. Track: Article Finder 60 points No SerpAPI yet Core lesson. Before you search for anything, you have to know what you are looking for and why . VOI scoring tells you which gaps matter most. Query design decides whether you find relevant papers or noise. Setup You should already have the four repositories from Task 1: Knowledge_Atlas — the site (with your fixed contribute page) Article_Finder — the discovery pipeline Article_Eater — the extraction engine (it holds both the gap data and the VOI functions) atlas_shared — the shared classifier (installed via pip install -e . ) Phase 1: Understand the gap data and the VOI system Before you build anything, you need to understand the raw material — what a PNU template looks like, what VOI measures, and what the corpus already contains. Skip this phase and your queries will hunt for papers we already have. 1A. Understand the PNU templates The Article Eater holds 166 PNU (Plausible Neural Underpinning) templates. Each template describes a ",
-   "full_len": 20855,
-   "size_kb": 34
+   "excerpt": "Task 2: Gap Targeting & Query Generation · Track 2 · COGS 160 Home / 160 Student / Track 2 / Task 2: Gap Targeting & Query Generation Track 2 · Task 2 Gap Targeting & Query Generation Build a gap extractor that reads the Article Eater's 166 PNU templates, scores their knowledge gaps by Value of Information, and turns the highest-priority gaps into matched pairs of natural-language and Boolean search queries. Track: Article Finder 60 points No SerpAPI yet Core lesson. Before you search for anything, you have to know what you are looking for and why . VOI scoring tells you which gaps matter most. Query design decides whether you find relevant papers or noise. Setup You should already have the four repositories from Task 1: Knowledge_Atlas — the site (with your fixed contribute page) Article_Finder — the discovery pipeline Article_Eater — the extraction engine (it holds both the gap data and the VOI functions) atlas_shared — the shared classifier (installed via pip install -e . ) Phase 1: Understand the gap data and the VOI system Before you build anything, you need to understand the raw material — what a PNU template looks like, what VOI measures, and what the corpus already contains. Skip this phase and your queries will hunt for papers we already have. 1A. Understand the PNU templates The Article Eater holds 166 PNU (Plausible Neural Underpinning) templates. Each template describes a mechanism chain — how an environmental feature (say, ceiling height) produces a psychological",
+   "full_len": 20762,
+   "size_kb": 33
   },
   {
    "path": "160sp/t2_task3.html",
-   "url": "/160sp/t2_task3.html",
+   "url": "160sp/t2_task3.html",
    "title": "Task 3: Search Execution & Triage · Track 2 · COGS 160",
    "area": "track-task",
    "track": "track2",
@@ -5791,109 +5819,120 @@
     "5A. The source cascade (in order)",
     "5B. The scidownl policy gate (read this in full before Phase 5 begins)"
    ],
-   "excerpt": "Task 3: Search Execution & Triage · Track 2 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 2 / Task 3: Search Execution & Abstract Triage TRACK 2 · TASK 3 Search Execution & Abstract-First Triage Wire the four-scraper harvest layer (SerpAPI, scholarly , paper-scraper , and PDF-only-last-resort scidownl ), write every candidate into the article_references table, walk each row through the three-stage triage funnel (metadata-only, then abstract-and-classifier, then PDF retrieval), and acquire PDFs only for candidates that have cleared abstract triage — never before. The proof of the pipeline is a PRISMA funnel reconstructed directly from article_references . Track: Article Finder 75 points PRISMA deliverable Track: Article Finder · Prerequisite: Task 2 (you need your ranked gap list and query pairs). What you build: Run your search queries through SerpAPI (which scrapes Google Scholar), collect each paper's abstract through a fallback chain of free academic APIs, decide at the abstract level whether each paper is worth keeping, and report the whole funnel on a PRISMA-style dashboard. Core lesson: Never download a PDF to decide whether it is relevant. Triage at the cheapest level — abstracts — using free APIs. Then prove the pipeline works with real PRISMA funnel numbers. What PRISMA Is and Why You Are Building One PRISMA ( Preferred Reporting Items for Systematic Reviews and Meta-Analyses ) is th",
-   "full_len": 30945,
-   "size_kb": 49
+   "excerpt": "Task 3: Search Execution & Triage · Track 2 · COGS 160 Home / 160 Student / Track 2 / Task 3: Search Execution & Abstract Triage TRACK 2 · TASK 3 Search Execution & Abstract-First Triage Wire the four-scraper harvest layer (SerpAPI, scholarly , paper-scraper , and PDF-only-last-resort scidownl ), write every candidate into the article_references table, walk each row through the three-stage triage funnel (metadata-only, then abstract-and-classifier, then PDF retrieval), and acquire PDFs only for candidates that have cleared abstract triage — never before. The proof of the pipeline is a PRISMA funnel reconstructed directly from article_references . Track: Article Finder 75 points PRISMA deliverable Track: Article Finder · Prerequisite: Task 2 (you need your ranked gap list and query pairs). What you build: Run your search queries through SerpAPI (which scrapes Google Scholar), collect each paper's abstract through a fallback chain of free academic APIs, decide at the abstract level whether each paper is worth keeping, and report the whole funnel on a PRISMA-style dashboard. Core lesson: Never download a PDF to decide whether it is relevant. Triage at the cheapest level — abstracts — using free APIs. Then prove the pipeline works with real PRISMA funnel numbers. What PRISMA Is and Why You Are Building One PRISMA ( Preferred Reporting Items for Systematic Reviews and Meta-Analyses ) is the gold-standard reporting checklist for systematic literature searches. It forces you to docu",
+   "full_len": 30852,
+   "size_kb": 48
   },
   {
    "path": "160sp/t3_task1.html",
-   "url": "/160sp/t3_task1.html",
-   "title": "Task 1: Collect & Catalog 3D Models · Track 3 · COGS 160",
+   "url": "160sp/t3_task1.html",
+   "title": "Task 1: Infinigen Setup & Parameter Manifests · Track 3 · COGS 160",
    "area": "track-task",
    "track": "track3",
    "headings": [
-    "Collect & Catalog VR-Ready 3D Interior Models",
+    "Infinigen Setup, Coverage Survey, and Parameter Manifests",
     "The big picture",
-    "What makes a model \"VR-ready\"",
-    "Phase 1: Find model sources",
-    "Advanced source: World Labs Marble",
-    "Phase 2: Segment Marble exports into named architectural elements",
-    "The four approaches",
-    "The headless segmentation script",
-    "Phase 3: Evaluate every model against the eight manipulation classes",
-    "Phase 4: Create mesh-annotation files",
-    "Phase 5: Write a ruthless validation prompt",
+    "What “parametric” means here",
+    "Phase 1 — Install Infinigen Indoors",
+    "Required tooling",
+    "Install sequence",
+    "Phase 2 — Coverage survey",
+    "What to record per room type",
+    "Phase 2.5 — Splat one real exemplar",
+    "Capture protocol",
+    "Extract HDRI lighting",
+    "Extract a PBR material library",
+    "Phase 3 — Author parameter manifests for two assigned rooms",
+    "Worked example: living_room.manifest.json",
+    "Phase 4 — Extension proposals for un-covered room types",
+    "Required structure of an extension proposal",
+    "Phase 5 — Peer review",
     "What you submit",
     "Grading (75 points)",
-    "Existing code you should know about",
-    "Why this matters",
     "Submit Task 1 on GitHub",
     "One-time setup (do once at the start of the track)",
     "Working on Task 1",
-    "Submitting Task 1 for review"
+    "Submitting Task 1 for review",
+    "Existing code you should know about",
+    "References"
    ],
-   "excerpt": "Task 1: Collect & Catalog 3D Models · Track 3 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 3 / Task 1: Collect & Catalog 3D Models TRACK 3 · TASK 1 Collect & Catalog VR-Ready 3D Interior Models Curate a library of at least 20 VR-ready 3D interior models, evaluate each against eight manipulation classes, segment the meshes so every wall is individually addressable, and produce a mesh_roles.json that the Task 3 AI front-end will consume. 75 points 4 phases No prerequisites The big picture The Knowledge Atlas catalogues evidence that specific environmental features alter human cognition and affect. To test these relationships in VR, a researcher needs 3D rooms where every factor — ceiling height, wall materials, lighting, window size, furniture density — can be varied independently while holding the others constant. Most 3D models on the open web cannot do this: they are single fused meshes, or they have baked lightmaps that cannot be swapped, or they are at arbitrary scale. Your job is to collect models that can. What makes a model \"VR-ready\" Five hard constraints separate models you can use from models you cannot. The first three are about how the model is structured; the last two are about file size and licence. Constraint What it means How to verify Separable named meshes The ceiling is a separate mesh from the walls; each wall is individually identifiable. Open in Blender → check the Outli",
-   "full_len": 15202,
-   "size_kb": 26
+   "excerpt": "Task 1: Infinigen Setup & Parameter Manifests · Track 3 · COGS 160 Home / 160 Student / Track 3 / Task 1: Infinigen Setup & Parameter Manifests TRACK 3 · TASK 1 Infinigen Setup, Coverage Survey, and Parameter Manifests For each room type you are assigned, you will ship a JSON-Schema parameter manifest — a typed, range-constrained, citation-backed list of the five to seven knobs an LLM front-end is allowed to turn. You do not segment meshes. You do not author 3D files. You design the parameter contract that downstream tasks honour. 5 phases 75 points Weeks 3–5 The big picture Track 3 builds the parametric backbone of the Knowledge Atlas’s VR pipeline on top of Infinigen Indoors (Raistrick et al., 2024), the Princeton VLL procedural-generation system released under the BSD licence. Students never touch Blender’s graphical interface. A parametric room, in this codebase, is a Python entity whose geometry, materials, and arrangement regenerate from a small set of named, typed, range-constrained parameters; turning the knobs sweeps the room through a controlled space of variations. An LLM front-end (your Task 3 deliverable) will read the parameter schema and write valid patches in response to natural-language prompts such as “raise the ceiling and warm the lighting.” The single most important artefact a Track 3 student ships is therefore the parameter manifest : a JSON Schema document specifying which five to seven parameters per room type are exposed, what each parameter means, wh",
+   "full_len": 25437,
+   "size_kb": 39
   },
   {
    "path": "160sp/t3_task2.html",
-   "url": "/160sp/t3_task2.html",
-   "title": "Task 2: VR Conversion & Factor Testing · Track 3 · COGS 160",
+   "url": "160sp/t3_task2.html",
+   "title": "Task 2: Render Pipeline & Sweep Gallery · Track 3 · COGS 160",
    "area": "track-task",
    "track": "track3",
    "headings": [
-    "VR Conversion & Manual Factor Testing",
+    "Render-to-Web Pipeline and Parameter-Sweep Gallery",
     "The big picture",
-    "Why A-Frame, not Unity or Unreal",
-    "Phase 1: Build the interactive viewer",
-    "Real-time sliders (continuous, instant feedback)",
-    "Discrete selectors (click to apply)",
-    "How wall selection works",
-    "How ceiling height works (the geometry challenge)",
-    "Lighting quality requirement",
-    "HDRI sources (all CC0, free)",
-    "Phase 2: Test each model × each factor",
-    "Testing protocol for each factor",
-    "Extended manipulation classes",
-    "Phase 3: Write ruthless validation tests",
+    "Phase 1: Build the Python wrapper",
+    "Wrapper signature",
+    "Infinigen → glTF: the export step",
+    "Sidecar metadata",
+    "Phase 2: Build the browser viewer",
+    "Minimum viable viewer",
+    "Phase 3: Generate the parameter-sweep gallery",
+    "Grid specification",
+    "Phase 4: HSSD divergence note",
+    "What HSSD-200 is",
+    "What you write",
     "What you submit",
     "Grading (75 points)",
-    "Existing code you should know about",
-    "Why this matters",
     "Submit Task 2 on GitHub",
     "Working on Task 2",
-    "Submitting Task 2 for review"
+    "Submitting Task 2 for review",
+    "Existing code you should know about",
+    "References"
    ],
-   "excerpt": "Task 2: VR Conversion & Factor Testing · Track 3 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 3 / Task 2: VR Conversion & Factor Testing TRACK 3 · TASK 2 VR Conversion & Manual Factor Testing Load at least ten of your models in a browser-based A-Frame viewer, build real-time slider controls for all eight manipulation classes, and produce a factor viability matrix supported by before/after screenshots. 75 points 3 phases Prerequisite: Task 1 120+ fps target The big picture In Task 1 you cataloged twenty-plus 3D models and annotated every mesh. Now you must prove those annotations are correct by actually loading the models in a browser and manually testing every manipulation. This is not a demo. It is validation engineering — and the matrix you produce is the input to Task 3’s validation gate. Why A-Frame, not Unity or Unreal Platform Learning curve Verdict A-Frame (WebXR) HTML + JS; loads glTF natively; runs in browser; zero install ✓ Use this Unity C#; 2-week onboarding; heavy project files ✕ Too slow for six weeks Unreal C++ / Blueprint; steepest curve; massive files ✕ Not feasible You already know HTML and JavaScript from Tracks 1 and 2. A-Frame wraps Three.js, a glTF loads with one HTML tag, and modifications are JavaScript property changes that execute at 120 fps in our prototype. Phase 1: Build the interactive viewer Contract objective: “I want an HTML page that loads any of my glTF mod",
-   "full_len": 12050,
-   "size_kb": 22
+   "excerpt": "Task 2: Render Pipeline & Sweep Gallery · Track 3 · COGS 160 Home / 160 Student / Track 3 / Task 2: Render Pipeline & Sweep Gallery TRACK 3 · TASK 2 Render-to-Web Pipeline and Parameter-Sweep Gallery A Python wrapper turns the Task 1 JSON manifest into a glTF file; a browser viewer renders it; a static gallery sweeps each parameter at low/mid/high; an HSSD divergence note documents what your parametric room captures and what an artist-authored room captures that yours cannot. 4 phases 75 points Weeks 5–7 The big picture A parametric room is only useful for research if a researcher can see the result of varying a parameter. In Task 1 you defined the manifest — the dictionary of knobs the generator exposes. Task 2 closes the loop. JSON in, glTF out, render in the browser, in seconds. Once that loop is fast, a sweep is just a script and a grid of thumbnails. Splat-augmented gallery (Sprint 4 addendum). If you completed Task 1 Phase 2.5 you have an HDRI at 3d_rooms/<your_room_type>/lighting.hdr and at least two PBR material packs in 3d_rooms/_materials_library/ . Pass the HDRI to the parametric renderer (Infinigen accepts HDRI environment maps directly via the environment_image argument; see scripts/track3/infinigen_wrapper.py ) and apply your material packs to the corresponding parametric surfaces. Render your gallery twice — once with synthetic lighting and stock materials, once with the splat-derived HDRI and your extracted materials — and include both in the deliverable. The ",
+   "full_len": 16875,
+   "size_kb": 29
   },
   {
    "path": "160sp/t3_task3.html",
-   "url": "/160sp/t3_task3.html",
-   "title": "Task 3: AI Front-End for Scene Modification · Track 3 · COGS 160",
+   "url": "160sp/t3_task3.html",
+   "title": "Task 3: AI Front-End & Curved-Wall Worship Flagship · Track 3 · COGS 160",
    "area": "track-task",
    "track": "track3",
    "headings": [
-    "AI Front-End for Parametric Scene Modification",
+    "AI Front-End, Literature-Grounded Presets, and the Curved-Wall Worship Room",
     "The big picture",
-    "The architecture",
-    "Phase 1: Build the scene introspector",
-    "Phase 2: Wire up the LLM parameter extractor",
-    "The system prompt (this is the contract)",
-    "API integration",
-    "Multi-instruction parsing",
-    "Phase 3: Build the validation gate",
-    "What the UI must show",
-    "Phase 4: Build presets from the research literature",
-    "Phase 5: Test on at least 10 diverse models",
-    "The 15-test ruthless protocol",
+    "Phase 1: LLM wrapper + parameter-patch grammar",
+    "Patch grammar (JSON Schema)",
+    "System prompt",
+    "Worked example",
+    "Phase 2: Validation gate",
+    "Specification",
+    "Building the validator",
+    "Phase 3: Literature-grounded presets",
+    "Suggested presets per room type",
+    "Authoring a preset",
+    "Phase 4: THE FLAGSHIP — Curved-Wall Worship Room",
+    "Sub-component allocation",
+    "Per-component specification",
+    "Authoring rationale",
+    "Phase 5: Cross-room evaluation",
     "What you submit",
     "Grading (75 points)",
-    "Why this matters",
-    "Existing code you should know about",
     "Submit Task 3 on GitHub",
     "Working on Task 3",
-    "Submitting Task 3 for review"
+    "Contributing to the flagship branch",
+    "Submitting Task 3 for review",
+    "The cohort flagship PR (integration lead only)",
+    "Existing code you should know about",
+    "References"
    ],
-   "excerpt": "Task 3: AI Front-End for Scene Modification · Track 3 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 3 / Task 3: AI Front-End for Scene Modification TRACK 3 · TASK 3 AI Front-End for Parametric Scene Modification Build a web-based tool where a researcher types a natural-language instruction like “a warm cozy library with 4-metre ceilings and exposed brick on the north wall” and the system modifies the 3D scene in real time, with every change validated against your factor viability matrix before it is applied. 75 points 5 phases Prerequisite: Tasks 1 & 2 The big picture In Task 2 you built sliders and swatches that modify 3D scenes in real time. But sliders require the user to know which parameter to change and what value to set. A researcher who wants to study “cozy versus clinical environments” should not need to manually set ceiling = 2.6 m, CCT = 2700 K, walls = wood, roughness = 0.6, lighting = 0.8. She should just say it. No existing product does this. Tools like Veras, DecorAI, and Decory produce 2D images, not modified 3D models. Meshy and Luma generate new models, not parametric edits of existing ones. You are building something novel — but every component uses proven technology. The architecture User types: \"warm cozy library with 4m ceiling, wood on north wall, dim lighting, small windows, carpet floor\" │ ▼ ┌──────────────────────────────────┐ │ 1. Scene Introspector │ │ Reads mesh_r",
-   "full_len": 14075,
-   "size_kb": 23
+   "excerpt": "Task 3: AI Front-End & Curved-Wall Worship Flagship · Track 3 · COGS 160 Home / 160 Student / Track 3 / Task 3: AI Front-End & Curved-Wall Worship Flagship TRACK 3 · TASK 3 · FLAGSHIP AI Front-End, Literature-Grounded Presets, and the Curved-Wall Worship Room Task 3 ships three deliverables. First, a thin LLM wrapper that translates a natural-language prompt plus the room’s parameter manifest from Task 1 into a validated JSON patch. Second, per assigned room type, a small library of named presets each citing a specific environment-psychology study so the room can be set to a published, replication-ready configuration. Third — the cohort flagship — a single curved-wall worship room published as a citable open-source parametric module, the only room of the fifteen that breaks Infinigen’s axis-aligned-box assumption, with every cohort member listed as co-author. 5 phases 75 points Weeks 7–10 Cohort flagship deliverable The big picture Tasks 1 and 2 produced parametric rooms callable through JSON. Task 3 makes them callable through natural language . A researcher who wants to inspect a high-ceiling Meyers-Levy office on a sleep-warm Münch bedroom should not have to remember which slider sets CCT or which key sets ceiling_height_m ; she should type “raise the ceiling and warm the lighting” and watch the room update. The wrapper this task ships is small — a thin LLM call, a JSON-patch grammar, and a validation gate — but it is the layer that makes the parametric library usable by h",
+   "full_len": 23702,
+   "size_kb": 38
   },
   {
    "path": "160sp/t4_task1.html",
-   "url": "/160sp/t4_task1.html",
+   "url": "160sp/t4_task1.html",
    "title": "Task 1: Build a Persona Question Corpus · Track 4 · COGS 160",
    "area": "track-task",
    "track": "track4",
@@ -5911,13 +5950,13 @@
     "Grading rubric",
     "Pitfalls"
    ],
-   "excerpt": "Task 1: Build a Persona Question Corpus · Track 4 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 4 / Task 1 TRACK 4 · TASK 1 · WEEK 5 Build a Persona Question Corpus 75 points. Due Friday 1 May 2026 (end of week 5). The first move in designing for an audience is to know what the audience is asking. The corpus you build this week is what makes every later design decision in Track 4 testable. Why this task exists A great deal of design work goes wrong because the designer imagines a generic user with a generic question and engineers a generic answer; the generic answer satisfies no one. The corpus you build this week is the corrective. It forces you to commit, on paper, to specific questions phrased in the way your specific persona would phrase them, with the adequacy condition — what would make the answer feel insufficient — written out explicitly. Without an adequacy condition you cannot judge whether a journey is succeeding; you can only judge whether it is finishing. A second reason to begin here. Researchers, students, contributors, practitioners, theorists, and PIs do not ask the same questions. They do not even ask the same kinds of questions. Treating the Atlas as if it served a single user produces a system that is shaped to no actual user. Your corpus is the artefact that lets your team reason about persona variability concretely rather than as a slogan, because four students working o",
-   "full_len": 9597,
+   "excerpt": "Task 1: Build a Persona Question Corpus · Track 4 · COGS 160 Home / 160 Student / Track 4 / Task 1 TRACK 4 · TASK 1 · WEEK 5 Build a Persona Question Corpus 75 points. Due Friday 1 May 2026 (end of week 5). The first move in designing for an audience is to know what the audience is asking. The corpus you build this week is what makes every later design decision in Track 4 testable. Why this task exists A great deal of design work goes wrong because the designer imagines a generic user with a generic question and engineers a generic answer; the generic answer satisfies no one. The corpus you build this week is the corrective. It forces you to commit, on paper, to specific questions phrased in the way your specific persona would phrase them, with the adequacy condition — what would make the answer feel insufficient — written out explicitly. Without an adequacy condition you cannot judge whether a journey is succeeding; you can only judge whether it is finishing. A second reason to begin here. Researchers, students, contributors, practitioners, theorists, and PIs do not ask the same questions. They do not even ask the same kinds of questions. Treating the Atlas as if it served a single user produces a system that is shaped to no actual user. Your corpus is the artefact that lets your team reason about persona variability concretely rather than as a slogan, because four students working on four different personas will produce four very different corpora and the contrast itself is",
+   "full_len": 9504,
    "size_kb": 15
   },
   {
    "path": "160sp/t4_task2.html",
-   "url": "/160sp/t4_task2.html",
+   "url": "160sp/t4_task2.html",
    "title": "Task 2: Winnow & Fit Answer Shapes · Track 4 · COGS 160",
    "area": "track-task",
    "track": "track4",
@@ -5932,13 +5971,13 @@
     "Grading rubric",
     "Pitfalls"
    ],
-   "excerpt": "Task 2: Winnow & Fit Answer Shapes · Track 4 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 4 / Task 2 TRACK 4 · TASK 2 · WEEK 6 Winnow and Fit Answer Shapes 75 points. Due Friday 8 May 2026 (end of week 6). A corpus is necessary but not sufficient. The fitting move pairs every surviving question with a canonical answer shape and a defeater economy, and it is the move that makes a journey designable. Why this task exists Without commitment to what the answer to each question would look like , your corpus is a list. The fitting move — pairing a question with one of the five canonical answer shapes and naming at least one defeater the answer must surface — forces you to anticipate the journey before the journey is built. A page sequence that has not committed to an answer shape will wander; a journey that has not named a defeater will surprise its reader, and not in the helpful sense. The pedagogical goal of Task 2 is to move you from \"questions exist in five flavours\" to \"answers come in five shapes, and pairing question to shape is itself a design move that can go right or wrong.\" It is intellectually the most demanding task of the three, because it is where you commit to claims about your persona's literature and where you have to find real defeaters in that literature rather than inventing them. Read the researcher fitting catalog first The carried exemplar for Task 2 is the researcher fitti",
-   "full_len": 8693,
+   "excerpt": "Task 2: Winnow & Fit Answer Shapes · Track 4 · COGS 160 Home / 160 Student / Track 4 / Task 2 TRACK 4 · TASK 2 · WEEK 6 Winnow and Fit Answer Shapes 75 points. Due Friday 8 May 2026 (end of week 6). A corpus is necessary but not sufficient. The fitting move pairs every surviving question with a canonical answer shape and a defeater economy, and it is the move that makes a journey designable. Why this task exists Without commitment to what the answer to each question would look like , your corpus is a list. The fitting move — pairing a question with one of the five canonical answer shapes and naming at least one defeater the answer must surface — forces you to anticipate the journey before the journey is built. A page sequence that has not committed to an answer shape will wander; a journey that has not named a defeater will surprise its reader, and not in the helpful sense. The pedagogical goal of Task 2 is to move you from \"questions exist in five flavours\" to \"answers come in five shapes, and pairing question to shape is itself a design move that can go right or wrong.\" It is intellectually the most demanding task of the three, because it is where you commit to claims about your persona's literature and where you have to find real defeaters in that literature rather than inventing them. Read the researcher fitting catalog first The carried exemplar for Task 2 is the researcher fitting catalog . Read it before you begin winnowing your own corpus. It shows: the four-stage win",
+   "full_len": 8600,
    "size_kb": 14
   },
   {
    "path": "160sp/t4_task3.html",
-   "url": "/160sp/t4_task3.html",
+   "url": "160sp/t4_task3.html",
    "title": "Task 3: Prototype an Evidential Journey · Track 4 · COGS 160",
    "area": "track-task",
    "track": "track4",
@@ -5952,9 +5991,9 @@
     "Grading rubric",
     "Pitfalls"
    ],
-   "excerpt": "Task 3: Prototype an Evidential Journey · Track 4 · COGS 160 Knowledge Atlas Explore Evidence Gaps Articles Contribute Course 160 Syllabus Tracks STUDENT Home / 160 Student / Track 4 / Task 3 TRACK 4 · TASK 3 · WEEKS 7–8 Prototype an Evidential Journey 75 points. Due Friday 15 May 2026 (end of week 7), with a midpoint-of-week-8 extension to Wednesday 20 May 2026 if your team needs it. The first two tasks produced paper artefacts; this one produces a working one. A journey is not designed when it is described in prose — it is designed when a reader can click through it. Why this task exists The move from spec to prototype reveals everything that the spec elided. The prototype forces you to make choices the previous tasks could defer: which page does the reader land on; what is on the page above the fold; how is the rebuttal exposed; what is the next click. These choices are where journey design lives, and they cannot be made well without the corpus and the fitting catalog behind them. They also cannot be made well without actually building the artefact: a journey that exists only in description is a journey that has not been tested against the readers it was built for. The pedagogical goal is integrative. After three weeks of building intellectual scaffolding, you produce one working thing that demonstrates what the scaffolding buys. Study the Q-29 journey first The carried exemplar for Task 3 is the Q-29 working journey on Attention Restoration Theory and the affective confou",
-   "full_len": 7406,
-   "size_kb": 13
+   "excerpt": "Task 3: Prototype an Evidential Journey · Track 4 · COGS 160 Home / 160 Student / Track 4 / Task 3 TRACK 4 · TASK 3 · WEEKS 7–8 Prototype an Evidential Journey 75 points. Due Friday 15 May 2026 (end of week 7), with a midpoint-of-week-8 extension to Wednesday 20 May 2026 if your team needs it. The first two tasks produced paper artefacts; this one produces a working one. A journey is not designed when it is described in prose — it is designed when a reader can click through it. Why this task exists The move from spec to prototype reveals everything that the spec elided. The prototype forces you to make choices the previous tasks could defer: which page does the reader land on; what is on the page above the fold; how is the rebuttal exposed; what is the next click. These choices are where journey design lives, and they cannot be made well without the corpus and the fitting catalog behind them. They also cannot be made well without actually building the artefact: a journey that exists only in description is a journey that has not been tested against the readers it was built for. The pedagogical goal is integrative. After three weeks of building intellectual scaffolding, you produce one working thing that demonstrates what the scaffolding buys. Study the Q-29 journey first The carried exemplar for Task 3 is the Q-29 working journey on Attention Restoration Theory and the affective confound . Open it. Walk through it. It is designed to model what a finished prototype looks like: ",
+   "full_len": 7313,
+   "size_kb": 12
   }
  ]
 }
