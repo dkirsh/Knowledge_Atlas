@@ -201,7 +201,7 @@
       outline: 2px solid var(--amber); outline-offset: 2px;
     }
     .accordion-body {
-      display: none; padding: 20px 20px; background: var(--light);
+      display: block; padding: 20px 20px; background: var(--light);
       border-top: 1px solid var(--border);
       font-size: 0.92rem; line-height: 1.7;
     }
@@ -326,19 +326,9 @@
       .section-header { flex-direction: column; }
     }
   </style>
-<script src="../ka_canonical_navbar.js" defer></script>
-<script src="../ka_user_type.js" defer></script>
 </head>
-<body data-ka-regime="160sp">
-<div id="ka-navbar-slot"></div>
-<div id="ka-breadcrumb-slot"></div>
-
-
-<!-- Legacy inline nav hidden 2026-04-19 (per usability audit §5): the
-     canonical navbar in #ka-navbar-slot above is the only nav rendered.
-     Block retained as display:none for diff cleanliness; remove in a
-     later pass when every 160sp page is fully migrated. -->
-<nav style="display:none" aria-hidden="true" data-ka-nav-replaced="true">
+<body>
+<nav>
   <a href="ka_schedule.html" style="display:flex;align-items:center;gap:10px;text-decoration:none;">
     <svg viewBox="0 0 32 32" fill="none" style="width:28px;height:28px;">
       <circle cx="16" cy="16" r="3.5" fill="#F5A623"/>
@@ -394,10 +384,10 @@
 
   <!-- ── SECTION 1: Required Reading (collapsed — done in an earlier week) ── -->
   <div class="accordion" style="margin-top:28px;">
-    <div class="accordion-header" onclick="toggleAccordion(this)">
+    <div class="accordion-header">
       <span class="section-num" style="background:var(--green);color:#fff;">1 · DONE</span>
       <div style="flex:1;">
-        <div>Required Reading: How This Course Uses AI <span class="accordion-hint">Click to open</span></div>
+        <div>Required Reading: How This Course Uses AI</div>
         <div style="font-weight:400;font-size:0.82rem;color:var(--muted);margin-top:2px;">Completed in Week 1 — open only if you need to review</div>
       </div>
       <span class="chevron">▾</span>
@@ -419,10 +409,10 @@
 
   <!-- ── SECTION 2: Your First Assignment (collapsed — done in Week 1) ── -->
   <div class="accordion" style="margin-top:16px;">
-    <div class="accordion-header" onclick="toggleAccordion(this)">
+    <div class="accordion-header">
       <span class="section-num" style="background:var(--green);color:#fff;">2 · DONE</span>
       <div style="flex:1;">
-        <div>Your First Assignment: Collect Research Articles <span class="accordion-hint">Click to open</span></div>
+        <div>Your First Assignment: Collect Research Articles</div>
         <div style="font-weight:400;font-size:0.82rem;color:var(--muted);margin-top:2px;">Completed in Week 1 — open only to review or re-upload</div>
       </div>
       <span class="chevron">▾</span>
@@ -518,52 +508,6 @@
 </footer>
 
 <div class="version-badge">KA UI · v0.5</div>
-
-<script>
-function toggleAccordion(header) {
-  var body = header.nextElementSibling;
-  var chevron = header.querySelector('.chevron');
-  var isOpen = body.classList.toggle('open');
-  chevron.textContent = isOpen ? '▾' : '▾';
-  header.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-}
-
-// Accessibility upgrade: make accordion headers behave like real buttons
-// (role, aria-expanded, keyboard path for Enter/Space). The visual markup
-// remains <div class="accordion-header">, but screen readers and keyboard
-// users now see/use it as a disclosure button.
-document.addEventListener('DOMContentLoaded', function(){
-  document.querySelectorAll('.accordion-header').forEach(function(h){
-    if (!h.hasAttribute('role')) h.setAttribute('role', 'button');
-    if (!h.hasAttribute('tabindex')) h.setAttribute('tabindex', '0');
-    var body = h.nextElementSibling;
-    var isOpen = body && body.classList.contains('open');
-    h.setAttribute('aria-expanded', isOpen ? 'true' : 'false');
-    if (body && body.id === '') body.id = 'acc-body-' + Math.random().toString(36).slice(2,8);
-    if (body) h.setAttribute('aria-controls', body.id);
-    h.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' || e.key === ' ' || e.key === 'Spacebar'){
-        e.preventDefault();
-        toggleAccordion(h);
-      }
-    });
-  });
-});
-
-function switchTab(event, tabId) {
-  // Hide all tab content
-  var contents = event.target.parentElement.parentElement.querySelectorAll('.tab-content');
-  contents.forEach(function(c) { c.classList.remove('active'); });
-
-  // Remove active class from all buttons
-  var buttons = event.target.parentElement.querySelectorAll('.tab-button');
-  buttons.forEach(function(b) { b.classList.remove('active'); });
-
-  // Show selected tab and mark button active
-  document.getElementById(tabId).classList.add('active');
-  event.target.classList.add('active');
-}
-</script>
 
 </body>
 </html>

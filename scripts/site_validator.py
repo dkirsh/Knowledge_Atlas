@@ -102,6 +102,10 @@ SAFE_LOCALSTORAGE_PREFIXES = ("ka.t4", "ka.critique.")
 # Surfaces allowed to link to archive pages
 ARCHIVE_LINKERS = {"ka_archive.html", "ka_track4_hub.html", "ka_admin.html"}
 
+# Pages intentionally kept as static no-JS fallbacks. These are exempt from
+# canonical-navbar requirements but still get local link/security checks.
+STATIC_NAV_EXEMPT = {"160sp/ka_student_setup.html"}
+
 
 def expected_regime(rel_path: str) -> str:
     if "/160sp/" in rel_path.replace("\\", "/") or rel_path.startswith("160sp/"):
@@ -125,8 +129,10 @@ def check_html(path: Path, root: Path, regime_items: dict[str, list[dict]],
     if not BODY_TAG_RE.search(text):
         return []
 
+    static_nav_exempt = rel in STATIC_NAV_EXEMPT
+
     # Canonical navbar include
-    if not NAVBAR_SCRIPT_RE.search(text):
+    if not static_nav_exempt and not NAVBAR_SCRIPT_RE.search(text):
         vs.append(Violation(rel, None, "NAV001",
             "missing <script src=...ka_canonical_navbar.js>"))
 
@@ -136,8 +142,9 @@ def check_html(path: Path, root: Path, regime_items: dict[str, list[dict]],
     regime_match = DATA_REGIME_RE.search(body_attrs)
     declared_regime = regime_match.group(1) if regime_match else None
     if not declared_regime:
-        vs.append(Violation(rel, None, "NAV002",
-            "missing data-ka-regime on <body>"))
+        if not static_nav_exempt:
+            vs.append(Violation(rel, None, "NAV002",
+                "missing data-ka-regime on <body>"))
     else:
         exp = expected_regime(rel)
         # Archive exception: declared "archive" is allowed anywhere (by design)
