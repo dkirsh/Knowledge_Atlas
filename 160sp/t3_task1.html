@@ -269,6 +269,175 @@ cat ~/infinigen_out/smoke_test/scene.json | head -40</code></pre>
       </section>
 
       <section>
+        <h2>Phase 2.5 &mdash; Splat one real exemplar</h2>
+
+        <div class="callout callout-teal" style="margin: 12px 0;">
+          <strong>Splat-as-realism-augmentation, not splat-as-replacement.</strong>
+          Now that you have your parametric room family from Phase&nbsp;2,
+          ground its appearance in a real-world capture. Per the
+          Sprint&nbsp;3 panel addendum on splat augmentation, the cohort
+          builds a <em>realism library</em> that downstream parametric
+          renders draw from. The parametric models stay editable; splat
+          captures supply image-based lighting (HDRI) and PBR material
+          packs as render-time assets the Infinigen wrapper applies on
+          top of your geometry.
+        </div>
+
+        <p>
+          A 3D Gaussian Splat (Kerbl et al., 2023) is a point-cloud-like
+          representation in which each &ldquo;splat&rdquo; carries a
+          position, an opacity, and a small set of spherical-harmonic
+          coefficients encoding view-dependent colour. Cloud services
+          such as Polycam, Luma AI, Scaniverse, and Postshot accept a
+          short phone video and return a usable splat in 10&ndash;15
+          minutes. We use those splats as a source of two artefacts:
+          (a) an HDRI environment map for image-based lighting, and
+          (b) a library of PBR material packs (albedo, normal,
+          roughness, metallic) keyed by surface class. Both feed the
+          existing parametric pipeline. The room parameters you author
+          in Phase&nbsp;3 stay the contract; the splat artefacts are
+          render-time decoration.
+        </p>
+
+        <h3>Capture protocol</h3>
+        <ul>
+          <li>Pick one real exemplar of your assigned room type. A
+            kitchen, a small office, a bedroom &mdash; whatever you can
+            walk through legally and privately.</li>
+          <li>Walk around the room for 30&ndash;60 seconds with your
+            phone, holding the camera steady, sweeping smoothly, and
+            covering as many surfaces as you can. LiDAR-equipped phones
+            (iPhone Pro line) give cleaner results, but ordinary
+            video-based capture also works.</li>
+          <li>Upload to Polycam (or Luma AI / Scaniverse / Postshot).
+            Wait 10&ndash;15 minutes for the cloud to process. Download
+            the resulting <code>.splat</code> or <code>.ply</code> file.</li>
+        </ul>
+
+        <div class="ai-box">
+          <div class="ai-label">Capture caveats</div>
+          <div class="ai-text">
+            <p><em>Polycam&rsquo;s free tier limits the number of
+            exports per month and watermarks higher-resolution outputs;
+            for this assignment the free tier is sufficient. If you do
+            not have a phone with LiDAR, video-based capture also works
+            at slightly lower quality &mdash; Luma AI and Postshot are
+            both video-friendly. Scaniverse is iPhone-only. Avoid
+            capturing rooms with strong window glare or moving people;
+            both confuse the SH fitter and produce noisy splats.</em></p>
+          </div>
+        </div>
+
+        <h3>Extract HDRI lighting</h3>
+        <p>
+          Once you have the splat file, run the course-supplied
+          <code>splat_to_hdri.py</code> wrapper to bake an
+          equirectangular HDRI the parametric renderer applies as
+          image-based lighting:
+        </p>
+<pre><code class="lang-bash">python3 scripts/track3/splat_to_hdri.py \
+    --splat &lt;your-scan&gt;.splat \
+    --out 3d_rooms/&lt;your_room_type&gt;/lighting.hdr</code></pre>
+        <p>
+          The wrapper writes a Radiance <code>.hdr</code> file plus a
+          sidecar <code>lighting.hdr.meta.json</code> recording the
+          splat source, extraction time, and quality flag. If splat
+          libraries are not yet installed in your venv, the wrapper
+          writes a stub HDR and reports the missing dependency clearly
+          &mdash; that is expected behaviour during the Sprint&nbsp;4
+          scaffold window.
+        </p>
+
+        <h3>Extract a PBR material library</h3>
+        <p>
+          Pick 2&ndash;3 distinct material regions inside your scan
+          &mdash; for example a wooden counter, a plastered wall, a
+          fabric upholstered chair, a metal fixture. For each, identify
+          the 3D bounding box of the region in the splat&rsquo;s local
+          coordinates (the Polycam viewer shows world coordinates) and
+          author a small <code>regions.json</code> file:
+        </p>
+<pre><code class="lang-bash">[
+  {
+    "name": "kitchen_counter_north",
+    "bbox": [[0.20, 0.85, 1.10], [1.80, 0.95, 1.40]],
+    "target_class": "granite"
+  },
+  {
+    "name": "back_wall",
+    "bbox": [[-0.10, 0.00, 2.40], [3.20, 2.70, 2.50]],
+    "target_class": "plaster"
+  }
+]</code></pre>
+        <p>
+          Then run:
+        </p>
+<pre><code class="lang-bash">python3 scripts/track3/splat_to_materials.py \
+    --splat &lt;your-scan&gt;.splat \
+    --regions regions.json \
+    --out-dir 3d_rooms/_materials_library/ \
+    --library-mode</code></pre>
+        <p>
+          With <code>--library-mode</code>, the wrapper organises packs
+          by <code>target_class</code> &mdash;
+          <code>_materials_library/granite/kitchen_counter_north/</code>,
+          <code>_materials_library/plaster/back_wall/</code>, and so on
+          &mdash; so packs from every cohort member accumulate into a
+          shared, class-keyed library. Each pack is a directory
+          containing <code>albedo.png</code>, <code>normal.png</code>,
+          <code>roughness.png</code>, <code>metallic.png</code>, and a
+          <code>manifest.json</code> recording provenance.
+        </p>
+
+        <div class="ai-box">
+          <div class="ai-label">Ask your AI</div>
+          <div class="ai-text">
+            <p><em>I have a Polycam splat of a kitchen at
+            <code>scans/kitchen.splat</code>. Help me identify
+            2&ndash;3 distinct material regions worth extracting and
+            give me defensible 3D bounding boxes for each. For each
+            region, suggest a <code>target_class</code> name that is
+            consistent with the cohort&rsquo;s shared library
+            convention (granite, marble, oak, plaster, fabric, plastic,
+            tile, metal). Then write the corresponding
+            <code>regions.json</code>.</em></p>
+          </div>
+        </div>
+
+        <div class="callout callout-amber">
+          <strong>Privacy.</strong> Do not capture spaces containing
+          identifiable people, sensitive documents, or other
+          people&rsquo;s private homes without consent. Your own room,
+          a public lobby, an empty classroom, or a cooperative
+          friend&rsquo;s space are all fine.
+        </div>
+
+        <div class="deliverable">
+          <div class="deliverable-label">Deliverable</div>
+          <ul>
+            <li>One Polycam (or Luma AI / Scaniverse / Postshot) splat
+              capture committed to
+              <code>track3/your-name/scans/&lt;your_room_type&gt;.splat</code>
+              (or, if &gt;50&nbsp;MB, an LFS pointer or a link in
+              <code>scans/README.md</code>).</li>
+            <li><code>3d_rooms/&lt;your_room_type&gt;/lighting.hdr</code>
+              produced by <code>splat_to_hdri.py</code>, plus the
+              sidecar <code>lighting.hdr.meta.json</code>.</li>
+            <li><code>track3/your-name/regions.json</code> defining
+              2&ndash;3 material regions, plus the resulting packs
+              committed under
+              <code>3d_rooms/_materials_library/&lt;target_class&gt;/&lt;region_name&gt;/</code>.</li>
+            <li>A short
+              <code>track3/your-name/splat_capture_notes.md</code>
+              recording the capture device, the cloud service used,
+              the wall-clock time it took, any failed retries, and
+              your assessment of which surfaces fit cleanly versus
+              which produced noisy splats.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section>
         <h2>Phase 3 &mdash; Author parameter manifests for two assigned rooms</h2>
         <p>
           The instructor will assign each student two of the seven
