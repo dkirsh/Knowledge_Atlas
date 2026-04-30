@@ -108,6 +108,30 @@
         </p>
       </section>
 
+      <!-- SPLAT AUGMENTATION (Sprint 4 addendum) -->
+      <section>
+        <h2>Realism via splat augmentation</h2>
+        <p>
+          Parametric models are perfectly editable but visually flatter
+          than real-world scans. Sprint&nbsp;4 added a complementary path:
+          students capture one real exemplar of each room type with
+          Polycam (or Luma AI) producing a 3D Gaussian splat (Kerbl et
+          al., 2023), and the cohort pipeline extracts the
+          splat&rsquo;s lighting environment as an HDRI plus a small
+          library of PBR material packs. Subsequent parametric renders
+          inherit real-world lighting and real-world surface appearance
+          while keeping every parameter editable. The split is clean:
+          parametric for what students <em>manipulate</em> (ceiling
+          height, daylight, material class, fixture density); splat-
+          derived for what students <em>capture</em> (the look of real
+          oak, the feel of late-afternoon clerestory light). See
+          <code>scripts/track3/splat_to_hdri.py</code> and
+          <code>scripts/track3/splat_to_materials.py</code> for the
+          extraction wrappers, and Task&nbsp;1 Phase&nbsp;2.5 for the
+          per-student capture protocol.
+        </p>
+      </section>
+
       <!-- THE THREE TASKS -->
       <section>
         <h2>The three tasks</h2>

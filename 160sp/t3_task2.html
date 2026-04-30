@@ -52,6 +52,25 @@
           out, render in the browser, in seconds. Once that loop is fast,
           a sweep is just a script and a grid of thumbnails.
         </p>
+
+        <div class="callout callout-teal" style="margin: 12px 0;">
+          <strong>Splat-augmented gallery (Sprint&nbsp;4 addendum).</strong>
+          If you completed Task&nbsp;1 Phase&nbsp;2.5 you have an HDRI at
+          <code>3d_rooms/&lt;your_room_type&gt;/lighting.hdr</code> and at
+          least two PBR material packs in
+          <code>3d_rooms/_materials_library/</code>. Pass the HDRI to the
+          parametric renderer (Infinigen accepts HDRI environment maps
+          directly via the <code>environment_image</code> argument; see
+          <code>scripts/track3/infinigen_wrapper.py</code>) and apply your
+          material packs to the corresponding parametric surfaces. Render
+          your gallery <em>twice</em> &mdash; once with synthetic lighting
+          and stock materials, once with the splat-derived HDRI and your
+          extracted materials &mdash; and include both in the deliverable.
+          The visible jump in realism without losing parameter editability
+          is the point of the splat-augmentation path (Kerbl et al.,
+          2023).
+        </div>
+
         <p>
           The closing deliverable is not a polish exercise. It is an
           <strong>HSSD divergence note</strong>. The Habitat Synthetic

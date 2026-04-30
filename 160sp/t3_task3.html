@@ -103,6 +103,24 @@
         </p>
 
         <div class="callout callout-teal" style="margin: 12px 0;">
+          <strong>Real-cathedral lighting via splat augmentation
+          (Sprint&nbsp;4 addendum).</strong> The Vartanian et al. (2015)
+          cathedral-effect preset is materially stronger when the
+          parametric Bezier walls are rendered under HDRI lighting
+          captured from an actual cathedral interior. The cohort
+          flagship integration step should call
+          <code>scripts/track3/splat_to_hdri.py</code> on a Polycam
+          capture of a real worship space (e.g., Notre-Dame de Paris,
+          Hagia Sophia replica scans, or any local cathedral / temple /
+          mosque your team can reach with a phone). Apply the resulting
+          <code>.hdr</code> environment to the integration render. The
+          parametric Bezier curvature stays under cohort control; the
+          lighting stays photoreal. This is the cleanest available
+          reproduction of the Vartanian condition the open-source
+          parametric-rooms literature can currently mount.
+        </div>
+
+        <div class="callout callout-teal" style="margin: 12px 0;">
           <strong>Scaffolds shipped — start from these.</strong> The cohort flagship is
           pre-scaffolded at <code>Knowledge_Atlas/3d_rooms/worship_curved/</code>:
           <ul>
