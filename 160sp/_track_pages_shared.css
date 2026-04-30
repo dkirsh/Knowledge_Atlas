@@ -88,7 +88,7 @@ body{
      .side-nav-tracks
        .side-nav-tracks-label
        details.side-nav-track
-         summary > .side-nav-twistie + label text
+         summary > .side-nav-twistie + a.side-nav-track-link
          .side-nav-track-items > a.side-nav-item
 */
 .side-nav{
@@ -134,6 +134,12 @@ details.side-nav-track > summary{
 }
 details.side-nav-track > summary::-webkit-details-marker{ display: none; }
 details.side-nav-track > summary:hover{ background: var(--teal-bg); color: var(--teal); }
+
+.side-nav-track-link{
+  flex: 1; min-width: 0;
+  color: inherit; text-decoration: none;
+}
+.side-nav-track-link:hover{ text-decoration: underline; }
 
 .side-nav-twistie{
   display: inline-block; width: 10px; height: 10px;

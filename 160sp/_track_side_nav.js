@@ -132,9 +132,12 @@
       var stubClass = track.stub ? ' side-nav-track-stub' : '';
       var stubBadge = track.stub ? ' <span class="side-nav-stub-badge">stub</span>' : '';
 
+      var intro = track.items && track.items.length ? track.items[0] : null;
+      var introHref = intro ? intro.href : '#';
       parts.push('<details class="side-nav-track' + stubClass + '"' + detailsAttrs + '>');
       parts.push('<summary><span class="side-nav-twistie" aria-hidden="true"></span>' +
-                 esc(track.label) + stubBadge + '</summary>');
+                 '<a class="side-nav-track-link" href="' + esc(introHref) + '">' +
+                 esc(track.label) + '</a>' + stubBadge + '</summary>');
       parts.push('<div class="side-nav-track-items">');
       track.items.forEach(function(item){
         var activeClass = (item.id === pageId) ? ' active' : '';
