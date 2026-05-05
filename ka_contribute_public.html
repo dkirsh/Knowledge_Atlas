@@ -276,56 +276,85 @@
     const resultsList    = document.getElementById("__ka_results_list");
     resultsSection.style.display = "block";
 
+    // SAFE rendering — every value from the server is treated as untrusted
+    // text and inserted via textContent (or attribute setters). No innerHTML
+    // template strings: filename / citation / topic / hits / reasons are
+    // user-influenced (filename comes from the upload, citation is free text,
+    // hits / topic / reasons come from PDF text via the classifier) and would
+    // otherwise be an XSS vector.
+    const VERDICT_LABEL = {
+      accept:           "Accepted — queued for review",
+      edge_case:        "Edge case — queued for review",
+      reject:           "Not stored — off-topic",
+      rejected_bad_file:"Rejected — invalid PDF",
+      duplicate:        "Duplicate — already in corpus",
+    };
+    const el = (tag, opts) => {
+      const e = document.createElement(tag);
+      if (opts && opts.text)  e.textContent = opts.text;
+      if (opts && opts.cls)   e.className   = opts.cls;
+      return e;
+    };
+    const labelLine = (parent, label, value) => {
+      const b = el("b", {text: label + " "});
+      parent.appendChild(b);
+      parent.appendChild(document.createTextNode(value || "—"));
+      parent.appendChild(document.createElement("br"));
+    };
+
     for (const item of (result.items || [])) {
-      const verdict = item.verdict || "unknown";
-      const label = {
-        accept:           "Accepted — queued for review",
-        edge_case:        "Edge case — queued for review",
-        reject:           "Not stored — off-topic",
-        rejected_bad_file:"Rejected — invalid PDF",
-        duplicate:        "Duplicate — already in corpus",
-      }[verdict] || verdict;
+      const verdict = String(item.verdict || "unknown");
+      const label   = VERDICT_LABEL[verdict] || verdict;
 
+      const card = el("div", {cls: `result-card card ${verdict.replace(/[^a-z_]/gi, "")}`});
+      card.appendChild(el("div", {cls: `verdict-badge ${verdict.replace(/[^a-z_]/gi, "")}`,
+                                   text: label}));
+
+      const meta = el("div", {cls: "result-meta"});
+      const titleStrong = el("b");
+      titleStrong.textContent = item.filename
+        ? String(item.filename)
+        : String(item.citation || "").slice(0, 80) + (item.citation ? "…" : "");
+      meta.appendChild(titleStrong);
+      meta.appendChild(document.createElement("br"));
+      if (item.article_id) {
+        labelLine(meta, "ID:", String(item.article_id));
+        labelLine(meta, "Status:", String(item.status || ""));
+      }
       const typeConf = item.article_type_confidence != null
-        ? ` (${Math.round(item.article_type_confidence * 100)}% confidence)`
+        ? " (" + Math.round(item.article_type_confidence * 100) + "%)"
         : "";
+      labelLine(meta, "Article type:", (item.article_type || "—") + typeConf);
       const topicConf = item.topic_confidence != null
-        ? ` (${Math.round(item.topic_confidence * 100)}%)`
+        ? " (" + Math.round(item.topic_confidence * 100) + "%)"
         : "";
+      labelLine(meta, "Best-match topic:", (item.topic || "—") + topicConf);
+      if (item.question_id) labelLine(meta, "Question:", String(item.question_id));
+      card.appendChild(meta);
 
-      const envHits = (item.environment_hits || [])
-        .map(h => `<span>${h}</span>`).join("") || "<em>none</em>";
-      const outHits = (item.outcome_hits || [])
-        .map(h => `<span>${h}</span>`).join("") || "<em>none</em>";
-      const reasons = (item.reasons || [])
-        .map(r => `<li>${r}</li>`).join("");
+      const renderHits = (label, list) => {
+        const row = el("div", {cls: "result-hits"});
+        row.appendChild(el("b", {text: label + " "}));
+        if (!list || !list.length) {
+          row.appendChild(el("em", {text: "none"}));
+        } else {
+          for (const h of list) {
+            row.appendChild(el("span", {text: String(h)}));
+            row.appendChild(document.createTextNode(" "));
+          }
+        }
+        card.appendChild(row);
+      };
+      renderHits("Environment hits:", item.environment_hits);
+      renderHits("Outcome hits:",     item.outcome_hits);
 
-      const name = item.filename
-        ? `<b>${item.filename}</b>`
-        : `<b>${(item.citation || "").slice(0, 80)}…</b>`;
+      if (item.reasons && item.reasons.length) {
+        const ul = document.createElement("ul");
+        ul.style.cssText = "font-size:.80rem;color:#6B6B6B;margin-top:6px;padding-left:18px";
+        for (const r of item.reasons) ul.appendChild(el("li", {text: String(r)}));
+        card.appendChild(ul);
+      }
 
-      const idLine = item.article_id
-        ? `<br><b>ID:</b> ${item.article_id} · <b>Status:</b> ${item.status}`
-        : "";
-
-      const card = document.createElement("div");
-      card.className = `result-card card ${verdict}`;
-      card.innerHTML = `
-        <div class="verdict-badge ${verdict}">${label}</div>
-        <div class="result-meta">
-          ${name}${idLine}<br>
-          <b>Article type:</b> ${item.article_type || "—"}${typeConf}<br>
-          <b>Best-match topic:</b> ${item.topic || "—"}${topicConf}
-          ${item.question_id ? `· <b>Question:</b> ${item.question_id}` : ""}
-        </div>
-        <div class="result-hits">
-          <b>Environment hits:</b> ${envHits}
-        </div>
-        <div class="result-hits">
-          <b>Outcome hits:</b> ${outHits}
-        </div>
-        ${reasons ? `<ul style="font-size:.80rem;color:#6B6B6B;margin-top:6px;padding-left:18px">${reasons}</ul>` : ""}
-      `;
       resultsList.prepend(card);
     }
 

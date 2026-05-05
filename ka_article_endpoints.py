@@ -2806,6 +2806,10 @@ def _suggest_db() -> sqlite3.Connection:
     conn = sqlite3.connect(str(_SUGGEST_DB_PATH))
     conn.row_factory = sqlite3.Row
     conn.execute("PRAGMA journal_mode=WAL")
+    # Avoid "database is locked" under concurrent submissions; align with the
+    # rest of the KA backend's connection hygiene.
+    conn.execute("PRAGMA busy_timeout=5000")
+    conn.execute("PRAGMA foreign_keys=ON")
     # Ensure articles table exists (mirrors _init_article_tables schema)
     conn.executescript("""
     CREATE TABLE IF NOT EXISTS articles (
@@ -2878,8 +2882,21 @@ def _suggest_db() -> sqlite3.Connection:
 
 
 def _suggest_next_id(conn: sqlite3.Connection, prefix: str) -> str:
-    seq = (conn.execute("SELECT COUNT(*) FROM articles").fetchone()[0] or 0) + 1
-    return f"{prefix}{seq:06d}"
+    """
+    Collision-resistant article id. Previously used COUNT(*)+1, which races
+    under concurrent submissions and produced PK collisions. We now mint a
+    random hex token and verify it does not already exist before returning.
+    """
+    for _ in range(8):
+        candidate = f"{prefix}{secrets.token_hex(4).upper()}"
+        exists = conn.execute(
+            "SELECT 1 FROM articles WHERE article_id = ? LIMIT 1",
+            (candidate,),
+        ).fetchone()
+        if not exists:
+            return candidate
+    # Astronomically unlikely; raise rather than silently collide.
+    raise RuntimeError("Could not allocate unique article_id after 8 tries")
 
 
 def _extract_pdf_text(data: bytes) -> str:
@@ -3010,81 +3027,165 @@ async def suggest_article(
     submission_id = f"KA-SUG-{now[:10].replace('-', '')}-{secrets.token_hex(4).upper()}"
     items = []
 
-    # ── PDF submission
-    if file and file.filename:
-        content = await file.read()
+    # Email is treated as soft contact metadata. We do NOT log it server-side
+    # by default; we only persist it inside validation_notes JSON so a
+    # reviewer who explicitly opens the row can follow up with the contributor.
+    contact_email = (email or "").strip()[:200] or None
 
-        # Validate
-        validation = _validate_pdf_bytes(content, file.filename)
-        if not validation.get("valid"):
-            items.append({
-                "filename": file.filename,
-                "verdict": "rejected_bad_file",
-                "article_type": None, "article_type_confidence": None,
-                "topic": None, "question_id": None, "topic_confidence": None,
-                "environment_hits": [], "outcome_hits": [],
-                "reasons": [validation.get("rejection_reason", "Invalid PDF")],
-                "article_id": None, "status": "rejected_bad_file",
-            })
-        else:
-            pdf_hash = _compute_sha256(content)
-            doi = _extract_doi_from_pdf(content)
+    try:
+        # ── PDF submission
+        if file and file.filename:
+            content = await file.read()
 
-            # Duplicate probe (must run before any storage)
-            dup = _suggest_check_dup(conn, pdf_hash, doi, None)
-            if dup["is_duplicate"]:
+            # Validate
+            validation = _validate_pdf_bytes(content, file.filename)
+            if not validation.get("valid"):
                 items.append({
                     "filename": file.filename,
-                    "verdict": "duplicate",
+                    "verdict": "rejected_bad_file",
                     "article_type": None, "article_type_confidence": None,
                     "topic": None, "question_id": None, "topic_confidence": None,
                     "environment_hits": [], "outcome_hits": [],
-                    "reasons": [f"Already in corpus ({dup['match_type']}): {dup['duplicate_of']}"],
-                    "article_id": dup["duplicate_of"], "status": "duplicate_existing",
+                    "reasons": [validation.get("rejection_reason", "Invalid PDF")],
+                    "article_id": None, "status": "rejected_bad_file",
                 })
             else:
-                # Extract text, classify, assess relevance
-                text = _extract_pdf_text(content)
-                parsed_title = ""
-                first_lines = text[:500].strip().split("\n")
-                if first_lines:
-                    parsed_title = first_lines[0][:200]
+                pdf_hash = _compute_sha256(content)
+                doi = _extract_doi_from_pdf(content)
 
-                classification = _run_classifier_and_assess(parsed_title, text[:3000])
+                # Duplicate probe (must run before any storage)
+                dup = _suggest_check_dup(conn, pdf_hash, doi, None)
+                if dup["is_duplicate"]:
+                    items.append({
+                        "filename": file.filename,
+                        "verdict": "duplicate",
+                        "article_type": None, "article_type_confidence": None,
+                        "topic": None, "question_id": None, "topic_confidence": None,
+                        "environment_hits": [], "outcome_hits": [],
+                        "reasons": [f"Already in corpus ({dup['match_type']}): {dup['duplicate_of']}"],
+                        "article_id": dup["duplicate_of"], "status": "duplicate_existing",
+                    })
+                else:
+                    text = _extract_pdf_text(content)
+                    parsed_title = ""
+                    first_lines = text[:500].strip().split("\n")
+                    if first_lines:
+                        parsed_title = first_lines[0][:200]
+
+                    classification = _run_classifier_and_assess(parsed_title, text[:3000])
+                    verdict = classification["verdict"]
+
+                    article_id = _suggest_next_id(conn, "KA-ART-")
+
+                    if verdict in ("accept", "edge_case"):
+                        month_dir = QUARANTINE_DIR / datetime.now().strftime("%Y-%m")
+                        month_dir.mkdir(parents=True, exist_ok=True)
+                        quarantine_path = month_dir / f"{article_id}.pdf"
+                        quarantine_path.write_bytes(content)
+
+                        edge_flag = "edge_case:true" if verdict == "edge_case" else "edge_case:false"
+                        conn.execute("""
+                            INSERT INTO articles (
+                                article_id, submission_id, submitter_type, input_mode,
+                                doi, title, pdf_filename, pdf_hash_sha256, pdf_size_bytes,
+                                quarantine_path, article_type, status, validation_notes,
+                                source_surface, course_context, submitter_notes,
+                                created_at, validated_at, staged_at, metadata_confidence
+                            ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                        """, (
+                            article_id, submission_id, "anonymous", "pdf_single",
+                            doi, parsed_title or None, file.filename, pdf_hash, len(content),
+                            str(quarantine_path), classification["article_type"],
+                            "staged_pending_review",
+                            json.dumps({"edge_flag": edge_flag,
+                                        "topic": classification["topic"],
+                                        "question_id": classification["question_id"],
+                                        "topic_confidence": classification["topic_confidence"],
+                                        "environment_hits": classification["environment_hits"],
+                                        "outcome_hits": classification["outcome_hits"],
+                                        # PDF-mode persistence (Copilot review fix):
+                                        "contact_email": contact_email,
+                                        "submitter_citation_hint": (citation.strip()[:500] or None)}),
+                            "ka_contribute_public", "COGS160-SP26",
+                            why_it_matters or None,
+                            now, now, now,
+                            "medium" if doi else "low"
+                        ))
+                        conn.execute(
+                            "INSERT INTO audit_log (article_id, action, old_status, new_status, actor_type, created_at) VALUES (?,?,?,?,?,?)",
+                            (article_id, "suggest_staged", "received", "staged_pending_review", "system", now))
+                        conn.commit()
+
+                    items.append({
+                        "filename": file.filename,
+                        "verdict": verdict,
+                        "article_type": classification["article_type"],
+                        "article_type_confidence": classification["article_type_confidence"],
+                        "topic": classification["topic"],
+                        "question_id": classification["question_id"],
+                        "topic_confidence": classification["topic_confidence"],
+                        "environment_hits": classification["environment_hits"],
+                        "outcome_hits": classification["outcome_hits"],
+                        "reasons": classification["reasons"],
+                        "article_id": article_id if verdict in ("accept", "edge_case") else None,
+                        "status": "staged_pending_review" if verdict in ("accept", "edge_case") else "rejected_not_stored",
+                    })
+
+        # ── Citation submission (skipped on the PDF path so we don't double-store
+        # the same paper; citation field there is captured into validation_notes)
+        if citation.strip() and not (file and file.filename):
+            for line in citation.strip().split("\n"):
+                line = line.strip()
+                if not line:
+                    continue
+
+                parsed = _parse_citation_line(line)
+                doi_match = re.search(r'10\.\d{4,9}/[^\s]+', line)
+                doi = doi_match.group(0).rstrip(".") if doi_match else None
+                title = parsed["title"] or line[:200]
+
+                dup = _suggest_check_dup(conn, None, doi, title)
+                if dup["is_duplicate"]:
+                    items.append({
+                        "citation": line[:200],
+                        "verdict": "duplicate",
+                        "article_type": None, "article_type_confidence": None,
+                        "topic": None, "question_id": None, "topic_confidence": None,
+                        "environment_hits": [], "outcome_hits": [],
+                        "reasons": [f"Already in corpus ({dup['match_type']}): {dup['duplicate_of']}"],
+                        "article_id": dup["duplicate_of"], "status": "duplicate_existing",
+                    })
+                    continue
+
+                classification = _run_classifier_and_assess(
+                    parsed["title"] or title,
+                    ""  # no abstract for citation-only
+                )
                 verdict = classification["verdict"]
-
                 article_id = _suggest_next_id(conn, "KA-ART-")
 
                 if verdict in ("accept", "edge_case"):
-                    month_dir = QUARANTINE_DIR / datetime.now().strftime("%Y-%m")
-                    month_dir.mkdir(parents=True, exist_ok=True)
-                    quarantine_path = month_dir / f"{article_id}.pdf"
-                    quarantine_path.write_bytes(content)
-
                     edge_flag = "edge_case:true" if verdict == "edge_case" else "edge_case:false"
                     conn.execute("""
                         INSERT INTO articles (
                             article_id, submission_id, submitter_type, input_mode,
-                            doi, title, pdf_filename, pdf_hash_sha256, pdf_size_bytes,
-                            quarantine_path, article_type, status, validation_notes,
+                            doi, title, authors, year, citation_raw,
+                            article_type, status, validation_notes,
                             source_surface, course_context, submitter_notes,
-                            created_at, validated_at, staged_at, metadata_confidence
-                        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+                            created_at, staged_at, metadata_confidence
+                        ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
                     """, (
-                        article_id, submission_id, "anonymous", "pdf_single",
-                        doi, parsed_title or None, file.filename, pdf_hash, len(content),
-                        str(quarantine_path), classification["article_type"],
-                        "staged_pending_review",
+                        article_id, submission_id, "anonymous", "citation_text",
+                        doi, parsed["title"] or None, parsed["authors"] or None,
+                        int(parsed["year"]) if parsed["year"] else None, line,
+                        classification["article_type"], "staged_pending_review",
                         json.dumps({"edge_flag": edge_flag,
                                     "topic": classification["topic"],
                                     "question_id": classification["question_id"],
-                                    "topic_confidence": classification["topic_confidence"],
-                                    "environment_hits": classification["environment_hits"],
-                                    "outcome_hits": classification["outcome_hits"]}),
-                        "ka_contribute_public", "COGS160-SP26",
-                        why_it_matters or None,
-                        now, now, now,
-                        "medium" if doi else "low"
+                                    "contact_email": contact_email}),
+                        "ka_contribute_public", "COGS160-SP26", why_it_matters or None,
+                        now, now,
+                        "high" if doi and parsed["title"] else "low"
                     ))
                     conn.execute(
                         "INSERT INTO audit_log (article_id, action, old_status, new_status, actor_type, created_at) VALUES (?,?,?,?,?,?)",
@@ -3092,7 +3193,7 @@ async def suggest_article(
                     conn.commit()
 
                 items.append({
-                    "filename": file.filename,
+                    "citation": line[:200],
                     "verdict": verdict,
                     "article_type": classification["article_type"],
                     "article_type_confidence": classification["article_type_confidence"],
@@ -3106,79 +3207,14 @@ async def suggest_article(
                     "status": "staged_pending_review" if verdict in ("accept", "edge_case") else "rejected_not_stored",
                 })
 
-    # ── Citation submission
-    if citation.strip():
-        for line in citation.strip().split("\n"):
-            line = line.strip()
-            if not line:
-                continue
-
-            parsed = _parse_citation_line(line)
-            doi_match = re.search(r'10\.\d{4,9}/[^\s]+', line)
-            doi = doi_match.group(0).rstrip(".") if doi_match else None
-            title = parsed["title"] or line[:200]
-
-            dup = _suggest_check_dup(conn, None, doi, title)
-            if dup["is_duplicate"]:
-                items.append({
-                    "citation": line[:200],
-                    "verdict": "duplicate",
-                    "article_type": None, "article_type_confidence": None,
-                    "topic": None, "question_id": None, "topic_confidence": None,
-                    "environment_hits": [], "outcome_hits": [],
-                    "reasons": [f"Already in corpus ({dup['match_type']}): {dup['duplicate_of']}"],
-                    "article_id": dup["duplicate_of"], "status": "duplicate_existing",
-                })
-                continue
-
-            classification = _run_classifier_and_assess(
-                parsed["title"] or title,
-                ""  # no abstract for citation-only
-            )
-            verdict = classification["verdict"]
-            article_id = _suggest_next_id(conn, "KA-ART-")
-
-            if verdict in ("accept", "edge_case"):
-                edge_flag = "edge_case:true" if verdict == "edge_case" else "edge_case:false"
-                conn.execute("""
-                    INSERT INTO articles (
-                        article_id, submission_id, submitter_type, input_mode,
-                        doi, title, authors, year, citation_raw,
-                        article_type, status, validation_notes,
-                        source_surface, course_context, submitter_notes,
-                        created_at, staged_at, metadata_confidence
-                    ) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)
-                """, (
-                    article_id, submission_id, "anonymous", "citation_text",
-                    doi, parsed["title"] or None, parsed["authors"] or None,
-                    int(parsed["year"]) if parsed["year"] else None, line,
-                    classification["article_type"], "staged_pending_review",
-                    json.dumps({"edge_flag": edge_flag,
-                                "topic": classification["topic"],
-                                "question_id": classification["question_id"]}),
-                    "ka_contribute_public", "COGS160-SP26", why_it_matters or None,
-                    now, now,
-                    "high" if doi and parsed["title"] else "low"
-                ))
-                conn.execute(
-                    "INSERT INTO audit_log (article_id, action, old_status, new_status, actor_type, created_at) VALUES (?,?,?,?,?,?)",
-                    (article_id, "suggest_staged", "received", "staged_pending_review", "system", now))
-                conn.commit()
-
-            items.append({
-                "citation": line[:200],
-                "verdict": verdict,
-                "article_type": classification["article_type"],
-                "article_type_confidence": classification["article_type_confidence"],
-                "topic": classification["topic"],
-                "question_id": classification["question_id"],
-                "topic_confidence": classification["topic_confidence"],
-                "environment_hits": classification["environment_hits"],
-                "outcome_hits": classification["outcome_hits"],
-                "reasons": classification["reasons"],
-                "article_id": article_id if verdict in ("accept", "edge_case") else None,
-                "status": "staged_pending_review" if verdict in ("accept", "edge_case") else "rejected_not_stored",
-            })
-
-    conn.close()
-    return {"submission_id": submission_id, "items": items}
+        return {"submission_id": submission_id, "items": items}
+    except Exception:
+        # Roll back any partial inserts before propagating; FastAPI will
+        # surface the error as a 500 without leaking the stack trace to the
+        # client (it returns the generic detail string only).
+        try: conn.rollback()
+        except Exception: pass
+        raise
+    finally:
+        try: conn.close()
+        except Exception: pass
