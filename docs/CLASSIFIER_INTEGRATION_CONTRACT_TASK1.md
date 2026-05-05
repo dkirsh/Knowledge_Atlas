@@ -1,8 +1,21 @@
 # Classifier Integration Contract — Task 1
-**Author:** Dhruv Sood  
-**Date:** 2026-04-28  
-**Repo:** Knowledge_Atlas  
+**Author:** Dhruv Sood
+**Date:** 2026-05-03
+**Repo:** Knowledge_Atlas
 **Task:** Track 2 · Task 1 — Fix the Contribute Page
+
+---
+
+## 0. Substitutions & Limitations (read first)
+
+| Topic | Canonical | Substitute / actual | Justification |
+|---|---|---|---|
+| Classifier import path | `atlas_shared.classifier_system.AdaptiveClassifierSubsystem` | the same — loaded by `_load_classifier_backend()` at module import (`ka_article_endpoints.py:154`). If `atlas_shared.classifier_system` is unavailable, a same-API local fallback `LocalAdaptiveClassifierSubsystem` is used (line 62). | Both code paths build a `ClassificationEvidence` and call `.classify(evidence, allow_surface_creation=False)`. The endpoint path is identical regardless of which class is live; `evidence_stage` and `next_action` come back in both cases. |
+| DB connection | injected `_get_db()` (auth-context) | separate `_suggest_db()` opening `KA_WORKFLOW_DB` (env-overridable) | The `/suggest` endpoint is public/anonymous; `_get_db()` requires an auth context. `_suggest_db()` enables `WAL` + `busy_timeout=5000` + `foreign_keys=ON` for the same hygiene. |
+| Question constitutions | full catalogue | only `SQ-ART-001 Nature & Attention` ships with `atlas_shared` in `question_constitutions_starter.json` | Data limitation; not a code limitation. Adding more constitutions changes verdicts without touching the endpoint. |
+| `article_id` minting | `_next_id()` (the rest of the file) | `_suggest_next_id()` — `KA-ART-<8 hex>` via `secrets.token_hex(4).upper()` with uniqueness check + retry | Original `COUNT(*)+1` pattern races under concurrent submissions. Random-token-with-check eliminates the race without requiring a `SEQUENCE` table. |
+
+Manual artifacts required: **none** — `data/test_pdfs/validate_task1.py` proves every storage assertion in-process.
 
 ---
 
