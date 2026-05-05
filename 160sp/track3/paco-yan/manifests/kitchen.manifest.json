@@ -1,0 +1,71 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ka://manifests/kitchen.v1",
+  "title": "Kitchen Parameter Manifest",
+  "description": "Six knobs an LLM front-end may turn for kitchen rooms in Infinigen Indoors.",
+  "infinigen_entity": "infinigen.entities.Kitchen",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 3.2,
+      "default": 2.4,
+      "unit": "m",
+      "description": "Floor-to-ceiling clear height of the kitchen volume.",
+      "citation": "Meyers-Levy & Zhu (2007); Vartanian et al. (2015)",
+      "rationale": "Ceiling height modulates cognitive processing mode — lower ceilings (2.0–2.4 m) promote detail-focused task thinking suited to cooking; higher ceilings shift processing toward abstract and relational modes. Vartanian et al. (2015) found enclosure effects on approach-avoidance decisions; Meyers-Levy & Zhu (2007) directly linked ceiling height to processing type."
+    },
+    "cabinet_density": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "unit": "normalised",
+      "description": "Scalar on the probability of placing cabinet units along available wall segments (0 = minimal storage, 1 = fully lined walls).",
+      "citation": "Joye (2007)",
+      "rationale": "Cabinet density is the primary driver of visual complexity and clutter in kitchen spaces. Joye (2007) establishes that crowding and visual complexity drive cognitive load; high cabinet density produces a denser, more complex visual field. Maps directly to SingleCabinetFactory placement probability observed in Infinigen kitchen entity hierarchy."
+    },
+    "daylight_intensity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.6,
+      "unit": "normalised",
+      "description": "Scalar on the sun/sky light contribution through kitchen windows.",
+      "citation": "Münch et al. (2020); Kaplan & Kaplan (1989)",
+      "rationale": "Daylight access in kitchens modulates circadian alertness and perceived restoration. Münch et al. (2020) identify daylight as critical for circadian entrainment during daytime task activities such as cooking. Kaplan & Kaplan (1989) link natural light to restorative experience. Maps to WindowFactory area and CeilingLightFactory intensity in Infinigen."
+    },
+    "countertop_material": {
+      "type": "string",
+      "enum": ["granite", "marble", "oak", "tile", "metal", "plastic"],
+      "default": "granite",
+      "unit": "token",
+      "description": "Named material token for kitchen counter surfaces, resolved by the Infinigen wrapper to a PBR material pack.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Surface material warmth contributes directly to perceived stress reduction and thermal comfort in functional spaces. Ulrich (1991) demonstrates that material choices in interior environments affect wellness outcomes. Warm natural materials (oak, granite) score higher on perceived comfort than cold industrial surfaces (metal, plastic). Maps to material slots on KitchenCounterFactory surfaces."
+    },
+    "appliance_visibility": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "unit": "normalised",
+      "description": "Scalar controlling how many countertop appliances (bowls, bottles, cookware) are placed on surfaces (0 = bare counters, 1 = fully stocked).",
+      "citation": "Joye (2007); Kaplan & Kaplan (1989)",
+      "rationale": "Countertop object density affects both cognitive load (Joye, 2007) and perceived habitability. A kitchen with bare counters reads as sterile; a fully stocked kitchen reads as complex and lived-in. Maps directly to BowlFactory, BottleFactory, and HardwareFactory instance counts observed in Infinigen kitchen entity hierarchy."
+    },
+    "lighting_warmth": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "unit": "normalised",
+      "description": "0 = cool white artificial lighting (5000K+); 1 = warm incandescent-style lighting (2700K). Controls CeilingLightFactory and PointLampFactory colour temperature.",
+      "citation": "Ulrich (1991); Münch et al. (2020)",
+      "rationale": "Lighting colour temperature in kitchens affects both perceived warmth and circadian signalling. Ulrich (1991) links warm interior lighting to reduced stress; Münch et al. (2020) note that cool daylight-spectrum lighting supports alertness during task-oriented daytime activities. The parameter lets the LLM balance these competing effects. Maps to CeilingLightFactory colour parameters in Infinigen."
+    }
+  },
+  "required": ["ceiling_height_m", "daylight_intensity", "countertop_material"]
+}

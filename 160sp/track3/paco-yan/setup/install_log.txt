@@ -1,0 +1,16 @@
+Name: infinigen
+Version: 1.19.1
+Summary: Infinite Photorealistic Worlds using Procedural Generation
+Home-page: 
+Author: 
+Author-email: 
+License: BSD-3-Clause
+Location: /home/poca/miniconda3/envs/infinigen/lib/python3.11/site-packages
+Editable project location: /home/poca/infinigen
+Requires: bpy, geomdl, gin_config, imageio, matplotlib, networkx, numpy, opencv-python, OpenEXR, pandas, psutil, python-fcl, rtree, scikit-image, scikit-learn, scipy, shapely, submitit, tqdm, trimesh
+Required-by: 
+Blender version:
+Blender 4.0.2
+Python version:
+Python 3.11.15
+Render succeeded at: Thu Apr 30 17:37:52 PDT 2026
