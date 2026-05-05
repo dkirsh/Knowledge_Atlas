@@ -1,0 +1,14 @@
+=== Infinigen Smoke Test ===
+Mon May  4 22:19:39 PDT 2026
+
+-- conda env --
+infinigen            *   /home/diggss/miniconda3/envs/infinigen
+
+-- python version --
+Python 3.11.15
+
+-- infinigen import / version --
+infinigen version: 1.19.1
+
+-- bpy import (Blender Python) --
+bpy version: 4.2.0

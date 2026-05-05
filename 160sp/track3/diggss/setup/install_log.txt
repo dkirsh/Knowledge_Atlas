@@ -1,0 +1,14 @@
+[17:49:22.165] [acceleratesupport] [INFO] | No OpenGL_accelerate module loaded: No module named 'OpenGL_accelerate'
+[17:49:22.731] [init] [INFO] | Addon antlandscape already in blender local addons, attempt to enable it.
+[17:49:22.901] [init] [INFO] | Addon extra_mesh_objects already in blender local addons, attempt to enable it.
+[17:49:22.973] [smb_client] [WARNING] | SMB_AUTH envvar is not set, smb_client upload will not work. Ignore this message if not using upload
+/home/diggss/infinigen/infinigen/tools/export.py:27: UserWarning: coacd could not be imported. Some features may be unavailable.
+  warnings.warn("coacd could not be imported. Some features may be unavailable.")
+[17:49:23.132] [init] [INFO] | Addon real_snow already in blender local addons, attempt to enable it.
+usage: generate_indoors.py [-h] [--output_folder OUTPUT_FOLDER]
+                           [--input_folder INPUT_FOLDER] [-s SEED]
+                           [-t {coarse,populate,fine_terrain,ground_truth,render,mesh_save,export} [{coarse,populate,fine_terrain,ground_truth,render,mesh_save,export} ...]]
+                           [-g CONFIGS [CONFIGS ...]]
+                           [-p OVERRIDES [OVERRIDES ...]]
+                           [--task_uniqname TASK_UNIQNAME] [-d [DEBUG ...]]
+generate_indoors.py: error: argument -t/--task: invalid choice: 'indoor_scene_trial' (choose from 'coarse', 'populate', 'fine_terrain', 'ground_truth', 'render', 'mesh_save', 'export')

@@ -1,0 +1,68 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ka://manifests/bathroom.v1",
+  "title": "Bathroom Parameter Manifest",
+  "description": "Parametric controls for COGS 160 VR Bathroom pipeline.",
+  "infinigen_entity": "infinigen.entities.Bathroom",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 3.0,
+      "default": 2.4,
+      "unit": "meters",
+      "description": "Vertical distance from floor to ceiling.",
+      "citation": "Meyers-Levy & Zhu (2007)",
+      "rationale": "Ceiling height impacts psychological processing styles and perceived freedom."
+    },
+    "lighting_warmth": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "unit": "fraction",
+      "description": "Warmth of vanity and overhead lighting (0=Cool, 1=Warm).",
+      "citation": "Münch et al. (2020)",
+      "rationale": "Light spectrum in bathrooms directly affects morning alertness and evening melatonin."
+    },
+    "glass_area_fraction": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 0.6,
+      "default": 0.2,
+      "unit": "fraction",
+      "description": "Proportion of wall area covered by mirrors or shower glass.",
+      "citation": "Vartanian et al. (2015)",
+      "rationale": "Reflective and transparent surfaces alter perceived enclosure and approach-avoidance."
+    },
+    "tile_organicism": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.2,
+      "unit": "fraction",
+      "description": "Degree of natural variation in tile (0=synthetic ceramic, 1=natural stone).",
+      "citation": "Joye (2007)",
+      "rationale": "Biophilic architectural elements reduce physiological stress."
+    },
+    "fixture_count": {
+      "type": "integer",
+      "minimum": 1,
+      "maximum": 6,
+      "default": 3,
+      "unit": "count",
+      "description": "Number of major functional fixtures (sink, toilet, tub, shower).",
+      "citation": "Ulrich (1991)",
+      "rationale": "Crowding and functional complexity influence baseline wellness perceptions."
+    }
+  },
+  "required": [
+    "ceiling_height_m",
+    "lighting_warmth",
+    "glass_area_fraction",
+    "tile_organicism",
+    "fixture_count"
+  ]
+}

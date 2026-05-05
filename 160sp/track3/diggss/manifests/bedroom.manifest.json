@@ -1,0 +1,313 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ka://manifests/bedroom.v1",
+  "title": "Bedroom Parameter Manifest",
+  "description": "Parametric controls for COGS 160 VR Bedroom pipeline.",
+  "infinigen_entity": "infinigen.entities.Bedroom",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 4.0,
+      "default": 2.7,
+      "unit": "meters",
+      "description": "Vertical distance from floor to ceiling.",
+      "citation": "Meyers-Levy & Zhu (2007)",
+      "rationale": "Ceiling height primes different levels of mental abstraction."
+    },
+    "lighting_warmth": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.8,
+      "unit": "fraction",
+      "description": "Warmth of ambient light (0=Cool/Blue, 1=Warm/Amber).",
+      "citation": "Münch et al. (2020)",
+      "rationale": "Spectral composition affects melatonin and circadian health."
+    },
+    "enclosure": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "unit": "fraction",
+      "description": "The degree of perceived physical containment.",
+      "citation": "Vartanian et al. (2015)",
+      "rationale": "Enclosure impacts beauty judgments and approach-avoidance decisions."
+    },
+    "window_view_complexity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.6,
+      "unit": "fraction",
+      "description": "Visual density and fractal dimension of the exterior view.",
+      "citation": "Kaplan & Kaplan (1989)",
+      "rationale": "Restorative environments require a view with soft fascination to recover from cognitive fatigue."
+    },
+    "wall_texture_organicism": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.3,
+      "unit": "fraction",
+      "description": "Ratio of organic/fractal textures (wood/stone) to synthetic flats.",
+      "citation": "Joye (2007)",
+      "rationale": "Biophilic design suggests organic textures reduce stress compared to synthetic surfaces."
+    },
+    "room_volume_m3": {
+      "type": "number",
+      "minimum": 20.0,
+      "maximum": 100.0,
+      "default": 40.0,
+      "unit": "cubic meters",
+      "description": "Total spatial volume of the room.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Spaciousness impacts the sense of control and wellness in private spaces."
+    }
+  },
+  "required": [
+    "ceiling_height_m", 
+    "lighting_warmth", 
+    "enclosure", 
+    "window_view_complexity", 
+    "wall_texture_organicism", 
+    "room_volume_m3"
+  ]
+}{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ka://manifests/bedroom.v1",
+  "title": "Bedroom Parameter Manifest",
+  "description": "Parametric controls for COGS 160 VR Bedroom pipeline.",
+  "infinigen_entity": "infinigen.entities.Bedroom",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 4.0,
+      "default": 2.7,
+      "unit": "meters",
+      "description": "Vertical distance from floor to ceiling.",
+      "citation": "Meyers-Levy & Zhu (2007)",
+      "rationale": "Ceiling height primes different levels of mental abstraction."
+    },
+    "lighting_warmth": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.8,
+      "unit": "fraction",
+      "description": "Warmth of ambient light (0=Cool/Blue, 1=Warm/Amber).",
+      "citation": "Münch et al. (2020)",
+      "rationale": "Spectral composition affects melatonin and circadian health."
+    },
+    "enclosure": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "unit": "fraction",
+      "description": "The degree of perceived physical containment.",
+      "citation": "Vartanian et al. (2015)",
+      "rationale": "Enclosure impacts beauty judgments and approach-avoidance decisions."
+    },
+    "window_view_complexity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.6,
+      "unit": "fraction",
+      "description": "Visual density and fractal dimension of the exterior view.",
+      "citation": "Kaplan & Kaplan (1989)",
+      "rationale": "Restorative environments require a view with soft fascination to recover from cognitive fatigue."
+    },
+    "wall_texture_organicism": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.3,
+      "unit": "fraction",
+      "description": "Ratio of organic/fractal textures (wood/stone) to synthetic flats.",
+      "citation": "Joye (2007)",
+      "rationale": "Biophilic design suggests organic textures reduce stress compared to synthetic surfaces."
+    },
+    "room_volume_m3": {
+      "type": "number",
+      "minimum": 20.0,
+      "maximum": 100.0,
+      "default": 40.0,
+      "unit": "cubic meters",
+      "description": "Total spatial volume of the room.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Spaciousness impacts the sense of control and wellness in private spaces."
+    }
+  },
+  "required": [
+    "ceiling_height_m", 
+    "lighting_warmth", 
+    "enclosure", 
+    "window_view_complexity", 
+    "wall_texture_organicism", 
+    "room_volume_m3"
+  ]
+}{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ka://manifests/bedroom.v1",
+  "title": "Bedroom Parameter Manifest",
+  "description": "Parametric controls for COGS 160 VR Bedroom pipeline.",
+  "infinigen_entity": "infinigen.entities.Bedroom",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 4.0,
+      "default": 2.7,
+      "unit": "meters",
+      "description": "Vertical distance from floor to ceiling.",
+      "citation": "Meyers-Levy & Zhu (2007)",
+      "rationale": "Ceiling height primes different levels of mental abstraction."
+    },
+    "lighting_warmth": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.8,
+      "unit": "fraction",
+      "description": "Warmth of ambient light (0=Cool/Blue, 1=Warm/Amber).",
+      "citation": "Münch et al. (2020)",
+      "rationale": "Spectral composition affects melatonin and circadian health."
+    },
+    "enclosure": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "unit": "fraction",
+      "description": "The degree of perceived physical containment.",
+      "citation": "Vartanian et al. (2015)",
+      "rationale": "Enclosure impacts beauty judgments and approach-avoidance decisions."
+    },
+    "window_view_complexity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.6,
+      "unit": "fraction",
+      "description": "Visual density and fractal dimension of the exterior view.",
+      "citation": "Kaplan & Kaplan (1989)",
+      "rationale": "Restorative environments require a view with soft fascination to recover from cognitive fatigue."
+    },
+    "wall_texture_organicism": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.3,
+      "unit": "fraction",
+      "description": "Ratio of organic/fractal textures (wood/stone) to synthetic flats.",
+      "citation": "Joye (2007)",
+      "rationale": "Biophilic design suggests organic textures reduce stress compared to synthetic surfaces."
+    },
+    "room_volume_m3": {
+      "type": "number",
+      "minimum": 20.0,
+      "maximum": 100.0,
+      "default": 40.0,
+      "unit": "cubic meters",
+      "description": "Total spatial volume of the room.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Spaciousness impacts the sense of control and wellness in private spaces."
+    }
+  },
+  "required": [
+    "ceiling_height_m", 
+    "lighting_warmth", 
+    "enclosure", 
+    "window_view_complexity", 
+    "wall_texture_organicism", 
+    "room_volume_m3"
+  ]
+}{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ka://manifests/bedroom.v1",
+  "title": "Bedroom Parameter Manifest",
+  "description": "Parametric controls for COGS 160 VR Bedroom pipeline.",
+  "infinigen_entity": "infinigen.entities.Bedroom",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 4.0,
+      "default": 2.7,
+      "unit": "meters",
+      "description": "Vertical distance from floor to ceiling.",
+      "citation": "Meyers-Levy & Zhu (2007)",
+      "rationale": "Ceiling height primes different levels of mental abstraction."
+    },
+    "lighting_warmth": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.8,
+      "unit": "fraction",
+      "description": "Warmth of ambient light (0=Cool/Blue, 1=Warm/Amber).",
+      "citation": "Münch et al. (2020)",
+      "rationale": "Spectral composition affects melatonin and circadian health."
+    },
+    "enclosure": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "unit": "fraction",
+      "description": "The degree of perceived physical containment.",
+      "citation": "Vartanian et al. (2015)",
+      "rationale": "Enclosure impacts beauty judgments and approach-avoidance decisions."
+    },
+    "window_view_complexity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.6,
+      "unit": "fraction",
+      "description": "Visual density and fractal dimension of the exterior view.",
+      "citation": "Kaplan & Kaplan (1989)",
+      "rationale": "Restorative environments require a view with soft fascination to recover from cognitive fatigue."
+    },
+    "wall_texture_organicism": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.3,
+      "unit": "fraction",
+      "description": "Ratio of organic/fractal textures (wood/stone) to synthetic flats.",
+      "citation": "Joye (2007)",
+      "rationale": "Biophilic design suggests organic textures reduce stress compared to synthetic surfaces."
+    },
+    "room_volume_m3": {
+      "type": "number",
+      "minimum": 20.0,
+      "maximum": 100.0,
+      "default": 40.0,
+      "unit": "cubic meters",
+      "description": "Total spatial volume of the room.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Spaciousness impacts the sense of control and wellness in private spaces."
+    }
+  },
+  "required": [
+    "ceiling_height_m", 
+    "lighting_warmth", 
+    "enclosure", 
+    "window_view_complexity", 
+    "wall_texture_organicism", 
+    "room_volume_m3"
+  ]
+}

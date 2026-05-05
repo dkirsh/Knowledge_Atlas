@@ -1,0 +1,61 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "kitchen parameter manifest (DRAFT \u2014 fill in citations)",
+  "_track3_room_type": "kitchen",
+  "_authored_by": "TODO student name",
+  "_authored_date": "TODO YYYY-MM-DD",
+  "_panel_required_fields": {
+    "interaction_mode": "TODO  # focused | unfocused | mixed",
+    "valence_polarity": "TODO  # positive | negative | neutral | mixed",
+    "temporal_window": "TODO  # snapshot | short_period | sustained | longitudinal",
+    "cross_cultural_variance": "TODO  # low | medium | high"
+  },
+  "type": "object",
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 3.5,
+      "default": 2.5,
+      "x-unit": "metres",
+      "x-citation": "TODO  # APA citation supporting this parameter",
+      "x-rationale": "TODO  # one sentence on why this parameter matters"
+    },
+    "counter_material": {
+      "type": "string",
+      "minimum": null,
+      "maximum": null,
+      "default": "stone",
+      "x-unit": "TODO",
+      "x-citation": "TODO  # APA citation supporting this parameter",
+      "x-rationale": "TODO  # one sentence on why this parameter matters"
+    },
+    "cabinet_color_hue": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.1,
+      "x-unit": "hue",
+      "x-citation": "TODO  # APA citation supporting this parameter",
+      "x-rationale": "TODO  # one sentence on why this parameter matters"
+    },
+    "lighting_brightness": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.8,
+      "x-unit": "fraction",
+      "x-citation": "TODO  # APA citation supporting this parameter",
+      "x-rationale": "TODO  # one sentence on why this parameter matters"
+    },
+    "layout": {
+      "type": "string",
+      "minimum": null,
+      "maximum": null,
+      "default": "l_shape",
+      "x-unit": "TODO",
+      "x-citation": "TODO  # APA citation supporting this parameter",
+      "x-rationale": "TODO  # one sentence on why this parameter matters"
+    }
+  }
+}
