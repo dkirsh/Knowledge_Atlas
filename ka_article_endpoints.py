@@ -2911,35 +2911,68 @@ def _extract_pdf_text(data: bytes) -> str:
     return data[:6000].decode("latin-1", errors="ignore")
 
 
-def _run_classifier_and_assess(title: str, abstract: str) -> dict:
+def _run_classifier_and_assess(title: str, abstract: str,
+                                first_page_text: str = "") -> dict:
     """
-    Run HeuristicArticleTypeClassifier then QuestionArticleRelevanceFilter
-    against all loaded constitutions. Returns the best non-reject verdict.
+    Run AdaptiveClassifierSubsystem.classify() for article type, then
+    QuestionArticleRelevanceFilter for topic match.
+
+    The article-type call uses the same path the rest of this module uses
+    (`_classify_article_payload`), which builds a `ClassificationEvidence`
+    object and calls `AdaptiveClassifierSubsystem.classify()`. We pass that
+    classifier's `next_action` straight back to the caller so the suggest
+    endpoint can flag `need_abstract_or_keywords` instead of silently
+    treating it as edge_case.
     """
+    # ── Article type via AdaptiveClassifierSubsystem.classify() ──────────
     try:
-        from atlas_shared.article_types import HeuristicArticleTypeClassifier
+        type_payload = _classify_article_payload(
+            title=title,
+            abstract=abstract,
+            keywords=[],
+            text_surface=first_page_text or abstract or title,
+        )
+    except Exception as exc:
+        type_payload = {
+            "article_type": "unknown",
+            "canonical_article_type": "unknown",
+            "confidence": 0.0,
+            "signals": [],
+            "source": "error",
+            "evidence_stage": "error",
+            "next_action": "error",
+        }
+    next_action = type_payload.get("next_action") or "review_if_uncertain"
+    article_type_canonical = type_payload.get("canonical_article_type") or type_payload.get("article_type", "unknown")
+
+    # ── Question-topic relevance via QuestionArticleRelevanceFilter ──────
+    try:
         from atlas_shared.relevance import QuestionArticleRelevanceFilter, ArticleCandidate
     except Exception:
         return {
-            "article_type": "unknown", "article_type_confidence": 0.0,
-            "verdict": "edge_case", "topic_confidence": 0.0,
-            "topic": "", "question_id": "", "environment_hits": [],
-            "outcome_hits": [], "reasons": ["classifier unavailable"],
+            "article_type": article_type_canonical,
+            "article_type_confidence": float(type_payload.get("confidence") or 0.0),
+            "verdict": "edge_case",
+            "topic_confidence": 0.0,
+            "topic": "", "question_id": "",
+            "environment_hits": [], "outcome_hits": [],
+            "reasons": ["relevance filter unavailable"],
+            "next_action": next_action,
+            "evidence_stage": type_payload.get("evidence_stage", ""),
         }
-
-    type_decision = HeuristicArticleTypeClassifier().classify(
-        abstract=abstract, title=title
-    )
 
     constitutions = _load_constitutions()
     if not constitutions:
         return {
-            "article_type": type_decision.value,
-            "article_type_confidence": round(type_decision.confidence, 3),
-            "verdict": "edge_case", "topic_confidence": 0.0,
+            "article_type": article_type_canonical,
+            "article_type_confidence": float(type_payload.get("confidence") or 0.0),
+            "verdict": "edge_case",
+            "topic_confidence": 0.0,
             "topic": "no constitutions loaded", "question_id": "",
             "environment_hits": [], "outcome_hits": [],
             "reasons": ["no question constitutions available"],
+            "next_action": next_action,
+            "evidence_stage": type_payload.get("evidence_stage", ""),
         }
 
     rf = QuestionArticleRelevanceFilter()
@@ -2955,26 +2988,38 @@ def _run_classifier_and_assess(title: str, abstract: str) -> dict:
             if best is None or best["assessment"].confidence < assessment.confidence:
                 best = {"assessment": assessment, "constitution": constitution}
 
-    # If every constitution returned reject, pick the highest-confidence one
     if best is None:
-        all_assessments = [
-            (rf.assess(c, candidate), c) for c in constitutions
-        ]
+        all_assessments = [(rf.assess(c, candidate), c) for c in constitutions]
         best_reject = max(all_assessments, key=lambda x: x[0].confidence)
         best = {"assessment": best_reject[0], "constitution": best_reject[1]}
 
     a = best["assessment"]
     c = best["constitution"]
+
+    # ── If the classifier said it needs more info AND we don't have an
+    #    abstract, override to a clearer "needs_more_info" verdict so the
+    #    user is told we can't decide yet (rubric: handle ambiguous cases).
+    verdict = a.verdict
+    reasons = list(a.reasons)
+    if next_action == "need_abstract_or_keywords" and not (abstract and len(abstract.strip()) > 50):
+        verdict = "needs_more_info"
+        reasons = [
+            "AdaptiveClassifierSubsystem returned next_action='need_abstract_or_keywords' "
+            "and no abstract was provided. Add the abstract or keywords to get a verdict."
+        ] + reasons[:2]
     return {
-        "article_type": type_decision.value,
-        "article_type_confidence": round(type_decision.confidence, 3),
-        "verdict": a.verdict,
+        "article_type": article_type_canonical,
+        "article_type_confidence": round(float(type_payload.get("confidence") or 0.0), 3),
+        "article_type_signals": list(type_payload.get("signals") or []),
+        "evidence_stage": type_payload.get("evidence_stage", ""),
+        "next_action": next_action,
+        "verdict": verdict,
         "topic_confidence": round(a.confidence, 3),
         "topic": c.topic,
         "question_id": c.question_id,
         "environment_hits": list(a.environment_hits),
         "outcome_hits": list(a.outcome_hits),
-        "reasons": list(a.reasons),
+        "reasons": reasons,
     }
 
 
@@ -3072,7 +3117,11 @@ async def suggest_article(
                     if first_lines:
                         parsed_title = first_lines[0][:200]
 
-                    classification = _run_classifier_and_assess(parsed_title, text[:3000])
+                    # Pass the full first-page text as `first_page_text` so
+                    # AdaptiveClassifierSubsystem.classify() has the surface
+                    # the rest of this module gives it.
+                    classification = _run_classifier_and_assess(
+                        parsed_title, text[:3000], first_page_text=text[:3000])
                     verdict = classification["verdict"]
 
                     article_id = _suggest_next_id(conn, "KA-ART-")
@@ -3121,6 +3170,8 @@ async def suggest_article(
                         "verdict": verdict,
                         "article_type": classification["article_type"],
                         "article_type_confidence": classification["article_type_confidence"],
+                        "next_action": classification.get("next_action", ""),
+                        "evidence_stage": classification.get("evidence_stage", ""),
                         "topic": classification["topic"],
                         "question_id": classification["question_id"],
                         "topic_confidence": classification["topic_confidence"],
@@ -3128,7 +3179,9 @@ async def suggest_article(
                         "outcome_hits": classification["outcome_hits"],
                         "reasons": classification["reasons"],
                         "article_id": article_id if verdict in ("accept", "edge_case") else None,
-                        "status": "staged_pending_review" if verdict in ("accept", "edge_case") else "rejected_not_stored",
+                        "status": "staged_pending_review" if verdict in ("accept", "edge_case")
+                                  else ("needs_more_info" if verdict == "needs_more_info"
+                                        else "rejected_not_stored"),
                     })
 
         # ── Citation submission (skipped on the PDF path so we don't double-store
@@ -3197,6 +3250,8 @@ async def suggest_article(
                     "verdict": verdict,
                     "article_type": classification["article_type"],
                     "article_type_confidence": classification["article_type_confidence"],
+                    "next_action": classification.get("next_action", ""),
+                    "evidence_stage": classification.get("evidence_stage", ""),
                     "topic": classification["topic"],
                     "question_id": classification["question_id"],
                     "topic_confidence": classification["topic_confidence"],
@@ -3204,7 +3259,9 @@ async def suggest_article(
                     "outcome_hits": classification["outcome_hits"],
                     "reasons": classification["reasons"],
                     "article_id": article_id if verdict in ("accept", "edge_case") else None,
-                    "status": "staged_pending_review" if verdict in ("accept", "edge_case") else "rejected_not_stored",
+                    "status": "staged_pending_review" if verdict in ("accept", "edge_case")
+                              else ("needs_more_info" if verdict == "needs_more_info"
+                                    else "rejected_not_stored"),
                 })
 
         return {"submission_id": submission_id, "items": items}

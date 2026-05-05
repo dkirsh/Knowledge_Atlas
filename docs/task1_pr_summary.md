@@ -48,10 +48,20 @@ What's wired up now:
   connection is wrapped in `try / except (rollback) / finally (close)` so
   partial commits don't survive a mid-flight error.
 
-Note: the rubric mentions `AdaptiveClassifierSubsystem`. That class is not
-present in the version of `atlas_shared` I have. I used the actual classes
-that ship (`HeuristicArticleTypeClassifier`,
-`QuestionArticleRelevanceFilter`) and documented this in the contract.
+The endpoint calls `AdaptiveClassifierSubsystem.classify()` via the
+existing `_classify_article_payload()` wrapper in
+`ka_article_endpoints.py:1648`. The wrapper builds a
+`ClassificationEvidence` from title + abstract + first-page text, calls
+`AdaptiveClassifierSubsystem.classify(evidence, allow_surface_creation=False)`,
+and returns the result with `article_type`, `confidence`, `next_action`,
+and `evidence_stage`. If `atlas_shared.classifier_system` is importable
+the upstream class is used; otherwise the local same-API fallback in
+`_build_local_classifier_backend()` is used. `next_action` and
+`evidence_stage` are propagated to the response. When the classifier
+emits `next_action='need_abstract_or_keywords'` and the user hasn't
+supplied an abstract, the verdict is overridden to `needs_more_info`
+(not stored) so the user is told we can't decide yet rather than
+silently flagged as edge_case.
 
 ## Tests
 

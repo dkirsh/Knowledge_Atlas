@@ -41,8 +41,9 @@ Attempt to read title + abstract from the PDF:
 - For citation-only submissions, use the parsed title and authors from `_parse_citation_line()`.
 
 ### Step 4 — Classify article type
-Call `atlas_shared.HeuristicArticleTypeClassifier().classify(abstract=..., title=..., keywords=[])`.  
-Result: `ArticleTypeDecision {value, confidence, source, evidence}`.
+Build a `ClassificationEvidence(paper_id, title, abstract, keywords, first_page_text)` and call `AdaptiveClassifierSubsystem.classify(evidence, allow_surface_creation=False)` via the existing `_classify_article_payload()` wrapper at `ka_article_endpoints.py:1648`. The wrapper returns `{article_type, canonical_article_type, confidence, signals, source, evidence_stage, next_action}`. The classifier resolves to `atlas_shared.classifier_system.AdaptiveClassifierSubsystem` when importable, else the local same-API fallback in `_build_local_classifier_backend()`.
+
+The endpoint propagates `next_action` and `evidence_stage` to the response. When `next_action == "need_abstract_or_keywords"` AND no abstract was supplied, the verdict is overridden to `needs_more_info` and storage is skipped — the user is told we can't decide yet, rather than silently flagged as edge_case.
 
 ### Step 5 — Assess relevance
 Load `QuestionConstitution` objects from  
@@ -57,6 +58,7 @@ Result: `RelevanceAssessment {verdict, confidence, question_id, topic, environme
 | Best assessment = `accept`, confidence ≥ 0.55 | `accept` | Yes — quarantine dir + DB row | `staged_pending_review` |
 | Best assessment = `edge_case`, OR accept with confidence < 0.55 | `edge_case` | Yes — quarantine dir + DB row with `validation_notes` flag `"edge_case:true"` | `staged_pending_review` |
 | All constitutions return `reject` | `reject` | No storage | — |
+| `AdaptiveClassifierSubsystem.classify()` returned `next_action='need_abstract_or_keywords'` AND no abstract was supplied | `needs_more_info` | No storage | `needs_more_info` |
 | Duplicate match | `duplicate` | No new storage | — |
 | Bad PDF | `rejected_bad_file` | No storage | — |
 
@@ -67,17 +69,19 @@ JSON response per submission item:
 ```json
 {
   "filename": "paper.pdf",
-  "verdict": "accept | edge_case | reject | duplicate | rejected_bad_file",
+  "verdict": "accept | edge_case | reject | duplicate | rejected_bad_file | needs_more_info",
   "article_type": "empirical_research",
-  "article_type_confidence": 0.81,
+  "article_type_confidence": 0.78,
+  "next_action": "accept | review_if_uncertain | need_abstract_or_keywords",
+  "evidence_stage": "heuristic | structured",
   "topic": "Nature and Attention",
   "question_id": "SQ-ART-001",
   "topic_confidence": 0.90,
   "environment_hits": ["nature", "green space"],
   "outcome_hits": ["attention", "directed attention"],
   "reasons": ["matches environment side: nature", "matches outcome side: attention"],
-  "article_id": "KA-ART-000042",
-  "status": "staged_pending_review"
+  "article_id": "KA-ART-3D3A956E",
+  "status": "staged_pending_review | needs_more_info | rejected_not_stored"
 }
 ```
 

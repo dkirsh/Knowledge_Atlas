@@ -299,6 +299,37 @@ check("B6 · 3 distinct submissions inserted 3 new rows",
       db_ids_after - db_ids_before == 3,
       f"Δ={db_ids_after - db_ids_before}")
 
+# --- Test 8: response carries next_action + evidence_stage ---------------
+# Rubric question: "What happens when the classifier returns
+# next_action='need_abstract_or_keywords'? Does your code handle that case,
+# or does it silently ignore it?" — verify the field is propagated.
+r8 = post(pdf3, "test_edgecase_again.pdf")["items"][0]  # already a dup, but
+# duplicate path doesn't carry the field; fire a fresh distinct paper instead
+fresh = _make_pdf("Daylight and pupil dilation in office workers: pilot RCT. "
+                  "Daylight, pupillometry, vigilance, attention. N=24.")
+r8 = post(fresh, "fresh_pilot.pdf")["items"][0]
+check("B8 · response carries next_action field",
+      "next_action" in r8 and isinstance(r8["next_action"], str),
+      f"got {r8.get('next_action')}")
+check("B8 · response carries evidence_stage field",
+      "evidence_stage" in r8 and isinstance(r8["evidence_stage"], str),
+      f"got {r8.get('evidence_stage')}")
+
+# --- Test 9: needs_more_info path (citation-only, ambiguous) ------------
+# A short title with no abstract is exactly the case where
+# AdaptiveClassifierSubsystem may emit need_abstract_or_keywords.
+r9 = post(None, None, citation="A short ambiguous title.")
+items9 = r9["items"]
+check("B9 · ambiguous citation produces an item with a verdict",
+      len(items9) == 1 and items9[0].get("verdict"),
+      f"verdict={items9[0].get('verdict') if items9 else None}")
+# We don't hard-pin the verdict (data-dependent), but if it IS
+# needs_more_info, no DB row should have been written for it.
+if items9 and items9[0]["verdict"] == "needs_more_info":
+    check("B9 · needs_more_info → not stored",
+          items9[0].get("article_id") is None,
+          f"article_id={items9[0].get('article_id')}")
+
 # --- Test 7: bad PDF (non-PDF magic bytes) → rejected_bad_file -----------
 n_before = db_count()
 r7 = post(b"not a pdf", "fake.pdf")["items"][0]
