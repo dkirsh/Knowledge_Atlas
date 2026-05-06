@@ -1,0 +1,72 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ka://manifests/dining_room.v1",
+  "title": "Dining Room Parameter Manifest",
+  "description": "Six knobs an LLM front-end may turn for dining_room rooms in Infinigen Indoors.",
+  "infinigen_entity": "infinigen.entities.DiningRoom",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 3.5,
+      "default": 2.7,
+      "unit": "m",
+      "description": "Floor-to-ceiling clear height of the dining room volume.",
+      "citation": "Meyers-Levy & Zhu (2007); Vartanian et al. (2015)",
+      "rationale": "Ceiling height in dining rooms modulates the social character of the space. Meyers-Levy & Zhu (2007) found that higher ceilings promote abstract, relational thinking — well suited to social dining where conversation and connection are foregrounded. Vartanian et al. (2015) link enclosure to approach-avoidance judgments; an intimate lower ceiling may encourage lingering. Range 2.0–3.5 m spans the empirically studied band."
+    },
+    "daylight_intensity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.5,
+      "unit": "normalised",
+      "description": "Scalar on the sun/sky light contribution through dining room windows.",
+      "citation": "Münch et al. (2020); Kaplan & Kaplan (1989)",
+      "rationale": "Daylight in dining rooms supports circadian health during daytime meals and contributes to restorative experience. Münch et al. (2020) identify daylight access as the primary driver of circadian entrainment; Kaplan & Kaplan (1989) link natural light to restoration. Evening dining contexts may warrant lower values to simulate warm artificial lighting. Wrapper derives a sky-lighting strength scalar (assets/lighting/sky_lighting.py) and a WindowFactory dimensions scale from this value."
+    },
+    "lighting_intensity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.6,
+      "unit": "normalised",
+      "description": "Scalar on artificial overhead and supplemental lighting (0 = dim/intimate; 1 = bright/functional). Controls CeilingLightFactory output.",
+      "citation": "Ulrich (1991); Münch et al. (2020)",
+      "rationale": "Lighting intensity in dining rooms shapes perceived intimacy and social comfort. Ulrich (1991) links ambient lighting to wellness and stress reduction; dimmer dining environments are associated with longer meal duration and higher social engagement. Münch et al. (2020) provide the physiological basis for light-level effects on arousal. Aliased to PointLampFactory.params['Wattage'] at assets/lighting/indoor_lights.py:25, which drives lamp.data.energy; CeilingLightFactory wraps a PointLamp and propagates the change."
+    },
+    "wall_warmth_index": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.55,
+      "unit": "normalised",
+      "description": "0 = cool palette / hard materials (stone, white plaster); 1 = warm palette / soft materials (wood panelling, warm paint). Controls wall material selection.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Wall material warmth is a robust predictor of perceived comfort and stress reduction in interior environments. Ulrich (1991) demonstrates that warm material palettes reduce physiological stress indicators. In dining rooms, warm wall treatments reinforce the social and restorative character of the space. Wrapper weights warm vs. cool material lists in assets/composition/material_assignments.py by this scalar; no direct wall_material knob exists in v1.19.1."
+    },
+    "furniture_density": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.4,
+      "unit": "normalised",
+      "description": "Scalar on furniture-placement probability per zone — controls how densely chairs, sideboards, and decorative items fill the room.",
+      "citation": "Joye (2007)",
+      "rationale": "Furniture density directly drives visual complexity and perceived crowding. Joye (2007) establishes that crowding increases cognitive load and reduces perceived comfort. A dining room with low density reads as formal and spacious; high density reads as casual and intimate. Wrapper derives constraint-solver placement weights for ChairFactory (assets/objects/seating/chairs/chair.py:35) and DiningTableFactory (assets/objects/tables/dining_table.py); TableFactory and SideboardFactory referenced in v0 do not exist in v1.19.1."
+    },
+    "biophilia_count": {
+      "type": "integer",
+      "minimum": 0,
+      "maximum": 4,
+      "default": 1,
+      "unit": "count",
+      "description": "Number of plant entities placed in the dining room (LargePlantContainerFactory instances).",
+      "citation": "Kaplan & Kaplan (1989); Ulrich (1991)",
+      "rationale": "Indoor plants are a well-documented restorative cue in interior environments. Kaplan & Kaplan (1989) identify natural elements as central to Attention Restoration Theory; Ulrich (1991) links indoor greenery to reduced physiological stress. Dining rooms benefit from moderate plant presence (1–2 instances) without overwhelming the functional table space. Wrapper passes a target instance count to the constraint solver for LargePlantContainerFactory (assets/objects/tableware/plant_container.py:128); the factory itself has only geometry parameters, no count knob."
+    }
+  },
+  "required": ["ceiling_height_m", "daylight_intensity", "lighting_intensity"]
+}
