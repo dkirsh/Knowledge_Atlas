@@ -1,0 +1,17 @@
+# Local build artifacts (regenerable; don't commit)
+renders/
+*.out.txt
+*.gltf
+*.gltf.meta.json
+
+# Windows download metadata
+*:Zone.Identifier
+
+# Large binary lighting assets — belong under 3d_rooms/<room>/lighting.hdr
+# per Task 2 Phase 2.5 spec; keep them out of the student folder.
+*.hdr
+
+# Python caches
+__pycache__/
+*.pyc
+*.pyo
