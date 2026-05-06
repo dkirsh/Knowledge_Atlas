@@ -8,7 +8,7 @@
 | `wall_extrusion.py` | _unassigned_ | open | — |
 | `ceiling_height_curve.py` | _unassigned_ | open | — |
 | `fractal_pattern.py` | _unassigned_ | open | — |
-| `light_source_position.py` | _unassigned_ | open | — |
+| `light_source_position.py` | Paco Yan | claimed | — |
 | `acoustic_estimator.py` | _unassigned_ (optional) | open | — |
 | `cathedral_preset.py` | _unassigned_ | open | — |
 | `bermudez_preset.py` | _unassigned_ | open | — |
