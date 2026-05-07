@@ -59,6 +59,7 @@
         },
         "has_tv": {
             "type": "boolean",
+            "unit": "boolean",
             "default": true,
             "description": "Whether the living room includes a television as a focal media object.",
             "citation": "Kaplan & Kaplan (1989); Joye (2007)",
