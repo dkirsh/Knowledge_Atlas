@@ -127,3 +127,34 @@ Bathroom missing Kaplan & Kaplan — acceptable per spec (≥1 required citation
 ---
 
 *Last updated: 2026-05-06. ISO dates, terse Markdown.*
+
+---
+
+## 9. Render pipeline verified (2026-05-06)
+
+Full Infinigen → glTF pipeline confirmed working end-to-end. The course scaffold's intended flow is bridgeable.
+
+**Verified invocations:**
+
+```bash
+# Step 1: Infinigen scene generation (~9 min/render)
+python -m infinigen_examples.generate_indoors \
+  --output_folder <dir> --seed <n> \
+  -g singleroom fast_solve -t coarse
+# Produces: <dir>/scene.blend (~520 MB)
+
+# Step 2: Blender headless glTF export (~13 sec)
+blender -b <dir>/scene.blend --python export_gltf.py -- <out>.glb
+# Produces: <out>.glb (~600 MB before Draco compression)
+```
+
+**Compute budget for Task 2 sweep:** 36 renders × ~10 min = ~6 hrs total compute, distributable across sessions.
+
+**Open issue:** 600 MB GLB per render is heavy for browser-based model-viewer. Bridge code should enable Draco compression (`export_draco_mesh_compression_enable=True`) and consider mesh decimation. May need to render at coarser settings for the gallery, with one or two higher-fidelity test renders for the viewer.
+
+**Bridge implementation plan (handed to Antigravity, separate session):**
+1. Translate manifest params to gin overrides (`-p path.field=value`)
+2. Subprocess-call generate_indoors.py
+3. Locate scene.blend in output folder
+4. Headless Blender export to GLB with Draco compression
+5. Write sidecar JSON per existing wrapper pattern

@@ -29,3 +29,6 @@ docs/runtime_smoke_reports/*.json
 docs/browser_smoke_reports/*.md
 docs/browser_smoke_reports/*.json
 !docs/browser_smoke_reports/.gitkeep
+
+# Antigravity scratch work — not for submission
+160sp/track3/diggss/_antigravity_salvage/
