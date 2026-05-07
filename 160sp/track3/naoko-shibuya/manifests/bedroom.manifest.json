@@ -1,0 +1,77 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ka://manifests/bedroom.v1",
+  "title": "Bedroom Parameter Manifest",
+  "description": "Six knobs an LLM front-end may turn for bedroom.",
+  "infinigen_entity": "infinigen.entities.Bedroom",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 3.5,
+      "default": 2.7,
+      "unit": "m",
+      "description": "Floor-to-ceiling clear height.",
+      "citation": "Meyers-Levy & Zhu (2007); Vartanian et al. (2015)",
+      "rationale": "Ceiling height is included as a spatial-volume parameter linked to perceived openness and abstract cognition."
+    },
+    "daylight_intensity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.45,
+      "unit": "normalised",
+      "description": "Scalar controlling daylight contribution through windows.",
+      "citation": "Kaplan & Kaplan (1989); Münch et al. (2020)",
+      "rationale": "Daylight is included because light exposure can affect restoration, circadian regulation, alertness, and sleep-related comfort."
+    },
+    "wall_warmth_index": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.6,
+      "unit": "normalised",
+      "description": "0 = cooler wall/material palette; 1 = warmer wall/material palette.",
+      "citation": "Ulrich (1991); Meyers-Levy & Zhu (2007)",
+      "rationale": "Warm wall and material cues are included because bedroom comfort depends strongly on perceived softness, calmness, and stress reduction."
+    },
+    "furniture_fullness_pct": {
+      "type": "number",
+      "minimum": 0.6,
+      "maximum": 0.9,
+      "default": 0.72,
+      "unit": "normalised",
+      "description": "Scalar controlling the amount of major furniture in the bedroom.",
+      "citation": "Joye (2007)",
+      "rationale": "Furniture fullness is included as a proxy for clutter and crowding, which can increase cognitive load and reduce perceived restfulness."
+    },
+    "bed_size_scale": {
+      "type": "number",
+      "minimum": 0.8,
+      "maximum": 1.2,
+      "default": 1.0,
+      "unit": "scale factor",
+      "description": "Scale factor applied to bed and mattress dimensions.",
+      "citation": "Ulrich (1991); Kaplan & Kaplan (1989)",
+      "rationale": "Bed scale affects the dominant comfort object in the room and changes perceived spaciousness, softness, and restorative affordance."
+    },
+    "pillow_count": {
+      "type": "integer",
+      "minimum": 2,
+      "maximum": 3,
+      "default": 2,
+      "unit": "count",
+      "description": "Number of visible pillows placed on the bed.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Pillow count is included as a visible softness and comfort cue; the Phase 2 survey observed pillow-related generation in the bedroom source."
+    }
+  },
+  "required": [
+    "ceiling_height_m",
+    "daylight_intensity",
+    "furniture_fullness_pct",
+    "bed_size_scale"
+  ]
+}
