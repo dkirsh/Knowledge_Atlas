@@ -40,3 +40,6 @@
 * **`fixture_count` (1 - 6)**
   * **Citation:** Ulrich, R. S. (1991). Effects of interior design on wellness: Theory and recent scientific research. *Journal of Health Care Interior Design, 3*, 97–109.
   * **Justification:** Functional complexity. A higher count increases utility but can trigger crowding/clutter responses, impacting baseline wellness perceptions.
+* **`room_volume_m3` (5.0 m³ - 25.0 m³)**
+  * **Citation:** Ulrich, R. S. (1991). Effects of interior design on wellness: Theory and recent scientific research. *Journal of Health Care Interior Design, 3*, 97–109.
+  * **Justification:** Spatial volume modulates the baseline sense of control and wellness in a small private space. Smaller bathrooms (5-10 m³) cue utilitarian function and constrained movement; larger volumes (20+ m³) signal premium / spa-like wellness contexts. Ulrich's interior-design-wellness framework supports volume as a modulator of restorative interior experience.

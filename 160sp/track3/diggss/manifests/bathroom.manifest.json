@@ -24,7 +24,7 @@
       "default": 0.5,
       "unit": "fraction",
       "description": "Warmth of vanity and overhead lighting (0=Cool, 1=Warm).",
-      "citation": "Münch et al. (2020)",
+      "citation": "M\u00fcnch et al. (2020)",
       "rationale": "Light spectrum in bathrooms directly affects morning alertness and evening melatonin."
     },
     "glass_area_fraction": {
@@ -56,6 +56,16 @@
       "description": "Number of major functional fixtures (sink, toilet, tub, shower).",
       "citation": "Ulrich (1991)",
       "rationale": "Crowding and functional complexity influence baseline wellness perceptions."
+    },
+    "room_volume_m3": {
+      "type": "number",
+      "minimum": 5.0,
+      "maximum": 25.0,
+      "default": 12.0,
+      "unit": "cubic_meters",
+      "description": "Total spatial volume of the bathroom.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Spatial volume modulates baseline wellness perception; small bathrooms cue utilitarian function while larger volumes cue premium/spa contexts."
     }
   },
   "required": [
@@ -63,6 +73,7 @@
     "lighting_warmth",
     "glass_area_fraction",
     "tile_organicism",
-    "fixture_count"
+    "fixture_count",
+    "room_volume_m3"
   ]
 }
