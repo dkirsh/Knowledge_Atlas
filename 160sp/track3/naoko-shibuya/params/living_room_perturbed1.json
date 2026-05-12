@@ -1,0 +1,8 @@
+{
+  "ceiling_height_m": 3.2,
+  "daylight_intensity": 0.9,
+  "wall_warmth_index": 0.3,
+  "furniture_fullness_pct": 0.65,
+  "painting_area_per_room_area": 2.2,
+  "has_tv": false
+}

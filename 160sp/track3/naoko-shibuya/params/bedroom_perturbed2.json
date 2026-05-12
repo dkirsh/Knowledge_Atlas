@@ -1,0 +1,8 @@
+{
+  "ceiling_height_m": 3.3,
+  "daylight_intensity": 0.85,
+  "wall_warmth_index": 0.2,
+  "furniture_fullness_pct": 0.62,
+  "bed_size_scale": 0.9,
+  "pillow_count": 2
+}
