@@ -4,7 +4,7 @@
 
 The living room manifest exposes six parameters: ceiling height, daylight intensity, wall warmth, furniture fullness, wall decoration density, and television presence. These were selected because they connect room-scale visual changes to environmental-psychology constructs such as perceived openness, restoration, clutter, attention, and comfort.
 
-- `ceiling_height_m`: Included because ceiling height changes perceived spatial volume and openness. The range 2.0–3.5 m keeps the parameter within plausible residential interior limits.
+- `ceiling_height_m`: Included because ceiling height changes perceived spatial volume and openness. The 2.0–3.5 m range is broader than the ceiling-height values discussed in Vartanian et al. (2015), which references the U.S. standard ceiling height of 2.44 m and prior preference findings peaking around 3.04 m. The manifest range remains constrained to plausible residential interiors, while the default value of 2.7 m falls within this empirically discussed range.
 - `daylight_intensity`: Included because daylight can influence restoration, alertness, and perceived environmental quality.
 - `wall_warmth_index`: Included as a material and color warmth parameter linked to comfort and stress reduction.
 - `furniture_fullness_pct`: Included because the Phase 2 survey found this source-controlled parameter in `home.py`, sampled from 0.6–0.9. It maps to furniture density and visual clutter.
