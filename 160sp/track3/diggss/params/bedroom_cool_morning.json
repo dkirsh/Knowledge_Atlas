@@ -1,0 +1,9 @@
+{
+  "ceiling_height_m": 3.0,
+  "wall_thickness_m": 0.15,
+  "daylight_intensity": 0.8,
+  "sun_elevation_deg": 60.0,
+  "dust_density": 0.3,
+  "camera_exposure": -0.5,
+  "lighting_warmth": 0.2
+}
