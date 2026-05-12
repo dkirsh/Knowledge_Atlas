@@ -1,6 +1,6 @@
 {
   "$schema": "https://json-schema.org/draft/2020-12/schema",
-  "$id": "ka://manifests/bathroom.v1",
+  "$id": "ka://manifests/bathroom.v2",
   "title": "Bathroom Parameter Manifest",
   "description": "Parametric controls for COGS 160 VR Bathroom pipeline.",
   "infinigen_entity": "infinigen.entities.Bathroom",
@@ -10,12 +10,62 @@
     "ceiling_height_m": {
       "type": "number",
       "minimum": 2.0,
-      "maximum": 3.0,
+      "maximum": 4.0,
       "default": 2.4,
       "unit": "meters",
       "description": "Vertical distance from floor to ceiling.",
       "citation": "Meyers-Levy & Zhu (2007)",
-      "rationale": "Ceiling height impacts psychological processing styles and perceived freedom."
+      "rationale": "Ceiling height primes different levels of mental abstraction."
+    },
+    "wall_thickness_m": {
+      "type": "number",
+      "minimum": 0.1,
+      "maximum": 0.5,
+      "default": 0.2,
+      "unit": "meters",
+      "description": "Thickness of the enclosing walls.",
+      "citation": "Vartanian et al. (2015)",
+      "rationale": "Perception of massiveness impacts enclosure and approach-avoidance decisions."
+    },
+    "daylight_intensity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.2,
+      "unit": "fraction",
+      "description": "Intensity of the external sun/sky lighting.",
+      "citation": "Münch et al. (2020)",
+      "rationale": "Daylight intensity affects physiological arousal and circadian alignment."
+    },
+    "sun_elevation_deg": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 90.0,
+      "default": 45.0,
+      "unit": "degrees",
+      "description": "Elevation angle of the sun. Lower = sunset/sunrise, higher = midday.",
+      "citation": "Kaplan & Kaplan (1989)",
+      "rationale": "Time of day cues alter cognitive fatigue and soft fascination."
+    },
+    "dust_density": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "default": 1.0,
+      "unit": "fraction",
+      "description": "Atmospheric dust density affecting haze and light scattering.",
+      "citation": "Joye (2007)",
+      "rationale": "Atmospheric haze modulates perception of depth and environmental cleanliness."
+    },
+    "camera_exposure": {
+      "type": "number",
+      "minimum": -5.0,
+      "maximum": 5.0,
+      "default": 0.0,
+      "unit": "EV",
+      "description": "Baseline camera exposure compensation for the scene.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Visual clarity and brightness impact baseline wellness perceptions."
     },
     "lighting_warmth": {
       "type": "number",
@@ -23,57 +73,18 @@
       "maximum": 1.0,
       "default": 0.5,
       "unit": "fraction",
-      "description": "Warmth of vanity and overhead lighting (0=Cool, 1=Warm).",
-      "citation": "M\u00fcnch et al. (2020)",
+      "description": "Warmth of interior artificial light (0=Cool/Blue, 1=Warm/Amber).",
+      "citation": "Münch et al. (2020)",
       "rationale": "Light spectrum in bathrooms directly affects morning alertness and evening melatonin."
-    },
-    "glass_area_fraction": {
-      "type": "number",
-      "minimum": 0.0,
-      "maximum": 0.6,
-      "default": 0.2,
-      "unit": "fraction",
-      "description": "Proportion of wall area covered by mirrors or shower glass.",
-      "citation": "Vartanian et al. (2015)",
-      "rationale": "Reflective and transparent surfaces alter perceived enclosure and approach-avoidance."
-    },
-    "tile_organicism": {
-      "type": "number",
-      "minimum": 0.0,
-      "maximum": 1.0,
-      "default": 0.2,
-      "unit": "fraction",
-      "description": "Degree of natural variation in tile (0=synthetic ceramic, 1=natural stone).",
-      "citation": "Joye (2007)",
-      "rationale": "Biophilic architectural elements reduce physiological stress."
-    },
-    "fixture_count": {
-      "type": "integer",
-      "minimum": 1,
-      "maximum": 6,
-      "default": 3,
-      "unit": "count",
-      "description": "Number of major functional fixtures (sink, toilet, tub, shower).",
-      "citation": "Ulrich (1991)",
-      "rationale": "Crowding and functional complexity influence baseline wellness perceptions."
-    },
-    "room_volume_m3": {
-      "type": "number",
-      "minimum": 5.0,
-      "maximum": 25.0,
-      "default": 12.0,
-      "unit": "cubic_meters",
-      "description": "Total spatial volume of the bathroom.",
-      "citation": "Ulrich (1991)",
-      "rationale": "Spatial volume modulates baseline wellness perception; small bathrooms cue utilitarian function while larger volumes cue premium/spa contexts."
     }
   },
   "required": [
     "ceiling_height_m",
-    "lighting_warmth",
-    "glass_area_fraction",
-    "tile_organicism",
-    "fixture_count",
-    "room_volume_m3"
+    "wall_thickness_m",
+    "daylight_intensity",
+    "sun_elevation_deg",
+    "dust_density",
+    "camera_exposure",
+    "lighting_warmth"
   ]
 }
