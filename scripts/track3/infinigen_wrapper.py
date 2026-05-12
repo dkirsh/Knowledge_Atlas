@@ -1,124 +1,316 @@
 #!/usr/bin/env python3
-"""infinigen_wrapper.py — Track 3 Task 2 central artifact.
+"""infinigen_wrapper.py — Track 3 Task 2 render wrapper (clean rebuild).
 
 Takes a JSON parameter dict (matching a Task 1 manifest), invokes Infinigen
-Indoors to instantiate the corresponding room, and exports the result as a
-single glTF/GLB file with embedded textures.
+Indoors' generate_indoors.py to produce a single-room scene, optionally
+exports the result as a glTF/GLB via headless Blender, and writes a
+<out>.meta.json sidecar recording the resolved parameters and render time.
 
-This is the SCAFFOLD students adapt. The JSON-loading, glTF-export, and
-sidecar-writing logic is complete; the per-room Infinigen instantiation is
-mostly pluggable but ships with working defaults for the seven Infinigen-
-covered room types (kitchen, living_room, bedroom, bathroom, dining_room,
-hallway, office). Students extend the ROOM_BUILDERS dict with their own
-parameter mappings as they author manifests.
+Design decisions (2026-05-12 pivot — see MASTER_DOC §3.4):
+
+  DROPPED  Patch 2 (PointLampFactory.__init__ override for lighting_warmth).
+           Rationale: no native gin hook exists for lamp colour temperature
+           in Infinigen 1.19.1; the only working path was a class-level
+           monkey-patch on infinigen.assets.lighting.indoor_lights. That
+           patch breaks silently on any Infinigen version bump.  We retain
+           lighting_warmth in the manifest as a declared construct (Münch
+           2020) but do not exercise it in the Task 2 sweep — documented
+           as future-work.
+
+  KEPT     Patch 1 (apply_greedy_restriction argument substitution).  This
+           is a one-line replacement of a single function's `restrict_parent_rooms`
+           argument value — not a class-method swap — and is the only known
+           way to pin generate_indoors.py to a specific room type.  Surface
+           area is small (one function in one module) and isolated to the
+           preflight script written below.
+
+Six manifest parameters are plumbed via verified gin overrides:
+
+    ceiling_height_m   -> RoomConstants.global_params.wall_height
+    wall_thickness_m   -> RoomConstants.global_params.wall_thickness
+    daylight_intensity -> nishita_lighting.strength
+    sun_elevation_deg  -> nishita_lighting.sun_elevation
+    dust_density       -> nishita_lighting.dust_density
+    camera_exposure    -> configure_render_cycles.exposure
+
+Verified Infinigen 1.19.1 CLI signature (from setup/install_log.txt):
+
+    generate_indoors.py [-h] [--output_folder OUTPUT_FOLDER]
+                        [--input_folder INPUT_FOLDER] [-s SEED]
+                        [-t {coarse,populate,fine_terrain,ground_truth,
+                             render,mesh_save,export} ...]
+                        [-g CONFIGS ...] [-p OVERRIDES ...]
+                        [--task_uniqname TASK_UNIQNAME] [-d [DEBUG ...]]
 
 Usage:
 
-    # Default-parameters smoke render (used by setup_track3.sh)
-    python3 infinigen_wrapper.py --room living_room --params-default \
-        --out renders/living_room_default.gltf
+    # Default-parameter render to .blend
+    python3 infinigen_wrapper.py --room bedroom --params-default \
+        --out renders/bedroom_default.blend
 
-    # Render with a custom manifest + parameter file
-    python3 infinigen_wrapper.py --room living_room \
-        --manifest manifests/living_room.schema.json \
-        --params params/living_room_warm.json \
-        --out renders/living_room_warm.gltf
+    # Parameter file with manifest validation, GLB output
+    python3 infinigen_wrapper.py --room bedroom \
+        --manifest manifests/bedroom.manifest.json \
+        --params  params/bedroom_warm_sunset.json \
+        --out     renders/bedroom_warm_sunset.glb
 
-    # Quick-render mode (CPU, low-quality, for sweeps)
-    python3 infinigen_wrapper.py --room kitchen --params-default \
-        --out renders/k.gltf --quick
+    # Quick (lower-quality) render for sweeps
+    python3 infinigen_wrapper.py --room bathroom --params-default \
+        --out renders/bathroom_default.glb --quick
 
-Output: a glTF file at the requested path, plus a sidecar JSON
-<out>.meta.json recording the resolved parameters and render time.
-
-If Infinigen import fails (smoke-test mode without Infinigen installed),
-the wrapper will write a minimal placeholder glTF and report the failure
-clearly so students can debug their install rather than thinking the
-wrapper is broken.
+Idempotency: if <out> already exists and <out>.meta.json records the same
+resolved_params, the wrapper short-circuits. Re-running a completed sweep
+is a no-op.
 """
 from __future__ import annotations
-import argparse, json, sys, time, os, subprocess, tempfile
+
+import argparse
+import hashlib
+import json
+import os
+import shutil
+import subprocess
+import sys
+import tempfile
+import time
+import traceback
 from pathlib import Path
 from typing import Optional
 
 
-# ──────────────────────────────────────────────────────────────────
-# Room builders — extend as you author manifests.
-# Each entry maps a room_type string to a callable that takes a
-# parameter dict and returns a configured Infinigen scene object.
-# ──────────────────────────────────────────────────────────────────
+WRAPPER_VERSION = "0.2.0-task2-clean"
 
-def build_living_room(params: dict, infinigen):
-    """Default Infinigen living_room with parameter overrides."""
-    # Real Infinigen API differs across versions; this is the documented v0.5 shape.
-    room = infinigen.entities.LivingRoom(
-        ceiling_height=params.get("ceiling_height_m", 2.7),
-        daylight=params.get("daylight_intensity", 0.7),
-        wall_warmth=params.get("wall_warmth_index", 0.5),
-        furniture_density=params.get("furniture_density", 0.6),
-        biophilia_count=params.get("biophilia_count", 2),
-    )
-    return room
-
-
-def build_default(params: dict, infinigen, room_type: str):
-    """Generic fallback: instantiate Infinigen by class-name lookup."""
-    cls_name = "".join(w.capitalize() for w in room_type.split("_"))
-    cls = getattr(infinigen.entities, cls_name, None)
-    if cls is None:
-        raise ValueError(f"No Infinigen class for room_type={room_type!r} "
-                         f"(looked for infinigen.entities.{cls_name})")
-    # Pass through whatever parameter names the manifest declared
-    return cls(**params)
-
-
-ROOM_BUILDERS = {
-    "living_room":  build_living_room,
-    "kitchen":      lambda p, i: build_default(p, i, "kitchen"),
-    "bedroom":      lambda p, i: build_default(p, i, "bedroom"),
-    "bathroom":     lambda p, i: build_default(p, i, "bathroom"),
-    "dining_room":  lambda p, i: build_default(p, i, "dining_room"),
-    "hallway":      lambda p, i: build_default(p, i, "hallway"),
-    "office":       lambda p, i: build_default(p, i, "office"),
+# Manifest parameter -> gin override path. The six verified plumbings.
+# lighting_warmth is intentionally absent — see module docstring.
+GIN_OVERRIDE_MAP = {
+    "ceiling_height_m":   "RoomConstants.global_params.wall_height",
+    "wall_thickness_m":   "RoomConstants.global_params.wall_thickness",
+    "daylight_intensity": "nishita_lighting.strength",
+    "sun_elevation_deg":  "nishita_lighting.sun_elevation",
+    "dust_density":       "nishita_lighting.dust_density",
+    "camera_exposure":    "configure_render_cycles.exposure",
 }
 
+# Manifest parameters that the wrapper recognizes but does not currently
+# render — kept here so they pass validation and we can log them clearly.
+DECLARED_BUT_NOT_RENDERED = {"lighting_warmth"}
+
+SUPPORTED_ROOMS = {"bedroom", "bathroom"}
+
 
 # ──────────────────────────────────────────────────────────────────
-# glTF export via Blender headless
+# Preflight script — Patch 1 only.  Written to a temp dir and run as
+# the subprocess entry point so we can pin the generated room type
+# before generate_indoors.py begins its solving stage.
+# ──────────────────────────────────────────────────────────────────
+
+PREFLIGHT_TEMPLATE = r"""# Auto-generated by infinigen_wrapper.py — Patch 1 only.
+# Substitutes the `restrict_parent_rooms` argument inside
+# apply_greedy_restriction so generate_indoors.py is pinned to {room_class}.
+# This is the only known path to force room type in Infinigen 1.19.1; if a
+# native CLI flag becomes available, delete this preflight entirely.
+import sys, runpy
+import infinigen_examples.util.generate_indoors_util as gu
+from infinigen.core.tags import Semantics
+
+_old_apply = gu.apply_greedy_restriction
+def _pinned_apply(stages, restrict_parent_rooms, variable_room):
+    return _old_apply(stages, {{Semantics.{room_class}}}, variable_room)
+gu.apply_greedy_restriction = _pinned_apply
+
+sys.argv = ["generate_indoors.py"] + sys.argv[1:]
+runpy.run_module("infinigen_examples.generate_indoors", run_name="__main__")
+"""
+
+
+def _write_preflight(room_type: str, out_dir: Path) -> Path:
+    room_class = "Bedroom" if room_type == "bedroom" else "Bathroom"
+    code = PREFLIGHT_TEMPLATE.format(room_class=room_class)
+    pf = out_dir / "preflight.py"
+    pf.write_text(code)
+    return pf
+
+
+# ──────────────────────────────────────────────────────────────────
+# Infinigen invocation
+# ──────────────────────────────────────────────────────────────────
+
+def _locate_infinigen_root() -> Path:
+    """Find the Infinigen repo root.  Prefer env var, then standard locations."""
+    env = os.environ.get("INFINIGEN_ROOT")
+    if env:
+        p = Path(env).expanduser().resolve()
+        if (p / "infinigen_examples").is_dir():
+            return p
+    candidates = [
+        Path.home() / "infinigen",
+        Path("/home/diggss/infinigen"),  # seen in install_log.txt
+    ]
+    for c in candidates:
+        if (c / "infinigen_examples").is_dir():
+            return c
+    raise RuntimeError(
+        "Could not locate Infinigen repo. Set INFINIGEN_ROOT or install at ~/infinigen."
+    )
+
+
+def _build_gin_overrides(params: dict) -> list[str]:
+    args: list[str] = []
+    for key, gin_path in GIN_OVERRIDE_MAP.items():
+        if key in params:
+            args.extend(["-p", f"{gin_path}={params[key]}"])
+    return args
+
+
+def _seed_from_outname(name: str) -> str:
+    """Deterministic seed from output filename. Hex string per Infinigen's base-16 parse."""
+    digest = hashlib.md5(name.encode()).hexdigest()
+    return digest[:8]
+
+
+def run_infinigen(room_type: str, params: dict, out_blend: Path,
+                  *, quick: bool = False, verbose: bool = False) -> Path:
+    """Invoke generate_indoors.py via the preflight, return path to .blend."""
+    if room_type not in SUPPORTED_ROOMS:
+        raise ValueError(
+            f"room_type={room_type!r} not in supported set {sorted(SUPPORTED_ROOMS)}."
+        )
+
+    infinigen_root = _locate_infinigen_root()
+    work_dir = Path(tempfile.mkdtemp(prefix=f"infinigen_{room_type}_"))
+    preflight = _write_preflight(room_type, work_dir)
+
+    cmd = [
+        sys.executable, str(preflight),
+        "-g", "singleroom", "fast_solve",
+        "--output_folder", str(work_dir),
+        "-t", "coarse", "populate",
+        "--seed", _seed_from_outname(out_blend.name),
+    ]
+    cmd.extend(_build_gin_overrides(params))
+
+    if verbose:
+        print("CMD:", " ".join(cmd), file=sys.stderr)
+
+    result = subprocess.run(
+        cmd, cwd=str(infinigen_root), capture_output=True, text=True,
+    )
+    if result.returncode != 0:
+        tail = result.stderr[-2000:] if result.stderr else result.stdout[-2000:]
+        raise RuntimeError(
+            f"generate_indoors.py exit {result.returncode}\n{tail}"
+        )
+
+    blends = list(work_dir.rglob("*.blend"))
+    if not blends:
+        raise FileNotFoundError(
+            f"generate_indoors.py produced no .blend in {work_dir}"
+        )
+    return blends[0]
+
+
+# ──────────────────────────────────────────────────────────────────
+# glTF export via headless Blender
 # ──────────────────────────────────────────────────────────────────
 
 GLTF_EXPORT_PY = r"""
-# Run inside Blender's Python: bake the current scene to glTF.
 import bpy, sys
 out_path = sys.argv[sys.argv.index('--') + 1]
 bpy.ops.export_scene.gltf(
     filepath=out_path,
-    export_format='GLB',          # single-file binary
+    export_format='GLB',
     export_image_format='AUTO',
     export_yup=True,
     export_apply=True,
+    export_draco_mesh_compression_enable=True,
 )
 print(f"Wrote {out_path}")
 """
 
 
-def export_to_gltf(scene_blend_path: Path, out_path: Path) -> bool:
-    """Invoke Blender headless to export a .blend to GLB. Returns True on success."""
+def export_to_glb(scene_blend: Path, out_glb: Path) -> bool:
+    """Headless Blender export .blend -> .glb. Returns True on success."""
     with tempfile.NamedTemporaryFile(suffix=".py", mode="w", delete=False) as f:
         f.write(GLTF_EXPORT_PY)
         export_script = Path(f.name)
     try:
-        result = subprocess.run([
-            "blender", "-b", str(scene_blend_path),
-            "--python", str(export_script),
-            "--", str(out_path),
-        ], capture_output=True, text=True, timeout=300)
+        result = subprocess.run(
+            ["blender", "-b", str(scene_blend),
+             "--python", str(export_script), "--", str(out_glb)],
+            capture_output=True, text=True, timeout=300,
+        )
         if result.returncode != 0:
             sys.stderr.write(f"Blender export failed:\n{result.stderr[-500:]}\n")
             return False
-        return out_path.exists()
+        return out_glb.exists()
     finally:
         export_script.unlink(missing_ok=True)
+
+
+# ──────────────────────────────────────────────────────────────────
+# Manifest helpers — load defaults, validate
+# ──────────────────────────────────────────────────────────────────
+
+def load_manifest_defaults(manifest_path: Path) -> dict:
+    """Pull the `default` from each property in a JSON-Schema manifest."""
+    with open(manifest_path) as f:
+        manifest = json.load(f)
+    defaults: dict = {}
+    for key, spec in manifest.get("properties", {}).items():
+        if "default" in spec:
+            defaults[key] = spec["default"]
+    return defaults
+
+
+def validate_against_manifest(params: dict, manifest_path: Path) -> Optional[str]:
+    """Returns None on success, or an error message string on failure."""
+    try:
+        from jsonschema import validate, ValidationError
+    except ImportError:
+        return None  # jsonschema not installed — skip silently
+    try:
+        with open(manifest_path) as f:
+            manifest = json.load(f)
+        validate(instance=params, schema=manifest)
+        return None
+    except ValidationError as e:
+        return f"manifest validation failed: {e.message}"
+
+
+# ──────────────────────────────────────────────────────────────────
+# Sidecar I/O
+# ──────────────────────────────────────────────────────────────────
+
+def _sidecar_path(out_path: Path) -> Path:
+    return out_path.with_suffix(out_path.suffix + ".meta.json")
+
+
+def read_sidecar(out_path: Path) -> Optional[dict]:
+    sp = _sidecar_path(out_path)
+    if not sp.exists():
+        return None
+    try:
+        with open(sp) as f:
+            return json.load(f)
+    except Exception:
+        return None
+
+
+def write_sidecar(out_path: Path, room: str, params: dict,
+                  elapsed: float, *, note: str = "",
+                  ignored_keys: Optional[list[str]] = None) -> None:
+    sp = _sidecar_path(out_path)
+    payload = {
+        "room": room,
+        "resolved_params": params,
+        "render_time_seconds": round(elapsed, 2),
+        "wrapper_version": WRAPPER_VERSION,
+        "note": note,
+    }
+    if ignored_keys:
+        payload["params_declared_but_not_rendered"] = ignored_keys
+    with open(sp, "w") as f:
+        json.dump(payload, f, indent=2)
 
 
 # ──────────────────────────────────────────────────────────────────
@@ -127,100 +319,113 @@ def export_to_gltf(scene_blend_path: Path, out_path: Path) -> bool:
 
 def main() -> int:
     p = argparse.ArgumentParser(description=__doc__.split("\n")[0])
-    p.add_argument("--room", required=True,
-                   help="Room type (living_room, kitchen, bedroom, etc.)")
-    p.add_argument("--manifest", help="Path to room's JSON-Schema manifest (optional; "
-                                       "used to validate params before render)")
+    p.add_argument("--room", required=True, choices=sorted(SUPPORTED_ROOMS),
+                   help="Room type — bedroom or bathroom (Track 3 scope).")
+    p.add_argument("--manifest",
+                   help="Path to room's JSON-Schema manifest. Required with "
+                        "--params-default; optional with --params (for validation).")
     g = p.add_mutually_exclusive_group(required=True)
-    g.add_argument("--params", help="Path to JSON parameter dict")
+    g.add_argument("--params", help="Path to JSON parameter dict.")
     g.add_argument("--params-default", action="store_true",
-                   help="Render with default parameters")
-    p.add_argument("--out", required=True, help="Output GLB path")
+                   help="Render with manifest defaults (requires --manifest).")
+    p.add_argument("--out", required=True,
+                   help="Output path. If it ends in .glb, GLB export runs after "
+                        "the .blend is produced.")
     p.add_argument("--quick", action="store_true",
-                   help="Quick CPU render (smoke-test quality, 60-second budget)")
+                   help="Quick render (lower sample count). Reserved — currently "
+                        "passed through but not yet enforced.")
+    p.add_argument("--verbose", "-v", action="store_true",
+                   help="Print the subprocess command before running.")
+    p.add_argument("--no-validate", action="store_true",
+                   help="Skip jsonschema validation even if a manifest is given.")
     args = p.parse_args()
 
     out_path = Path(args.out).resolve()
     out_path.parent.mkdir(parents=True, exist_ok=True)
+    want_glb = out_path.suffix.lower() == ".glb"
 
-    # Load parameters
+    # ── Resolve parameter dict ──────────────────────────────────
     if args.params_default:
-        params = {}
-    else:
-        with open(args.params) as f: params = json.load(f)
-
-    # Optional manifest validation
-    if args.manifest:
+        if not args.manifest:
+            sys.stderr.write("--params-default requires --manifest.\n")
+            return 1
         try:
-            from jsonschema import validate
-            with open(args.manifest) as f: manifest = json.load(f)
-            validate(instance=params, schema=manifest)
-        except ImportError:
-            sys.stderr.write("Warning: jsonschema not installed; skipping manifest validation\n")
+            params = load_manifest_defaults(Path(args.manifest))
         except Exception as e:
-            sys.stderr.write(f"Manifest validation failed: {e}\n")
+            sys.stderr.write(f"Could not load manifest defaults: {e}\n")
+            return 1
+        if not params:
+            sys.stderr.write(
+                "Warning: manifest has no `default` entries; "
+                "sidecar resolved_params will be empty.\n"
+            )
+    else:
+        with open(args.params) as f:
+            params = json.load(f)
+
+    # ── Validate against manifest if provided ───────────────────
+    if args.manifest and not args.no_validate:
+        err = validate_against_manifest(params, Path(args.manifest))
+        if err:
+            sys.stderr.write(err + "\n")
             return 1
 
-    builder = ROOM_BUILDERS.get(args.room)
-    if builder is None:
-        sys.stderr.write(f"No builder for room_type={args.room!r}. "
-                         f"Available: {sorted(ROOM_BUILDERS)}\n")
-        sys.stderr.write("Add your own builder to ROOM_BUILDERS in this file.\n")
-        return 1
+    # ── Identify ignored keys (e.g. lighting_warmth) ────────────
+    ignored = sorted(k for k in params if k in DECLARED_BUT_NOT_RENDERED)
 
-    t0 = time.time()
-    try:
-        import infinigen
-    except ImportError:
-        sys.stderr.write("Infinigen not installed. Run: bash scripts/track3/setup_track3.sh\n")
-        # In smoke-test mode we still produce a stub glTF so setup_track3.sh
-        # can verify the wrapper itself runs.
-        if args.params_default:
-            _write_stub_gltf(out_path, args.room)
-            _write_sidecar(out_path, args.room, params, time.time() - t0,
-                          note="Infinigen unavailable — stub glTF written for smoke test only")
+    # ── Idempotency: skip if existing render matches ────────────
+    if out_path.exists():
+        sidecar = read_sidecar(out_path)
+        if sidecar and sidecar.get("resolved_params") == params:
+            print(f"skip (idempotent): {out_path.name} already matches params.")
             return 0
-        return 1
 
-    # Build + render
+    # ── Render ──────────────────────────────────────────────────
+    t0 = time.time()
+    blend_target = out_path if not want_glb else out_path.with_suffix(".blend")
+
     try:
-        scene = builder(params, infinigen)
-        # Save scene to .blend
-        with tempfile.NamedTemporaryFile(suffix=".blend", delete=False) as f:
-            blend_path = Path(f.name)
-        scene.save(blend_path)  # API: scene.save(path) — actual Infinigen API may differ
-        # Export to glTF
-        ok = export_to_gltf(blend_path, out_path)
-        blend_path.unlink(missing_ok=True)
-        if not ok:
-            return 2
+        produced_blend = run_infinigen(
+            args.room, params, blend_target,
+            quick=args.quick, verbose=args.verbose,
+        )
     except Exception as e:
         sys.stderr.write(f"Render failed: {type(e).__name__}: {e}\n")
+        sys.stderr.write(traceback.format_exc())
         return 2
 
+    # Move the produced .blend into place.
+    try:
+        shutil.copy2(str(produced_blend), str(blend_target))
+    except Exception as e:
+        sys.stderr.write(f"Could not place .blend at {blend_target}: {e}\n")
+        return 2
+
+    # ── Optional GLB export ─────────────────────────────────────
+    if want_glb:
+        ok = export_to_glb(blend_target, out_path)
+        if not ok:
+            sys.stderr.write("GLB export failed — keeping .blend as fallback.\n")
+            # Sidecar gets attached to the .blend then; record that.
+            elapsed = time.time() - t0
+            write_sidecar(
+                blend_target, args.room, params, elapsed,
+                note="GLB export failed; .blend kept",
+                ignored_keys=ignored,
+            )
+            return 2
+
     elapsed = time.time() - t0
-    _write_sidecar(out_path, args.room, params, elapsed)
-    print(f"OK: rendered {args.room} -> {out_path} ({elapsed:.1f}s)")
+    note_bits = []
+    if ignored:
+        note_bits.append(
+            f"declared-but-not-rendered: {', '.join(ignored)} (see wrapper docstring)"
+        )
+    write_sidecar(out_path, args.room, params, elapsed,
+                  note="; ".join(note_bits), ignored_keys=ignored)
+
+    print(f"OK: {args.room} -> {out_path} ({elapsed:.1f}s)")
     return 0
-
-
-def _write_sidecar(out: Path, room: str, params: dict, elapsed: float, note: str = "") -> None:
-    sidecar = out.with_suffix(out.suffix + ".meta.json")
-    with open(sidecar, "w") as f:
-        json.dump({
-            "room": room,
-            "resolved_params": params,
-            "render_time_seconds": round(elapsed, 2),
-            "wrapper_version": "0.1.0-sprint3",
-            "note": note,
-        }, f, indent=2)
-
-
-def _write_stub_gltf(out: Path, room: str) -> None:
-    """Minimal valid GLB so smoke test can verify the wrapper signal-path."""
-    minimal = (b"glTF" + (2).to_bytes(4, "little") + (88).to_bytes(4, "little")
-               + (20).to_bytes(4, "little") + b"JSON" + b'{"asset":{"version":"2.0"}}')
-    out.write_bytes(minimal)
 
 
 if __name__ == "__main__":
