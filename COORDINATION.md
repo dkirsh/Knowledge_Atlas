@@ -111,3 +111,121 @@
   - one extra content commit, `cbd323a`, was added after the final static sweep exposed real type inconsistencies in `bundle_router.py`, `intake.py`, and `cli_adjudicator.py`. This was done explicitly rather than hidden inside earlier commits.
 
 - Ping CW: atlas_shared cleanup branch is pushed, PR is open, tests are greener than baseline, and the shared article-type / paper-id / bundle-id layer is materially tidier for AF use.
+
+
+---
+
+### CW paper-quality coordination — 2026-05-13
+
+CW is recording the current state of the paper-quality build so that
+Codex, AG, and any later reader of this file has a single chronological
+entry to start from. Per `CW_COORDINATION_NOTES.md` Lesson 1, the
+COORDINATION.md log is the durable cross-AI record; do not rely on the
+HTTP coord server alone.
+
+**Codex — first block landed**
+
+Branch `codex/paper-quality-blackboard-schema` at commit `0da97e9` on
+`Knowledge_Atlas`. Shipped:
+
+- `contracts/schemas/paper_quality.sql` — additive SQLite schema with
+  all ten tables, three views, indices, and update triggers required
+  by the design package. Idempotent (IF NOT EXISTS / DROP VIEW IF
+  EXISTS).
+- `scripts/migrations/2026_04_23_paper_quality.sql` — same schema as
+  directly-executable migration.
+- `scripts/paper_quality_blackboard_init.py` — corpus-to-blackboard
+  initialiser. INSERT OR IGNORE for idempotence. Synthetic 56-paper
+  dry-run produced expected row counts (168 jobs, 6 batches, 56
+  progress-view rows).
+- `tests/test_paper_quality_blackboard_schema.py` — regression tests
+  covering schema idempotency and initialiser determinism.
+- `reports/paper_quality_migration_dryrun_2026-05-13.md` — five-step
+  dry-run note.
+
+DK review pending. Pass 3 (HTTP endpoints + UI + rollup) is unblocked
+on this work merging; Pass 1 atlas_shared work (next block) does not
+strictly require the merge.
+
+**Codex — next block prompt committed**
+
+`docs/PAPER_QUALITY_CODEX_NEXT_BLOCK_2026-05-13.md` (commit `7ffa7e1`)
+scopes Pass 1 atlas_shared foundations as the next chunk Codex can do
+without waiting on DK's M1 decision-tree annotations. Four commits on
+a new branch `codex/paper-quality-foundations-2026-05-13`:
+
+- C1: `paper_quality.py` dataclasses + `worker_loop.py` blackboard
+  helpers
+- C2: `PAPER_QUALITY_FINGERPRINT_CONTRACT_2026-04-23.md` + AGENTS.md
+  update
+- C3: `claim_strengths.py` aggregator with weighting function, I²,
+  Egger funnel-plot test, sample-overlap dedup, template prose
+- C4: `literature_body.py` aggregator + companion contract
+
+Hard rules for this block: no DB access in atlas_shared modules
+(pure functions); no LLM calls (template-based prose); no I/O side-
+effects in aggregators. `worker_loop` is the exception — DB writes,
+mirror file, git operations live there.
+
+Estimated timeline: 1 working day. After Pass 1 merges, Codex can
+move to Pass 3 (HTTP endpoints + UI + overseer rollup) in parallel
+with DK's M1 work. Pass 2 (extraction service with per-field prompts)
+is the only block that genuinely requires M1.
+
+**AG — Phase 1 ACK received, two open questions**
+
+AG ACKed the Phase 1 handshake from
+`docs/PAPER_QUALITY_AG_KICKOFF_PROMPT_2026-04-25.md` with a
+substantive pre-audit readiness assessment. Notable signals:
+
+- AG correctly oriented to current state (no testing branch yet,
+  `atlas_shared.paper_quality` not defined, `subscription_adapter`
+  not yet built — all consistent with where Codex actually is).
+- AG has done pre-audit harness prep in advance: monkey-patch
+  scaffold for `fire_claude_conversation` / `fire_chatgpt_conversation`
+  (Probe 1), four-sub-check log parser (Probe 2), histogram-binning
+  / spike-detection / Spearman ρ machinery (Probe 5).
+- AG flagged that recent C-alpha-through-C-delta audit and V7
+  gold-claims authority migration give it engineering context
+  relevant to Probe 6 (V7 lifecycle integration) and Probe 8
+  (cross-repo dependency surface).
+
+Two open questions for AG, posted as follow-up:
+
+1. *Sandbox access mode*: the Phase 1 prompt asked AG to reply with
+   `LOCAL` or `GITHUB`; AG's response did not include the tag. CW
+   has requested clarification because the answer determines whether
+   Codex must `git push` the testing branch before AG's audit can
+   start.
+
+2. *Limited advisory invitation*: AG is invited to post
+   `### AG paper-quality advisory` notes on Probes 6 and 8
+   specifically while Codex's Pass 1 runs. The full audit-separation
+   contract resumes for the testing pass; this is a bounded advisory
+   window during the build only.
+
+CW also asked AG to point at the "spec-generation hygiene discipline"
+it referenced, so the paper-quality docs can conform if there is a
+standing convention.
+
+**Build-pass status table**
+
+| Pass | Scope | Status | Blocker |
+|------|-------|--------|---------|
+| 6.5 + 7 (partial) | Schema + blackboard initialiser | ✓ Landed on `codex/paper-quality-blackboard-schema` | DK review for merge |
+| 1 | atlas_shared foundations | Prompt committed | None — Codex can start |
+| 2 | Extraction service + per-field prompts | Not started | DK M1 (decision-tree annotations) |
+| 3 | HTTP endpoints + UI + overseer rollup | Not started | Pass 1 merge |
+| 4 | Master-doc integration | Not started | Pass 3 |
+| Testing pass | 9 adversarial probes | Not started | Build merge |
+| Retrofit | 1 400-paper corpus | Not started | Testing-pass green |
+
+**DK human-work status**
+
+| Item | Status |
+|------|--------|
+| M1: decision-tree annotations (22 nodes) | Walkthrough page ready at `160sp/ka_paper_quality_walkthrough.html`; export to `data/paper_quality_dk_preferences.json` |
+| M2: anchor-set selection (15–20 papers) | Not started |
+| M3: anchor-set sidecar ratings | Blocked on M2 |
+
+**Tag**: CW, Codex, AG.
