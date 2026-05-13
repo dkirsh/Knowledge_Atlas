@@ -229,3 +229,90 @@ standing convention.
 | M3: anchor-set sidecar ratings | Blocked on M2 |
 
 **Tag**: CW, Codex, AG.
+
+
+---
+
+### CW paper-quality coordination — 2026-05-13 (afternoon update)
+
+AG replied to the Phase 1 follow-up with substantive advisory content
+on Probes 6 and 8. Three actions taken in response.
+
+**AG's two answers**
+
+1. *Sandbox access mode*: `LOCAL`. AG reads all three repos via
+   `/Users/davidusa/REPOS/...` directly. Codex does *not* need to
+   push the testing branch ahead of AG's audit; AG will pull
+   locally when Phase 2 triggers.
+
+2. *Limited advisory*: AG posted Advisory A (V7 lifecycle for
+   stages 18/19) and Advisory B (cross-repo dependency surface
+   for atlas_shared). Both are folded into Codex's next-block
+   prompt as constraints.
+
+**Spec-generation hygiene discipline location**
+
+AG pointed at the authoritative documents:
+
+- Contract: `Article_Eater_PostQuinean_v1_recovery/contracts/SPEC_GENERATION_HYGIENE_CONTRACT_V1.md`
+  (2026-05-12, AG V1 + CW V1.1 strengthening per Codex review)
+- Implementation: `src/services/spec_generation_registry.py`
+- Builder/validator: `scripts/coordination/build_shadow_canonical.py`,
+  `scripts/coordination/validate_shadow_canonical.py`
+- Closure docs: `docs/CODEX_DEEPER_CATEGORY_C_STATUS_2026-05-12.md`,
+  `docs/AG_REVIEW_SPEC_GENERATION_HYGIENE_2026-05-12.md`,
+  `docs/CODEX_REVIEW_SPEC_GENERATION_HYGIENE_2026-05-12.md`
+
+Five binding rules: semantic slots not filenames; structural
+current-spec detection; filter before selecting; demote, don't
+delete; separate accounting plus hash-backed leftover detection.
+The discipline applies to any artefact family persisted to disk.
+
+**Codex next-block prompt updated (commit `cd5ae2c`)**
+
+The prompt now carries five constraints from AG's advisory:
+
+1. *atlas_shared branch state*. The repo's default branch is
+   `main`, not `master`. Twelve unmerged commits on
+   `cleanup-sprint-2026-04-21` carry the canonical paper_id
+   contract, the RegistryFact.paper_id promotion, the `__all__`
+   trim, and the final mypy sweep. The cleanup branch must merge
+   to main first or Codex's foundations work forks from a stale
+   base. Codex is instructed to fast-forward merge or post a
+   blocker rather than force-merge.
+2. *paper_id format*: raw `PDF-NNNN`, not `bel_PDF-NNNN`.
+3. *short_circuited admission handling*: Pass-2 extractor must
+   attach fingerprint to existing paper_id when `admit_paper()`
+   returns `short_circuited=True`. Dataclass carries
+   `attached_via_short_circuit: bool` for the audit trail.
+4. *Stage 18/19 monotonicity*: current highest production stage
+   is 17 (warrant computation); new stages must respect
+   monotonic `stage_number` per paper.
+5. *No shadow definitions* of `PaperQualityFingerprint`. If
+   fingerprints are persisted to disk under
+   `data/papers/<paper_id>/`, register
+   `paper_quality_fingerprint_canonical` as a semantic slot in
+   `spec_generation_registry.py` with a structural current-spec
+   detector keyed on `WEIGHTING_FUNCTION_VERSION`. Pass-1
+   reporting must include the on-disk-persistence answer so the
+   registry-registration decision can be made.
+
+**Status of AG's advisory window**
+
+The limited advisory window remains open during Codex's Pass 1
+build. After Pass 1 merges and Codex moves into Pass 2 / Pass 3,
+the audit-separation contract resumes. AG will not claim or process
+paper-quality batches; AG's role is bounded to: (a) advisory on
+build-time constraints during Pass 1, (b) standby until Phase 2 of
+the testing prompt triggers, (c) execution of Probes 1/2/5 against
+the merged build.
+
+**What Codex sees in the updated prompt**
+
+Codex's pre-flight now begins with the cleanup-sprint merge to main
+on atlas_shared, *before* opening the foundations branch. Codex will
+report back with the foundations branch SHA, the four-commit set,
+and the on-disk-persistence answer for the spec-generation registry
+decision.
+
+**Tag**: CW, Codex, AG.
