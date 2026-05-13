@@ -1,0 +1,1174 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Paper-Quality Decision-Tree Walkthrough — K-ATLAS</title>
+<style>
+  :root {
+    --navy: #1C3D3A;
+    --navy-2: #163230;
+    --teal: #2A7868;
+    --teal-lt: #5AC8AA;
+    --teal-bg: #E6F5F0;
+    --amber: #E8872A;
+    --amber-lt: #FFF3E0;
+    --amber-dk: #9a5010;
+    --gold: #F5A623;
+    --cream: #F7F4EF;
+    --warm-border: #E0D8CC;
+    --warm-grey: #D8D0C5;
+    --ink: #1f2a2a;
+    --ink-mid: #4a5757;
+    --ink-soft: #6e7c7c;
+    --serif: Georgia, 'Times New Roman', serif;
+    --sans: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+  }
+  *, *::before, *::after { box-sizing: border-box; }
+  html, body { height: 100%; margin: 0; }
+  body {
+    font-family: var(--sans);
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.55;
+    -webkit-font-smoothing: antialiased;
+  }
+  header.app-header {
+    background: var(--navy);
+    color: #fff;
+    padding: 14px 24px;
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 18px;
+    align-items: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.10);
+    z-index: 10;
+    position: sticky;
+    top: 0;
+  }
+  .brand {
+    font-family: var(--serif);
+    font-size: 18px;
+    color: #fff;
+    letter-spacing: .2px;
+  }
+  .brand .accent { color: var(--gold); }
+  .brand .sub {
+    display: block;
+    font-family: var(--sans);
+    font-size: 11px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--teal-lt);
+    margin-top: 2px;
+  }
+  .progress-strip {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    align-items: center;
+  }
+  .progress-label {
+    font-size: 12px;
+    color: var(--teal-lt);
+    letter-spacing: .4px;
+  }
+  .progress-bar {
+    width: 260px;
+    height: 6px;
+    background: rgba(255,255,255,0.18);
+    border-radius: 3px;
+    overflow: hidden;
+  }
+  .progress-fill {
+    height: 100%;
+    background: linear-gradient(90deg, var(--gold), var(--amber));
+    transition: width 0.25s ease;
+  }
+  .header-actions {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+  .btn {
+    border: 1px solid rgba(255,255,255,0.35);
+    background: rgba(255,255,255,0.08);
+    color: #fff;
+    padding: 7px 14px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    font-family: var(--sans);
+    transition: background .15s ease, border-color .15s ease;
+  }
+  .btn:hover { background: rgba(255,255,255,0.18); border-color: rgba(255,255,255,0.55); }
+  .btn.primary {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #fff;
+    font-weight: 600;
+  }
+  .btn.primary:hover { background: var(--amber-dk); border-color: var(--amber-dk); }
+  .btn.ghost { background: transparent; }
+  .btn[disabled] { opacity: 0.45; cursor: not-allowed; }
+
+  main {
+    display: grid;
+    grid-template-columns: minmax(360px, 40%) 1fr;
+    gap: 0;
+    height: calc(100vh - 70px);
+  }
+  @media (max-width: 1000px) {
+    main { grid-template-columns: 1fr; height: auto; }
+    .left-pane { max-height: 35vh; }
+  }
+
+  .left-pane {
+    background: #fff;
+    border-right: 1px solid var(--warm-border);
+    overflow-y: auto;
+    padding: 22px 26px 80px;
+  }
+  .left-pane::-webkit-scrollbar { width: 8px; }
+  .left-pane::-webkit-scrollbar-thumb { background: var(--warm-border); border-radius: 4px; }
+  .left-pane h1, .left-pane h2, .left-pane h3 {
+    font-family: var(--serif);
+    color: var(--navy);
+    margin-top: 1.5em;
+    margin-bottom: 0.4em;
+  }
+  .left-pane h1 { font-size: 22px; border-bottom: 2px solid var(--teal); padding-bottom: 8px; margin-top: 0; }
+  .left-pane h2 { font-size: 18px; color: var(--teal); }
+  .left-pane h3 { font-size: 15px; color: var(--navy); }
+  .left-pane h3.current-node {
+    background: var(--amber-lt);
+    color: var(--amber-dk);
+    padding: 6px 10px;
+    border-left: 4px solid var(--amber);
+    margin-left: -10px;
+    border-radius: 0 4px 4px 0;
+  }
+  .left-pane p { font-size: 13.5px; color: var(--ink-mid); margin: 0.6em 0; }
+  .left-pane table {
+    border-collapse: collapse;
+    width: 100%;
+    margin: 0.8em 0;
+    font-size: 12.5px;
+  }
+  .left-pane th, .left-pane td {
+    border: 1px solid var(--warm-border);
+    padding: 6px 9px;
+    text-align: left;
+    vertical-align: top;
+  }
+  .left-pane th { background: var(--teal-bg); color: var(--navy); font-weight: 600; }
+  .left-pane code { background: var(--warm-grey); padding: 1px 5px; border-radius: 3px; font-size: 12px; }
+  .left-pane .dk-pref-placeholder {
+    background: var(--teal-bg);
+    border-left: 3px solid var(--teal);
+    padding: 8px 12px;
+    margin: 0.5em 0;
+    font-size: 13px;
+    color: var(--ink-mid);
+  }
+  .left-pane .dk-pref-placeholder.filled {
+    background: var(--amber-lt);
+    border-left-color: var(--amber);
+    color: var(--amber-dk);
+  }
+
+  .right-pane {
+    overflow-y: auto;
+    padding: 30px 38px 80px;
+    background: var(--cream);
+  }
+  .right-pane::-webkit-scrollbar { width: 8px; }
+  .right-pane::-webkit-scrollbar-thumb { background: var(--warm-border); border-radius: 4px; }
+
+  .node-card {
+    background: #fff;
+    border: 1px solid var(--warm-border);
+    border-radius: 6px;
+    padding: 26px 30px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+    max-width: 860px;
+  }
+  .node-breadcrumb {
+    font-size: 12px;
+    letter-spacing: 1.6px;
+    text-transform: uppercase;
+    color: var(--teal);
+    margin: 0 0 6px;
+    font-weight: 600;
+  }
+  .node-title {
+    font-family: var(--serif);
+    font-size: 23px;
+    color: var(--navy);
+    margin: 0 0 8px;
+    line-height: 1.3;
+  }
+  .node-context {
+    font-size: 14px;
+    color: var(--ink-mid);
+    margin: 0 0 18px;
+    line-height: 1.55;
+  }
+
+  .options-table {
+    border: 1px solid var(--warm-border);
+    border-radius: 5px;
+    overflow: hidden;
+    margin: 16px 0 20px;
+  }
+  .option-row {
+    display: grid;
+    grid-template-columns: 36px 1fr;
+    border-bottom: 1px solid var(--warm-border);
+    padding: 12px 14px;
+    cursor: pointer;
+    transition: background .12s ease;
+  }
+  .option-row:last-child { border-bottom: none; }
+  .option-row:hover { background: var(--teal-bg); }
+  .option-row.selected { background: var(--amber-lt); }
+  .option-row.other { background: #fafafa; }
+  .option-row.other.selected { background: var(--amber-lt); }
+  .option-radio { padding-top: 3px; }
+  .option-radio input { transform: scale(1.1); }
+  .option-body { font-size: 14px; }
+  .option-label { font-weight: 600; color: var(--navy); }
+  .option-detail {
+    font-size: 13px;
+    color: var(--ink-mid);
+    margin-top: 4px;
+    line-height: 1.5;
+  }
+  .option-detail code { background: var(--warm-grey); padding: 1px 4px; border-radius: 3px; font-size: 12px; }
+
+  .write-in-text {
+    grid-column: 1 / -1;
+    margin-top: 8px;
+    padding-top: 8px;
+    border-top: 1px dashed var(--warm-border);
+    display: none;
+  }
+  .write-in-text.shown { display: block; }
+  .write-in-text input {
+    width: 100%;
+    padding: 8px 10px;
+    border: 1px solid var(--warm-border);
+    border-radius: 4px;
+    font-size: 14px;
+    font-family: var(--sans);
+  }
+  .write-in-text input:focus { outline: 2px solid var(--teal-lt); border-color: var(--teal); }
+
+  .form-group {
+    margin: 18px 0;
+  }
+  .form-label {
+    display: block;
+    font-size: 12.5px;
+    letter-spacing: 1.2px;
+    text-transform: uppercase;
+    color: var(--teal);
+    font-weight: 600;
+    margin-bottom: 6px;
+  }
+  .form-help {
+    font-size: 12.5px;
+    color: var(--ink-soft);
+    margin: -3px 0 8px;
+    font-style: italic;
+  }
+  .rationale-area {
+    width: 100%;
+    min-height: 110px;
+    padding: 12px 14px;
+    border: 1px solid var(--warm-border);
+    border-radius: 5px;
+    font-size: 14px;
+    font-family: var(--sans);
+    color: var(--ink);
+    background: #fff;
+    line-height: 1.55;
+    resize: vertical;
+  }
+  .rationale-area:focus { outline: 2px solid var(--teal-lt); border-color: var(--teal); }
+
+  .form-inline {
+    display: flex;
+    gap: 16px;
+    align-items: center;
+    flex-wrap: wrap;
+  }
+  .pill-group { display: flex; gap: 6px; flex-wrap: wrap; }
+  .pill {
+    padding: 6px 13px;
+    border: 1px solid var(--warm-border);
+    border-radius: 999px;
+    background: #fff;
+    color: var(--ink-mid);
+    font-size: 13px;
+    cursor: pointer;
+    transition: all .12s ease;
+  }
+  .pill:hover { border-color: var(--teal); color: var(--teal); }
+  .pill.selected { background: var(--teal); border-color: var(--teal); color: #fff; font-weight: 600; }
+
+  .checkbox-group { display: flex; align-items: center; gap: 8px; }
+  .checkbox-group input { transform: scale(1.15); }
+  .checkbox-group label { font-size: 13.5px; color: var(--ink-mid); cursor: pointer; }
+
+  .node-nav {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    gap: 10px;
+    align-items: center;
+    margin-top: 26px;
+    padding-top: 18px;
+    border-top: 1px solid var(--warm-border);
+  }
+  .node-nav .nav-btn {
+    padding: 9px 18px;
+    border-radius: 5px;
+    border: 1px solid var(--warm-border);
+    background: #fff;
+    color: var(--navy);
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    transition: background .12s ease, border-color .12s ease;
+  }
+  .node-nav .nav-btn:hover { background: var(--teal-bg); border-color: var(--teal); }
+  .node-nav .nav-btn:first-child { justify-self: start; }
+  .node-nav .nav-btn.primary {
+    background: var(--amber);
+    border-color: var(--amber);
+    color: #fff;
+    font-weight: 600;
+    justify-self: end;
+  }
+  .node-nav .nav-btn.primary:hover { background: var(--amber-dk); border-color: var(--amber-dk); }
+  .node-nav .nav-status { font-size: 13px; color: var(--ink-soft); text-align: center; }
+
+  .save-indicator {
+    position: fixed;
+    bottom: 18px;
+    right: 22px;
+    background: var(--navy);
+    color: #fff;
+    padding: 8px 14px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    opacity: 0;
+    transition: opacity .35s ease;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.15);
+    z-index: 100;
+  }
+  .save-indicator.shown { opacity: 0.92; }
+
+  .completion-banner {
+    background: var(--teal-bg);
+    border: 1px solid var(--teal);
+    border-radius: 6px;
+    padding: 22px 26px;
+    margin: 30px 0;
+    color: var(--navy);
+  }
+  .completion-banner h2 { font-family: var(--serif); margin: 0 0 8px; }
+  .completion-banner p { margin: 0 0 12px; font-size: 14.5px; }
+
+  .intro-section {
+    background: #fff;
+    border: 1px solid var(--warm-border);
+    border-radius: 6px;
+    padding: 22px 28px;
+    margin-bottom: 22px;
+  }
+  .intro-section h2 { font-family: var(--serif); color: var(--navy); margin: 0 0 10px; font-size: 19px; }
+  .intro-section p { font-size: 14px; color: var(--ink-mid); margin: 0 0 12px; }
+  .intro-section ul { font-size: 13.5px; color: var(--ink-mid); padding-left: 22px; margin: 0 0 12px; }
+  .intro-section li { margin-bottom: 4px; }
+</style>
+</head>
+<body>
+
+<header class="app-header">
+  <div class="brand">
+    K-ATL<span class="accent">AS</span>
+    <span class="sub">Paper-quality decision tree</span>
+  </div>
+  <div class="progress-strip">
+    <div class="progress-label" id="progressLabel">Loading…</div>
+    <div class="progress-bar"><div class="progress-fill" id="progressFill" style="width: 0%"></div></div>
+  </div>
+  <div class="header-actions">
+    <button class="btn ghost" id="btnAllNodes" title="Jump to any node">All nodes</button>
+    <button class="btn" id="btnExport" title="Export annotated preferences as JSON for Codex">Export JSON</button>
+  </div>
+</header>
+
+<main>
+  <aside class="left-pane" id="leftPane">
+    <h1>Paper-Quality Decision Tree — DK Walkthrough</h1>
+    <p>Loading decision tree…</p>
+  </aside>
+  <section class="right-pane" id="rightPane">
+    <div class="node-card" id="nodeCard">
+      <p>Loading…</p>
+    </div>
+  </section>
+</main>
+
+<div class="save-indicator" id="saveIndicator">Saved locally</div>
+
+<script>
+// ==========================================================================
+// Embedded decision-tree structure
+// (Parsed from PAPER_QUALITY_DECISION_TREE_2026-04-23.md, 2026-04-25)
+// ==========================================================================
+
+const TREE = {
+  title: "Paper-Quality Decision Tree — DK Walkthrough",
+  source: "docs/PAPER_QUALITY_DECISION_TREE_2026-04-23.md",
+  branches: [
+    {
+      id: "B1",
+      title: "Document type",
+      preamble: "What kind of paper is this? Subsequent branches behave differently for each type.",
+      nodes: [
+        {
+          id: "1.1",
+          title: "Primary empirical, review, meta-analysis, theoretical, methods, or other?",
+          context: "Pick the document type. Subsequent branches assume this.",
+          options: [
+            {label: "Primary empirical", detail: "Section structure (Methods, Results), N reported. All eleven fingerprint fields apply. Confidence floor 0.90."},
+            {label: "Systematic review", detail: "PRISMA flowchart, search-strategy section. N = count of studies reviewed; design-type = review_systematic. Preregistration field applies. Floor 0.90."},
+            {label: "Narrative review", detail: "Review structure but no PRISMA / search strategy. N skipped; design-type = review_narrative; rhetorical-flag scrutiny tightened. Floor 0.85."},
+            {label: "Meta-analysis", detail: "Forest plot, pooled effect size, heterogeneity statistics. Effect-size and heterogeneity fields elevated to primary. Floor 0.90."},
+            {label: "Theoretical", detail: "No data, no Methods, formal-argument structure. Sample fields skipped; construct-validity becomes dominant. Floor 0.85."},
+            {label: "Methods paper", detail: "Validates a measurement instrument or procedure. Construct-validity field elevated. Floor 0.85."},
+            {label: "Editorial / commentary", detail: "Short, opinion-framed, low primary-source citation. All quantitative fields skipped; rhetorical flags surfaced; not aggregated."},
+            {label: "Preprint (any of the above)", detail: "Venue is arXiv, bioRxiv, PsyArXiv, OSF Preprints. Tag paper but treat per content; peer_reviewed = False. Floor 0.95."}
+          ]
+        },
+        {
+          id: "1.2",
+          title: "How should claim-level aggregation handle the document-type mix?",
+          context: "When a claim is supported by a heterogeneous set (one meta-analysis, three primaries, one theoretical), the aggregator can weight by type or treat each warrant equally.",
+          options: [
+            {label: "Weight by document type", detail: "Meta-analyses count more than primaries; primaries more than narrative reviews; theoretical papers contribute zero to numeric aggregation."},
+            {label: "Equal weight, panel-function only", detail: "Document type informs prose summary but does not enter numeric weighting function."},
+            {label: "Document-type tiers (3-tier)", detail: "Tier 1 = meta-analysis + systematic review; Tier 2 = primary; Tier 3 = narrative review + theoretical. Tier acts as multiplier."}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B2",
+      title: "Era and venue",
+      preamble: "Open-science norms date. Penalising a 2008 paper for having no preregistration produces nonsense.",
+      nodes: [
+        {
+          id: "2.1",
+          title: "What era is the paper from?",
+          context: "The era determines what 'missing fields' mean.",
+          options: [
+            {label: "Pre-2010", detail: "None expected. Missing preregistration is not a deduction; field marked expected = False."},
+            {label: "2010–2014", detail: "Emerging norms. Missing preregistration noted but not weighted negatively."},
+            {label: "2015–2019", detail: "Increasingly expected in psychology, neuroscience. In fields with PRO norms (e.g. social psych post-OSC2015), weighted moderately negative."},
+            {label: "2020+", detail: "Standard expectation. Missing preregistration weighted negative; explicit not_preregistered_no_reason_given if not addressed."}
+          ]
+        },
+        {
+          id: "2.2",
+          title: "Venue tier — and the predatory check",
+          context: "How should venue tier feed the fingerprint, and how aggressive should the predatory-publisher check be?",
+          options: [
+            {label: "Top-tier general journal", detail: "Crossref + JIF lookup; venue in configurable list. No automatic adjustment; venue recorded."},
+            {label: "Society / specialty journal", detail: "Mid-tier list. Recorded."},
+            {label: "Open-access journal in good standing", detail: "DOAJ membership via API. Recorded; not penalised."},
+            {label: "Predatory or borderline", detail: "Beall list (legacy) + Cabells + venue blacklist. Flagged for adjudication; not used until cleared."},
+            {label: "Preprint server only (>18mo)", detail: "Crossref returns no DOI; preprint older than 18 months. Surfaced as 'preprint, not peer-reviewed as of <date>'."},
+            {label: "Conference paper", detail: "Recorded with conference name and field-specific quality (NeurIPS = high, obscure = noted)."}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B3",
+      title: "Sample size and provenance",
+      preamble: "",
+      nodes: [
+        {
+          id: "3.1",
+          title: "Is N reported, and how should the variants be recorded?",
+          context: "N detection: single, multiple, range, or absent.",
+          options: [
+            {label: "Yes, single N", detail: "Pattern match on 'N = NNN', 'n = NNN', participants table. Record N with high confidence."},
+            {label: "Yes, multiple N (per condition / per study)", detail: "Multiple matches. Record total N; per-condition Ns in age_distribution_json sub-structure."},
+            {label: "Reported as a range", detail: "'Between 200 and 250 participants'. Record midpoint with n_total_confidence = 0.5; adjudicate."},
+            {label: "Not reported", detail: "No N pattern. Skip; flag n_reported = False; in primary empirical this is itself a quality concern."}
+          ]
+        },
+        {
+          id: "3.2",
+          title: "Is N adequate for the design type? What benchmarks?",
+          context: "Post-2015 power benchmarks. The fingerprint records n_adequacy ∈ {adequate, marginal, underpowered}. Versioned via n_adequacy_norms_version.",
+          options: [
+            {label: "Use the panel's default benchmarks", detail: "Lab between-Ss N ≥ 50/cell, within-Ss ≥ 30, fMRI ≥ 25/group, field ≥ 100, cohort ≥ 200, online ≥ 200 post-exclusion, meta-analysis k ≥ 10."},
+            {label: "Tighter benchmarks", detail: "Increase by ~25% (lab between-Ss ≥ 65/cell, within-Ss ≥ 40, etc.)."},
+            {label: "Field-specific, panel-curated", detail: "Maintain per-subfield benchmark tables (neuroscience vs. social psych vs. HCI separately)."},
+            {label: "Effect-size-adaptive", detail: "Compute required N from reported effect-size + power 0.8; flag if observed N < required."}
+          ]
+        },
+        {
+          id: "3.3",
+          title: "What does the WEIRD flag imply for aggregation?",
+          context: "Henrich et al. (2010). Country and setting are extracted; WEIRD flag derived.",
+          options: [
+            {label: "WEIRD as documentation only", detail: "Record but do not penalise. Aggregator surfaces in prose but treats equally."},
+            {label: "WEIRD discounted on generalisation-relevant claims", detail: "If claim is about 'humans' or generalises beyond US/Western context, WEIRD evidence weighted lower."},
+            {label: "Mixed sample preferred when available", detail: "Aggregator prefers cross-cultural designs over WEIRD-only when both available."},
+            {label: "Explicit WEIRD/non-WEIRD parallel tracks", detail: "Maintain two evidence streams per claim; report both."}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B4",
+      title: "Preregistration and open data",
+      preamble: "",
+      nodes: [
+        {
+          id: "4.1",
+          title: "Preregistration claimed — what verification step?",
+          context: "Preregistration: with URL, claimed without URL, registered report, or none.",
+          options: [
+            {label: "HEAD-check URL + fetch metadata + compare hypothesis", detail: "Full verification: URL reachable, metadata fetched, hypothesis text compared to paper."},
+            {label: "HEAD-check URL only", detail: "Lighter: URL reachable, no metadata comparison."},
+            {label: "Trust the claim if URL present", detail: "Record URL but do not verify content."},
+            {label: "Require both URL + journal flag where applicable", detail: "Registered report status requires journal verification; standalone preregistration requires URL."}
+          ]
+        },
+        {
+          id: "4.2",
+          title: "Hypothesis-match — embedding threshold and what mismatch means",
+          context: "Embedding-similarity between registered and tested hypothesis text.",
+          options: [
+            {label: "Threshold 0.85 / 0.6 / <0.6 (good / partial / mismatch)", detail: "Default thresholds. Mismatch = substantial flag, not minor."},
+            {label: "Threshold 0.80 / 0.55 / <0.55", detail: "More permissive — fewer 'mismatch' flags."},
+            {label: "Threshold 0.90 / 0.70 / <0.70", detail: "Stricter — more 'mismatch' flags."},
+            {label: "Adjudicator-only — no automatic threshold", detail: "LLM produces similarity score; adjudicator decides match/partial/mismatch."}
+          ]
+        },
+        {
+          id: "4.3",
+          title: "Open data — how to score the 'available on request' language",
+          context: "Gabelica et al. (2022) found ≈6% of 'available on request' actually comply.",
+          options: [
+            {label: "Not credited as open", detail: "Record open_data_partial; not counted toward open-data score."},
+            {label: "Partial credit", detail: "Half-credit; reported separately in fingerprint."},
+            {label: "Treated as open unless audited and failed", detail: "Trust the statement; only downgrade on evidence of non-compliance."},
+            {label: "Era-dependent", detail: "Pre-2015: treated as open. Post-2015: not credited."}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B5",
+      title: "Statistical reporting",
+      preamble: "",
+      nodes: [
+        {
+          id: "5.1",
+          title: "Effect-size reporting — how to handle missing or implicit?",
+          context: "Cohen's d / r / OR. Sometimes computable from t/F + N.",
+          options: [
+            {label: "Always compute if missing-but-extractable", detail: "If t/F + N present and effect size absent, compute d; flag effect_size_origin = 'computed'."},
+            {label: "Compute only on primary empirical", detail: "Skip computation for reviews, theoretical papers. Effect_size = None unless reported."},
+            {label: "Never compute — record only what is reported", detail: "If author did not report, record None. Computed effects not in fingerprint."}
+          ]
+        },
+        {
+          id: "5.2",
+          title: "Retrospective power — what does it mean for the fingerprint?",
+          context: "Hoenig & Heisey (2001) caution: post-hoc power computed from observed effect is mathematically tied to the p-value.",
+          options: [
+            {label: "Record retrospective power but surface Hoenig & Heisey caution in prose", detail: "Default. The fingerprint records the value with origin = 'retrospective' and the prose explains the caveat."},
+            {label: "Compute retrospective power but do not surface; treat as documentation only", detail: "Recorded in metadata; not shown to readers."},
+            {label: "Do not compute retrospective power at all", detail: "Surface only a priori or sensitivity power. If neither present, power_analysis = None."}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B6",
+      title: "Construct validity (human-only)",
+      preamble: "Hardest fingerprint field. Panel rejected automatic extraction. The LLM produces a suggestion + source excerpt; a human adjudicator decides.",
+      nodes: [
+        {
+          id: "6.1",
+          title: "What is the adjudicator asked?",
+          context: "The adjudicator's question shapes both LLM suggestion prompt and human review form.",
+          options: [
+            {label: "Does the cited validation support the measure for this population and use?", detail: "Default. Three sub-questions: (a) is the validation real, (b) does it cover this population, (c) does it cover this use."},
+            {label: "Three-tier: validated / partly validated / unvalidated, plus deviation justification", detail: "Adjudicator picks tier and justifies deviation if any."},
+            {label: "Open prose adjudication", detail: "Adjudicator writes prose; the prose IS the verdict. Categorical tags are derived."},
+            {label: "Comparative — same construct in other papers", detail: "Adjudicator answers in relation to other operationalisations of the same construct in the corpus."}
+          ]
+        },
+        {
+          id: "6.2",
+          title: "Construct stability — what does 'contested' imply?",
+          context: "Some constructs (working memory, RMSSD) are stable; others (mindfulness, presence) are contested. Shapes how single-paper measurement is read.",
+          options: [
+            {label: "Surface contestation in prose, no automatic deduction", detail: "Reader sees that construct is contested; aggregation otherwise unchanged."},
+            {label: "Discount on contested constructs", detail: "Aggregator weights papers measuring contested constructs lower."},
+            {label: "Parallel tracks per operationalisation", detail: "Each operationalisation of a contested construct gets its own track in the prose; aggregator presents both."},
+            {label: "Require explicit construct-justification in paper for contested constructs", detail: "Papers measuring contested constructs without justifying their choice get a flag."}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B7",
+      title: "Citation and replication profile",
+      preamble: "",
+      nodes: [
+        {
+          id: "7.1",
+          title: "What is citation count used for?",
+          context: "Citation counts are real but easy to misread. What role do they play in the fingerprint?",
+          options: [
+            {label: "Documentation only — surfaced but not aggregated", detail: "Citation count and pattern shown to reader; aggregator ignores."},
+            {label: "Foundational-status flag only", detail: "Papers cited >5× field median in subsequent reviews get a 'foundational' flag; otherwise ignored in aggregation."},
+            {label: "Contestation-detection flag", detail: "High citation + many citing papers contradict = 'contested' flag; surfaced as strength of disagreement, not deduction."},
+            {label: "Era-balanced reweighting", detail: "Citation count adjusted for era so recent papers are not penalised."}
+          ]
+        },
+        {
+          id: "7.2",
+          title: "Replication registries — which to consult?",
+          context: "Many Labs, Reproducibility Project, RIAT, retraction registries.",
+          options: [
+            {label: "All major registries (Many Labs, RP:P, RP:Cancer, RIAT, retraction registries)", detail: "Comprehensive. Most accurate but slowest."},
+            {label: "Many Labs + RP:P + retraction only", detail: "Lighter. Covers ~80% of replication evidence."},
+            {label: "Topic-specific subset", detail: "Choose registries based on paper's subfield."},
+            {label: "Replication status from corpus only", detail: "Don't query external registries; derive replication status from within-corpus citation patterns."}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B8",
+      title: "Rhetorical flags (LLM-assisted, human-decided)",
+      preamble: "Panel rule: rhetorical flags are surfaced as observations, never aggregated into numeric scores. LLM reads the rhetoric; adjudicator decides.",
+      nodes: [
+        {
+          id: "8.1",
+          title: "Overclaiming in abstract — how strict?",
+          context: "Does the abstract make claims the Methods cannot support?",
+          options: [
+            {label: "Standard — flag only on strong overclaim", detail: "Strong = causal language, 'demonstrates', broad generalisation from WEIRD."},
+            {label: "Stricter — flag mild overclaim too", detail: "Any reach beyond design strength gets a flag."},
+            {label: "Two-tier visible to reader (mild / strong)", detail: "Default. Both tiers surfaced; reader sees both."}
+          ]
+        },
+        {
+          id: "8.2",
+          title: "Null-result handling — what triggers a flag?",
+          context: "Null results buried via multiple comparisons is a common pattern.",
+          options: [
+            {label: "Flag when multiple comparisons performed but only significant ones in abstract", detail: "Default. LLM scans methods for multiple comparisons, then checks abstract emphasis."},
+            {label: "Flag any preregistered hypothesis not addressed in results", detail: "Match preregistered → results presence. Missing = flag."},
+            {label: "Both", detail: "Apply both heuristics. More flags but more sensitive."}
+          ]
+        },
+        {
+          id: "8.3",
+          title: "Correlation-as-causation — how granular?",
+          context: "Slippage from observational design to causal Discussion or Conclusions.",
+          options: [
+            {label: "Three tiers: clean / slippage / strong slippage", detail: "Default. Strong = causal Conclusions + policy recommendations."},
+            {label: "Binary: clean / slippage", detail: "Simpler; loses gradation."},
+            {label: "Tier + section-of-paper attribution", detail: "Records which section (Abstract, Discussion, Conclusions) the slippage appears in."}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B9",
+      title: "Conflict of interest",
+      preamble: "",
+      nodes: [
+        {
+          id: "9.1",
+          title: "COI severity scale — how granular?",
+          context: "COI varies from none to author-equity-in-commercial-entity. How should severity be encoded?",
+          options: [
+            {label: "Four levels: none / funding-only / consultancy / equity-or-employment", detail: "Default. Equity / employment is the most severe."},
+            {label: "Three levels: none / declared-non-financial / declared-financial", detail: "Coarser."},
+            {label: "Five levels with 'undisclosed-suspected' added", detail: "Adds a tier for cases where COI is plausibly present but not declared (LLM flags + adjudicator decides)."},
+            {label: "Severity + claim-relation field", detail: "Two-dimensional: severity (4 levels) × claim-relation (none / tangential / direct)."}
+          ]
+        }
+      ]
+    },
+    {
+      id: "B10",
+      title: "Final routing",
+      preamble: "After Branches 1–9, the fingerprint is routed.",
+      nodes: [
+        {
+          id: "10.1",
+          title: "Auto-accept / adjudication threshold",
+          context: "Above this confidence the field ships; below, the field queues.",
+          options: [
+            {label: "0.85 uniform across all eleven fields (panel default)", detail: "Matches Q11 of the 2026-04-25 design questions."},
+            {label: "0.85 semantic / 0.95 programmatic", detail: "Tighter for programmatic-eligible fields (preregistration URL, raw N)."},
+            {label: "0.90 high-stakes (construct, rhetorical) / 0.85 rest", detail: "Tiered by field stakes."},
+            {label: "Field-by-field calibrated post-anchor-set", detail: "Threshold per field set after seeing anchor-set agreement statistics."}
+          ]
+        },
+        {
+          id: "10.2",
+          title: "Adjudication priority — sort key for the queue",
+          context: "When the queue has many entries, what gets adjudicated first?",
+          options: [
+            {label: "FIFO", detail: "Order of arrival. Simplest; oldest items handled first."},
+            {label: "Citation-weighted", detail: "Papers with more citations adjudicated first."},
+            {label: "Claim-leverage-weighted", detail: "Papers cited by claims with many downstream consumers adjudicated first."},
+            {label: "Era-balanced", detail: "Mix old and new so the calibration set stays representative."}
+          ]
+        }
+      ]
+    }
+  ]
+};
+
+const STORAGE_KEY = "ka_paper_quality_walkthrough_v1";
+const SAVE_DEBOUNCE_MS = 350;
+
+// ==========================================================================
+// State
+// ==========================================================================
+
+let state = loadState();
+let currentNodeIdx = state.lastNodeIdx || 0;
+let saveTimer = null;
+
+function flatNodes() {
+  const out = [];
+  for (const b of TREE.branches) {
+    for (const n of b.nodes) {
+      out.push({ branchId: b.id, branchTitle: b.title, branchPreamble: b.preamble, ...n });
+    }
+  }
+  return out;
+}
+
+const NODES = flatNodes();
+
+function freshAnswer() {
+  return {
+    selectedOption: null,
+    selectedOptionIsOther: false,
+    writeInLabel: "",
+    rationale: "",
+    confidence: null,
+    flagForPanel: false,
+    updatedAt: null
+  };
+}
+
+function loadState() {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY);
+    if (!raw) return { answers: {}, lastNodeIdx: 0 };
+    const parsed = JSON.parse(raw);
+    return parsed && typeof parsed === "object" ? parsed : { answers: {}, lastNodeIdx: 0 };
+  } catch (e) {
+    console.warn("Failed to load state:", e);
+    return { answers: {}, lastNodeIdx: 0 };
+  }
+}
+
+function saveState(immediate) {
+  if (saveTimer) { clearTimeout(saveTimer); saveTimer = null; }
+  const doSave = () => {
+    try {
+      state.lastNodeIdx = currentNodeIdx;
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(state));
+      flashSaveIndicator();
+    } catch (e) {
+      console.warn("Save failed:", e);
+    }
+  };
+  if (immediate) doSave();
+  else saveTimer = setTimeout(doSave, SAVE_DEBOUNCE_MS);
+}
+
+function flashSaveIndicator() {
+  const el = document.getElementById("saveIndicator");
+  el.classList.add("shown");
+  clearTimeout(el._timer);
+  el._timer = setTimeout(() => el.classList.remove("shown"), 1100);
+}
+
+function getAnswer(nodeId) {
+  if (!state.answers[nodeId]) state.answers[nodeId] = freshAnswer();
+  return state.answers[nodeId];
+}
+
+function isAnswered(nodeId) {
+  const a = state.answers[nodeId];
+  if (!a) return false;
+  const hasChoice = a.selectedOption !== null || (a.selectedOptionIsOther && a.writeInLabel.trim().length > 0);
+  return hasChoice && a.rationale.trim().length > 0;
+}
+
+function answeredCount() {
+  return NODES.filter(n => isAnswered(n.id)).length;
+}
+
+// ==========================================================================
+// Rendering
+// ==========================================================================
+
+function renderProgress() {
+  const total = NODES.length;
+  const done = answeredCount();
+  const pct = Math.round((done / total) * 100);
+  document.getElementById("progressLabel").textContent =
+    `Node ${currentNodeIdx + 1} of ${total} · ${done}/${total} answered (${pct}%)`;
+  document.getElementById("progressFill").style.width = `${pct}%`;
+}
+
+function renderLeftPane() {
+  const pane = document.getElementById("leftPane");
+  let html = `<h1>${TREE.title}</h1>`;
+  html += `<p style="font-size:13px;color:var(--ink-soft);">Source: <code>${TREE.source}</code> · ${NODES.length} nodes across ${TREE.branches.length} branches · annotations export to <code>data/paper_quality_dk_preferences.json</code></p>`;
+
+  const currentNode = NODES[currentNodeIdx];
+  for (const b of TREE.branches) {
+    html += `<h2 id="branch-${b.id}">${b.id.replace("B", "Branch ")} — ${escapeHtml(b.title)}</h2>`;
+    if (b.preamble) html += `<p>${escapeHtml(b.preamble)}</p>`;
+    for (const n of b.nodes) {
+      const isCurrent = n.id === currentNode.id;
+      const answered = isAnswered(n.id);
+      html += `<h3 id="node-${n.id}" class="${isCurrent ? "current-node" : ""}">Node ${n.id} — ${escapeHtml(n.title)}</h3>`;
+      if (n.context) html += `<p>${escapeHtml(n.context)}</p>`;
+      html += `<table><thead><tr><th>Option</th><th>Detail</th></tr></thead><tbody>`;
+      for (const opt of n.options) {
+        html += `<tr><td><strong>${escapeHtml(opt.label)}</strong></td><td>${escapeHtml(opt.detail)}</td></tr>`;
+      }
+      html += `</tbody></table>`;
+      if (answered) {
+        const a = state.answers[n.id];
+        const choice = a.selectedOptionIsOther
+          ? `<em>Other — ${escapeHtml(a.writeInLabel)}</em>`
+          : `<strong>${escapeHtml(a.selectedOption)}</strong>`;
+        html += `<div class="dk-pref-placeholder filled"><strong>DK preference:</strong> ${choice}<br><span style="font-size:12.5px;">${escapeHtml(a.rationale)}</span></div>`;
+      } else {
+        html += `<div class="dk-pref-placeholder"><strong>DK preference:</strong> [unanswered]</div>`;
+      }
+    }
+  }
+  pane.innerHTML = html;
+  setTimeout(() => {
+    const target = pane.querySelector(`#node-${currentNode.id}`);
+    if (target) target.scrollIntoView({ behavior: "smooth", block: "start" });
+  }, 60);
+}
+
+function renderRightPane() {
+  if (currentNodeIdx >= NODES.length) {
+    renderCompletion();
+    return;
+  }
+  const n = NODES[currentNodeIdx];
+  const a = getAnswer(n.id);
+
+  let html = `<div class="node-card">`;
+  html += `<div class="node-breadcrumb">${n.branchId.replace("B", "Branch ")} · ${escapeHtml(n.branchTitle)}</div>`;
+  html += `<h2 class="node-title">Node ${n.id} — ${escapeHtml(n.title)}</h2>`;
+  if (n.context) html += `<p class="node-context">${escapeHtml(n.context)}</p>`;
+
+  // Options
+  html += `<div class="form-group"><span class="form-label">Choose one option</span>`;
+  html += `<div class="options-table">`;
+  for (let i = 0; i < n.options.length; i++) {
+    const opt = n.options[i];
+    const isSelected = !a.selectedOptionIsOther && a.selectedOption === opt.label;
+    html += `
+      <div class="option-row ${isSelected ? "selected" : ""}" data-option-idx="${i}" role="button">
+        <div class="option-radio"><input type="radio" name="option" ${isSelected ? "checked" : ""} aria-label="${escapeHtml(opt.label)}"></div>
+        <div class="option-body">
+          <div class="option-label">${escapeHtml(opt.label)}</div>
+          <div class="option-detail">${escapeHtml(opt.detail)}</div>
+        </div>
+      </div>`;
+  }
+  // Other / write-in
+  const otherSelected = a.selectedOptionIsOther;
+  html += `
+    <div class="option-row other ${otherSelected ? "selected" : ""}" data-option-idx="other" role="button">
+      <div class="option-radio"><input type="radio" name="option" ${otherSelected ? "checked" : ""} aria-label="Other — write in"></div>
+      <div class="option-body">
+        <div class="option-label">Other — write in</div>
+        <div class="option-detail">If none of the listed options matches, or you want to modify one, name your option here.</div>
+        <div class="write-in-text ${otherSelected ? "shown" : ""}">
+          <input type="text" id="writeInLabel" placeholder="Name the option (e.g. 'tiered by sample size')" value="${escapeAttr(a.writeInLabel)}">
+        </div>
+      </div>
+    </div>`;
+  html += `</div></div>`;
+
+  // Rationale
+  html += `
+    <div class="form-group">
+      <span class="form-label">Rationale (2–4 sentences)</span>
+      <div class="form-help">Explain your judgement. Cite a paper, a panellist, a prior incident, or anything that constrains the choice. This becomes the canonical defence for the methodological decision when a thesis chapter cites it.</div>
+      <textarea class="rationale-area" id="rationale" placeholder="The reason I pick this is …">${escapeHtml(a.rationale)}</textarea>
+    </div>`;
+
+  // Confidence
+  html += `
+    <div class="form-group">
+      <span class="form-label">Confidence in this choice</span>
+      <div class="pill-group" id="confidencePills">
+        ${[
+          ["tentative", "Tentative — revisit"],
+          ["likely", "Likely — but open"],
+          ["confident", "Confident"],
+          ["settled", "Settled — defended"]
+        ].map(([val, label]) => `<div class="pill ${a.confidence === val ? "selected" : ""}" data-confidence="${val}">${label}</div>`).join("")}
+      </div>
+    </div>`;
+
+  // Flag
+  html += `
+    <div class="form-group">
+      <div class="checkbox-group">
+        <input type="checkbox" id="flagForPanel" ${a.flagForPanel ? "checked" : ""}>
+        <label for="flagForPanel">Flag for panel review (raise this at the next methodology panel)</label>
+      </div>
+    </div>`;
+
+  // Nav
+  const isFirst = currentNodeIdx === 0;
+  const isLast = currentNodeIdx === NODES.length - 1;
+  html += `
+    <div class="node-nav">
+      <button class="nav-btn" id="btnPrev" ${isFirst ? "disabled" : ""}>← Previous</button>
+      <div class="nav-status">${isAnswered(n.id) ? "✓ answered" : "unanswered"} · jumps autosave</div>
+      <button class="nav-btn primary" id="btnNext">${isLast ? "Finish →" : "Next →"}</button>
+    </div>`;
+
+  html += `</div>`;
+  document.getElementById("rightPane").innerHTML = html;
+
+  bindRightPaneHandlers();
+}
+
+function renderCompletion() {
+  const total = NODES.length;
+  const done = answeredCount();
+  const html = `
+    <div class="node-card">
+      <div class="completion-banner">
+        <h2>Walkthrough complete</h2>
+        <p>You have answered ${done} of ${total} nodes. Export the JSON below and hand it to Codex (or commit it under <code>data/paper_quality_dk_preferences.json</code>) so the build's per-field extractor prompts can be regenerated from your decisions.</p>
+        <p>Anything you want to revisit, jump back via "All nodes" in the header.</p>
+        <button class="btn primary" id="btnExport2">Export JSON</button>
+      </div>
+    </div>`;
+  document.getElementById("rightPane").innerHTML = html;
+  document.getElementById("btnExport2").addEventListener("click", exportJSON);
+}
+
+// ==========================================================================
+// Event handlers
+// ==========================================================================
+
+function bindRightPaneHandlers() {
+  document.querySelectorAll(".option-row").forEach(row => {
+    row.addEventListener("click", (e) => {
+      // Don't capture clicks on the write-in input itself
+      if (e.target.tagName === "INPUT" && e.target.type === "text") return;
+      const idx = row.dataset.optionIdx;
+      const n = NODES[currentNodeIdx];
+      const a = getAnswer(n.id);
+      if (idx === "other") {
+        a.selectedOption = null;
+        a.selectedOptionIsOther = true;
+      } else {
+        a.selectedOption = n.options[parseInt(idx, 10)].label;
+        a.selectedOptionIsOther = false;
+        a.writeInLabel = "";
+      }
+      a.updatedAt = new Date().toISOString();
+      saveState();
+      renderRightPane();
+      renderProgress();
+      renderLeftPaneStatus();
+    });
+  });
+
+  const writeInInput = document.getElementById("writeInLabel");
+  if (writeInInput) {
+    writeInInput.addEventListener("input", (e) => {
+      const a = getAnswer(NODES[currentNodeIdx].id);
+      a.writeInLabel = e.target.value;
+      a.updatedAt = new Date().toISOString();
+      saveState();
+      renderProgress();
+    });
+    writeInInput.addEventListener("click", (e) => e.stopPropagation());
+  }
+
+  document.getElementById("rationale").addEventListener("input", (e) => {
+    const a = getAnswer(NODES[currentNodeIdx].id);
+    a.rationale = e.target.value;
+    a.updatedAt = new Date().toISOString();
+    saveState();
+    renderProgress();
+  });
+
+  document.querySelectorAll("#confidencePills .pill").forEach(pill => {
+    pill.addEventListener("click", () => {
+      const a = getAnswer(NODES[currentNodeIdx].id);
+      a.confidence = a.confidence === pill.dataset.confidence ? null : pill.dataset.confidence;
+      a.updatedAt = new Date().toISOString();
+      saveState();
+      renderRightPane();
+    });
+  });
+
+  document.getElementById("flagForPanel").addEventListener("change", (e) => {
+    const a = getAnswer(NODES[currentNodeIdx].id);
+    a.flagForPanel = e.target.checked;
+    a.updatedAt = new Date().toISOString();
+    saveState();
+  });
+
+  document.getElementById("btnPrev").addEventListener("click", () => goTo(currentNodeIdx - 1));
+  document.getElementById("btnNext").addEventListener("click", () => goTo(currentNodeIdx + 1));
+}
+
+function renderLeftPaneStatus() {
+  // Light-weight repaint: just update the DK preference placeholders without rebuilding the whole tree
+  const placeholders = document.querySelectorAll(".left-pane h3");
+  placeholders.forEach((h3) => {
+    const m = h3.textContent.match(/^Node ([0-9.]+) —/);
+    if (!m) return;
+    const nodeId = m[1];
+    const node = NODES.find(n => n.id === nodeId);
+    if (!node) return;
+    const next = h3.nextElementSibling;
+    // Find this node's placeholder by walking forward to the next .dk-pref-placeholder
+    let cursor = h3.nextElementSibling;
+    while (cursor && !cursor.classList.contains("dk-pref-placeholder")) {
+      cursor = cursor.nextElementSibling;
+    }
+    if (!cursor) return;
+    if (isAnswered(nodeId)) {
+      const a = state.answers[nodeId];
+      const choice = a.selectedOptionIsOther
+        ? `<em>Other — ${escapeHtml(a.writeInLabel)}</em>`
+        : `<strong>${escapeHtml(a.selectedOption)}</strong>`;
+      cursor.className = "dk-pref-placeholder filled";
+      cursor.innerHTML = `<strong>DK preference:</strong> ${choice}<br><span style="font-size:12.5px;">${escapeHtml(a.rationale)}</span>`;
+    } else {
+      cursor.className = "dk-pref-placeholder";
+      cursor.innerHTML = `<strong>DK preference:</strong> [unanswered]`;
+    }
+  });
+}
+
+function goTo(idx) {
+  if (idx < 0) return;
+  if (idx > NODES.length) return;
+  currentNodeIdx = idx;
+  saveState(true);
+  renderProgress();
+  renderRightPane();
+  renderLeftPane();
+}
+
+// ==========================================================================
+// Export
+// ==========================================================================
+
+function exportJSON() {
+  const payload = {
+    schema_version: "1.0",
+    generated_at: new Date().toISOString(),
+    source_document: TREE.source,
+    total_nodes: NODES.length,
+    answered_nodes: answeredCount(),
+    answers: {}
+  };
+  for (const n of NODES) {
+    const a = state.answers[n.id];
+    if (!a) continue;
+    payload.answers[n.id] = {
+      branch_id: n.branchId,
+      branch_title: n.branchTitle,
+      node_title: n.title,
+      selected_option: a.selectedOption,
+      selected_option_is_other: a.selectedOptionIsOther,
+      write_in_label: a.writeInLabel,
+      rationale: a.rationale,
+      confidence: a.confidence,
+      flag_for_panel: a.flagForPanel,
+      updated_at: a.updatedAt
+    };
+  }
+  const blob = new Blob([JSON.stringify(payload, null, 2)], { type: "application/json" });
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement("a");
+  a.href = url;
+  a.download = `paper_quality_dk_preferences_${new Date().toISOString().slice(0, 10)}.json`;
+  document.body.appendChild(a);
+  a.click();
+  setTimeout(() => { document.body.removeChild(a); URL.revokeObjectURL(url); }, 100);
+}
+
+// ==========================================================================
+// Helpers
+// ==========================================================================
+
+function escapeHtml(str) {
+  return String(str || "").replace(/[&<>"']/g, c => ({"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;","'":"&#39;"}[c]));
+}
+function escapeAttr(str) {
+  return escapeHtml(str);
+}
+
+function bindHeaderHandlers() {
+  document.getElementById("btnExport").addEventListener("click", exportJSON);
+  document.getElementById("btnAllNodes").addEventListener("click", () => {
+    const choices = NODES.map((n, i) => `${i + 1}. ${n.id} — ${n.title}${isAnswered(n.id) ? " ✓" : ""}`).join("\n");
+    const pick = prompt(`Jump to which node? (enter number 1–${NODES.length})\n\n${choices}`);
+    if (!pick) return;
+    const idx = parseInt(pick, 10) - 1;
+    if (Number.isFinite(idx) && idx >= 0 && idx < NODES.length) goTo(idx);
+  });
+}
+
+// ==========================================================================
+// Init
+// ==========================================================================
+
+bindHeaderHandlers();
+renderProgress();
+renderLeftPane();
+renderRightPane();
+</script>
+
+</body>
+</html>
