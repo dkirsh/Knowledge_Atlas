@@ -52,13 +52,38 @@ annotations (those gate Pass 2's extraction prompts, not these
 foundations). It *does* depend on the blackboard schema already
 landed, because the dataclass field set mirrors the SQL columns.
 
-Open a new branch:
+**Branch-state precondition (added 2026-05-13 per AG advisory)**.
+The atlas_shared repository's default branch is `main`, not
+`master`. As of 2026-05-13, twelve commits exist on
+`cleanup-sprint-2026-04-21` that are *not* in `main`. They include
+the canonical `paper_id` contract
+(`bf77f5f docs(contract): name paper_id as the canonical
+article-identity field`), the `RegistryFact.paper_id` promotion,
+the `__all__` trim to ten canonical entry points, and the final
+mypy sweep. Codex's foundations branch must not fork from a stale
+main that is missing these.
+
+Sequence:
 
 ```bash
 cd /Users/davidusa/REPOS/atlas_shared
-git fetch origin && git checkout master && git pull --ff-only
+
+# Step 1: merge the cleanup sprint to main first (PR #1 on the
+# atlas_shared repo). Confirm with DK before merging; expected to
+# be a no-op review since the cleanup work landed in late April.
+git fetch origin
+git checkout main && git pull --ff-only
+git merge --ff-only origin/cleanup-sprint-2026-04-21
+git push origin main
+
+# Step 2: open the foundations branch from updated main
 git checkout -b codex/paper-quality-foundations-2026-05-13
 ```
+
+If the merge is not fast-forward (i.e., main has commits not in
+cleanup-sprint), stop and post to COORDINATION.md under
+`### Codex paper-quality Pass 1 — blocker: atlas_shared merge`.
+Do not force-merge; DK reviews the divergence and decides.
 
 ### Commit 1 — `paper_quality.py` + `worker_loop.py`
 
@@ -218,6 +243,76 @@ pytest -q 2>&1 | tail -5
 Record the baseline pass/fail/skip count. Every commit below
 preserves or improves it.
 
+### AG advisory constraints (added 2026-05-13)
+
+AG posted a substantive advisory on the V7 lifecycle integration
+(Probe 6 surface) and the cross-repo dependency surface (Probe 8
+surface) during the limited-advisory window. Five constraints
+follow from it.
+
+**paper_id format — raw `PDF-NNNN`, not `bel_PDF-NNNN`.** The V7
+pipeline uses two databases: `ae.db` (beliefs, constraints,
+warrants, argumentation; resolved via
+`src.services.db_locator.resolve_web_db()`) and
+`pipeline_lifecycle_full.db` (lifecycle events, paper status,
+extraction state, plus the new paper-quality blackboard tables).
+The `paper_id` columns must be join-compatible across the two
+databases. Beliefs use a `bel_` prefix on their references
+(`bel_PDF-0042`); the canonical `paper_id` is the raw form
+(`PDF-0042`). The C-beta empirical diff confirmed 94.3 % of
+constraints resolve after `bel_`-prefix normalisation. The
+`PaperQualityFingerprint.paper_id` dataclass field must hold the
+raw form; if you receive a `bel_`-prefixed identifier from
+upstream code, normalise before storing.
+
+**short_circuited admission handling (Pass 2 forward).** The C-δ
+pre-admission SHA-256 dedup lands a `short_circuited` flag on
+`AdmissionResult`. If a paper is admitted and the same PDF later
+re-enters the pipeline via a different route, C-δ prevents a
+duplicate `paper_id`. The Pass-2 extractor (not in this block,
+but documented here so the dataclass shape accommodates it) must
+handle `admit_paper()` returning `short_circuited=True` by
+attaching the fingerprint to the existing `paper_id`, not by
+creating a new extraction run. The dataclass should carry an
+`attached_via_short_circuit: bool = False` field so the audit
+trail records this case.
+
+**Stage 18/19 monotonicity.** The current highest-numbered
+production stage in `v7_lifecycle_contract.py` (line 799 area) is
+stage 17 (warrant computation). Stages 18 (`paper_quality_extraction`)
+and 19 (`paper_quality_finalisation`) are new and do not collide,
+but the lifecycle event schema requires `stage_number` to be
+monotonically increasing per paper. The migration script you
+already shipped is correct on this; the Pass-3 stage-emitter
+must respect the same ordering.
+
+**No shadow definitions.** `PaperQualityFingerprint` must be the
+sole definition, in `atlas_shared.paper_quality`. Consumer repos
+(Article_Eater, Knowledge_Atlas) import; they do not redefine.
+This is the rule the spec-generation hygiene discipline names
+explicitly (see below) and the rule Probe 8 specifically tests.
+If Article_Eater warrant-packet integration appears to need a
+lightweight subset of the fingerprint, the right design is a
+projection function in atlas_shared, not a shadow class.
+
+**Spec-generation hygiene if persisting fingerprints to disk.**
+The contract `contracts/SPEC_GENERATION_HYGIENE_CONTRACT_V1.md`
+in Article_Eater (2026-05-12, authored by AG, strengthened by
+CW per Codex review) establishes that artefact families
+persisted to disk must be registered as *semantic slots* in
+`src/services/spec_generation_registry.py` with a structural
+current-spec detector. If the paper-quality build persists
+fingerprints to disk under `data/papers/<paper_id>/` as JSON
+files (in addition to the SQLite storage), register
+`paper_quality_fingerprint_canonical` as a new slot with a
+detector predicate that requires the presence of the
+`WEIGHTING_FUNCTION_VERSION` field (or another load-bearing
+field unique to the current spec). This closes the same multi-
+generation collision the `sc_summary` family suffered. If
+fingerprints are DB-only and never written to disk, this
+constraint is moot — confirm one way or the other in the Pass-1
+reporting message.
+
 ### Hard rules — restated for this block
 
 The Hard Rules 7, 8, 9 of the build prompt apply to the extractor
@@ -257,6 +352,11 @@ annotations landing so Pass 2 (extraction service) can start, or
 (b) a Pass-3 prompt for the HTTP endpoints + UI + overseer rollup,
 which also does not need M1 and can be done in parallel with DK's
 human work.
+
+Also include in the Pass-1 reporting message: confirmation of
+whether the paper-quality fingerprint is persisted to disk (under
+`data/papers/<paper_id>/`) in addition to the SQLite storage. The
+spec-generation registry registration depends on that answer.
 
 ### Out of scope for this block
 
