@@ -233,6 +233,95 @@ standing convention.
 
 ---
 
+### Codex paper-quality Pass 1 — landed
+
+Codex completed Pass 1 in `atlas_shared` on branch
+`codex/paper-quality-foundations-2026-05-13`.
+
+**Branch-state precondition**
+
+The atlas_shared default branch is `main`, not `master`. Codex
+verified that `origin/cleanup-sprint-2026-04-21` was a fast-forward
+successor of local `main`, then fast-forwarded and pushed `main` to
+`cbd323a` before rebasing the paper-quality foundations branch onto
+that corrected base. No force-merge was used.
+
+**Four landed commits**
+
+- `8ec7ea2` — `Add paper-quality fingerprint and worker loop`
+- `080e763` — `Document paper-quality fingerprint contract`
+- `922f823` — `Add claim-strength aggregation`
+- `5317ff7` — `Add literature-body quality aggregation`
+
+**Test counts**
+
+- Corrected `main` baseline after cleanup-sprint merge:
+  `33 passed in 0.18s`
+- Final paper-quality branch:
+  `47 passed in 0.25s`
+
+**Notable design choices**
+
+- `PaperQualityFingerprint.paper_id`, `HardRuleViolation.paper_id`,
+  and `SampleOverlapEdge` endpoints normalize `bel_PDF-*` inputs to
+  raw `PDF-*` identifiers before persistence.
+- `PaperQualityFingerprint` carries
+  `attached_via_short_circuit: bool = False` so Pass 2 can record
+  pre-admission dedup attachment without minting a duplicate
+  paper_id.
+- `PaperQualityFingerprint` is the only fingerprint definition.
+  Claim and literature-body code import the shared class rather
+  than defining shadows.
+- `atlas_shared.__all__` follows the cleanup-sprint public-API
+  discipline. Codex added `PaperQualityFingerprint` as the one new
+  canonical public symbol and left `claim_strengths` /
+  `literature_body` importable as submodules.
+- The claim-strength weighting version is
+  `v1.0-2026-05-13`. Effect pooling uses inverse-variance weights
+  when confidence intervals are present, otherwise equal weights.
+- I² is computed by the Higgins-Thompson Q formulation.
+- Egger funnel-asymmetry testing is gated at ten usable studies;
+  below that threshold the result records
+  `egger_test_applicable = False` and does not report a statistic.
+- Sample-overlap deduplication merges papers connected by overlap
+  edges with confidence greater than 0.50, averaging the group
+  effect and sample size for claim aggregation.
+- Literature-body aggregation is pure Python: preregistration
+  fraction, design-weighted median sample size, median CI width by
+  metric, replication coverage, and open-data availability.
+
+**Spec-generation registry answer**
+
+Pass 1 does not persist paper-quality fingerprints to
+`data/papers/<paper_id>/` or any other disk artifact family. It
+defines dataclasses, pure aggregators, and worker-loop mirror
+support only. Canonical fingerprint persistence remains SQLite /
+blackboard-oriented at this stage, so
+`paper_quality_fingerprint_canonical` does not yet need registration
+in Article_Eater's `spec_generation_registry.py`. If Pass 2 writes
+canonical fingerprint JSON files under `data/papers/<paper_id>/`,
+that slot must be registered then with a structural detector keyed
+on `WEIGHTING_FUNCTION_VERSION` or an equivalent current-spec field.
+
+**Deviations**
+
+The initial Codex pass had forked from stale `main`; after CW's
+updated prompt Codex corrected this by fast-forwarding `main` to
+the cleanup sprint, rebasing the foundations branch, and
+force-with-lease pushing the corrected branch history. The four
+commit structure is preserved after the rebase.
+
+**Current status**
+
+Pass 1 is ready for CW/DK review. Codex stands by for either DK's
+M1 annotations for Pass 2 or a Pass-3 prompt for HTTP endpoints,
+UI, and overseer rollup.
+
+**Tag**: Codex, CW, AG.
+
+
+---
+
 ### CW paper-quality coordination — 2026-05-13 (afternoon update)
 
 AG replied to the Phase 1 follow-up with substantive advisory content
