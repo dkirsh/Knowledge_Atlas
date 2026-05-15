@@ -1,0 +1,3648 @@
+{
+  "schema_version": "ka_did_you_know_v1",
+  "generated_at": "2026-05-15T04:30:16.251983Z",
+  "source_kind": "ka_evidence_did_you_know_generator",
+  "source_files": {
+    "evidence": "data/ka_payloads/evidence.json"
+  },
+  "science_writer": {
+    "agent": "science_writer",
+    "version": "science_writer_dyk_v1_2026_05_14",
+    "method": "deterministic source-preserving rewrite",
+    "non_promises": [
+      "does not invent claims",
+      "does not upgrade evidence strength",
+      "does not replace source-paper review"
+    ]
+  },
+  "summary": {
+    "candidate_count": 1877,
+    "card_count": 60,
+    "topic_count": 31,
+    "journey_counts": {
+      "practitioner": 13,
+      "researcher": 58,
+      "student_explorer": 60,
+      "topic_browser": 60
+    },
+    "evidence_strength_counts": {
+      "emerging": 2,
+      "moderate": 53,
+      "strong": 5
+    }
+  },
+  "cards": [
+    {
+      "id": "dyk_2290d7bafb",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change comfort.",
+      "kicker": "STRONG EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in comfort.",
+      "body": "In this case, the regression model for the average suggested index was \\(I_ s =86.3-5.53 S\\) and offered the best regression of \\(87 \\%\\), with \\(r=0.87\\) ( \\(R^ 2 =0.76\\) ). Source: Review of acoustic comfort evaluation in dwellings-part I: Associations of acoustic field data to subjective.... This is a good entry point, but it is still evidence to inspect rather than a design law.",
+      "source_claim_ids": [
+        "1284"
+      ],
+      "source_paper_ids": [
+        "PDF-0846"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0846",
+          "title": "Review of acoustic comfort evaluation in dwellings-part I: Associations of acoustic field data to subjective...",
+          "citation": "Review of acoustic comfort evaluation in dwellings-part I: Associations of acoustic field data to subjective responses from building surveys.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__affect_comfort"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Comfort"
+      ],
+      "primary_topic": "Acoustic Environment → Comfort",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "strong"
+      ],
+      "evidence_strength": "strong",
+      "surprise_score": 0.59,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.88,
+      "support_count": 15,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0846",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-comfort"
+      }
+    },
+    {
+      "id": "dyk_7fda536c05",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change soundscape perception.",
+      "kicker": "STRONG EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in soundscape perception.",
+      "body": "Methodology and participants: The study entailed conducting interviews with a group of 10 teachers from two schools, aiming to understand how the school's architecture impacts both the soundscape and the organization of teaching. Source: Methodological approaches and main factors considered in school soundscape studies: A scoping review. This is a good entry point, but it is still evidence to inspect rather than a d...",
+      "source_claim_ids": [
+        "1266"
+      ],
+      "source_paper_ids": [
+        "PDF-0840"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0840",
+          "title": "Methodological approaches and main factors considered in school soundscape studies: A scoping review",
+          "citation": "Methodological approaches and main factors considered in school soundscape studies: A scoping review.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__affect_soundscape"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Soundscape Perception"
+      ],
+      "primary_topic": "Acoustic Environment → Soundscape Perception",
+      "front_ids": [
+        "RF_DB748AA0",
+        "Acoustic Environment × Soundscape Perception (Soundscape)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "strong"
+      ],
+      "evidence_strength": "strong",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.87,
+      "support_count": 8,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0840",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-soundscape-perception"
+      }
+    },
+    {
+      "id": "dyk_93a0fd2b51",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change physiological response.",
+      "kicker": "STRONG EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "Prodi and Visentin [17] examined the effects of conditions in two classrooms with different RT, one quiet and one noisy (RT from 0.57 to 0.69 s ), on the performance of school children (age 11 to 13 years old). Source: Indicators and methods for assessing acoustical preferences and needs of students in educational buildings: A.... This is a good entry point, but it is still evidence to inspect rather than a design l...",
+      "source_claim_ids": [
+        "252"
+      ],
+      "source_paper_ids": [
+        "PDF-0181"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0181",
+          "title": "Indicators and methods for assessing acoustical preferences and needs of students in educational buildings: A...",
+          "citation": "Amneh Hamida ⇑ et al. (2022). Indicators and methods for assessing acoustical preferences and needs of students in educational buildings: A review. https://doi.org/10.1016/j.apaco...",
+          "year": 2022
+        }
+      ],
+      "topic_ids": [
+        "acoustic__physio",
+        "acoustic__cog_performance",
+        "acoustic__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Physiological Response"
+      ],
+      "primary_topic": "Acoustic Environment → Physiological Response",
+      "front_ids": [
+        "RF_9A8C8821",
+        "Acoustic Environment × Physiological Response (Soundscape)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "strong"
+      ],
+      "evidence_strength": "strong",
+      "surprise_score": 0.65,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.87,
+      "support_count": 5,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0181",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_3558872229",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change comfort.",
+      "kicker": "STRONG EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in comfort.",
+      "body": "It is interesting to note that the scores for acoustic comfort are significantly lower than those for sound level ( \\(p<0.05\\) ), based on Paired Samples T-tests, indicating that although people may feel the sound environment is noisy/loud, they still find it… Source: Semantic differential analysis of the soundscape in urban open public spaces. This is a good entry point, but it is still evidence to inspect rather t...",
+      "source_claim_ids": [
+        "1570"
+      ],
+      "source_paper_ids": [
+        "PDF-1183"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1183",
+          "title": "Semantic differential analysis of the soundscape in urban open public spaces",
+          "citation": "Semantic differential analysis of the soundscape in urban open public spaces.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__affect_comfort"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Comfort"
+      ],
+      "primary_topic": "Acoustic Environment → Comfort",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "strong"
+      ],
+      "evidence_strength": "strong",
+      "surprise_score": 0.33,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.86,
+      "support_count": 9,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1183",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-comfort"
+      }
+    },
+    {
+      "id": "dyk_1dc957058b",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change neural activity.",
+      "kicker": "STRONG EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in neural activity.",
+      "body": "For urban landscapes, psychological responses indicated that visual stimuli had the best stress reduction effect, while sound had the worst effect. Source: Psychological and physiological effects of soundscapes: A systematic review. This is a good entry point, but it is still evidence to inspect rather than a design law.",
+      "source_claim_ids": [
+        "1582"
+      ],
+      "source_paper_ids": [
+        "PDF-1190"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1190",
+          "title": "Psychological and physiological effects of soundscapes: A systematic review",
+          "citation": "(2024). Psychological and physiological effects of soundscapes: A systematic review. https://doi.org/10.1016/j.scitotenv.2024.172197",
+          "year": 2024
+        }
+      ],
+      "topic_ids": [
+        "acoustic__neural",
+        "acoustic__physio",
+        "acoustic__cog_attention"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Neural Activity"
+      ],
+      "primary_topic": "Acoustic Environment → Neural Activity",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "strong"
+      ],
+      "evidence_strength": "strong",
+      "surprise_score": 0.65,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.86,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1190",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-neural-activity"
+      }
+    },
+    {
+      "id": "dyk_36313a958e",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Thermal & Air Quality can change comfort.",
+      "kicker": "MODERATE EVIDENCE · Thermal & Air Quality",
+      "hook": "A small design variable may be tied to a measurable shift in comfort.",
+      "body": "The overall comfort was overwhelmingly voted as satisfactory (light shades of grey in Figure 2) and similar results were obtained for the satisfaction with the thermal conditions in the heating (winter) and cooling (summer) seasons. Source: Thermal sensation (TSV) × noise perception (NSV) × air quality (ASV) in office buildings. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1143"
+      ],
+      "source_paper_ids": [
+        "PDF-0773"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0773",
+          "title": "Thermal sensation (TSV) × noise perception (NSV) × air quality (ASV) in office buildings",
+          "citation": "Thermal sensation (TSV) × noise perception (NSV) × air quality (ASV) in office buildings.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "thermal__affect_comfort",
+        "acoustic__affect_comfort"
+      ],
+      "topic_labels": [
+        "Thermal & Air Quality → Comfort"
+      ],
+      "primary_topic": "Thermal & Air Quality → Comfort",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 10,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0773",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=thermal-air-quality-can-change-comfort"
+      }
+    },
+    {
+      "id": "dyk_eed9f7ed77",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Thermal & Air Quality can change satisfaction.",
+      "kicker": "MODERATE EVIDENCE · Thermal & Air Quality",
+      "hook": "A small design variable may be tied to a measurable shift in satisfaction.",
+      "body": "They mostly worked in air-conditioned buildings with no LEED rating, situated in the US. Source: IEQ aspects of 351 office buildings (N=52,980 occupant responses): space, noise, visual privacy, temperature.... Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1195"
+      ],
+      "source_paper_ids": [
+        "PDF-0811"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0811",
+          "title": "IEQ aspects of 351 office buildings (N=52,980 occupant responses): space, noise, visual privacy, temperature...",
+          "citation": "IEQ aspects of 351 office buildings (N=52,980 occupant responses): space, noise, visual privacy, temperature, air quali….",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "thermal__affect_satisfaction",
+        "acoustic__affect_satisfaction"
+      ],
+      "topic_labels": [
+        "Thermal & Air Quality → Satisfaction"
+      ],
+      "primary_topic": "Thermal & Air Quality → Satisfaction",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.43,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.3,
+      "confidence": 0.72,
+      "support_count": 12,
+      "attack_count": 1,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0811",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=thermal-air-quality-can-change-satisfaction"
+      }
+    },
+    {
+      "id": "dyk_0a04603603",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Spatial Form can change neural activity.",
+      "kicker": "MODERATE EVIDENCE · Spatial Form",
+      "hook": "A small design variable may be tied to a measurable shift in neural activity.",
+      "body": "In a study on biophilic office design, a space with only window views was compared to an all-natural architecture (green plants plus wooden floors and ceiling); the latter provided better physiological stress recovery (improved heart rate variability and lowe… Source: TRACING THE NEURAL IMPRINT OF SPACE: A NEUROURBANIST INQUIRY. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1879"
+      ],
+      "source_paper_ids": [
+        "PDF-1435"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1435",
+          "title": "TRACING THE NEURAL IMPRINT OF SPACE: A NEUROURBANIST INQUIRY",
+          "citation": "TRACING THE NEURAL IMPRINT OF SPACE: A NEUROURBANIST INQUIRY.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "spatial__neural",
+        "spatial__physio",
+        "spatial__cog_attention"
+      ],
+      "topic_labels": [
+        "Spatial Form → Neural Activity"
+      ],
+      "primary_topic": "Spatial Form → Neural Activity",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.73,
+      "practical_value_score": 0.56,
+      "controversy_score": 0.1,
+      "confidence": 0.85,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1435",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=spatial-form-can-change-neural-activity"
+      }
+    },
+    {
+      "id": "dyk_7e34a3190a",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change neural activity.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in neural activity.",
+      "body": "Authors should use the forms shown in Table 3 in the final reference list. Source: An Exploration of Feasible Approaches to Soundscape and Music Therapy. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1261"
+      ],
+      "source_paper_ids": [
+        "PDF-0839"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0839",
+          "title": "An Exploration of Feasible Approaches to Soundscape and Music Therapy",
+          "citation": "An Exploration of Feasible Approaches to Soundscape and Music Therapy.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__neural",
+        "acoustic__physio",
+        "acoustic__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Neural Activity"
+      ],
+      "primary_topic": "Acoustic Environment → Neural Activity",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.49,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.78,
+      "support_count": 10,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0839",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-neural-activity"
+      }
+    },
+    {
+      "id": "dyk_d15fa6bef1",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Spatial Form can change spatial navigation.",
+      "kicker": "MODERATE EVIDENCE · Spatial Form",
+      "hook": "A small design variable may be tied to a measurable shift in spatial navigation.",
+      "body": "In this article, configuration refers to the way in which spaces are related to one another, not only pairwise but also with respect to the overall pattern that they constitute. Source: FINDING THE BUILDING IN WAYFINDING. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1471"
+      ],
+      "source_paper_ids": [
+        "PDF-1000"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1000",
+          "title": "FINDING THE BUILDING IN WAYFINDING",
+          "citation": "FINDING THE BUILDING IN WAYFINDING.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "spatial__behav_navigation"
+      ],
+      "topic_labels": [
+        "Spatial Form → Spatial Navigation"
+      ],
+      "primary_topic": "Spatial Form → Spatial Navigation",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.43,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.77,
+      "support_count": 9,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1000",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=spatial-form-can-change-spatial-navigation"
+      }
+    },
+    {
+      "id": "dyk_77f9a2c189",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Spatial Form can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Spatial Form",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "Visual comfort with the window view showed significantly higher satisfaction than that with closed blinds (Figure 3(a)). Source: Physiological and psychological responses and cognitive performance with a window view. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1486"
+      ],
+      "source_paper_ids": [
+        "PDF-1025"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1025",
+          "title": "Physiological and psychological responses and cognitive performance with a window view",
+          "citation": "Physiological and psychological responses and cognitive performance with a window view.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "spatial__physio",
+        "spatial__neural",
+        "spatial__mechanism"
+      ],
+      "topic_labels": [
+        "Spatial Form → Physiological Response"
+      ],
+      "primary_topic": "Spatial Form → Physiological Response",
+      "front_ids": [
+        "RF_622DE4B3",
+        "Spatial Form × Physiological Response (Stress)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.65,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 6,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1025",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=spatial-form-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_bf97a457df",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change cognitive performance.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in cognitive performance.",
+      "body": "The multiple sorting tasks started by ranking the 12 images into three groups; Best, Average, and Worst. Source: Daylighting-Bias and Biophilia: Quantifying the Impact of Daylighting on Occupants Health. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1327"
+      ],
+      "source_paper_ids": [
+        "PDF-0866"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0866",
+          "title": "Daylighting-Bias and Biophilia: Quantifying the Impact of Daylighting on Occupants Health",
+          "citation": "Daylighting-Bias and Biophilia: Quantifying the Impact of Daylighting on Occupants Health.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__cog_performance"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Cognitive Performance"
+      ],
+      "primary_topic": "Luminous Environment → Cognitive Performance",
+      "front_ids": [
+        "RF_CDEFD9FE",
+        "Luminous Environment × Cognitive Performance (Circadian)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.75,
+      "practical_value_score": 0.56,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0866",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-cognitive-performance"
+      }
+    },
+    {
+      "id": "dyk_6766a6e856",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change mechanism / pathway.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in mechanism / pathway.",
+      "body": "For our purposes, we were only interested in the lighting by testing occasion interaction effect on each of the three measures. Source: Illuminating the Effects of Dynamic Lighting on Student Learning. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1404"
+      ],
+      "source_paper_ids": [
+        "PDF-0904"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0904",
+          "title": "Illuminating the Effects of Dynamic Lighting on Student Learning",
+          "citation": "Illuminating the Effects of Dynamic Lighting on Student Learning.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__mechanism",
+        "luminous__cog_creativity"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Mechanism / Pathway"
+      ],
+      "primary_topic": "Luminous Environment → Mechanism / Pathway",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.49,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.3,
+      "confidence": 0.73,
+      "support_count": 7,
+      "attack_count": 1,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0904",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-mechanism-pathway"
+      }
+    },
+    {
+      "id": "dyk_c2288fa119",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Spatial Form can change mechanism / pathway.",
+      "kicker": "MODERATE EVIDENCE · Spatial Form",
+      "hook": "A small design variable may be tied to a measurable shift in mechanism / pathway.",
+      "body": "For negative/stressful thinking, we found a reduction in ratings for this PC through the walk in both conditions, with no evidence of an interaction between time and condition (see Figure 5). Source: Environmental influences on affect and cognition: A study of natural and commercial semipublic spaces. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1100"
+      ],
+      "source_paper_ids": [
+        "PDF-0746"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0746",
+          "title": "Environmental influences on affect and cognition: A study of natural and commercial semipublic spaces",
+          "citation": "Environmental influences on affect and cognition: A study of natural and commercial semipublic spaces.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "spatial__mechanism",
+        "spatial__cog_performance",
+        "spatial__cog_attention"
+      ],
+      "topic_labels": [
+        "Spatial Form → Mechanism / Pathway"
+      ],
+      "primary_topic": "Spatial Form → Mechanism / Pathway",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.51,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.3,
+      "confidence": 0.73,
+      "support_count": 8,
+      "attack_count": 1,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0746",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=spatial-form-can-change-mechanism-pathway"
+      }
+    },
+    {
+      "id": "dyk_dae9f5665a",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change mechanism / pathway.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in mechanism / pathway.",
+      "body": "There was no statistical main effect of Lighting pattern or interaction effect between Lighting pattern and Day on subjective sleepiness, vitality and state self-control (all \\(p>.05\\), see Table S4 in suppl. Source: Dynamic lighting pattern (high CCT/illuminance in morning, lower in evening) vs static lighting. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1128"
+      ],
+      "source_paper_ids": [
+        "PDF-0759"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0759",
+          "title": "Dynamic lighting pattern (high CCT/illuminance in morning, lower in evening) vs static lighting",
+          "citation": "Dynamic lighting pattern (high CCT/illuminance in morning, lower in evening) vs static lighting.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__mechanism",
+        "luminous__affect_wellbeing"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Mechanism / Pathway"
+      ],
+      "primary_topic": "Luminous Environment → Mechanism / Pathway",
+      "front_ids": [
+        "RF_09299C0E",
+        "Luminous Environment × Mechanism / Pathway (Circadian)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.51,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 6,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0759",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-mechanism-pathway"
+      }
+    },
+    {
+      "id": "dyk_eca331653a",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change mechanism / pathway.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in mechanism / pathway.",
+      "body": "As can be seen in Figure 4, an interaction between colour of light and gender, \\(F(2,102)=3 61, p=0 03\\), showed that males performed poorest in the artificial 'daylight' white lighting (artificial 'daylight' vs 'warm' white lighting, \\(t(34)=-2 50, p=0 01\\);… Source: EFFECTS OF COLOUR OF LIGHT ON NONVISUAL PSYCHOLOGICAL PROCESSES. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1423"
+      ],
+      "source_paper_ids": [
+        "PDF-0915"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0915",
+          "title": "EFFECTS OF COLOUR OF LIGHT ON NONVISUAL PSYCHOLOGICAL PROCESSES",
+          "citation": "EFFECTS OF COLOUR OF LIGHT ON NONVISUAL PSYCHOLOGICAL PROCESSES.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__mechanism",
+        "luminous__cog_performance"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Mechanism / Pathway"
+      ],
+      "primary_topic": "Luminous Environment → Mechanism / Pathway",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.51,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.83,
+      "support_count": 6,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0915",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-mechanism-pathway"
+      }
+    },
+    {
+      "id": "dyk_3d2da70a19",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change neural activity.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in neural activity.",
+      "body": "nonADHD groups) and within-subjects (six different conditions) factors, a Mixed-Design Analysis of Variance (ANOVA) was deemed appropriate. Source: warm-silent, cool-noisy, and flicker-silent environmental conditions. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1238"
+      ],
+      "source_paper_ids": [
+        "PDF-0832"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0832",
+          "title": "warm-silent, cool-noisy, and flicker-silent environmental conditions",
+          "citation": "warm-silent, cool-noisy, and flicker-silent environmental conditions.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__neural",
+        "acoustic__cog_performance",
+        "acoustic__affect_restoration"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Neural Activity"
+      ],
+      "primary_topic": "Acoustic Environment → Neural Activity",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 17,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0832",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-neural-activity"
+      }
+    },
+    {
+      "id": "dyk_bed5383750",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change cognitive performance.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in cognitive performance.",
+      "body": "Table 10. Results of the Mediated Regression Analyses. |l|l|l|l| & Direct effect & Indirect effect & Total effect \\\\ |l| Two-back performance \\\\ ←llluminance & .196* & -. 041 & . 155 \\\\ ←CCT & . 261 & -. 024 & . 237 \\\\ ←Time of day & . 106 & . 001 & . 107 \\\\… Source: PDF-0529. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "683"
+      ],
+      "source_paper_ids": [
+        "PDF-0529"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0529",
+          "title": "PDF-0529",
+          "citation": "PDF-0529",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__cog_performance",
+        "luminous__mechanism",
+        "luminous__cog_memory"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Cognitive Performance"
+      ],
+      "primary_topic": "Luminous Environment → Cognitive Performance",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.78,
+      "support_count": 7,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0529",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-cognitive-performance"
+      }
+    },
+    {
+      "id": "dyk_2d8efc2dca",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Spatial Form can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Spatial Form",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "While the overall cognitive performance was highest under (2) office noise, the performance difference between (2) office noise and (3) white noise conditions was very marginal. Source: Exploring soundscaping options for the cognitive environment in an open-plan office. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "530"
+      ],
+      "source_paper_ids": [
+        "PDF-0414"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0414",
+          "title": "Exploring soundscaping options for the cognitive environment in an open-plan office",
+          "citation": "Exploring soundscaping options for the cognitive environment in an open-plan office.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "spatial__physio",
+        "spatial__cog_performance",
+        "spatial__cog_cognitive_load"
+      ],
+      "topic_labels": [
+        "Spatial Form → Physiological Response"
+      ],
+      "primary_topic": "Spatial Form → Physiological Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.1,
+      "confidence": 0.77,
+      "support_count": 5,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0414",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=spatial-form-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_fe7b129cc4",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Thermal & Air Quality can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Thermal & Air Quality",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "In the constant CB condition, fewer participants accepted the light compared to the constant WD condition (Acceptance \\( _ V,Block1 =95 \\%\\), Acceptance \\(_ , Block2 =92 \\%\\) and Acceptance \\( _ , Block3 =89 \\%\\) ). Source: Effects of light transitions on measures of alertness, arousal and comfort. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "15"
+      ],
+      "source_paper_ids": [
+        "PDF-0007"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0007",
+          "title": "Effects of light transitions on measures of alertness, arousal and comfort",
+          "citation": "M.E. Kompier, K.C.H.J. Smolders, W.D. van Marken Lichtenbelt, Y.A.W. de Kort (2020). Effects of light transitions on measures of alertness, arousal and comfort. https://doi.org/10...",
+          "year": 2020
+        }
+      ],
+      "topic_ids": [
+        "thermal__physio",
+        "thermal__mechanism",
+        "thermal__cog_performance"
+      ],
+      "topic_labels": [
+        "Thermal & Air Quality → Physiological Response"
+      ],
+      "primary_topic": "Thermal & Air Quality → Physiological Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.83,
+      "support_count": 6,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0007",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=thermal-air-quality-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_d57efea8fa",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Environmental Control can change attention.",
+      "kicker": "MODERATE EVIDENCE · Environmental Control",
+      "hook": "A small design variable may be tied to a measurable shift in attention.",
+      "body": "One article discusses mindfulness from the perspective of alpha brainwave activity [147], while another regards mindfulness as a silent condition [99]. Source: The Architectural Design Strategies That Promote Attention to Foster Mindfulness: A Systematic Review, Conten.... Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "986"
+      ],
+      "source_paper_ids": [
+        "PDF-0676"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0676",
+          "title": "The Architectural Design Strategies That Promote Attention to Foster Mindfulness: A Systematic Review, Conten...",
+          "citation": "The Architectural Design Strategies That Promote Attention to Foster Mindfulness: A Systematic Review, Content Analysis and Meta-Analysis.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "control__cog_attention",
+        "control__cog_performance",
+        "control__affect_restoration"
+      ],
+      "topic_labels": [
+        "Environmental Control → Attention"
+      ],
+      "primary_topic": "Environmental Control → Attention",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.49,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.73,
+      "support_count": 8,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0676",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=environmental-control-can-change-attention"
+      }
+    },
+    {
+      "id": "dyk_4ca751fabc",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change cognitive performance.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in cognitive performance.",
+      "body": "The primary visual pathway in humans is regulated according to long-term light exposure through the action of a nonclassical photopigment. Source: PDF-0902. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1397"
+      ],
+      "source_paper_ids": [
+        "PDF-0902"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0902",
+          "title": "PDF-0902",
+          "citation": "PDF-0902",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__cog_performance",
+        "luminous__mechanism",
+        "luminous__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Cognitive Performance"
+      ],
+      "primary_topic": "Luminous Environment → Cognitive Performance",
+      "front_ids": [
+        "RF_CDEFD9FE",
+        "Luminous Environment × Cognitive Performance (Circadian)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.59,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 5,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0902",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-cognitive-performance"
+      }
+    },
+    {
+      "id": "dyk_d23c51356c",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Environmental Control can change neural activity.",
+      "kicker": "MODERATE EVIDENCE · Environmental Control",
+      "hook": "A small design variable may be tied to a measurable shift in neural activity.",
+      "body": "However, Emotional: spaces with slightly scented plants were the most preferred for human comfort \\\\ Sounds: quietness/ noise & Fairly quiet spaces improve attention and quiet ones improve perception; Noise causes feelings of stress; Sounds of nature causes s… Source: Exploring the Influence of Neuroarchitecture on Human Behavior and Well-being. Treat this as a plausible pattern that needs scope conditions before de...",
+      "source_claim_ids": [
+        "106"
+      ],
+      "source_paper_ids": [
+        "PDF-0071"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0071",
+          "title": "Exploring the Influence of Neuroarchitecture on Human Behavior and Well-being",
+          "citation": ", T. G. Avinash, , K. A. Althaf, , R. Varma Yadu, , K. Nowshad Shabeeb, , G. R. Raghav (2024).",
+          "year": 2024
+        }
+      ],
+      "topic_ids": [
+        "control__neural",
+        "control__affect_negative_stress",
+        "control__cog_performance"
+      ],
+      "topic_labels": [
+        "Environmental Control → Neural Activity"
+      ],
+      "primary_topic": "Environmental Control → Neural Activity",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.89,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.78,
+      "support_count": 2,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0071",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=environmental-control-can-change-neural-activity"
+      }
+    },
+    {
+      "id": "dyk_fcf1e07372",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change comfort.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in comfort.",
+      "body": "A comprehensive summary of these assessment protocols is presented in Tables 2 and 3, where red ' X ' denotes that the factor was not addressed in the study, and green ' \\(V\\) ' indicates that the factor was discussed. Source: Exploring soundscape assessment methods in office environments: a systematic review. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "606"
+      ],
+      "source_paper_ids": [
+        "PDF-0464"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0464",
+          "title": "Exploring soundscape assessment methods in office environments: a systematic review",
+          "citation": "Exploring soundscape assessment methods in office environments: a systematic review.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__affect_comfort"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Comfort"
+      ],
+      "primary_topic": "Acoustic Environment → Comfort",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.67,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.1,
+      "confidence": 0.86,
+      "support_count": 2,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0464",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-comfort"
+      }
+    },
+    {
+      "id": "dyk_2f63e1b4b4",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "Pairwise comparisons ( t -tests) showed that mean SCL was lower for Nature than High noise ( \\( =0.045\\) ); however, the differences between Nature and the other two noise conditions did not reach significance ( \\( >0.05\\) ). Source: Stress Recovery during Exposure to Nature Sound and Environmental Noise. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "894"
+      ],
+      "source_paper_ids": [
+        "PDF-0636"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0636",
+          "title": "Stress Recovery during Exposure to Nature Sound and Environmental Noise",
+          "citation": "Stress Recovery during Exposure to Nature Sound and Environmental Noise.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__physio",
+        "acoustic__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Physiological Response"
+      ],
+      "primary_topic": "Acoustic Environment → Physiological Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.75,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.83,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0636",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_993434d089",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Spatial Form can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Spatial Form",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "9 illustrates the results of the participants' feelings assessment, as assessed by the SD survey, after viewing the green space vs. Source: Window view and relaxation: Viewing green space from a high-rise estate improves urban dwellers' wellbeing. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "438"
+      ],
+      "source_paper_ids": [
+        "PDF-0355"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0355",
+          "title": "Window view and relaxation: Viewing green space from a high-rise estate improves urban dwellers' wellbeing",
+          "citation": "Window view and relaxation: Viewing green space from a high-rise estate improves urban dwellers' wellbeing.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "spatial__physio",
+        "spatial__neural",
+        "spatial__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Spatial Form → Physiological Response"
+      ],
+      "primary_topic": "Spatial Form → Physiological Response",
+      "front_ids": [
+        "RF_622DE4B3",
+        "Spatial Form × Physiological Response (Stress)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.67,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.83,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0355",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=spatial-form-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_2f01d61add",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Multisensory / Compound can change wellbeing.",
+      "kicker": "MODERATE EVIDENCE · Multisensory / Compound",
+      "hook": "A small design variable may be tied to a measurable shift in wellbeing.",
+      "body": "Table 4. Cont. |l|l|l|l|l| Reference & Aim & Study Type & IEQ Variable & Sample Size \\\\ Zhou et al., 2023 [100] & To determine the preferred indoor air velocity under hot and humid conditions and to examine the effects of elevated air movement on subjective p… Source: Neuroscientific Insights into the Built Environment: A Systematic Review of Empirical Research on Indoor Envi.... Treat this as a plausible pattern th...",
+      "source_claim_ids": [
+        "1819"
+      ],
+      "source_paper_ids": [
+        "PDF-1403"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1403",
+          "title": "Neuroscientific Insights into the Built Environment: A Systematic Review of Empirical Research on Indoor Envi...",
+          "citation": "Neuroscientific Insights into the Built Environment: A Systematic Review of Empirical Research on Indoor Environmental Quality, Physiological Dynamics, and Psychological Well-Bein...",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "multisensory__affect_wellbeing",
+        "multisensory__affect_negative_stress",
+        "multisensory__cog_attention"
+      ],
+      "topic_labels": [
+        "Multisensory / Compound → Wellbeing"
+      ],
+      "primary_topic": "Multisensory / Compound → Wellbeing",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.65,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1403",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=multisensory-compound-can-change-wellbeing"
+      }
+    },
+    {
+      "id": "dyk_167dd96228",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "In general, Hasegawa and Lau [50] indicated in their review article that sound sources influenced the various perceptual responses such as audio, visual, cognitive, as well as emotional perceptions Source: Indicators and methods for assessing acoustical preferences and needs of students in educational buildings: A.... Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "254"
+      ],
+      "source_paper_ids": [
+        "PDF-0181"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0181",
+          "title": "Indicators and methods for assessing acoustical preferences and needs of students in educational buildings: A...",
+          "citation": "Amneh Hamida ⇑ et al. (2022). Indicators and methods for assessing acoustical preferences and needs of students in educational buildings: A review. https://doi.org/10.1016/j.apaco...",
+          "year": 2022
+        }
+      ],
+      "topic_ids": [
+        "acoustic__physio",
+        "acoustic__cog_performance",
+        "acoustic__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Physiological Response"
+      ],
+      "primary_topic": "Acoustic Environment → Physiological Response",
+      "front_ids": [
+        "RF_9A8C8821",
+        "Acoustic Environment × Physiological Response (Soundscape)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.65,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.73,
+      "support_count": 6,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0181",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_7c0b6ac753",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change cognitive performance.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in cognitive performance.",
+      "body": "Figure 1. The connotation of product aesthetics. Source: Material sensory properties include color, texture, sound, smell, and taste perception. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1215"
+      ],
+      "source_paper_ids": [
+        "PDF-0823"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0823",
+          "title": "Material sensory properties include color, texture, sound, smell, and taste perception",
+          "citation": "Material sensory properties include color, texture, sound, smell, and taste perception.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__cog_performance",
+        "material__cog_performance"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Cognitive Performance"
+      ],
+      "primary_topic": "Luminous Environment → Cognitive Performance",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.33,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.74,
+      "support_count": 9,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0823",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-cognitive-performance"
+      }
+    },
+    {
+      "id": "dyk_6e1d938660",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Multisensory / Compound can change wellbeing.",
+      "kicker": "MODERATE EVIDENCE · Multisensory / Compound",
+      "hook": "A small design variable may be tied to a measurable shift in wellbeing.",
+      "body": "Chinazzo et al., 2018 [101] | Surface thermometer; wristband sensor | Skin temperature; heart rate; skin conductance | Thermal comfort (based on a 7-point scale of the ASHRAE); ergonomics of the thermal environment | No Source: Neuroscientific Insights into the Built Environment: A Systematic Review of Empirical Research on Indoor Envi.... Treat this as a plausible pattern that needs scope conditions before design u...",
+      "source_claim_ids": [
+        "1818"
+      ],
+      "source_paper_ids": [
+        "PDF-1403"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1403",
+          "title": "Neuroscientific Insights into the Built Environment: A Systematic Review of Empirical Research on Indoor Envi...",
+          "citation": "Neuroscientific Insights into the Built Environment: A Systematic Review of Empirical Research on Indoor Environmental Quality, Physiological Dynamics, and Psychological Well-Bein...",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "multisensory__affect_wellbeing",
+        "multisensory__affect_negative_stress",
+        "multisensory__cog_attention"
+      ],
+      "topic_labels": [
+        "Multisensory / Compound → Wellbeing"
+      ],
+      "primary_topic": "Multisensory / Compound → Wellbeing",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.75,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 2,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1403",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=multisensory-compound-can-change-wellbeing"
+      }
+    },
+    {
+      "id": "dyk_5b1f2685c7",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Spatial Form can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Spatial Form",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "For the pulse oximeter measures, heart rate (beats/min), respiratory rate (breaths/ min), perfusion index, \\( _ 2 \\) saturation (\\%) and pleth variability index were collected and analysed S: sound condition; P: participant. Source: Exploring soundscaping options for the cognitive environment in an open-plan office. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "529"
+      ],
+      "source_paper_ids": [
+        "PDF-0414"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0414",
+          "title": "Exploring soundscaping options for the cognitive environment in an open-plan office",
+          "citation": "Exploring soundscaping options for the cognitive environment in an open-plan office.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "spatial__physio",
+        "spatial__cog_performance",
+        "spatial__cog_cognitive_load"
+      ],
+      "topic_labels": [
+        "Spatial Form → Physiological Response"
+      ],
+      "primary_topic": "Spatial Form → Physiological Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.1,
+      "confidence": 0.77,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0414",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=spatial-form-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_69e9059484",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change mechanism / pathway.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in mechanism / pathway.",
+      "body": "We did not expect any gender-by-order interaction effect in this data. Source: Effects of illuminance and correlated color temperature on emotional responses and lighting adjustment behavi.... Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "583"
+      ],
+      "source_paper_ids": [
+        "PDF-0446"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0446",
+          "title": "Effects of illuminance and correlated color temperature on emotional responses and lighting adjustment behavi...",
+          "citation": "Effects of illuminance and correlated color temperature on emotional responses and lighting adjustment behaviors.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__mechanism",
+        "luminous__cog_performance",
+        "luminous__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Mechanism / Pathway"
+      ],
+      "primary_topic": "Luminous Environment → Mechanism / Pathway",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.43,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.76,
+      "support_count": 6,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0446",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-mechanism-pathway"
+      }
+    },
+    {
+      "id": "dyk_b35d6d8fad",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Environmental Control can change neural activity.",
+      "kicker": "MODERATE EVIDENCE · Environmental Control",
+      "hook": "A small design variable may be tied to a measurable shift in neural activity.",
+      "body": "\\\\ Natural Lighting & decreases cortisol and stress levels, less patients stays in hospitals; good natural lighting is correlated with better brain functional abilities needed for writing; reduces stress \\\\ Artificial lighting & Light above 7500 K raises bloo… Source: Exploring the Influence of Neuroarchitecture on Human Behavior and Well-being. Treat this as a plausible pattern that needs scope conditions before de...",
+      "source_claim_ids": [
+        "107"
+      ],
+      "source_paper_ids": [
+        "PDF-0071"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0071",
+          "title": "Exploring the Influence of Neuroarchitecture on Human Behavior and Well-being",
+          "citation": ", T. G. Avinash, , K. A. Althaf, , R. Varma Yadu, , K. Nowshad Shabeeb, , G. R. Raghav (2024).",
+          "year": 2024
+        }
+      ],
+      "topic_ids": [
+        "control__neural",
+        "control__affect_negative_stress",
+        "control__cog_performance"
+      ],
+      "topic_labels": [
+        "Environmental Control → Neural Activity"
+      ],
+      "primary_topic": "Environmental Control → Neural Activity",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.73,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.78,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0071",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=environmental-control-can-change-neural-activity"
+      }
+    },
+    {
+      "id": "dyk_61cafb0ba0",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Nature & Biophilia can change cognitive performance.",
+      "kicker": "MODERATE EVIDENCE · Nature & Biophilia",
+      "hook": "A small design variable may be tied to a measurable shift in cognitive performance.",
+      "body": "In the data preprocessing, the artifacts unrelated to the experimental data were removed; bandpass filtering of \\(0.01-0.2 \\) was used to filter the noise and interference signals (e.g., heartbeat, respiratory rate, and instrument noise); the optical density… Source: Enhancing Cognitive Performance and Physiological Benefit in Workspaces Through Patterns of Biophilic Design.... Treat this as a plausible pattern that...",
+      "source_claim_ids": [
+        "1022"
+      ],
+      "source_paper_ids": [
+        "PDF-0688"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0688",
+          "title": "Enhancing Cognitive Performance and Physiological Benefit in Workspaces Through Patterns of Biophilic Design...",
+          "citation": "Enhancing Cognitive Performance and Physiological Benefit in Workspaces Through Patterns of Biophilic Design: A Restorative Approach.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "natural__cog_performance",
+        "natural__mechanism",
+        "natural__affect_restoration"
+      ],
+      "topic_labels": [
+        "Nature & Biophilia → Cognitive Performance"
+      ],
+      "primary_topic": "Nature & Biophilia → Cognitive Performance",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.67,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.79,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0688",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=nature-biophilia-can-change-cognitive-performance"
+      }
+    },
+    {
+      "id": "dyk_f5f1180e87",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "[33] tested the effect of four sound types on stress recovery by measuring two physiological indicators of students; skin conductance level (SCL) and high-frequency heart rate variability (HF HRV) Source: Indicators and methods for assessing acoustical preferences and needs of students in educational buildings: A.... Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "253"
+      ],
+      "source_paper_ids": [
+        "PDF-0181"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0181",
+          "title": "Indicators and methods for assessing acoustical preferences and needs of students in educational buildings: A...",
+          "citation": "Amneh Hamida ⇑ et al. (2022). Indicators and methods for assessing acoustical preferences and needs of students in educational buildings: A review. https://doi.org/10.1016/j.apaco...",
+          "year": 2022
+        }
+      ],
+      "topic_ids": [
+        "acoustic__physio",
+        "acoustic__cog_performance",
+        "acoustic__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Physiological Response"
+      ],
+      "primary_topic": "Acoustic Environment → Physiological Response",
+      "front_ids": [
+        "RF_9A8C8821",
+        "Acoustic Environment × Physiological Response (Soundscape)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.73,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.73,
+      "support_count": 5,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0181",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_87d58aee63",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Nature & Biophilia can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Nature & Biophilia",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "To test for a potential interaction between biophilic condition and time of day for each of the 4 physiological variables of interest (SCL, NS-SCRs per min, NS-SCRs amplitude, and HR) we used a Scheirer-Ray-Hare test (Sokal \\& Rohlf, 1995), or essentially a n… Source: Biophilic office design: Exploring the impact of a multisensory approach on human well-being. Treat this as a plausible pattern that needs scope condi...",
+      "source_claim_ids": [
+        "1003"
+      ],
+      "source_paper_ids": [
+        "PDF-0682"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0682",
+          "title": "Biophilic office design: Exploring the impact of a multisensory approach on human well-being",
+          "citation": "Biophilic office design: Exploring the impact of a multisensory approach on human well-being.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "natural__physio",
+        "natural__affect_negative_stress",
+        "natural__cog_performance"
+      ],
+      "topic_labels": [
+        "Nature & Biophilia → Physiological Response"
+      ],
+      "primary_topic": "Nature & Biophilia → Physiological Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.83,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0682",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=nature-biophilia-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_a315a654a8",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Thermal & Air Quality can change cognitive performance.",
+      "kicker": "MODERATE EVIDENCE · Thermal & Air Quality",
+      "hook": "A small design variable may be tied to a measurable shift in cognitive performance.",
+      "body": "In addition, physiological instruments (e.g., salivary cortisol concentration, heart rate, skin conductance level and response) were used to measure occupants' stress levels [70,74,79,95]. Source: Association between perceived indoor environmental characteristics and occupants' mental well-being, cognitiv.... Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "662"
+      ],
+      "source_paper_ids": [
+        "PDF-0526"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0526",
+          "title": "Association between perceived indoor environmental characteristics and occupants' mental well-being, cognitiv...",
+          "citation": "Association between perceived indoor environmental characteristics and occupants' mental well-being, cognitive performance, productivity, satisfaction in workplaces: A systematic...",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "thermal__cog_performance",
+        "thermal__physio",
+        "thermal__affect_restoration"
+      ],
+      "topic_labels": [
+        "Thermal & Air Quality → Cognitive Performance"
+      ],
+      "primary_topic": "Thermal & Air Quality → Cognitive Performance",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.1,
+      "confidence": 0.87,
+      "support_count": 2,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0526",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=thermal-air-quality-can-change-cognitive-performance"
+      }
+    },
+    {
+      "id": "dyk_87f8f2c60c",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Nature & Biophilia can change wellbeing.",
+      "kicker": "MODERATE EVIDENCE · Nature & Biophilia",
+      "hook": "A small design variable may be tied to a measurable shift in wellbeing.",
+      "body": "High-efficiency lighting and appliances can reduce energy consumption while maintaining comfortable indoor conditions [43]. Source: Green building design strategies (passive design, biophilic elements, IEQ optimization). Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1203"
+      ],
+      "source_paper_ids": [
+        "PDF-0816"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0816",
+          "title": "Green building design strategies (passive design, biophilic elements, IEQ optimization)",
+          "citation": "Green building design strategies (passive design, biophilic elements, IEQ optimization).",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "natural__affect_wellbeing"
+      ],
+      "topic_labels": [
+        "Nature & Biophilia → Wellbeing"
+      ],
+      "primary_topic": "Nature & Biophilia → Wellbeing",
+      "front_ids": [
+        "RF_751D22AE",
+        "Nature & Biophilia × Wellbeing (Biophilic)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.78,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0816",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=nature-biophilia-can-change-wellbeing"
+      }
+    },
+    {
+      "id": "dyk_7f7a5b8f1c",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change mechanism / pathway.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in mechanism / pathway.",
+      "body": "Random-effects analysis of fMRI data using the general linear model (GLM) [10] with group (two levels) and sound types (three categories) as factors demonstrated an interaction in the anterior insular cortex (AIC) bilaterally (Figure 2A; further regions are l… Source: The Brain Basis for Misophonia. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1271"
+      ],
+      "source_paper_ids": [
+        "PDF-0842"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0842",
+          "title": "The Brain Basis for Misophonia",
+          "citation": "The Brain Basis for Misophonia.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__mechanism",
+        "acoustic__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Mechanism / Pathway"
+      ],
+      "primary_topic": "Acoustic Environment → Mechanism / Pathway",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.82,
+      "support_count": 6,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0842",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-mechanism-pathway"
+      }
+    },
+    {
+      "id": "dyk_be291913b1",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Nature & Biophilia can change mechanism / pathway.",
+      "kicker": "MODERATE EVIDENCE · Nature & Biophilia",
+      "hook": "A small design variable may be tied to a measurable shift in mechanism / pathway.",
+      "body": "This technique involves the analysis of workplaces and residential buildings related evidence documents utilizing groupings and clusters, matrix analysis, and conceptual map. Source: Biophilic Design in the Built Environment to Improve Well-Being: A Systematic Review of Practices. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1013"
+      ],
+      "source_paper_ids": [
+        "PDF-0686"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0686",
+          "title": "Biophilic Design in the Built Environment to Improve Well-Being: A Systematic Review of Practices",
+          "citation": "Biophilic Design in the Built Environment to Improve Well-Being: A Systematic Review of Practices.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "natural__mechanism",
+        "natural__cog_performance",
+        "natural__cog_attention"
+      ],
+      "topic_labels": [
+        "Nature & Biophilia → Mechanism / Pathway"
+      ],
+      "primary_topic": "Nature & Biophilia → Mechanism / Pathway",
+      "front_ids": [
+        "RF_D339EF64",
+        "Nature & Biophilia × Mechanism / Pathway (Biophilia)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.56,
+      "controversy_score": 0.1,
+      "confidence": 0.78,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0686",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=nature-biophilia-can-change-mechanism-pathway"
+      }
+    },
+    {
+      "id": "dyk_9aae03ff63",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Multisensory / Compound can change wellbeing.",
+      "kicker": "EMERGING EVIDENCE · Multisensory / Compound",
+      "hook": "A small design variable may be tied to a measurable shift in wellbeing.",
+      "body": "Thus, our recommendation for the increased use of MoBI stems not from personal preference but from the necessity to implement more dynamic, context-sensitive methodologies that are theoretically and empirically suited to studying cognition as it naturally occ… Source: Neuroscientific Insights into the Built Environment: A Systematic Review of Empirical Research on Indoor Envi.... The claim is useful for browsing, bu...",
+      "source_claim_ids": [
+        "1823"
+      ],
+      "source_paper_ids": [
+        "PDF-1403"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1403",
+          "title": "Neuroscientific Insights into the Built Environment: A Systematic Review of Empirical Research on Indoor Envi...",
+          "citation": "Neuroscientific Insights into the Built Environment: A Systematic Review of Empirical Research on Indoor Environmental Quality, Physiological Dynamics, and Psychological Well-Bein...",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "multisensory__affect_wellbeing",
+        "multisensory__affect_negative_stress",
+        "multisensory__cog_attention"
+      ],
+      "topic_labels": [
+        "Multisensory / Compound → Wellbeing"
+      ],
+      "primary_topic": "Multisensory / Compound → Wellbeing",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "emerging"
+      ],
+      "evidence_strength": "emerging",
+      "surprise_score": 0.83,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.1,
+      "confidence": 0.62,
+      "support_count": 7,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1403",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=multisensory-compound-can-change-wellbeing"
+      }
+    },
+    {
+      "id": "dyk_49c92a8dff",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Nature & Biophilia can change cognitive performance.",
+      "kicker": "MODERATE EVIDENCE · Nature & Biophilia",
+      "hook": "A small design variable may be tied to a measurable shift in cognitive performance.",
+      "body": "The findings have three important implications: 1) they demonstrate that people close to a window may be more forgiving of small thermal comfort deviations, which can result in potential energy savings through setpoint adjustments; 2) having a window enhances… Source: The impact of a view from a window on thermal comfort, emotion, and cognitive performance. Treat this as a plausible pattern that needs scope conditio...",
+      "source_claim_ids": [
+        "1576"
+      ],
+      "source_paper_ids": [
+        "PDF-1188"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1188",
+          "title": "The impact of a view from a window on thermal comfort, emotion, and cognitive performance",
+          "citation": "The impact of a view from a window on thermal comfort, emotion, and cognitive performance.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "natural__cog_performance",
+        "natural__mechanism",
+        "natural__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Nature & Biophilia → Cognitive Performance"
+      ],
+      "primary_topic": "Nature & Biophilia → Cognitive Performance",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.73,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 2,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1188",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=nature-biophilia-can-change-cognitive-performance"
+      }
+    },
+    {
+      "id": "dyk_733a03ed3c",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Thermal & Air Quality can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Thermal & Air Quality",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "Fig. 8. Trajectories of vigilance and arousal parameters with WD light (left) and CB light (right) during baseline for: a) Reaction Time on PVT, b) Skin Conductance, c) Heart Rate, and d) Heart Rate Variability. Error bars are SE. Comparisons between the two… Source: Effects of light transitions on measures of alertness, arousal and comfort. Treat this as a plausible pattern that needs scope conditions before design...",
+      "source_claim_ids": [
+        "14"
+      ],
+      "source_paper_ids": [
+        "PDF-0007"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0007",
+          "title": "Effects of light transitions on measures of alertness, arousal and comfort",
+          "citation": "M.E. Kompier, K.C.H.J. Smolders, W.D. van Marken Lichtenbelt, Y.A.W. de Kort (2020). Effects of light transitions on measures of alertness, arousal and comfort. https://doi.org/10...",
+          "year": 2020
+        }
+      ],
+      "topic_ids": [
+        "thermal__physio",
+        "thermal__mechanism",
+        "thermal__cog_performance"
+      ],
+      "topic_labels": [
+        "Thermal & Air Quality → Physiological Response"
+      ],
+      "primary_topic": "Thermal & Air Quality → Physiological Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.79,
+      "support_count": 5,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0007",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=thermal-air-quality-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_4fe49c4420",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change neural activity.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in neural activity.",
+      "body": "Psychological responses indicated that audiovisual stimuli had the best stress reduction effect, while visual stimuli had the worst effect. Source: Psychological and physiological effects of soundscapes: A systematic review. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1581"
+      ],
+      "source_paper_ids": [
+        "PDF-1190"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1190",
+          "title": "Psychological and physiological effects of soundscapes: A systematic review",
+          "citation": "(2024). Psychological and physiological effects of soundscapes: A systematic review. https://doi.org/10.1016/j.scitotenv.2024.172197",
+          "year": 2024
+        }
+      ],
+      "topic_ids": [
+        "acoustic__neural",
+        "acoustic__physio",
+        "acoustic__cog_attention"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Neural Activity"
+      ],
+      "primary_topic": "Acoustic Environment → Neural Activity",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.65,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.86,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1190",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-neural-activity"
+      }
+    },
+    {
+      "id": "dyk_2aa2bda37e",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Material & Surface can change social / behavioral.",
+      "kicker": "MODERATE EVIDENCE · Material & Surface",
+      "hook": "A small design variable may be tied to a measurable shift in social / behavioral.",
+      "body": "Additional independent demographic indicator variables were created to represent a respondent's age in excess of 54 years, family gross income in excess of \\(\\$ 150,000\\) per year, being a part-time resident (less than 12 months out of the year) and whether o… Source: How are old places different from new places? A psychological investigation of the correlation between patina.... Treat this as a plausible pattern th...",
+      "source_claim_ids": [
+        "980"
+      ],
+      "source_paper_ids": [
+        "PDF-0674"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0674",
+          "title": "How are old places different from new places? A psychological investigation of the correlation between patina...",
+          "citation": "How are old places different from new places? A psychological investigation of the correlation between patina, spontaneous fantasies, and place attachment.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "material__social"
+      ],
+      "topic_labels": [
+        "Material & Surface → Social / Behavioral"
+      ],
+      "primary_topic": "Material & Surface → Social / Behavioral",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.3,
+      "confidence": 0.79,
+      "support_count": 5,
+      "attack_count": 1,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0674",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=material-surface-can-change-social-behavioral"
+      }
+    },
+    {
+      "id": "dyk_1408339d35",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change stress response.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in stress response.",
+      "body": "They observed that exposure to nature sounds of less than 7 min significantly reduced facial muscle tension, heart rate and self-reported stress in sound group participants compared to the other groups. Source: Exposure to natural landscape (forest bathing). Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1441"
+      ],
+      "source_paper_ids": [
+        "PDF-0946"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0946",
+          "title": "Exposure to natural landscape (forest bathing)",
+          "citation": "Exposure to natural landscape (forest bathing).",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__affect_negative_stress",
+        "acoustic__neural",
+        "acoustic__affect_restoration"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Stress Response"
+      ],
+      "primary_topic": "Acoustic Environment → Stress Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.65,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.79,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0946",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-stress-response"
+      }
+    },
+    {
+      "id": "dyk_67f49457b9",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change comfort.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in comfort.",
+      "body": "Acronym: Questionnaire (Q); Interview (I); Discussion (D); Risk assessment (RA); Sound source identification (SI); Noise disturbance (ND); Sound environment perception and evaluation (SEP); Appropriateness of sound environment (ASE); Affective quality of soun… Source: Exploring soundscape assessment methods in office environments: a systematic review. Treat this as a plausible pattern that needs scope conditions bef...",
+      "source_claim_ids": [
+        "607"
+      ],
+      "source_paper_ids": [
+        "PDF-0464"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0464",
+          "title": "Exploring soundscape assessment methods in office environments: a systematic review",
+          "citation": "Exploring soundscape assessment methods in office environments: a systematic review.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__affect_comfort"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Comfort"
+      ],
+      "primary_topic": "Acoustic Environment → Comfort",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.47,
+      "controversy_score": 0.1,
+      "confidence": 0.71,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0464",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-comfort"
+      }
+    },
+    {
+      "id": "dyk_7273007291",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Nature & Biophilia can change mechanism / pathway.",
+      "kicker": "MODERATE EVIDENCE · Nature & Biophilia",
+      "hook": "A small design variable may be tied to a measurable shift in mechanism / pathway.",
+      "body": "Performing simultaneous searches through the four previously mentioned large databases help overcoming the inherent limitations of each one and adding to the quality of reviewing but was time-consuming particularly to avoiding duplicate. Source: Biophilic Design in the Built Environment to Improve Well-Being: A Systematic Review of Practices. Treat this as a plausible pattern that needs scope conditions before desig...",
+      "source_claim_ids": [
+        "1014"
+      ],
+      "source_paper_ids": [
+        "PDF-0686"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0686",
+          "title": "Biophilic Design in the Built Environment to Improve Well-Being: A Systematic Review of Practices",
+          "citation": "Biophilic Design in the Built Environment to Improve Well-Being: A Systematic Review of Practices.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "natural__mechanism",
+        "natural__cog_performance",
+        "natural__cog_attention"
+      ],
+      "topic_labels": [
+        "Nature & Biophilia → Mechanism / Pathway"
+      ],
+      "primary_topic": "Nature & Biophilia → Mechanism / Pathway",
+      "front_ids": [
+        "RF_D339EF64",
+        "Nature & Biophilia × Mechanism / Pathway (Biophilia)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.77,
+      "support_count": 5,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0686",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=nature-biophilia-can-change-mechanism-pathway"
+      }
+    },
+    {
+      "id": "dyk_2c851ce5b0",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change soundscape perception.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in soundscape perception.",
+      "body": "Component 2 was found to explain \\(20 \\%\\) of the variance and had a high positive loadings for \"Vibrancy and Arousal\" (Table 2). Source: The development and application of the emotional dimensions of a soundscape. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1254"
+      ],
+      "source_paper_ids": [
+        "PDF-0837"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0837",
+          "title": "The development and application of the emotional dimensions of a soundscape",
+          "citation": "The development and application of the emotional dimensions of a soundscape.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__affect_soundscape"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Soundscape Perception"
+      ],
+      "primary_topic": "Acoustic Environment → Soundscape Perception",
+      "front_ids": [
+        "RF_DB748AA0",
+        "Acoustic Environment × Soundscape Perception (Soundscape)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.33,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.83,
+      "support_count": 6,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0837",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-soundscape-perception"
+      }
+    },
+    {
+      "id": "dyk_b598d9d084",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Thermal & Air Quality can change wellbeing.",
+      "kicker": "MODERATE EVIDENCE · Thermal & Air Quality",
+      "hook": "A small design variable may be tied to a measurable shift in wellbeing.",
+      "body": "This was corroborated in the goodness-of-fit measures by lower values of both the Akaike Information Criterion (AIC \\( _ f =2051.7\\), full model vs. Source: An Examination of Ultrasound Mid-air Haptics for Enhanced Material and Temperature Perception in Virtual Envi.... Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1213"
+      ],
+      "source_paper_ids": [
+        "PDF-0822"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0822",
+          "title": "An Examination of Ultrasound Mid-air Haptics for Enhanced Material and Temperature Perception in Virtual Envi...",
+          "citation": "An Examination of Ultrasound Mid-air Haptics for Enhanced Material and Temperature Perception in Virtual Environments.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "thermal__affect_wellbeing"
+      ],
+      "topic_labels": [
+        "Thermal & Air Quality → Wellbeing"
+      ],
+      "primary_topic": "Thermal & Air Quality → Wellbeing",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.41,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.83,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0822",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=thermal-air-quality-can-change-wellbeing"
+      }
+    },
+    {
+      "id": "dyk_f10c8c88e4",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change neural activity.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in neural activity.",
+      "body": "2021) based on Equations (3) and (4): \\[ _ combined = (n_ 1 _ 1 +n_ 2 _ 2 ) / (n_ 1 +n_ 2 ) & \\\\ S D_ combined = -1 ) S D_ 1 ^ 2 + (n_ 2 -1 ) S D_ 2 ^ 2 + n_ 2 n_ 1 +n_ 2 ( _ 1 - _ 2 )^ 2 n_ 1 +n_ 2 +1 & \\] where \\( _ 1 , _ 2 \\) refer to the mean value, \\(S D… Source: Effects of Daytime Electrical Light Exposure on Human Alertness, Cognitive Functions, and Mood: A Systematic.... Treat this as a plausible pattern tha...",
+      "source_claim_ids": [
+        "546"
+      ],
+      "source_paper_ids": [
+        "PDF-0421"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0421",
+          "title": "Effects of Daytime Electrical Light Exposure on Human Alertness, Cognitive Functions, and Mood: A Systematic...",
+          "citation": "Effects of Daytime Electrical Light Exposure on Human Alertness, Cognitive Functions, and Mood: A Systematic Review and Meta-Analysis.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__neural",
+        "luminous__mechanism",
+        "luminous__cog_performance"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Neural Activity"
+      ],
+      "primary_topic": "Luminous Environment → Neural Activity",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.82,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0421",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-neural-activity"
+      }
+    },
+    {
+      "id": "dyk_41ac1ebdcc",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Spatial Form can change stress response.",
+      "kicker": "MODERATE EVIDENCE · Spatial Form",
+      "hook": "A small design variable may be tied to a measurable shift in stress response.",
+      "body": "(2021), an arousal response was measured using EEG and virtual reality, exploring changes in ceiling height, window area ratio, and aspect ratio in 33 female participants who experienced a private postpartum care room via virtual reality, during which an Alph… Source: The impact of architectural form on physiological stress: a systematic review. Treat this as a plausible pattern that needs scope conditions before de...",
+      "source_claim_ids": [
+        "1844"
+      ],
+      "source_paper_ids": [
+        "PDF-1419"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-1419",
+          "title": "The impact of architectural form on physiological stress: a systematic review",
+          "citation": "The impact of architectural form on physiological stress: a systematic review.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "spatial__affect_negative_stress",
+        "spatial__neural",
+        "spatial__physio"
+      ],
+      "topic_labels": [
+        "Spatial Form → Stress Response"
+      ],
+      "primary_topic": "Spatial Form → Stress Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.84,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-1419",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=spatial-form-can-change-stress-response"
+      }
+    },
+    {
+      "id": "dyk_2bcb03d610",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change cognitive performance.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in cognitive performance.",
+      "body": "Differences between conditions, no sound, nature soundscape and urban soundscape, were calculated using a repeated-measures ANOVA and paired \\(t\\)-test, as we were mostly interested in differences between nature and urban conditions, with \\( \\) 0.001 and addi… Source: Impact of exposure to natural versus urban soundscapes on brain functional connectivity, BOLD entropy and beh.... Treat this as a plausible pattern th...",
+      "source_claim_ids": [
+        "184"
+      ],
+      "source_paper_ids": [
+        "PDF-0134"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0134",
+          "title": "Impact of exposure to natural versus urban soundscapes on brain functional connectivity, BOLD entropy and beh...",
+          "citation": "Impact of exposure to natural versus urban soundscapes on brain functional connectivity, BOLD entropy and behavior.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__cog_performance",
+        "acoustic__cog_cognitive_load",
+        "acoustic__affect_soundscape"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Cognitive Performance"
+      ],
+      "primary_topic": "Acoustic Environment → Cognitive Performance",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.59,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.86,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0134",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-cognitive-performance"
+      }
+    },
+    {
+      "id": "dyk_bb77157137",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Social-Spatial can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Social-Spatial",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "Looking at the absolute frequency distribution, in the remaining silent group, two subjects considered Density 2 to be unpleasant ( \\(M=6.267\\), \\(S D=1.980\\) ) while in the speaking condition, subjects indicated only Density 6 and Density 8 as unpleasant ( \\… Source: The Relationship between Pedestrian Density, Walking Speed and Psychological Stress: Examining Physiological.... Treat this as a plausible pattern tha...",
+      "source_claim_ids": [
+        "353"
+      ],
+      "source_paper_ids": [
+        "PDF-0283"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0283",
+          "title": "The Relationship between Pedestrian Density, Walking Speed and Psychological Stress: Examining Physiological...",
+          "citation": "The Relationship between Pedestrian Density, Walking Speed and Psychological Stress: Examining Physiological Arousal in Crowded Situations.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "social_spatial__physio",
+        "social_spatial__cog_performance",
+        "social_spatial__affect_negative_stress"
+      ],
+      "topic_labels": [
+        "Social-Spatial → Physiological Response"
+      ],
+      "primary_topic": "Social-Spatial → Physiological Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.49,
+      "practical_value_score": 0.2,
+      "controversy_score": 0.1,
+      "confidence": 0.79,
+      "support_count": 5,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0283",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=social-spatial-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_afd09956ba",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Nature & Biophilia can change neural activity.",
+      "kicker": "EMERGING EVIDENCE · Nature & Biophilia",
+      "hook": "A small design variable may be tied to a measurable shift in neural activity.",
+      "body": "They interpret so-called \"relaxed attention\", when people are concentrated and are not in stress, so they can concentrate on long and effective work. Source: Wood and Its Impact on Humans and Environment Quality in Health Care Facilities. The claim is useful for browsing, but the evidence is still developing.",
+      "source_claim_ids": [
+        "1339"
+      ],
+      "source_paper_ids": [
+        "PDF-0872"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0872",
+          "title": "Wood and Its Impact on Humans and Environment Quality in Health Care Facilities",
+          "citation": "Wood and Its Impact on Humans and Environment Quality in Health Care Facilities.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "natural__neural",
+        "natural__cog_performance",
+        "natural__affect_restoration",
+        "material__neural",
+        "material__cog_performance",
+        "material__affect_restoration"
+      ],
+      "topic_labels": [
+        "Nature & Biophilia → Neural Activity"
+      ],
+      "primary_topic": "Nature & Biophilia → Neural Activity",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "emerging"
+      ],
+      "evidence_strength": "emerging",
+      "surprise_score": 0.75,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.64,
+      "support_count": 8,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0872",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=nature-biophilia-can-change-neural-activity"
+      }
+    },
+    {
+      "id": "dyk_02ae285f35",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change stress response.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in stress response.",
+      "body": "These contrasts are derived from regressors which represent the factors for the ANOVA model (time and soundscape condition). Source: On how natural and urban soundscapes alter brain activity during cognitive performance. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1248"
+      ],
+      "source_paper_ids": [
+        "PDF-0835"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0835",
+          "title": "On how natural and urban soundscapes alter brain activity during cognitive performance",
+          "citation": "On how natural and urban soundscapes alter brain activity during cognitive performance.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__affect_negative_stress",
+        "acoustic__cog_performance",
+        "acoustic__cog_cognitive_load"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Stress Response"
+      ],
+      "primary_topic": "Acoustic Environment → Stress Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.83,
+      "support_count": 3,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0835",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-stress-response"
+      }
+    },
+    {
+      "id": "dyk_6edd91585c",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "Sleep quality as measured using actigraphy and confirmed by the PSQI survey upon enrollment indicated a difference in baseline sleep quality across the two groups, although non-significant; the group assigned to the blinds condition first reported slightly be… Source: Working in office with electrochromic glass (316 melanopic lux) vs traditional blinds (40.6 melanopic lux) fo.... Treat this as a plausible pattern th...",
+      "source_claim_ids": [
+        "1138"
+      ],
+      "source_paper_ids": [
+        "PDF-0767"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0767",
+          "title": "Working in office with electrochromic glass (316 melanopic lux) vs traditional blinds (40.6 melanopic lux) fo...",
+          "citation": "Working in office with electrochromic glass (316 melanopic lux) vs traditional blinds (40.6 melanopic lux) for 1 week.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__physio"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Physiological Response"
+      ],
+      "primary_topic": "Luminous Environment → Physiological Response",
+      "front_ids": [
+        "RF_F3410218",
+        "Luminous Environment × Physiological Response (Circadian)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.73,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 2,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0767",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-physiological-response"
+      }
+    },
+    {
+      "id": "dyk_dbb8ed783a",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Nature & Biophilia can change wellbeing.",
+      "kicker": "MODERATE EVIDENCE · Nature & Biophilia",
+      "hook": "A small design variable may be tied to a measurable shift in wellbeing.",
+      "body": "The study of the obtained publications mainly includes: Source: Biophilic design in architecture and its contributions to health, well-being, and sustainability: A critical.... Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "1368"
+      ],
+      "source_paper_ids": [
+        "PDF-0885"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0885",
+          "title": "Biophilic design in architecture and its contributions to health, well-being, and sustainability: A critical...",
+          "citation": "Biophilic design in architecture and its contributions to health, well-being, and sustainability: A critical review.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "natural__affect_wellbeing"
+      ],
+      "topic_labels": [
+        "Nature & Biophilia → Wellbeing"
+      ],
+      "primary_topic": "Nature & Biophilia → Wellbeing",
+      "front_ids": [
+        "RF_4E1CF4CC",
+        "Nature & Biophilia × Wellbeing (Evidence-Based)",
+        "Nature & Biophilia × Wellbeing (Biophilic)"
+      ],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.49,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.74,
+      "support_count": 5,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0885",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=nature-biophilia-can-change-wellbeing"
+      }
+    },
+    {
+      "id": "dyk_018a736c48",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Acoustic Environment can change cognitive performance.",
+      "kicker": "MODERATE EVIDENCE · Acoustic Environment",
+      "hook": "A small design variable may be tied to a measurable shift in cognitive performance.",
+      "body": "Signal detection theory (Stanislaw and Todorov, 1999) was used to analyze accuracy: correct and incorrect trials without a change from test to memory array were defined as correct rejections (CRs) and false alarms (FA), whereas correct and incorrect change tr… Source: PDF-0575. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "764"
+      ],
+      "source_paper_ids": [
+        "PDF-0575"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0575",
+          "title": "PDF-0575",
+          "citation": "PDF-0575",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "acoustic__cog_performance",
+        "acoustic__cog_attention"
+      ],
+      "topic_labels": [
+        "Acoustic Environment → Cognitive Performance"
+      ],
+      "primary_topic": "Acoustic Environment → Cognitive Performance",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.49,
+      "practical_value_score": 0.29,
+      "controversy_score": 0.1,
+      "confidence": 0.8,
+      "support_count": 4,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0575",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=acoustic-environment-can-change-cognitive-performance"
+      }
+    },
+    {
+      "id": "dyk_d84eec7cfa",
+      "schema_version": "ka_did_you_know_v1",
+      "title": "Luminous Environment can change physiological response.",
+      "kicker": "MODERATE EVIDENCE · Luminous Environment",
+      "hook": "A small design variable may be tied to a measurable shift in physiological response.",
+      "body": "The results showed that higher illuminance was associated with lower EDA-Phasic values (Fig. Source: The effects of illuminance on students' memory. A neuroarchitecture study. Treat this as a plausible pattern that needs scope conditions before design use.",
+      "source_claim_ids": [
+        "147"
+      ],
+      "source_paper_ids": [
+        "PDF-0108"
+      ],
+      "source_papers": [
+        {
+          "paper_id": "PDF-0108",
+          "title": "The effects of illuminance on students' memory. A neuroarchitecture study",
+          "citation": "The effects of illuminance on students' memory. A neuroarchitecture study.",
+          "year": ""
+        }
+      ],
+      "topic_ids": [
+        "luminous__physio",
+        "luminous__neural",
+        "luminous__cog_performance"
+      ],
+      "topic_labels": [
+        "Luminous Environment → Physiological Response"
+      ],
+      "primary_topic": "Luminous Environment → Physiological Response",
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "surprise_score": 0.57,
+      "practical_value_score": 0.38,
+      "controversy_score": 0.1,
+      "confidence": 0.84,
+      "support_count": 2,
+      "attack_count": 0,
+      "writing_agent": "science_writer",
+      "writing_agent_version": "science_writer_dyk_v1_2026_05_14",
+      "verification_status": "source_backed",
+      "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+      "links": {
+        "articles": "ka_articles.html?paper=PDF-0108",
+        "topics": "ka_topics.html",
+        "question": "ka_demo_v04.html?q=luminous-environment-can-change-physiological-response"
+      }
+    }
+  ]
+}

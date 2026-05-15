@@ -1,0 +1,371 @@
+#!/usr/bin/env python3
+"""Build generated Did You Know cards for KA journeys and topic browsing.
+
+The generator selects source-backed candidate claims from the KA evidence
+payload, scores them for browsing value, then applies a deterministic
+science-writing pass. The writer changes presentation only; it does not invent
+claims or sources.
+"""
+
+from __future__ import annotations
+
+import argparse
+import hashlib
+import json
+import re
+from dataclasses import dataclass
+from datetime import datetime, timezone
+from pathlib import Path
+from typing import Any, Iterable
+
+
+REPO_ROOT = Path(__file__).resolve().parents[1]
+PAYLOAD_DIR = REPO_ROOT / "data" / "ka_payloads"
+DEFAULT_EVIDENCE_PATH = PAYLOAD_DIR / "evidence.json"
+DEFAULT_OUTPUT_PATH = PAYLOAD_DIR / "did_you_know.json"
+
+SCIENCE_WRITER_VERSION = "science_writer_dyk_v1_2026_05_14"
+PAYLOAD_SCHEMA_VERSION = "ka_did_you_know_v1"
+
+STOP_TOPICS = {"Unknown", "", "Unspecified"}
+
+SURPRISE_TERMS = {
+    "sleep",
+    "stress",
+    "cortisol",
+    "memory",
+    "attention",
+    "noise",
+    "sound",
+    "light",
+    "daylight",
+    "green",
+    "nature",
+    "window",
+    "view",
+    "physiological",
+    "neural",
+    "brain",
+    "walking",
+    "wayfinding",
+    "preference",
+}
+
+PRACTICAL_TERMS = {
+    "office",
+    "classroom",
+    "hospital",
+    "workplace",
+    "home",
+    "residential",
+    "school",
+    "lighting",
+    "noise",
+    "window",
+    "material",
+    "thermal",
+    "green",
+    "plants",
+    "wayfinding",
+    "open",
+    "corridor",
+}
+
+
+@dataclass(frozen=True)
+class DidYouKnowCandidate:
+    source: dict[str, Any]
+    score: float
+    surprise_score: float
+    practical_value_score: float
+    controversy_score: float
+    evidence_strength: str
+
+
+def utc_now() -> str:
+    return datetime.now(timezone.utc).isoformat().replace("+00:00", "Z")
+
+
+def load_json(path: Path) -> Any:
+    return json.loads(path.read_text(encoding="utf-8"))
+
+
+def compact_text(value: Any, *, max_chars: int = 320) -> str:
+    text = re.sub(r"\s+", " ", str(value or "")).strip()
+    if len(text) <= max_chars:
+        return text
+    return text[: max_chars - 1].rstrip(" ,.;:") + "..."
+
+
+def slugify(value: str) -> str:
+    slug = re.sub(r"[^a-z0-9]+", "-", value.lower()).strip("-")
+    return slug or "card"
+
+
+def clamp(value: float, lo: float = 0.0, hi: float = 1.0) -> float:
+    return max(lo, min(hi, value))
+
+
+def topic_parts(label: str) -> tuple[str, str]:
+    if "→" in label:
+        left, right = label.split("→", 1)
+    elif "->" in label:
+        left, right = label.split("->", 1)
+    else:
+        return label.strip(), ""
+    return left.strip(), right.strip()
+
+
+def evidence_strength(row: dict[str, Any]) -> str:
+    credence = float(row.get("credence") or 0.0)
+    support = int(row.get("support_count") or 0)
+    attacks = int(row.get("attack_count") or 0)
+    if credence >= 0.85 and support >= 4 and attacks == 0:
+        return "strong"
+    if credence >= 0.70 and support >= 2:
+        return "moderate"
+    if attacks > 0 or credence < 0.45:
+        return "contested"
+    return "emerging"
+
+
+def score_candidate(row: dict[str, Any]) -> DidYouKnowCandidate | None:
+    claim = compact_text(row.get("claim") or row.get("finding"), max_chars=520)
+    topic = str(row.get("primary_topic") or "").strip()
+    paper_id = str(row.get("paper_id") or "").strip()
+    if not claim or not paper_id or topic in STOP_TOPICS:
+        return None
+    if len(claim) < 45:
+        return None
+
+    text = f"{claim} {topic} {row.get('paper_title') or ''} {row.get('abstract') or ''}".lower()
+    credence = float(row.get("credence") or 0.0)
+    support = int(row.get("support_count") or 0)
+    attacks = int(row.get("attack_count") or 0)
+
+    surprise_hits = sum(1 for term in SURPRISE_TERMS if term in text)
+    practical_hits = sum(1 for term in PRACTICAL_TERMS if term in text)
+    surprise = clamp(0.25 + surprise_hits * 0.08 + (0.1 if "no " in text or "not " in text else 0.0))
+    practical = clamp(0.2 + practical_hits * 0.09)
+    controversy = clamp(0.1 + attacks * 0.2 + (0.2 if credence < 0.55 else 0.0))
+    strength = evidence_strength(row)
+    strength_bonus = {"strong": 0.24, "moderate": 0.16, "emerging": 0.08, "contested": 0.04}[strength]
+    score = (
+        credence * 0.36
+        + min(support, 8) / 8 * 0.18
+        + surprise * 0.2
+        + practical * 0.16
+        + strength_bonus
+        + controversy * 0.06
+    )
+    return DidYouKnowCandidate(
+        source=row,
+        score=round(score, 4),
+        surprise_score=round(surprise, 3),
+        practical_value_score=round(practical, 3),
+        controversy_score=round(controversy, 3),
+        evidence_strength=strength,
+    )
+
+
+class ScienceWriterDidYouKnow:
+    """Local science-writer pass for DYK cards.
+
+    This intentionally does not call an LLM. It enforces the science-writing
+    contract in a deterministic way: preserve the source claim, add context and
+    epistemic caution, and keep the card readable.
+    """
+
+    writing_agent = "science_writer"
+    writing_agent_version = SCIENCE_WRITER_VERSION
+
+    def render(self, candidate: DidYouKnowCandidate) -> dict[str, Any]:
+        row = candidate.source
+        topic = str(row.get("primary_topic") or "Built Environment").strip()
+        left, right = topic_parts(topic)
+        claim = compact_text(row.get("claim") or row.get("finding"), max_chars=260)
+        paper_title = compact_text(row.get("paper_title") or row.get("citation"), max_chars=110)
+        title = self._title(left, right, claim)
+        hook = self._hook(left, right, candidate.evidence_strength)
+        body = self._body(claim, paper_title, candidate)
+        cid = self._card_id(row, title)
+        topic_ids = [tid for tid in row.get("topic_ids") or [] if tid]
+        if row.get("primary_topic_id") and row["primary_topic_id"] not in topic_ids:
+            topic_ids.insert(0, row["primary_topic_id"])
+        return {
+            "id": cid,
+            "schema_version": PAYLOAD_SCHEMA_VERSION,
+            "title": title,
+            "kicker": f"{candidate.evidence_strength.upper()} EVIDENCE · {left or 'KA'}",
+            "hook": hook,
+            "body": body,
+            "source_claim_ids": [str(row.get("id"))],
+            "source_paper_ids": [str(row.get("paper_id"))],
+            "source_papers": [
+                {
+                    "paper_id": str(row.get("paper_id")),
+                    "title": paper_title,
+                    "citation": compact_text(row.get("citation"), max_chars=180),
+                    "year": row.get("year") or "",
+                }
+            ],
+            "topic_ids": topic_ids,
+            "topic_labels": [topic],
+            "primary_topic": topic,
+            "front_ids": [fid for fid in ([row.get("front_id")] + list(row.get("fronts") or [])) if fid],
+            "theory_ids": [],
+            "mechanism_ids": [],
+            "journey_tags": self._journey_tags(candidate),
+            "sort_tags": self._sort_tags(candidate),
+            "evidence_strength": candidate.evidence_strength,
+            "surprise_score": candidate.surprise_score,
+            "practical_value_score": candidate.practical_value_score,
+            "controversy_score": candidate.controversy_score,
+            "confidence": round(float(row.get("credence") or 0.0), 3),
+            "support_count": int(row.get("support_count") or 0),
+            "attack_count": int(row.get("attack_count") or 0),
+            "writing_agent": self.writing_agent,
+            "writing_agent_version": self.writing_agent_version,
+            "verification_status": "source_backed",
+            "verification_notes": "Generated only from existing KA evidence fields; no unsupported claim expansion.",
+            "links": {
+                "articles": f"ka_articles.html?paper={row.get('paper_id')}",
+                "topics": "ka_topics.html",
+                "question": f"ka_demo_v04.html?q={slugify(title)}",
+            },
+        }
+
+    def _title(self, left: str, right: str, claim: str) -> str:
+        if left and right:
+            return f"{left} can change {right.lower()}."
+        if left:
+            return f"{left} has measurable human consequences."
+        words = claim.split()
+        return compact_text(" ".join(words[:9]).rstrip(".") + ".", max_chars=80)
+
+    def _hook(self, left: str, right: str, strength: str) -> str:
+        if left and right:
+            return f"A small design variable may be tied to a measurable shift in {right.lower()}."
+        if strength == "contested":
+            return "The interesting part is not certainty; it is where the evidence starts to disagree."
+        return "A concrete evidence claim worth opening before choosing a topic path."
+
+    def _body(self, claim: str, paper_title: str, candidate: DidYouKnowCandidate) -> str:
+        caution = {
+            "strong": "This is a good entry point, but it is still evidence to inspect rather than a design law.",
+            "moderate": "Treat this as a plausible pattern that needs scope conditions before design use.",
+            "emerging": "The claim is useful for browsing, but the evidence is still developing.",
+            "contested": "Use this as a debate card: it is interesting because the warrant is not settled.",
+        }[candidate.evidence_strength]
+        citation = f" Source: {paper_title}." if paper_title else ""
+        return compact_text(f"{claim}{citation} {caution}", max_chars=420)
+
+    def _journey_tags(self, candidate: DidYouKnowCandidate) -> list[str]:
+        tags = {"student_explorer", "topic_browser"}
+        if candidate.practical_value_score >= 0.45:
+            tags.add("practitioner")
+        if candidate.evidence_strength in {"strong", "moderate"}:
+            tags.add("researcher")
+        if candidate.controversy_score >= 0.35:
+            tags.add("debate_journey")
+        return sorted(tags)
+
+    def _sort_tags(self, candidate: DidYouKnowCandidate) -> list[str]:
+        tags = ["did_you_know"]
+        if candidate.surprise_score >= 0.55:
+            tags.append("surprising")
+        if candidate.practical_value_score >= 0.45:
+            tags.append("practical")
+        if candidate.controversy_score >= 0.35:
+            tags.append("debated")
+        tags.append(candidate.evidence_strength)
+        return tags
+
+    def _card_id(self, row: dict[str, Any], title: str) -> str:
+        raw = f"{row.get('id')}|{row.get('paper_id')}|{title}"
+        digest = hashlib.sha1(raw.encode("utf-8")).hexdigest()[:10]
+        return f"dyk_{digest}"
+
+
+def build_payload(evidence_payload: dict[str, Any], *, limit: int = 60) -> dict[str, Any]:
+    evidence_rows = evidence_payload.get("evidence") or []
+    candidates = [c for c in (score_candidate(row) for row in evidence_rows) if c is not None]
+    candidates.sort(key=lambda item: (-item.score, -item.surprise_score, -item.practical_value_score))
+
+    writer = ScienceWriterDidYouKnow()
+    cards: list[dict[str, Any]] = []
+    seen_topics: dict[str, int] = {}
+    seen_papers: set[str] = set()
+    for candidate in candidates:
+        row = candidate.source
+        topic = str(row.get("primary_topic") or "")
+        paper_id = str(row.get("paper_id") or "")
+        if seen_topics.get(topic, 0) >= 4:
+            continue
+        if paper_id in seen_papers and len(cards) < 20:
+            continue
+        card = writer.render(candidate)
+        cards.append(card)
+        seen_topics[topic] = seen_topics.get(topic, 0) + 1
+        seen_papers.add(paper_id)
+        if len(cards) >= limit:
+            break
+
+    topic_counts: dict[str, int] = {}
+    journey_counts: dict[str, int] = {}
+    for card in cards:
+        for topic in card["topic_labels"]:
+            topic_counts[topic] = topic_counts.get(topic, 0) + 1
+        for tag in card["journey_tags"]:
+            journey_counts[tag] = journey_counts.get(tag, 0) + 1
+
+    return {
+        "schema_version": PAYLOAD_SCHEMA_VERSION,
+        "generated_at": utc_now(),
+        "source_kind": "ka_evidence_did_you_know_generator",
+        "source_files": {"evidence": str(DEFAULT_EVIDENCE_PATH.relative_to(REPO_ROOT))},
+        "science_writer": {
+            "agent": writer.writing_agent,
+            "version": writer.writing_agent_version,
+            "method": "deterministic source-preserving rewrite",
+            "non_promises": [
+                "does not invent claims",
+                "does not upgrade evidence strength",
+                "does not replace source-paper review",
+            ],
+        },
+        "summary": {
+            "candidate_count": len(candidates),
+            "card_count": len(cards),
+            "topic_count": len(topic_counts),
+            "journey_counts": dict(sorted(journey_counts.items())),
+            "evidence_strength_counts": dict(_counts(card["evidence_strength"] for card in cards)),
+        },
+        "cards": cards,
+    }
+
+
+def _counts(values: Iterable[str]) -> list[tuple[str, int]]:
+    counts: dict[str, int] = {}
+    for value in values:
+        counts[value] = counts.get(value, 0) + 1
+    return sorted(counts.items())
+
+
+def main(argv: list[str] | None = None) -> int:
+    parser = argparse.ArgumentParser(description=__doc__)
+    parser.add_argument("--evidence", type=Path, default=DEFAULT_EVIDENCE_PATH)
+    parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_PATH)
+    parser.add_argument("--limit", type=int, default=60)
+    args = parser.parse_args(argv)
+
+    evidence_payload = load_json(args.evidence)
+    payload = build_payload(evidence_payload, limit=args.limit)
+    args.output.parent.mkdir(parents=True, exist_ok=True)
+    args.output.write_text(json.dumps(payload, indent=2, ensure_ascii=False) + "\n", encoding="utf-8")
+    print(f"Wrote {len(payload['cards'])} Did You Know cards to {args.output}")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())

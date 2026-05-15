@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Student Explorer — Knowledge Atlas</title>
+  <script src="ka_did_you_know.js" defer></script>
   <style>
     :root {
       --navy: #1C3D3A;
@@ -676,7 +677,7 @@
         <div class="interest-card-body" id="dykBody">
           Natural light exposure during work hours improves sleep quality by 46 minutes per night. Workers in offices with adequate natural light report better sleep and fewer cognitive complaints.
         </div>
-        <a href="ka_home.html" class="interest-card-cta">Explore this finding →</a>
+        <a href="ka_did_you_know.html" class="interest-card-cta" id="dykCta">Explore this finding →</a>
       </div>
 
       <!-- Card 2: Topic Spotlight -->
@@ -981,6 +982,10 @@
 
   // ── DID YOU KNOW ROTATION ──
   function initDidYouKnow() {
+    if (window.KADidYouKnow) {
+      window.KADidYouKnow.hydrateStudentCard();
+      return;
+    }
     const dykFindings = [
       {
         title: "Natural light improves sleep",
