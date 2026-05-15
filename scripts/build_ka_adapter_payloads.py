@@ -67,6 +67,11 @@ DEFAULT_TRACK_TARGETS = [
 ]
 
 try:
+    from scripts.build_did_you_know_payload import build_payload as build_did_you_know_payload
+except ImportError:
+    from build_did_you_know_payload import build_payload as build_did_you_know_payload
+
+try:
     from src.services.article_type_policy import likely_warrant_types, primary_warrant_type
 except Exception:
     def likely_warrant_types(article_type):
@@ -4549,22 +4554,26 @@ def main():
     layers = build_layers_summary(argumentation, annotations, interpretation)
     (OUT / 'topics.json').write_text(json.dumps({'topics': topics, 'summary': topic_summary}, indent=2))
     (OUT / 'gaps.json').write_text(json.dumps({'gaps': gaps}, indent=2))
-    (OUT / 'evidence.json').write_text(
+    evidence_payload = {
+        'generated_at': generated_at,
+        'source_claims': str(CLAIMS_PATH.relative_to(ROOT)),
+        'warrant_taxonomy': {
+            'display_field': 'warrant',
+            'display_class_field': 'warrant_class',
+            'raw_extraction_field': 'extraction_warrant_type',
+            'discounts': BRIDGE_DISCOUNT_BY_VALUE,
+            'order': CANONICAL_BRIDGE_ORDER,
+        },
+        'evidence': evidence,
+    }
+    (OUT / 'evidence.json').write_text(json.dumps(evidence_payload, indent=2))
+    (OUT / 'did_you_know.json').write_text(
         json.dumps(
-            {
-                'generated_at': generated_at,
-                'source_claims': str(CLAIMS_PATH.relative_to(ROOT)),
-                'warrant_taxonomy': {
-                    'display_field': 'warrant',
-                    'display_class_field': 'warrant_class',
-                    'raw_extraction_field': 'extraction_warrant_type',
-                    'discounts': BRIDGE_DISCOUNT_BY_VALUE,
-                    'order': CANONICAL_BRIDGE_ORDER,
-                },
-                'evidence': evidence,
-            },
+            build_did_you_know_payload(evidence_payload),
             indent=2,
-        )
+            ensure_ascii=False,
+        ) + "\n",
+        encoding='utf-8',
     )
     (OUT / 'articles.json').write_text(json.dumps({'articles': articles}, indent=2))
     (OUT / 'dashboard.json').write_text(json.dumps({'dashboard': dashboard}, indent=2))

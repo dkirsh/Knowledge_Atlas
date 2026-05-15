@@ -1,0 +1,157 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Did You Know — Knowledge Atlas</title>
+<meta name="description" content="Source-backed Did You Know cards from the Knowledge Atlas evidence base.">
+<script src="ka_canonical_navbar.js" defer></script>
+<script src="ka_user_type.js" defer></script>
+<script src="ka_did_you_know.js" defer></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#F7F4EF;color:#2C2C2C;line-height:1.55}
+.hero{background:#1C3D3A;color:#fff;padding:56px 24px 44px}
+.hero-inner{max-width:1120px;margin:0 auto}
+.eyebrow{font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;color:#F5A623;font-weight:700;margin-bottom:10px}
+h1{font-family:Georgia,serif;font-size:2.35rem;line-height:1.12;margin-bottom:10px}
+.hero p{max-width:720px;color:#B8D4CE;font-size:1rem}
+.wrap{max-width:1120px;margin:0 auto;padding:28px 24px 60px}
+.toolbar{display:grid;grid-template-columns:minmax(220px,1fr) repeat(3,max-content);gap:10px;align-items:center;margin-bottom:18px}
+.toolbar input,.toolbar select{border:1.5px solid #D9D0C2;border-radius:8px;background:#fff;padding:10px 12px;font-size:.9rem;color:#2C2C2C}
+.statline{font-size:.84rem;color:#6A5E50;margin-bottom:18px}
+.dyk-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(285px,1fr));gap:14px}
+.dyk-card{background:#fff;border:1.5px solid #E0D8CC;border-radius:10px;padding:18px 20px;transition:all .15s;min-height:245px;display:flex;flex-direction:column}
+.dyk-card:hover{border-color:#2A7868;box-shadow:0 4px 14px rgba(0,0,0,.05);transform:translateY(-2px)}
+.kicker{font-size:.66rem;letter-spacing:.12em;text-transform:uppercase;color:#E8872A;font-weight:700;margin-bottom:7px}
+.dyk-card h2{font-family:Georgia,serif;font-size:1.18rem;color:#1C3D3A;line-height:1.25;margin-bottom:9px}
+.dyk-card p{font-size:.9rem;line-height:1.5;margin-bottom:12px}
+.meta{display:flex;flex-wrap:wrap;gap:6px;margin-top:auto;margin-bottom:12px}
+.pill{font-size:.72rem;padding:4px 7px;border:1px solid #D7E4DF;border-radius:999px;background:#F4F8F7;color:#2A7868}
+.dyk-card a{font-size:.82rem;color:#2A7868;text-decoration:none;font-weight:700}
+.dyk-card a:hover{text-decoration:underline}
+.empty{background:#fff;border:1px dashed #D9D0C2;border-radius:10px;padding:24px;color:#6A5E50}
+@media (max-width:760px){.toolbar{grid-template-columns:1fr}.hero{padding-top:40px}h1{font-size:1.9rem}}
+</style>
+</head>
+<body data-ka-regime="global" data-ka-active="topics" data-ka-crumbs='[["Home","ka_home.html"],["Did You Know","ka_did_you_know.html"]]'>
+<div id="ka-navbar-slot"></div>
+<div id="ka-breadcrumb-slot"></div>
+
+<section class="hero">
+  <div class="hero-inner">
+    <div class="eyebrow">Knowledge Atlas</div>
+    <h1>Did You Know?</h1>
+    <p>Source-backed cards written for browsing. Each card starts from an existing KA evidence claim, then a science-writer pass makes it readable without upgrading the evidence.</p>
+  </div>
+</section>
+
+<main class="wrap">
+  <div class="toolbar">
+    <input id="searchBox" type="search" placeholder="Search cards, topics, evidence text">
+    <select id="strengthFilter" aria-label="Evidence strength">
+      <option value="">All evidence</option>
+      <option value="strong">Strong</option>
+      <option value="moderate">Moderate</option>
+      <option value="emerging">Emerging</option>
+      <option value="contested">Contested</option>
+    </select>
+    <select id="journeyFilter" aria-label="Journey">
+      <option value="">All journeys</option>
+      <option value="student_explorer">Student explorer</option>
+      <option value="topic_browser">Topic browser</option>
+      <option value="researcher">Researcher</option>
+      <option value="practitioner">Practitioner</option>
+      <option value="debate_journey">Debate journey</option>
+    </select>
+    <select id="sortMode" aria-label="Sort cards">
+      <option value="surprise">Sort: surprising</option>
+      <option value="practical">Sort: practical</option>
+      <option value="confidence">Sort: confidence</option>
+      <option value="controversy">Sort: debated</option>
+    </select>
+  </div>
+  <div class="statline" id="statline">Loading Did You Know cards...</div>
+  <div class="dyk-grid" id="dykGrid"></div>
+</main>
+
+<script>
+(function(){
+  let allCards = [];
+  const grid = document.getElementById('dykGrid');
+  const statline = document.getElementById('statline');
+  const searchBox = document.getElementById('searchBox');
+  const strengthFilter = document.getElementById('strengthFilter');
+  const journeyFilter = document.getElementById('journeyFilter');
+  const sortMode = document.getElementById('sortMode');
+
+  function escapeHtml(value) {
+    return String(value || '').replace(/[&<>"']/g, ch => ({
+      '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+    }[ch]));
+  }
+
+  function renderCard(card) {
+    const source = card.source_papers && card.source_papers[0];
+    const href = card.links && (card.links.articles || card.links.topics) || 'ka_articles.html';
+    const topic = (card.topic_labels && card.topic_labels[0]) || card.primary_topic || 'KA';
+    return `<article class="dyk-card">
+      <div class="kicker">${escapeHtml((card.evidence_strength || '').toUpperCase())} · ${escapeHtml(topic)}</div>
+      <h2>${escapeHtml(card.title)}</h2>
+      <p>${escapeHtml(card.body)}</p>
+      <div class="meta">
+        <span class="pill">confidence ${Math.round((card.confidence || 0) * 100)}%</span>
+        <span class="pill">${escapeHtml(card.writing_agent || 'science_writer')}</span>
+        <span class="pill">${escapeHtml(card.verification_status || 'source_backed')}</span>
+      </div>
+      <a href="${escapeHtml(href)}">Trace evidence${source && source.paper_id ? ' for ' + escapeHtml(source.paper_id) : ''} →</a>
+    </article>`;
+  }
+
+  function textFor(card) {
+    return [
+      card.title, card.body, card.primary_topic,
+      ...(card.topic_labels || []),
+      ...(card.journey_tags || []),
+      ...(card.sort_tags || [])
+    ].join(' ').toLowerCase();
+  }
+
+  function update() {
+    const query = searchBox.value.trim().toLowerCase();
+    const strength = strengthFilter.value;
+    const journey = journeyFilter.value;
+    const sort = sortMode.value;
+    let cards = allCards.filter(card => {
+      if (strength && card.evidence_strength !== strength) return false;
+      if (journey && !(card.journey_tags || []).includes(journey)) return false;
+      if (query && !textFor(card).includes(query)) return false;
+      return true;
+    });
+    const scoreKey = {
+      surprise: 'surprise_score',
+      practical: 'practical_value_score',
+      confidence: 'confidence',
+      controversy: 'controversy_score'
+    }[sort] || 'surprise_score';
+    cards.sort((a,b) => (b[scoreKey] || 0) - (a[scoreKey] || 0));
+    statline.textContent = `${cards.length} of ${allCards.length} cards shown`;
+    grid.innerHTML = cards.length ? cards.map(renderCard).join('') : '<div class="empty">No cards match these filters.</div>';
+  }
+
+  document.addEventListener('DOMContentLoaded', async () => {
+    try {
+      allCards = await window.KADidYouKnow.loadDidYouKnowCards();
+      update();
+    } catch (err) {
+      console.warn(err);
+      statline.textContent = 'Could not load generated cards.';
+      grid.innerHTML = '<div class="empty">The generated Did You Know payload is missing. Run scripts/build_did_you_know_payload.py.</div>';
+    }
+  });
+  [searchBox, strengthFilter, journeyFilter, sortMode].forEach(el => el.addEventListener('input', update));
+})();
+</script>
+<script src="ka_page_function.js"></script>
+</body>
+</html>
