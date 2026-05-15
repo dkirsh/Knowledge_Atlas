@@ -102,6 +102,15 @@ def test_home_pages_load_generated_dyk_runtime():
     assert "journeyFilter" in dyk_page
 
 
+def test_topic_dyk_page_filters_high_level_topics():
+    text = (REPO_ROOT / "ka_topics_dyk.html").read_text()
+
+    assert "High-level topics" in text
+    assert "MAX_VISIBLE = 40" in text
+    assert "highTopic(card)" in text
+    assert "loadDidYouKnowCards" in text
+
+
 def test_adapter_rebuild_writes_generated_dyk_payload():
     adapter = (REPO_ROOT / "scripts" / "build_ka_adapter_payloads.py").read_text()
 

@@ -2723,10 +2723,7 @@
       "defended_paper_count": 1,
       "working_paper_count": 2,
       "theories": [],
-      "common_sensors": [
-        "EEG",
-        "fMRI"
-      ],
+      "common_sensors": [],
       "fronts": [],
       "evidence_status": "defended"
     },

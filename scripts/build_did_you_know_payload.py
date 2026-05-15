@@ -287,7 +287,7 @@ class ScienceWriterDidYouKnow:
         return f"dyk_{digest}"
 
 
-def build_payload(evidence_payload: dict[str, Any], *, limit: int = 60) -> dict[str, Any]:
+def build_payload(evidence_payload: dict[str, Any], *, limit: int = 240) -> dict[str, Any]:
     evidence_rows = evidence_payload.get("evidence") or []
     candidates = [c for c in (score_candidate(row) for row in evidence_rows) if c is not None]
     candidates.sort(key=lambda item: (-item.score, -item.surprise_score, -item.practical_value_score))
@@ -300,9 +300,9 @@ def build_payload(evidence_payload: dict[str, Any], *, limit: int = 60) -> dict[
         row = candidate.source
         topic = str(row.get("primary_topic") or "")
         paper_id = str(row.get("paper_id") or "")
-        if seen_topics.get(topic, 0) >= 4:
+        if seen_topics.get(topic, 0) >= 8:
             continue
-        if paper_id in seen_papers and len(cards) < 20:
+        if paper_id in seen_papers and len(cards) < 40:
             continue
         card = writer.render(candidate)
         cards.append(card)
@@ -356,7 +356,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("--evidence", type=Path, default=DEFAULT_EVIDENCE_PATH)
     parser.add_argument("--output", type=Path, default=DEFAULT_OUTPUT_PATH)
-    parser.add_argument("--limit", type=int, default=60)
+    parser.add_argument("--limit", type=int, default=240)
     args = parser.parse_args(argv)
 
     evidence_payload = load_json(args.evidence)
