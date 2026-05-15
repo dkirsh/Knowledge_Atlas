@@ -1,9 +1,14 @@
 {
   "schema_version": "ka_did_you_know_v1",
-  "generated_at": "2026-05-15T21:32:53.057179Z",
+  "generated_at": "2026-05-15T22:16:33.467734Z",
   "source_kind": "ka_evidence_did_you_know_generator",
   "source_files": {
-    "evidence": "data/ka_payloads/evidence.json"
+    "evidence": "data/ka_payloads/evidence.json",
+    "hand_authored_cards": [
+      "ka_home.html",
+      "ka_home_student.html",
+      "ka_home_student_new.html"
+    ]
   },
   "science_writer": {
     "agent": "science_writer",
@@ -17,23 +22,418 @@
   },
   "summary": {
     "candidate_count": 1877,
-    "card_count": 240,
-    "topic_count": 59,
+    "generated_card_count": 240,
+    "hand_authored_card_count": 8,
+    "card_count": 248,
+    "topic_count": 68,
     "journey_counts": {
-      "debate_journey": 1,
-      "practitioner": 35,
-      "researcher": 174,
-      "student_explorer": 240,
-      "topic_browser": 240
+      "debate_journey": 2,
+      "practitioner": 42,
+      "researcher": 177,
+      "student_explorer": 248,
+      "theory_browser": 2,
+      "topic_browser": 248
     },
     "evidence_strength_counts": {
       "contested": 2,
       "emerging": 64,
-      "moderate": 169,
+      "moderate": 177,
       "strong": 5
     }
   },
   "cards": [
+    {
+      "id": "dyk_hand_predictive_processing",
+      "title": "Your brain predicts a building before experiencing it.",
+      "kicker": "CURATED · Predictive Processing",
+      "hook": "A building can produce prediction error before a visitor can explain what feels wrong.",
+      "body": "Visual, acoustic, and thermal cues generate top-down predictions at every level of cortex. Subtle violations — an almost-right angle, a misplaced acoustic reflection — leave persistent unresolved prediction error that occupants can rarely articulate but reliably feel.",
+      "primary_topic": "Frameworks -> Predictive Processing",
+      "topic_ids": [
+        "frameworks__predictive_processing"
+      ],
+      "topic_labels": [
+        "Frameworks -> Predictive Processing"
+      ],
+      "journey_tags": [
+        "researcher",
+        "student_explorer",
+        "theory_browser",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "hand_authored",
+        "surprising",
+        "framework",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "confidence": 0.72,
+      "surprise_score": 0.82,
+      "practical_value_score": 0.58,
+      "controversy_score": 0.22,
+      "links": {
+        "topics": "ka_topics_dyk.html",
+        "framework": "ka_framework_pp.html"
+      },
+      "schema_version": "ka_did_you_know_v1",
+      "source_kind": "hand_authored_did_you_know",
+      "source_claim_ids": [],
+      "source_paper_ids": [],
+      "source_papers": [],
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "support_count": 0,
+      "attack_count": 0,
+      "writing_agent": "human_curated",
+      "writing_agent_version": "hand_authored_dyk_v1_2026_05_15",
+      "verification_status": "hand_authored_curated",
+      "verification_notes": "Preserved from the current hand-authored KA Did You Know set; requires evidence-trace review before being treated as source-backed."
+    },
+    {
+      "id": "dyk_hand_chronobiology_daylight",
+      "title": "Morning daylight is a neurochemical signal.",
+      "kicker": "CURATED · Chronobiology",
+      "hook": "A window is also a timing device for the nervous system.",
+      "body": "Light above roughly 250 melanopic lux in the first hours of the day activates intrinsically photosensitive retinal ganglion cells, advances the circadian clock, and produces measurable gains in daytime alertness, memory, and sleep quality. Window placement is neurochemistry.",
+      "primary_topic": "Luminous Environment -> Sleep Quality",
+      "topic_ids": [
+        "luminous_environment__sleep_quality"
+      ],
+      "topic_labels": [
+        "Luminous Environment -> Sleep Quality",
+        "Frameworks -> Chronobiology"
+      ],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "hand_authored",
+        "practical",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "confidence": 0.74,
+      "surprise_score": 0.78,
+      "practical_value_score": 0.76,
+      "controversy_score": 0.12,
+      "links": {
+        "topics": "ka_topics_dyk.html",
+        "framework": "ka_framework_cb.html"
+      },
+      "schema_version": "ka_did_you_know_v1",
+      "source_kind": "hand_authored_did_you_know",
+      "source_claim_ids": [],
+      "source_paper_ids": [],
+      "source_papers": [],
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "support_count": 0,
+      "attack_count": 0,
+      "writing_agent": "human_curated",
+      "writing_agent_version": "hand_authored_dyk_v1_2026_05_15",
+      "verification_status": "hand_authored_curated",
+      "verification_notes": "Preserved from the current hand-authored KA Did You Know set; requires evidence-trace review before being treated as source-backed."
+    },
+    {
+      "id": "dyk_hand_embodied_cognition",
+      "title": "Spaces you only see are spaces you implicitly inhabit.",
+      "kicker": "CURATED · Embodied Cognition",
+      "hook": "Perception of action-relevant geometry can recruit the body's planning systems.",
+      "body": "Premotor and parietal circuits activate during perception of action-relevant geometry, not only during action itself. A handrail invites grip simulation in passing; a corridor invites walking simulation in reading. Design choices recruit motor cortex whether or not the occupant moves.",
+      "primary_topic": "Spatial Form -> Embodied Cognition",
+      "topic_ids": [
+        "spatial_form__embodied_cognition"
+      ],
+      "topic_labels": [
+        "Spatial Form -> Embodied Cognition",
+        "Frameworks -> Embodied Cognition"
+      ],
+      "journey_tags": [
+        "practitioner",
+        "researcher",
+        "student_explorer",
+        "theory_browser",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "hand_authored",
+        "surprising",
+        "framework",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "confidence": 0.7,
+      "surprise_score": 0.8,
+      "practical_value_score": 0.62,
+      "controversy_score": 0.18,
+      "links": {
+        "topics": "ka_topics_dyk.html",
+        "framework": "ka_framework_ec.html"
+      },
+      "schema_version": "ka_did_you_know_v1",
+      "source_kind": "hand_authored_did_you_know",
+      "source_claim_ids": [],
+      "source_paper_ids": [],
+      "source_papers": [],
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "support_count": 0,
+      "attack_count": 0,
+      "writing_agent": "human_curated",
+      "writing_agent_version": "hand_authored_dyk_v1_2026_05_15",
+      "verification_status": "hand_authored_curated",
+      "verification_notes": "Preserved from the current hand-authored KA Did You Know set; requires evidence-trace review before being treated as source-backed."
+    },
+    {
+      "id": "dyk_hand_natural_light_sleep",
+      "title": "Natural light improves sleep.",
+      "kicker": "CURATED · Daylight",
+      "hook": "Work-hour light exposure can show up later as sleep quality.",
+      "body": "Natural light exposure during work hours improves sleep quality by 46 minutes per night (Boubekri et al., 2014). Workers in offices with adequate natural light report better sleep and fewer cognitive complaints.",
+      "primary_topic": "Luminous Environment -> Sleep Quality",
+      "topic_ids": [
+        "luminous_environment__sleep_quality"
+      ],
+      "topic_labels": [
+        "Luminous Environment -> Sleep Quality"
+      ],
+      "journey_tags": [
+        "practitioner",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "hand_authored",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "confidence": 0.68,
+      "surprise_score": 0.66,
+      "practical_value_score": 0.82,
+      "controversy_score": 0.12,
+      "links": {
+        "topics": "ka_topics_dyk.html",
+        "articles": "ka_articles.html?q=Boubekri%202014"
+      },
+      "schema_version": "ka_did_you_know_v1",
+      "source_kind": "hand_authored_did_you_know",
+      "source_claim_ids": [],
+      "source_paper_ids": [],
+      "source_papers": [],
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "support_count": 0,
+      "attack_count": 0,
+      "writing_agent": "human_curated",
+      "writing_agent_version": "hand_authored_dyk_v1_2026_05_15",
+      "verification_status": "hand_authored_curated",
+      "verification_notes": "Preserved from the current hand-authored KA Did You Know set; requires evidence-trace review before being treated as source-backed."
+    },
+    {
+      "id": "dyk_hand_green_spaces_stress",
+      "title": "Green spaces reduce stress.",
+      "kicker": "CURATED · Nature",
+      "hook": "A short encounter with nature can be physiologically visible.",
+      "body": "Just 20 minutes in a natural environment can significantly lower cortisol levels and reduce physiological stress markers. This effect appears across multiple studies and holds for both urban parks and more remote natural areas.",
+      "primary_topic": "Nature & Biophilia -> Stress Response",
+      "topic_ids": [
+        "nature_biophilia__stress_response"
+      ],
+      "topic_labels": [
+        "Nature & Biophilia -> Stress Response"
+      ],
+      "journey_tags": [
+        "practitioner",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "hand_authored",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "confidence": 0.68,
+      "surprise_score": 0.62,
+      "practical_value_score": 0.72,
+      "controversy_score": 0.14,
+      "links": {
+        "topics": "ka_topics_dyk.html"
+      },
+      "schema_version": "ka_did_you_know_v1",
+      "source_kind": "hand_authored_did_you_know",
+      "source_claim_ids": [],
+      "source_paper_ids": [],
+      "source_papers": [],
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "support_count": 0,
+      "attack_count": 0,
+      "writing_agent": "human_curated",
+      "writing_agent_version": "hand_authored_dyk_v1_2026_05_15",
+      "verification_status": "hand_authored_curated",
+      "verification_notes": "Preserved from the current hand-authored KA Did You Know set; requires evidence-trace review before being treated as source-backed."
+    },
+    {
+      "id": "dyk_hand_noise_concentration",
+      "title": "Noise impairs concentration.",
+      "kicker": "CURATED · Acoustics",
+      "hook": "Some environmental stressors get worse with repeated exposure rather than fading out.",
+      "body": "Ambient noise above 70 dB shows sensitization rather than habituation—the stress response actually increases with repeated exposure, unlike most environmental stimuli. This explains why you don't 'get used to' bad noise.",
+      "primary_topic": "Acoustic Environment -> Cognitive Performance",
+      "topic_ids": [
+        "acoustic_environment__cognitive_performance"
+      ],
+      "topic_labels": [
+        "Acoustic Environment -> Cognitive Performance"
+      ],
+      "journey_tags": [
+        "debate_journey",
+        "practitioner",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "hand_authored",
+        "practical",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "confidence": 0.64,
+      "surprise_score": 0.72,
+      "practical_value_score": 0.76,
+      "controversy_score": 0.3,
+      "links": {
+        "topics": "ka_topics_dyk.html"
+      },
+      "schema_version": "ka_did_you_know_v1",
+      "source_kind": "hand_authored_did_you_know",
+      "source_claim_ids": [],
+      "source_paper_ids": [],
+      "source_papers": [],
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "support_count": 0,
+      "attack_count": 0,
+      "writing_agent": "human_curated",
+      "writing_agent_version": "hand_authored_dyk_v1_2026_05_15",
+      "verification_status": "hand_authored_curated",
+      "verification_notes": "Preserved from the current hand-authored KA Did You Know set; requires evidence-trace review before being treated as source-backed."
+    },
+    {
+      "id": "dyk_hand_ceiling_height_cognition",
+      "title": "Spatial enclosure affects thinking.",
+      "kicker": "CURATED · Spatial Form",
+      "hook": "Ceiling height may bias cognition toward abstract or detail-focused work.",
+      "body": "Ceiling height influences cognitive styles: high ceilings promote creative, abstract thinking while low ceilings promote focused, detailed work. This effect is measurable and appears to be neurally mediated through the parietal cortex.",
+      "primary_topic": "Spatial Form -> Cognitive Performance",
+      "topic_ids": [
+        "spatial_form__cognitive_performance"
+      ],
+      "topic_labels": [
+        "Spatial Form -> Cognitive Performance"
+      ],
+      "journey_tags": [
+        "practitioner",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "hand_authored",
+        "practical",
+        "surprising",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "confidence": 0.62,
+      "surprise_score": 0.76,
+      "practical_value_score": 0.68,
+      "controversy_score": 0.26,
+      "links": {
+        "topics": "ka_topics_dyk.html"
+      },
+      "schema_version": "ka_did_you_know_v1",
+      "source_kind": "hand_authored_did_you_know",
+      "source_claim_ids": [],
+      "source_paper_ids": [],
+      "source_papers": [],
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "support_count": 0,
+      "attack_count": 0,
+      "writing_agent": "human_curated",
+      "writing_agent_version": "hand_authored_dyk_v1_2026_05_15",
+      "verification_status": "hand_authored_curated",
+      "verification_notes": "Preserved from the current hand-authored KA Did You Know set; requires evidence-trace review before being treated as source-backed."
+    },
+    {
+      "id": "dyk_hand_material_textures",
+      "title": "Material textures matter neurologically.",
+      "kicker": "CURATED · Materials",
+      "hook": "Surfaces can change the felt character of a space through somatosensory systems.",
+      "body": "Tactile properties of surfaces activate somatosensory cortex and influence emotional responses to spaces. Soft materials increase comfort perception and reduce cortisol compared to harsh reflective surfaces.",
+      "primary_topic": "Material & Surface -> Physiological Response",
+      "topic_ids": [
+        "material_surface__physiological_response"
+      ],
+      "topic_labels": [
+        "Material & Surface -> Physiological Response"
+      ],
+      "journey_tags": [
+        "practitioner",
+        "student_explorer",
+        "topic_browser"
+      ],
+      "sort_tags": [
+        "did_you_know",
+        "hand_authored",
+        "practical",
+        "moderate"
+      ],
+      "evidence_strength": "moderate",
+      "confidence": 0.62,
+      "surprise_score": 0.64,
+      "practical_value_score": 0.7,
+      "controversy_score": 0.18,
+      "links": {
+        "topics": "ka_topics_dyk.html"
+      },
+      "schema_version": "ka_did_you_know_v1",
+      "source_kind": "hand_authored_did_you_know",
+      "source_claim_ids": [],
+      "source_paper_ids": [],
+      "source_papers": [],
+      "front_ids": [],
+      "theory_ids": [],
+      "mechanism_ids": [],
+      "support_count": 0,
+      "attack_count": 0,
+      "writing_agent": "human_curated",
+      "writing_agent_version": "hand_authored_dyk_v1_2026_05_15",
+      "verification_status": "hand_authored_curated",
+      "verification_notes": "Preserved from the current hand-authored KA Did You Know set; requires evidence-trace review before being treated as source-backed."
+    },
     {
       "id": "dyk_2290d7bafb",
       "schema_version": "ka_did_you_know_v1",

@@ -16,7 +16,7 @@ def test_did_you_know_payload_exists_and_is_source_backed():
     assert payload["science_writer"]["agent"] == "science_writer"
     assert payload["summary"]["card_count"] >= 25
 
-    sample = payload["cards"][0]
+    sample = next(card for card in payload["cards"] if card["verification_status"] == "source_backed")
     assert sample["id"].startswith("dyk_")
     assert sample["title"]
     assert sample["body"]
@@ -50,6 +50,7 @@ def test_generator_refuses_to_create_cards_without_source_claim_or_paper():
             ]
         },
         limit=10,
+        include_hand_authored=False,
     )
 
     assert payload["summary"]["card_count"] == 0
@@ -77,6 +78,7 @@ def test_generator_preserves_claim_source_and_marks_science_writer_version():
             ]
         },
         limit=10,
+        include_hand_authored=False,
     )
 
     card = payload["cards"][0]
@@ -86,6 +88,25 @@ def test_generator_preserves_claim_source_and_marks_science_writer_version():
     assert card["evidence_strength"] == "strong"
     assert card["writing_agent_version"].startswith("science_writer_dyk_v1")
     assert "Morning daylight exposure" in card["body"]
+
+
+def test_hand_authored_dyk_cards_are_included_and_marked_curated():
+    payload = build_payload({"evidence": []}, limit=10)
+    cards = {card["id"]: card for card in payload["cards"]}
+
+    assert payload["summary"]["hand_authored_card_count"] == 8
+    assert payload["summary"]["generated_card_count"] == 0
+    assert payload["summary"]["card_count"] == 8
+    assert "dyk_hand_predictive_processing" in cards
+    assert "dyk_hand_material_textures" in cards
+
+    card = cards["dyk_hand_predictive_processing"]
+    assert "unresolved prediction error" in card["body"]
+    assert card["writing_agent"] == "human_curated"
+    assert card["verification_status"] == "hand_authored_curated"
+    assert card["source_claim_ids"] == []
+    assert card["source_paper_ids"] == []
+    assert "topic_browser" in card["journey_tags"]
 
 
 def test_home_pages_load_generated_dyk_runtime():
