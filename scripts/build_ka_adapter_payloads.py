@@ -72,6 +72,11 @@ except ImportError:
     from build_did_you_know_payload import build_payload as build_did_you_know_payload
 
 try:
+    from scripts.build_topic_center_periphery import build_payload_from_payloads as build_topic_center_periphery_payload
+except ImportError:
+    from build_topic_center_periphery import build_payload_from_payloads as build_topic_center_periphery_payload
+
+try:
     from src.services.article_type_policy import likely_warrant_types, primary_warrant_type
 except Exception:
     def likely_warrant_types(article_type):
@@ -4575,7 +4580,16 @@ def main():
         ) + "\n",
         encoding='utf-8',
     )
-    (OUT / 'articles.json').write_text(json.dumps({'articles': articles}, indent=2))
+    articles_payload = {'articles': articles}
+    (OUT / 'articles.json').write_text(json.dumps(articles_payload, indent=2))
+    (OUT / 'topic_center_periphery.json').write_text(
+        json.dumps(
+            build_topic_center_periphery_payload(articles_payload, evidence_payload),
+            indent=2,
+            ensure_ascii=False,
+        ) + "\n",
+        encoding='utf-8',
+    )
     (OUT / 'dashboard.json').write_text(json.dumps({'dashboard': dashboard}, indent=2))
     (OUT / 'json_status.json').write_text(json.dumps(json_status, indent=2))
     (OUT / 'article_details.json').write_text(json.dumps(article_details, indent=2))
