@@ -72,6 +72,34 @@ PRACTICAL_TERMS = {
     "corridor",
 }
 
+TOPIC_WRITING_FRAMES: dict[tuple[str, str], dict[str, str]] = {
+    (
+        "Acoustic Environment",
+        "Physiological Response",
+    ): {
+        "title": "Classroom sound can change children's bodies, not just their attention.",
+        "hook": "Quiet, noisy, and reverberant classrooms can be treated as physiological stimuli.",
+        "lead": (
+            "The acoustic stimulus is a classroom soundscape: quiet versus noisy rooms, with different "
+            "reverberation times. The affected response is not just preference; the review connects these "
+            "conditions to children's performance and physiological indicators such as EEG, electrodermal "
+            "activity, heart rate, and pupil response."
+        ),
+    },
+    (
+        "Acoustic Environment",
+        "Comfort",
+    ): {
+        "title": "Sound measurements alone do not explain acoustic comfort.",
+        "hook": "Noise and sound-insulation measures matter, but occupants judge comfort through perception.",
+        "lead": (
+            "The stimulus is the acoustic field in a dwelling, including noise, airborne sound, and impact "
+            "sound. The response is perceived acoustic comfort: whether occupants experience the space as "
+            "annoying, tolerable, or comfortable."
+        ),
+    },
+}
+
 HAND_AUTHORED_DID_YOU_KNOW_CARDS: list[dict[str, Any]] = [
     {
         "id": "dyk_hand_predictive_processing",
@@ -365,8 +393,9 @@ class ScienceWriterDidYouKnow:
         left, right = topic_parts(topic)
         claim = compact_text(row.get("claim") or row.get("finding"), max_chars=260)
         paper_title = compact_text(row.get("paper_title") or row.get("citation"), max_chars=110)
-        title = self._title(left, right, claim)
-        hook = self._hook(left, right, candidate.evidence_strength)
+        frame = self._topic_frame(left, right)
+        title = self._title(left, right, claim, frame)
+        hook = self._hook(left, right, candidate.evidence_strength, frame)
         body = self._body(claim, paper_title, candidate)
         cid = self._card_id(row, title)
         topic_ids = [tid for tid in row.get("topic_ids") or [] if tid]
@@ -415,22 +444,34 @@ class ScienceWriterDidYouKnow:
             },
         }
 
-    def _title(self, left: str, right: str, claim: str) -> str:
+    def _topic_frame(self, left: str, right: str) -> dict[str, str]:
+        return TOPIC_WRITING_FRAMES.get((left, right), {})
+
+    def _title(self, left: str, right: str, claim: str, frame: dict[str, str]) -> str:
+        if frame.get("title"):
+            return frame["title"]
         if left and right:
-            return f"{left} can change {right.lower()}."
+            stimulus = left.replace(" Environment", "").lower()
+            response = right.lower()
+            return f"{left}: how {stimulus} conditions may affect {response}."
         if left:
             return f"{left} has measurable human consequences."
         words = claim.split()
         return compact_text(" ".join(words[:9]).rstrip(".") + ".", max_chars=80)
 
-    def _hook(self, left: str, right: str, strength: str) -> str:
+    def _hook(self, left: str, right: str, strength: str, frame: dict[str, str]) -> str:
+        if frame.get("hook"):
+            return frame["hook"]
         if left and right:
-            return f"A small design variable may be tied to a measurable shift in {right.lower()}."
+            return f"The card asks what stimulus is changing, who is affected, and what response shifts."
         if strength == "contested":
             return "The interesting part is not certainty; it is where the evidence starts to disagree."
         return "A concrete evidence claim worth opening before choosing a topic path."
 
     def _body(self, claim: str, paper_title: str, candidate: DidYouKnowCandidate) -> str:
+        row = candidate.source
+        left, right = topic_parts(str(row.get("primary_topic") or ""))
+        frame = self._topic_frame(left, right)
         caution = {
             "strong": "This is a good entry point, but it is still evidence to inspect rather than a design law.",
             "moderate": "Treat this as a plausible pattern that needs scope conditions before design use.",
@@ -438,7 +479,59 @@ class ScienceWriterDidYouKnow:
             "contested": "Use this as a debate card: it is interesting because the warrant is not settled.",
         }[candidate.evidence_strength]
         citation = f" Source: {paper_title}." if paper_title else ""
-        return compact_text(f"{claim}{citation} {caution}", max_chars=420)
+        if frame.get("lead"):
+            return compact_text(f"{frame['lead']} Source claim: {claim}{citation} {caution}", max_chars=620)
+        return compact_text(f"{self._topic_lead(left, right, row)} Source claim: {claim}{citation} {caution}", max_chars=520)
+
+    def _topic_lead(self, left: str, right: str, row: dict[str, Any]) -> str:
+        if not left or not right:
+            return "The point of the card is the human consequence of a built-environment condition."
+        population = self._population_phrase(row)
+        stimulus = self._stimulus_phrase(left, row)
+        response = self._response_phrase(right, row)
+        return f"The stimulus is {stimulus}. The response is {response}{population}."
+
+    def _population_phrase(self, row: dict[str, Any]) -> str:
+        text = f"{row.get('claim') or ''} {row.get('abstract') or ''}".lower()
+        if "student" in text or "children" in text or "classroom" in text:
+            return " in students or children"
+        if "worker" in text or "office" in text:
+            return " in workers"
+        if "patient" in text or "hospital" in text:
+            return " in patients or care settings"
+        return " in occupants"
+
+    def _stimulus_phrase(self, left: str, row: dict[str, Any]) -> str:
+        text = f"{row.get('claim') or ''} {row.get('abstract') or ''}".lower()
+        if left == "Acoustic Environment":
+            if "reverberation" in text or "rt" in text:
+                return "the soundscape of a room, especially noise level and reverberation"
+            return "the soundscape of a room, including noise, speech, and building-system sound"
+        if left == "Luminous Environment":
+            return "the lighting condition, including daylight, brightness, timing, or visual exposure"
+        if left == "Thermal & Air Quality":
+            return "the indoor climate, including temperature, ventilation, or air quality"
+        if left == "Spatial Form":
+            return "the spatial layout, enclosure, scale, or route structure"
+        if left == "Nature & Biophilia":
+            return "contact with vegetation, views, or natural settings"
+        return f"the {left.lower()} condition"
+
+    def _response_phrase(self, right: str, row: dict[str, Any]) -> str:
+        sensor_summary = compact_text(row.get("sensor_summary"), max_chars=120)
+        if right == "Physiological Response" and sensor_summary:
+            return f"measured bodily arousal or regulation, including {sensor_summary}"
+        if right == "Physiological Response":
+            return "a bodily response such as arousal, stress physiology, or autonomic regulation"
+        if right == "Cognitive Performance":
+            return "attention, memory, task performance, or learning"
+        if right == "Stress Response":
+            return "stress, affect, or physiological load"
+        if right == "Comfort":
+            return "perceived comfort, annoyance, or tolerance of the space"
+        if right == "Sleep Quality":
+            return "sleep timing, alertness, or circadian regulation"
+        return right.lower()
 
     def _journey_tags(self, candidate: DidYouKnowCandidate) -> list[str]:
         tags = {"student_explorer", "topic_browser"}

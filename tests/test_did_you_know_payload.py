@@ -109,6 +109,38 @@ def test_hand_authored_dyk_cards_are_included_and_marked_curated():
     assert "topic_browser" in card["journey_tags"]
 
 
+def test_acoustic_physiology_card_explains_stimulus_and_response():
+    payload = build_payload(
+        {
+            "evidence": [
+                {
+                    "id": 252,
+                    "paper_id": "PDF-0181",
+                    "claim": (
+                        "Prodi and Visentin examined conditions in two classrooms with different RT, "
+                        "one quiet and one noisy, on school children."
+                    ),
+                    "primary_topic": "Acoustic Environment -> Physiological Response",
+                    "primary_topic_id": "acoustic__physio",
+                    "topic_ids": ["acoustic__physio"],
+                    "credence": 0.87,
+                    "support_count": 5,
+                    "attack_count": 0,
+                    "paper_title": "Indicators and methods for assessing acoustical preferences in schools",
+                    "sensor_summary": "EEG, electrodermal, heart rate, pupil",
+                }
+            ]
+        },
+        limit=10,
+        include_hand_authored=False,
+    )
+
+    card = payload["cards"][0]
+    assert card["title"] == "Classroom sound can change children's bodies, not just their attention."
+    assert card["body"].startswith("The acoustic stimulus is a classroom soundscape")
+    assert "EEG, electrodermal activity, heart rate, and pupil response" in card["body"]
+
+
 def test_home_pages_load_generated_dyk_runtime():
     for filename in ("ka_home.html", "ka_home_student.html", "ka_home_student_new.html", "ka_did_you_know.html"):
         text = (REPO_ROOT / filename).read_text()
@@ -129,6 +161,9 @@ def test_topic_dyk_page_filters_high_level_topics():
     assert "High-level topics" in text
     assert "MAX_VISIBLE = 40" in text
     assert "highTopic(card)" in text
+    assert "sourceText(card)" in text
+    assert "More" in text
+    assert "writing_agent || 'science_writer'" not in text
     assert "loadDidYouKnowCards" in text
 
 
