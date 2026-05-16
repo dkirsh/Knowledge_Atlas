@@ -85,6 +85,13 @@ TOPIC_WRITING_FRAMES: dict[tuple[str, str], dict[str, str]] = {
             "conditions to children's performance and physiological indicators such as EEG, electrodermal "
             "activity, heart rate, and pupil response."
         ),
+        "expanded": (
+            "The useful point for a designer is that acoustic quality is not merely a comfort preference. "
+            "A noisy or reverberant classroom can become a biological condition of learning: children must "
+            "work harder to listen, regulate attention, and stay oriented to speech. The card therefore "
+            "belongs in both acoustics and physiology, because the evidence asks how a room's sound field "
+            "enters the body through arousal, attention, and measurable nervous-system response."
+        ),
     },
     (
         "Acoustic Environment",
@@ -96,6 +103,13 @@ TOPIC_WRITING_FRAMES: dict[tuple[str, str], dict[str, str]] = {
             "The stimulus is the acoustic field in a dwelling, including noise, airborne sound, and impact "
             "sound. The response is perceived acoustic comfort: whether occupants experience the space as "
             "annoying, tolerable, or comfortable."
+        ),
+        "expanded": (
+            "The important distinction is between a physical sound measurement and a lived acoustic judgment. "
+            "A dwelling can meet a technical target and still feel acoustically poor if the occupant hears "
+            "unwanted impact sound, intrusive airborne sound, or persistent background noise. This card is "
+            "therefore a reminder that acoustic comfort has to connect measured sound fields to subjective "
+            "response, not treat decibels as the whole phenomenon."
         ),
     },
 }
@@ -110,6 +124,12 @@ HAND_AUTHORED_DID_YOU_KNOW_CARDS: list[dict[str, Any]] = [
             "Visual, acoustic, and thermal cues generate top-down predictions at every level of cortex. "
             "Subtle violations — an almost-right angle, a misplaced acoustic reflection — leave persistent "
             "unresolved prediction error that occupants can rarely articulate but reliably feel."
+        ),
+        "expanded_summary": (
+            "This is useful because it treats buildings as streams of expectation, not as neutral containers. "
+            "A user enters with predictions about where sounds should come from, how surfaces should behave, "
+            "and what paths should afford. When the space is almost coherent but not quite, the person may "
+            "only report unease, while the underlying problem is unresolved prediction error."
         ),
         "primary_topic": "Frameworks -> Predictive Processing",
         "topic_ids": ["frameworks__predictive_processing"],
@@ -133,6 +153,11 @@ HAND_AUTHORED_DID_YOU_KNOW_CARDS: list[dict[str, Any]] = [
             "photosensitive retinal ganglion cells, advances the circadian clock, and produces measurable "
             "gains in daytime alertness, memory, and sleep quality. Window placement is neurochemistry."
         ),
+        "expanded_summary": (
+            "The design point is that daylight is not only visual illumination. Morning light is a timed "
+            "biological signal that helps set circadian phase and later sleep quality. This makes window "
+            "placement, work timing, and spectral exposure part of the nervous system's daily regulation."
+        ),
         "primary_topic": "Luminous Environment -> Sleep Quality",
         "topic_ids": ["luminous_environment__sleep_quality"],
         "topic_labels": ["Luminous Environment -> Sleep Quality", "Frameworks -> Chronobiology"],
@@ -154,6 +179,12 @@ HAND_AUTHORED_DID_YOU_KNOW_CARDS: list[dict[str, Any]] = [
             "Premotor and parietal circuits activate during perception of action-relevant geometry, not only "
             "during action itself. A handrail invites grip simulation in passing; a corridor invites walking "
             "simulation in reading. Design choices recruit motor cortex whether or not the occupant moves."
+        ),
+        "expanded_summary": (
+            "The deeper claim is that seeing a space already begins a bodily rehearsal of possible action. "
+            "Edges, rails, stairs, openings, and corridors are perceived partly as invitations to move. A good "
+            "DYK card should therefore name the affordance and the simulated action, not merely say that space "
+            "affects cognition."
         ),
         "primary_topic": "Spatial Form -> Embodied Cognition",
         "topic_ids": ["spatial_form__embodied_cognition"],
@@ -177,6 +208,11 @@ HAND_AUTHORED_DID_YOU_KNOW_CARDS: list[dict[str, Any]] = [
             "(Boubekri et al., 2014). Workers in offices with adequate natural light report better sleep "
             "and fewer cognitive complaints."
         ),
+        "expanded_summary": (
+            "The interesting feature is the delay between stimulus and outcome. The relevant exposure occurs "
+            "during the workday, but the measured benefit appears at night as sleep duration or sleep quality. "
+            "That makes daylight an architectural variable with consequences outside the building itself."
+        ),
         "primary_topic": "Luminous Environment -> Sleep Quality",
         "topic_ids": ["luminous_environment__sleep_quality"],
         "topic_labels": ["Luminous Environment -> Sleep Quality"],
@@ -198,6 +234,11 @@ HAND_AUTHORED_DID_YOU_KNOW_CARDS: list[dict[str, Any]] = [
             "Just 20 minutes in a natural environment can significantly lower cortisol levels and reduce "
             "physiological stress markers. This effect appears across multiple studies and holds for both "
             "urban parks and more remote natural areas."
+        ),
+        "expanded_summary": (
+            "The claim is not simply that nature is pleasant. It is that contact with vegetation or natural "
+            "settings may shift stress physiology over a short time scale. For topic browsing, this card should "
+            "lead users toward mechanisms of recovery, attention restoration, and physiological regulation."
         ),
         "primary_topic": "Nature & Biophilia -> Stress Response",
         "topic_ids": ["nature_biophilia__stress_response"],
@@ -221,6 +262,12 @@ HAND_AUTHORED_DID_YOU_KNOW_CARDS: list[dict[str, Any]] = [
             "actually increases with repeated exposure, unlike most environmental stimuli. This explains "
             "why you don't 'get used to' bad noise."
         ),
+        "expanded_summary": (
+            "This matters because repeated exposure is often misunderstood. Some environmental stimuli fade "
+            "into the background, but intrusive noise can keep demanding regulation. The design question is "
+            "therefore not only loudness, but whether the sound remains unpredictable, uncontrollable, or "
+            "physiologically costly over time."
+        ),
         "primary_topic": "Acoustic Environment -> Cognitive Performance",
         "topic_ids": ["acoustic_environment__cognitive_performance"],
         "topic_labels": ["Acoustic Environment -> Cognitive Performance"],
@@ -243,6 +290,12 @@ HAND_AUTHORED_DID_YOU_KNOW_CARDS: list[dict[str, Any]] = [
             "while low ceilings promote focused, detailed work. This effect is measurable and appears to be "
             "neurally mediated through the parietal cortex."
         ),
+        "expanded_summary": (
+            "The useful browsing question is whether spatial enclosure changes the mode of thought a room "
+            "encourages. A high volume may support abstraction and exploration, while a lower enclosure may "
+            "support concentration and detail. The card should be read as a prompt to ask which cognitive "
+            "state a setting is trying to support."
+        ),
         "primary_topic": "Spatial Form -> Cognitive Performance",
         "topic_ids": ["spatial_form__cognitive_performance"],
         "topic_labels": ["Spatial Form -> Cognitive Performance"],
@@ -264,6 +317,11 @@ HAND_AUTHORED_DID_YOU_KNOW_CARDS: list[dict[str, Any]] = [
             "Tactile properties of surfaces activate somatosensory cortex and influence emotional responses "
             "to spaces. Soft materials increase comfort perception and reduce cortisol compared to harsh "
             "reflective surfaces."
+        ),
+        "expanded_summary": (
+            "Material choice is not only a visual style decision. Texture, softness, reflectance, and contact "
+            "quality can change how the body appraises a space as harsh, calm, sterile, or inviting. This card "
+            "should lead users to ask how surface properties enter comfort, stress, and embodied expectation."
         ),
         "primary_topic": "Material & Surface -> Physiological Response",
         "topic_ids": ["material_surface__physiological_response"],
@@ -396,7 +454,8 @@ class ScienceWriterDidYouKnow:
         frame = self._topic_frame(left, right)
         title = self._title(left, right, claim, frame)
         hook = self._hook(left, right, candidate.evidence_strength, frame)
-        body = self._body(claim, paper_title, candidate)
+        body = self._body(candidate)
+        expanded_summary = self._expanded_summary(claim, paper_title, candidate)
         cid = self._card_id(row, title)
         topic_ids = [tid for tid in row.get("topic_ids") or [] if tid]
         if row.get("primary_topic_id") and row["primary_topic_id"] not in topic_ids:
@@ -408,6 +467,8 @@ class ScienceWriterDidYouKnow:
             "kicker": f"{candidate.evidence_strength.upper()} EVIDENCE · {left or 'KA'}",
             "hook": hook,
             "body": body,
+            "expanded_summary": expanded_summary,
+            "source_claim_excerpt": claim,
             "source_claim_ids": [str(row.get("id"))],
             "source_paper_ids": [str(row.get("paper_id"))],
             "source_papers": [
@@ -468,20 +529,38 @@ class ScienceWriterDidYouKnow:
             return "The interesting part is not certainty; it is where the evidence starts to disagree."
         return "A concrete evidence claim worth opening before choosing a topic path."
 
-    def _body(self, claim: str, paper_title: str, candidate: DidYouKnowCandidate) -> str:
+    def _body(self, candidate: DidYouKnowCandidate) -> str:
         row = candidate.source
         left, right = topic_parts(str(row.get("primary_topic") or ""))
         frame = self._topic_frame(left, right)
-        caution = {
-            "strong": "This is a good entry point, but it is still evidence to inspect rather than a design law.",
-            "moderate": "Treat this as a plausible pattern that needs scope conditions before design use.",
-            "emerging": "The claim is useful for browsing, but the evidence is still developing.",
-            "contested": "Use this as a debate card: it is interesting because the warrant is not settled.",
-        }[candidate.evidence_strength]
-        citation = f" Source: {paper_title}." if paper_title else ""
         if frame.get("lead"):
-            return compact_text(f"{frame['lead']} Source claim: {claim}{citation} {caution}", max_chars=620)
-        return compact_text(f"{self._topic_lead(left, right, row)} Source claim: {claim}{citation} {caution}", max_chars=520)
+            return compact_text(frame["lead"], max_chars=420)
+        return compact_text(self._topic_lead(left, right, row), max_chars=360)
+
+    def _expanded_summary(self, claim: str, paper_title: str, candidate: DidYouKnowCandidate) -> str:
+        row = candidate.source
+        left, right = topic_parts(str(row.get("primary_topic") or ""))
+        frame = self._topic_frame(left, right)
+        if frame.get("expanded"):
+            return frame["expanded"]
+        stimulus = self._stimulus_phrase(left, row)
+        response = self._response_phrase(right, row)
+        population = self._population_phrase(row)
+        caution = {
+            "strong": "The evidence is strong enough to make this a good entry point, but it is still not a design law.",
+            "moderate": "The evidence is plausible and useful, but its scope conditions still matter.",
+            "emerging": "The evidence is developing, so the card should invite inspection rather than certainty.",
+            "contested": "The evidence is unsettled, which makes the card useful as a debate path.",
+        }[candidate.evidence_strength]
+        return compact_text(
+            (
+                f"Read this as a stimulus-response claim: {stimulus} is being linked to {response}{population}. "
+                f"The evidence claim gives the local finding, but the browsing value is the question it opens: "
+                f"what design condition changed, what human response shifted, and under what scope conditions "
+                f"the pattern should be trusted. {caution}"
+            ),
+            max_chars=520,
+        )
 
     def _topic_lead(self, left: str, right: str, row: dict[str, Any]) -> str:
         if not left or not right:
@@ -571,6 +650,7 @@ def hand_authored_cards() -> list[dict[str, Any]]:
                 "source_claim_ids": [],
                 "source_paper_ids": [],
                 "source_papers": [],
+                "source_claim_excerpt": "",
                 "front_ids": [],
                 "theory_ids": [],
                 "mechanism_ids": [],

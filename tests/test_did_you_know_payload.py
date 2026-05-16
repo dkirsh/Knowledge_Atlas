@@ -20,6 +20,10 @@ def test_did_you_know_payload_exists_and_is_source_backed():
     assert sample["id"].startswith("dyk_")
     assert sample["title"]
     assert sample["body"]
+    assert sample["expanded_summary"]
+    assert sample["source_claim_excerpt"]
+    assert "Source:" not in sample["body"]
+    assert "Source claim:" not in sample["body"]
     assert sample["source_claim_ids"]
     assert sample["source_paper_ids"]
     assert sample["topic_labels"]
@@ -87,7 +91,10 @@ def test_generator_preserves_claim_source_and_marks_science_writer_version():
     assert card["topic_ids"] == ["luminous__sleep"]
     assert card["evidence_strength"] == "strong"
     assert card["writing_agent_version"].startswith("science_writer_dyk_v1")
-    assert "Morning daylight exposure" in card["body"]
+    assert "lighting condition" in card["body"]
+    assert "Morning daylight exposure" in card["source_claim_excerpt"]
+    assert "stimulus-response claim" in card["expanded_summary"]
+    assert "Source:" not in card["expanded_summary"]
 
 
 def test_hand_authored_dyk_cards_are_included_and_marked_curated():
@@ -102,6 +109,7 @@ def test_hand_authored_dyk_cards_are_included_and_marked_curated():
 
     card = cards["dyk_hand_predictive_processing"]
     assert "unresolved prediction error" in card["body"]
+    assert "streams of expectation" in card["expanded_summary"]
     assert card["writing_agent"] == "human_curated"
     assert card["verification_status"] == "hand_authored_curated"
     assert card["source_claim_ids"] == []
@@ -139,6 +147,8 @@ def test_acoustic_physiology_card_explains_stimulus_and_response():
     assert card["title"] == "Classroom sound can change children's bodies, not just their attention."
     assert card["body"].startswith("The acoustic stimulus is a classroom soundscape")
     assert "EEG, electrodermal activity, heart rate, and pupil response" in card["body"]
+    assert "biological condition of learning" in card["expanded_summary"]
+    assert "Source:" not in card["body"]
 
 
 def test_home_pages_load_generated_dyk_runtime():
@@ -162,7 +172,11 @@ def test_topic_dyk_page_filters_high_level_topics():
     assert "MAX_VISIBLE = 40" in text
     assert "highTopic(card)" in text
     assert "sourceText(card)" in text
+    assert "moreSummary(card)" in text
+    assert "aria-expanded" in text
+    assert "card.classList.toggle('expanded'" in text
     assert "More" in text
+    assert '<div class="card-actions"><button class="more-link"' in text
     assert "writing_agent || 'science_writer'" not in text
     assert "loadDidYouKnowCards" in text
 

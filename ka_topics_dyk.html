@@ -38,11 +38,13 @@ h1{font-family:Georgia,serif;font-size:2rem;line-height:1.15;margin-bottom:8px}
 .kicker{font-size:.64rem;letter-spacing:.12em;text-transform:uppercase;color:#E8872A;font-weight:800;margin-bottom:7px}
 .dyk-card h3{font-family:Georgia,serif;color:#1C3D3A;font-size:1.08rem;line-height:1.25;margin-bottom:8px}
 .dyk-card p{font-size:.88rem;color:#3F4543;line-height:1.5;margin-bottom:12px}
-.source-line{font-size:.72rem;color:#7C746B;line-height:1.35;border-top:1px solid #EEE6DA;padding-top:9px;margin-top:auto}
+.more-summary{display:none;font-size:.85rem;color:#45504D;line-height:1.5;margin-top:-4px}
+.dyk-card.expanded .more-summary{display:block}
+.source-line{font-size:.7rem;color:#7C746B;line-height:1.3;border-top:1px solid #EEE6DA;padding-top:8px;margin-top:9px;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
 .meta{margin-top:8px;display:flex;gap:6px;flex-wrap:wrap}
 .pill{font-size:.7rem;padding:3px 7px;border:1px solid #D7E4DF;border-radius:999px;background:#F4F8F7;color:#2A7868}
-.card-actions{display:flex;align-items:center;justify-content:space-between;gap:10px;margin-top:11px}
-.more-link{display:inline-flex;align-items:center;justify-content:center;border:1.5px solid #2A7868;border-radius:7px;padding:6px 11px;color:#2A7868;text-decoration:none;font-size:.8rem;font-weight:800;background:#F6FBF9}
+.card-actions{display:flex;align-items:center;justify-content:flex-start;gap:10px;margin:2px 0 9px}
+.more-link{display:inline-flex;align-items:center;justify-content:center;border:1.5px solid #2A7868;border-radius:7px;padding:6px 11px;color:#2A7868;text-decoration:none;font-size:.8rem;font-weight:800;background:#F6FBF9;cursor:pointer}
 .more-link:hover{background:#E6F5F0}
 .empty{background:#fff;border:1px dashed #D8D0C5;border-radius:10px;padding:24px;color:#6B6B6B}
 @media (max-width:820px){.shell{grid-template-columns:1fr}.topic-rail{position:static}.tools{grid-template-columns:1fr}.result-head{display:block}}
@@ -160,7 +162,13 @@ h1{font-family:Georgia,serif;font-size:2rem;line-height:1.15;margin-bottom:8px}
     }).sort((a,b) => (b[scoreKey] || 0) - (a[scoreKey] || 0));
   }
   function displayBody(card) {
-    return String(card.body || card.hook || '').split(' Source claim:')[0].trim();
+    return String(card.body || card.hook || '').split(' Source claim:')[0].split(' Source:')[0].trim();
+  }
+  function moreSummary(card) {
+    const summary = String(card.expanded_summary || '').trim();
+    if (summary) return summary;
+    const body = String(card.body || '').split(' Source claim:')[1] || '';
+    return body.trim() || card.hook || '';
   }
   function sourceText(card) {
     const paper = card.source_papers && card.source_papers[0];
@@ -169,16 +177,16 @@ h1{font-family:Georgia,serif;font-size:2rem;line-height:1.15;margin-bottom:8px}
     return 'Source-backed KA evidence card.';
   }
   function renderCard(card) {
-    const href = card.links && (card.links.articles || card.links.framework || card.links.question || card.links.topics) || 'ka_articles.html';
     return `<article class="dyk-card">
       <div class="kicker">${esc((card.evidence_strength || 'source-backed').toUpperCase())} · ${esc(card.primary_topic || highTopic(card))}</div>
       <h3>${esc(card.title)}</h3>
       <p>${esc(displayBody(card))}</p>
+      <div class="card-actions"><button class="more-link" type="button" aria-expanded="false">More</button></div>
+      <p class="more-summary">${esc(moreSummary(card))}</p>
       <div class="source-line">Source: ${esc(sourceText(card))}</div>
       <div class="meta">
         <span class="pill">confidence ${Math.round((card.confidence || 0) * 100)}%</span>
       </div>
-      <div class="card-actions"><a class="more-link" href="${esc(href)}">More</a></div>
     </article>`;
   }
   function renderCards() {
@@ -187,6 +195,15 @@ h1{font-family:Georgia,serif;font-size:2rem;line-height:1.15;margin-bottom:8px}
     activeTopicEl.textContent = activeTopic;
     resultMeta.textContent = `${visible.length} shown of ${filtered.length} matching cards`;
     cardGrid.innerHTML = visible.length ? visible.map(renderCard).join('') : '<div class="empty">No cards match this topic and filter combination.</div>';
+    cardGrid.querySelectorAll('.more-link').forEach(button => {
+      button.addEventListener('click', () => {
+        const card = button.closest('.dyk-card');
+        const expanded = !card.classList.contains('expanded');
+        card.classList.toggle('expanded', expanded);
+        button.setAttribute('aria-expanded', String(expanded));
+        button.textContent = expanded ? 'Less' : 'More';
+      });
+    });
   }
   document.addEventListener('DOMContentLoaded', async () => {
     try {
