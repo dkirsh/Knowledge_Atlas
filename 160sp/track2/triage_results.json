@@ -1,0 +1,14 @@
+[
+  {
+    "paper_id": "REF-001",
+    "decision": "ACCEPT"
+  },
+  {
+    "paper_id": "REF-002",
+    "decision": "EDGE_CASE"
+  },
+  {
+    "paper_id": "REF-003",
+    "decision": "REJECT"
+  }
+]
