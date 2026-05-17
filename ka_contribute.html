@@ -106,6 +106,40 @@
     .s-ready{background:var(--teal-bg);color:var(--teal);border:1px solid #b2ddd4}
     .s-duplicate{background:var(--amber-lt);color:var(--amber-dk);border:1px solid #f0c080}
     .s-staged{background:var(--blue-lt);color:var(--blue);border:1px solid #b0c8e8}
+    /* ── Task 1: four canonical outcome pills ── */
+    .s-edge        {background:var(--amber-lt);color:var(--amber-dk);border:1px solid #f0c080}
+    .s-reject-off  {background:var(--rose-lt);  color:var(--rose);   border:1px solid #e2b0c0}
+    .s-dup-corpus  {background:#EFEAE3;         color:#5a5a5a;       border:1px solid #d8d0c5}
+    .s-bad-file    {background:#FDEEEC;         color:#C03A2B;       border:1px solid #f0b8b0}
+    /* ── Task 1: per-paper outcome cards ── */
+    .outcomes-wrap{margin-top:24px}
+    .outcomes-wrap h3{font-family:Georgia,serif;font-size:1rem;color:var(--navy);margin-bottom:10px;display:flex;gap:10px;align-items:center}
+    .outcomes-wrap h3 .count{font-size:.65rem;font-weight:700;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);background:#EFEAE3;padding:3px 10px;border-radius:12px}
+    .outcome-card{border:1.5px solid var(--border);border-radius:10px;background:#fff;margin-bottom:12px;overflow:hidden}
+    .outcome-strip{padding:7px 14px;font-size:.7rem;font-weight:800;letter-spacing:.1em;text-transform:uppercase;color:#fff}
+    .outcome-body{padding:14px 16px}
+    .outcome-title{font-size:.95rem;font-weight:700;color:var(--navy);margin-bottom:4px;word-break:break-word}
+    .outcome-meta{font-size:.8rem;color:var(--muted);line-height:1.55}
+    .outcome-meta b{color:var(--ink)}
+    .outcome-conf-row{display:flex;gap:10px;align-items:center;margin-top:8px}
+    .outcome-conf-track{flex:1;height:6px;background:#EFEAE3;border-radius:3px;overflow:hidden}
+    .outcome-conf-fill{height:100%}
+    .outcome-conf-num{font-size:.78rem;color:var(--muted);min-width:46px;text-align:right;font-variant-numeric:tabular-nums}
+    .outcome-extra{font-size:.8rem;color:var(--muted);margin-top:8px;padding-top:8px;border-top:1px dashed var(--border)}
+    .outcome-extra a{color:var(--teal);text-decoration:none;font-weight:600}
+    .outcome-reasons{margin-top:8px;font-size:.8rem}
+    .outcome-reasons summary{cursor:pointer;color:var(--teal);font-weight:600}
+    .outcome-reasons ul{padding-left:20px;margin-top:6px}
+    .outcome-card.accept .outcome-strip{background:var(--teal)}
+    .outcome-card.accept .outcome-conf-fill{background:var(--teal)}
+    .outcome-card.edge   .outcome-strip{background:var(--amber)}
+    .outcome-card.edge   .outcome-conf-fill{background:var(--amber)}
+    .outcome-card.reject .outcome-strip{background:var(--rose)}
+    .outcome-card.reject .outcome-conf-fill{background:var(--rose)}
+    .outcome-card.dup    .outcome-strip{background:#5a5a5a}
+    .outcome-card.dup    .outcome-conf-fill{background:#5a5a5a}
+    .outcome-card.bad    .outcome-strip{background:#C03A2B}
+    .outcome-card.bad    .outcome-conf-fill{background:#C03A2B}
     .mini-meta{font-size:11px;color:var(--muted);line-height:1.45}
     .tiny-btn{border:1px solid var(--border);background:#fff;color:var(--ink);padding:5px 8px;border-radius:5px;font-size:11px;cursor:pointer}
     .tiny-btn:hover{border-color:var(--teal);color:var(--teal)}
@@ -249,6 +283,12 @@
       </thead>
       <tbody id="fileBody"></tbody>
     </table>
+
+    <!-- Task 1: per-paper outcomes (newest first; persists across submissions) -->
+    <div class="outcomes-wrap" id="outcomesWrap" style="display:none">
+      <h3>Submission outcomes <span class="count" id="outcomesCount">0</span></h3>
+      <div id="outcomesList"></div>
+    </div>
 
     <div style="margin-top:24px;border-top:1px solid var(--border);padding-top:20px">
       <div class="section-eyebrow" style="margin-bottom:8px">Or paste a citation</div>
@@ -552,15 +592,27 @@ function renderFileTable() {
   if (!PENDING_FILES.length) { table.style.display = 'none'; return; }
   table.style.display = 'table';
   tbody.innerHTML = PENDING_FILES.map(f => {
-    const statusCls = f.status === 'duplicate' ? 's-duplicate' : f.status === 'staged' ? 's-staged' : 's-ready';
-    const statusLabel = f.status === 'duplicate' ? 'Duplicate' : f.status === 'staged' ? 'Staged' : 'Ready';
+    const pill = pillFor(f.status);
     return `<tr>
       <td><strong>${escapeHtml(f.fileName)}</strong><div class="mini-meta">${f.sizeMb} MB</div></td>
       <td><div>${escapeHtml(f.meta.title||'—')}</div><div class="mini-meta">DOI: ${escapeHtml(f.meta.doi||'none')} · Year: ${f.meta.year||'?'}</div></td>
-      <td><span class="status-pill ${statusCls}">${statusLabel}</span>${f.dupMatch?'<div class="mini-meta" style="margin-top:4px">Matches: '+escapeHtml(f.dupMatch.title)+'</div>':''}</td>
+      <td><span class="status-pill ${pill.cls}">${pill.label}</span>${f.dupMatch?'<div class="mini-meta" style="margin-top:4px">Matches: '+escapeHtml(f.dupMatch.title)+'</div>':''}</td>
       <td><button class="tiny-btn" onclick="removePending('${f.id}')">Remove</button></td>
     </tr>`;
   }).join('');
+}
+
+// Task 1: canonical pill mapping (in lockstep with mapServerStatus below).
+function pillFor(status) {
+  switch (status) {
+    case 'staged':       return {cls: 's-staged',     label: 'Staged'};
+    case 'edge':         return {cls: 's-edge',       label: 'Edge case'};
+    case 'rejected':     return {cls: 's-reject-off', label: 'Rejected'};
+    case 'rejected_dup': return {cls: 's-dup-corpus', label: 'Duplicate'};
+    case 'duplicate':    return {cls: 's-duplicate',  label: 'Pending dup'};
+    case 'bad_file':     return {cls: 's-bad-file',   label: 'Bad file'};
+    default:             return {cls: 's-ready',      label: 'Ready'};
+  }
 }
 
 function removePending(id) {
@@ -629,27 +681,39 @@ async function submitContribution() {
     const result = await resp.json();
     const s = result.summary;
 
-    // Update local file statuses based on server response
+    // Task 1: map the 4 canonical backend outcomes to local UI state
     if (result.items) {
       result.items.forEach(item => {
         const local = PENDING_FILES.find(f => f.fileName === item.filename);
         if (local) {
-          local.status = item.status === 'staged_pending_review' ? 'staged'
-                       : item.status === 'duplicate_existing' ? 'duplicate'
-                       : item.status.startsWith('rejected') ? 'rejected' : local.status;
+          local.status = mapServerStatus(item.status);
           local.serverArticleId = item.article_id;
+          local.classifier = {
+            decision:        item.decision,
+            primaryTopic:    item.primary_topic,
+            secondaryTopics: item.secondary_topics,
+            confidence:      item.classifier_confidence,
+            reasons:         item.classifier_reasons,
+            articleType:     item.article_type,
+            duplicateOf:     item.duplicate_of,
+            reason:          item.reason,
+          };
         }
       });
       renderFileTable();
+      renderOutcomes(result.items);
     }
 
     showConfirm(
-      'Submission received — thank you!',
-      `${s.total} item(s) processed: ${s.staged} staged for review, ` +
-      `${s.duplicates} duplicate(s) caught, ${s.rejected} rejected. ` +
-      'Non-duplicates enter the review queue. Accepted papers are processed by the ' +
-      'Atlas extraction pipeline within 24–48 hours. ' +
-      `<br><br><strong>Submission ID:</strong> ${result.submission_id}`
+      'Submission processed',
+      `<strong>${s.total}</strong> item${s.total === 1 ? '' : 's'} processed.<br><br>` +
+      summaryLine(result.items, 'staged_pending_review',        '✅', 'staged for reviewer') +
+      summaryLine(result.items, 'staged_edge_case',             '⚠️', 'flagged as edge case (needs moderator triage)') +
+      summaryLine(result.items, 'rejected_off_topic',           '⛔', 'rejected as off-topic (removed from disk)') +
+      summaryLine(result.items, 'rejected_duplicate_in_corpus', 'ℹ️', 'already in the corpus') +
+      summaryLine(result.items, 'duplicate_existing',           'ℹ️', 'duplicate of a pending submission') +
+      summaryLine(result.items, 'rejected_bad_file',            '🛑', "couldn't read the file") +
+      `<br><strong>Submission ID:</strong> ${result.submission_id}`
     );
   } catch (err) {
     showConfirm('Connection error', 'Could not reach the Knowledge Atlas server. ' +
@@ -658,6 +722,140 @@ async function submitContribution() {
   } finally {
     if (submitBtn) { submitBtn.disabled = false; submitBtn.textContent = 'Submit'; }
   }
+}
+
+// ── Task 1: 4-outcome helpers ───────────────────────────────────────────
+function mapServerStatus(serverStatus) {
+  switch (serverStatus) {
+    case 'staged_pending_review':         return 'staged';
+    case 'staged_edge_case':              return 'edge';
+    case 'rejected_off_topic':            return 'rejected';
+    case 'rejected_duplicate_in_corpus':  return 'rejected_dup';
+    case 'duplicate_existing':            return 'duplicate';
+    case 'rejected_bad_file':             return 'bad_file';
+    case 'needs_more_evidence':           return 'edge';
+    default:                              return 'staged';
+  }
+}
+
+function summaryLine(items, status, icon, copy) {
+  const n = items.filter(i => i.status === status).length;
+  if (!n) return '';
+  return `${icon} <strong>${n}</strong> ${copy}<br>`;
+}
+
+function renderOutcomes(items) {
+  const wrap = document.getElementById('outcomesWrap');
+  const list = document.getElementById('outcomesList');
+  if (!wrap || !list || !items || !items.length) return;
+  wrap.style.display = 'block';
+  items.slice().reverse().forEach(item => {
+    list.insertBefore(buildOutcomeCard(item), list.firstChild);
+  });
+  const n = list.querySelectorAll('.outcome-card').length;
+  document.getElementById('outcomesCount').textContent = n + (n === 1 ? ' paper' : ' papers');
+}
+
+function outcomeVariantFor(item) {
+  switch (item.status) {
+    case 'staged_pending_review':         return ['accept', 'Staged for review'];
+    case 'staged_edge_case':              return ['edge',   'Edge case — needs triage'];
+    case 'rejected_off_topic':            return ['reject', 'Rejected — off topic'];
+    case 'rejected_duplicate_in_corpus':  return ['dup',    'Duplicate in corpus'];
+    case 'duplicate_existing':            return ['dup',    'Pending duplicate'];
+    case 'rejected_bad_file':             return ['bad',    "Couldn't read the file"];
+    case 'needs_more_evidence':           return ['edge',   'Needs more info'];
+    default:                              return ['dup',    (item.status || 'unknown').replace(/_/g, ' ')];
+  }
+}
+
+function prettyTopic(t) {
+  return t ? String(t).replace(/[_-]+/g, ' ').replace(/\b\w/g, c => c.toUpperCase()) : '';
+}
+
+function buildOutcomeCard(item) {
+  const [variant, label] = outcomeVariantFor(item);
+  const card = document.createElement('div');
+  card.className = 'outcome-card ' + variant;
+
+  const strip = document.createElement('div');
+  strip.className = 'outcome-strip';
+  strip.textContent = label;
+  card.appendChild(strip);
+
+  const body = document.createElement('div');
+  body.className = 'outcome-body';
+
+  const title = document.createElement('div');
+  title.className = 'outcome-title';
+  title.textContent = item.filename || (item.input_mode === 'citation_text' ? 'Citation submission' : 'Submission');
+  body.appendChild(title);
+
+  const metaBits = [];
+  if (item.article_type)  metaBits.push('<b>Type:</b> ' + escapeHtml(item.article_type));
+  if (item.primary_topic) {
+    let s = '<b>Topic:</b> ' + escapeHtml(prettyTopic(item.primary_topic));
+    if (item.secondary_topics && item.secondary_topics.length) {
+      s += ' <span style="color:var(--muted)">(also: ' +
+        item.secondary_topics.map(t => escapeHtml(prettyTopic(t))).join(', ') + ')</span>';
+    }
+    metaBits.push(s);
+  }
+  if (item.metadata && item.metadata.doi) metaBits.push('<b>DOI:</b> ' + escapeHtml(item.metadata.doi));
+  if (metaBits.length) {
+    const meta = document.createElement('div');
+    meta.className = 'outcome-meta';
+    meta.innerHTML = metaBits.join(' &nbsp;·&nbsp; ');
+    body.appendChild(meta);
+  }
+
+  if (typeof item.classifier_confidence === 'number') {
+    const pct = Math.round(item.classifier_confidence * 100);
+    const row = document.createElement('div'); row.className = 'outcome-conf-row';
+    const track = document.createElement('div'); track.className = 'outcome-conf-track';
+    const fill = document.createElement('div'); fill.className = 'outcome-conf-fill';
+    fill.style.width = Math.max(2, pct) + '%';
+    track.appendChild(fill);
+    const num = document.createElement('div'); num.className = 'outcome-conf-num';
+    num.textContent = pct + '% confidence';
+    row.appendChild(track); row.appendChild(num);
+    body.appendChild(row);
+  }
+
+  if (item.classifier_reasons && item.classifier_reasons.length) {
+    const det = document.createElement('details');
+    det.className = 'outcome-reasons';
+    const sum = document.createElement('summary');
+    sum.textContent = 'Why?';
+    det.appendChild(sum);
+    const ul = document.createElement('ul');
+    item.classifier_reasons.forEach(r => {
+      const li = document.createElement('li'); li.textContent = r; ul.appendChild(li);
+    });
+    det.appendChild(ul);
+    body.appendChild(det);
+  }
+
+  const extras = [];
+  if (item.duplicate_of) {
+    extras.push('Already indexed as <a href="ka_article_view.html?id=' +
+      encodeURIComponent(item.duplicate_of) + '">' + escapeHtml(item.duplicate_of) + '</a>');
+  }
+  if ((variant === 'reject' || variant === 'bad') && item.reason) {
+    extras.push(escapeHtml(item.reason));
+  }
+  if (item.article_id) {
+    extras.push('<span style="opacity:.7">Tracking ID: ' + escapeHtml(item.article_id) + '</span>');
+  }
+  if (extras.length) {
+    const extra = document.createElement('div');
+    extra.className = 'outcome-extra';
+    extra.innerHTML = extras.join(' &nbsp;·&nbsp; ');
+    body.appendChild(extra);
+  }
+
+  card.appendChild(body);
+  return card;
 }
 
 function clearForm() {

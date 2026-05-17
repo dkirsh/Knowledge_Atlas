@@ -1,0 +1,21 @@
+====================================================================
+KNOWLEDGE ATLAS - TRACK 2 TASK 1: FILE MANIFEST
+====================================================================
+
+ka_contribute_public.html
+- Modified: Connected submission form to API endpoint and added dynamic inline JSON results dashboard view below the fold.
+
+Article_Finder/scripts/abstract_collector.py
+- Modified: Configured classifier wire-in routing to process text blocks and map verdicts to database.
+
+data/storage/test1_on_topic.pdf
+- New: Stored physical PDF payload for verified empirical accept case.
+
+data/storage/test3_edge_case.pdf
+- New: Stored physical PDF payload for flagged theoretical edge case.
+
+atlas_triage.db
+- New: Lifecycle and paper ledger database tracking storage targets and classifier_agent status events.
+
+phase4_test_proof.md
+- New: Verification execution matrix detailing expected vs actual types and verdicts for phase 4 compliance.

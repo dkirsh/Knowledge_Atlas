@@ -1,84 +1,146 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Suggest a paper — Knowledge Atlas</title>
-<meta name="description" content="Know of a study on architecture and cognition we should index? Send it our way in under a minute.">
-<script src="ka_canonical_navbar.js" defer></script>
-<script src="ka_user_type.js" defer></script>
-<script src="ka_config.js"></script>
-<style>
-  *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
-       background:#F7F4EF;color:#2C2C2C;line-height:1.6}
-  main.ka-outer{max-width:780px;margin:26px auto 80px;padding:0 24px}
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Suggest a paper — Knowledge Atlas</title>
+  <meta name="description" content="Know of a study on architecture and cognition we should index? Send it our way in under a minute.">
+  <script src="ka_canonical_navbar.js" defer></script>
+  <script src="ka_user_type.js" defer></script>
+  <script src="ka_config.js"></script>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
+    :root{
+      --cream:#F7F4EF;
+      --ink:#2C2C2C;
+      --muted:#6B6B6B;
+      --navy:#1C3D3A;
+      --teal:#2A7868;
+      --teal-bg:#E6F5F0;
+      --amber:#E8872A;
+      --amber-bg:#FFF3E0;
+      --amber-dk:#9a5010;
+      --rose:#A84F6B;
+      --rose-bg:#F8EBF0;
+      --rose-dk:#762a45;
+      --gray-bg:#EFEAE3;
+      --gray-dk:#5a5a5a;
+      --red:#C03A2B;
+      --red-bg:#FDEEEC;
+      --border:#E0D8CC;
+    }
+    body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;
+         background:var(--cream);color:var(--ink);line-height:1.6}
+    main.ka-outer{max-width:780px;margin:26px auto 80px;padding:0 24px}
 
-  .hero{border-bottom:2px solid #E0D8CC;padding-bottom:18px;margin-bottom:24px}
-  .hero .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;
-                  text-transform:uppercase;color:#8A9A96;margin-bottom:8px}
-  .hero h1{font-family:Georgia,serif;font-size:2.0rem;color:#1C3D3A;
-           margin-bottom:8px;line-height:1.2}
-  .hero p{font-size:.98rem;color:#2C2C2C;max-width:620px}
+    .hero{border-bottom:2px solid var(--border);padding-bottom:18px;margin-bottom:24px}
+    .hero .eyebrow{font-size:.72rem;font-weight:700;letter-spacing:.12em;
+                   text-transform:uppercase;color:#8A9A96;margin-bottom:8px}
+    .hero h1{font-family:Georgia,serif;font-size:2.0rem;color:var(--navy);
+             margin-bottom:8px;line-height:1.2}
+    .hero p{font-size:.98rem;color:var(--ink);max-width:620px}
 
-  .card{background:#fff;border:1.5px solid #E0D8CC;border-radius:10px;
-        padding:22px 26px;margin-bottom:20px}
-  .card h2{font-family:Georgia,serif;font-size:1.2rem;color:#1C3D3A;
-           margin-bottom:10px}
-  .card p + p{margin-top:8px}
+    .card{background:#fff;border:1.5px solid var(--border);border-radius:10px;
+          padding:22px 26px;margin-bottom:20px}
+    .card h2{font-family:Georgia,serif;font-size:1.2rem;color:var(--navy);margin-bottom:10px}
+    .card p + p{margin-top:8px}
 
-  label{display:block;font-size:.74rem;font-weight:700;letter-spacing:.06em;
-        text-transform:uppercase;color:#8A9A96;margin-bottom:4px;margin-top:14px}
-  label:first-of-type{margin-top:0}
-  input[type="text"],input[type="email"],textarea{
-    width:100%;padding:10px 12px;border:1.5px solid #D8D0C5;border-radius:7px;
-    font:inherit;font-size:.94rem;background:#fff;color:#2C2C2C}
-  input:focus,textarea:focus{outline:none;border-color:#2A7868;
-    box-shadow:0 0 0 3px rgba(42,120,104,.15)}
-  textarea{min-height:100px;resize:vertical;font-family:inherit}
+    label{display:block;font-size:.74rem;font-weight:700;letter-spacing:.06em;
+          text-transform:uppercase;color:#8A9A96;margin-bottom:4px;margin-top:14px}
+    label:first-of-type{margin-top:0}
+    input[type="text"],input[type="email"],textarea{
+      width:100%;padding:10px 12px;border:1.5px solid #D8D0C5;border-radius:7px;
+      font:inherit;font-size:.94rem;background:#fff;color:var(--ink)}
+    input:focus,textarea:focus{outline:none;border-color:var(--teal);
+      box-shadow:0 0 0 3px rgba(42,120,104,.15)}
+    textarea{min-height:100px;resize:vertical;font-family:inherit}
 
-  .drop{border:2px dashed #D8D0C5;border-radius:10px;padding:24px 18px;
-        text-align:center;background:#F9F5EE;cursor:pointer;transition:all .15s;
-        margin-bottom:14px}
-  .drop:hover,.drop.over{border-color:#2A7868;background:#E6F5F0}
-  .drop-icon{font-size:1.5rem;margin-bottom:4px;color:#1C3D3A}
-  .drop-label{font-weight:600;color:#1C3D3A;font-size:.94rem;margin-bottom:4px}
-  .drop-hint{font-size:.8rem;color:#6B6B6B}
+    .drop{border:2px dashed #D8D0C5;border-radius:10px;padding:24px 18px;
+          text-align:center;background:#F9F5EE;cursor:pointer;transition:all .15s;
+          margin-bottom:14px}
+    .drop:hover,.drop.over{border-color:var(--teal);background:var(--teal-bg)}
+    .drop-icon{font-size:1.5rem;margin-bottom:4px;color:var(--navy)}
+    .drop-label{font-weight:600;color:var(--navy);font-size:.94rem;margin-bottom:4px}
+    .drop-hint{font-size:.8rem;color:var(--muted)}
+    .hint{font-size:.82rem;color:var(--muted);margin-top:4px;line-height:1.5}
 
-  .hint{font-size:.82rem;color:#6B6B6B;margin-top:4px;line-height:1.5}
+    .btn-primary{display:inline-block;padding:12px 22px;background:var(--amber);color:#fff;
+                 border:none;border-radius:8px;font-size:.94rem;font-weight:700;
+                 cursor:pointer;transition:background .15s;margin-top:22px;
+                 font-family:inherit}
+    .btn-primary:hover{background:#D27320}
+    .btn-primary:disabled{background:#c7d3cf;cursor:not-allowed}
 
-  .btn-primary{display:inline-block;padding:12px 22px;background:#E8872A;color:#fff;
-               border:none;border-radius:8px;font-size:.94rem;font-weight:700;
-               cursor:pointer;transition:background .15s;margin-top:22px;
-               font-family:inherit}
-  .btn-primary:hover{background:#D27320}
-  .btn-primary:disabled{background:#c7d3cf;cursor:not-allowed}
+    .why-bullets{padding-left:22px;margin:10px 0}
+    .why-bullets li{margin-bottom:6px;font-size:.92rem}
+    .why-bullets b{color:var(--navy)}
 
-  .why-bullets{padding-left:22px;margin:10px 0}
-  .why-bullets li{margin-bottom:6px;font-size:.92rem}
-  .why-bullets b{color:#1C3D3A}
+    .footer-note{font-size:.82rem;color:var(--muted);margin-top:28px;padding-top:18px;
+                 border-top:1px dashed var(--border);line-height:1.6}
+    .footer-note a{color:var(--teal);text-decoration:none}
+    .footer-note a:hover{text-decoration:underline}
 
-  .footer-note{font-size:.82rem;color:#6B6B6B;margin-top:28px;padding-top:18px;
-                border-top:1px dashed #E0D8CC;line-height:1.6}
-  .footer-note a{color:#2A7868;text-decoration:none}
-  .footer-note a:hover{text-decoration:underline}
+    .tiny-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
+                color:#8A9A96;font-weight:700;margin-bottom:6px;margin-top:18px}
 
-  .tiny-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
-               color:#8A9A96;font-weight:700;margin-bottom:6px;margin-top:18px}
+    /* ── Results section (per-paper outcome cards) ── */
+    .results-wrap{margin-top:30px}
+    .results-wrap h2{font-family:Georgia,serif;font-size:1.1rem;color:var(--navy);
+                     margin-bottom:14px;display:flex;align-items:center;gap:10px}
+    .results-wrap h2 .count{font-size:.72rem;font-weight:700;letter-spacing:.08em;
+                            text-transform:uppercase;color:var(--muted);
+                            background:#EFEAE3;padding:3px 10px;border-radius:12px}
+    .results-banner{padding:12px 16px;border-radius:8px;margin-bottom:14px;
+                    font-size:.9rem;line-height:1.5}
+    .results-banner.ok{background:var(--teal-bg);color:var(--navy);
+                       border-left:4px solid var(--teal)}
+    .results-banner.err{background:var(--red-bg);color:var(--red);
+                        border-left:4px solid var(--red);font-weight:600}
 
-  /* Thank-you modal */
-  .modal-backdrop{position:fixed;inset:0;background:rgba(28,61,58,.55);
-                   display:none;align-items:center;justify-content:center;
-                   z-index:200;padding:20px}
-  .modal-backdrop.open{display:flex}
-  .modal{background:#fff;border-radius:14px;max-width:460px;width:100%;
-         box-shadow:0 20px 60px rgba(0,0,0,.3);padding:28px 32px;text-align:center}
-  .modal h3{font-family:Georgia,serif;font-size:1.35rem;color:#1C3D3A;margin-bottom:10px}
-  .modal p{font-size:.92rem;margin-bottom:12px;color:#2C2C2C}
-  .modal .btn-primary{margin-top:10px}
-</style>
+    .result-card{border:1.5px solid var(--border);border-radius:10px;
+                 background:#fff;margin-bottom:14px;overflow:hidden}
+    .result-strip{padding:8px 14px;font-size:.72rem;font-weight:800;
+                  letter-spacing:.1em;text-transform:uppercase;color:#fff;
+                  display:flex;align-items:center;gap:8px}
+    .result-strip .dot{width:9px;height:9px;border-radius:50%;background:#fff;
+                       opacity:.85}
+    .result-body{padding:16px 18px}
+    .result-filename{font-size:1rem;font-weight:700;color:var(--navy);
+                     margin-bottom:6px;word-break:break-word}
+    .result-meta{font-size:.85rem;color:var(--muted);margin-bottom:10px;line-height:1.6}
+    .result-meta b{color:var(--ink);font-weight:600}
+    .result-conf-row{display:flex;align-items:center;gap:12px;margin-top:8px}
+    .result-conf-track{flex:1;height:7px;background:#EFEAE3;border-radius:4px;
+                       overflow:hidden}
+    .result-conf-fill{height:100%;border-radius:4px;transition:width .3s ease}
+    .result-conf-num{font-size:.82rem;color:var(--muted);font-variant-numeric:tabular-nums;
+                     min-width:48px;text-align:right}
+    .result-reasons{margin-top:10px;font-size:.85rem}
+    .result-reasons summary{cursor:pointer;color:var(--teal);font-weight:600;
+                            user-select:none;outline:none}
+    .result-reasons summary:hover{text-decoration:underline}
+    .result-reasons ul{padding-left:22px;margin-top:8px;color:var(--ink)}
+    .result-reasons li{margin-bottom:4px}
+    .result-extra{font-size:.85rem;color:var(--muted);margin-top:10px;
+                  padding-top:10px;border-top:1px dashed var(--border)}
+    .result-extra a{color:var(--teal);text-decoration:none;font-weight:600}
+    .result-extra a:hover{text-decoration:underline}
+
+    /* Decision variants */
+    .result-card.accept .result-strip   {background:var(--teal)}
+    .result-card.accept .result-conf-fill{background:var(--teal)}
+    .result-card.edge .result-strip     {background:var(--amber)}
+    .result-card.edge .result-conf-fill {background:var(--amber)}
+    .result-card.reject .result-strip   {background:var(--rose)}
+    .result-card.reject .result-conf-fill{background:var(--rose)}
+    .result-card.dup .result-strip      {background:var(--gray-dk);color:#fff}
+    .result-card.dup .result-conf-fill  {background:var(--gray-dk)}
+    .result-card.bad .result-strip      {background:var(--red)}
+    .result-card.bad .result-conf-fill  {background:var(--red)}
+  </style>
 </head>
 <body data-ka-regime="global" data-ka-active="contribute">
+
 <div id="ka-navbar-slot"></div>
 
 <main class="ka-outer">
@@ -120,18 +182,18 @@
            ondragover="event.preventDefault(); this.classList.add('over');"
            ondragleave="this.classList.remove('over');"
            ondrop="event.preventDefault(); this.classList.remove('over'); handleFiles(event.dataTransfer.files);">
-        <div class="drop-icon">📄</div>
+        <div class="drop-icon">&#128196;</div>
         <div class="drop-label">Drop a PDF here or click to upload</div>
         <div class="drop-hint">We extract title, authors, and abstract
-          automatically. You don't need to fill those in yourself.</div>
+             automatically. You don't need to fill those in yourself.</div>
         <input type="file" id="__ka_file_input" accept="application/pdf" hidden
                onchange="handleFiles(this.files)">
       </div>
       <div id="__ka_file_chosen" style="display:none;font-size:.82rem;color:#1A7050;font-weight:600;margin-bottom:10px"></div>
 
       <label for="sg_citation">Or paste a citation, DOI, or title</label>
-      <textarea id="sg_citation" name="citation" placeholder="e.g., Kompier, M.E., Smolders, K.C.H.J., van Marken Lichtenbelt, W.D., & de Kort, Y.A.W. (2020). Effects of light transitions on measures of alertness, arousal and comfort. Physiology & Behavior. https://doi.org/10.1016/j.physbeh.2020.112999"></textarea>
-      <div class="hint">APA is nice but not required — a DOI or a title + year is enough.</div>
+      <textarea id="sg_citation" name="citation" placeholder="e.g., Kompier, M.E., Smolders, K.C.H.J., van Marken Lichtenbelt, W.D., & de Kort, Y.A.W. (2020). Effects of light transitions on measures of alertness, arousal and comfort. Physiology &amp; Behavior. https://doi.org/10.1016/j.physbeh.2020.112999"></textarea>
+      <div class="hint">APA is nice but not required &mdash; a DOI or a title + year is enough.</div>
 
       <label for="sg_why">Why this paper matters <span style="color:#8A9A96;font-weight:400;text-transform:none;letter-spacing:0">(optional)</span></label>
       <textarea id="sg_why" name="why_it_matters" placeholder="One or two sentences. What does this paper find that the Atlas should know about?"></textarea>
@@ -144,56 +206,47 @@
     </form>
   </div>
 
+  <!-- Per-paper results section (populated dynamically) -->
+  <div class="results-wrap" id="__ka_results_wrap" style="display:none">
+    <h2>Your submissions <span class="count" id="__ka_results_count">0</span></h2>
+    <div id="__ka_results"></div>
+  </div>
+
   <!-- What happens next -->
-  <div class="card" style="background:#F9F5EE;border-color:#E0D8CC">
+  <div class="card" style="background:#F9F5EE;border-color:var(--border)">
     <h2 style="font-size:1.05rem">What happens next</h2>
     <p style="font-size:.9rem">
-      Your submission goes into an intake queue. Within a few days, a reviewer
-      (DK or a trained student in the COGS 160 Article Finder track) confirms
-      the paper is on-topic, the PDF is readable, and no duplicate already exists.
-      If it passes, it enters the pipeline that extracts findings, maps them to
-      topics, and links them into the Web of Belief. You'll see it appear on the
-      relevant topic page within a week or two.
-    </p>
-    <p style="font-size:.9rem">
-      If we don't add it, we'll tell you why — usually because it's already
-      indexed, or because it's outside the architecture-and-cognition scope we
-      cover.
+      Each submission is screened automatically the moment it lands. Accepted
+      papers and edge cases enter the review queue (a few days). Off-topic
+      submissions and duplicates are caught up-front and shown here so you know
+      right away. If we don't add it, we'll tell you why.
     </p>
   </div>
 
   <!-- Footer note -->
   <div class="footer-note">
     <b>Looking for something else?</b><br>
-    → <a href="ka_topics.html">Browse research by topic</a> (stress, attention, daylight, acoustics…)<br>
-    → <a href="ka_articles.html">Search articles we already have</a> by title, author, or year<br>
-    → <a href="ka_about.html">Read about how we weigh evidence</a>
+    &rarr; <a href="ka_topics.html">Browse research by topic</a> (stress, attention, daylight, acoustics&hellip;)<br>
+    &rarr; <a href="ka_articles.html">Search articles we already have</a> by title, author, or year<br>
+    &rarr; <a href="ka_about.html">Read about how we weigh evidence</a>
   </div>
 
-  <!-- Tiny maintainer link to the full internal contribute page -->
+  <!-- Maintainer link -->
   <div style="margin-top:32px;font-size:.76rem;color:#8A9A96;text-align:right">
     Contributor with a pipeline role?
-    <a href="ka_contribute.html" style="color:#2A7868">Full contributor tools →</a>
+    <a href="ka_contribute.html" style="color:var(--teal)">Full contributor tools &rarr;</a>
   </div>
 
 </main>
 
-<!-- Thank-you modal -->
-<div class="modal-backdrop" id="__ka_thanks">
-  <div class="modal" role="dialog" aria-modal="true">
-    <h3>Thank you</h3>
-    <p>We got your suggestion. A reviewer will confirm it within the next few days.</p>
-    <p>If you left your email, we'll let you know the outcome either way.</p>
-    <button type="button" class="btn-primary"
-            onclick="document.getElementById('__ka_thanks').classList.remove('open')">Close</button>
-  </div>
-</div>
-
 <script>
-(function(){
+(function () {
+  const KA_API = (window.__KA_CONFIG__ && window.__KA_CONFIG__.apiBase) || '';
+
   let chosenFile = null;
 
-  window.handleFiles = function(files) {
+  // ── File picker ──────────────────────────────────────────────────────────
+  window.handleFiles = function (files) {
     if (!files || !files.length) return;
     chosenFile = files[0];
     const box = document.getElementById("__ka_file_chosen");
@@ -201,7 +254,8 @@
     box.textContent = "✓ " + chosenFile.name + " — ready to send";
   };
 
-  window.submitSuggestion = function() {
+  // ── Submit ───────────────────────────────────────────────────────────────
+  window.submitSuggestion = async function () {
     const citation = document.getElementById("sg_citation").value.trim();
     const why      = document.getElementById("sg_why").value.trim();
     const email    = document.getElementById("sg_email").value.trim();
@@ -215,31 +269,213 @@
     btn.disabled = true;
     btn.textContent = "Sending…";
 
-    // In production this POSTs to /api/articles/suggest (see KA_AF_INTAKE).
-    // For now we persist locally and show the thank-you modal so the flow
-    // is reviewable without a backend.
-    const payload = {
-      filename: chosenFile ? chosenFile.name : null,
-      citation, why, email,
-      submitted_at: new Date().toISOString(),
-    };
-    try {
-      const log = JSON.parse(localStorage.getItem("ka.public_suggestions") || "[]");
-      log.push(payload);
-      localStorage.setItem("ka.public_suggestions", JSON.stringify(log));
-    } catch(e){ /* fine, still show the modal */ }
+    const fd = new FormData();
+    if (chosenFile) fd.append("files", chosenFile, chosenFile.name);
+    if (citation)   fd.append("citations", citation);
+    if (why)        fd.append("notes", why);
+    if (email)      fd.append("submitter_email", email);  // server may or may not read it
+    fd.append("source_surface", "ka_contribute_public");
 
-    setTimeout(() => {
-      document.getElementById("__ka_thanks").classList.add("open");
+    try {
+      const resp = await fetch(KA_API + "/api/articles/submit", {
+        method: "POST",
+        body: fd,
+      });
+
+      if (!resp.ok) {
+        let detail = "";
+        try { detail = (await resp.json()).detail || ""; } catch (_) { /* ignore */ }
+        renderError("Submission failed (HTTP " + resp.status + "). " + (detail || "Please try again."));
+        return;
+      }
+
+      const payload = await resp.json();
+      renderResults(payload);
+      resetForm();
+    } catch (err) {
+      renderError("Couldn't reach the server. Check your connection and try again. (" + (err && err.message || err) + ")");
+    } finally {
       btn.disabled = false;
       btn.textContent = "Send suggestion";
-      document.getElementById("__ka_suggest_form").reset();
-      const box = document.getElementById("__ka_file_chosen");
-      box.style.display = "none";
-      chosenFile = null;
-    }, 500);
+    }
   };
+
+  function resetForm() {
+    document.getElementById("__ka_suggest_form").reset();
+    const box = document.getElementById("__ka_file_chosen");
+    box.style.display = "none";
+    box.textContent = "";
+    chosenFile = null;
+  }
+
+  // ── Results rendering ────────────────────────────────────────────────────
+  function ensureResultsVisible() {
+    document.getElementById("__ka_results_wrap").style.display = "block";
+  }
+
+  function updateCount() {
+    const n = document.querySelectorAll("#__ka_results .result-card").length;
+    document.getElementById("__ka_results_count").textContent = n + (n === 1 ? " paper" : " papers");
+  }
+
+  function renderError(message) {
+    ensureResultsVisible();
+    const banner = document.createElement("div");
+    banner.className = "results-banner err";
+    banner.textContent = message;
+    const container = document.getElementById("__ka_results");
+    container.insertBefore(banner, container.firstChild);
+  }
+
+  function renderResults(payload) {
+    ensureResultsVisible();
+    const container = document.getElementById("__ka_results");
+
+    const summary = payload.summary || {};
+    if (summary.total != null) {
+      const banner = document.createElement("div");
+      banner.className = "results-banner ok";
+      const parts = [];
+      if (summary.staged)      parts.push(summary.staged + " staged for review");
+      if (summary.duplicates)  parts.push(summary.duplicates + " duplicate(s)");
+      if (summary.rejected)    parts.push(summary.rejected + " rejected");
+      banner.textContent = "Got " + summary.total + " item" + (summary.total === 1 ? "" : "s") +
+                           (parts.length ? " — " + parts.join(", ") + "." : ".");
+      container.insertBefore(banner, container.firstChild);
+    }
+
+    (payload.items || []).slice().reverse().forEach(function (item) {
+      const card = buildCard(item);
+      container.insertBefore(card, container.firstChild);
+    });
+
+    updateCount();
+  }
+
+  // ── Card builder ─────────────────────────────────────────────────────────
+  // Map server status → {variant, label} for the colored strip.
+  function variantFor(item) {
+    const status = (item.status || "").toLowerCase();
+    if (status === "staged_pending_review")        return ["accept", "Accepted"];
+    if (status === "staged_edge_case")             return ["edge",   "Edge case"];
+    if (status === "rejected_off_topic")           return ["reject", "Rejected — off topic"];
+    if (status === "rejected_duplicate_in_corpus") return ["dup",    "Already in the Atlas"];
+    if (status === "duplicate_existing")           return ["dup",    "Duplicate of a pending submission"];
+    if (status === "rejected_bad_file")            return ["bad",    "Couldn't read the file"];
+    if (status === "needs_more_evidence")          return ["edge",   "Needs more info"];
+    return ["dup", (item.status || "Unknown").replace(/_/g, " ")];
+  }
+
+  function escapeHtml(s) {
+    return String(s == null ? "" : s)
+      .replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;")
+      .replace(/"/g, "&quot;").replace(/'/g, "&#39;");
+  }
+
+  function prettyTopic(t) {
+    if (!t) return "";
+    return String(t).replace(/[_-]+/g, " ").replace(/\b\w/g, c => c.toUpperCase());
+  }
+
+  function buildCard(item) {
+    const [variant, label] = variantFor(item);
+
+    const card = document.createElement("div");
+    card.className = "result-card " + variant;
+
+    // Header strip
+    const strip = document.createElement("div");
+    strip.className = "result-strip";
+    const dot = document.createElement("span"); dot.className = "dot";
+    strip.appendChild(dot);
+    strip.appendChild(document.createTextNode(label));
+    card.appendChild(strip);
+
+    // Body
+    const body = document.createElement("div");
+    body.className = "result-body";
+
+    const fname = document.createElement("div");
+    fname.className = "result-filename";
+    fname.textContent = item.filename || (item.input_mode === "citation_text" ? "Citation submission" : "Submission");
+    body.appendChild(fname);
+
+    // Meta: article type, topic
+    const metaParts = [];
+    if (item.article_type) metaParts.push("<b>Type:</b> " + escapeHtml(item.article_type));
+    if (item.primary_topic) {
+      let topicStr = "<b>Topic:</b> " + escapeHtml(prettyTopic(item.primary_topic));
+      if (item.secondary_topics && item.secondary_topics.length) {
+        topicStr += " <span style=\"color:var(--muted)\">(also: " +
+          item.secondary_topics.map(t => escapeHtml(prettyTopic(t))).join(", ") + ")</span>";
+      }
+      metaParts.push(topicStr);
+    }
+    if (item.metadata && item.metadata.doi) {
+      metaParts.push("<b>DOI:</b> " + escapeHtml(item.metadata.doi));
+    }
+    if (metaParts.length) {
+      const meta = document.createElement("div");
+      meta.className = "result-meta";
+      meta.innerHTML = metaParts.join(" &nbsp;·&nbsp; ");
+      body.appendChild(meta);
+    }
+
+    // Confidence bar (only when we have a classifier score)
+    if (typeof item.classifier_confidence === "number") {
+      const pct = Math.round(item.classifier_confidence * 100);
+      const row = document.createElement("div"); row.className = "result-conf-row";
+      const track = document.createElement("div"); track.className = "result-conf-track";
+      const fill = document.createElement("div"); fill.className = "result-conf-fill";
+      fill.style.width = Math.max(2, pct) + "%";
+      track.appendChild(fill);
+      const num = document.createElement("div"); num.className = "result-conf-num";
+      num.textContent = pct + "% confidence";
+      row.appendChild(track); row.appendChild(num);
+      body.appendChild(row);
+    }
+
+    // Reasons (collapsible)
+    if (item.classifier_reasons && item.classifier_reasons.length) {
+      const det = document.createElement("details");
+      det.className = "result-reasons";
+      const sum = document.createElement("summary");
+      sum.textContent = "Why?";
+      det.appendChild(sum);
+      const ul = document.createElement("ul");
+      item.classifier_reasons.forEach(function (r) {
+        const li = document.createElement("li");
+        li.textContent = r;
+        ul.appendChild(li);
+      });
+      det.appendChild(ul);
+      body.appendChild(det);
+    }
+
+    // Extra: duplicate-of link, rejection reason, article_id
+    const extras = [];
+    if (item.duplicate_of) {
+      extras.push("Already indexed as <a href=\"ka_article_view.html?id=" +
+        encodeURIComponent(item.duplicate_of) + "\">" + escapeHtml(item.duplicate_of) + "</a>");
+    }
+    if (variant === "reject" || variant === "bad") {
+      if (item.reason) extras.push(escapeHtml(item.reason));
+    }
+    if (item.article_id) {
+      extras.push("<span style=\"opacity:.7\">Tracking ID: " + escapeHtml(item.article_id) + "</span>");
+    }
+    if (extras.length) {
+      const extra = document.createElement("div");
+      extra.className = "result-extra";
+      extra.innerHTML = extras.join(" &nbsp;·&nbsp; ");
+      body.appendChild(extra);
+    }
+
+    card.appendChild(body);
+    return card;
+  }
 })();
 </script>
+
 </body>
 </html>

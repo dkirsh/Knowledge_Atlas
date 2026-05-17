@@ -1,0 +1,2 @@
+Title: Deep Residual Networks for Real-Time Image Classification
+Abstract: We present a convolutional neural network architecture optimized for processing pixel-level semantic segmentation maps using GPU tensors.

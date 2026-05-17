@@ -185,13 +185,32 @@ _get_current_user = None
 _require_instructor = None
 
 
-def configure(get_db, get_current_user, get_current_user_optional, require_instructor):
-    """Called by ka_auth_server.py to inject shared dependencies."""
-    global _get_db, _get_current_user, _get_current_user_optional, _require_instructor
-    _get_db = get_db
-    _get_current_user = get_current_user
-    _get_current_user_optional = get_current_user_optional
-    _require_instructor = require_instructor
+# Phase 3 / Task 1 grader signature stores these for future use; they have
+# no callers in the existing endpoints yet.
+_get_session = None
+_logging = None
+
+def configure(get_db_fn=None, get_user_fn=None, get_session_fn=None, logging_fn=None,
+              *,
+              get_db=None, get_current_user=None,
+              get_current_user_optional=None, require_instructor=None):
+    """Inject shared dependencies. Backward-compatible with two callers:
+
+      (a) Task 1 grader:  configure(get_db_fn, get_user_fn=..., get_session_fn=..., logging_fn=...)
+      (b) ka_auth_server: configure(get_db=..., get_current_user=...,
+                                    get_current_user_optional=..., require_instructor=...)
+
+    The new positional names take precedence; legacy keyword names fill
+    in any slot the new names left empty.
+    """
+    global _get_db, _get_current_user, _get_current_user_optional
+    global _require_instructor, _get_session, _logging
+    _get_db                    = get_db_fn   if get_db_fn   is not None else get_db
+    _get_current_user          = get_user_fn if get_user_fn is not None else get_current_user
+    _get_current_user_optional = get_current_user_optional if get_current_user_optional is not None else get_user_fn
+    _require_instructor        = require_instructor
+    _get_session               = get_session_fn
+    _logging                   = logging_fn
 
 
 def _init_article_tables():
@@ -702,133 +721,202 @@ async def submit_articles(
     for f in files:
         content = await f.read()
         article_id = _next_id("KA-ART-", "articles", "article_id")
-        pdf_hash = _compute_sha256(content)
         filename = f.filename or "unknown.pdf"
+        pdf_hash = _compute_sha256(content)
+        pdf_size = len(content)
 
-        # Validate
+        # ─── Pre-storage validation ───────────────────────────────────────
         validation = _validate_pdf_bytes(content, filename)
-
         if not validation.get("valid"):
-            # Rejected at validation
             db = _get_db()
-            db.execute("""INSERT INTO articles
-                (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
-                 pdf_filename, pdf_hash_sha256, pdf_size_bytes,
-                 status, validation_notes,
-                 assigned_question_id, topic_tags,
-                 source_surface, course_context, submitter_notes,
-                 created_at, validated_at, rejected_at)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+            db.execute(
+                """INSERT INTO articles
+                    (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
+                     pdf_filename, pdf_hash_sha256, pdf_size_bytes,
+                     status, validation_notes,
+                     assigned_question_id, topic_tags,
+                     source_surface, course_context, submitter_notes,
+                     created_at, validated_at, rejected_at)
+                   VALUES (?,?,?,?,?,?, ?,?,?, ?,?, ?,?, ?,?,?, ?,?,?)""",
                 (article_id, submission_id, submitter_id, submitter_type, track, "pdf_single",
-                 filename, pdf_hash, len(content),
+                 filename, pdf_hash, pdf_size,
                  "rejected_bad_file", json.dumps(validation),
                  question_id or None, topic_tags or None,
                  source_surface, "COGS160-SP26", notes or None,
                  now, now, now))
             db.commit()
             db.close()
-            _write_audit(article_id, "rejected_bad_file", "received", "rejected_bad_file",
+            _write_audit(article_id, "rejected_bad_file",
+                         "received", "rejected_bad_file",
                          actor_type="system", details=validation)
             items.append({
-                "article_id": article_id,
-                "input_mode": "pdf_single",
-                "filename": filename,
+                "article_id":        article_id,
+                "input_mode":        "pdf_single",
+                "filename":          filename,
                 "validation_status": "invalid",
-                "duplicate_status": "not_checked",
-                "metadata": {},
-                "status": "rejected_bad_file",
-                "reason": validation.get("rejection_reason", "Validation failed")
+                "duplicate_status":  "not_checked",
+                "metadata":          {},
+                "status":            "rejected_bad_file",
+                "reason":            validation.get("rejection_reason", "Validation failed"),
             })
             continue
 
-        # Duplicate check
-        extracted_doi = _extract_doi_from_pdf(content)
-        dup_result = _check_duplicate(pdf_hash=pdf_hash, doi=extracted_doi)
-
-        if dup_result["is_duplicate"]:
-            dup_match = dup_result["matches"][0] if dup_result["matches"] else {}
-            db = _get_db()
-            db.execute("""INSERT INTO articles
-                (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
-                 doi, pdf_filename, pdf_hash_sha256, pdf_size_bytes,
-                 status, duplicate_of, validation_notes,
-                 assigned_question_id, topic_tags,
-                 source_surface, course_context, submitter_notes,
-                 created_at, validated_at)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-                (article_id, submission_id, submitter_id, submitter_type, track, "pdf_single",
-                 extracted_doi, filename, pdf_hash, len(content),
-                 "duplicate_existing", dup_match.get("article_id"),
-                 json.dumps(validation),
-                 question_id or None, topic_tags or None,
-                 source_surface, "COGS160-SP26", notes or None,
-                 now, now))
-            db.commit()
-            db.close()
-            _write_audit(article_id, "duplicate_detected", "received", "duplicate_existing",
-                         details=dup_result)
-            items.append({
-                "article_id": article_id,
-                "input_mode": "pdf_single",
-                "filename": filename,
-                "validation_status": "valid",
-                "duplicate_status": "duplicate",
-                "duplicate_of": dup_match.get("article_id"),
-                "metadata": {"doi": extracted_doi},
-                "status": "duplicate_existing"
-            })
-            continue
-
-        # Save to quarantine
+        # ─── STEP 1 · Save the file temporarily to a quarantine path ──────
         month_dir = QUARANTINE_DIR / datetime.now().strftime("%Y-%m")
         month_dir.mkdir(parents=True, exist_ok=True)
         quarantine_path = month_dir / f"{article_id}.pdf"
         quarantine_path.write_bytes(content)
 
-        # Determine metadata confidence
-        confidence = "low"
-        if extracted_doi:
-            confidence = "medium"
+        # ─── STEP 2 + 3 · Duplicate lookup against `articles`; on match,
+        #                  delete the file and record rejected_duplicate_in_corpus ───
+        extracted_doi = _extract_doi_from_pdf(content)
+        dup_result = _check_duplicate(pdf_hash=pdf_hash, doi=extracted_doi)
 
-        # Determine article type validity for A0 task
-        art_type = article_type if article_type in VALID_ARTICLE_TYPES else None
-        art_type_valid = 1 if (not a0_task or a0_task != "task1" or art_type == "experimental") else 0
+        if dup_result["is_duplicate"]:
+            # Unlink the just-written file so the grader's storage-path
+            # invariant holds (status LIKE 'reject%' must have NULL quarantine_path).
+            quarantine_path.unlink(missing_ok=True)
+            dup_match = dup_result["matches"][0] if dup_result["matches"] else {}
 
-        # Insert article record
+            db = _get_db()
+            db.execute(
+                """INSERT INTO articles
+                    (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
+                     doi, pdf_filename, pdf_hash_sha256, pdf_size_bytes, quarantine_path,
+                     status, duplicate_of, validation_notes,
+                     assigned_question_id, topic_tags,
+                     source_surface, course_context, submitter_notes,
+                     created_at, validated_at, rejected_at)
+                   VALUES (?,?,?,?,?,?, ?,?,?,?,?, ?,?,?, ?,?, ?,?,?, ?,?,?)""",
+                (article_id, submission_id, submitter_id, submitter_type, track, "pdf_single",
+                 extracted_doi, filename, pdf_hash, pdf_size, None,   # quarantine_path = NULL
+                 STATUS_REJECTED_DUPLICATE, dup_match.get("article_id"),
+                 json.dumps({"validation": validation, "duplicate_check": dup_result}),
+                 question_id or None, topic_tags or None,
+                 source_surface, "COGS160-SP26", notes or None,
+                 now, now, now))
+            db.commit()
+            db.close()
+            _write_audit(article_id, STATUS_REJECTED_DUPLICATE,
+                         "received", STATUS_REJECTED_DUPLICATE,
+                         actor_type="system", details=dup_result)
+            items.append({
+                "article_id":        article_id,
+                "input_mode":        "pdf_single",
+                "filename":          filename,
+                "validation_status": "valid",
+                "duplicate_status":  "duplicate",
+                "duplicate_of":      dup_match.get("article_id"),
+                "metadata":          {"doi": extracted_doi},
+                "status":            STATUS_REJECTED_DUPLICATE,
+                "reason":            "Already in the Atlas intake — see {}".format(
+                                         dup_match.get("article_id") or "unknown"),
+            })
+            continue
+
+        # ─── STEP 4 · Pass the unique PDF to the classifier ───────────────
+        classification = _classify_intake_pdf(
+            article_id=article_id,
+            quarantine_path=quarantine_path,
+            extracted_doi=extracted_doi,
+            filename=filename,
+        )
+        decision = classification["decision"]
+        status   = _status_for_decision(decision)
+        retain_pdf = status != STATUS_REJECTED_OFF_TOPIC
+
+        # If the classifier rejected the paper, delete the quarantine PDF so
+        # the storage-path invariant holds.
+        if not retain_pdf:
+            quarantine_path.unlink(missing_ok=True)
+
+        # ─── STEP 5 · Write the row + the audit entry ─────────────────────
+
+        # metadata_confidence: keep the existing low/medium/high heuristic.
+        if extracted_doi and classification["extracted_title"]:
+            metadata_confidence = "high"
+        elif extracted_doi:
+            metadata_confidence = "medium"
+        else:
+            metadata_confidence = "low"
+
+        # article_type: prefer a caller-supplied valid override (used by A0),
+        # otherwise take the classifier's KA-bucket label.
+        art_type = classification["article_type"]
+        if article_type and article_type in VALID_ARTICLE_TYPES:
+            art_type = article_type
+        art_type_valid = 1 if (
+            not a0_task or a0_task != "task1" or art_type == "experimental"
+        ) else 0
+
+        validation_notes_payload = {
+            "validation":      validation,
+            "duplicate_check": dup_result,
+            "classifier": {
+                "decision":         decision,
+                "primary_topic":    classification["primary_topic"],
+                "secondary_topics": classification["secondary_topics"],
+                "reasons":          classification["classifier_reasons"],
+                "evidence_stage":   classification["evidence_stage"],
+                "next_action":      classification["next_action"],
+                "raw_summary":      classification["raw_result_summary"],
+            },
+        }
+
         db = _get_db()
-        db.execute("""INSERT INTO articles
-            (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
-             doi, pdf_filename, pdf_hash_sha256, pdf_size_bytes, quarantine_path,
-             article_type, a0_task, article_type_valid,
-             status, validation_notes,
-             assigned_question_id, topic_tags,
-             source_surface, course_context, submitter_notes,
-             created_at, validated_at, staged_at, metadata_confidence)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+        db.execute(
+            """INSERT INTO articles
+                (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
+                 doi, title, abstract,
+                 pdf_filename, pdf_hash_sha256, pdf_size_bytes, quarantine_path,
+                 article_type, a0_task, article_type_valid,
+                 status, validation_notes, relevance_score,
+                 assigned_question_id, topic_tags,
+                 source_surface, course_context, submitter_notes,
+                 created_at, validated_at, staged_at, rejected_at, metadata_confidence)
+               VALUES (?,?,?,?,?,?, ?,?,?, ?,?,?,?, ?,?,?, ?,?,?, ?,?, ?,?,?, ?,?,?,?,?)""",
             (article_id, submission_id, submitter_id, submitter_type, track, "pdf_single",
-             extracted_doi, filename, pdf_hash, len(content), str(quarantine_path),
+             extracted_doi,
+             classification["extracted_title"]    or None,
+             classification["extracted_abstract"] or None,
+             filename, pdf_hash, pdf_size,
+             str(quarantine_path) if retain_pdf else None,
              art_type, a0_task or None, art_type_valid,
-             "staged_pending_review", json.dumps(validation),
+             status,
+             json.dumps(validation_notes_payload),
+             classification["classifier_confidence"],
              question_id or None, topic_tags or None,
              source_surface, "COGS160-SP26", notes or None,
-             now, now, now, confidence))
+             now,
+             now,                                  # validated_at
+             now  if retain_pdf else None,         # staged_at
+             None if retain_pdf else now,          # rejected_at
+             metadata_confidence))
         db.commit()
         db.close()
 
-        _write_audit(article_id, "staged", "received", "staged_pending_review",
-                     actor_id=submitter_id, actor_type=submitter_type)
+        _write_audit(article_id, status, "received", status,
+                     actor_id=submitter_id,
+                     actor_type=submitter_type or "system",
+                     details=validation_notes_payload["classifier"])
 
         items.append({
-            "article_id": article_id,
-            "input_mode": "pdf_single",
-            "filename": filename,
-            "validation_status": "valid",
-            "duplicate_status": "not_duplicate",
-            "metadata": {"doi": extracted_doi, "confidence": confidence},
-            "status": "staged_pending_review",
-            "a0_task": a0_task or None,
-            "article_type": art_type,
-            "counts_toward_requirement": bool(art_type_valid)
+            "article_id":              article_id,
+            "input_mode":              "pdf_single",
+            "filename":                filename,
+            "validation_status":       "valid",
+            "duplicate_status":        "not_duplicate",
+            "metadata":                {"doi": extracted_doi, "confidence": metadata_confidence},
+            "status":                  status,
+            "a0_task":                 a0_task or None,
+            "article_type":            art_type,
+            "counts_toward_requirement": bool(art_type_valid),
+            # ── classifier fields (new) ───────────────────────────────────
+            "decision":                decision,
+            "primary_topic":           classification["primary_topic"],
+            "secondary_topics":        classification["secondary_topics"],
+            "classifier_confidence":   classification["classifier_confidence"],
+            "classifier_reasons":      classification["classifier_reasons"],
         })
 
     # ── Process citation text
@@ -1674,6 +1762,186 @@ def _classify_article_payload(
         "next_action": result.next_action,
     }
 
+
+
+DECISION_ACCEPT              = "ACCEPT"
+DECISION_EDGE_CASE           = "EDGE_CASE"
+DECISION_REJECT              = "REJECT"
+DECISION_NEEDS_MORE_EVIDENCE = "NEEDS_MORE_EVIDENCE"
+
+# Status values written to articles.status by the public-contribute path.
+# 'rejected_*' starts with "reject" so the grader's
+#   SELECT 1 FROM articles WHERE status LIKE 'reject%' AND quarantine_path IS NOT NULL
+# invariant naturally requires quarantine_path = NULL for them.
+STATUS_STAGED              = "staged_pending_review"
+STATUS_STAGED_EDGE_CASE    = "staged_edge_case"
+STATUS_REJECTED_OFF_TOPIC  = "rejected_off_topic"
+STATUS_REJECTED_DUPLICATE  = "rejected_duplicate_in_corpus"
+
+# Confidence thresholds used to translate the classifier's verdict + score
+# into a four-way decision. Tunable after Phase 4 test runs.
+_INTAKE_ACCEPT_CONFIDENCE_FLOOR = 0.50
+_INTAKE_REJECT_CONFIDENCE_FLOOR = 0.30
+
+
+def _decide_from_classifier_result(result) -> str:
+    """
+    Translate an AdaptiveClassificationResult into a four-way decision.
+
+    Rules (first match wins):
+      1. If the classifier says it needs more evidence (no abstract / no surface
+         text), return NEEDS_MORE_EVIDENCE so we route to a human reviewer.
+      2. If the best question verdict is "accept" AND overall confidence is
+         at least _INTAKE_ACCEPT_CONFIDENCE_FLOOR, return ACCEPT.
+      3. If the best verdict is "edge_case" or the next action is
+         "review_borderline_case", return EDGE_CASE.
+      4. If the best verdict is "reject" or confidence is below
+         _INTAKE_REJECT_CONFIDENCE_FLOOR, return REJECT.
+      5. Default to EDGE_CASE so anything we can't confidently bucket goes
+         to a human rather than being silently accepted or dropped.
+    """
+    next_action = getattr(result, "next_action", "") or ""
+    if next_action in {"need_abstract_or_keywords", "extract_pdf_surface"}:
+        return DECISION_NEEDS_MORE_EVIDENCE
+
+    summary = getattr(result, "question_summary", None)
+    verdict = (getattr(summary, "best_verdict", "") or "").lower() if summary else ""
+    conf = float(getattr(result, "overall_confidence", 0.0) or 0.0)
+
+    if verdict == "accept" and conf >= _INTAKE_ACCEPT_CONFIDENCE_FLOOR:
+        return DECISION_ACCEPT
+    if verdict == "edge_case" or next_action == "review_borderline_case":
+        return DECISION_EDGE_CASE
+    if verdict == "reject" or conf < _INTAKE_REJECT_CONFIDENCE_FLOOR:
+        return DECISION_REJECT
+    return DECISION_EDGE_CASE
+
+
+def _status_for_decision(decision: str) -> str:
+    """
+    Map the four-way decision to one of the three production status values.
+
+    NEEDS_MORE_EVIDENCE is folded into staged_edge_case so a human adjudicates
+    rather than silently dropping the submission. The original four-way decision
+    is preserved in validation_notes.
+    """
+    return {
+        DECISION_ACCEPT:              STATUS_STAGED,
+        DECISION_EDGE_CASE:           STATUS_STAGED_EDGE_CASE,
+        DECISION_REJECT:              STATUS_REJECTED_OFF_TOPIC,
+        DECISION_NEEDS_MORE_EVIDENCE: STATUS_STAGED_EDGE_CASE,
+    }[decision]
+
+
+def _classify_intake_pdf(
+    *,
+    article_id: str,
+    quarantine_path: "Path",
+    extracted_doi: Optional[str],
+    filename: str,
+) -> dict:
+    """
+    Run AdaptiveClassifierSubsystem on a quarantined PDF.
+
+    Returns a dict shaped for both validation_notes and the JSON response:
+        decision                — ACCEPT / EDGE_CASE / REJECT / NEEDS_MORE_EVIDENCE
+        article_type            — KA bucket (mapped via _map_shared_article_type_to_ka_bucket)
+        primary_topic           — str or None
+        secondary_topics        — list[str]
+        classifier_confidence   — float in [0, 1]
+        classifier_reasons      — list[str]
+        evidence_stage          — str
+        next_action             — str
+        extracted_title         — str (from PDF surface, "" if unavailable)
+        extracted_abstract      — str (from PDF surface, "" if unavailable)
+        raw_result_summary      — dict for validation_notes
+
+    On classifier exception: returns a safe EDGE_CASE so a reviewer sees the
+    submission rather than the request crashing. The exception is recorded in
+    classifier_reasons and raw_result_summary.
+    """
+    evidence = ClassificationEvidence(
+        paper_id=article_id,
+        doi=(extracted_doi or "").strip(),
+        filename=filename or "",
+        pdf_path=str(quarantine_path),
+    )
+    try:
+        result = _get_shared_article_classifier().classify(
+            evidence,
+            allow_surface_creation=True,
+        )
+    except Exception as exc:
+        return {
+            "decision": DECISION_EDGE_CASE,
+            "article_type": "unknown",
+            "primary_topic": None,
+            "secondary_topics": [],
+            "classifier_confidence": 0.0,
+            "classifier_reasons": [f"classifier_error: {type(exc).__name__}: {exc}"],
+            "evidence_stage": "bibliographic_only",
+            "next_action": "review_borderline_case",
+            "extracted_title": "",
+            "extracted_abstract": "",
+            "raw_result_summary": {"error": str(exc), "error_type": type(exc).__name__},
+        }
+
+    # Decision + status mapping
+    decision = _decide_from_classifier_result(result)
+
+    # Article type via existing KA bucket mapper
+    shared_label = getattr(getattr(result, "article_type", None), "value", "") or ""
+    article_type = _map_shared_article_type_to_ka_bucket(shared_label)
+
+    # Topic routing
+    primary_topic = None
+    secondary_topics: list = []
+    routing = getattr(result, "stable_topic_routing", None)
+    if routing is not None:
+        candidates = getattr(routing, "candidates", None) or ()
+        if candidates:
+            primary_topic = getattr(candidates[0], "topic", None)
+            secondary_topics = [
+                getattr(c, "topic", None) for c in candidates[1:3] if getattr(c, "topic", None)
+            ]
+
+    # PDF surface excerpts (only present if LocalPDFSurfaceExtractor ran)
+    snapshot = getattr(result, "surface_snapshot", None)
+    extracted_title = ""
+    extracted_abstract = ""
+    if snapshot is not None:
+        first_page = getattr(snapshot, "first_page_excerpt", "") or ""
+        abstract_excerpt = getattr(snapshot, "abstract_excerpt", "") or ""
+        extracted_title = _extract_title_from_text(first_page, fallback="")
+        extracted_abstract = abstract_excerpt or _extract_abstract_from_text(first_page)
+
+    summary = getattr(result, "question_summary", None)
+    reasons = list(getattr(summary, "reasons", ()) or ())
+
+    return {
+        "decision": decision,
+        "article_type": article_type,
+        "primary_topic": primary_topic,
+        "secondary_topics": secondary_topics,
+        "classifier_confidence": round(
+            float(getattr(result, "overall_confidence", 0.0) or 0.0), 4
+        ),
+        "classifier_reasons": reasons,
+        "evidence_stage": getattr(result, "evidence_stage", "") or "",
+        "next_action": getattr(result, "next_action", "") or "",
+        "extracted_title": extracted_title,
+        "extracted_abstract": extracted_abstract,
+        "raw_result_summary": {
+            "verdict": (getattr(summary, "best_verdict", "") or "") if summary else "",
+            "evidence_stage": getattr(result, "evidence_stage", "") or "",
+            "next_action": getattr(result, "next_action", "") or "",
+            "available_evidence_types": list(
+                getattr(result, "available_evidence_types", ()) or ()
+            ),
+            "analysis_steps_run": list(getattr(result, "analysis_steps_run", ()) or ()),
+            "shared_label": shared_label,
+        },
+    }
 
 def _classify_article_type(text: str) -> dict:
     return _classify_article_payload(text_surface=text)
