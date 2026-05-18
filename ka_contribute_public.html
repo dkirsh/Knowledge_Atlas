@@ -124,7 +124,7 @@
         <div class="drop-label">Drop a PDF here or click to upload</div>
         <div class="drop-hint">We extract title, authors, and abstract
           automatically. You don't need to fill those in yourself.</div>
-        <input type="file" id="__ka_file_input" accept="application/pdf" hidden
+        <input type="file" id="__ka_file_input" accept="application/pdf" multiple hidden
                onchange="handleFiles(this.files)">
       </div>
       <div id="__ka_file_chosen" style="display:none;font-size:.82rem;color:#1A7050;font-weight:600;margin-bottom:10px"></div>
@@ -198,26 +198,63 @@
 
 <script>
 (function(){
-  let chosenFile = null;
+  // Array of File objects pending submission. Replaces the old single
+  // `chosenFile` so users can submit multiple PDFs in one request, and
+  // drag-and-dropping N PDFs no longer silently drops N-1 of them.
+  let chosenFiles = [];
+  // Counter for the in-session results history (so labels say
+  // "Submission #1", "#2", ... as the user submits successively).
+  let submissionCount = 0;
+
+  function refreshFileChosenDisplay() {
+    const box = document.getElementById("__ka_file_chosen");
+    if (chosenFiles.length === 0) {
+      box.style.display = "none";
+      box.textContent = "";
+      return;
+    }
+    box.style.display = "block";
+    if (chosenFiles.length === 1) {
+      box.textContent = "✓ " + chosenFiles[0].name + " — ready to send";
+    } else {
+      const names = chosenFiles.map(f => f.name).join(", ");
+      box.textContent = "✓ " + chosenFiles.length + " files ready: " + names;
+    }
+  }
 
   window.handleFiles = function(files) {
     if (!files || !files.length) return;
-    chosenFile = files[0];
-    const box = document.getElementById("__ka_file_chosen");
-    box.style.display = "block";
-    box.textContent = "✓ " + chosenFile.name + " — ready to send";
+    // Replace, don't append — each file-input change / drop reflects the
+    // user's current intent. (To append across multiple drops, change to
+    // chosenFiles.push(...Array.from(files)).)
+    chosenFiles = Array.from(files);
+    refreshFileChosenDisplay();
   };
 
   // Render result cards into the inline panel. Uses DOM construction with
   // textContent (no innerHTML) so classifier-supplied strings cannot inject
-  // markup. Idempotent: clears prior render before drawing.
+  // markup. APPENDS to prior content so successive submissions in one
+  // session show a running history. Submission boundary marked by an <hr>
+  // and a labeled <h3>.
   function renderResults(data, container) {
-    while (container.firstChild) container.removeChild(container.firstChild);
     container.style.display = "block";
 
-    const h = document.createElement("h2");
-    h.textContent = "Submission result";
-    container.appendChild(h);
+    if (container.children.length > 0) {
+      const hr = document.createElement("hr");
+      hr.style.cssText = "margin:24px 0;border:none;border-top:1px solid #D8D0C5";
+      container.appendChild(hr);
+    } else {
+      const h = document.createElement("h2");
+      h.textContent = "Submission results";
+      container.appendChild(h);
+    }
+
+    submissionCount += 1;
+    const label = document.createElement("h3");
+    const ts = new Date().toLocaleTimeString();
+    label.textContent = "Submission #" + submissionCount + " · " + ts;
+    label.style.cssText = "font-size:.95rem;font-weight:600;color:#6B6B6B;margin-top:8px;margin-bottom:4px";
+    container.appendChild(label);
 
     const VERDICT_LABEL = {
       staged_pending_review: "Accepted",
@@ -261,7 +298,7 @@
     const why      = document.getElementById("sg_why").value.trim();
     const email    = document.getElementById("sg_email").value.trim();
 
-    if (!chosenFile && !citation) {
+    if (chosenFiles.length === 0 && !citation) {
       alert("Please upload a PDF or paste a citation / DOI / title.");
       return;
     }
@@ -272,10 +309,11 @@
     btn.disabled = true;
     btn.textContent = "Sending…";
     errBox.style.display = "none";
-    resBox.style.display = "none";
+    // Don't hide resBox here — successive submissions append.
 
     const fd = new FormData();
-    if (chosenFile) fd.append("files", chosenFile);
+    // Backend accepts multiple files under the same field name "files".
+    for (const f of chosenFiles) fd.append("files", f);
     if (citation)   fd.append("citations", citation);
     if (why)        fd.append("notes", why);
     fd.append("source_surface", "ka_contribute_public");
@@ -289,9 +327,8 @@
       const data = await resp.json();
       renderResults(data, resBox);
       document.getElementById("__ka_suggest_form").reset();
-      const fchosen = document.getElementById("__ka_file_chosen");
-      fchosen.style.display = "none";
-      chosenFile = null;
+      chosenFiles = [];
+      refreshFileChosenDisplay();
     } catch (err) {
       errBox.textContent = "Submission failed: " + err.message + ". Please try again.";
       errBox.style.display = "block";
