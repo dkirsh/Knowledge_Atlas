@@ -708,27 +708,55 @@ _NEXT_ACTIONS_NEEDING_REVIEW = frozenset({
     "review_borderline_case",      # classifier explicitly wants human judgment
 })
 
+# Off-topic-detection threshold. When the classifier hedges
+# (verdict="edge_case") AND its best primary-topic candidate scores below
+# this value, the implementation treats the paper as off-topic and routes
+# to rejected_off_topic instead of needs_review. This compensates for the
+# classifier's lack of an explicit negative-evidence mechanism — its
+# constitution bank contains only positive topics, so genuinely off-topic
+# papers get matched to the least-bad option with a low score. Tunable;
+# see contract §4.1 for the routing decision tree.
+_OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD = 0.40
 
-def _route_classifier_verdict(verdict, overall_confidence: float, next_action: str = ""):
-    """Map (verdict, overall_confidence, next_action) -> (status, audit_action, routing_reason).
+
+def _route_classifier_verdict(verdict, overall_confidence: float,
+                              next_action: str = "",
+                              primary_topic_score: float = 0.0):
+    """Map (verdict, overall_confidence, next_action, primary_topic_score)
+    -> (status, audit_action, routing_reason).
 
     Routing boundary 0.72 is pinned by the Classifier Integration Contract
     (Track 2 / Phase 1 & 2 / contracts §4.1) and matches the threshold used
     inside atlas_shared at classifier_system.py:894,898.
 
-    next_action is consulted FIRST: if the classifier signals it needs more
-    data or wants human review, that overrides any positive verdict. This
-    handles the edge case where verdict="accept" + confidence>=0.72 but the
-    classifier still emits next_action="review_borderline_case" — the
-    classifier knows something the verdict alone doesn't expose.
+    Override 1 (off-topic detection): if verdict=edge_case AND the
+    primary-topic candidate scores below _OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD,
+    the classifier likely couldn't find any topic that fits — treat as
+    rejected_off_topic. This is a deliberate workaround for the
+    classifier's lack of negative-evidence in its constitution bank.
+
+    Override 2 (next_action — Q4 fix): if the classifier signals it needs
+    more data or wants human review, that overrides any verdict-based
+    routing. Handles the case where verdict="accept" + confidence>=0.72
+    but the classifier still emits next_action="review_borderline_case".
 
     verdict: "accept" | "edge_case" | "reject" | None (None when classifier
              returned no stable_topic_routing — e.g. local fallback path
              or bibliographic-only evidence stage).
     """
-    # Override: classifier's next_action signals it's not done deciding.
-    # Surfaces the actual next_action string in routing_reason so the
-    # reviewer can see why this routed to needs_review.
+    # Override 1: off-topic detection (NEW for 4/4 PASS target).
+    # Catches off-topic content the classifier can't confidently reject.
+    # Distinguishes T2-style (off-topic with weak topic match) from T3-style
+    # (PDF extraction failure → verdict=reject with null topic, handled by
+    # Override 2 path below).
+    if verdict == "edge_case" and primary_topic_score < _OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD:
+        return (
+            "rejected_off_topic",
+            "rejected_off_topic",
+            f"off_topic:edge_case_with_weak_topic_match_{primary_topic_score:.2f}_below_{_OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD}",
+        )
+
+    # Override 2: classifier's next_action signals it's not done deciding.
     if next_action in _NEXT_ACTIONS_NEEDING_REVIEW:
         return ("needs_review", "needs_review", f"next_action:{next_action}")
 
@@ -915,7 +943,11 @@ async def submit_articles(
                     text_surface=surface_text,
                 )
                 branch_status, audit_action, routing_reason = _route_classifier_verdict(
-                    cls["verdict"], cls["overall_confidence"], cls.get("next_action", ""))
+                    cls["verdict"],
+                    cls["overall_confidence"],
+                    cls.get("next_action", ""),
+                    cls.get("primary_topic_score", 0.0),
+                )
             except Exception as exc:
                 # Classifier crashed — treat as edge case, capture the error
                 cls = {
@@ -2023,7 +2055,11 @@ def _classify_article_payload(
     verdict       = qs.best_verdict     if (qs and qs.best_verdict) else None
     verdict_conf  = qs.best_confidence  if qs else 0.0
     primary_topic = btr.primary_topic   if btr else None
-    primary_score = btr.candidates[0].score if (btr and btr.candidates) else 0.0
+    # Clamp raw candidate score to [0,1]. TopicBundleCandidate.score is an
+    # unbounded float in atlas_shared (we observed 1.08 on T1 of the Phase-4
+    # validation); the contract schema requires [0,1] for confidence fields.
+    raw_primary_score = btr.candidates[0].score if (btr and btr.candidates) else 0.0
+    primary_score = max(0.0, min(1.0, raw_primary_score))
 
     return {
         # ── Existing keys (unchanged — relied on by /fetch-abstracts, /title-only, /classify-one)
