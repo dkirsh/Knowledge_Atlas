@@ -801,6 +801,60 @@ async def submit_articles(
             })
             continue
 
+        # ── T2-Task1: classify the paper before staging
+        # Extract surface text (uses the existing helper)
+        surface_text = _extract_text_from_pdf_bytes(content, max_chars=5000)
+
+        # Per Classifier Integration Contract: skip classifier on insufficient text,
+        # route directly to needs_review with edge_case_reason
+        if len(surface_text.strip()) < 100:
+            cls = {
+                "verdict": None,
+                "primary_topic": None,
+                "primary_topic_score": 0.0,
+                "overall_confidence": 0.0,
+                "verdict_confidence": 0.0,
+                "article_type": "unknown",
+                "canonical_article_type": "unknown",
+                "confidence": 0.0,
+                "next_action": "need_abstract_or_keywords",
+                "backend": CLASSIFIER_BACKEND,
+                "source": "skipped_insufficient_text",
+                "signals": [],
+            }
+            branch_status, audit_action, edge_reason = (
+                "needs_review", "needs_review", "insufficient_text_for_classification")
+        else:
+            try:
+                title_guess = _extract_title_from_text(surface_text, fallback=filename)
+                abstract_guess = _extract_abstract_from_text(surface_text)
+                cls = _classify_article_payload(
+                    title=title_guess,
+                    abstract=abstract_guess,
+                    text_surface=surface_text,
+                )
+                branch_status, audit_action, edge_reason = _route_classifier_verdict(
+                    cls["verdict"], cls["overall_confidence"])
+            except Exception as exc:
+                # Classifier crashed — treat as edge case, capture the error
+                cls = {
+                    "verdict": None,
+                    "primary_topic": None,
+                    "primary_topic_score": 0.0,
+                    "overall_confidence": 0.0,
+                    "verdict_confidence": 0.0,
+                    "article_type": "unknown",
+                    "canonical_article_type": "unknown",
+                    "confidence": 0.0,
+                    "next_action": "review_borderline_case",
+                    "backend": CLASSIFIER_BACKEND,
+                    "source": f"classifier_error:{type(exc).__name__}",
+                    "signals": [],
+                }
+                branch_status, audit_action, edge_reason = (
+                    "needs_review", "needs_review",
+                    f"classifier_error:{type(exc).__name__}")
+
         # Save to quarantine
         month_dir = QUARANTINE_DIR / datetime.now().strftime("%Y-%m")
         month_dir.mkdir(parents=True, exist_ok=True)
