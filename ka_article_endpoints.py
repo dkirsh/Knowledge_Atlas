@@ -641,6 +641,28 @@ def _get_optional_user(request: Request) -> Optional[dict]:
     return None
 
 
+def _route_classifier_verdict(verdict, overall_confidence: float):
+    """Map (verdict, overall_confidence) -> (status, audit_action, edge_case_reason).
+
+    Routing boundary 0.72 is pinned by the Classifier Integration Contract
+    (Track 2 / Phase 1 & 2 / contracts §4.1) and matches the threshold used
+    inside atlas_shared at classifier_system.py:894,898.
+
+    verdict: "accept" | "edge_case" | "reject" | None (None when classifier
+             returned no stable_topic_routing — e.g. local fallback path
+             or bibliographic-only evidence stage).
+    """
+    if verdict is None:
+        return ("needs_review", "needs_review", "classifier_returned_no_verdict")
+    if verdict == "reject":
+        return ("rejected_off_topic", "rejected_off_topic", "classifier_verdict_reject")
+    if verdict == "edge_case":
+        return ("needs_review", "needs_review", "classifier_verdict_edge_case")
+    if verdict == "accept" and overall_confidence < 0.72:
+        return ("needs_review", "needs_review", "low_confidence_accept")
+    return ("staged_pending_review", "staged", None)
+
+
 # ════════════════════════════════════════════════
 # ENDPOINTS
 # ════════════════════════════════════════════════
