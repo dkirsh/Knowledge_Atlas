@@ -225,7 +225,8 @@
     <li><a href="#s1">1 · Week-1 landing</a></li>
     <li><a href="#s2">2 · DYK-driven topic browser</a></li>
     <li><a href="#s3">3 · Per-topic page</a></li>
-    <li><a href="#s4">4 · Evaluate-a-paper for VR</a></li>
+    <li><a href="#s4">4 · Evaluate-a-paper for VR (admit-mode)</a></li>
+    <li><a href="#s4b">4b · Choose a measure (choice-mode, Week 3 hand-off)</a></li>
     <li><a href="#s5">5 · VOI panel (in-context)</a></li>
     <li><a href="#s6">6 · VR-measurability explainer</a></li>
     <li><a href="#s7">7 · Methodological-pitfalls explainer</a></li>
@@ -538,14 +539,18 @@
 </section>
 
 <!-- =====================================================
-     SURFACE 4 — Evaluate a paper for VR
+     SURFACE 4 — Evaluate a paper for VR (admit-mode)
      ===================================================== -->
 <section class="surface" id="s4">
-  <h2>Surface 4 · Evaluate a paper for my VR experiment</h2>
+  <h2>Surface 4 · Evaluate a paper for my VR experiment <span style="font-size:14px;color:var(--ink-soft);font-weight:400;">(admit-mode · Week 1)</span></h2>
   <div class="surface-meta">Reached from <a class="surface-link" href="#s1">Surface 1</a> via "Evaluate a paper for my VR experiment" · file: <code>ka_evaluate_paper_for_vr.html</code> (new)</div>
 
+  <div class="annot" style="background:#FEFAF0;border-left:3px solid var(--amber-dk);">
+    <strong>The substitution skill is invoked twice in the COGS 160 Fall pipeline:</strong> first in <em>admit-mode</em> (this surface, Week 1) — does a VR-tractable substitute exist for the paper's outcome measure, yes or no? — and again in <em>choice-mode</em> (Surface 4b, Week 3) — given that several admissible measures exist, which one should the student pick, and what are the trade-offs? The two modes share the same knowledge base but expose different affordances. The clarification follows DK's 2026-05-18 comment that pruning and choice are distinct stages; the full argument is in <code>docs/USER_JOURNEY_COMMENTS_RESPONSE_2026-05-18.md</code> §5.
+  </div>
+
   <h3>What this surface is for (in response to DK's question)</h3>
-  <div class="annot">The use case: a student arrives having read a paper (in a course earlier, on their own, in a coffee shop) and wants to know whether they can build their VR experiment around it. The system answers four questions. Are the paper's outcome measures VR-tractable as-is? If not, what substitute measures could probe the same construct? Do other papers in the corpus already test something similar in VR? Does the topic survive the 7-to-10-week project constraint? The surface is the entry point for students who already have a paper in mind; Surfaces 2 and 3 are the entry points for students who do not.</div>
+  <div class="annot">The use case: a student arrives having read a paper (in a course earlier, on their own, in a coffee shop) and wants to know whether they can build their VR experiment around it. The system answers four questions. Are the paper's outcome measures VR-tractable as-is? If not, what substitute measures could probe the same construct? Do other papers in the corpus already test something similar in VR? Does the topic survive the 7-to-10-week project constraint? The surface is the entry point for students who already have a paper in mind; Surfaces 2 and 3 are the entry points for students who do not. <strong>This surface answers admit/reject; Surface 4b answers ranked choice.</strong></div>
 
   <h3>Mock layout</h3>
   <div class="mock">
@@ -596,6 +601,97 @@
   <h3>Decisions</h3>
   <div class="decision">Should the surface accept a free-text paper title or only a DOI? CW recommends both, but DOI takes priority — the system can look up the structured record. Free text becomes a search.</div>
   <div class="decision">What does the surface do when the paper is outside the Atlas corpus? Two options: (a) refuse to evaluate, telling the student to bring a corpus paper; (b) accept and run a best-effort evaluation against generic VR-measurability rules. CW recommends (a) for Week 1 (avoid over-promising), but the system should suggest related corpus papers.</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 4b — Choose a measure (choice-mode, Week 3)
+     ===================================================== -->
+<section class="surface" id="s4b">
+  <h2>Surface 4b · Choose a measure for my VR experiment <span style="font-size:14px;color:var(--ink-soft);font-weight:400;">(choice-mode · Week 3 hand-off)</span></h2>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s4">Surface 4</a> after admit-mode succeeds, or from <a class="surface-link" href="#s3">Surface 3</a> at Week-3 transition · file: <code>ka_choose_measure_for_vr.html</code> (new)</div>
+
+  <h3>What this surface is for</h3>
+  <div class="annot">A student has settled on a topic in Weeks 1–2; the topic survived admit-mode (Surface 4) because at least one VR-tractable measure exists. By Week 3 the student must commit to a stimulus and a measurement protocol, and the typical situation is that <em>multiple</em> admissible measures are on the table, each with a profile of psychometric strengths and weaknesses that only surface when the candidates are laid out side by side. This surface is the side-by-side comparison. It is invoked by the substitution skill in <em>ranking</em> mode rather than <em>binary</em> mode — every visible measure is admissible; the choice between them turns on the trade-offs.</div>
+
+  <h3>Worked example: attention-restoration topic, four candidate measures</h3>
+  <div class="annot">The example follows directly from the design-response document (<code>docs/USER_JOURNEY_COMMENTS_RESPONSE_2026-05-18.md</code> §5). The student has chosen the attention-restoration topic. Four measures index the construct and are VR-feasible in a 7-to-10-week class envelope. The choice involves hardware, time, sensitivity, and exposure to demand characteristics.</div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <div class="mock-title" style="font-size:18px;font-family:Georgia,serif;">Choose a measure: attention-restoration topic</div>
+    <div class="mock-body">Your topic is admissible in VR; multiple measures index the construct. Compare them below. Each measure's profile reflects what the field knows about it — strengths, weaknesses, and what the choice commits you to.</div>
+
+    <div class="mock-card" style="background:white;border:1px solid var(--warm-border);">
+      <table class="mock-table" style="margin-top:8px;">
+        <tr style="background:#FAF5E8;">
+          <th style="width:18%;">Measure</th>
+          <th style="width:18%;">Indexes what</th>
+          <th style="width:14%;">Hardware required</th>
+          <th style="width:14%;">Time per participant</th>
+          <th style="width:18%;">Strengths</th>
+          <th style="width:18%;">Weaknesses to flag</th>
+        </tr>
+        <tr>
+          <td><strong>Pupillometry</strong><br><span style="font-size:11.5px;color:var(--ink-soft);">marker of mental effort and arousal</span></td>
+          <td>Cognitive effort during a probe task before and after restoration exposure</td>
+          <td>VR headset with integrated eye-tracking (Quest Pro, Vive Pro Eye, Varjo); <span class="mock-pill amber">Quest 2 cannot</span></td>
+          <td>~25 min</td>
+          <td>Physiological, hard to fake. Reliable in repeated measures. Robust literature.</td>
+          <td>Confounded by ambient luminance; baseline drift across long sessions; cannot run on Quest 2 (lab hardware gating).</td>
+        </tr>
+        <tr style="background:#FCFCF5;">
+          <td><strong>SART</strong><br><span style="font-size:11.5px;color:var(--ink-soft);">Sustained Attention to Response Task (Robertson et al. 1997)</span></td>
+          <td>Sustained-attention performance (lapses, omission errors) before vs after restoration exposure</td>
+          <td>Any VR headset; no peripheral required</td>
+          <td>~12 min per administration</td>
+          <td>Well-validated. Sensitive to attentional state. Hardware-agnostic — Quest 2 fine. Trivial to deploy.</td>
+          <td>Floor/ceiling effects depending on dosage and stimulus rate. Participants find it boring; motivational confound across sessions.</td>
+        </tr>
+        <tr>
+          <td><strong>PRS</strong><br><span style="font-size:11.5px;color:var(--ink-soft);">Perceived Restorativeness Scale (Hartig, Kaiser & Bowler 1997)</span></td>
+          <td>Self-reported perception that the environment was restorative</td>
+          <td>Any VR headset; questionnaire admin within or outside VR</td>
+          <td>~5 min</td>
+          <td>Trivial to administer. Established psychometric profile. Maps directly onto Attention Restoration Theory's four-factor structure.</td>
+          <td>Subjective; vulnerable to demand characteristics. Measures the participant's reportable experience, not the construct itself. Should not be used alone; pair with a behavioural measure.</td>
+        </tr>
+        <tr style="background:#FCFCF5;">
+          <td><strong>ANT</strong><br><span style="font-size:11.5px;color:var(--ink-soft);">Attention Network Task (Fan et al. 2002)</span></td>
+          <td>Three independent attention networks (alerting, orienting, executive) before vs after restoration exposure</td>
+          <td>Any VR headset; precise timing required</td>
+          <td>~30 min</td>
+          <td>Decomposes attention into three independently measurable networks; restorative effects on the executive network are predicted, on alerting are not. The decomposition is itself the finding.</td>
+          <td>Long; subjects fatigue. VR-administered ANT has only a handful of validation studies; reaction-time precision in head-mounted display is below CRT baseline.</td>
+        </tr>
+      </table>
+
+      <div style="margin-top:14px;padding:10px;background:#FFFDF7;border-left:3px solid var(--amber-dk);font-size:13px;">
+        <strong>Substitution skill recommendation:</strong> for a 7-to-10-week class project, the skill ranks <strong>SART + PRS pair</strong> first (combined behavioural and self-report converges on the construct; hardware-agnostic; together they take ~17 min). <strong>Pupillometry</strong> is preferred if the lab has Quest Pro or equivalent (gold-standard physiological signal). <strong>ANT</strong> is most informative scientifically but expensive in subject time and harder to deploy reliably. <strong>PRS alone</strong> is discouraged — too vulnerable to demand characteristics for a credible class deliverable.
+        <div style="margin-top:8px;font-size:12px;color:var(--ink-soft);">Ranking rationale shown in plain language; each ranking element points back to the relevant entry in the methodological-pitfalls page (<a class="surface-link" href="#s7">Surface 7</a>).</div>
+      </div>
+
+      <div style="margin-top:14px;">
+        <a class="mock-cta">▶ Commit to SART + PRS</a>
+        <a class="mock-cta" style="background:white;color:var(--navy);border:1px solid var(--warm-border);">↶ See more candidate measures from the field</a>
+        <a class="mock-cta" style="background:white;color:var(--navy);border:1px solid var(--warm-border);">📋 Export the measure-comparison table to my project notes</a>
+      </div>
+    </div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">Where Surface 4 answers <em>can I run a study in VR on this topic?</em>, Surface 4b answers <em>given that I can, which measure will I commit to?</em>. The two questions are sometimes conflated in student thinking. Separating them sharpens the methodological reasoning: admit-mode is a corpus-wide question (does any path exist?); choice-mode is a within-project question (which path do I want?).</div>
+  <div class="annot">The recommendation is a <em>ranking</em>, not a single answer. The choice-mode skill exposes its reasoning and never abstracts the trade-offs behind a single "best" measure, because the trade-offs are pedagogically the most valuable part of the surface.</div>
+  <div class="annot">Each measure's profile is composed from two sources: the corpus-internal record (how the measure has been used in our papers, with what reliability) and the corpus-external psychometric record (Cronbach α, test-retest, known cultural specificity). The latter is what the planned construct-to-measure-to-VR-feasibility knowledge base (UJ-2 in TASKS.md) will hold.</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">The substitution skill's choice-mode requires the planned construct-to-measure-to-VR-feasibility knowledge base (UJ-2). The static example above is hand-built for the wireframe; the real surface depends on the panel's input on confidence display and refusal criteria.</div>
+  <div class="dependency">Hardware-gating annotation (Quest 2 vs Quest Pro vs Vive Pro etc.) requires a small machine-readable hardware profile per measure. CW proposes a single JSON file <code>data/vr_hardware_profile.json</code> that the skill reads.</div>
+  <div class="dependency">Cross-links to the methodological-pitfalls page (Surface 7) require that page to exist with anchors per pitfall. Surface 7 itself is blocked on panel review of the green/yellow/red tagging — UJ-6 in TASKS.md.</div>
+
+  <h3>Decisions</h3>
+  <div class="decision">Should the choice-mode surface offer a "Commit" action that wires the selected measure into the student's project record, or should it remain advisory? CW recommends advisory-with-export for the first build; commit-action can wait for the student-project-record schema to land.</div>
+  <div class="decision">When the student picks a measure the skill ranks lower, should the system push back or accept silently? CW recommends a soft pushback ("you chose ANT over SART+PRS; ANT is longer and harder to deploy — confirm you have lab time?") with a confirm-anyway option. Patronising the student is the worse failure.</div>
+  <div class="decision">Is Surface 4b a Week-1 surface that the student sees only when they reach it in Week 3, or a Week-3 surface proper? CW treats it as the Week-3 hand-off — it is wireframed here because Weeks 2 and 3 are not yet wireframed, but it conceptually belongs to the Week-3 measure-selection step of the COGS 160 Fall arc.</div>
 </section>
 
 <!-- =====================================================
