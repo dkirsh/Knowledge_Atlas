@@ -955,18 +955,47 @@ async def submit_articles(
             # Duplicate check — fuzzy on title and authors (≤1 word edit distance)
             dup_result = _check_duplicate(doi=extracted_doi, title=dedup_title, authors=dedup_authors)
 
-            status = "duplicate_existing" if dup_result["is_duplicate"] else "staged_pending_review"
+            # ── T2-Task1: citation-only items always route to needs_review when
+            # not a duplicate. Reason: no PDF bytes → no surface text → the
+            # <100-char guard in the classifier would fire anyway. We skip the
+            # classifier call and short-circuit to needs_review with an explicit
+            # edge_case_reason. Dedup logic preserved exactly as it was.
+            if dup_result["is_duplicate"]:
+                status = "duplicate_existing"
+                audit_action_cit = "duplicate_detected"
+                edge_reason_cit = None
+                cls_cit_block = None  # classifier never called for duplicates (contract §3.1)
+            else:
+                status = "needs_review"
+                audit_action_cit = "needs_review"
+                edge_reason_cit = "citation_only_no_pdf_text"
+                cls_cit_block = {
+                    "verdict": None,
+                    "classifier_article_type": "unknown",
+                    "article_type_confidence": 0.0,
+                    "primary_topic": None,
+                    "primary_topic_confidence": 0.0,
+                    "overall_confidence": 0.0,
+                    "next_action": "need_abstract_or_keywords",
+                    "backend": CLASSIFIER_BACKEND,
+                    "active_topic_matches": [],
+                }
             dup_of = dup_result["matches"][0]["article_id"] if dup_result["is_duplicate"] and dup_result["matches"] else None
+
+            # Citation-only rows carry no quarantine file regardless of branch.
+            metadata_conf = ("high" if extracted_doi and parsed["title"] and parsed["authors"]
+                             else "medium" if extracted_doi or (parsed["title"] and parsed["authors"])
+                             else "low")
 
             db = _get_db()
             db.execute("""INSERT INTO articles
                 (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
                  doi, title, authors, year, citation_raw,
-                 status, duplicate_of,
+                 status, duplicate_of, validation_notes,
                  assigned_question_id, topic_tags,
                  source_surface, course_context, submitter_notes,
                  created_at, staged_at, metadata_confidence)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (article_id, submission_id, submitter_id, submitter_type, track, "citation_text",
                  extracted_doi,
                  parsed["title"] or None,
@@ -974,29 +1003,31 @@ async def submit_articles(
                  int(parsed["year"]) if parsed["year"] else None,
                  line,
                  status, dup_of,
+                 json.dumps({"edge_case_reason": edge_reason_cit}) if edge_reason_cit else None,
                  question_id or None, topic_tags or None,
                  source_surface, "COGS160-SP26", notes or None,
-                 now, now if status == "staged_pending_review" else None,
-                 "high" if extracted_doi and parsed["title"] and parsed["authors"]
-                 else "medium" if extracted_doi or (parsed["title"] and parsed["authors"])
-                 else "low"))
+                 now,
+                 now if status in ("staged_pending_review", "needs_review") else None,
+                 metadata_conf))
             db.commit()
             db.close()
 
-            _write_audit(article_id,
-                         "duplicate_detected" if dup_result["is_duplicate"] else "staged",
-                         "received", status,
+            _write_audit(article_id, audit_action_cit, "received", status,
                          actor_id=submitter_id, actor_type=submitter_type)
 
-            items.append({
+            item = {
                 "article_id": article_id,
                 "input_mode": "citation_text",
                 "citation": line[:200],
                 "validation_status": "accepted",
                 "duplicate_status": "duplicate" if dup_result["is_duplicate"] else "not_duplicate",
                 "metadata": {"doi": extracted_doi},
-                "status": status
-            })
+                "status": status,
+                "reason": edge_reason_cit,
+            }
+            if cls_cit_block is not None:
+                item["classifier"] = cls_cit_block
+            items.append(item)
 
     # Update batch count
     db = _get_db()
