@@ -829,6 +829,7 @@ async def submit_articles(
                 title_guess = _extract_title_from_text(surface_text, fallback=filename)
                 abstract_guess = _extract_abstract_from_text(surface_text)
                 cls = _classify_article_payload(
+                    paper_id=article_id,
                     title=title_guess,
                     abstract=abstract_guess,
                     text_surface=surface_text,
@@ -1799,13 +1800,14 @@ def _map_shared_article_type_to_ka_bucket(shared_label: str) -> str:
 
 def _classify_article_payload(
     *,
+    paper_id: str = "",
     title: str = "",
     abstract: str = "",
     keywords: Optional[List[str]] = None,
     text_surface: str = "",
 ) -> dict:
     evidence = ClassificationEvidence(
-        paper_id="",
+        paper_id=paper_id,
         title=title,
         abstract=abstract,
         keywords=tuple(keywords or ()),
