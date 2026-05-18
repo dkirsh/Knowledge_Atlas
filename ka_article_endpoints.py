@@ -1686,7 +1686,20 @@ def _classify_article_payload(
         allow_surface_creation=False,
     )
     shared_label = result.article_type.value
+
+    # Additive extension (T2-Task1) — surface verdict / topic / backend so the
+    # /api/articles/submit handler can route to the correct branch per
+    # Classifier Integration Contract §4.1. Defensive against the local
+    # fallback path where these attributes may be absent.
+    qs   = getattr(result, "question_summary", None)
+    btr  = getattr(result, "stable_topic_routing", None)
+    verdict       = qs.best_verdict     if (qs and qs.best_verdict) else None
+    verdict_conf  = qs.best_confidence  if qs else 0.0
+    primary_topic = btr.primary_topic   if btr else None
+    primary_score = btr.candidates[0].score if (btr and btr.candidates) else 0.0
+
     return {
+        # ── Existing keys (unchanged — relied on by /fetch-abstracts, /title-only, /classify-one)
         "article_type": _map_shared_article_type_to_ka_bucket(shared_label),
         "canonical_article_type": shared_label,
         "confidence": round(result.article_type.confidence, 2),
@@ -1694,6 +1707,13 @@ def _classify_article_payload(
         "source": result.article_type.source,
         "evidence_stage": result.evidence_stage,
         "next_action": result.next_action,
+        # ── New keys (T2-Task1 additive extension — see contract §3.1 Field-origin table)
+        "verdict":             verdict,
+        "verdict_confidence":  round(verdict_conf, 2),
+        "primary_topic":       primary_topic,
+        "primary_topic_score": round(primary_score, 2),
+        "overall_confidence":  round(getattr(result, "overall_confidence", 0.0), 2),
+        "backend":             CLASSIFIER_BACKEND,
     }
 
 
