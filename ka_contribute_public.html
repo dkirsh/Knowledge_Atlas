@@ -144,6 +144,13 @@
     </form>
   </div>
 
+  <!-- Inline error banner (T2-Task1) -->
+  <div id="__ka_error" class="card" role="alert"
+       style="display:none;border-color:#a04040;color:#a04040"></div>
+
+  <!-- Inline results panel (T2-Task1) — replaces the thank-you modal flow -->
+  <div id="__ka_results" class="card" style="display:none"></div>
+
   <!-- What happens next -->
   <div class="card" style="background:#F9F5EE;border-color:#E0D8CC">
     <h2 style="font-size:1.05rem">What happens next</h2>
@@ -201,7 +208,55 @@
     box.textContent = "✓ " + chosenFile.name + " — ready to send";
   };
 
-  window.submitSuggestion = function() {
+  // Render result cards into the inline panel. Uses DOM construction with
+  // textContent (no innerHTML) so classifier-supplied strings cannot inject
+  // markup. Idempotent: clears prior render before drawing.
+  function renderResults(data, container) {
+    while (container.firstChild) container.removeChild(container.firstChild);
+    container.style.display = "block";
+
+    const h = document.createElement("h2");
+    h.textContent = "Submission result";
+    container.appendChild(h);
+
+    const VERDICT_LABEL = {
+      staged_pending_review: "Accepted",
+      needs_review:          "Edge case — needs review",
+      rejected_off_topic:    "Rejected (off-topic)",
+      rejected_bad_file:     "Rejected (bad file)",
+      duplicate_existing:    "Already in corpus",
+    };
+
+    function row(card, label, value) {
+      const d = document.createElement("div");
+      const k = document.createElement("strong");
+      k.textContent = label + ": ";
+      d.appendChild(k);
+      d.appendChild(document.createTextNode(value == null || value === "" ? "—" : String(value)));
+      card.appendChild(d);
+    }
+
+    (data.items || []).forEach((item, i) => {
+      const card = document.createElement("div");
+      card.classList.add("ka-result-card", "ka-result-" + (item.status || "unknown"));
+      card.setAttribute("data-idx", String(i));
+      card.style.cssText = "border:1px solid #D8D0C5;border-radius:8px;padding:14px 16px;margin:12px 0;background:#FBFAF7";
+
+      row(card, "Verdict", VERDICT_LABEL[item.status] || item.status);
+      row(card, "Article ID", item.article_id);
+      const c = item.classifier || {};
+      row(card, "Article type", c.classifier_article_type);
+      row(card, "Primary topic", c.primary_topic);
+      row(card, "Confidence",
+          (typeof c.overall_confidence === "number") ? c.overall_confidence.toFixed(2) : null);
+      if (item.reason) row(card, "Reason", item.reason);
+      if (item.duplicate_of) row(card, "Duplicate of", item.duplicate_of);
+
+      container.appendChild(card);
+    });
+  }
+
+  window.submitSuggestion = async function() {
     const citation = document.getElementById("sg_citation").value.trim();
     const why      = document.getElementById("sg_why").value.trim();
     const email    = document.getElementById("sg_email").value.trim();
@@ -211,33 +266,39 @@
       return;
     }
 
-    const btn = document.getElementById("__ka_submit_btn");
+    const btn    = document.getElementById("__ka_submit_btn");
+    const errBox = document.getElementById("__ka_error");
+    const resBox = document.getElementById("__ka_results");
     btn.disabled = true;
     btn.textContent = "Sending…";
+    errBox.style.display = "none";
+    resBox.style.display = "none";
 
-    // In production this POSTs to /api/articles/suggest (see KA_AF_INTAKE).
-    // For now we persist locally and show the thank-you modal so the flow
-    // is reviewable without a backend.
-    const payload = {
-      filename: chosenFile ? chosenFile.name : null,
-      citation, why, email,
-      submitted_at: new Date().toISOString(),
-    };
+    const fd = new FormData();
+    if (chosenFile) fd.append("files", chosenFile);
+    if (citation)   fd.append("citations", citation);
+    if (why)        fd.append("notes", why);
+    fd.append("source_surface", "ka_contribute_public");
+
+    const apiBase = (window.__KA_CONFIG__ && window.__KA_CONFIG__.apiBase) || "";
+
     try {
-      const log = JSON.parse(localStorage.getItem("ka.public_suggestions") || "[]");
-      log.push(payload);
-      localStorage.setItem("ka.public_suggestions", JSON.stringify(log));
-    } catch(e){ /* fine, still show the modal */ }
-
-    setTimeout(() => {
-      document.getElementById("__ka_thanks").classList.add("open");
+      const resp = await fetch(apiBase + "/api/articles/submit",
+                               { method: "POST", body: fd });
+      if (!resp.ok) throw new Error("Server returned HTTP " + resp.status);
+      const data = await resp.json();
+      renderResults(data, resBox);
+      document.getElementById("__ka_suggest_form").reset();
+      const fchosen = document.getElementById("__ka_file_chosen");
+      fchosen.style.display = "none";
+      chosenFile = null;
+    } catch (err) {
+      errBox.textContent = "Submission failed: " + err.message + ". Please try again.";
+      errBox.style.display = "block";
+    } finally {
       btn.disabled = false;
       btn.textContent = "Send suggestion";
-      document.getElementById("__ka_suggest_form").reset();
-      const box = document.getElementById("__ka_file_chosen");
-      box.style.display = "none";
-      chosenFile = null;
-    }, 500);
+    }
   };
 })();
 </script>
