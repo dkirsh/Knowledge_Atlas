@@ -858,12 +858,26 @@ async def submit_articles(
         # ── T2-Task1: write to quarantine ONLY if the verdict allows it
         # (Branches A and B per Classifier Integration Contract §4.1).
         # Branch E (rejected_off_topic) writes the row but no file.
+        # If the filesystem call fails (disk full, permission denied,
+        # read-only FS), we route to rejected_storage_error so the
+        # article_id is not silently consumed by a 500 response.
         if branch_status in ("staged_pending_review", "needs_review"):
             month_dir = QUARANTINE_DIR / datetime.now().strftime("%Y-%m")
-            month_dir.mkdir(parents=True, exist_ok=True)
-            quarantine_path = month_dir / f"{article_id}.pdf"
-            quarantine_path.write_bytes(content)
-            quarantine_path_str = str(quarantine_path)
+            try:
+                month_dir.mkdir(parents=True, exist_ok=True)
+                quarantine_path = month_dir / f"{article_id}.pdf"
+                quarantine_path.write_bytes(content)
+                quarantine_path_str = str(quarantine_path)
+            except OSError as fs_exc:
+                # Filesystem write failed. Override branch to a clean reject
+                # so the row is honest and the file is not orphaned.
+                quarantine_path_str = None
+                branch_status = "rejected_storage_error"
+                audit_action  = "quarantine_write_failed"
+                edge_reason   = f"quarantine_write_failed:{type(fs_exc).__name__}:{fs_exc.errno}"
+                # Annotate the classifier source so the response carries the
+                # cause even though the classifier itself succeeded.
+                cls["source"] = f"quarantine_error:{type(fs_exc).__name__}"
         else:
             quarantine_path_str = None
 
@@ -881,7 +895,9 @@ async def submit_articles(
         if edge_reason:
             validation_with_reason["edge_case_reason"] = edge_reason
 
-        rejected_at = now if branch_status == "rejected_off_topic" else None
+        # rejected_at / staged_at must follow the (possibly-overridden) branch_status.
+        # Use a prefix match so any future rejected_* status is handled correctly.
+        rejected_at = now if branch_status.startswith("rejected_") else None
         staged_at_v = now if branch_status in ("staged_pending_review", "needs_review") else None
 
         # Insert article record (new column: relevance_score)
