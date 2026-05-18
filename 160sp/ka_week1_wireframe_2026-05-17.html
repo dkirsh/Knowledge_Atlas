@@ -230,6 +230,7 @@
     <li><a href="#s5">5 · VOI panel (in-context)</a></li>
     <li><a href="#s6">6 · VR-measurability explainer</a></li>
     <li><a href="#s7">7 · Methodological-pitfalls explainer</a></li>
+    <li><a href="#s7b">7b · Cook &amp; Campbell's four validities (showcase)</a></li>
     <li><a href="#s8">8 · Exemplary VR experiments</a></li>
     <li><a href="#s9">9 · Week-1 deliverable capture</a></li>
     <li><a href="#deps">Dependencies summary</a></li>
@@ -359,8 +360,10 @@
         <span class="mock-pill amber">VR-tractable</span>
         <span class="badge">VOI: high</span>
       </div>
-      <div style="margin-top:6px;font-size:12px;">
-        <a class="surface-link" href="#s3">▶ Pursue this topic</a>
+      <div style="margin-top:6px;font-size:12px;display:flex;gap:14px;flex-wrap:wrap;">
+        <a class="surface-link" href="#s3">▶ Explore this topic</a>
+        <a class="surface-link" href="#s3-shortlist">＋ Add to short-list</a>
+        <a class="surface-link" href="#s4">🔎 Find related papers</a>
       </div>
     </div>
 
@@ -372,6 +375,10 @@
         <span class="badge">VOI: medium</span>
       </div>
       <div style="margin-top:6px;font-size:12px;color:var(--ink-soft);">VR cannot reproduce the relevant lux levels; finding is foundational for context but not a candidate topic.</div>
+      <div style="margin-top:6px;font-size:12px;display:flex;gap:14px;flex-wrap:wrap;">
+        <a class="surface-link" href="#s3-shortlist">＋ Add to short-list (for reference)</a>
+        <a class="surface-link" href="#s6">📖 Why is this not VR-tractable?</a>
+      </div>
     </div>
 
     <div class="mock-card">
@@ -381,8 +388,10 @@
         <span class="mock-pill amber">VR-tractable</span>
         <span class="badge">VOI: high</span>
       </div>
-      <div style="margin-top:6px;font-size:12px;">
-        <a class="surface-link" href="#s3">▶ Pursue this topic</a>
+      <div style="margin-top:6px;font-size:12px;display:flex;gap:14px;flex-wrap:wrap;">
+        <a class="surface-link" href="#s3">▶ Explore this topic</a>
+        <a class="surface-link" href="#s3-shortlist">＋ Add to short-list</a>
+        <a class="surface-link" href="#s4">🔎 Find related papers</a>
       </div>
     </div>
 
@@ -394,8 +403,11 @@
         <span class="badge">VOI: high</span>
         <span class="badge" style="background:#FFE0E0;color:#A02828;">Contested</span>
       </div>
-      <div style="margin-top:6px;font-size:12px;">
-        <a class="surface-link" href="#s3">▶ Pursue this topic</a>
+      <div style="margin-top:6px;font-size:12px;display:flex;gap:14px;flex-wrap:wrap;">
+        <a class="surface-link" href="#s3">▶ Explore this topic</a>
+        <a class="surface-link" href="#s3-shortlist">＋ Add to short-list</a>
+        <a class="surface-link" href="#s4">🔎 Find related papers</a>
+        <a class="surface-link" href="#s7b">⚠ Why is this contested?</a>
       </div>
     </div>
   </div>
@@ -403,7 +415,7 @@
   <h3>Annotations</h3>
   <div class="annot">Card design borrows from the existing DYK work Codex has been building (<code>data/ka_payloads/did_you_know.json</code> and the writing contract at <code>docs/DID_YOU_KNOW_SCIENCE_WRITING_CONTRACT_2026-05-16.md</code>). The new affordance for Week 1 is the VR-tractability badge and the topic-family filter. Cards that are not VR-tractable are shown but greyed and explicitly flagged.</div>
   <div class="annot">The two filters at the top — topic family, VR-tractability — let the student narrow without abandoning the browse mode. The "Contested" badge appears on findings where the replication record is mixed; this is a substantive cue for Week 1 (contested findings are often good targets but require careful framing).</div>
-  <div class="annot">"Pursue this topic" is the only outbound CTA from a card. Clicking it opens <a class="surface-link" href="#s3">Surface 3</a> — the per-topic page — which is where the student commits to a topic or rejects it.</div>
+  <div class="annot">Each card carries three or four outbound CTAs (DK 2026-05-18 revision). <em>Explore this topic</em> opens <a class="surface-link" href="#s3">Surface 3</a>, the per-topic page, where the student can build their bibliography. <em>Add to short-list</em> persists the topic to the student's logged-in short-list (the deferred-commitment surface on Surface 3) without leaving the DYK browser, supporting DK's instruction that the student should be able to collect candidates and decide later rather than commit at first glance. <em>Find related papers</em> jumps to <a class="surface-link" href="#s4">Surface 4 (admit-mode)</a> pre-populated with this DYK's anchor citation, so the student can quickly check whether a related paper they have in mind has been studied. On contested cards a fourth CTA, <em>Why is this contested?</em>, opens the contested-finding rationale on the Cook & Campbell / methodological-pitfalls surface (Surface 7b).</div>
 
   <h3>Dependencies</h3>
   <div class="dependency">The VR-tractability flag per DYK card requires the substitution agent infrastructure (see <a class="surface-link" href="#s4">Surface 4</a> dependencies). Until that exists, the flag is editorial; an instructor or CW tags each card by hand.</div>
@@ -420,7 +432,11 @@
      ===================================================== -->
 <section class="surface" id="s3">
   <h2>Surface 3 · Per-topic page (reached from a DYK card)</h2>
-  <div class="surface-meta">Reached from <a class="surface-link" href="#s2">Surface 2</a> by clicking "Pursue this topic" · file: <code>ka_topic_view.html</code> (variants exist; needs Week-1 framing)</div>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s2">Surface 2</a> by clicking "Explore this topic" · file: <code>ka_topic_view.html</code> (variants exist; needs Week-1 framing)</div>
+
+  <div class="annot" style="background:#FEFAF0;border-left:3px solid var(--amber-dk);">
+    <strong>Logged-in surface (DK 2026-05-18).</strong> Surface 3 supports a deferred-commitment workflow: the student need not pick a topic on first visit. Topics and individual papers can be added to a personal short-list that persists across sessions; the student can compare candidates and commit only when ready. The short-list lives behind authentication (Shibboleth on Fall 2026; local profile until then per the grading-and-policy memory). Anchor papers are hot links that open the canonical article-viewer page (Track-4 student work) for full reading rather than only ticking a "Pick" checkbox.
+  </div>
 
   <h3>Mock layout</h3>
   <div class="mock">
@@ -453,71 +469,105 @@
       </thead>
       <tbody>
         <tr>
-          <td>Kaplan & Kaplan (1989)<br><span style="font-size:11px;color:var(--ink-soft);">Cognitive recovery after nature exposure</span></td>
+          <td><a class="surface-link" href="ka_article_view.html?id=PDF-0142" style="font-weight:600;">Kaplan &amp; Kaplan (1989) →</a><br><span style="font-size:11px;color:var(--ink-soft);">Cognitive recovery after nature exposure · click to open in article viewer</span></td>
           <td>Lab between-Ss</td>
           <td>62</td>
           <td>DSST score change</td>
           <td><span class="mock-pill amber">Yes</span></td>
           <td>3</td>
-          <td>☐</td>
+          <td><span style="white-space:nowrap;">☐ short-list ☐ pick</span></td>
         </tr>
         <tr>
-          <td>Berman, Jonides & Kaplan (2008)</td>
+          <td><a class="surface-link" href="ka_article_view.html?id=PDF-0007" style="font-weight:600;">Berman, Jonides &amp; Kaplan (2008) →</a></td>
           <td>Lab within-Ss</td>
           <td>38</td>
           <td>Backward digit span</td>
           <td><span class="mock-pill amber">Yes</span></td>
           <td>5</td>
-          <td>☐</td>
+          <td><span style="white-space:nowrap;">☐ short-list ☐ pick</span></td>
         </tr>
         <tr>
-          <td>Bratman et al. (2015)</td>
+          <td><a class="surface-link" href="ka_article_view.html?id=PDF-0089" style="font-weight:600;">Bratman et al. (2015) →</a></td>
           <td>Field RCT</td>
           <td>60</td>
           <td>Rumination + sgPFC fMRI</td>
           <td><span class="mock-pill muted">Partial (drop fMRI)</span></td>
           <td>2</td>
-          <td>☐</td>
+          <td><span style="white-space:nowrap;">☐ short-list ☐ pick</span></td>
         </tr>
         <tr>
-          <td>Hartig et al. (1991)</td>
+          <td><a class="surface-link" href="ka_article_view.html?id=PDF-0034" style="font-weight:600;">Hartig et al. (1991) →</a></td>
           <td>Field between-Ss</td>
           <td>34</td>
           <td>Necker cube + self-report</td>
           <td><span class="mock-pill amber">Yes</span></td>
           <td>4</td>
-          <td>☐</td>
+          <td><span style="white-space:nowrap;">☐ short-list ☐ pick</span></td>
         </tr>
         <tr>
-          <td>Mayer & Frantz (2004)</td>
+          <td><a class="surface-link" href="ka_article_view.html?id=PDF-0058" style="font-weight:600;">Mayer &amp; Frantz (2004) →</a></td>
           <td>Lab within-Ss</td>
           <td>96</td>
           <td>Connectedness-to-nature scale</td>
           <td><span class="mock-pill amber">Yes</span></td>
           <td>6</td>
-          <td>☐</td>
+          <td><span style="white-space:nowrap;">☐ short-list ☐ pick</span></td>
         </tr>
         <tr>
-          <td>van den Berg & ter Heijne (2005)</td>
+          <td><a class="surface-link" href="ka_article_view.html?id=PDF-0211" style="font-weight:600;">van den Berg &amp; ter Heijne (2005) →</a></td>
           <td>Lab between-Ss</td>
           <td>106</td>
           <td>Backward digit span + mood</td>
           <td><span class="mock-pill amber">Yes</span></td>
           <td>2</td>
-          <td>☐</td>
+          <td><span style="white-space:nowrap;">☐ short-list ☐ pick</span></td>
         </tr>
       </tbody>
     </table>
+    <div style="margin-top:6px;font-size:11.5px;color:var(--ink-soft);">Click a paper title to open it in the article viewer (Track-4 student-designed surface, file: <code>ka_article_view.html</code>). <em>Short-list</em> saves the paper to your personal collection without committing it as the project's anchor; <em>pick</em> commits it as a Week-1 anchor paper.</div>
 
     <div class="mock-card" style="background:var(--amber-bg);border-color:var(--amber);margin-top:14px;">
       <strong style="color:var(--amber-dk);">Why these papers are ranked high:</strong>
       <span style="color:var(--amber-dk);font-size:13px;">Lab studies with VR-tractable measures and at least two replications appear first. The Bratman paper appears with a "partial" flag because its core comparison (nature walk vs urban walk) is reproducible in VR, but its sgPFC fMRI outcome is not — a substitute behavioural measure of rumination would be needed (see <a class="surface-link" href="#s4">substitution panel</a>).</span>
     </div>
 
+    <div class="mock-card" id="s3-shortlist" style="background:#F4F8F6;border:1px solid #B9D7C7;">
+      <strong>My short-list (logged-in)</strong>
+      <div style="margin-top:6px;font-size:12.5px;color:var(--ink-mid);">A persistent collection across sessions. You can add topics, individual papers, and DYK findings here without committing to a project. Compare candidates; commit later.</div>
+      <table class="mock-table" style="margin-top:10px;background:white;">
+        <thead><tr><th>Saved item</th><th>Type</th><th>Added</th><th>Note to self</th><th></th></tr></thead>
+        <tbody>
+          <tr>
+            <td>Nature views and cognitive recovery</td>
+            <td>Topic</td>
+            <td>Today, 14:02</td>
+            <td><em>maybe my pick — feasible in 8 weeks</em></td>
+            <td><a class="surface-link" href="#s3">open</a> · remove</td>
+          </tr>
+          <tr>
+            <td>Soundscape × cognition (speech intelligibility 60% threshold)</td>
+            <td>DYK · topic</td>
+            <td>Today, 13:48</td>
+            <td>backup if nature-views falls through</td>
+            <td><a class="surface-link" href="#s2">open</a> · remove</td>
+          </tr>
+          <tr>
+            <td>Berman, Jonides &amp; Kaplan (2008)</td>
+            <td>Paper</td>
+            <td>Today, 13:50</td>
+            <td>strong replication record; clear measure</td>
+            <td><a class="surface-link" href="ka_article_view.html?id=PDF-0007">open</a> · remove</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
     <div class="mock-card">
       <strong>Commit to this topic?</strong>
-      <div style="margin-top:8px;font-size:13px;">
-        <a class="mock-cta" href="#s9">▶ Save as my Week-1 topic with these papers</a>
+      <div style="font-size:12.5px;color:var(--ink-soft);margin-top:4px;">You do not have to commit on this visit. Save the candidates and come back.</div>
+      <div style="margin-top:8px;font-size:13px;display:flex;gap:10px;flex-wrap:wrap;">
+        <a class="mock-cta" href="#s9">▶ Commit: save as my Week-1 topic with picked papers</a>
+        <a class="mock-cta" style="background:#F4F8F6;color:var(--navy);border:1px solid #B9D7C7;" href="#s3-shortlist">★ Add topic + papers to my short-list</a>
         <a class="mock-cta" style="background:white;color:var(--navy);border:1px solid var(--warm-border);" href="#s2">↶ Back to DYK browser</a>
       </div>
     </div>
@@ -525,13 +575,17 @@
 
   <h3>Annotations</h3>
   <div class="annot">The meta-review at the top is what your comment called for: a short distinguishing summary of the literature in this topic, not just a paper list. The version here is illustrative; production should generate it from the corpus's already-extracted fingerprints.</div>
-  <div class="annot">The anchor-paper table is the bibliography-differentiator artefact. Columns are chosen for what a Week-1 student needs to see at a glance: design type, sample size, outcome measure, VR-tractability with substitution flag if partial, replication count. Sorted by suitability for the 7-to-10-week project rather than by citation count.</div>
-  <div class="annot">"Pick" column lets the student commit to a starter bibliography in one action. Picked papers persist to Surface 9 (deliverable capture).</div>
+  <div class="annot">The anchor-paper table is the bibliography-differentiator artefact. Columns are chosen for what a Week-1 student needs to see at a glance: design type, sample size, outcome measure, VR-tractability with substitution flag if partial, replication count. Sorted by suitability for the 7-to-10-week project rather than by citation count. <strong>Each paper title is now a hot link to the canonical article-viewer page</strong> (<code>ka_article_view.html?id=PDF-XXXX</code>), the surface Track-4 students are designing; per DK 2026-05-18 the table should not be the terminal view of a paper. The list of placeholder IDs (PDF-0142, PDF-0007, ...) is illustrative — production wiring substitutes corpus IDs.</div>
+  <div class="annot">The <strong>short-list / pick</strong> two-column action replaces the single "Pick" checkbox of the previous draft (DK 2026-05-18: "We should support the student building a short list and not making a decision immediately"). <em>Short-list</em> persists the paper to the student's collection across sessions without committing; <em>pick</em> commits the paper as a Week-1 anchor. Both actions require the student to be logged in (Shibboleth on Fall 2026, local profile until then).</div>
+  <div class="annot">The new <strong>short-list card</strong> (above the commit card) shows the student's persistent collection of topics, DYK findings, and individual papers across sessions. Items added from the DYK browser, the per-topic page, or the article viewer all land here.</div>
 
   <h3>Dependencies</h3>
   <div class="dependency">Meta-review generation requires fingerprint extraction to be complete or near-complete on the topic's anchor papers. The paper-quality build (Codex Pass 1 done, Pass 2/3 in flight) provides the substrate.</div>
   <div class="dependency">VR-tractability flag per paper requires the substitution-agent infrastructure (<a class="surface-link" href="#s4">Surface 4</a>).</div>
   <div class="dependency">Suitability-for-project ranking requires a rule set; CW proposes lab > field for VR-tractability (lab studies are usually reproducible in VR; field studies need substitution), within-Ss > between-Ss (smaller N requirements), at least two replications.</div>
+  <div class="dependency"><strong>Short-list persistence</strong> requires a logged-in user model and a per-user collection table. Per the grading-and-policy memory, Shibboleth authentication is deferred to Fall 2026; until then a local profile keyed to the student's UCSD email is acceptable. Schema sketch: <code>short_list_items(user_id, item_type, item_id, added_at, note)</code> where <code>item_type</code> is one of <code>topic | paper | dyk_card</code>.</div>
+  <div class="dependency"><strong>Hot anchor-paper links</strong> require the article-viewer page (<code>ka_article_view.html?id=PDF-XXXX</code>) to accept query-string IDs and to gracefully degrade when a corpus paper has not yet been extracted. Track-4 students are designing this page; CW will coordinate the URL contract with them.</div>
+  <div class="dependency"><strong>The "Add to short-list" action from a DYK card</strong> (Surface 2) writes to the same short-list table; the entry stores both the topic and the DYK card's anchor citation so the student can return to the source finding.</div>
 
   <h3>Decisions</h3>
   <div class="decision">Should the topic page show every paper in the corpus on this topic, or only the top 8–12 anchor papers? CW recommends top 8–12 with a "show all 24" expander; otherwise the table becomes a tour rather than a tool.</div>
@@ -552,14 +606,37 @@
   <h3>What this surface is for (in response to DK's question)</h3>
   <div class="annot">The use case: a student arrives having read a paper (in a course earlier, on their own, in a coffee shop) and wants to know whether they can build their VR experiment around it. The system answers four questions. Are the paper's outcome measures VR-tractable as-is? If not, what substitute measures could probe the same construct? Do other papers in the corpus already test something similar in VR? Does the topic survive the 7-to-10-week project constraint? The surface is the entry point for students who already have a paper in mind; Surfaces 2 and 3 are the entry points for students who do not. <strong>This surface answers admit/reject; Surface 4b answers ranked choice.</strong></div>
 
-  <h3>Mock layout</h3>
+  <h3>Two-path architecture (DK 2026-05-18 revision)</h3>
+  <div class="annot">DK's directive: the surface "should allow student to test if we have it in the corpus, if not they must upload and we test if it is in the topic set or close enough." Two paths follow naturally.
+
+  <em>Path A — paper is in the corpus.</em> The system already has the paper's fingerprint, Toulmin warrants, theory tags, IV/DV extraction, and any sidecars. The admit-mode evaluation runs against those existing records and returns immediately. The Ulrich (1984) worked example below shows this path.
+
+  <em>Path B — paper is not in the corpus.</em> The student uploads the PDF. The system runs a four-step ingest-decision pipeline. First, the adaptive paper-type classifier (<code>atlas_shared.AdaptiveClassifierSubsystem</code> per the reference-paths memory) classifies the paper. Second, an embedding-based similarity check identifies the five corpus papers closest to it; if the maximum similarity falls below a threshold the paper is rejected as out-of-scope, with a brief explanation. Third, if the similarity passes threshold the paper is mapped to the closest matching corpus topic; if no topic is close enough the paper is offered to the student as a candidate <em>new topic seed</em> rather than admitted to an existing one. Fourth, if a corpus topic match exists, a lightweight version of the V7 extraction pipeline (CW proposes calling it <em>V7-Lite</em>) runs the minimal subset of stages needed for admit-mode: fingerprint extraction, IV/DV identification, methods extraction, and a VR-suitability mapping of the DV against the measurability page. The full V7 pipeline — visual cropping, science-writer summary, full PNU extraction, Toulmin warrant decomposition — is queued asynchronously rather than blocking the student's evaluation. The student's evaluation is returned within minutes; the full ingest lands hours later and updates the article-viewer page.</div>
+
+  <h3>Path B — special process specification</h3>
+  <div class="annot">DK's directive: "This process would have to be specified — eg VOI, related articles, how close to existing articles etc., its IV and DV and whether they are VR suitable already or we need to propose different measures." The V7-Lite pipeline's output is therefore a structured record with the following fields, each of which becomes a row of the student-facing evaluation.
+
+  <em>Topic-fit.</em> The corpus topic to which the paper is closest, with a numerical similarity (cosine over embedding) and a list of the three nearest corpus papers. If similarity falls below the admission threshold, the field reports the rejection reason and ends.
+
+  <em>Related articles.</em> The five corpus papers most similar to the uploaded paper, ranked. Each is linkable to the article viewer. This serves the student's question "is the work I'm proposing already substantially done?".
+
+  <em>VOI on this topic, conditional on the uploaded paper.</em> The marginal contribution the uploaded paper would make were it brought into the corpus. Drawn from the VOI panel's operationalisation (see <a class="surface-link" href="#s5">Surface 5</a>) — high if the paper addresses an understudied intersection, low if it duplicates already-saturated coverage.
+
+  <em>IV.</em> Extracted operationalisation of the independent variable. Reported in the paper's own terms, with a flag if the IV is confounded with another known construct (e.g., daylight intensity confounded with thermal load).
+
+  <em>DV.</em> Extracted operationalisation of the dependent variable. Mapped against the VR-measurability page's positive and negative taxonomies (Surface 6, <code>ka_vr_measurability_content_2026-05-18.md</code>). The system reports one of: <em>VR-tractable as-is</em> (DV is on the positive list); <em>substitution available</em> (DV is on the negative list but a defensible substitute exists in the corpus); <em>not VR-tractable</em> (DV is on the negative list with no available substitute).
+
+  <em>Recommendation.</em> A summary line — admit, substitute, or reject — with the rationale.</div>
+
+  <h3>Mock layout — Path A (paper is in corpus)</h3>
   <div class="mock">
     <div class="mock-title" style="font-size:18px;font-family:Georgia,serif;">Evaluate a paper for my VR experiment</div>
-    <div class="mock-body">Paste a DOI or paper title. The system will tell you whether the paper's experimental setup can be reproduced in VR, what substitute measures would be needed if parts are not VR-tractable, and how the topic fits a 7-to-10-week project.</div>
+    <div class="mock-body">Paste a DOI or paper title. The system first checks whether we have the paper in the corpus. If yes (Path A), evaluation runs immediately. If no (Path B), we will ask you to upload the PDF and run the V7-Lite ingest pipeline before evaluating.</div>
 
     <div class="mock-card">
       <label style="font-size:12.5px;font-weight:600;">DOI or paper title:</label>
       <div style="background:white;border:1px solid var(--warm-border);padding:6px 10px;margin-top:4px;font-size:13px;color:var(--ink-soft);">10.1126/science.1100301 · Ulrich (1984) View through a window may influence recovery from surgery</div>
+      <div style="margin-top:4px;font-size:11.5px;color:#2C7A5C;">✓ In corpus (PDF-0011) — running admit-mode evaluation</div>
       <div style="margin-top:8px;">
         <a class="mock-cta">▶ Evaluate</a>
       </div>
@@ -589,14 +666,74 @@
     </div>
   </div>
 
+  <h3>Mock layout — Path B (paper is not in corpus; uploaded for ingest)</h3>
+  <div class="mock">
+    <div class="mock-card">
+      <label style="font-size:12.5px;font-weight:600;">DOI or paper title:</label>
+      <div style="background:white;border:1px solid var(--warm-border);padding:6px 10px;margin-top:4px;font-size:13px;color:var(--ink-soft);">10.1037/xge0001234 · Lee, Park &amp; Schultz (2025) Biophilic VR exposure and stress recovery in college students</div>
+      <div style="margin-top:4px;font-size:11.5px;color:#9A6800;">⚠ Not in corpus — please upload the PDF to continue</div>
+      <div style="margin-top:8px;">
+        <a class="mock-cta" style="background:#F2EBD8;color:var(--navy);border:1px solid var(--amber);">⬆ Upload PDF</a>
+      </div>
+    </div>
+
+    <div class="mock-card" style="background:white;border:1px solid var(--warm-border);">
+      <strong>V7-Lite ingest results: Lee, Park &amp; Schultz (2025)</strong>
+      <div style="font-size:11.5px;color:var(--ink-soft);margin-top:2px;">Ingest took ~3 min · full V7 pipeline (visual cropping, science-writer summary, full PNU extraction) queued; will land in ~2 h.</div>
+
+      <table class="mock-table" style="margin-top:12px;">
+        <tr><th style="width:24%;">Paper-type classification</th><td>Empirical · between-subjects experiment · single lab</td></tr>
+        <tr><th>Topic-fit</th><td>Closest corpus topic: <strong>Nature views and cognitive recovery</strong> (cosine similarity 0.82; threshold 0.55). <span class="mock-pill amber">In topic-set</span></td></tr>
+        <tr><th>Related articles (5 nearest)</th><td>
+          <ul class="tight" style="margin:0 0 0 16px;">
+            <li><a class="surface-link" href="ka_article_view.html?id=PDF-0007">Berman, Jonides &amp; Kaplan (2008)</a> · cosine 0.79</li>
+            <li><a class="surface-link" href="ka_article_view.html?id=PDF-0034">Hartig et al. (1991)</a> · cosine 0.74</li>
+            <li><a class="surface-link" href="ka_article_view.html?id=PDF-0211">van den Berg &amp; ter Heijne (2005)</a> · cosine 0.71</li>
+            <li><a class="surface-link" href="ka_article_view.html?id=PDF-0011">Ulrich (1984)</a> · cosine 0.68</li>
+            <li><a class="surface-link" href="ka_article_view.html?id=PDF-0089">Bratman et al. (2015)</a> · cosine 0.66</li>
+          </ul>
+        </td></tr>
+        <tr><th>VOI on this topic (conditional)</th><td><span class="mock-pill amber">Medium</span> · The uploaded paper would replicate Berman et al. (2008) with biophilic-VR stimuli and a Korean undergraduate sample. Targets WEIRD-extension (Target 10) and better-stimuli (Target 1) jointly; partially redundant with three existing corpus runs.</td></tr>
+        <tr><th>Independent variable</th><td>Biophilic VR scene (real-vegetation-photogrammetry) vs urban-VR scene · exposure duration 12 min · <span class="mock-pill muted">No known confound flagged</span></td></tr>
+        <tr><th>Dependent variable</th><td>Salivary cortisol (pre vs post) + backward digit span (pre vs post) + Perceived Restorativeness Scale</td></tr>
+        <tr><th>DV → VR-suitability mapping</th><td>
+          <ul class="tight" style="margin:0 0 0 16px;">
+            <li>Salivary cortisol → <span class="mock-pill muted">X5 (biomarker)</span> · substitution: EDA + HRV from Family 4 (confirmed in lab)</li>
+            <li>Backward digit span → <span class="mock-pill amber">F2 task-embedded</span> · admissible as-is</li>
+            <li>Perceived Restorativeness Scale → <span class="mock-pill amber">F3 self-report</span> · admissible as-is</li>
+          </ul>
+        </td></tr>
+        <tr><th>Recommendation</th><td><strong style="color:#2C7A5C;">Admit with substitution</strong>: replace salivary cortisol with EDA + HRV (lab-confirmed); keep backward digit span and PRS unchanged. The substituted design is fully VR-tractable in 7–10 weeks; topic is medium-VOI as a partial-replication-with-extension.</td></tr>
+      </table>
+
+      <div style="margin-top:14px;">
+        <a class="mock-cta" href="#s3">▶ Open the related topic page</a>
+        <a class="mock-cta" style="background:#F4F8F6;color:var(--navy);border:1px solid #B9D7C7;" href="#s3-shortlist">★ Add this paper + topic to my short-list</a>
+        <a class="mock-cta" style="background:white;color:var(--navy);border:1px solid var(--warm-border);">↶ Try another paper</a>
+      </div>
+    </div>
+
+    <div class="mock-card" style="background:#FFF7F0;border:1px solid #E8C7A0;">
+      <strong style="color:#9A4D00;">When V7-Lite rejects an upload (illustrative)</strong>
+      <div style="margin-top:6px;font-size:13px;color:var(--ink-mid);">Example: a student uploads a paper on default-mode network connectivity during meditation. The classifier identifies it as empirical-fMRI; the embedding similarity to the nearest corpus topic ("attention restoration") is 0.41, below the 0.55 threshold. The system rejects the paper as out-of-scope, with the rationale: <em>"This paper is on neural correlates of meditation, a topic outside the current Atlas corpus on architectural cognition. The three closest corpus topics — attention restoration, mindfulness in built environments, and stress recovery — share some construct vocabulary but not the same intervention domain. Consider either picking from these closest corpus topics, or proposing your paper as a new-topic seed (instructor approval required)."</em></div>
+    </div>
+  </div>
+
   <h3>Annotations</h3>
+  <div class="annot">The two-path branching (Path A in-corpus, Path B uploaded-with-V7-Lite-ingest) is the single most important addition from DK's 2026-05-18 review. The previous draft assumed every paper a student wants to evaluate already exists in the corpus — an unsafe assumption given that students bring papers from outside readings, coffee-shop discoveries, and the broader literature their professors recommend. Path B closes the gap.</div>
+  <div class="annot">The V7-Lite pipeline is a new piece of infrastructure. CW proposes it run the minimum subset of stages needed for the admit-mode evaluation (fingerprint, IV/DV extraction, methods extraction, VR-suitability mapping) while queuing the full V7 pipeline (visual cropping, science-writer summary, full PNU extraction, Toulmin warrants) for asynchronous completion. The student's evaluation returns within minutes; the full ingest lands hours later and incrementally upgrades the article-viewer page for the uploaded paper.</div>
+  <div class="annot">The rejection card (illustrative) is the third outcome the path B pipeline can produce. The substantive design choice: rejection must be explanatory rather than terse. A student who gets a rejection should understand why their paper falls outside the corpus and what they could do instead — pick from related corpus topics, or propose their paper as a new-topic seed for instructor review.</div>
   <div class="annot">The substitution panel is the most consequential single piece of the Week-1 journey. It does real methodological reasoning: identify the underlying construct, find VR-tractable measures of that construct, surface the related papers, flag the project-feasibility implications.</div>
   <div class="annot">The output is not "no" or "yes" — it is a structured evaluation that opens the related topic page if a substitute path exists. Even when the original paper is non-VR-tractable (Ulrich here), the path to a VR experiment is preserved through the analogues.</div>
 
   <h3>Dependencies</h3>
   <div class="dependency">The substitution agent itself does not yet exist. Building it requires (a) the instrument registry to carry construct-operationalisation information uniformly across the corpus; (b) a ranking heuristic over candidate substitutes; (c) an explanation generator that produces the prose evaluation. This is a substantial Codex prompt and should be the most urgent of the new builds.</div>
-  <div class="dependency">VR-tractability tags per measure require the VR-measurability content (<a class="surface-link" href="#s6">Surface 6</a>) to exist in machine-readable form, not just as a static explainer page.</div>
+  <div class="dependency">VR-tractability tags per measure require the VR-measurability content (<a class="surface-link" href="#s6">Surface 6</a>) to exist in machine-readable form, not just as a static explainer page. The quick-reference table in <code>160sp/ka_vr_measurability_content_2026-05-18.md</code> includes short codes (<code>f1.head_pose</code>, <code>f2.iat</code>, <code>f4.eda</code> ...) for that purpose; a JSON sidecar should be derived from the table.</div>
   <div class="dependency">Project-feasibility assessment ("7-to-10-week feasibility") requires a small rule set: clinical population → no, multi-day exposure → no, fMRI → no, lab analogue with class-internal sample → yes. This rule set should be codified once and applied uniformly.</div>
+  <div class="dependency"><strong>V7-Lite ingest pipeline (Path B, new).</strong> Codex owns the V7 pipeline. CW proposes V7-Lite as a subset: stages for (i) paper-type classification via <code>atlas_shared.AdaptiveClassifierSubsystem</code>, (ii) topic-fit embedding similarity, (iii) IV/DV extraction, (iv) methods extraction, (v) VR-suitability mapping against the measurability page short codes. The full V7 (visual cropping, science-writer summary, full PNU extraction, Toulmin warrants) runs asynchronously after the student's evaluation returns. Codex prompt to be drafted in a follow-up sprint.</div>
+  <div class="dependency"><strong>Topic-similarity threshold.</strong> The 0.55 cosine threshold shown in the Path B mock is illustrative and needs calibration. A reasonable calibration protocol: hold out ten in-corpus papers per topic, compute their cosine similarity to the rest of the corpus, set the threshold so that 95% of held-out papers admit to their correct topic. Threshold becomes a per-topic parameter rather than a single global value.</div>
+  <div class="dependency"><strong>New-topic-seed path.</strong> When the uploaded paper does not match any existing topic but is otherwise plausible, the system offers it as a new-topic seed for instructor review. This is a flag-for-instructor flow rather than an auto-admit; design the queue interface and notification path.</div>
+  <div class="dependency"><strong>VOI conditional on uploaded paper.</strong> The VOI computation for Path B is conditional VOI ("what would this paper add given the existing corpus?") rather than topic-level VOI ("how saturated is this topic?"). Both are needed and the panel should clarify which the VOI surface (Surface 5) should produce in each context.</div>
 
   <h3>Decisions</h3>
   <div class="decision">Should the surface accept a free-text paper title or only a DOI? CW recommends both, but DOI takes priority — the system can look up the structured record. Free text becomes a search.</div>
@@ -814,6 +951,114 @@
 
   <h3>Dependencies</h3>
   <div class="dependency">Content extraction from the source design guide is small (Codex prompt: extract the §6 pitfalls plus §5 standards, render as a student-facing page).</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 7b — Cook & Campbell's four validities (showcase)
+     ===================================================== -->
+<section class="surface" id="s7b">
+  <h2>Surface 7b · Cook &amp; Campbell's four validities — showcase</h2>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s1">Surface 1</a>, from <a class="surface-link" href="#s7">Surface 7</a>, and from the "Why is this contested?" CTA on contested DYK cards · file: <code>ka_validities_showcase.html</code> (new) · added per DK 2026-05-18: "You must also showcase Cook &amp; Campbell's classic four validities"</div>
+
+  <h3>What this surface is for</h3>
+  <div class="annot">A standalone showcase of the four-validities taxonomy that descends from Campbell &amp; Stanley (1963), reached its canonical statement in Cook &amp; Campbell (1979), and is updated in Shadish, Cook &amp; Campbell (2002). The taxonomy organises the threats a study faces into four categories — <em>internal</em>, <em>external</em>, <em>construct</em>, and <em>statistical conclusion</em> validity — and is the standard frame Cognitive Science methodology courses use. The surface is intentionally separated from Surface 7 (the broader methodological-pitfalls explainer) because Cook &amp; Campbell's framework deserves direct exposure rather than being subsumed; the broader page covers replication-crisis pitfalls, construct-proliferation, WEIRD-bias, demand characteristics, and VR-specific issues that Cook &amp; Campbell do not cover (because they predate them).</div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <div class="mock-title" style="font-size:20px;font-family:Georgia,serif;">Cook &amp; Campbell's four validities</div>
+    <div class="mock-body">Every experimental claim can be challenged on four independent grounds. The taxonomy below is the canonical organisation. On each card, the threats are the standard list in Shadish, Cook &amp; Campbell (2002), §2; the bold prose explains what the validity asks of your study.</div>
+
+    <!-- Four-card grid -->
+    <div class="mock-row" style="display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:12px;">
+
+      <div class="mock-card" style="background:#FBF7EE;border:1px solid #D7BC6C;">
+        <strong style="color:#7A5400;font-size:15px;">1 · Internal validity</strong>
+        <div style="margin-top:4px;font-size:13px;font-style:italic;color:var(--ink-mid);">Did the manipulation cause the change in the outcome, within this study?</div>
+        <div style="margin-top:8px;font-size:12.5px;color:var(--ink-mid);">Classic threats:</div>
+        <ul class="tight" style="font-size:12.5px;">
+          <li><strong>History.</strong> An event other than the manipulation co-occurs and may have caused the effect.</li>
+          <li><strong>Maturation.</strong> Participants change over time independently of the manipulation.</li>
+          <li><strong>Testing.</strong> The pre-test itself changes the post-test score.</li>
+          <li><strong>Instrumentation.</strong> The measure changes between pre and post (different rater, different calibration).</li>
+          <li><strong>Statistical regression.</strong> Extreme baseline scores naturally regress toward the mean.</li>
+          <li><strong>Selection.</strong> Groups differed before the manipulation began.</li>
+          <li><strong>Attrition.</strong> Participants drop out differentially between conditions.</li>
+          <li><strong>Ambiguous temporal precedence.</strong> Unclear which variable changed first.</li>
+        </ul>
+        <div style="margin-top:6px;font-size:11.5px;color:var(--ink-soft);">For your VR project: random assignment, blinding to condition, equating exposure duration, and adequate within-Ss baselines address most of these.</div>
+      </div>
+
+      <div class="mock-card" style="background:#F0F5FB;border:1px solid #8AB1D8;">
+        <strong style="color:#21487A;font-size:15px;">2 · External validity</strong>
+        <div style="margin-top:4px;font-size:13px;font-style:italic;color:var(--ink-mid);">Does the effect generalise — to other people, other settings, other times?</div>
+        <div style="margin-top:8px;font-size:12.5px;color:var(--ink-mid);">Classic threats:</div>
+        <ul class="tight" style="font-size:12.5px;">
+          <li><strong>Interaction of selection with treatment.</strong> The effect works only for the kind of person you sampled.</li>
+          <li><strong>Interaction of setting with treatment.</strong> The effect works only in your lab or your VR.</li>
+          <li><strong>Interaction of history with treatment.</strong> The effect works only at this point in time.</li>
+        </ul>
+        <div style="margin-top:6px;font-size:11.5px;color:var(--ink-soft);">For your VR project: report your sample's demographic composition and acknowledge VR-specific scope; do not over-claim transfer to the real world unless your design tests it (X4 in the VR-measurability page).</div>
+      </div>
+
+      <div class="mock-card" style="background:#F4F0F8;border:1px solid #B79BD5;">
+        <strong style="color:#5C3A8C;font-size:15px;">3 · Construct validity</strong>
+        <div style="margin-top:4px;font-size:13px;font-style:italic;color:var(--ink-mid);">Are your independent and dependent variables actually measuring what you say they are?</div>
+        <div style="margin-top:8px;font-size:12.5px;color:var(--ink-mid);">Classic threats:</div>
+        <ul class="tight" style="font-size:12.5px;">
+          <li><strong>Inadequate explication of constructs.</strong> The construct is too vague to operationalise unambiguously.</li>
+          <li><strong>Mono-operation bias.</strong> Only one operationalisation of the IV — others might not produce the effect.</li>
+          <li><strong>Mono-method bias.</strong> Only one measurement method for the DV — biases shared across methods inflate the result.</li>
+          <li><strong>Confounding constructs with levels.</strong> Different levels of the IV co-vary with different constructs.</li>
+          <li><strong>Experimenter expectancies.</strong> The experimenter unconsciously cues participants.</li>
+          <li><strong>Novelty and disruption effects.</strong> The participant responds to the novelty of the situation, not the manipulation.</li>
+        </ul>
+        <div style="margin-top:6px;font-size:11.5px;color:var(--ink-soft);">For your VR project: pair a behavioural measure (F2) with a self-report measure (F3); if they converge, the construct claim is stronger.</div>
+      </div>
+
+      <div class="mock-card" style="background:#EFF6F0;border:1px solid #91BDA1;">
+        <strong style="color:#2C6A45;font-size:15px;">4 · Statistical conclusion validity</strong>
+        <div style="margin-top:4px;font-size:13px;font-style:italic;color:var(--ink-mid);">Given your data, is the inference to "there is an effect" statistically warranted?</div>
+        <div style="margin-top:8px;font-size:12.5px;color:var(--ink-mid);">Classic threats:</div>
+        <ul class="tight" style="font-size:12.5px;">
+          <li><strong>Low statistical power.</strong> Too few participants to detect the effect you are after.</li>
+          <li><strong>Violated assumptions of statistical tests.</strong> Normality, independence, equal variances.</li>
+          <li><strong>Fishing and the error rate problem.</strong> Multiple comparisons inflate false-positive rates.</li>
+          <li><strong>Unreliability of measures.</strong> Noisy measurement attenuates the effect estimate.</li>
+          <li><strong>Restriction of range.</strong> Truncated IV or DV reduces detectable variance.</li>
+          <li><strong>Unreliability of treatment implementation.</strong> The manipulation was not delivered the same way every time.</li>
+        </ul>
+        <div style="margin-top:6px;font-size:11.5px;color:var(--ink-soft);">For your VR project: do a power calculation in Week 2 (Cohen 1988 standard tables suffice for a class project); pre-specify your statistical test; report effect sizes with confidence intervals, not just p-values.</div>
+      </div>
+
+    </div>
+
+    <!-- Worked example: contested ceiling-height finding -->
+    <div class="mock-card" style="background:#FFFDF7;border:1px solid var(--amber);margin-top:14px;">
+      <strong style="color:var(--amber-dk);">Worked example — why the ceiling-height finding is contested</strong>
+      <div style="margin-top:6px;font-size:13px;color:var(--ink-mid);">The Meyers-Levy &amp; Zhu (2007) finding that ≥3.0 m ceilings bias toward divergent thinking is a Construct-validity-and-Internal-validity puzzle.
+
+      The <em>construct-validity</em> challenge: the manipulation (high vs low ceiling photographs) co-varies with several constructs — perceived spaciousness, lighting variation, the visible-vegetation fraction in some images. The reported divergent-thinking effect could index any of them, not specifically "ceiling height."
+
+      The <em>internal-validity</em> challenge in the replications: the failed replication studies used different image sets, different presentation durations, and different participant populations. Whether the failures are evidence against the effect or against the operationalisation is itself contested.
+
+      <em>What you would have to do</em> to settle it: a within-subjects design that varies ceiling height holding other room properties constant, with an independent measure of perceived spaciousness as a covariate. This is a tractable Week-1 topic if you accept that you are testing a more carefully specified version of the original claim.</div>
+    </div>
+
+    <div style="margin-top:14px;font-size:13px;display:flex;gap:14px;flex-wrap:wrap;">
+      <a class="mock-cta" href="#s7">▶ Back to broader pitfalls explainer (Surface 7)</a>
+      <a class="mock-cta" style="background:white;color:var(--navy);border:1px solid var(--warm-border);" href="ka_validities_self_check.html">📝 Self-check: annotate your own design against the four validities</a>
+    </div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">The four-card grid is the showcase DK asked for. Each card stands alone; a student can return to one card when they encounter a specific threat in their design work.</div>
+  <div class="annot">The contested-finding worked example (ceiling height) is the link to the DYK browser: the "Why is this contested?" CTA on the ceiling-height DYK card (Surface 2) opens this surface scrolled to the worked example.</div>
+  <div class="annot">A separate self-check page is contemplated as a follow-on (<code>ka_validities_self_check.html</code>): the student enters their design and the page guides them through annotating each card with how their design addresses or fails to address each threat. This is a UJ task to be scoped later.</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">Content draws from Cook &amp; Campbell (1979) and Shadish, Cook &amp; Campbell (2002). No corpus extraction needed; this is reference content.</div>
+  <div class="dependency">Cross-link from contested DYK cards (Surface 2) requires the "contested" tag on DYK card schema and an anchor target on this surface. Schema add: <code>contested_validity_threat: [construct | internal | external | statistical]</code> per contested card so the cross-link can scroll to the relevant card.</div>
+  <div class="dependency">Self-check page (<code>ka_validities_self_check.html</code>) is a Track-4-style interactive exercise; scope is a UJ task.</div>
 </section>
 
 <!-- =====================================================
