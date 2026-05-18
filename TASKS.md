@@ -4,6 +4,22 @@
 
 ---
 
+## Newly Added — 2026-05-18 (User-journey design response)
+
+These follow from DK's inline comments on `USER_JOURNEYS_THINKING_2026-05-17.md`. The design response lives at `docs/USER_JOURNEY_COMMENTS_RESPONSE_2026-05-18.md`; the VOI panel context (DK comment 7) lives at `docs/VOI_OPERATIONALISATION_PANEL_CONTEXT_2026-05-17.md`.
+
+| ID | Task | Owner | Context |
+|----|------|-------|---------|
+| UJ-1 | **Draft the VR-measurability page** | CW | Four positive measure families (behavioural traces, task-embedded performance, verbal/questionnaire self-report, wearable physiology) plus five negative-list exclusions (fMRI, long-term field outcomes, multi-party social signals, real-world transfer claims, pharmacological/biomarker). ~2,500 words. Close with substitution-principle transition into UJ-2. References from `docs/USER_JOURNEY_COMMENTS_RESPONSE_2026-05-18.md` §1. Unblocked. |
+| UJ-2 | **Substitution-skill data schema and refusal-criteria spec** | CW + Codex | Three knowledge-base tables (construct→measure, measure→VR-feasibility, measure→measure substitutability) plus generative-layer prompts and confidence-display design. Single point of failure for COGS 160 Fall pipeline — student who is told a substitution exists when it doesn't will design indefensible experiment. **Blocked on panel input** (Machery on construct proliferation; Mayo on refusal criteria). |
+| UJ-3 | **Differentiation-table HTML mockup for an 8-paper bibliography** | CW + Track 4 UX | Ten-column schema per `docs/USER_JOURNEY_COMMENTS_RESPONSE_2026-05-18.md` §3. Interactive faceting; LLM-generated "what differentiates these" paragraph on selected subsets. Pick one topic from the corpus (attention restoration is a good candidate per the worked example) and build the static mockup first; wire interactivity in a second pass. Unblocked. |
+| UJ-4 | **Citation-graph minimal-viable view (researcher bibliography)** | CW + Track 1 | Three-layer build: (a) Connected-Papers-style force-directed graph; (b) Scite.ai-style supporting/contrasting/mentioning edge labels from corpus-internal extraction; (c) topic-cluster colouring. Open question: D3.js vs Cytoscape.js (latter has better network-specific affordances). Defer VOSviewer-style displays to an "advanced view" page. |
+| UJ-5 | **Revise Week-1 wireframe: surface substitution skill in both admit-mode and choice-mode** | CW | Current `160sp/ka_week1_wireframe_2026-05-17.html` Surface 4 only addresses admit-mode. Add Week-3 measure-choice variant that exposes the ranking output of the substitution skill alongside psychometric histories. Worked example: attention restoration topic, four admissible measures (pupillometry, SART, PRS, ANT). Unblocked. |
+| UJ-6 | **Methodological-pitfalls page (~5,000 words)** | CW | Six-section structure per `docs/USER_JOURNEY_COMMENTS_RESPONSE_2026-05-18.md` §6: Cook-Campbell validity threats; replication-crisis pitfalls; construct-validity beyond Campbell-Fiske; sample-related (WEIRD, convenience); VR-specific (presence confound, hardware effects, novel-medium); theory-and-explanation pitfalls (Lakatos, Kuhn, Orne, Rosenthal). Green/yellow/red tagging for student-tolerable vs researcher-required. **Blocked on panel review of tagging** (Mayo + Machery). |
+| UJ-7 | **Per-panelist briefing letters for VOI panel** | CW | One page each, tailored to which of the ten panel questions each panelist's expertise is most central to. Pearl, Gelman, Thagard, Mayo, Machery, Buzsáki, Longino. **Blocked on DK approval of panel composition** per `docs/VOI_OPERATIONALISATION_PANEL_CONTEXT_2026-05-17.md`. |
+
+---
+
 ## Newly Added — 2026-04-25 (Paper-quality follow-ups)
 
 | ID | Task | Owner | Context |
