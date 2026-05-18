@@ -1769,16 +1769,68 @@ def _extract_abstract_from_text(text: str) -> str:
     return text[:300].strip()
 
 
+_TITLE_NOISE_PREFIXES = ("http", "doi", "volume", "journal", "page ", "p.", "vol.",
+                         "issn", "isbn", "©", "received", "accepted", "published")
+
+# Patterns that signal author lines or affiliation blocks (not the title)
+_AUTHOR_AFFIL_RE = re.compile(
+    r"\b(PhD|MD|MSc|MS|BSc|BA|MA|Prof\.?|Dr\.?|"
+    r"University|Universit[éy]|Institute|Institut|Department|Dept\.?|"
+    r"School of|College of|Center for|Centre for|Laboratory|Hospital|Email)\b"
+)
+
+
+def _looks_like_title_line(s: str) -> bool:
+    """A plausible paper-title line. Excludes journal banners, running heads,
+    author lines (PhD/MD honorifics), and affiliation blocks (University etc.).
+    """
+    if len(s) < 15 or len(s) > 250:
+        return False
+    low = s.lower()
+    if low.startswith(_TITLE_NOISE_PREFIXES):
+        return False
+    if _AUTHOR_AFFIL_RE.search(s):
+        return False
+    # Running heads / journal banners are usually all-caps
+    alpha = [c for c in s if c.isalpha()]
+    if alpha and sum(1 for c in alpha if c.isupper()) / len(alpha) > 0.85:
+        return False
+    return True
+
+
 def _extract_title_from_text(text: str, fallback: str = "") -> str:
+    """Best-effort title extraction from the first page of PDF text.
+
+    Strategy (highest-confidence first):
+      1. If 'Abstract' appears in the first 4000 chars, pick the longest
+         title-shaped line above it. This is reliable on most journal PDFs:
+         the title sits between the banner/affiliations and the abstract.
+      2. Otherwise, return the first line that satisfies _looks_like_title_line.
+      3. Else, fall back to the caller-supplied fallback (typically filename).
+    """
     if not text.strip():
         return fallback
-    lines = [line.strip() for line in text.splitlines() if len(line.strip()) > 10]
-    if not lines:
-        return fallback
-    candidate = lines[0][:200]
-    if candidate.lower().startswith(("http", "doi", "volume", "journal")):
-        return fallback
-    return candidate if len(candidate) > 15 else fallback
+
+    # Strategy 1: line-before-Abstract heuristic
+    head = text[:4000]
+    abs_match = re.search(r"(?i)\babstract\b", head)
+    if abs_match:
+        before = head[:abs_match.start()]
+        candidates = [ln.strip() for ln in before.splitlines() if _looks_like_title_line(ln.strip())]
+        if candidates:
+            # Prefer the longest title-shaped line — paper titles usually
+            # dominate the banner/affiliation lines around them.
+            best = max(candidates, key=len)
+            return best[:200]
+
+    # Strategy 2: first plausible line
+    for line in text.splitlines():
+        line = line.strip()
+        if _looks_like_title_line(line):
+            return line[:200]
+
+    # Strategy 3: fallback
+    return fallback
 
 
 def _map_shared_article_type_to_ka_bucket(shared_label: str) -> str:
