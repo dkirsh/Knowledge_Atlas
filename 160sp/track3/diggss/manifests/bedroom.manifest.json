@@ -1,0 +1,90 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "ka://manifests/bedroom.v2",
+  "title": "Bedroom Parameter Manifest",
+  "description": "Parametric controls for COGS 160 VR Bedroom pipeline.",
+  "infinigen_entity": "infinigen.entities.Bedroom",
+  "type": "object",
+  "additionalProperties": false,
+  "properties": {
+    "ceiling_height_m": {
+      "type": "number",
+      "minimum": 2.0,
+      "maximum": 4.0,
+      "default": 2.7,
+      "unit": "meters",
+      "description": "Vertical distance from floor to ceiling.",
+      "citation": "Meyers-Levy & Zhu (2007)",
+      "rationale": "Ceiling height primes different levels of mental abstraction."
+    },
+    "wall_thickness_m": {
+      "type": "number",
+      "minimum": 0.1,
+      "maximum": 0.5,
+      "default": 0.2,
+      "unit": "meters",
+      "description": "Thickness of the enclosing walls.",
+      "citation": "Vartanian et al. (2015)",
+      "rationale": "Perception of massiveness impacts enclosure and approach-avoidance decisions."
+    },
+    "daylight_intensity": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.2,
+      "unit": "fraction",
+      "description": "Intensity of the external sun/sky lighting.",
+      "citation": "Münch et al. (2020)",
+      "rationale": "Daylight intensity affects physiological arousal and circadian alignment."
+    },
+    "sun_elevation_deg": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 90.0,
+      "default": 45.0,
+      "unit": "degrees",
+      "description": "Elevation angle of the sun. Lower = sunset/sunrise, higher = midday.",
+      "citation": "Kaplan & Kaplan (1989)",
+      "rationale": "Time of day cues alter cognitive fatigue and soft fascination."
+    },
+    "dust_density": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 2.0,
+      "default": 1.0,
+      "unit": "fraction",
+      "description": "Atmospheric dust density affecting haze and light scattering.",
+      "citation": "Joye (2007)",
+      "rationale": "Atmospheric haze modulates perception of depth and environmental cleanliness."
+    },
+    "camera_exposure": {
+      "type": "number",
+      "minimum": -5.0,
+      "maximum": 5.0,
+      "default": 0.0,
+      "unit": "EV",
+      "description": "Baseline camera exposure compensation for the scene.",
+      "citation": "Ulrich (1991)",
+      "rationale": "Visual clarity and brightness impact baseline wellness perceptions."
+    },
+    "lighting_warmth": {
+      "type": "number",
+      "minimum": 0.0,
+      "maximum": 1.0,
+      "default": 0.8,
+      "unit": "fraction",
+      "description": "Warmth of interior artificial light (0=Cool/Blue, 1=Warm/Amber).",
+      "citation": "Münch et al. (2020)",
+      "rationale": "Spectral composition affects melatonin and circadian health."
+    }
+  },
+  "required": [
+    "ceiling_height_m",
+    "wall_thickness_m",
+    "daylight_intensity",
+    "sun_elevation_deg",
+    "dust_density",
+    "camera_exposure",
+    "lighting_warmth"
+  ]
+}
