@@ -1,0 +1,83 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "$id": "https://kirsh.atlas/cogs160/classifier_response.legacy.json",
+  "$comment": "Pre-merge schema. This describes the response shape produced by ka_article_endpoints.submit_articles BEFORE the Track-2 classifier-integration PR ships. It has no `classifier` sub-object on items and no `contract_version` field at the top level. After the PR ships, validators select `classifier_response.json` instead by checking for the presence of `contract_version` at the top level.",
+  "title": "POST /api/articles/submit response (pre-merge, legacy)",
+  "description": "Captures the response shape produced by lines 732-919 of ka_article_endpoints.py at the time this contract was drafted (2026-05-09). Documented so consumers can branch on response shape during the rollout window without ambiguity.",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["submission_id", "items", "summary"],
+  "properties": {
+    "submission_id": {
+      "type": "string",
+      "pattern": "^KA-IN-\\d{6}$"
+    },
+    "items": {
+      "type": "array",
+      "items": { "$ref": "#/$defs/legacy_item" }
+    },
+    "summary": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["total", "staged", "duplicates", "rejected"],
+      "properties": {
+        "total":      { "type": "integer", "minimum": 0 },
+        "staged":     { "type": "integer", "minimum": 0 },
+        "duplicates": { "type": "integer", "minimum": 0 },
+        "rejected":   { "type": "integer", "minimum": 0 }
+      }
+    }
+  },
+
+  "$defs": {
+    "legacy_item": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": [
+        "article_id",
+        "input_mode",
+        "validation_status",
+        "duplicate_status",
+        "metadata",
+        "status"
+      ],
+      "properties": {
+        "article_id": { "type": "string", "pattern": "^KA-ART-\\d{6}$" },
+        "input_mode": { "type": "string", "enum": ["pdf_single", "citation_text"] },
+        "filename":   { "type": "string", "maxLength": 255 },
+        "citation":   { "type": "string", "maxLength": 200 },
+        "validation_status": { "type": "string", "enum": ["valid", "invalid", "accepted"] },
+        "duplicate_status":  { "type": "string", "enum": ["not_checked", "not_duplicate", "duplicate"] },
+        "duplicate_of": {
+          "oneOf": [
+            { "type": "null" },
+            { "type": "string", "pattern": "^KA-ART-\\d{6}$" }
+          ]
+        },
+        "metadata": {
+          "type": "object",
+          "additionalProperties": true,
+          "properties": {
+            "doi":        { "type": ["string", "null"], "maxLength": 200 },
+            "confidence": { "type": ["string", "null"], "enum": ["low", "medium", "high", null] }
+          }
+        },
+        "status": {
+          "type": "string",
+          "enum": [
+            "staged_pending_review",
+            "duplicate_existing",
+            "rejected_bad_file"
+          ]
+        },
+        "reason":   { "type": ["string", "null"], "maxLength": 200 },
+        "a0_task":  { "type": ["string", "null"], "enum": ["task1", "task2", null] },
+        "article_type": {
+          "type": ["string", "null"],
+          "enum": ["experimental", "review", "theory", "mechanism", "meta_analysis", "other", null]
+        },
+        "counts_toward_requirement": { "type": "boolean" }
+      }
+    }
+  }
+}
