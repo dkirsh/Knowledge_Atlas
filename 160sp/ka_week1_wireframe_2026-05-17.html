@@ -1,0 +1,888 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Week 1 Journey Wireframe · COGS 160 Fall</title>
+<style>
+  :root {
+    --navy: #1C3D3A;
+    --teal: #2A7868;
+    --teal-bg: #E6F5F0;
+    --amber: #E8872A;
+    --amber-bg: #FFF3E0;
+    --amber-dk: #9a5010;
+    --cream: #F7F4EF;
+    --warm-border: #E0D8CC;
+    --ink: #1f2a2a;
+    --ink-mid: #4a5757;
+    --ink-soft: #6e7c7c;
+    --note-bg: #FAF7F1;
+    --dep-bg: #FCF0E8;
+    --dep-border: #E8872A;
+  }
+  * { box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: var(--ink);
+    background: var(--cream);
+    line-height: 1.55;
+    margin: 0;
+    padding: 0;
+  }
+  header.doc-header {
+    background: var(--navy);
+    color: white;
+    padding: 24px 36px;
+  }
+  header.doc-header h1 {
+    margin: 0 0 6px;
+    font-family: Georgia, serif;
+    font-size: 22px;
+  }
+  header.doc-header .meta {
+    color: #BDD8D2;
+    font-size: 13px;
+  }
+  nav.toc {
+    background: white;
+    border-bottom: 1px solid var(--warm-border);
+    padding: 14px 36px;
+    position: sticky;
+    top: 0;
+    z-index: 10;
+  }
+  nav.toc ul { margin: 0; padding: 0; list-style: none; display: flex; flex-wrap: wrap; gap: 6px 18px; font-size: 13px; }
+  nav.toc a { color: var(--teal); text-decoration: none; }
+  nav.toc a:hover { text-decoration: underline; }
+  nav.toc strong { color: var(--ink-mid); font-weight: 600; margin-right: 6px; }
+  main { max-width: 1080px; margin: 0 auto; padding: 32px 36px 80px; }
+  section.surface {
+    background: white;
+    border: 1px solid var(--warm-border);
+    border-radius: 6px;
+    padding: 26px 32px;
+    margin-bottom: 32px;
+  }
+  section.surface > h2 {
+    font-family: Georgia, serif;
+    color: var(--navy);
+    margin: 0 0 4px;
+    font-size: 22px;
+  }
+  section.surface > .surface-meta {
+    font-size: 13px;
+    color: var(--ink-soft);
+    margin-bottom: 18px;
+  }
+  section.surface > h3 {
+    font-family: Georgia, serif;
+    color: var(--teal);
+    font-size: 16px;
+    border-bottom: 1px solid var(--warm-border);
+    padding-bottom: 4px;
+    margin: 28px 0 12px;
+  }
+  /* Mock UI styling */
+  .mock {
+    border: 1px dashed #9DB4AB;
+    background: var(--teal-bg);
+    border-radius: 5px;
+    padding: 16px 18px;
+    margin: 10px 0;
+  }
+  .mock-title {
+    color: var(--navy);
+    font-weight: 700;
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  .mock-body { font-size: 13.5px; color: var(--ink-mid); }
+  .mock-card {
+    background: white;
+    border: 1px solid var(--warm-border);
+    border-radius: 4px;
+    padding: 10px 12px;
+    margin: 6px 0;
+    font-size: 13px;
+  }
+  .mock-cta {
+    display: inline-block;
+    background: var(--amber);
+    color: white;
+    padding: 6px 12px;
+    border-radius: 4px;
+    font-size: 12.5px;
+    font-weight: 600;
+    margin-right: 8px;
+  }
+  .mock-pill {
+    display: inline-block;
+    background: var(--teal);
+    color: white;
+    padding: 2px 8px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    margin: 1px 4px 1px 0;
+  }
+  .mock-pill.amber { background: var(--amber); }
+  .mock-pill.muted { background: #B3BDB9; }
+  .mock-row { display: flex; gap: 12px; flex-wrap: wrap; margin: 6px 0; align-items: center; font-size: 13px; }
+  .mock-week-indicator {
+    background: var(--amber);
+    color: white;
+    padding: 6px 14px;
+    border-radius: 4px;
+    font-weight: 700;
+    font-size: 13px;
+    display: inline-block;
+  }
+  table.mock-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 12.5px;
+    margin: 8px 0;
+  }
+  table.mock-table th, table.mock-table td {
+    border: 1px solid var(--warm-border);
+    padding: 5px 8px;
+    text-align: left;
+    vertical-align: top;
+  }
+  table.mock-table th { background: #F4F0E8; color: var(--navy); font-weight: 600; }
+  /* Annotations */
+  .annot {
+    background: var(--note-bg);
+    border-left: 3px solid var(--ink-soft);
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 13px;
+    font-style: italic;
+    color: var(--ink-mid);
+  }
+  .annot::before { content: "Note: "; font-weight: 700; font-style: normal; color: var(--ink); }
+  .dependency {
+    background: var(--dep-bg);
+    border-left: 3px solid var(--dep-border);
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: var(--amber-dk);
+  }
+  .dependency::before { content: "⚠ Depends on: "; font-weight: 700; }
+  .decision {
+    background: #F2EEF8;
+    border-left: 3px solid #6B53B8;
+    padding: 10px 14px;
+    margin: 12px 0;
+    font-size: 13px;
+    color: #3F2E80;
+  }
+  .decision::before { content: "Decision: "; font-weight: 700; }
+  ul.tight { margin: 6px 0; padding-left: 22px; }
+  ul.tight li { margin-bottom: 3px; font-size: 13.5px; }
+  /* Inline links */
+  a.surface-link {
+    color: var(--teal);
+    text-decoration: none;
+    font-weight: 600;
+  }
+  a.surface-link:hover { text-decoration: underline; }
+  .badge {
+    display: inline-block;
+    background: var(--teal-bg);
+    color: var(--navy);
+    padding: 1px 8px;
+    border-radius: 3px;
+    font-size: 11.5px;
+    font-weight: 600;
+    margin-left: 6px;
+  }
+  .timeline-note {
+    background: #F4F8F6;
+    border: 1px solid #B5D1C5;
+    border-radius: 5px;
+    padding: 14px 18px;
+    margin: 20px 0;
+    font-size: 13.5px;
+  }
+  .timeline-note strong { color: var(--navy); }
+</style>
+</head>
+<body>
+
+<header class="doc-header">
+  <h1>Week 1 Journey · Wireframe for COGS 160 Fall students</h1>
+  <div class="meta">
+    Paper-fidelity wireframe · 2026-05-17 · CW for DK review · Single document · Internal href anchors
+    · Companion to <code>docs/USER_JOURNEYS_THINKING_2026-05-17.md</code>
+  </div>
+</header>
+
+<nav class="toc">
+  <ul>
+    <li><strong>Surfaces:</strong></li>
+    <li><a href="#s1">1 · Week-1 landing</a></li>
+    <li><a href="#s2">2 · DYK-driven topic browser</a></li>
+    <li><a href="#s3">3 · Per-topic page</a></li>
+    <li><a href="#s4">4 · Evaluate-a-paper for VR</a></li>
+    <li><a href="#s5">5 · VOI panel (in-context)</a></li>
+    <li><a href="#s6">6 · VR-measurability explainer</a></li>
+    <li><a href="#s7">7 · Methodological-pitfalls explainer</a></li>
+    <li><a href="#s8">8 · Exemplary VR experiments</a></li>
+    <li><a href="#s9">9 · Week-1 deliverable capture</a></li>
+    <li><a href="#deps">Dependencies summary</a></li>
+    <li><a href="#timeline">Timeline alignment</a></li>
+  </ul>
+</nav>
+
+<main>
+
+<section class="surface" id="overview">
+  <h2>What this document is, and how to read it</h2>
+  <div class="surface-meta">Overview for DK</div>
+  <p>This is a paper-fidelity wireframe of the Week-1 journey for COGS 160 Fall students. Each section sketches one surface (page or panel) of the journey, with annotations on the layout decisions, the data each surface depends on, and the upstream work needed to build it. The wireframe is intentionally low-fidelity: the visual styling is provisional, the content is placeholder where placeholders are honest, and the interactions are described rather than implemented. Nothing here is wired to the real corpus; the point is to make the journey shape reviewable in one sitting before any backend work begins.</p>
+  <p>Three colour codes are used throughout. Cream-and-teal blocks are mock UI elements (what the student sees). Italic blocks in cream are annotations explaining design decisions. Amber-tinted blocks marked <em>Depends on</em> flag the upstream work the surface needs (a backend, a content page, an agent, a panel). Purple-tinted blocks marked <em>Decision</em> flag the choices the student makes inside the surface.</p>
+  <p>The eight surfaces are connected by internal links; click any surface name in the navigation bar above, or click any inline reference to another surface, to jump. The journey shape itself is sketched in surface 1; surfaces 2–9 are the destinations the student reaches as Week 1 unfolds.</p>
+  <div class="timeline-note">
+    <strong>Updated timeline per DK 2026-05-17.</strong> Week 1 finds a topic. Weeks 2–6 design the experiment (extended from earlier "Week 5" deadline). Weeks 7–8 implement. Week 9 pilot among classmates. Week 9–10 first pilot subject (from class). Week 10 write up. Week 11 submit an APA-conforming psych paper. Students should be building throughout the quarter so the paper is almost done by Week 10. The paper must show <em>one single result</em>; predictions must be in chart form.
+  </div>
+</section>
+
+<!-- =====================================================
+     SURFACE 1 — Week-1 Landing
+     ===================================================== -->
+<section class="surface" id="s1">
+  <h2>Surface 1 · Week-1 landing — Find a topic for your VR experiment</h2>
+  <div class="surface-meta">First page after the student logs in during Week 1 · file: <code>ka_fall_week1.html</code> (proposed)</div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <span class="mock-week-indicator">Week 1</span>
+    <span class="badge">deliverable due Sunday</span>
+    <div class="mock-title" style="margin-top:14px;font-size:18px;font-family:Georgia,serif;">Find a topic for your VR experiment</div>
+    <div class="mock-body" style="margin-top:6px;">
+      This week you will pick one topic for the experiment you will build over the next ten weeks. The topic must be operationalisable in VR. You will leave Week 1 with a defended topic in a paragraph of rationale and a starter bibliography of 4–6 papers.
+    </div>
+
+    <div class="mock-row" style="margin-top:16px;">
+      <span class="mock-pill amber">Week 1</span>
+      <span class="mock-pill muted">Week 2 — theory + hypothesis</span>
+      <span class="mock-pill muted">Week 3 — VR stimulus spec</span>
+      <span class="mock-pill muted">Week 4 — scene assembly</span>
+      <span class="mock-pill muted">Wk 5–6</span>
+      <span class="mock-pill muted">Wk 7–8</span>
+      <span class="mock-pill muted">Wk 9–11</span>
+    </div>
+
+    <div class="mock-card" style="margin-top:16px;">
+      <strong>Three ways to find your topic</strong>
+      <div class="mock-row" style="margin-top:10px;">
+        <a class="mock-cta" href="#s2">▶ Browse Did-You-Know cards</a>
+        <span style="font-size:12px;color:var(--ink-soft);">surprising findings, filterable by topic family</span>
+      </div>
+      <div class="mock-row">
+        <a class="mock-cta" href="#s4">▶ Evaluate a paper for my VR experiment</a>
+        <span style="font-size:12px;color:var(--ink-soft);">paste a DOI; see whether it's VR-tractable</span>
+      </div>
+      <div class="mock-row">
+        <a class="mock-cta" href="#s6">▶ Read what VR can measure</a>
+        <span style="font-size:12px;color:var(--ink-soft);">a single page explainer; read before you commit</span>
+      </div>
+    </div>
+
+    <div class="mock-card">
+      <strong>Recommended supporting reading</strong>
+      <ul class="tight">
+        <li><a class="surface-link" href="#s7">Methodological pitfalls explainer</a> — Cook & Campbell threats + post-2010 reform additions</li>
+        <li><a class="surface-link" href="#s8">Exemplary VR experiments</a> — eight role-model studies with explanations of why they are good</li>
+      </ul>
+    </div>
+
+    <div class="mock-card" style="background:var(--amber-bg);border-color:var(--amber);">
+      <strong style="color:var(--amber-dk);">By end of Week 1 you should have:</strong>
+      <ul class="tight" style="color:var(--amber-dk);">
+        <li>One topic for your VR experiment with a paragraph of rationale</li>
+        <li>A starter bibliography of 4–6 papers</li>
+        <li>At least one anchor paper that you understand well enough to summarise in three sentences</li>
+        <li>An honest answer to: <em>does my topic fit the 7-to-10-week build constraint?</em></li>
+      </ul>
+    </div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">The week indicator is the most important orienting cue. The system knows which week of the course the student is in (from calendar integration); the student should not have to ask. If the week indicator is misaligned (student is in Week 1 but sees Week 1 indicator and they think they are in Week 2), that itself is a fixable bug.</div>
+  <div class="annot">The phase strip showing weeks 1–11 with the current week highlighted is a Track-4-style waypoint affordance: at every moment the student can answer "where am I, how did I get here, what happens next." The phase strip is repeated on every Week-N landing.</div>
+  <div class="annot">The three CTAs are entry points to three different working modes for the same Week-1 goal. The student picks one. They can return to the landing and try another mode if the first does not land. The fourth box ("Recommended supporting reading") is reading, not action — it is the orientation material the student should consume before or during the topic-finding work.</div>
+  <div class="annot">The "By end of Week 1 you should have" panel is the Track-4 exit-condition affordance: an explicit success-criteria checklist. When the student arrives at <a class="surface-link" href="#s9">Surface 9 (deliverable capture)</a> they will be asked to confirm each item.</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">The week-aware routing requires the system to know which week of the COGS 160 Fall course is current and which week each student should be on. Calendar integration plus per-student progress tracking. Not yet wired.</div>
+  <div class="dependency">The phase strip with eleven weeks needs the canonical Fall course phase list. <code>fall160_schedule.html</code> has it. The strip should pull from that source rather than hard-coding.</div>
+
+  <h3>Decisions</h3>
+  <div class="decision">Should the three CTAs be ordered DYK → Evaluate-Paper → VR-explainer (as drawn), or should VR-explainer come first because a student who has not read it cannot use the other two effectively? CW recommends DYK first (most engaging entry); DK to confirm.</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 2 — DYK-driven topic browser
+     ===================================================== -->
+<section class="surface" id="s2">
+  <h2>Surface 2 · Did-You-Know topic browser</h2>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s1">Surface 1</a> via "Browse Did-You-Know cards" · file: <code>ka_topics_dyk.html</code> (already exists; needs Week-1 filter overlay)</div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <div class="mock-title" style="font-size:18px;font-family:Georgia,serif;">Did you know? — Surprising findings across the corpus</div>
+    <div class="mock-body" style="margin:6px 0 14px;">Each card surfaces one finding from a recent paper. Click a card to read more about its topic — that opens the topic page where you can decide whether to anchor your experiment there.</div>
+
+    <div class="mock-row">
+      <strong style="font-size:13px;">Filter by topic family:</strong>
+      <span class="mock-pill">All</span>
+      <span class="mock-pill muted">Daylight × attention</span>
+      <span class="mock-pill muted">Soundscape × stress</span>
+      <span class="mock-pill muted">Biophilia × restoration</span>
+      <span class="mock-pill muted">Spatial form × navigation</span>
+      <span class="mock-pill muted">Ceiling × processing style</span>
+    </div>
+    <div class="mock-row">
+      <strong style="font-size:13px;">VR-tractability:</strong>
+      <span class="mock-pill amber">VR-tractable only</span>
+      <span class="mock-pill muted">All findings</span>
+    </div>
+
+    <div class="mock-card">
+      <strong>Did you know?</strong> Office workers in spaces with views of vegetation show 12% faster recovery from cognitive load tasks than those in views-of-built-environment offices (Kaplan & Kaplan, 1989; replicated three times in lab, twice in field).
+      <div style="margin-top:8px;">
+        <span class="mock-pill">Biophilia × restoration</span>
+        <span class="mock-pill amber">VR-tractable</span>
+        <span class="badge">VOI: high</span>
+      </div>
+      <div style="margin-top:6px;font-size:12px;">
+        <a class="surface-link" href="#s3">▶ Pursue this topic</a>
+      </div>
+    </div>
+
+    <div class="mock-card">
+      <strong>Did you know?</strong> The blue-light component of daylight measurably advances circadian rhythm within a single morning's exposure — by ~30 minutes per 10,000 lux-hours (Brainard et al., 2001; meta-analysed in 2018).
+      <div style="margin-top:8px;">
+        <span class="mock-pill">Daylight × circadian</span>
+        <span class="mock-pill muted">Not VR-tractable</span>
+        <span class="badge">VOI: medium</span>
+      </div>
+      <div style="margin-top:6px;font-size:12px;color:var(--ink-soft);">VR cannot reproduce the relevant lux levels; finding is foundational for context but not a candidate topic.</div>
+    </div>
+
+    <div class="mock-card">
+      <strong>Did you know?</strong> Speech intelligibility of 60% or higher in an open-plan office produces measurable working-memory impairment regardless of overall loudness (Jones & Macken, 1993; Hongisto, 2005).
+      <div style="margin-top:8px;">
+        <span class="mock-pill">Soundscape × cognition</span>
+        <span class="mock-pill amber">VR-tractable</span>
+        <span class="badge">VOI: high</span>
+      </div>
+      <div style="margin-top:6px;font-size:12px;">
+        <a class="surface-link" href="#s3">▶ Pursue this topic</a>
+      </div>
+    </div>
+
+    <div class="mock-card">
+      <strong>Did you know?</strong> Ceiling height of ≥3.0m biases participants toward associative, divergent thinking; ceiling height of ≤2.4m biases toward focal, analytic thinking (Meyers-Levy & Zhu, 2007). Two replication attempts have produced mixed results.
+      <div style="margin-top:8px;">
+        <span class="mock-pill">Ceiling × processing style</span>
+        <span class="mock-pill amber">VR-tractable</span>
+        <span class="badge">VOI: high</span>
+        <span class="badge" style="background:#FFE0E0;color:#A02828;">Contested</span>
+      </div>
+      <div style="margin-top:6px;font-size:12px;">
+        <a class="surface-link" href="#s3">▶ Pursue this topic</a>
+      </div>
+    </div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">Card design borrows from the existing DYK work Codex has been building (<code>data/ka_payloads/did_you_know.json</code> and the writing contract at <code>docs/DID_YOU_KNOW_SCIENCE_WRITING_CONTRACT_2026-05-16.md</code>). The new affordance for Week 1 is the VR-tractability badge and the topic-family filter. Cards that are not VR-tractable are shown but greyed and explicitly flagged.</div>
+  <div class="annot">The two filters at the top — topic family, VR-tractability — let the student narrow without abandoning the browse mode. The "Contested" badge appears on findings where the replication record is mixed; this is a substantive cue for Week 1 (contested findings are often good targets but require careful framing).</div>
+  <div class="annot">"Pursue this topic" is the only outbound CTA from a card. Clicking it opens <a class="surface-link" href="#s3">Surface 3</a> — the per-topic page — which is where the student commits to a topic or rejects it.</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">The VR-tractability flag per DYK card requires the substitution agent infrastructure (see <a class="surface-link" href="#s4">Surface 4</a> dependencies). Until that exists, the flag is editorial; an instructor or CW tags each card by hand.</div>
+  <div class="dependency">The VOI badge requires the VOI operationalisation work (see <a class="surface-link" href="#s5">Surface 5</a> dependencies).</div>
+  <div class="dependency">The topic-family filter requires a canonical topic-family taxonomy. The existing crosswalk has the topics; whether the five families shown here are the right grouping is itself a design decision.</div>
+
+  <h3>Decisions</h3>
+  <div class="decision">How many DYK cards visible at once? Mock shows four; production should probably show 8–12 with a load-more affordance. Card height matters: tall enough to read the finding without expanding; short enough to scan eight at once.</div>
+  <div class="decision">Should non-VR-tractable cards be hidden by default or shown greyed? CW recommends shown-greyed for pedagogical reasons (student should see what is in the broader literature even if they cannot test it themselves).</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 3 — Per-topic page
+     ===================================================== -->
+<section class="surface" id="s3">
+  <h2>Surface 3 · Per-topic page (reached from a DYK card)</h2>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s2">Surface 2</a> by clicking "Pursue this topic" · file: <code>ka_topic_view.html</code> (variants exist; needs Week-1 framing)</div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <div style="font-size:12px;color:var(--ink-soft);">Topic family · Biophilia × restoration</div>
+    <div class="mock-title" style="font-size:20px;font-family:Georgia,serif;">Nature views and cognitive recovery</div>
+
+    <div style="margin:10px 0 6px;font-size:13.5px;color:var(--ink-mid);">
+      Brief meta-review: 24 papers in the corpus; 8 lab studies, 12 field studies, 4 meta-analyses. Effects are robust in lab settings (Hedges' g ≈ 0.45, replicated four times), more variable in the field. Two studies have failed to replicate the headline effect in distinct populations.
+    </div>
+
+    <div class="mock-row" style="margin:10px 0;">
+      <span class="mock-pill">VR-tractable</span>
+      <span class="mock-pill amber">VOI: high</span>
+      <span class="badge">7-week project: feasible</span>
+      <span class="badge">replication coverage: medium</span>
+    </div>
+
+    <h4 style="margin:18px 0 6px;font-size:14px;color:var(--navy);">Anchor papers (sorted by suitability for Week-1 starter bibliography)</h4>
+    <table class="mock-table">
+      <thead>
+        <tr>
+          <th>Paper</th>
+          <th>Design</th>
+          <th>N</th>
+          <th>Outcome measure</th>
+          <th>VR-tractable?</th>
+          <th>Replications</th>
+          <th>Pick</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>Kaplan & Kaplan (1989)<br><span style="font-size:11px;color:var(--ink-soft);">Cognitive recovery after nature exposure</span></td>
+          <td>Lab between-Ss</td>
+          <td>62</td>
+          <td>DSST score change</td>
+          <td><span class="mock-pill amber">Yes</span></td>
+          <td>3</td>
+          <td>☐</td>
+        </tr>
+        <tr>
+          <td>Berman, Jonides & Kaplan (2008)</td>
+          <td>Lab within-Ss</td>
+          <td>38</td>
+          <td>Backward digit span</td>
+          <td><span class="mock-pill amber">Yes</span></td>
+          <td>5</td>
+          <td>☐</td>
+        </tr>
+        <tr>
+          <td>Bratman et al. (2015)</td>
+          <td>Field RCT</td>
+          <td>60</td>
+          <td>Rumination + sgPFC fMRI</td>
+          <td><span class="mock-pill muted">Partial (drop fMRI)</span></td>
+          <td>2</td>
+          <td>☐</td>
+        </tr>
+        <tr>
+          <td>Hartig et al. (1991)</td>
+          <td>Field between-Ss</td>
+          <td>34</td>
+          <td>Necker cube + self-report</td>
+          <td><span class="mock-pill amber">Yes</span></td>
+          <td>4</td>
+          <td>☐</td>
+        </tr>
+        <tr>
+          <td>Mayer & Frantz (2004)</td>
+          <td>Lab within-Ss</td>
+          <td>96</td>
+          <td>Connectedness-to-nature scale</td>
+          <td><span class="mock-pill amber">Yes</span></td>
+          <td>6</td>
+          <td>☐</td>
+        </tr>
+        <tr>
+          <td>van den Berg & ter Heijne (2005)</td>
+          <td>Lab between-Ss</td>
+          <td>106</td>
+          <td>Backward digit span + mood</td>
+          <td><span class="mock-pill amber">Yes</span></td>
+          <td>2</td>
+          <td>☐</td>
+        </tr>
+      </tbody>
+    </table>
+
+    <div class="mock-card" style="background:var(--amber-bg);border-color:var(--amber);margin-top:14px;">
+      <strong style="color:var(--amber-dk);">Why these papers are ranked high:</strong>
+      <span style="color:var(--amber-dk);font-size:13px;">Lab studies with VR-tractable measures and at least two replications appear first. The Bratman paper appears with a "partial" flag because its core comparison (nature walk vs urban walk) is reproducible in VR, but its sgPFC fMRI outcome is not — a substitute behavioural measure of rumination would be needed (see <a class="surface-link" href="#s4">substitution panel</a>).</span>
+    </div>
+
+    <div class="mock-card">
+      <strong>Commit to this topic?</strong>
+      <div style="margin-top:8px;font-size:13px;">
+        <a class="mock-cta" href="#s9">▶ Save as my Week-1 topic with these papers</a>
+        <a class="mock-cta" style="background:white;color:var(--navy);border:1px solid var(--warm-border);" href="#s2">↶ Back to DYK browser</a>
+      </div>
+    </div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">The meta-review at the top is what your comment called for: a short distinguishing summary of the literature in this topic, not just a paper list. The version here is illustrative; production should generate it from the corpus's already-extracted fingerprints.</div>
+  <div class="annot">The anchor-paper table is the bibliography-differentiator artefact. Columns are chosen for what a Week-1 student needs to see at a glance: design type, sample size, outcome measure, VR-tractability with substitution flag if partial, replication count. Sorted by suitability for the 7-to-10-week project rather than by citation count.</div>
+  <div class="annot">"Pick" column lets the student commit to a starter bibliography in one action. Picked papers persist to Surface 9 (deliverable capture).</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">Meta-review generation requires fingerprint extraction to be complete or near-complete on the topic's anchor papers. The paper-quality build (Codex Pass 1 done, Pass 2/3 in flight) provides the substrate.</div>
+  <div class="dependency">VR-tractability flag per paper requires the substitution-agent infrastructure (<a class="surface-link" href="#s4">Surface 4</a>).</div>
+  <div class="dependency">Suitability-for-project ranking requires a rule set; CW proposes lab > field for VR-tractability (lab studies are usually reproducible in VR; field studies need substitution), within-Ss > between-Ss (smaller N requirements), at least two replications.</div>
+
+  <h3>Decisions</h3>
+  <div class="decision">Should the topic page show every paper in the corpus on this topic, or only the top 8–12 anchor papers? CW recommends top 8–12 with a "show all 24" expander; otherwise the table becomes a tour rather than a tool.</div>
+  <div class="decision">Should the student be able to commit to a topic without selecting any anchor papers? CW recommends no — the rationale paragraph the deliverable demands depends on having read at least some of the literature, and the picked papers are the source for that.</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 4 — Evaluate a paper for VR
+     ===================================================== -->
+<section class="surface" id="s4">
+  <h2>Surface 4 · Evaluate a paper for my VR experiment</h2>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s1">Surface 1</a> via "Evaluate a paper for my VR experiment" · file: <code>ka_evaluate_paper_for_vr.html</code> (new)</div>
+
+  <h3>What this surface is for (in response to DK's question)</h3>
+  <div class="annot">The use case: a student arrives having read a paper (in a course earlier, on their own, in a coffee shop) and wants to know whether they can build their VR experiment around it. The system answers four questions. Are the paper's outcome measures VR-tractable as-is? If not, what substitute measures could probe the same construct? Do other papers in the corpus already test something similar in VR? Does the topic survive the 7-to-10-week project constraint? The surface is the entry point for students who already have a paper in mind; Surfaces 2 and 3 are the entry points for students who do not.</div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <div class="mock-title" style="font-size:18px;font-family:Georgia,serif;">Evaluate a paper for my VR experiment</div>
+    <div class="mock-body">Paste a DOI or paper title. The system will tell you whether the paper's experimental setup can be reproduced in VR, what substitute measures would be needed if parts are not VR-tractable, and how the topic fits a 7-to-10-week project.</div>
+
+    <div class="mock-card">
+      <label style="font-size:12.5px;font-weight:600;">DOI or paper title:</label>
+      <div style="background:white;border:1px solid var(--warm-border);padding:6px 10px;margin-top:4px;font-size:13px;color:var(--ink-soft);">10.1126/science.1100301 · Ulrich (1984) View through a window may influence recovery from surgery</div>
+      <div style="margin-top:8px;">
+        <a class="mock-cta">▶ Evaluate</a>
+      </div>
+    </div>
+
+    <div class="mock-card" style="background:white;border:1px solid var(--warm-border);">
+      <strong>Evaluation: Ulrich (1984), <em>View through a window may influence recovery from surgery</em></strong>
+      <table class="mock-table" style="margin-top:12px;">
+        <tr><th style="width:30%;">Original design</th><td>Field observational; 46 patients; gallbladder-surgery recovery; window-view vs brick-wall view</td></tr>
+        <tr><th>Outcome measures</th><td>Length of stay (days); analgesic doses; nurse-rated mood notes</td></tr>
+        <tr><th>VR-tractable as-is?</th><td><span class="mock-pill muted">No</span> · Field setting, clinical population, multi-day exposure all outside scope of 7-to-10-week VR study</td></tr>
+        <tr><th>Substitution paths</th><td>
+          The substitution agent identifies the paper's construct as <em>stress-restorative effect of nature views</em>. Three VR-tractable analogue designs are available in the corpus:
+          <ul class="tight" style="margin-top:6px;">
+            <li><strong>Lab analogue 1:</strong> Berman, Jonides & Kaplan (2008) — backward digit span before/after VR nature walk vs VR urban walk. <span class="mock-pill amber">VR-tractable</span></li>
+            <li><strong>Lab analogue 2:</strong> Hartig et al. (1991) — Necker cube + self-reported mood after VR nature exposure. <span class="mock-pill amber">VR-tractable</span></li>
+            <li><strong>Lab analogue 3:</strong> van den Berg & ter Heijne (2005) — combined backward digit span and mood ratings, larger N. <span class="mock-pill amber">VR-tractable</span></li>
+          </ul>
+        </td></tr>
+        <tr><th>7-to-10-week feasibility</th><td>With substitution to Berman et al. or van den Berg et al. design, yes. Sample size achievable with class-internal pilot subjects. VR scenes already templated.</td></tr>
+        <tr><th>VOI on this topic</th><td><span class="mock-pill amber">High</span> · Two failed replications in non-WEIRD samples; a fresh lab-VR run with a UCSD undergraduate sample contributes meaningfully.</td></tr>
+      </table>
+      <div style="margin-top:14px;">
+        <a class="mock-cta" href="#s3">▶ Open the related topic page (nature views and cognitive recovery)</a>
+        <a class="mock-cta" style="background:white;color:var(--navy);border:1px solid var(--warm-border);">↶ Try another paper</a>
+      </div>
+    </div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">The substitution panel is the most consequential single piece of the Week-1 journey. It does real methodological reasoning: identify the underlying construct, find VR-tractable measures of that construct, surface the related papers, flag the project-feasibility implications.</div>
+  <div class="annot">The output is not "no" or "yes" — it is a structured evaluation that opens the related topic page if a substitute path exists. Even when the original paper is non-VR-tractable (Ulrich here), the path to a VR experiment is preserved through the analogues.</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">The substitution agent itself does not yet exist. Building it requires (a) the instrument registry to carry construct-operationalisation information uniformly across the corpus; (b) a ranking heuristic over candidate substitutes; (c) an explanation generator that produces the prose evaluation. This is a substantial Codex prompt and should be the most urgent of the new builds.</div>
+  <div class="dependency">VR-tractability tags per measure require the VR-measurability content (<a class="surface-link" href="#s6">Surface 6</a>) to exist in machine-readable form, not just as a static explainer page.</div>
+  <div class="dependency">Project-feasibility assessment ("7-to-10-week feasibility") requires a small rule set: clinical population → no, multi-day exposure → no, fMRI → no, lab analogue with class-internal sample → yes. This rule set should be codified once and applied uniformly.</div>
+
+  <h3>Decisions</h3>
+  <div class="decision">Should the surface accept a free-text paper title or only a DOI? CW recommends both, but DOI takes priority — the system can look up the structured record. Free text becomes a search.</div>
+  <div class="decision">What does the surface do when the paper is outside the Atlas corpus? Two options: (a) refuse to evaluate, telling the student to bring a corpus paper; (b) accept and run a best-effort evaluation against generic VR-measurability rules. CW recommends (a) for Week 1 (avoid over-promising), but the system should suggest related corpus papers.</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 5 — VOI panel
+     ===================================================== -->
+<section class="surface" id="s5">
+  <h2>Surface 5 · VOI panel (in-context, appears on surfaces 2, 3, 4)</h2>
+  <div class="surface-meta">Not a standalone surface · panel component embedded in <a class="surface-link" href="#s2">Surface 2</a>, <a class="surface-link" href="#s3">Surface 3</a>, and <a class="surface-link" href="#s4">Surface 4</a></div>
+
+  <h3>Mock layout (Week-1 simplified)</h3>
+  <div class="mock">
+    <div class="mock-card" style="background:#FFFDF7;border:1px solid var(--amber);">
+      <strong style="color:var(--amber-dk);">📊 VOI · Nature views and cognitive recovery</strong>
+      <div style="margin-top:6px;font-size:13px;color:var(--ink-mid);">
+        <span class="mock-pill amber">High</span> Marginal value of a new study in this area is high because:
+      </div>
+      <ul class="tight" style="margin-top:4px;">
+        <li>Two failed replications in non-WEIRD samples; a fresh sample contributes</li>
+        <li>VR-mediated nature exposure has only three published runs; dose-response is unsettled</li>
+        <li>No published study has tested the same effect with the new SR-MoCA cognitive battery; this is a methodological opening</li>
+      </ul>
+      <div style="margin-top:6px;font-size:12px;color:var(--ink-soft);">VOI = marginal expected reduction in uncertainty per study, ranked across topics. <a class="surface-link" href="#deps">How VOI is computed →</a></div>
+    </div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">For Week 1 the VOI panel is intentionally simplified to a categorical High / Medium / Low badge plus a three-bullet rationale. The full VOI surface (with quantitative VOI scores, the contradiction graph, the replication-coverage heat map) is a researcher-side affordance and beyond Week 1's scope.</div>
+  <div class="annot">The Week-1 framing is "is this a worthwhile topic to study?" — the answer is High/Medium/Low and three reasons. A 160 Fall student should not choose a Low-VOI topic for their experiment without an explicit reason.</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency"><strong>VOI operationalisation is the gating upstream item.</strong> The corpus does not yet have a worked-out definition of VOI for an experimental-architecture paper. CW is writing a separate thinking document on this (<code>docs/VOI_OPERATIONALISATION_THINKING_2026-05-17.md</code> — to come). Until that lands, the High/Medium/Low badges and the three-bullet rationales are editorial placeholders.</div>
+  <div class="dependency">A panel of methodology experts may need to review the proposed VOI criteria before they bake in. DK to convene.</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 6 — VR-measurability explainer
+     ===================================================== -->
+<section class="surface" id="s6">
+  <h2>Surface 6 · What VR can measure (and what it cannot)</h2>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s1">Surface 1</a> · file: <code>ka_vr_measurability.html</code> (new) · also linked from anywhere on the site that touches a measure</div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <div class="mock-title" style="font-size:20px;font-family:Georgia,serif;">What VR can measure (and what it cannot)</div>
+    <div class="mock-body">A single-page explainer. Read this before you commit to a topic. The substitution agent uses this content as its source of truth.</div>
+
+    <h4 style="margin:18px 0 6px;font-size:14px;color:var(--teal);">In scope for a 7-to-10-week project</h4>
+    <table class="mock-table">
+      <tr><th>Measure family</th><th>VR-tractable?</th><th>Constraints / notes</th></tr>
+      <tr><td>Behavioural reaction time (flanker, Stroop, etc.)</td><td><span class="mock-pill amber">Yes</span></td><td>Standard A-Frame UI; latency calibration required</td></tr>
+      <tr><td>Working-memory span tasks (digit span, n-back)</td><td><span class="mock-pill amber">Yes</span></td><td>Auditory or visual presentation in VR</td></tr>
+      <tr><td>Attention / sustained-attention tasks</td><td><span class="mock-pill amber">Yes</span></td><td>Continuous performance task templated</td></tr>
+      <tr><td>Necker cube and other figure-perception tasks</td><td><span class="mock-pill amber">Yes</span></td><td>Render in VR; response via gaze or controller</td></tr>
+      <tr><td>Self-report mood / affect scales</td><td><span class="mock-pill amber">Yes</span></td><td>PANAS, restoration likert; in-VR or post-session</td></tr>
+      <tr><td>Wayfinding accuracy</td><td><span class="mock-pill amber">Yes</span></td><td>VR-natural; head-tracked path replay</td></tr>
+      <tr><td>Heart-rate variability (with wearable)</td><td><span class="mock-pill amber">Yes — with sensor</span></td><td>Requires HRV-capable wearable + sync</td></tr>
+      <tr><td>Galvanic skin response</td><td><span class="mock-pill amber">Yes — with sensor</span></td><td>Wearable GSR sensor; sync to scene events</td></tr>
+    </table>
+
+    <h4 style="margin:18px 0 6px;font-size:14px;color:var(--amber-dk);">Out of scope (do not propose; substitution required)</h4>
+    <table class="mock-table">
+      <tr><th>Measure family</th><th>Why out of scope</th><th>Substitution path</th></tr>
+      <tr><td>fMRI / fNIRS / EEG (lab-grade)</td><td>Requires dedicated equipment and analysis workflow beyond project window</td><td>Substitute behavioural correlate of the same construct</td></tr>
+      <tr><td>Longitudinal follow-up (&gt; 2 weeks)</td><td>Outside project timeline</td><td>Within-session pre/post or short-burst design</td></tr>
+      <tr><td>Clinical population recruitment</td><td>IRB and recruitment infeasible in quarter</td><td>Undergraduate analog with self-report screening</td></tr>
+      <tr><td>Cortisol / blood biomarkers</td><td>Sample-and-assay workflow not available</td><td>HRV or GSR as autonomic proxy</td></tr>
+      <tr><td>Multi-day exposure dose</td><td>Outside project timeline</td><td>Single-session dose-response within design constraints</td></tr>
+    </table>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">This page is the single source of truth for what the substitution agent and the project-feasibility checks know. It is human-readable for students and machine-readable as a structured JSON behind the scenes.</div>
+  <div class="annot">The substitution paths in the right column are not exhaustive — they are the patterns the agent applies first. The agent may surface other paths in context. The static page shows the most common.</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">The structured-data version of this content (the JSON the agent uses) is the more important deliverable than the explainer page itself. The page is the human-facing render of the same data.</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 7 — Methodological pitfalls explainer
+     ===================================================== -->
+<section class="surface" id="s7">
+  <h2>Surface 7 · Methodological pitfalls — beyond Cook & Campbell</h2>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s1">Surface 1</a> · file: <code>ka_methodological_pitfalls.html</code> (new) · sourced from <code>docs/COGS160_FALL_DESIGNING_EXPERIMENTS_QUALITY_2026-04-25.md</code></div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <div class="mock-title" style="font-size:20px;font-family:Georgia,serif;">Methodological pitfalls a 7-to-10-week project can still respect</div>
+    <div class="mock-body">Even a short course project should know the standards it cannot meet, and should meet the ones it can. This page covers the threats beyond Cook & Campbell's classic four validities, drawn from the post-2010 methodological-reform literature.</div>
+
+    <h4 style="margin:18px 0 6px;font-size:14px;color:var(--teal);">Threats your project should anticipate</h4>
+    <ul class="tight" style="margin:6px 0;">
+      <li><strong>Cook & Campbell's four validities</strong> (internal, external, construct, statistical conclusion) — the classic framework. Sections of the source document.</li>
+      <li><strong>Garden of forking paths</strong> (Gelman & Loken 2014) — every analytic decision you make after seeing data inflates false positives. Mitigation: pre-specify your analytic plan.</li>
+      <li><strong>HARKing</strong> (Kerr 1998) — hypothesising after results are known. Mitigation: write down your hypothesis before you run the experiment.</li>
+      <li><strong>P-hacking</strong> (Simmons, Nelson, Simonsohn 2011) — undisclosed flexibility. Mitigation: report all measures, all conditions, all exclusions.</li>
+      <li><strong>WEIRD-sample issues</strong> (Henrich, Heine & Norenzayan 2010) — your UCSD sample is WEIRD. State this in your discussion; do not over-generalise.</li>
+      <li><strong>Multiple comparisons</strong> — if you run twenty tests, you expect one significant by chance. Mitigation: pre-specify primary hypothesis(es); correct or treat the rest as exploratory.</li>
+    </ul>
+
+    <h4 style="margin:18px 0 6px;font-size:14px;color:var(--amber-dk);">Standards a 7-to-10-week project can meet</h4>
+    <ul class="tight" style="margin:6px 0;">
+      <li><strong>Pre-registration.</strong> Free, takes an hour, prevents the garden of forking paths. Use OSF AsPredicted.</li>
+      <li><strong>Random assignment.</strong> Required for causal inference. Use a coin flip, a script, or the experiment's randomiser.</li>
+      <li><strong>Pre-specified primary outcome.</strong> One measure, one hypothesis, written before data collection.</li>
+      <li><strong>Pre-specified analysis plan.</strong> Include in your pre-registration. Departures from it should be flagged in the write-up.</li>
+      <li><strong>Honest sample reporting.</strong> Who, how many, exclusions, demographics, dropouts.</li>
+      <li><strong>Effect-size reporting with CI.</strong> Not just p-values. Cohen's d for two-group; partial η² for ANOVA.</li>
+      <li><strong>Open materials and data.</strong> Deposit your A-Frame scenes, your analysis script, your deidentified data on OSF.</li>
+    </ul>
+
+    <div class="mock-card" style="background:var(--teal-bg);">
+      <strong>For the curious:</strong> the full COGS 160 Fall design guide (linked) covers all of this in depth, with examples and references. This page is the operational summary.
+    </div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">The page distinguishes <em>threats to anticipate</em> (you may not be able to eliminate, but you should know they exist) from <em>standards to meet</em> (you can and should). For a 7-to-10-week project, hitting the second list is realistic; acknowledging the first is methodological honesty.</div>
+  <div class="annot">Content is adapted from <code>docs/COGS160_FALL_DESIGNING_EXPERIMENTS_QUALITY_2026-04-25.md</code>. The full design guide is reading for the curious; this page is the operational summary the student returns to in Weeks 2 (when they write the hypothesis), Week 3 (when they pre-register), and Week 10 (when they write up).</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">Content extraction from the source design guide is small (Codex prompt: extract the §6 pitfalls plus §5 standards, render as a student-facing page).</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 8 — Exemplary VR experiments
+     ===================================================== -->
+<section class="surface" id="s8">
+  <h2>Surface 8 · Exemplary VR experiments — role models</h2>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s1">Surface 1</a> · file: <code>ka_vr_exemplars.html</code> (new) · added per DK 2026-05-17</div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <div class="mock-title" style="font-size:20px;font-family:Georgia,serif;">Exemplary VR experiments</div>
+    <div class="mock-body">Eight well-designed VR experiments, with explanations of what makes each one a good role model. Read these to calibrate your own design intuitions.</div>
+
+    <div class="mock-card">
+      <strong>Riva et al. (2007) — Affective space in immersive VR</strong>
+      <div style="margin-top:4px;font-size:13px;color:var(--ink-mid);">Within-Ss design, N = 36; manipulated affective qualities of the same architectural space (warm/cool, open/closed) while measuring mood and presence. <strong>Why it's a role model:</strong> single-variable manipulation, well-validated mood measure (PANAS), clean within-Ss controls.</div>
+    </div>
+
+    <div class="mock-card">
+      <strong>Slater et al. (2010) — Body-ownership illusion in VR</strong>
+      <div style="margin-top:4px;font-size:13px;color:var(--ink-mid);">Between-Ss design, N = 40; manipulated the perspective from which participants saw a virtual body and measured ownership ratings. <strong>Why it's a role model:</strong> falsifiable prediction, theory-driven hypothesis, multiple converging measures (self-report + behavioural).</div>
+    </div>
+
+    <div class="mock-card">
+      <strong>Smaldino-style example — small-N pre-registered VR study</strong>
+      <div style="margin-top:4px;font-size:13px;color:var(--ink-mid);">Pre-registered, N = 48, single primary outcome, predicted direction stated in advance. <strong>Why it's a role model:</strong> the student-relevant features — small N, single outcome, pre-registration, honest reporting — are exactly what a 7-to-10-week project can match.</div>
+    </div>
+
+    <div style="font-size:12px;color:var(--ink-soft);margin-top:12px;">Six more exemplars in production. Each will carry: the design, the construct, the measure, and the one or two features that make it a role model for a 7-to-10-week VR project.</div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">The exemplar set is curated. Eight is the target — enough to span the range of design types (within-Ss vs between-Ss, behavioural vs self-report vs autonomic-with-sensor) without overwhelming.</div>
+  <div class="annot">Each exemplar entry has a <em>"Why it's a role model"</em> line that names the specific feature(s) a 160 Fall student should imitate. Not "Riva is a great paper" but "single-variable manipulation, within-Ss controls, validated mood measure."</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">Curation requires editorial work — selecting the eight exemplars and writing the rationales. CW can draft; DK or an instructor approves. This is not a Codex build; it is content authorship.</div>
+</section>
+
+<!-- =====================================================
+     SURFACE 9 — Week-1 deliverable capture
+     ===================================================== -->
+<section class="surface" id="s9">
+  <h2>Surface 9 · Week-1 deliverable capture</h2>
+  <div class="surface-meta">Reached from <a class="surface-link" href="#s3">Surface 3</a> or <a class="surface-link" href="#s4">Surface 4</a> at end of Week 1 · file: <code>ka_fall_week1_deliverable.html</code> (new)</div>
+
+  <h3>Mock layout</h3>
+  <div class="mock">
+    <span class="mock-week-indicator">Week 1</span>
+    <span class="badge">deliverable</span>
+    <div class="mock-title" style="font-size:18px;font-family:Georgia,serif;margin-top:8px;">Your Week-1 deliverable</div>
+
+    <div class="mock-card" style="margin-top:12px;">
+      <strong>Your topic</strong>
+      <div style="background:white;border:1px solid var(--warm-border);padding:10px 12px;margin-top:4px;font-size:13px;color:var(--ink-soft);">Nature views and cognitive recovery</div>
+    </div>
+
+    <div class="mock-card">
+      <strong>Your rationale (one paragraph, 80–200 words)</strong>
+      <div style="background:white;border:1px solid var(--warm-border);padding:10px 12px;margin-top:4px;height:90px;font-size:13px;color:var(--ink-soft);">[Student types here. The system shows a small word-count indicator and a "what to include" hint: the construct of interest, why VR is the right method, one expected finding from the anchor papers.]</div>
+    </div>
+
+    <div class="mock-card">
+      <strong>Your starter bibliography (4–6 papers)</strong>
+      <ul class="tight">
+        <li>Kaplan & Kaplan (1989) <span class="badge">anchor</span></li>
+        <li>Berman, Jonides & Kaplan (2008) <span class="badge">anchor</span></li>
+        <li>Bratman et al. (2015) <span class="badge">substitute construct</span></li>
+        <li>Hartig et al. (1991)</li>
+        <li>van den Berg & ter Heijne (2005)</li>
+      </ul>
+    </div>
+
+    <div class="mock-card">
+      <strong>Self-check before submission</strong>
+      <ul class="tight">
+        <li>☐ My topic is VR-tractable (or I have a substitution path)</li>
+        <li>☐ I have read at least three of the anchor papers</li>
+        <li>☐ My rationale names the construct I will study</li>
+        <li>☐ My rationale states why the topic is worth studying (VOI)</li>
+        <li>☐ I have read <a class="surface-link" href="#s6">what VR can measure</a></li>
+        <li>☐ I have skimmed <a class="surface-link" href="#s7">the methodological pitfalls page</a></li>
+      </ul>
+    </div>
+
+    <div class="mock-row" style="margin-top:14px;">
+      <a class="mock-cta">▶ Submit Week-1 deliverable</a>
+      <a class="mock-cta" style="background:white;color:var(--navy);border:1px solid var(--warm-border);" href="#s3">↶ Back to topic page</a>
+    </div>
+  </div>
+
+  <h3>Annotations</h3>
+  <div class="annot">The deliverable capture is the explicit exit condition of the Week-1 journey. The Track 4 students' design document is clear that a journey without a defined exit produces drift. The self-check checklist makes the exit observable.</div>
+  <div class="annot">Submitting the deliverable marks Week 1 complete in the system's record and unlocks the Week 2 landing page on the next Monday. The student can revise their deliverable through Sunday night.</div>
+
+  <h3>Dependencies</h3>
+  <div class="dependency">Per-student progress tracking. The system needs to know which student has submitted, when, and what they submitted.</div>
+  <div class="dependency">The instructor view (not in scope here) needs to see all Week-1 deliverables across the class, with summary statistics on topic distribution.</div>
+</section>
+
+<!-- =====================================================
+     DEPENDENCIES SUMMARY
+     ===================================================== -->
+<section class="surface" id="deps">
+  <h2>Dependencies summary — what has to exist before this journey can run</h2>
+  <div class="surface-meta">Cross-cutting reference</div>
+
+  <h3>Backend / data dependencies</h3>
+  <ul class="tight">
+    <li><strong>Substitution agent.</strong> Largest single build. Identifies the construct an outcome measure is probing; surfaces VR-tractable analogues. Required by <a class="surface-link" href="#s2">Surface 2</a> (VR-tractability flag), <a class="surface-link" href="#s3">Surface 3</a> (VR-tractability flag in anchor table), <a class="surface-link" href="#s4">Surface 4</a> (entire surface).</li>
+    <li><strong>VOI operationalisation.</strong> No corpus-wide VOI definition yet. CW to draft thinking doc; DK may convene panel. Required by <a class="surface-link" href="#s2">Surface 2</a>, <a class="surface-link" href="#s3">Surface 3</a>, <a class="surface-link" href="#s4">Surface 4</a>, <a class="surface-link" href="#s5">Surface 5</a>.</li>
+    <li><strong>VR-measurability data.</strong> Structured JSON behind <a class="surface-link" href="#s6">Surface 6</a>. The substitution agent reads it; the page renders it.</li>
+    <li><strong>Per-paper fingerprint.</strong> Paper-quality build provides this (Codex Pass 1 done; Pass 2/3 in flight). Required by <a class="surface-link" href="#s3">Surface 3</a> meta-review and anchor-paper table.</li>
+    <li><strong>Topic-family taxonomy.</strong> The filter pills on <a class="surface-link" href="#s2">Surface 2</a> require a canonical grouping. The existing crosswalk has topics; the family-level grouping is a design decision.</li>
+    <li><strong>Course-week awareness.</strong> Calendar integration plus per-student progress tracking.</li>
+  </ul>
+
+  <h3>Content dependencies</h3>
+  <ul class="tight">
+    <li><strong>VR-measurability explainer content.</strong> Authored once; structured for the agent to consume.</li>
+    <li><strong>Methodological pitfalls page content.</strong> Adapted from the existing COGS 160 Fall design guide (Codex extraction prompt).</li>
+    <li><strong>Exemplary VR experiments.</strong> Eight curated entries with "Why it's a role model" lines. CW drafts; DK approves.</li>
+    <li><strong>Meta-review per topic.</strong> Generated automatically from the per-paper fingerprints; the prose is a template-and-fill, not an LLM rewrite.</li>
+  </ul>
+
+  <h3>UI / page dependencies</h3>
+  <ul class="tight">
+    <li><strong>9 new or repurposed pages</strong>: Week-1 landing, DYK topic browser (variant exists), per-topic page (variants exist), evaluate-a-paper, VOI panel (component), VR-measurability explainer, pitfalls explainer, exemplars, deliverable capture.</li>
+    <li><strong>Phase strip component</strong> (top of every Week-N landing): 11-week indicator with current week highlighted.</li>
+  </ul>
+</section>
+
+<!-- =====================================================
+     TIMELINE ALIGNMENT
+     ===================================================== -->
+<section class="surface" id="timeline">
+  <h2>Timeline alignment — updated per DK 2026-05-17</h2>
+  <div class="surface-meta">Cross-cutting reference; informs Week-N journey design beyond Week 1</div>
+
+  <table class="mock-table">
+    <thead>
+      <tr><th>Week</th><th>Activity</th><th>Deliverable</th><th>Build status</th></tr>
+    </thead>
+    <tbody>
+      <tr><td>1</td><td>Find a topic</td><td>Defended topic + starter bibliography</td><td>This wireframe</td></tr>
+      <tr><td>2</td><td>Theory + hypothesis</td><td>Falsifiable hypothesis with mechanism</td><td>Future wireframe</td></tr>
+      <tr><td>3</td><td>VR stimulus specification</td><td>Two conditions; primary measure; predicted-direction chart</td><td>Future wireframe</td></tr>
+      <tr><td>4</td><td>VR scene assembly</td><td>Two A-Frame scenes rendering in browser</td><td>Future wireframe</td></tr>
+      <tr><td>5</td><td>Continued design + protocol</td><td>Pre-registration draft</td><td>Future wireframe</td></tr>
+      <tr><td>6</td><td>Continued design + protocol</td><td>Pre-registration submitted (OSF AsPredicted)</td><td>Future wireframe</td></tr>
+      <tr><td>7</td><td>Implementation</td><td>Runnable experiment; pilot script tested</td><td>Future wireframe</td></tr>
+      <tr><td>8</td><td>Implementation continues</td><td>Experiment ready for pilot subjects</td><td>Future wireframe</td></tr>
+      <tr><td>9</td><td>Pilot among classmates</td><td>Class-internal pilot + first real subject</td><td>Future wireframe</td></tr>
+      <tr><td>10</td><td>Run + analyse + write</td><td>One result; predictions chart vs results chart; draft write-up</td><td>Future wireframe</td></tr>
+      <tr><td>11</td><td>Submit</td><td>APA-conforming psych paper</td><td>Future wireframe</td></tr>
+    </tbody>
+  </table>
+
+  <div class="annot">The paper must show <em>one single result</em>; predictions must be in chart form. The Week-3 deliverable explicitly includes a predicted-direction chart so the student commits to a prediction before they collect data — this is what makes the eventual paper a falsifiable contribution.</div>
+
+  <div class="annot">Students should be building throughout the quarter so the paper is almost done by Week 10. This is a discipline question more than a journey-design question — the system should surface the cumulative deliverable view (what is done, what is open) at every Week-N landing.</div>
+</section>
+
+</main>
+
+</body>
+</html>
