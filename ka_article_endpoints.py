@@ -974,10 +974,20 @@ async def submit_articles(
         art_type = article_type if article_type in VALID_ARTICLE_TYPES else None
         art_type_valid = 1 if (not a0_task or a0_task != "task1" or art_type == "experimental") else 0
 
-        # Per contract §4.2 column-enumeration:
+        # Per contract §4.2 column-enumeration. The classifier's outputs
+        # (verdict, article_type, topic, confidence) are persisted INTO
+        # validation_notes JSON so reviewers can see what the classifier
+        # thought without re-running it. The dedicated articles.article_type
+        # column stays reserved for the A0 self-reported type.
         validation_with_reason = dict(validation)
         if routing_reason:
             validation_with_reason["routing_reason"] = routing_reason
+        validation_with_reason["classifier_verdict"] = cls.get("verdict")
+        validation_with_reason["classifier_article_type"] = cls.get("canonical_article_type")
+        validation_with_reason["classifier_primary_topic"] = cls.get("primary_topic")
+        validation_with_reason["classifier_overall_confidence"] = cls.get("overall_confidence", 0.0)
+        validation_with_reason["classifier_backend"] = cls.get("backend", "unknown")
+        validation_with_reason["classifier_source"] = cls.get("source", "")
 
         # rejected_at / staged_at must follow the (possibly-overridden) branch_status.
         # Use a prefix match so any future rejected_* status is handled correctly.
@@ -1106,6 +1116,24 @@ async def submit_articles(
                              else "medium" if extracted_doi or (parsed["title"] and parsed["authors"])
                              else "low")
 
+            # Build validation_notes for citation-only rows. Carries the
+            # routing_reason plus an explicit "classifier_source: skipped"
+            # marker so reviewers can tell at a glance that this row never
+            # reached the classifier.
+            if routing_reason_cit:
+                vnotes_cit = {
+                    "routing_reason": routing_reason_cit,
+                    "classifier_verdict": None,
+                    "classifier_article_type": None,
+                    "classifier_primary_topic": None,
+                    "classifier_overall_confidence": 0.0,
+                    "classifier_backend": CLASSIFIER_BACKEND,
+                    "classifier_source": "skipped_citation_only",
+                }
+                vnotes_cit_json = json.dumps(vnotes_cit)
+            else:
+                vnotes_cit_json = None  # duplicates: keep existing behavior (NULL)
+
             db = _get_db()
             db.execute("""INSERT INTO articles
                 (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
@@ -1122,7 +1150,7 @@ async def submit_articles(
                  int(parsed["year"]) if parsed["year"] else None,
                  line,
                  status, dup_of,
-                 json.dumps({"routing_reason": routing_reason_cit}) if routing_reason_cit else None,
+                 vnotes_cit_json,
                  question_id or None, topic_tags or None,
                  source_surface, "COGS160-SP26", notes or None,
                  now,
