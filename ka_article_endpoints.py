@@ -698,17 +698,40 @@ def _get_optional_user(request: Request) -> Optional[dict]:
     return None
 
 
-def _route_classifier_verdict(verdict, overall_confidence: float):
-    """Map (verdict, overall_confidence) -> (status, audit_action, routing_reason).
+# next_action values that mean "classifier needs more data or wants human
+# review" — these override any positive verdict and route the item to
+# needs_review. The complementary set ("ready_for_*") lets verdict +
+# confidence drive routing normally.
+_NEXT_ACTIONS_NEEDING_REVIEW = frozenset({
+    "need_abstract_or_keywords",   # classifier wants more metadata
+    "extract_pdf_surface",         # classifier wants more PDF text
+    "review_borderline_case",      # classifier explicitly wants human judgment
+})
+
+
+def _route_classifier_verdict(verdict, overall_confidence: float, next_action: str = ""):
+    """Map (verdict, overall_confidence, next_action) -> (status, audit_action, routing_reason).
 
     Routing boundary 0.72 is pinned by the Classifier Integration Contract
     (Track 2 / Phase 1 & 2 / contracts §4.1) and matches the threshold used
     inside atlas_shared at classifier_system.py:894,898.
 
+    next_action is consulted FIRST: if the classifier signals it needs more
+    data or wants human review, that overrides any positive verdict. This
+    handles the edge case where verdict="accept" + confidence>=0.72 but the
+    classifier still emits next_action="review_borderline_case" — the
+    classifier knows something the verdict alone doesn't expose.
+
     verdict: "accept" | "edge_case" | "reject" | None (None when classifier
              returned no stable_topic_routing — e.g. local fallback path
              or bibliographic-only evidence stage).
     """
+    # Override: classifier's next_action signals it's not done deciding.
+    # Surfaces the actual next_action string in routing_reason so the
+    # reviewer can see why this routed to needs_review.
+    if next_action in _NEXT_ACTIONS_NEEDING_REVIEW:
+        return ("needs_review", "needs_review", f"next_action:{next_action}")
+
     if verdict is None:
         return ("needs_review", "needs_review", "classifier_returned_no_verdict")
     if verdict == "reject":
@@ -892,7 +915,7 @@ async def submit_articles(
                     text_surface=surface_text,
                 )
                 branch_status, audit_action, routing_reason = _route_classifier_verdict(
-                    cls["verdict"], cls["overall_confidence"])
+                    cls["verdict"], cls["overall_confidence"], cls.get("next_action", ""))
             except Exception as exc:
                 # Classifier crashed — treat as edge case, capture the error
                 cls = {
