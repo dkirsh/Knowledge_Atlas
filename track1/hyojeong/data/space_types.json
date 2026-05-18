@@ -1,0 +1,62 @@
+{
+  "living_room": {
+    "search_terms": ["living room interior", "lounge", "sitting room"],
+    "why": "Furniture layout, daylight, biophilia, colour warmth"
+  },
+  "bedroom": {
+    "search_terms": ["bedroom", "sleeping quarters"],
+    "why": "Lighting warmth, enclosure, materials, tranquillity"
+  },
+  "kitchen": {
+    "search_terms": ["kitchen", "cooking area"],
+    "why": "Component detection (cabinets, counters), materials, layout"
+  },
+  "bathroom": {
+    "search_terms": ["bathroom", "restroom", "washroom"],
+    "why": "Materials (tile, glass), fixtures, spatial geometry"
+  },
+  "office": {
+    "search_terms": ["office interior", "workspace", "workstation"],
+    "why": "Task lighting, spatial openness, visual complexity"
+  },
+  "classroom": {
+    "search_terms": ["classroom", "lecture hall", "seminar room"],
+    "why": "Social-spatial layout, lighting, legibility"
+  },
+  "hospital": {
+    "search_terms": ["hospital room", "clinic interior", "patient room"],
+    "why": "Safety, materials, lighting, wayfinding"
+  },
+  "restaurant": {
+    "search_terms": ["restaurant interior", "café", "dining room"],
+    "why": "Social density, lighting ambience, material warmth"
+  },
+  "lobby": {
+    "search_terms": ["hotel lobby", "building lobby", "atrium"],
+    "why": "Spatial volume, ceiling height, prospect-refuge"
+  },
+  "corridor": {
+    "search_terms": ["hallway", "corridor", "passage"],
+    "why": "Spatial geometry, wayfinding, enclosure ratio"
+  },
+  "library": {
+    "search_terms": ["library interior", "reading room"],
+    "why": "Cognitive restoration, natural light, visual order"
+  },
+  "retail": {
+    "search_terms": ["retail store", "shop interior", "showroom"],
+    "why": "Colour, lighting, visual complexity, layout"
+  },
+  "museum": {
+    "search_terms": ["museum gallery", "exhibition space"],
+    "why": "Spatial volume, lighting, visual complexity"
+  },
+  "worship": {
+    "search_terms": ["church interior", "temple", "mosque"],
+    "why": "Ceiling height, geometry, fractal patterns, affect"
+  },
+  "gym": {
+    "search_terms": ["gym", "fitness centre", "sports hall"],
+    "why": "Spatial openness, materials, lighting intensity"
+  }
+}
