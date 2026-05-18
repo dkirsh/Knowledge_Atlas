@@ -1758,15 +1758,28 @@ def _get_shared_article_classifier() -> AdaptiveClassifierSubsystem:
 
 
 def _extract_abstract_from_text(text: str) -> str:
+    """Extract the abstract from PDF surface text.
+
+    Uses [\\s\\S] (any char incl. newlines) for the body so multi-line
+    abstracts match — the original (.{50,800}?) regex only matched
+    single-line abstracts because . excludes newlines without re.DOTALL.
+
+    Returns "" when no "Abstract" keyword is found rather than falling
+    back to text[:300]. The old fallback was passing title + authors +
+    affiliations to the classifier as if they were the abstract,
+    biasing the verdict. Empty abstract is a valid input to the
+    classifier; it will rely on first_page_text instead.
+    """
     if not text.strip():
         return ""
     match = re.search(
-        r"(?i)\babstract\b[:\s]*(.{50,800}?)(?:\n\n|\bintroduction\b|\bkeywords\b)",
+        r"(?i)\babstract\b[:\s]*([\s\S]{50,1500}?)"
+        r"(?:\n\s*\n|\bintroduction\b|\bkeywords\b|\b1\.\s+[A-Z])",
         text,
     )
     if match:
         return match.group(1).strip()
-    return text[:300].strip()
+    return ""
 
 
 _TITLE_NOISE_PREFIXES = ("http", "doi", "volume", "journal", "page ", "p.", "vol.",
