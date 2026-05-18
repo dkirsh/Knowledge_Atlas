@@ -293,6 +293,33 @@ def _init_article_tables():
     );
     CREATE INDEX IF NOT EXISTS idx_claims_user ON question_claims(user_id);
     CREATE INDEX IF NOT EXISTS idx_claims_question ON question_claims(question_id, round);
+
+    -- T2-Task1: monotonic ID counter (replaces SELECT COUNT(*) in _next_id).
+    -- One row per ID prefix. UPDATE ... RETURNING is atomic in SQLite,
+    -- which gives us race-safe ID allocation. Deletes from articles /
+    -- submission_batches no longer reset IDs (counter never moves backward).
+    CREATE TABLE IF NOT EXISTS id_sequences (
+        prefix  TEXT PRIMARY KEY,
+        counter INTEGER NOT NULL
+    );
+    """)
+
+    # Idempotent migration: seed id_sequences from existing data on first
+    # run. WHERE NOT EXISTS guard ensures repeated startups don't reset
+    # counters that have already been allocated.
+    db.execute("""
+    INSERT INTO id_sequences (prefix, counter)
+    SELECT 'KA-ART-',
+           COALESCE(MAX(CAST(SUBSTR(article_id, 8) AS INTEGER)), 0)
+    FROM articles
+    WHERE NOT EXISTS (SELECT 1 FROM id_sequences WHERE prefix = 'KA-ART-')
+    """)
+    db.execute("""
+    INSERT INTO id_sequences (prefix, counter)
+    SELECT 'KA-IN-',
+           COALESCE(MAX(CAST(SUBSTR(submission_id, 7) AS INTEGER)), 0)
+    FROM submission_batches
+    WHERE NOT EXISTS (SELECT 1 FROM id_sequences WHERE prefix = 'KA-IN-')
     """)
     db.commit()
     db.close()
@@ -303,12 +330,42 @@ def _init_article_tables():
 # ════════════════════════════════════════════════
 
 def _next_id(prefix: str, table: str, id_col: str) -> str:
-    """Generate the next sequential ID like KA-ART-000001."""
+    """Generate the next sequential ID like KA-ART-000001.
+
+    Uses an atomic UPDATE ... RETURNING against the id_sequences table
+    (requires SQLite >= 3.35 — verified 3.50.4 on this checkout). This
+    replaces the previous SELECT COUNT(*) approach, which had two bugs:
+
+      - Race condition: two concurrent submissions both read COUNT=N,
+        both compute N+1, both INSERT; one succeeds, the other gets
+        IntegrityError on the PRIMARY KEY.
+      - Delete-and-replay: deleting a row dropped COUNT, causing
+        subsequent _next_id calls to silently reuse the deleted ID,
+        corrupting any provenance keyed to the old article_id.
+
+    UPDATE ... RETURNING is statement-atomic in SQLite, so concurrent
+    callers cannot get the same value. Deletes don't move the counter
+    backward.
+
+    The `table` and `id_col` arguments are kept for backward
+    compatibility with the existing 8 call sites; only `prefix` is
+    used (it keys into id_sequences). The id_sequences row for each
+    prefix is seeded at startup by _init_article_tables.
+    """
     db = _get_db()
-    row = db.execute(f"SELECT COUNT(*) FROM {table}").fetchone()
+    row = db.execute(
+        "UPDATE id_sequences SET counter = counter + 1 "
+        "WHERE prefix = ? RETURNING counter",
+        (prefix,)
+    ).fetchone()
+    db.commit()
     db.close()
-    seq = (row[0] or 0) + 1
-    return f"{prefix}{seq:06d}"
+    if not row:
+        raise RuntimeError(
+            f"id_sequences row missing for prefix {prefix!r}; "
+            "_init_article_tables() must run before _next_id()"
+        )
+    return f"{prefix}{row[0]:06d}"
 
 
 def _now() -> str:
