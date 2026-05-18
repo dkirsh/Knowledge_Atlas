@@ -82,7 +82,7 @@ Six concerns cut across the ten targets. Each is a design choice with downstream
 
 ## 5. The panel
 
-CW proposes a panel of seven, drawing on the disciplines whose vocabularies bear on the VOI question. The composition is for DK's approval; CW will brief each panelist with this context document plus a tailored summary of what their perspective is being asked for.
+CW proposes a panel of eight, drawing on the disciplines whose vocabularies bear on the VOI question. The composition is for DK's approval; CW will brief each panelist with this context document plus a tailored summary of what their perspective is being asked for, and a capabilities appendix (§9) that names what the Knowledge Atlas system can already do, so that panel recommendations are anchored in implementable functions rather than blackboard formalisms.
 
 *Judea Pearl* — causal inference and Bayesian DAGs. Pearl's framework lets us think rigorously about what counts as a deconfounded measurement (Target 4) and what experimental designs would distinguish causal hypotheses (relevant to Targets 4, 5, 7). His do-calculus is the natural formal apparatus for the kind of intervention reasoning VOI involves. (~250,000 Google Scholar citations on the body of work; Pearl, 2009, *Causality*, ~25,000.)
 
@@ -98,7 +98,9 @@ CW proposes a panel of seven, drawing on the disciplines whose vocabularies bear
 
 *Helen Longino* — social epistemology of science, contestation, diversity of perspectives. Longino's framework lets us think about how the *community* of inquiry assigns value to questions, not just how an individual researcher does. Relevant to the question of how VOI should weight controversy versus convergence (Target 7), and to the framing of cross-cutting concerns about who decides what counts as a research priority. (Longino, 1990, *Science as Social Knowledge*, ~5,500; 2002, *The Fate of Knowledge*, ~3,000.)
 
-If DK wants to substitute or add panelists, candidates: *Karl Friston* (active inference, prediction error, free energy as an alternative formulation of information value); *Stanislas Dehaene* (cognitive neuroscience, generalisability across modalities, brain-as-Bayesian-machine); *Anjan Chatterjee* (neuroaesthetics, the architectural-cognition connection specifically); *Patricia Churchland* (philosophy of neuroscience, mechanism); *Heather Douglas* (values in science, what counts as a worthy question).
+*Carl Bergstrom* — computational information science, citation-network analysis, information-theoretic measures of scientific influence (added per DK 2026-05-18: "an information expert eg computational librarian who might know all about information theory models of VOI"). Bergstrom is the natural fit at the intersection DK named: his Eigenfactor work (Bergstrom 2007; West, Bergstrom & Bergstrom 2010) applies information-theoretic centrality measures to citation graphs, and his more recent work on the science of science (with Jevin West) treats research evaluation as a computational problem over an information network. Directly relevant to the *aggregation* question (§4) — what is the right formal way to combine VOI signals across kinds — and to the *temporal-decay* question (how does the information content of a question shrink as the literature catches up). Bergstrom's framework also speaks to the article-finder coupling (§4): the information-theoretic question of *how much would a corpus-internal search reduce uncertainty about whether a study has been done* is exactly the formalism we need. (Bergstrom, 2007, Eigenfactor, ~1,500; "Calling Bullshit" with West, 2020, ~700; Bergstrom & West's broader corpus ~30,000.)
+
+If DK wants to substitute or add panelists, candidates: *Jevin West* (UW Information School, co-author of Eigenfactor, computational analyses of citation networks — natural co-voice with Bergstrom and arguably interchangeable for this seat); *Loet Leydesdorff* (informetrics, Shannon-entropy measures in scientometrics — the most pure information-theoretic informetrician); *Tom Rainforth* (Oxford, Bayesian experimental design, information-theoretic optimal-design theory — for the formal VOI side proper); *Karl Friston* (active inference, prediction error, free energy as an alternative formulation of information value); *Stanislas Dehaene* (cognitive neuroscience, generalisability across modalities, brain-as-Bayesian-machine); *Anjan Chatterjee* (neuroaesthetics, the architectural-cognition connection specifically); *Patricia Churchland* (philosophy of neuroscience, mechanism); *Heather Douglas* (values in science, what counts as a worthy question).
 
 ## 6. What we are asking the panel
 
@@ -124,9 +126,11 @@ The panel is asked to converge on answers to a small set of questions. The quest
 
 **Question 10 — What we are missing.** What problem with this VOI framing have we not thought of?
 
+**Question 11 — Information-theoretic decomposition.** Is there a principled information-theoretic decomposition of the ten targets that would let us treat aggregation (Question 3) as a formally constrained problem rather than a free design choice? For example: are some targets best modelled as Shannon-entropy reductions over the question space (Targets 3, 8, 10 — coverage gaps), while others are best modelled as expected utility gains under a decision-theoretic prior (Targets 1, 2, 4 — methodological upgrades)? If so, the UI consequences of mixing the two kinds of signals should be made explicit.
+
 ## 7. Process
 
-CW will brief each panelist with this document plus a one-page tailored summary explaining which questions their perspective is most central to. The brief will request a short written response (~600–1,200 words per panelist) within two weeks.
+CW will brief each panelist with this document plus a one-page tailored summary explaining which questions their perspective is most central to, and a capabilities appendix (§9) describing the Knowledge Atlas functions currently available or in build. The capabilities appendix is intended to keep the panel's recommendations operationalisable: methods that depend on functions we cannot implement are dead recommendations. The brief will request a short written response (~600–1,200 words per panelist) within two weeks.
 
 After the responses arrive, CW will produce a *synthesis document* that:
 - Catalogues each panelist's position on each question
@@ -139,11 +143,103 @@ DK adjudicates the contested questions. Once DK has decided, CW writes the imple
 
 ## 8. What this document does not do
 
-To be precise about scope: this document is *not* a methods proposal. It deliberately stops short of recommending specific computational criteria for each target, specific aggregation schemes, specific decay models. Those are for the panel to recommend; the panel's judgement is more valuable than CW's because (a) the operationalisation will be cited as a methodological commitment of the Atlas going forward, and (b) the operationalisation needs to be defensible across the seven panelists' disciplinary perspectives. CW's job here is to frame the problem so the panel can do its work. The methods are theirs.
+To be precise about scope: this document is *not* a methods proposal. It deliberately stops short of recommending specific computational criteria for each target, specific aggregation schemes, specific decay models. Those are for the panel to recommend; the panel's judgement is more valuable than CW's because (a) the operationalisation will be cited as a methodological commitment of the Atlas going forward, and (b) the operationalisation needs to be defensible across the eight panelists' disciplinary perspectives. CW's job here is to frame the problem so the panel can do its work. The methods are theirs.
+
+---
+
+## 9. Capabilities appendix — what the Knowledge Atlas system can already do
+
+This appendix is for the panel. The system has a substantial inventory of extracted data, generative-AI services, and UI affordances; panelists should know what is on the shelf when they recommend operationalisations. A recommendation that depends on a function we cannot build will be set aside; a recommendation that builds on functions we already have can move directly into Codex implementation.
+
+The inventory is grouped in five families. For each capability, the appendix names *what it is, where it lives in the repos, what it currently produces, and what the panel can plausibly recommend doing with it*.
+
+### Family A — Per-paper structured extractions
+
+These live in the Article_Eater pipeline (`/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/`) and are produced for every paper in the corpus. They are the rawest input the panel can recommend operationalising over.
+
+*Paper-quality fingerprint (in active build).* For each paper, eleven extracted fields (study design type, sample N, sample composition, preregistration status, reported effect-size with CI, statistical-power adequacy flag, replication-record flag, open-data flag, COI flag, theory tag(s), methodological-pitfall flags) plus four Toulmin-style sidecars (claim, warrant strength, qualifier, rebuttal-record). The build is being executed across CW / AG / Codex via a blackboard architecture. **VOI relevance**: Targets 4 (IV/DV confounds — fingerprint flags), 8 (replication priorities — replication-record field), 9 (heterogeneity — effect-size CI width across papers on the same topic), 10 (WEIRD-extension — sample-composition field).
+
+*Toulmin warrant extraction.* Per-paper extraction of the claim-data-warrant-backing-qualifier-rebuttal structure. Multi-LLM independent extraction with cross-model agreement scoring. Persisted as warrant sidecars in the pipeline database. **VOI relevance**: Targets 4 (where warrants are weak, deconfounding studies have high VOI), 5 (weak warrant-backing edges are mechanism-chain stubs), 7 (where competing paradigms' warrants are incompatible, paradigm-distinguishing experiments have high VOI).
+
+*PNU (Plausible Neural Underpinning) chains.* Per-paper mechanism graphs with citations per edge. The PNU registry persists chains of the form *stimulus → perceptual stage → cognitive stage → autonomic stage → behavioural outcome*; each edge carries a confidence score and citation backing. **VOI relevance**: Targets 5 (weak edges — hand-waved intermediate stages — are high-VOI study targets), 6 (PNU generalisation — chains tested only in narrow populations or modalities).
+
+*Theory tagging.* Each paper tagged with T1 (eleven foundational theories — Predictive Processing, Embodied Cognition, etc.) and T1.5 (thirteen domain theories — Attention Restoration, Stress Recovery, Biophilic Design, etc.) classifications, with mention-type sub-classification (framework / cited / passing — TASKS.md THEORY-MENTION-001, planned). **VOI relevance**: Target 7 (paradigm-distinguishing experiments require knowing which papers operationalise which theory), Target 3 (theory-paper intersection counts surface understudied combinations).
+
+*Methods extraction.* IV / DV operationalisations, measure names with construct linkages, statistical test choices. Stored as structured records per paper. **VOI relevance**: Targets 1 (better stimuli — IV-level variation across papers), 2 (better measures — DV-level variation), 4 (confounds — joint variation in IV and DV).
+
+*Science-writer summaries.* Per-paper 750-1,250-word reflective summary in plain language (29 / 833 currently in spec; batch regeneration queued — TASKS.md SCSUMMARY-001). **VOI relevance**: not directly a VOI signal but the substrate that makes VOI explanations readable to students.
+
+*Visual cropping with OCR captions.* 10,253 figure crops with bounding boxes and captions per paper (TASKS.md ARTICLE-001, ARTICLE-002). **VOI relevance**: secondary; supports the stimulus-class differentiation in the bibliography meta-review table.
+
+### Family B — Cross-paper structured data
+
+These aggregate across the corpus and are the natural substrate for the *coverage* and *saturation* dimensions of VOI.
+
+*Topic crosswalk.* Papers cross-tagged with multiple topics; supports retrieval by topic-intersection. **VOI relevance**: Target 3 (zero-count intersections are understudied-topic candidates), Target 10 (sample composition × topic intersection surfaces WEIRD gaps).
+
+*Theory-paper count distribution.* Per-theory corpus saturation (ART = 31 papers, Biophilic Design = 23, Soundscape = 21, etc.). **VOI relevance**: Target 3 (saturation curves identify diminishing-returns regions), Target 7 (paradigm count balance shapes paradigm-distinguishing experiment design).
+
+*PNU registry across papers.* Shared mechanism chains surfaced as nodes that recur across multiple papers; edge confidence aggregates over the corpus. **VOI relevance**: Targets 5 and 6 (mechanism-chain weak edges and generalisation gaps).
+
+*Replication graph (planned, partial).* Paper-pair flags indicating replication attempts; planned to incorporate Curate Science and Scite.ai data ingest. **VOI relevance**: Target 8 (replication priorities directly).
+
+*Citation network.* Internal citation graph plus planned OpenAlex (Priem, Piwowar & Orr 2022) ingest for external citations. Currently the corpus is small enough that internal citation-graph analyses are tractable. **VOI relevance**: Targets 3 (citation-island detection for understudied areas), 5 (mechanism chains that recur in citation clusters), 7 (paradigm-clustering through co-citation).
+
+*Adaptive paper-type classifier* (Codex's `atlas_shared.AdaptiveClassifierSubsystem`). Classifies paper into types (theoretical / empirical / review / meta-analysis / replication / etc.); call via `ka_article_endpoints.classify_single_paper` or import in-process. **VOI relevance**: Target 8 (replication classification), Target 7 (theoretical-paper density per topic).
+
+### Family C — UI affordances and pages
+
+The panel's recommendations need to land somewhere visible to the user; this is the inventory of where.
+
+*Article view* (`ka_article_view.html`). Per-paper page exposing warrants, PNU, summary, visual gallery. **VOI relevance**: where a paper's individual VOI markings (this study is a high-VOI replication target; this study's mechanism stub is high-VOI to fill) would be surfaced.
+
+*Topic pages* (`ka_topics_v2.html`, parameterised by topic). Per-topic gateway with mechanism narrative, principal references, question accordion. **VOI relevance**: where topic-level VOI signals (Target 3 understudied areas, Target 7 paradigm contestation) would be surfaced; the planned VOI panel card lives here.
+
+*Theory pages* (`ka_theory.html`, parameterised by theory). Per-theory gateway. **VOI relevance**: where Target 7 paradigm-level VOI (which crucial experiment would move this theory's empirical status) would surface.
+
+*Question database / Research Questions module* (being rebuilt — TASKS.md GUI-RQ-001, TOPICS-001). Open questions per topic; planned redesign with results-page or accordion answer rendering. **VOI relevance**: this is the surface where VOI-ranked open questions actually meet the user; the panel should think of their recommendations as feeding into this module.
+
+*Did You Know (DYK) cards.* Short topic-based affordances; deployed on the Week-1 student wireframe (`160sp/ka_week1_wireframe_2026-05-17.html` Surface 2). **VOI relevance**: a derived UI from VOI signals; high-VOI topics generate DYK cards that lead the student toward them.
+
+*Track student work pages* (T1-T4 hubs). Includes the persona-panel exercises, set-up flows, join-track CTAs. **VOI relevance**: tertiary; the wiring from VOI to the COGS 160 Fall journey runs through these pages.
+
+### Family D — Generative-AI services
+
+These are the engines that produce content the user reads.
+
+*Science Writer service.* Per-paper summarisation with multimodal page-image input (TASKS.md SC-PIPELINE-001). **VOI relevance**: produces the human-readable VOI rationale text on a per-topic basis.
+
+*Toulmin warrant extractor.* Multi-LLM independent extraction with cross-model agreement. **VOI relevance**: foundational for Targets 4 and 5.
+
+*PNU generation* (Article_Eater Stage 13, planned theory-level extension TASKS.md THEORY-PNU-001). **VOI relevance**: foundational for Targets 5 and 6.
+
+*Substitution skill (planned — UJ-2).* Construct-to-measure-to-VR-feasibility-to-substitute graph; generative explanation layer with confidence display. **VOI relevance**: at the intersection of Target 2 (better measures) and the methodology-tolerable / researcher-required distinction.
+
+*Article-finder query construction (planned).* Each VOI pointer must produce a sanity-check query ("has the work that would erase this opportunity been done?"). The form of the query is one of the open questions (§4); the engine that runs it is on the shelf via OpenAlex + corpus-internal retrieval.
+
+### Family E — Workflow and coordination infrastructure
+
+*Blackboard coordination architecture.* Database-as-truth pattern for multi-AI work (CW, AG, Codex). Documented at `docs/PAPER_QUALITY_BLACKBOARD_DESIGN_2026-04-25.md`. **VOI relevance**: supports the multi-AI corpus extraction that produces the VOI substrate.
+
+*Coordination HTTP server* (`scripts/coordination/coord_server.py`, port 8420). Real-time task claiming, heartbeats, messaging. **VOI relevance**: only operationally relevant; not user-facing.
+
+*Three-AI pipeline.* CW (Claude Code / Cowork), AG (Agentic Gemini), Codex. Different strengths surfaced in the paper-quality build. **VOI relevance**: implementation capacity; the panel can recommend operationalisations that require multi-LLM verification because the architecture supports it.
+
+### What this means for the panel
+
+A panel recommendation can presume the following is available *now*: paper-quality fingerprint extraction, Toulmin warrants, PNU chains, theory tagging, topic crosswalk, citation network (corpus-internal), adaptive paper-type classification, OpenAlex ingest, Science Writer summaries, blackboard coordination.
+
+A panel recommendation can presume the following is in *planned-build* and will land within the next two quarters: full theory-level PNU extraction, the question-database rebuild, the Substitution Skill, the replication-graph ingest, the differentiation-table mockup, the citation-graph MVP view.
+
+A panel recommendation that depends on functions *outside* this list should flag the dependency explicitly so DK and CW can scope whether to add the function or scope back the recommendation.
 
 ---
 
 ## References
+
+Bergstrom, C. T. (2007). Eigenfactor: Measuring the value and prestige of scholarly journals. *College & Research Libraries News*, 68(5), 314–316. https://doi.org/10.5860/crln.68.5.7804 (Google Scholar: ~1,500)
+
+Bergstrom, C. T., & West, J. D. (2020). *Calling bullshit: The art of skepticism in a data-driven world*. Random House. (Google Scholar: ~700)
 
 Gelman, A., & Loken, E. (2014). The statistical crisis in science. *American Scientist*, 102(6), 460–465. (Google Scholar: ~1,800)
 
@@ -161,9 +257,13 @@ Mayo, D. G. (2018). *Statistical inference as severe testing: How to get beyond 
 
 Pearl, J. (2009). *Causality: Models, reasoning, and inference* (2nd ed.). Cambridge University Press. (Google Scholar: ~25,000)
 
+Priem, J., Piwowar, H., & Orr, R. (2022). OpenAlex: A fully-open index of scholarly works, authors, venues, institutions, and concepts. *arXiv* preprint. https://doi.org/10.48550/arXiv.2205.01833 (Google Scholar: ~200)
+
 Raiffa, H., & Schlaifer, R. (1961). *Applied statistical decision theory*. Harvard University Press. (Google Scholar: ~4,500)
 
 Thagard, P. (1992). *Conceptual revolutions*. Princeton University Press. (Google Scholar: ~3,500)
+
+West, J. D., Bergstrom, T. C., & Bergstrom, C. T. (2010). The Eigenfactor metrics: A network approach to assessing scholarly journals. *College & Research Libraries*, 71(3), 236–244. https://doi.org/10.5860/0710236 (Google Scholar: ~700)
 
 ---
 
