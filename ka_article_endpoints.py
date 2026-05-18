@@ -642,7 +642,7 @@ def _get_optional_user(request: Request) -> Optional[dict]:
 
 
 def _route_classifier_verdict(verdict, overall_confidence: float):
-    """Map (verdict, overall_confidence) -> (status, audit_action, edge_case_reason).
+    """Map (verdict, overall_confidence) -> (status, audit_action, routing_reason).
 
     Routing boundary 0.72 is pinned by the Classifier Integration Contract
     (Track 2 / Phase 1 & 2 / contracts §4.1) and matches the threshold used
@@ -806,7 +806,7 @@ async def submit_articles(
         surface_text = _extract_text_from_pdf_bytes(content, max_chars=5000)
 
         # Per Classifier Integration Contract: skip classifier on insufficient text,
-        # route directly to needs_review with edge_case_reason
+        # route directly to needs_review with routing_reason
         if len(surface_text.strip()) < 100:
             cls = {
                 "verdict": None,
@@ -822,7 +822,7 @@ async def submit_articles(
                 "source": "skipped_insufficient_text",
                 "signals": [],
             }
-            branch_status, audit_action, edge_reason = (
+            branch_status, audit_action, routing_reason = (
                 "needs_review", "needs_review", "insufficient_text_for_classification")
         else:
             try:
@@ -834,7 +834,7 @@ async def submit_articles(
                     abstract=abstract_guess,
                     text_surface=surface_text,
                 )
-                branch_status, audit_action, edge_reason = _route_classifier_verdict(
+                branch_status, audit_action, routing_reason = _route_classifier_verdict(
                     cls["verdict"], cls["overall_confidence"])
             except Exception as exc:
                 # Classifier crashed — treat as edge case, capture the error
@@ -852,7 +852,7 @@ async def submit_articles(
                     "source": f"classifier_error:{type(exc).__name__}",
                     "signals": [],
                 }
-                branch_status, audit_action, edge_reason = (
+                branch_status, audit_action, routing_reason = (
                     "needs_review", "needs_review",
                     f"classifier_error:{type(exc).__name__}")
 
@@ -872,10 +872,13 @@ async def submit_articles(
             except OSError as fs_exc:
                 # Filesystem write failed. Override branch to a clean reject
                 # so the row is honest and the file is not orphaned.
+                # Audit action matches status (consistency with other branches:
+                # staged_pending_review<->staged, needs_review<->needs_review,
+                # rejected_*<->rejected_*).
                 quarantine_path_str = None
                 branch_status = "rejected_storage_error"
-                audit_action  = "quarantine_write_failed"
-                edge_reason   = f"quarantine_write_failed:{type(fs_exc).__name__}:{fs_exc.errno}"
+                audit_action  = "rejected_storage_error"
+                routing_reason   = f"quarantine_write_failed:{type(fs_exc).__name__}:{fs_exc.errno}"
                 # Annotate the classifier source so the response carries the
                 # cause even though the classifier itself succeeded.
                 cls["source"] = f"quarantine_error:{type(fs_exc).__name__}"
@@ -893,8 +896,8 @@ async def submit_articles(
 
         # Per contract §4.2 column-enumeration:
         validation_with_reason = dict(validation)
-        if edge_reason:
-            validation_with_reason["edge_case_reason"] = edge_reason
+        if routing_reason:
+            validation_with_reason["routing_reason"] = routing_reason
 
         # rejected_at / staged_at must follow the (possibly-overridden) branch_status.
         # Use a prefix match so any future rejected_* status is handled correctly.
@@ -936,7 +939,7 @@ async def submit_articles(
             "a0_task": a0_task or None,
             "article_type": art_type,
             "counts_toward_requirement": bool(art_type_valid),
-            "reason": edge_reason,
+            "reason": routing_reason,
             "classifier": {
                 "verdict":                  cls.get("verdict"),
                 "classifier_article_type":  cls.get("canonical_article_type", "unknown"),
@@ -976,16 +979,16 @@ async def submit_articles(
             # not a duplicate. Reason: no PDF bytes → no surface text → the
             # <100-char guard in the classifier would fire anyway. We skip the
             # classifier call and short-circuit to needs_review with an explicit
-            # edge_case_reason. Dedup logic preserved exactly as it was.
+            # routing_reason. Dedup logic preserved exactly as it was.
             if dup_result["is_duplicate"]:
                 status = "duplicate_existing"
                 audit_action_cit = "duplicate_detected"
-                edge_reason_cit = None
+                routing_reason_cit = None
                 cls_cit_block = None  # classifier never called for duplicates (contract §3.1)
             else:
                 status = "needs_review"
                 audit_action_cit = "needs_review"
-                edge_reason_cit = "citation_only_no_pdf_text"
+                routing_reason_cit = "citation_only_no_pdf_text"
                 cls_cit_block = {
                     "verdict": None,
                     "classifier_article_type": "unknown",
@@ -1020,7 +1023,7 @@ async def submit_articles(
                  int(parsed["year"]) if parsed["year"] else None,
                  line,
                  status, dup_of,
-                 json.dumps({"edge_case_reason": edge_reason_cit}) if edge_reason_cit else None,
+                 json.dumps({"routing_reason": routing_reason_cit}) if routing_reason_cit else None,
                  question_id or None, topic_tags or None,
                  source_surface, "COGS160-SP26", notes or None,
                  now,
@@ -1040,7 +1043,7 @@ async def submit_articles(
                 "duplicate_status": "duplicate" if dup_result["is_duplicate"] else "not_duplicate",
                 "metadata": {"doi": extracted_doi},
                 "status": status,
-                "reason": edge_reason_cit,
+                "reason": routing_reason_cit,
             }
             if cls_cit_block is not None:
                 item["classifier"] = cls_cit_block
