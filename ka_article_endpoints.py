@@ -855,43 +855,57 @@ async def submit_articles(
                     "needs_review", "needs_review",
                     f"classifier_error:{type(exc).__name__}")
 
-        # Save to quarantine
-        month_dir = QUARANTINE_DIR / datetime.now().strftime("%Y-%m")
-        month_dir.mkdir(parents=True, exist_ok=True)
-        quarantine_path = month_dir / f"{article_id}.pdf"
-        quarantine_path.write_bytes(content)
+        # ── T2-Task1: write to quarantine ONLY if the verdict allows it
+        # (Branches A and B per Classifier Integration Contract §4.1).
+        # Branch E (rejected_off_topic) writes the row but no file.
+        if branch_status in ("staged_pending_review", "needs_review"):
+            month_dir = QUARANTINE_DIR / datetime.now().strftime("%Y-%m")
+            month_dir.mkdir(parents=True, exist_ok=True)
+            quarantine_path = month_dir / f"{article_id}.pdf"
+            quarantine_path.write_bytes(content)
+            quarantine_path_str = str(quarantine_path)
+        else:
+            quarantine_path_str = None
 
         # Determine metadata confidence
         confidence = "low"
         if extracted_doi:
             confidence = "medium"
 
-        # Determine article type validity for A0 task
+        # Determine article type validity for A0 task (existing semantics preserved)
         art_type = article_type if article_type in VALID_ARTICLE_TYPES else None
         art_type_valid = 1 if (not a0_task or a0_task != "task1" or art_type == "experimental") else 0
 
-        # Insert article record
+        # Per contract §4.2 column-enumeration:
+        validation_with_reason = dict(validation)
+        if edge_reason:
+            validation_with_reason["edge_case_reason"] = edge_reason
+
+        rejected_at = now if branch_status == "rejected_off_topic" else None
+        staged_at_v = now if branch_status in ("staged_pending_review", "needs_review") else None
+
+        # Insert article record (new column: relevance_score)
         db = _get_db()
         db.execute("""INSERT INTO articles
             (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
              doi, pdf_filename, pdf_hash_sha256, pdf_size_bytes, quarantine_path,
              article_type, a0_task, article_type_valid,
-             status, validation_notes,
+             status, validation_notes, relevance_score,
              assigned_question_id, topic_tags,
              source_surface, course_context, submitter_notes,
-             created_at, validated_at, staged_at, metadata_confidence)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+             created_at, validated_at, staged_at, rejected_at, metadata_confidence)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
             (article_id, submission_id, submitter_id, submitter_type, track, "pdf_single",
-             extracted_doi, filename, pdf_hash, len(content), str(quarantine_path),
+             extracted_doi, filename, pdf_hash, len(content), quarantine_path_str,
              art_type, a0_task or None, art_type_valid,
-             "staged_pending_review", json.dumps(validation),
+             branch_status, json.dumps(validation_with_reason), cls.get("primary_topic_score", 0.0),
              question_id or None, topic_tags or None,
              source_surface, "COGS160-SP26", notes or None,
-             now, now, now, confidence))
+             now, now, staged_at_v, rejected_at, confidence))
         db.commit()
         db.close()
 
-        _write_audit(article_id, "staged", "received", "staged_pending_review",
+        _write_audit(article_id, audit_action, "received", branch_status,
                      actor_id=submitter_id, actor_type=submitter_type)
 
         items.append({
@@ -901,10 +915,22 @@ async def submit_articles(
             "validation_status": "valid",
             "duplicate_status": "not_duplicate",
             "metadata": {"doi": extracted_doi, "confidence": confidence},
-            "status": "staged_pending_review",
+            "status": branch_status,
             "a0_task": a0_task or None,
             "article_type": art_type,
-            "counts_toward_requirement": bool(art_type_valid)
+            "counts_toward_requirement": bool(art_type_valid),
+            "reason": edge_reason,
+            "classifier": {
+                "verdict":                  cls.get("verdict"),
+                "classifier_article_type":  cls.get("canonical_article_type", "unknown"),
+                "article_type_confidence":  cls.get("confidence", 0.0),
+                "primary_topic":            cls.get("primary_topic"),
+                "primary_topic_confidence": cls.get("primary_topic_score", 0.0),
+                "overall_confidence":       cls.get("overall_confidence", 0.0),
+                "next_action":              cls.get("next_action", "review_borderline_case"),
+                "backend":                  cls.get("backend", "unknown"),
+                "active_topic_matches":     [],
+            },
         })
 
     # ── Process citation text
@@ -982,15 +1008,18 @@ async def submit_articles(
     staged = sum(1 for i in items if i["status"] == "staged_pending_review")
     dups = sum(1 for i in items if i["status"] == "duplicate_existing")
     rejected = sum(1 for i in items if "rejected" in i["status"])
+    edge_cases = sum(1 for i in items if i["status"] == "needs_review")
 
     return {
+        "contract_version": "1.0",
         "submission_id": submission_id,
         "items": items,
         "summary": {
             "total": len(items),
             "staged": staged,
             "duplicates": dups,
-            "rejected": rejected
+            "rejected": rejected,
+            "edge_cases": edge_cases,
         }
     }
 
