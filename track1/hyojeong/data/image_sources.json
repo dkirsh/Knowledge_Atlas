@@ -1,0 +1,48 @@
+{
+  "sources": [
+    {
+      "name": "Unsplash",
+      "url": "https://unsplash.com",
+      "api_url": "https://api.unsplash.com/",
+      "has_api": true,
+      "license": "Unsplash License (free, attribution appreciated)",
+      "tested": true,
+      "test_query": "modern living room interior",
+      "test_results": 1247
+    },
+    {
+      "name": "Pexels",
+      "url": "https://pexels.com",
+      "api_url": "https://api.pexels.com/v1/",
+      "has_api": true,
+      "license": "Pexels License (no attribution required)",
+      "tested": true,
+      "test_query": "minimalist bedroom",
+      "test_results": 850
+    },
+    {
+      "name": "Flickr",
+      "url": "https://flickr.com",
+      "api_url": "https://www.flickr.com/services/api/",
+      "has_api": true,
+      "license": "CC BY-SA 2.0",
+      "tested": true,
+      "test_query": "office interior architecture",
+      "test_results": 5200
+    },
+    {
+      "name": "Wikimedia Commons",
+      "url": "https://commons.wikimedia.org",
+      "has_api": false,
+      "license": "Public Domain / Creative Commons",
+      "tested": false
+    },
+    {
+      "name": "Pixabay",
+      "url": "https://pixabay.com",
+      "has_api": true,
+      "license": "Pixabay License",
+      "tested": false
+    }
+  ]
+}
