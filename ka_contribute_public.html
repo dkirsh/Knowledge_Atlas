@@ -63,6 +63,28 @@
   .footer-note a{color:#2A7868;text-decoration:none}
   .footer-note a:hover{text-decoration:underline}
 
+  /* Results section */
+  #__ka_results{margin-top:22px}
+  #__ka_results h2{font-family:Georgia,serif;font-size:1.1rem;color:#1C3D3A;margin-bottom:14px}
+  .result-card{background:#fff;border:1.5px solid #E0D8CC;border-radius:10px;
+               padding:18px 22px;margin-bottom:14px}
+  .result-card.accept{border-left:4px solid #2A7868}
+  .result-card.edge_case{border-left:4px solid #E8872A}
+  .result-card.reject,.result-card.rejected_bad_file{border-left:4px solid #C0392B}
+  .result-card.duplicate{border-left:4px solid #8A9A96}
+  .verdict-badge{display:inline-block;font-size:.72rem;font-weight:700;
+                 letter-spacing:.08em;text-transform:uppercase;padding:3px 9px;
+                 border-radius:4px;margin-bottom:10px}
+  .verdict-badge.accept{background:#E6F5F0;color:#1C5C4E}
+  .verdict-badge.edge_case{background:#FEF3E8;color:#A0520F}
+  .verdict-badge.reject,.verdict-badge.rejected_bad_file{background:#FDECEA;color:#922B21}
+  .verdict-badge.duplicate{background:#F2F2F2;color:#555}
+  .result-meta{font-size:.85rem;color:#2C2C2C;line-height:1.7}
+  .result-meta b{color:#1C3D3A}
+  .result-hits{font-size:.80rem;color:#6B6B6B;margin-top:6px}
+  .result-hits span{background:#F0EDE8;border-radius:3px;padding:1px 6px;
+                     margin-right:4px;display:inline-block;margin-bottom:3px}
+
   .tiny-label{font-size:.72rem;letter-spacing:.08em;text-transform:uppercase;
                color:#8A9A96;font-weight:700;margin-bottom:6px;margin-top:18px}
 
@@ -144,6 +166,12 @@
     </form>
   </div>
 
+  <!-- Classification results (populated after submission) -->
+  <div id="__ka_results" style="display:none">
+    <h2>Classification results</h2>
+    <div id="__ka_results_list"></div>
+  </div>
+
   <!-- What happens next -->
   <div class="card" style="background:#F9F5EE;border-color:#E0D8CC">
     <h2 style="font-size:1.05rem">What happens next</h2>
@@ -193,6 +221,10 @@
 (function(){
   let chosenFile = null;
 
+  const API_BASE = (window.__KA_CONFIG__ && window.__KA_CONFIG__.apiBase)
+    ? window.__KA_CONFIG__.apiBase.replace(/\/$/, "")
+    : "";
+
   window.handleFiles = function(files) {
     if (!files || !files.length) return;
     chosenFile = files[0];
@@ -201,7 +233,7 @@
     box.textContent = "✓ " + chosenFile.name + " — ready to send";
   };
 
-  window.submitSuggestion = function() {
+  window.submitSuggestion = async function() {
     const citation = document.getElementById("sg_citation").value.trim();
     const why      = document.getElementById("sg_why").value.trim();
     const email    = document.getElementById("sg_email").value.trim();
@@ -213,31 +245,127 @@
 
     const btn = document.getElementById("__ka_submit_btn");
     btn.disabled = true;
-    btn.textContent = "Sending…";
+    btn.textContent = "Classifying…";
 
-    // In production this POSTs to /api/articles/suggest (see KA_AF_INTAKE).
-    // For now we persist locally and show the thank-you modal so the flow
-    // is reviewable without a backend.
-    const payload = {
-      filename: chosenFile ? chosenFile.name : null,
-      citation, why, email,
-      submitted_at: new Date().toISOString(),
-    };
+    const fd = new FormData();
+    if (chosenFile) fd.append("file", chosenFile);
+    if (citation)   fd.append("citation", citation);
+    if (why)        fd.append("why_it_matters", why);
+    if (email)      fd.append("email", email);
+
+    let result = null;
     try {
-      const log = JSON.parse(localStorage.getItem("ka.public_suggestions") || "[]");
-      log.push(payload);
-      localStorage.setItem("ka.public_suggestions", JSON.stringify(log));
-    } catch(e){ /* fine, still show the modal */ }
-
-    setTimeout(() => {
-      document.getElementById("__ka_thanks").classList.add("open");
+      const resp = await fetch(API_BASE + "/api/articles/suggest", {
+        method: "POST",
+        body: fd,
+      });
+      if (!resp.ok) {
+        const err = await resp.json().catch(() => ({}));
+        throw new Error(err.detail || `Server error ${resp.status}`);
+      }
+      result = await resp.json();
+    } catch (e) {
       btn.disabled = false;
       btn.textContent = "Send suggestion";
-      document.getElementById("__ka_suggest_form").reset();
-      const box = document.getElementById("__ka_file_chosen");
-      box.style.display = "none";
-      chosenFile = null;
-    }, 500);
+      alert("Submission failed: " + e.message);
+      return;
+    }
+
+    // Render result cards
+    const resultsSection = document.getElementById("__ka_results");
+    const resultsList    = document.getElementById("__ka_results_list");
+    resultsSection.style.display = "block";
+
+    // SAFE rendering — every value from the server is treated as untrusted
+    // text and inserted via textContent (or attribute setters). No innerHTML
+    // template strings: filename / citation / topic / hits / reasons are
+    // user-influenced (filename comes from the upload, citation is free text,
+    // hits / topic / reasons come from PDF text via the classifier) and would
+    // otherwise be an XSS vector.
+    const VERDICT_LABEL = {
+      accept:           "Accepted — queued for review",
+      edge_case:        "Edge case — queued for review",
+      reject:           "Not stored — off-topic",
+      rejected_bad_file:"Rejected — invalid PDF",
+      duplicate:        "Duplicate — already in corpus",
+    };
+    const el = (tag, opts) => {
+      const e = document.createElement(tag);
+      if (opts && opts.text)  e.textContent = opts.text;
+      if (opts && opts.cls)   e.className   = opts.cls;
+      return e;
+    };
+    const labelLine = (parent, label, value) => {
+      const b = el("b", {text: label + " "});
+      parent.appendChild(b);
+      parent.appendChild(document.createTextNode(value || "—"));
+      parent.appendChild(document.createElement("br"));
+    };
+
+    for (const item of (result.items || [])) {
+      const verdict = String(item.verdict || "unknown");
+      const label   = VERDICT_LABEL[verdict] || verdict;
+
+      const card = el("div", {cls: `result-card card ${verdict.replace(/[^a-z_]/gi, "")}`});
+      card.appendChild(el("div", {cls: `verdict-badge ${verdict.replace(/[^a-z_]/gi, "")}`,
+                                   text: label}));
+
+      const meta = el("div", {cls: "result-meta"});
+      const titleStrong = el("b");
+      titleStrong.textContent = item.filename
+        ? String(item.filename)
+        : String(item.citation || "").slice(0, 80) + (item.citation ? "…" : "");
+      meta.appendChild(titleStrong);
+      meta.appendChild(document.createElement("br"));
+      if (item.article_id) {
+        labelLine(meta, "ID:", String(item.article_id));
+        labelLine(meta, "Status:", String(item.status || ""));
+      }
+      const typeConf = item.article_type_confidence != null
+        ? " (" + Math.round(item.article_type_confidence * 100) + "%)"
+        : "";
+      labelLine(meta, "Article type:", (item.article_type || "—") + typeConf);
+      const topicConf = item.topic_confidence != null
+        ? " (" + Math.round(item.topic_confidence * 100) + "%)"
+        : "";
+      labelLine(meta, "Best-match topic:", (item.topic || "—") + topicConf);
+      if (item.question_id) labelLine(meta, "Question:", String(item.question_id));
+      card.appendChild(meta);
+
+      const renderHits = (label, list) => {
+        const row = el("div", {cls: "result-hits"});
+        row.appendChild(el("b", {text: label + " "}));
+        if (!list || !list.length) {
+          row.appendChild(el("em", {text: "none"}));
+        } else {
+          for (const h of list) {
+            row.appendChild(el("span", {text: String(h)}));
+            row.appendChild(document.createTextNode(" "));
+          }
+        }
+        card.appendChild(row);
+      };
+      renderHits("Environment hits:", item.environment_hits);
+      renderHits("Outcome hits:",     item.outcome_hits);
+
+      if (item.reasons && item.reasons.length) {
+        const ul = document.createElement("ul");
+        ul.style.cssText = "font-size:.80rem;color:#6B6B6B;margin-top:6px;padding-left:18px";
+        for (const r of item.reasons) ul.appendChild(el("li", {text: String(r)}));
+        card.appendChild(ul);
+      }
+
+      resultsList.prepend(card);
+    }
+
+    // Reset form but keep results visible
+    btn.disabled = false;
+    btn.textContent = "Send suggestion";
+    document.getElementById("__ka_suggest_form").reset();
+    const box = document.getElementById("__ka_file_chosen");
+    box.style.display = "none";
+    chosenFile = null;
+    resultsSection.scrollIntoView({behavior: "smooth", block: "start"});
   };
 })();
 </script>
