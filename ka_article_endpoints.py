@@ -961,9 +961,15 @@ async def submit_articles(
         rejected_at = now if branch_status.startswith("rejected_") else None
         staged_at_v = now if branch_status in ("staged_pending_review", "needs_review") else None
 
-        # Insert article record (new column: relevance_score)
-        db = _get_db()
-        db.execute("""INSERT INTO articles
+        # Insert article record (new column: relevance_score).
+        # Wrapped in retry-on-IntegrityError: with id_sequences in place,
+        # an article_id collision should be impossible. But other UNIQUE
+        # or FOREIGN KEY violations could theoretically fire (e.g., DB
+        # corruption, manual data manipulation). Catch once, allocate a
+        # fresh ID via _next_id (which advances the counter atomically),
+        # retry the INSERT. The original article_id is "burned" — gone
+        # but never reused, preserving monotonicity.
+        _insert_sql = """INSERT INTO articles
             (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
              doi, pdf_filename, pdf_hash_sha256, pdf_size_bytes, quarantine_path,
              article_type, a0_task, article_type_valid,
@@ -971,16 +977,29 @@ async def submit_articles(
              assigned_question_id, topic_tags,
              source_surface, course_context, submitter_notes,
              created_at, validated_at, staged_at, rejected_at, metadata_confidence)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-            (article_id, submission_id, submitter_id, submitter_type, track, "pdf_single",
-             extracted_doi, filename, pdf_hash, len(content), quarantine_path_str,
-             art_type, a0_task or None, art_type_valid,
-             branch_status, json.dumps(validation_with_reason), cls.get("primary_topic_score", 0.0),
-             question_id or None, topic_tags or None,
-             source_surface, "COGS160-SP26", notes or None,
-             now, now, staged_at_v, rejected_at, confidence))
-        db.commit()
-        db.close()
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
+
+        def _do_insert(aid):
+            db = _get_db()
+            try:
+                db.execute(_insert_sql,
+                    (aid, submission_id, submitter_id, submitter_type, track, "pdf_single",
+                     extracted_doi, filename, pdf_hash, len(content), quarantine_path_str,
+                     art_type, a0_task or None, art_type_valid,
+                     branch_status, json.dumps(validation_with_reason), cls.get("primary_topic_score", 0.0),
+                     question_id or None, topic_tags or None,
+                     source_surface, "COGS160-SP26", notes or None,
+                     now, now, staged_at_v, rejected_at, confidence))
+                db.commit()
+            finally:
+                db.close()
+
+        try:
+            _do_insert(article_id)
+        except sqlite3.IntegrityError:
+            # Defensive: allocate a fresh article_id and retry once.
+            article_id = _next_id("KA-ART-", "articles", "article_id")
+            _do_insert(article_id)
 
         _write_audit(article_id, audit_action, "received", branch_status,
                      actor_id=submitter_id, actor_type=submitter_type)
