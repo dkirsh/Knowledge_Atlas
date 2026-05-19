@@ -31,12 +31,12 @@ from __future__ import annotations
 import os
 import json
 import logging
-import shlex
-import subprocess
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, HTTPException, Request
 from pydantic import BaseModel, Field
+
+from ka_subscription_llm import call_subscription_llm
 
 log = logging.getLogger("ka.critique")
 
@@ -160,22 +160,11 @@ def _build_user_prompt(req: CritiqueSuggestRequest, flagged: List[CritiqueItem])
 
 def _call_subscription_llm(system: str, user: str) -> str:
     """Call a local subscription CLI. API SDKs and API keys are forbidden."""
-    command = shlex.split(os.environ.get("KA_CRITIQUE_LLM_COMMAND", "claude -p"))
-    if not command:
-        raise RuntimeError("KA_CRITIQUE_LLM_COMMAND is empty")
     prompt = system + "\n\n" + user
-    completed = subprocess.run(
-        command,
-        input=prompt,
-        text=True,
-        capture_output=True,
-        timeout=90,
-        check=False,
-    )
-    if completed.returncode != 0:
-        stderr = (completed.stderr or "").strip()
-        raise RuntimeError(f"subscription CLI failed with code {completed.returncode}: {stderr[:300]}")
-    return (completed.stdout or "").strip()
+    result = call_subscription_llm(prompt, env_var="KA_CRITIQUE_LLM_COMMAND", timeout=90)
+    if not result.ok:
+        raise RuntimeError(result.error)
+    return result.text
 
 
 def _parse_llm_json(raw: str) -> List[Dict[str, Any]]:

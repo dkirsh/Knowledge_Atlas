@@ -1,0 +1,873 @@
+{
+  "default_threshold": 0.12,
+  "diagnostics": {
+    "acoustic__affect_comfort": {
+      "label": "Acoustic Environment \u2192 Comfort",
+      "median": 0.58,
+      "min": 0.373,
+      "n": 7,
+      "p05": 0.41
+    },
+    "acoustic__affect_negative_stress": {
+      "label": "Acoustic Environment \u2192 Stress Response",
+      "median": 0.54,
+      "min": 0.335,
+      "n": 7,
+      "p05": 0.393
+    },
+    "acoustic__affect_restoration": {
+      "label": "Acoustic Environment \u2192 Restoration / Recovery",
+      "median": 0.415,
+      "min": 0.356,
+      "n": 5,
+      "p05": 0.36
+    },
+    "acoustic__affect_satisfaction": {
+      "label": "Acoustic Environment \u2192 Satisfaction",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "acoustic__affect_soundscape": {
+      "label": "Acoustic Environment \u2192 Soundscape Perception",
+      "median": 0.634,
+      "min": 0.494,
+      "n": 12,
+      "p05": 0.509
+    },
+    "acoustic__affect_wellbeing": {
+      "label": "Acoustic Environment \u2192 Wellbeing",
+      "median": 0.384,
+      "min": 0.266,
+      "n": 13,
+      "p05": 0.293
+    },
+    "acoustic__cog_attention": {
+      "label": "Acoustic Environment \u2192 Attention",
+      "median": 0.494,
+      "min": 0.313,
+      "n": 6,
+      "p05": 0.345
+    },
+    "acoustic__cog_cognitive_load": {
+      "label": "Acoustic Environment \u2192 Cognitive Load",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "acoustic__cog_memory": {
+      "label": "Acoustic Environment \u2192 Memory",
+      "median": 0.559,
+      "min": 0.313,
+      "n": 5,
+      "p05": 0.315
+    },
+    "acoustic__cog_performance": {
+      "label": "Acoustic Environment \u2192 Cognitive Performance",
+      "median": 0.446,
+      "min": 0.195,
+      "n": 26,
+      "p05": 0.309
+    },
+    "acoustic__health": {
+      "label": "Acoustic Environment \u2192 Health Outcomes",
+      "median": 0.7,
+      "min": 0.472,
+      "n": 2,
+      "p05": 0.495
+    },
+    "acoustic__mechanism": {
+      "label": "Acoustic Environment \u2192 Mechanism / Pathway",
+      "median": 0.405,
+      "min": 0.183,
+      "n": 16,
+      "p05": 0.3
+    },
+    "acoustic__neural": {
+      "label": "Acoustic Environment \u2192 Neural Activity",
+      "median": 0.462,
+      "min": 0.324,
+      "n": 8,
+      "p05": 0.348
+    },
+    "acoustic__physio": {
+      "label": "Acoustic Environment \u2192 Physiological Response",
+      "median": 0.491,
+      "min": 0.318,
+      "n": 12,
+      "p05": 0.319
+    },
+    "acoustic__social": {
+      "label": "Acoustic Environment \u2192 Social / Behavioral",
+      "median": 0.529,
+      "min": 0.481,
+      "n": 4,
+      "p05": 0.486
+    },
+    "control__affect_comfort": {
+      "label": "Environmental Control \u2192 Comfort",
+      "median": 0.784,
+      "min": 0.745,
+      "n": 2,
+      "p05": 0.749
+    },
+    "control__affect_restoration": {
+      "label": "Environmental Control \u2192 Restoration / Recovery",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "control__affect_satisfaction": {
+      "label": "Environmental Control \u2192 Satisfaction",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "control__affect_wellbeing": {
+      "label": "Environmental Control \u2192 Wellbeing",
+      "median": 0.438,
+      "min": 0.168,
+      "n": 8,
+      "p05": 0.219
+    },
+    "control__behav_navigation": {
+      "label": "Environmental Control \u2192 Spatial Navigation",
+      "median": 0.744,
+      "min": 0.646,
+      "n": 2,
+      "p05": 0.655
+    },
+    "control__cog_attention": {
+      "label": "Environmental Control \u2192 Attention",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "control__cog_creativity": {
+      "label": "Environmental Control \u2192 Creativity / Divergent Thinking",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "control__cog_performance": {
+      "label": "Environmental Control \u2192 Cognitive Performance",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "control__mechanism": {
+      "label": "Environmental Control \u2192 Mechanism / Pathway",
+      "median": 0.6,
+      "min": 0.424,
+      "n": 4,
+      "p05": 0.44
+    },
+    "control__neural": {
+      "label": "Environmental Control \u2192 Neural Activity",
+      "median": 0.606,
+      "min": 0.498,
+      "n": 4,
+      "p05": 0.508
+    },
+    "control__physio": {
+      "label": "Environmental Control \u2192 Physiological Response",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "control__social": {
+      "label": "Environmental Control \u2192 Social / Behavioral",
+      "median": 0.754,
+      "min": 0.737,
+      "n": 2,
+      "p05": 0.738
+    },
+    "luminous__affect_comfort": {
+      "label": "Luminous Environment \u2192 Comfort",
+      "median": 0.515,
+      "min": 0.387,
+      "n": 7,
+      "p05": 0.394
+    },
+    "luminous__affect_negative_stress": {
+      "label": "Luminous Environment \u2192 Stress Response",
+      "median": 0.402,
+      "min": 0.353,
+      "n": 12,
+      "p05": 0.358
+    },
+    "luminous__affect_preference": {
+      "label": "Luminous Environment \u2192 Aesthetic Preference",
+      "median": 0.363,
+      "min": 0.243,
+      "n": 13,
+      "p05": 0.254
+    },
+    "luminous__affect_restoration": {
+      "label": "Luminous Environment \u2192 Restoration / Recovery",
+      "median": 0.623,
+      "min": 0.607,
+      "n": 3,
+      "p05": 0.609
+    },
+    "luminous__affect_satisfaction": {
+      "label": "Luminous Environment \u2192 Satisfaction",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "luminous__affect_wellbeing": {
+      "label": "Luminous Environment \u2192 Wellbeing",
+      "median": 0.313,
+      "min": 0.165,
+      "n": 28,
+      "p05": 0.177
+    },
+    "luminous__behav_navigation": {
+      "label": "Luminous Environment \u2192 Spatial Navigation",
+      "median": 0.525,
+      "min": 0.321,
+      "n": 7,
+      "p05": 0.353
+    },
+    "luminous__cog_attention": {
+      "label": "Luminous Environment \u2192 Attention",
+      "median": 0.307,
+      "min": 0.194,
+      "n": 16,
+      "p05": 0.206
+    },
+    "luminous__cog_creativity": {
+      "label": "Luminous Environment \u2192 Creativity / Divergent Thinking",
+      "median": 0.625,
+      "min": 0.44,
+      "n": 5,
+      "p05": 0.471
+    },
+    "luminous__cog_memory": {
+      "label": "Luminous Environment \u2192 Memory",
+      "median": 0.389,
+      "min": 0.239,
+      "n": 8,
+      "p05": 0.26
+    },
+    "luminous__cog_performance": {
+      "label": "Luminous Environment \u2192 Cognitive Performance",
+      "median": 0.338,
+      "min": 0.178,
+      "n": 35,
+      "p05": 0.222
+    },
+    "luminous__health": {
+      "label": "Luminous Environment \u2192 Health Outcomes",
+      "median": 0.563,
+      "min": 0.414,
+      "n": 5,
+      "p05": 0.434
+    },
+    "luminous__mechanism": {
+      "label": "Luminous Environment \u2192 Mechanism / Pathway",
+      "median": 0.448,
+      "min": 0.169,
+      "n": 31,
+      "p05": 0.191
+    },
+    "luminous__neural": {
+      "label": "Luminous Environment \u2192 Neural Activity",
+      "median": 0.399,
+      "min": 0.249,
+      "n": 14,
+      "p05": 0.256
+    },
+    "luminous__physio": {
+      "label": "Luminous Environment \u2192 Physiological Response",
+      "median": 0.454,
+      "min": 0.204,
+      "n": 22,
+      "p05": 0.232
+    },
+    "luminous__social": {
+      "label": "Luminous Environment \u2192 Social / Behavioral",
+      "median": 0.379,
+      "min": 0.261,
+      "n": 11,
+      "p05": 0.263
+    },
+    "material__affect_comfort": {
+      "label": "Material & Surface \u2192 Comfort",
+      "median": 0.669,
+      "min": 0.554,
+      "n": 3,
+      "p05": 0.565
+    },
+    "material__affect_negative_stress": {
+      "label": "Material & Surface \u2192 Stress Response",
+      "median": 0.618,
+      "min": 0.541,
+      "n": 3,
+      "p05": 0.549
+    },
+    "material__affect_preference": {
+      "label": "Material & Surface \u2192 Aesthetic Preference",
+      "median": 0.571,
+      "min": 0.526,
+      "n": 4,
+      "p05": 0.528
+    },
+    "material__affect_restoration": {
+      "label": "Material & Surface \u2192 Restoration / Recovery",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "material__affect_wellbeing": {
+      "label": "Material & Surface \u2192 Wellbeing",
+      "median": 0.573,
+      "min": 0.345,
+      "n": 4,
+      "p05": 0.372
+    },
+    "material__cog_attention": {
+      "label": "Material & Surface \u2192 Attention",
+      "median": 0.681,
+      "min": 0.659,
+      "n": 3,
+      "p05": 0.661
+    },
+    "material__cog_memory": {
+      "label": "Material & Surface \u2192 Memory",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "material__cog_performance": {
+      "label": "Material & Surface \u2192 Cognitive Performance",
+      "median": 0.519,
+      "min": 0.384,
+      "n": 6,
+      "p05": 0.403
+    },
+    "material__mechanism": {
+      "label": "Material & Surface \u2192 Mechanism / Pathway",
+      "median": 0.523,
+      "min": 0.269,
+      "n": 5,
+      "p05": 0.315
+    },
+    "material__neural": {
+      "label": "Material & Surface \u2192 Neural Activity",
+      "median": 0.717,
+      "min": 0.588,
+      "n": 2,
+      "p05": 0.601
+    },
+    "material__physio": {
+      "label": "Material & Surface \u2192 Physiological Response",
+      "median": 0.659,
+      "min": 0.272,
+      "n": 6,
+      "p05": 0.318
+    },
+    "material__social": {
+      "label": "Material & Surface \u2192 Social / Behavioral",
+      "median": 0.648,
+      "min": 0.548,
+      "n": 3,
+      "p05": 0.558
+    },
+    "multisensory__affect_comfort": {
+      "label": "Multisensory / Compound \u2192 Comfort",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "multisensory__affect_satisfaction": {
+      "label": "Multisensory / Compound \u2192 Satisfaction",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "multisensory__affect_wellbeing": {
+      "label": "Multisensory / Compound \u2192 Wellbeing",
+      "median": 0.568,
+      "min": 0.29,
+      "n": 4,
+      "p05": 0.329
+    },
+    "multisensory__cog_memory": {
+      "label": "Multisensory / Compound \u2192 Memory",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "natural__affect_comfort": {
+      "label": "Nature & Biophilia \u2192 Comfort",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "natural__affect_negative_stress": {
+      "label": "Nature & Biophilia \u2192 Stress Response",
+      "median": 0.561,
+      "min": 0.403,
+      "n": 15,
+      "p05": 0.422
+    },
+    "natural__affect_preference": {
+      "label": "Nature & Biophilia \u2192 Aesthetic Preference",
+      "median": 0.653,
+      "min": 0.299,
+      "n": 3,
+      "p05": 0.334
+    },
+    "natural__affect_restoration": {
+      "label": "Nature & Biophilia \u2192 Restoration / Recovery",
+      "median": 0.508,
+      "min": 0.219,
+      "n": 14,
+      "p05": 0.258
+    },
+    "natural__affect_wellbeing": {
+      "label": "Nature & Biophilia \u2192 Wellbeing",
+      "median": 0.536,
+      "min": 0.244,
+      "n": 21,
+      "p05": 0.272
+    },
+    "natural__behav_navigation": {
+      "label": "Nature & Biophilia \u2192 Spatial Navigation",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "natural__cog_attention": {
+      "label": "Nature & Biophilia \u2192 Attention",
+      "median": 0.542,
+      "min": 0.449,
+      "n": 5,
+      "p05": 0.458
+    },
+    "natural__cog_cognitive_load": {
+      "label": "Nature & Biophilia \u2192 Cognitive Load",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "natural__cog_memory": {
+      "label": "Nature & Biophilia \u2192 Memory",
+      "median": 0.729,
+      "min": 0.599,
+      "n": 2,
+      "p05": 0.612
+    },
+    "natural__cog_performance": {
+      "label": "Nature & Biophilia \u2192 Cognitive Performance",
+      "median": 0.441,
+      "min": 0.338,
+      "n": 9,
+      "p05": 0.363
+    },
+    "natural__health": {
+      "label": "Nature & Biophilia \u2192 Health Outcomes",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "natural__mechanism": {
+      "label": "Nature & Biophilia \u2192 Mechanism / Pathway",
+      "median": 0.473,
+      "min": 0.232,
+      "n": 13,
+      "p05": 0.29
+    },
+    "natural__neural": {
+      "label": "Nature & Biophilia \u2192 Neural Activity",
+      "median": 0.509,
+      "min": 0.396,
+      "n": 7,
+      "p05": 0.429
+    },
+    "natural__physio": {
+      "label": "Nature & Biophilia \u2192 Physiological Response",
+      "median": 0.66,
+      "min": 0.374,
+      "n": 3,
+      "p05": 0.402
+    },
+    "social_spatial__affect_negative_stress": {
+      "label": "Social-Spatial \u2192 Stress Response",
+      "median": 0.759,
+      "min": 0.695,
+      "n": 2,
+      "p05": 0.701
+    },
+    "social_spatial__affect_wellbeing": {
+      "label": "Social-Spatial \u2192 Wellbeing",
+      "median": 0.558,
+      "min": 0.406,
+      "n": 4,
+      "p05": 0.423
+    },
+    "social_spatial__cog_attention": {
+      "label": "Social-Spatial \u2192 Attention",
+      "median": 0.658,
+      "min": 0.243,
+      "n": 3,
+      "p05": 0.285
+    },
+    "social_spatial__cog_performance": {
+      "label": "Social-Spatial \u2192 Cognitive Performance",
+      "median": 0.514,
+      "min": 0.444,
+      "n": 6,
+      "p05": 0.456
+    },
+    "social_spatial__mechanism": {
+      "label": "Social-Spatial \u2192 Mechanism / Pathway",
+      "median": 0.77,
+      "min": 0.636,
+      "n": 2,
+      "p05": 0.649
+    },
+    "social_spatial__neural": {
+      "label": "Social-Spatial \u2192 Neural Activity",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "social_spatial__physio": {
+      "label": "Social-Spatial \u2192 Physiological Response",
+      "median": 0.547,
+      "min": 0.449,
+      "n": 6,
+      "p05": 0.466
+    },
+    "social_spatial__social": {
+      "label": "Social-Spatial \u2192 Social / Behavioral",
+      "median": 0.642,
+      "min": 0.522,
+      "n": 3,
+      "p05": 0.534
+    },
+    "spatial__affect_negative_stress": {
+      "label": "Spatial Form \u2192 Stress Response",
+      "median": 0.537,
+      "min": 0.327,
+      "n": 7,
+      "p05": 0.359
+    },
+    "spatial__affect_preference": {
+      "label": "Spatial Form \u2192 Aesthetic Preference",
+      "median": 0.454,
+      "min": 0.27,
+      "n": 11,
+      "p05": 0.302
+    },
+    "spatial__affect_restoration": {
+      "label": "Spatial Form \u2192 Restoration / Recovery",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "spatial__affect_satisfaction": {
+      "label": "Spatial Form \u2192 Satisfaction",
+      "median": 0.723,
+      "min": 0.512,
+      "n": 3,
+      "p05": 0.533
+    },
+    "spatial__affect_wellbeing": {
+      "label": "Spatial Form \u2192 Wellbeing",
+      "median": 0.437,
+      "min": 0.192,
+      "n": 9,
+      "p05": 0.224
+    },
+    "spatial__behav_navigation": {
+      "label": "Spatial Form \u2192 Spatial Navigation",
+      "median": 0.543,
+      "min": 0.353,
+      "n": 12,
+      "p05": 0.378
+    },
+    "spatial__cog_attention": {
+      "label": "Spatial Form \u2192 Attention",
+      "median": 0.735,
+      "min": 0.718,
+      "n": 2,
+      "p05": 0.72
+    },
+    "spatial__cog_cognitive_load": {
+      "label": "Spatial Form \u2192 Cognitive Load",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "spatial__cog_creativity": {
+      "label": "Spatial Form \u2192 Creativity / Divergent Thinking",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "spatial__cog_memory": {
+      "label": "Spatial Form \u2192 Memory",
+      "median": 0.497,
+      "min": 0.394,
+      "n": 5,
+      "p05": 0.397
+    },
+    "spatial__cog_performance": {
+      "label": "Spatial Form \u2192 Cognitive Performance",
+      "median": 0.364,
+      "min": 0.241,
+      "n": 17,
+      "p05": 0.267
+    },
+    "spatial__health": {
+      "label": "Spatial Form \u2192 Health Outcomes",
+      "median": 0.817,
+      "min": 0.797,
+      "n": 2,
+      "p05": 0.799
+    },
+    "spatial__mechanism": {
+      "label": "Spatial Form \u2192 Mechanism / Pathway",
+      "median": 0.395,
+      "min": 0.251,
+      "n": 16,
+      "p05": 0.254
+    },
+    "spatial__neural": {
+      "label": "Spatial Form \u2192 Neural Activity",
+      "median": 0.338,
+      "min": 0.224,
+      "n": 25,
+      "p05": 0.245
+    },
+    "spatial__physio": {
+      "label": "Spatial Form \u2192 Physiological Response",
+      "median": 0.393,
+      "min": 0.271,
+      "n": 12,
+      "p05": 0.29
+    },
+    "spatial__social": {
+      "label": "Spatial Form \u2192 Social / Behavioral",
+      "median": 0.444,
+      "min": 0.354,
+      "n": 10,
+      "p05": 0.363
+    },
+    "thermal__affect_comfort": {
+      "label": "Thermal & Air Quality \u2192 Comfort",
+      "median": 0.636,
+      "min": 0.376,
+      "n": 7,
+      "p05": 0.397
+    },
+    "thermal__affect_negative_stress": {
+      "label": "Thermal & Air Quality \u2192 Stress Response",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "thermal__affect_preference": {
+      "label": "Thermal & Air Quality \u2192 Aesthetic Preference",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "thermal__affect_satisfaction": {
+      "label": "Thermal & Air Quality \u2192 Satisfaction",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "thermal__affect_wellbeing": {
+      "label": "Thermal & Air Quality \u2192 Wellbeing",
+      "median": 0.696,
+      "min": 0.489,
+      "n": 2,
+      "p05": 0.51
+    },
+    "thermal__cog_performance": {
+      "label": "Thermal & Air Quality \u2192 Cognitive Performance",
+      "median": 0.524,
+      "min": 0.383,
+      "n": 7,
+      "p05": 0.414
+    },
+    "thermal__health": {
+      "label": "Thermal & Air Quality \u2192 Health Outcomes",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "thermal__mechanism": {
+      "label": "Thermal & Air Quality \u2192 Mechanism / Pathway",
+      "median": 0.554,
+      "min": 0.313,
+      "n": 6,
+      "p05": 0.364
+    },
+    "thermal__neural": {
+      "label": "Thermal & Air Quality \u2192 Neural Activity",
+      "median": 0.741,
+      "min": 0.682,
+      "n": 2,
+      "p05": 0.688
+    },
+    "thermal__physio": {
+      "label": "Thermal & Air Quality \u2192 Physiological Response",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    },
+    "thermal__social": {
+      "label": "Thermal & Air Quality \u2192 Social / Behavioral",
+      "median": 1.0,
+      "min": 1.0,
+      "n": 1,
+      "p05": 1.0
+    }
+  },
+  "method": "lexical_centroid_member_5th_percentile",
+  "schema_version": "ka_v7_lite_topic_thresholds_v1",
+  "topics": {
+    "acoustic__affect_comfort": 0.2,
+    "acoustic__affect_negative_stress": 0.2,
+    "acoustic__affect_restoration": 0.2,
+    "acoustic__affect_satisfaction": 0.2,
+    "acoustic__affect_soundscape": 0.2,
+    "acoustic__affect_wellbeing": 0.2,
+    "acoustic__cog_attention": 0.2,
+    "acoustic__cog_cognitive_load": 0.2,
+    "acoustic__cog_memory": 0.2,
+    "acoustic__cog_performance": 0.2,
+    "acoustic__health": 0.2,
+    "acoustic__mechanism": 0.2,
+    "acoustic__neural": 0.2,
+    "acoustic__physio": 0.2,
+    "acoustic__social": 0.2,
+    "control__affect_comfort": 0.2,
+    "control__affect_restoration": 0.2,
+    "control__affect_satisfaction": 0.2,
+    "control__affect_wellbeing": 0.2,
+    "control__behav_navigation": 0.2,
+    "control__cog_attention": 0.2,
+    "control__cog_creativity": 0.2,
+    "control__cog_performance": 0.2,
+    "control__mechanism": 0.2,
+    "control__neural": 0.2,
+    "control__physio": 0.2,
+    "control__social": 0.2,
+    "luminous__affect_comfort": 0.2,
+    "luminous__affect_negative_stress": 0.2,
+    "luminous__affect_preference": 0.2,
+    "luminous__affect_restoration": 0.2,
+    "luminous__affect_satisfaction": 0.2,
+    "luminous__affect_wellbeing": 0.177,
+    "luminous__behav_navigation": 0.2,
+    "luminous__cog_attention": 0.2,
+    "luminous__cog_creativity": 0.2,
+    "luminous__cog_memory": 0.2,
+    "luminous__cog_performance": 0.2,
+    "luminous__health": 0.2,
+    "luminous__mechanism": 0.191,
+    "luminous__neural": 0.2,
+    "luminous__physio": 0.2,
+    "luminous__social": 0.2,
+    "material__affect_comfort": 0.2,
+    "material__affect_negative_stress": 0.2,
+    "material__affect_preference": 0.2,
+    "material__affect_restoration": 0.2,
+    "material__affect_wellbeing": 0.2,
+    "material__cog_attention": 0.2,
+    "material__cog_memory": 0.2,
+    "material__cog_performance": 0.2,
+    "material__mechanism": 0.2,
+    "material__neural": 0.2,
+    "material__physio": 0.2,
+    "material__social": 0.2,
+    "multisensory__affect_comfort": 0.2,
+    "multisensory__affect_satisfaction": 0.2,
+    "multisensory__affect_wellbeing": 0.2,
+    "multisensory__cog_memory": 0.2,
+    "natural__affect_comfort": 0.2,
+    "natural__affect_negative_stress": 0.2,
+    "natural__affect_preference": 0.2,
+    "natural__affect_restoration": 0.2,
+    "natural__affect_wellbeing": 0.2,
+    "natural__behav_navigation": 0.2,
+    "natural__cog_attention": 0.2,
+    "natural__cog_cognitive_load": 0.2,
+    "natural__cog_memory": 0.2,
+    "natural__cog_performance": 0.2,
+    "natural__health": 0.2,
+    "natural__mechanism": 0.2,
+    "natural__neural": 0.2,
+    "natural__physio": 0.2,
+    "social_spatial__affect_negative_stress": 0.2,
+    "social_spatial__affect_wellbeing": 0.2,
+    "social_spatial__cog_attention": 0.2,
+    "social_spatial__cog_performance": 0.2,
+    "social_spatial__mechanism": 0.2,
+    "social_spatial__neural": 0.2,
+    "social_spatial__physio": 0.2,
+    "social_spatial__social": 0.2,
+    "spatial__affect_negative_stress": 0.2,
+    "spatial__affect_preference": 0.2,
+    "spatial__affect_restoration": 0.2,
+    "spatial__affect_satisfaction": 0.2,
+    "spatial__affect_wellbeing": 0.2,
+    "spatial__behav_navigation": 0.2,
+    "spatial__cog_attention": 0.2,
+    "spatial__cog_cognitive_load": 0.2,
+    "spatial__cog_creativity": 0.2,
+    "spatial__cog_memory": 0.2,
+    "spatial__cog_performance": 0.2,
+    "spatial__health": 0.2,
+    "spatial__mechanism": 0.2,
+    "spatial__neural": 0.2,
+    "spatial__physio": 0.2,
+    "spatial__social": 0.2,
+    "thermal__affect_comfort": 0.2,
+    "thermal__affect_negative_stress": 0.2,
+    "thermal__affect_preference": 0.2,
+    "thermal__affect_satisfaction": 0.2,
+    "thermal__affect_wellbeing": 0.2,
+    "thermal__cog_performance": 0.2,
+    "thermal__health": 0.2,
+    "thermal__mechanism": 0.2,
+    "thermal__neural": 0.2,
+    "thermal__physio": 0.2,
+    "thermal__social": 0.2
+  }
+}

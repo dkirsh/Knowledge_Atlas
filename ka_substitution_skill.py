@@ -11,16 +11,20 @@ from __future__ import annotations
 import json
 import math
 import sqlite3
+import os
 from pathlib import Path
 from typing import Any
 
 from fastapi import APIRouter
 from pydantic import BaseModel, Field
 
+from ka_subscription_llm import call_subscription_llm
+
 
 REPO_ROOT = Path(__file__).resolve().parent
 DEFAULT_GRAPH_PATH = REPO_ROOT / "data" / "substitution_seed_graph.json"
 DEFAULT_DB_PATH = REPO_ROOT / "data" / "substitution_graph.db"
+AE_SUBSTITUTION_DB_PATH = Path("/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/substitution_graph.db")
 SUBSCRIPTION_LLM_PROSE_CONTRACT = "SUBSTITUTION_SKILL_SUBSCRIPTION_CLI_PROSE_CONTRACT_2026-05-18"
 SUBSCRIPTION_LLM_COMMANDS = ["claude -p", "codex exec"]
 
@@ -36,15 +40,56 @@ class DVDescription(BaseModel):
 class AdmitModeRequest(BaseModel):
     paper_id: str | None = None
     dv_descriptions: list[DVDescription] = Field(default_factory=list)
+    generate_prose: bool = True
 
 
 class ChoiceModeRequest(BaseModel):
     topic_id: str
     project_constraints: dict[str, Any] = Field(default_factory=dict)
+    generate_prose: bool = True
 
 
 def load_graph(path: Path = DEFAULT_GRAPH_PATH) -> dict[str, Any]:
+    db_override = os.environ.get("KA_SUBSTITUTION_GRAPH_DB", "").strip()
+    if path == DEFAULT_GRAPH_PATH and db_override:
+        return load_graph_from_db(Path(db_override))
     return json.loads(path.read_text())
+
+
+def load_graph_from_db(db_path: Path) -> dict[str, Any]:
+    db = sqlite3.connect(str(db_path))
+    db.row_factory = sqlite3.Row
+    try:
+        constructs = []
+        measures = []
+        links = []
+        for row in db.execute("SELECT * FROM constructs ORDER BY construct_id"):
+            item = dict(row)
+            item["aliases"] = json.loads(item.get("aliases") or "[]")
+            item["proliferation_warning"] = json.loads(item.get("proliferation_warning") or "{}")
+            constructs.append(item)
+        for row in db.execute("SELECT * FROM measures ORDER BY measure_id"):
+            item = dict(row)
+            item["vr_tractable"] = bool(item.get("vr_tractable"))
+            for key, default in [
+                ("vr_tractability_conditions", {}),
+                ("psychometric_profile", {}),
+                ("construct_validity_per_paper", {}),
+                ("hardware_required", []),
+                ("canonical_references", []),
+            ]:
+                item[key] = json.loads(item.get(key) or json.dumps(default))
+            measures.append(item)
+        for row in db.execute("SELECT * FROM construct_measure_links ORDER BY link_id"):
+            links.append(dict(row))
+        return {
+            "schema_version": "ka_substitution_graph_sqlite_v1",
+            "constructs": constructs,
+            "measures": measures,
+            "construct_measure_links": links,
+        }
+    finally:
+        db.close()
 
 
 def init_substitution_graph_db(db_path: Path = DEFAULT_DB_PATH, graph_path: Path = DEFAULT_GRAPH_PATH) -> None:
@@ -248,6 +293,59 @@ def _llm_prose_required(stage: str) -> dict[str, Any]:
     }
 
 
+def _clean_llm_prose(value: str, max_words: int) -> str:
+    text = " ".join(str(value or "").split())
+    forbidden = ["the dyk should", "this card should", "the card should", "python", "template fallback"]
+    if not text or any(marker in text.lower() for marker in forbidden):
+        return ""
+    words = text.split()
+    if len(words) > max_words:
+        text = " ".join(words[:max_words]).rstrip(" ,;:") + "."
+    return text
+
+
+def _write_admit_explanation(row: dict[str, Any]) -> None:
+    prompt = f"""You are the Knowledge Atlas substitution-skill science writer.
+Use only the structured facts below. Do not invent substitutes. Do not mention this prompt.
+Write one public-facing explanation in 80 words or fewer.
+
+Facts:
+{json.dumps(row, indent=2)}
+"""
+    result = call_subscription_llm(prompt, env_var="KA_SUBSTITUTION_LLM_COMMAND", timeout=90)
+    text = _clean_llm_prose(result.text, 80) if result.ok else ""
+    if text:
+        row["explanation"] = text
+        row["explanation_generation"] = {
+            "status": "subscription_cli_llm_authored",
+            "contract": SUBSCRIPTION_LLM_PROSE_CONTRACT,
+            "command": " ".join(result.command),
+            "api_access_allowed": False,
+            "python_public_prose_allowed": False,
+        }
+
+
+def _write_choice_recommendation(result_payload: dict[str, Any]) -> None:
+    prompt = f"""You are the Knowledge Atlas substitution-skill science writer.
+Use only the structured ranking below. Do not invent measures. Do not hide uncertainty.
+Write one public-facing recommendation in 200 words or fewer.
+
+Facts:
+{json.dumps(result_payload, indent=2)}
+"""
+    result = call_subscription_llm(prompt, env_var="KA_SUBSTITUTION_LLM_COMMAND", timeout=90)
+    text = _clean_llm_prose(result.text, 200) if result.ok else ""
+    if text:
+        result_payload["recommendation_prose"] = text
+        result_payload["recommendation_generation"] = {
+            "status": "subscription_cli_llm_authored",
+            "contract": SUBSCRIPTION_LLM_PROSE_CONTRACT,
+            "command": " ".join(result.command),
+            "api_access_allowed": False,
+            "python_public_prose_allowed": False,
+        }
+
+
 def admit_mode(payload: dict[str, Any], graph: dict[str, Any] | None = None) -> dict[str, Any]:
     graph = graph or load_graph()
     _, measures, _ = _index_graph(graph)
@@ -258,8 +356,7 @@ def admit_mode(payload: dict[str, Any], graph: dict[str, Any] | None = None) -> 
         construct_id, confidence, construct = resolve_construct(claimed, graph)
         measure = resolve_measure(dv_name, graph)
         if not construct_id or confidence < 0.4:
-            results.append(
-                {
+            row = {
                     "dv_input": dv_name,
                     "claimed_construct": claimed,
                     "resolved_construct_id": None,
@@ -272,7 +369,9 @@ def admit_mode(payload: dict[str, Any], graph: dict[str, Any] | None = None) -> 
                     "explanation": "",
                     "explanation_generation": _llm_prose_required("admit_mode_per_dv_explanation"),
                 }
-            )
+            if payload.get("generate_prose", True):
+                _write_admit_explanation(row)
+            results.append(row)
             continue
         candidates = []
         for link in _links_for_construct(graph, construct_id):
@@ -283,8 +382,7 @@ def admit_mode(payload: dict[str, Any], graph: dict[str, Any] | None = None) -> 
         as_is = bool(measure and measure.get("vr_tractable"))
         verdict = "admit_as_is" if as_is else ("admit_with_substitution" if candidates else "reject")
         warning = construct.get("proliferation_warning") if construct else {}
-        results.append(
-            {
+        row = {
                 "dv_input": dv_name,
                 "claimed_construct": claimed,
                 "resolved_construct_id": construct_id,
@@ -297,7 +395,9 @@ def admit_mode(payload: dict[str, Any], graph: dict[str, Any] | None = None) -> 
                 "explanation": "",
                 "explanation_generation": _llm_prose_required("admit_mode_per_dv_explanation"),
             }
-        )
+        if payload.get("generate_prose", True):
+            _write_admit_explanation(row)
+        results.append(row)
     verdicts = [row["admit_verdict"] for row in results]
     if not verdicts:
         paper_verdict = "reject_dv_missing"
@@ -332,13 +432,16 @@ def choice_mode(payload: dict[str, Any], graph: dict[str, Any] | None = None) ->
     for index, item in enumerate(candidates, start=1):
         item["rank"] = index
         item["construct_indexed"] = construct_id
-    return {
+    result_payload = {
         "resolved_construct_id": construct_id,
         "construct_resolution_confidence": round(confidence, 3),
         "candidate_measures": candidates,
         "recommendation_prose": "",
         "recommendation_generation": _llm_prose_required("choice_mode_recommendation_prose"),
     }
+    if payload.get("generate_prose", True):
+        _write_choice_recommendation(result_payload)
+    return result_payload
 
 
 @router.post("/admit_mode")

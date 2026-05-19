@@ -1,6 +1,8 @@
 from pathlib import Path
+from types import SimpleNamespace
 
 import ka_substitution_skill as skill
+import ka_subscription_llm
 
 
 def test_substitution_graph_schema_can_seed_sqlite(tmp_path):
@@ -21,6 +23,7 @@ def test_substitution_graph_schema_can_seed_sqlite(tmp_path):
 def test_admit_mode_accepts_iat_as_vr_tractable():
     result = skill.admit_mode(
         {
+            "generate_prose": False,
             "dv_descriptions": [
                 {"name": "IAT", "type": "task_embedded_performance", "claimed_construct": "implicit attitude"}
             ]
@@ -36,6 +39,7 @@ def test_admit_mode_accepts_iat_as_vr_tractable():
 def test_admit_mode_substitutes_cortisol_with_eda():
     result = skill.admit_mode(
         {
+            "generate_prose": False,
             "dv_descriptions": [
                 {"name": "salivary cortisol", "type": "biomarker", "claimed_construct": "stress response"}
             ]
@@ -55,6 +59,7 @@ def test_admit_mode_substitutes_cortisol_with_eda():
 def test_admit_mode_refuses_unknown_construct():
     result = skill.admit_mode(
         {
+            "generate_prose": False,
             "dv_descriptions": [
                 {"name": "frontier aura score", "type": "unknown", "claimed_construct": "newly named frontier aura"}
             ]
@@ -69,6 +74,7 @@ def test_admit_mode_refuses_unknown_construct():
 def test_choice_mode_attention_restoration_ranks_sart_prs_first():
     result = skill.choice_mode(
         {
+            "generate_prose": False,
             "topic_id": "attention_restoration",
             "project_constraints": {
                 "weeks_available": 8,
@@ -89,6 +95,7 @@ def test_choice_mode_attention_restoration_ranks_sart_prs_first():
 def test_jangle_warning_surfaces_for_cognitive_restoration():
     result = skill.admit_mode(
         {
+            "generate_prose": False,
             "dv_descriptions": [
                 {"name": "Perceived Restorativeness Scale", "type": "self_report", "claimed_construct": "cognitive restoration"}
             ]
@@ -97,3 +104,27 @@ def test_jangle_warning_surfaces_for_cognitive_restoration():
 
     warning = result["per_dv_results"][0]["proliferation_warning"]
     assert "mental_recovery" in warning["jangle_with"]
+
+
+def test_admit_mode_can_fill_explanation_with_subscription_cli(monkeypatch):
+    def fake_run(command, input, text, capture_output, timeout, check):
+        return SimpleNamespace(
+            returncode=0,
+            stdout="Cortisol is not practical for short class VR work, but EDA can index stress-related arousal with clear trade-offs.",
+            stderr="",
+        )
+
+    monkeypatch.setattr(ka_subscription_llm.subprocess, "run", fake_run)
+    result = skill.admit_mode(
+        {
+            "generate_prose": True,
+            "dv_descriptions": [
+                {"name": "salivary cortisol", "type": "biomarker", "claimed_construct": "stress response"}
+            ],
+        }
+    )
+
+    row = result["per_dv_results"][0]
+    assert row["explanation"]
+    assert row["explanation_generation"]["status"] == "subscription_cli_llm_authored"
+    assert row["explanation_generation"]["api_access_allowed"] is False

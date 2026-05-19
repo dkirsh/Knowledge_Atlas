@@ -7,16 +7,14 @@ The browser must not hold AI API keys. This endpoint accepts source context from
 
 from __future__ import annotations
 
-import os
-import shlex
-import subprocess
-
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
 
+from ka_subscription_llm import SUBSCRIPTION_CLI_ONLY_CONTRACT, call_subscription_llm
+
 
 router = APIRouter(prefix="/api/search", tags=["search_synthesis"])
-SUBSCRIPTION_SYNTHESIS_CONTRACT = "SUBSCRIPTION_CLI_ONLY_NO_AI_API_KEYS"
+SUBSCRIPTION_SYNTHESIS_CONTRACT = SUBSCRIPTION_CLI_ONLY_CONTRACT
 
 
 class SearchSynthesisRequest(BaseModel):
@@ -25,24 +23,6 @@ class SearchSynthesisRequest(BaseModel):
     system_prompt: str = ""
     mode: str = "concise"
     contract: str = SUBSCRIPTION_SYNTHESIS_CONTRACT
-
-
-def call_subscription_cli(prompt: str) -> str:
-    command = shlex.split(os.environ.get("KA_SEARCH_SYNTH_LLM_COMMAND", "claude -p"))
-    if not command:
-        raise RuntimeError("KA_SEARCH_SYNTH_LLM_COMMAND is empty")
-    completed = subprocess.run(
-        command,
-        input=prompt,
-        text=True,
-        capture_output=True,
-        timeout=120,
-        check=False,
-    )
-    if completed.returncode != 0:
-        stderr = (completed.stderr or "").strip()
-        raise RuntimeError(f"subscription CLI failed with code {completed.returncode}: {stderr[:300]}")
-    return (completed.stdout or "").strip()
 
 
 @router.post("/synthesize")
@@ -60,12 +40,11 @@ def synthesize(req: SearchSynthesisRequest) -> dict[str, str]:
         )
         if part
     )
-    try:
-        answer = call_subscription_cli(prompt)
-    except Exception as exc:
-        raise HTTPException(503, str(exc)) from exc
+    result = call_subscription_llm(prompt, env_var="KA_SEARCH_SYNTH_LLM_COMMAND")
+    if not result.ok:
+        raise HTTPException(503, result.error)
     return {
-        "answer": answer,
+        "answer": result.text,
         "source": "subscription_cli",
         "contract": SUBSCRIPTION_SYNTHESIS_CONTRACT,
     }

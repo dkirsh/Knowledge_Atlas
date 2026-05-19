@@ -17,6 +17,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 DEFAULT_RUNTIME_PATHS = [
     "ka_auth_server.py",
     "ka_critique_endpoints.py",
+    "ka_subscription_llm.py",
     "ka_search_synthesis.py",
     "ka_search.html",
     "ka_substitution_skill.py",

@@ -3,6 +3,7 @@ from pathlib import Path
 
 import ka_critique_endpoints as critique
 import ka_search_synthesis as search_synth
+import ka_subscription_llm
 from scripts.verify_subscription_ai_only_contract import DEFAULT_RUNTIME_PATHS, REPO_ROOT, verify
 
 
@@ -22,7 +23,7 @@ def test_search_synthesis_uses_subscription_cli_not_api(monkeypatch):
         )
         return SimpleNamespace(returncode=0, stdout="Answer\nRELEVANCE_ORDER: 1", stderr="")
 
-    monkeypatch.setattr(search_synth.subprocess, "run", fake_run)
+    monkeypatch.setattr(ka_subscription_llm.subprocess, "run", fake_run)
 
     result = search_synth.synthesize(
         search_synth.SearchSynthesisRequest(
@@ -49,7 +50,7 @@ def test_critique_endpoint_uses_subscription_cli_not_api(monkeypatch):
             stderr="",
         )
 
-    monkeypatch.setattr(critique.subprocess, "run", fake_run)
+    monkeypatch.setattr(ka_subscription_llm.subprocess, "run", fake_run)
     req = critique.CritiqueSuggestRequest(
         pageUrl="http://127.0.0.1/test",
         pageTitle="Test",
