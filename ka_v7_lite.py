@@ -20,7 +20,7 @@ from datetime import datetime, timezone
 from pathlib import Path
 from typing import Any
 
-from fastapi import APIRouter, File, Form, UploadFile
+from fastapi import APIRouter, File, Form, HTTPException, Query, UploadFile
 
 from ka_substitution_skill import admit_mode
 from ka_subscription_llm import call_subscription_llm
@@ -384,6 +384,118 @@ def write_v7_lite_partial_to_ae(evaluation: dict[str, Any], *, session_id: str =
         return {"status": "partial", "path": str(db_path), "belief_id": belief_id, "queue_job_id": job_id}
     finally:
         db.close()
+
+
+def _article_payload_from_async_belief(row: sqlite3.Row) -> dict[str, Any]:
+    epistemic = _load_json_from_text(row["epistemic_v2"], {})
+    result = epistemic.get("full_v7_result") or {}
+    source = result.get("source_metadata") or {}
+    topic_fit_row = result.get("topic_fit") or {}
+    topic = topic_fit_row.get("admitted_to") or ""
+    paper_ids = _load_json_from_text(row["paper_ids"], [])
+    paper_id = result.get("paper_id") or (paper_ids[0] if paper_ids else row["belief_id"])
+    title = source.get("title") or paper_id
+    authors = [source.get("authors")] if source.get("authors") else []
+    science_summary = result.get("science_summary") or {}
+    pnu = result.get("plausible_neural_explanation") or {}
+    limitations = result.get("limitations") or {}
+    importance = result.get("argument_importance") or {}
+    detail = {
+        "science_summary": {
+            "core_finding": science_summary.get("text") or "",
+            "design_implications": importance.get("text") or "",
+            "limitations": limitations.get("text") or "",
+            "methods_and_design": f"Design: {(result.get('methods') or {}).get('design') or 'pending full extraction'}",
+        },
+        "pnu": {
+            "short_summary": pnu.get("text") or "",
+            "long_summary": pnu.get("text") or "",
+        },
+        "operationalization": {
+            "ivs": [result.get("iv")] if result.get("iv") else [],
+            "dvs": result.get("dv") or [],
+            "measures": result.get("vr_suitability_mapping") or [],
+        },
+        "argumentation": result.get("argumentation") or {},
+        "article_meta": {
+            "authors": authors,
+            "source_pdf_path": source.get("source_pdf_path") or "",
+            "belief_id": row["belief_id"],
+            "completion_status": result.get("completion_status") or "",
+        },
+        "theories": [],
+        "related_papers": (topic_fit_row.get("nearest_corpus_papers") or [])[:5],
+    }
+    article = {
+        "paper_id": paper_id,
+        "title": title,
+        "authors": authors,
+        "year": source.get("year"),
+        "article_type": result.get("paper_type") or "v7_lite_async",
+        "primary_topic": topic,
+        "topic_labels": [topic] if topic else [],
+        "related_papers": detail["related_papers"],
+        "abstract": "",
+        "venue": "V7-Lite async upload",
+    }
+    return {
+        "status": "found",
+        "source": "ae_db_v7_lite_async",
+        "belief_id": row["belief_id"],
+        "article": article,
+        "detail": detail,
+        "full_v7_result": result,
+    }
+
+
+def _load_json_from_text(value: Any, default: Any) -> Any:
+    if value is None:
+        return default
+    try:
+        return json.loads(value)
+    except Exception:
+        return default
+
+
+def load_v7_lite_async_article(paper_id: str, *, belief_id: str = "") -> dict[str, Any]:
+    db_path = Path(os.environ.get("KA_AE_DB_PATH", str(DEFAULT_AE_DB_PATH)))
+    if not db_path.exists():
+        raise HTTPException(status_code=404, detail="Article Eater ae.db is not available")
+    effective_belief_id = belief_id or (paper_id if paper_id.startswith("v7_lite_") else "")
+    db = sqlite3.connect(str(db_path))
+    db.row_factory = sqlite3.Row
+    try:
+        if effective_belief_id:
+            row = db.execute(
+                "SELECT belief_id, paper_ids, epistemic_v2 FROM beliefs WHERE belief_id = ?",
+                (effective_belief_id,),
+            ).fetchone()
+        else:
+            row = db.execute(
+                """
+                SELECT belief_id, paper_ids, epistemic_v2
+                FROM beliefs
+                WHERE domain = 'v7_lite'
+                  AND paper_ids LIKE ?
+                  AND epistemic_v2 LIKE '%"full_v7_async_completed": true%'
+                ORDER BY updated_at DESC
+                LIMIT 1
+                """,
+                (f"%{paper_id}%",),
+            ).fetchone()
+        if row is None:
+            raise HTTPException(status_code=404, detail=f"No V7-Lite async article found for {paper_id}")
+        return _article_payload_from_async_belief(row)
+    finally:
+        db.close()
+
+
+@router.get("/article/{paper_id}")
+def get_v7_lite_async_article(
+    paper_id: str,
+    belief_id: str = Query("", description="Optional exact V7-Lite belief id."),
+) -> dict[str, Any]:
+    return load_v7_lite_async_article(paper_id, belief_id=belief_id)
 
 
 def evaluate_v7_lite(

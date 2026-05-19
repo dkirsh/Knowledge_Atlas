@@ -271,7 +271,40 @@ def _parse_llm_json(text: str) -> dict[str, Any]:
     fenced = re.search(r"```(?:json)?\s*(\{.*?\})\s*```", stripped, flags=re.DOTALL)
     if fenced:
         stripped = fenced.group(1)
-    return json.loads(stripped)
+        return json.loads(stripped)
+    try:
+        return json.loads(stripped)
+    except json.JSONDecodeError:
+        pass
+    starts = [match.start() for match in re.finditer(r"\{", stripped)]
+    for start in reversed(starts):
+        depth = 0
+        in_string = False
+        escape = False
+        for index in range(start, len(stripped)):
+            char = stripped[index]
+            if escape:
+                escape = False
+                continue
+            if char == "\\" and in_string:
+                escape = True
+                continue
+            if char == '"':
+                in_string = not in_string
+                continue
+            if in_string:
+                continue
+            if char == "{":
+                depth += 1
+            elif char == "}":
+                depth -= 1
+                if depth == 0:
+                    candidate = stripped[start:index + 1]
+                    try:
+                        return json.loads(candidate)
+                    except json.JSONDecodeError:
+                        break
+    raise json.JSONDecodeError("No JSON object found in subscription CLI output", stripped, 0)
 
 
 def write_subscription_public_prose(evaluation: dict[str, Any], full_voi: dict[str, Any]) -> dict[str, Any]:

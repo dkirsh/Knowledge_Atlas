@@ -114,6 +114,22 @@ def test_async_worker_upgrades_partial_belief_without_python_public_prose(tmp_pa
     assert epistemic["argumentation"]["python_public_prose_allowed"] is False
 
 
+def test_v7_lite_async_article_endpoint_shape_uses_upgraded_belief(tmp_path, monkeypatch):
+    db_path = tmp_path / "ae.db"
+    _make_db(db_path)
+    job_id, belief_id = _seed_partial(db_path, monkeypatch)
+    worker.run_once(db_path, job_id=job_id, generate_prose=False)
+
+    payload = v7.load_v7_lite_async_article("PDF-LITE-PENDING", belief_id=belief_id)
+
+    assert payload["status"] == "found"
+    assert payload["source"] == "ae_db_v7_lite_async"
+    assert payload["article"]["paper_id"] == "PDF-LITE-PENDING"
+    assert payload["detail"]["article_meta"]["belief_id"] == belief_id
+    assert payload["detail"]["science_summary"]["core_finding"] == ""
+    assert payload["full_v7_result"]["completion_status"] == "full_v7_structured_complete_public_prose_pending"
+
+
 def test_async_worker_can_fill_public_prose_with_subscription_cli(tmp_path, monkeypatch):
     db_path = tmp_path / "ae.db"
     _make_db(db_path)
@@ -148,6 +164,25 @@ def test_async_worker_can_fill_public_prose_with_subscription_cli(tmp_path, monk
     assert generation["api_access_allowed"] is False
     assert generation["python_public_prose_allowed"] is False
     assert "immersive nature exposure" in epistemic["science_summary"]["text"]
+
+
+def test_async_worker_parses_json_from_subscription_cli_transcript():
+    transcript = """
+OpenAI Codex v0.129.0
+--------
+user
+Return strict JSON.
+
+codex
+{"science_summary":"A clear summary.","plausible_neural_explanation":"A provisional PNU.","argument_importance":"Important.","limitations":"Limited."}
+tokens used
+123
+"""
+
+    parsed = worker._parse_llm_json(transcript)
+
+    assert parsed["science_summary"] == "A clear summary."
+    assert parsed["plausible_neural_explanation"] == "A provisional PNU."
 
 
 def test_async_worker_marks_missing_belief_job_failed(tmp_path):

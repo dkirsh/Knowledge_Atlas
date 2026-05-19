@@ -389,6 +389,7 @@ function updateTocActive() {
   const crumb = document.getElementById('crumb-title');
   const params = new URLSearchParams(window.location.search);
   const paperId = params.get('id') || params.get('paper_id') || params.get('paper') || '';
+  const beliefId = params.get('belief_id') || '';
 
   if (!paperId) {
     mount.className = 'empty-state';
@@ -433,16 +434,29 @@ function updateTocActive() {
     return;
   }
 
-  const article = ((articlesPayload && articlesPayload.articles) || []).find(row => row && row.paper_id === paperId);
-  const detail = ((detailsPayload && detailsPayload.details) || {})[paperId] || {};
+  let article = ((articlesPayload && articlesPayload.articles) || []).find(row => row && row.paper_id === paperId);
+  let detail = ((detailsPayload && detailsPayload.details) || {})[paperId] || {};
   if (!article) {
-    mount.className = 'empty-state';
-    mount.innerHTML = `
-      <h2>Article ${esc(paperId)} is not in the current payload</h2>
-      <p>The canonical article payload does not currently include this paper id. It may appear after the next payload rebuild.</p>
-    `;
-    crumb.textContent = paperId;
-    return;
+    try {
+      const query = beliefId ? `?belief_id=${encodeURIComponent(beliefId)}` : '';
+      const asyncRes = await fetch(`/api/v7_lite/article/${encodeURIComponent(paperId)}${query}`, { cache: 'no-store' });
+      if (asyncRes.ok) {
+        const asyncPayload = await asyncRes.json();
+        article = asyncPayload.article || null;
+        detail = asyncPayload.detail || {};
+      }
+    } catch (error) {
+      // Static-file-only dev servers cannot serve the fresh async Article Eater path.
+    }
+    if (!article) {
+      mount.className = 'empty-state';
+      mount.innerHTML = `
+        <h2>Article ${esc(paperId)} is not in the current payload</h2>
+        <p>The canonical article payload does not currently include this paper id. Fresh V7-Lite async uploads require the dynamic KA server, not the static file server.</p>
+      `;
+      crumb.textContent = paperId;
+      return;
+    }
   }
 
   const science = detail.science_summary || {};
