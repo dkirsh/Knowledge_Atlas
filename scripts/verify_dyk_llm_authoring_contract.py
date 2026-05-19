@@ -88,6 +88,21 @@ def validate_card(card: dict[str, Any], index: int) -> list[str]:
             source_claim_ids = llm.get("source_claim_ids")
             if not isinstance(source_claim_ids, list) or not source_claim_ids:
                 errors.append(f"{label}: llm_authoring.source_claim_ids must be non-empty")
+            elif card.get("source_claim_ids") and source_claim_ids != card.get("source_claim_ids"):
+                errors.append(f"{label}: llm_authoring.source_claim_ids must match top-level source_claim_ids")
+            invocation_mode = llm.get("invocation_mode")
+            if invocation_mode is not None and invocation_mode not in {"api", "subscription_cli"}:
+                errors.append(f"{label}: llm_authoring.invocation_mode must be api or subscription_cli")
+            invocation_provider = llm.get("invocation_provider")
+            if invocation_provider is not None and not str(invocation_provider).strip():
+                errors.append(f"{label}: llm_authoring.invocation_provider must be non-empty when present")
+            for numeric_field in ("tokens_in", "tokens_out", "cost_estimate_usd"):
+                if numeric_field in llm and llm.get(numeric_field) is not None:
+                    try:
+                        if float(llm.get(numeric_field)) < 0:
+                            errors.append(f"{label}: llm_authoring.{numeric_field} must be non-negative")
+                    except Exception:
+                        errors.append(f"{label}: llm_authoring.{numeric_field} must be numeric when present")
 
     for field in PROSE_FIELDS:
         value = card.get(field)
