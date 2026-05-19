@@ -87,7 +87,9 @@ The substitution graph is then implicit in this table: two measures are *substit
 
 ## Corpus-wide extraction pass (AG-owned) — to populate the three tables
 
-AG runs the extraction over the corpus to populate the tables initially. CW writes the prompt; AG runs it; CW reviews the output before it ships to the substitution skill. The prompt template:
+AG runs the extraction over the corpus to populate the tables initially. CW writes the prompt; AG runs it; CW reviews the output before it ships to the substitution skill.
+
+> **The authoritative AG operator prompt is the standalone file `Article_Eater_PostQuinean_v1_recovery/prompts/AG_SUBSTITUTION_GRAPH_EXTRACTION_2026-05-18.md`**, which carries the full multi-LLM-independence protocol, the staging-table schema, the batch processing and resume semantics, the disagreement-severity handling, and the coordination notes with CW and Codex. The template below is the per-paper LLM prompt only, kept inline here for spec-reader convenience; AG works from the standalone file.
 
 ```
 You are extracting the construct-to-measure relations from a scientific paper.
