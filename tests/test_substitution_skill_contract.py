@@ -56,6 +56,42 @@ def test_admit_mode_substitutes_cortisol_with_eda():
     assert row["explanation_generation"]["python_public_prose_allowed"] is False
 
 
+def test_admit_mode_accepts_core_task_measures_as_vr_tractable():
+    result = skill.admit_mode(
+        {
+            "generate_prose": False,
+            "dv_descriptions": [
+                {"name": "Psychomotor Vigilance Test", "type": "task_embedded_performance", "claimed_construct": "attention_restoration"},
+                {"name": "n-back task", "type": "task_embedded_performance", "claimed_construct": "attention_restoration"},
+                {"name": "MATB-II task performance", "type": "task_embedded_performance", "claimed_construct": "attention_restoration"},
+            ],
+        }
+    )
+
+    rows = result["per_dv_results"]
+    assert [row["measure_short_code"] for row in rows] == ["f2.pvt", "f2.nback", "f2.matb"]
+    assert all(row["admit_verdict"] == "admit_as_is" for row in rows)
+    assert result["paper_level_verdict"] == "admit"
+
+
+def test_admit_mode_accepts_state_ratings_but_substitutes_biomarkers():
+    result = skill.admit_mode(
+        {
+            "generate_prose": False,
+            "dv_descriptions": [
+                {"name": "subjective sleepiness rating", "type": "self_report_questionnaire", "claimed_construct": "physiological_stress_response"},
+                {"name": "biochemical response measure", "type": "biomarker", "claimed_construct": "physiological_stress_response"},
+            ],
+        }
+    )
+
+    state, biomarker = result["per_dv_results"]
+    assert state["measure_short_code"] == "f3.state_rating"
+    assert state["admit_verdict"] == "admit_as_is"
+    assert biomarker["measure_short_code"] == "x5.biomarker"
+    assert biomarker["admit_verdict"] == "admit_with_substitution"
+
+
 def test_admit_mode_refuses_unknown_construct():
     result = skill.admit_mode(
         {

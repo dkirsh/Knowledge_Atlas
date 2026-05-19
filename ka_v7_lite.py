@@ -546,6 +546,13 @@ def _article_payload_from_async_belief(row: sqlite3.Row) -> dict[str, Any]:
             "source_pdf_path": source.get("source_pdf_path") or "",
             "belief_id": row["belief_id"],
             "completion_status": result.get("completion_status") or "",
+            "extraction_status": {
+                "paper_type": result.get("paper_type"),
+                "worker_version": result.get("worker_version") or "",
+                "iv_status": (result.get("iv") or {}).get("extraction_status") or "",
+                "methods_status": (result.get("methods") or {}).get("extraction_status") or "",
+                "public_prose_status": (result.get("science_summary") or {}).get("generation", {}).get("status") or "",
+            },
         },
         "theories": [],
         "related_papers": (topic_fit_row.get("nearest_corpus_papers") or [])[:5],

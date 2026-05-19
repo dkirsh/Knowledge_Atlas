@@ -229,6 +229,27 @@ function pageRefs(value) {
 
 function renderOperationalTable(operationalization) {
   const rows = [];
+  (operationalization.ivs || []).filter(Boolean).forEach(item => rows.push({
+    kind: 'Intervention',
+    name: item.operationalisation || 'Independent variable',
+    target: Array.isArray(item.levels) && item.levels.length ? item.levels.join(' vs ') : '',
+    type: item.extraction_status || '',
+    pages: item.page_refs,
+  }));
+  (operationalization.dvs || []).forEach(item => rows.push({
+    kind: 'Outcome',
+    name: item.name,
+    target: item.claimed_construct || '',
+    type: item.type || item.measurement_window,
+    pages: item.page_refs,
+  }));
+  (operationalization.measures || []).forEach(item => rows.push({
+    kind: item.admit_verdict === 'admit_as_is' ? 'VR-ready measure' : 'Substitution',
+    name: item.dv_input || item.measure_short_code,
+    target: item.resolved_construct_id || item.claimed_construct || '',
+    type: item.measure_short_code || item.admit_verdict,
+    pages: item.page_refs,
+  }));
   (operationalization.measurement_inventory || []).forEach(item => rows.push({
     kind: 'Measure',
     name: item.measure_name || item.instrument_name || item.outcome,
@@ -499,8 +520,7 @@ function updateTocActive() {
   const sourcePdfPath = articleMeta.source_pdf_path || '';
   const asyncStatus = completionStatus ? `
     <div class="async-status">
-      <b>Fresh V7 async result.</b>
-      Status: ${esc(String(completionStatus).replace(/_/g, ' '))}
+      <b>Fresh Atlas article.</b>
       ${sourcePdfPath ? ` · Source PDF preserved` : ''}
     </div>` : '';
 

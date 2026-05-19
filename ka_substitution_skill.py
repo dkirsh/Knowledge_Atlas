@@ -234,12 +234,22 @@ def resolve_measure(text: str, graph: dict[str, Any]) -> dict[str, Any] | None:
         names = [row.get("short_code", ""), row.get("canonical_name", "")]
         if any(_norm(name) == needle or needle in _norm(name) for name in names):
             return row
-    if "cortisol" in needle or "biomarker" in needle or "salivary" in needle:
+    if "cortisol" in needle or "biomarker" in needle or "salivary" in needle or "biochemical" in needle:
         return next((row for row in graph.get("measures", []) if row["short_code"] == "x5.biomarker"), None)
     if "fmri" in needle or "bold" in needle:
         return next((row for row in graph.get("measures", []) if row["short_code"] == "x1.fmri"), None)
     if "iat" in needle or "implicit association" in needle:
         return next((row for row in graph.get("measures", []) if row["short_code"] == "f2.iat"), None)
+    if "psychomotor vigilance" in needle or needle == "pvt":
+        return next((row for row in graph.get("measures", []) if row["short_code"] == "f2.pvt"), None)
+    if "n back" in needle or "nback" in needle:
+        return next((row for row in graph.get("measures", []) if row["short_code"] == "f2.nback"), None)
+    if "matb" in needle or "multi attribute task battery" in needle:
+        return next((row for row in graph.get("measures", []) if row["short_code"] == "f2.matb"), None)
+    if "sleepiness" in needle or "mood rating" in needle or "state rating" in needle:
+        return next((row for row in graph.get("measures", []) if row["short_code"] == "f3.state_rating"), None)
+    if "electrophysiological" in needle or "mobile eeg" in needle or needle == "eeg":
+        return next((row for row in graph.get("measures", []) if row["short_code"] == "f4.mobile_eeg"), None)
     if "q sort" in needle or "q-sort" in needle or "card sort" in needle:
         return next((row for row in graph.get("measures", []) if row["short_code"] == "f2.qsort"), None)
     return None

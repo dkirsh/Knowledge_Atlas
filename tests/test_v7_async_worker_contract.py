@@ -126,6 +126,7 @@ def test_v7_lite_async_article_endpoint_shape_uses_upgraded_belief(tmp_path, mon
     assert payload["source"] == "ae_db_v7_lite_async"
     assert payload["article"]["paper_id"].startswith("PDF-")
     assert payload["detail"]["article_meta"]["belief_id"] == belief_id
+    assert payload["detail"]["article_meta"]["extraction_status"]["public_prose_status"] == "requires_subscription_cli_llm"
     assert payload["detail"]["science_summary"]["core_finding"] == ""
     assert payload["full_v7_result"]["completion_status"] == "full_v7_structured_complete_public_prose_pending"
 
