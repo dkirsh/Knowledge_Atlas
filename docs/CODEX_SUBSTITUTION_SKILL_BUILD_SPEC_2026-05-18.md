@@ -8,7 +8,7 @@ A build specification for the *substitution skill* — the engine that drives Su
 1. **Admit-mode**: given a paper's dependent-variable operationalisation, is there at least one VR-tractable measure that indexes the same construct? Yes/no, with rationale.
 2. **Choice-mode**: given a topic and the set of admissible measures, rank them by suitability for a 7-to-10-week class project, with trade-offs articulated.
 
-The skill is retrieval-and-ranking over a curated knowledge graph (the *substitution graph*), with a generative LLM layer that produces the prose. The generative layer is invoked through DK's **subscription CLIs** (`claude -p` and `codex exec`); **no API access** at any stage, per DK's standing project-wide constraint. The generative layer is responsible only for explanation; it does not invent substitutions. This is the key failure-mode-prevention design — generative-only systems hallucinate substitutions the field has not validated, with consequences that derail student projects.
+The skill is retrieval-and-ranking over a curated knowledge graph (the *substitution graph*), with a generative LLM layer that produces the prose. The generative layer is invoked through DK's **subscription CLIs** (`claude -p` and `codex exec`); **no API access** at any stage, per DK's standing project-wide constraint. Python MUST NOT author the public explanation or recommendation prose by template fallback. The generative layer is responsible only for explanation; it does not invent substitutions. This is the key failure-mode-prevention design — generative-only systems hallucinate substitutions the field has not validated, with consequences that derail student projects.
 
 This is a Codex-owned build. CW supplies the spec, the data-extraction prompts, and the post-build review. Codex owns the implementation, the storage schema, and the integration with the Surface 4 / 4b front-end. AG owns the corpus-wide extraction pass that populates the knowledge graph.
 
@@ -288,7 +288,7 @@ The ranking logic combines:
 - `hardware_satisfied` (boolean; non-satisfied measures drop in rank but are not removed)
 - `time_within_budget` (boolean)
 
-The combination is *displayed transparently* (the user sees each component) rather than reduced to a single feasibility number. The prose recommendation explains the ranking.
+The combination is *displayed transparently* (the user sees each component) rather than reduced to a single feasibility number. The prose recommendation explains the ranking and must be produced by the subscription-CLI LLM writer pass. If the writer pass fails, the API returns the structured ranking with `recommendation_generation.status = requires_subscription_cli_llm`; it must not substitute Python-authored prose.
 
 ## Front-end integration
 

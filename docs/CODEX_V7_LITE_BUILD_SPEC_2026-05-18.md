@@ -188,7 +188,7 @@ Each evaluates to high / medium / low / na. The four-cell output is what the rec
 
 ### Stage S7 — recommendation synthesis (generative)
 
-Call an LLM through DK's **subscription CLI** (`claude -p` for the Claude subscription, or `codex exec` for the GPT subscription, whichever Codex elects for this stage) to synthesise the recommendation prose. **Subscription-CLI only, no APIs** per DK's standing constraint (grading-and-policy memory: "AI grader on Claude subscription not API" — the constraint applies project-wide, not just to grading). Prompt the LLM with the structured outputs from S1–S6 and the topic's existing meta-review (from the topic page); ask it to produce:
+Call an LLM through DK's **subscription CLI** (`claude -p` for the Claude subscription, or `codex exec` for the GPT subscription, whichever Codex elects for this stage) to synthesise the recommendation prose. **Subscription-CLI only, no APIs** per DK's standing constraint (grading-and-policy memory: "AI grader on Claude subscription not API" — the constraint applies project-wide, not just to grading). Python MUST NOT author this public recommendation prose by template fallback. Prompt the LLM with the structured outputs from S1–S6 and the topic's existing meta-review (from the topic page); ask it to produce:
 
 1. A summary line (≤25 words): "Admit", "Admit with substitution", or "Reject — out of scope".
 2. A rationale paragraph (≤120 words) that explains the recommendation and references the conditional VOI cells.
@@ -293,7 +293,7 @@ Codex owns the queue infrastructure; the existing blackboard architecture provid
 | Embedding service down | Stage S2 503 | Return `status: error` with `EMBEDDING_DOWN`; mark retryable |
 | Topic similarity below threshold | Stage S2 cosine < threshold | Return `status: rejected_out_of_scope` with `new_topic_seed_offered: true`; this is normal, not an error |
 | IV/DV extraction failed | Stage S3 LLM returns malformed | Retry once; if still failed, return `status: admitted` with `iv: null, dv: null` and flag for manual review |
-| LLM recommendation synthesis failed | Stage S7 LLM returns malformed | Retry once; if still failed, generate a template recommendation from the structured fields without LLM and return |
+| LLM recommendation synthesis failed | Stage S7 LLM returns malformed | Retry once; if still failed, return the structured evaluation with blank prose and `rationale_generation.status = requires_subscription_cli_llm`; do not generate Python template prose |
 
 All failures should be logged to the blackboard with the session_id so AG / Codex can debug after the fact.
 

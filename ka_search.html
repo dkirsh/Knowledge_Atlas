@@ -312,7 +312,7 @@
         <button class="synth-btn" id="synth-btn" type="button">
           <span class="spark">✦</span> Synthesize answer
         </button>
-        <button class="settings-gear" id="settings-gear" type="button" title="API key settings">⚙</button>
+        <button class="settings-gear" id="settings-gear" type="button" title="Synthesis settings">⚙</button>
       </div>
       <div id="answer-slot"></div>
       <div class="results-meta" id="results-meta">Loading index…</div>
@@ -324,11 +324,9 @@
   <!-- Settings Modal -->
   <div class="modal-overlay" id="settings-modal">
     <div class="modal-box">
-      <h3>Gemini API Key</h3>
-      <p>Enter your free Gemini API key to enable AI-synthesized answers.
-         Get one at <a href="https://aistudio.google.com/apikey" target="_blank">aistudio.google.com</a>.
-         The key is stored only in your browser's localStorage.</p>
-      <input type="password" id="api-key-input" placeholder="AIza…" autocomplete="off">
+      <h3>Subscription Synthesis</h3>
+      <p>AI synthesis must run through the KA server's subscription CLI path. Browser-held AI API keys are not used.</p>
+      <input type="password" id="api-key-input" placeholder="No browser API key" autocomplete="off" disabled>
       <div class="modal-actions">
         <button class="btn-clear-key" id="btn-clear-key" type="button">Clear key</button>
         <button class="btn-cancel" id="btn-cancel" type="button">Cancel</button>
@@ -774,12 +772,10 @@
     });
 
     // -----------------------------------------------------------------
-    // AI Synthesis (Gemini RAG)
+    // AI Synthesis (server-side subscription CLI RAG)
     // -----------------------------------------------------------------
-    const GEMINI_MODEL = 'gemini-2.5-flash';
-    const GEMINI_URL = `https://generativelanguage.googleapis.com/v1beta/models/${GEMINI_MODEL}:generateContent`;
+    const SUBSCRIPTION_SYNTH_URL = '/api/search/synthesize';
     const SYNTH_TOP_N = 8;
-    const LS_KEY = 'ka_gemini_api_key';
     const FULL_TEXT_URL = 'research_full.json';
 
     // Clean markdown formatting for display
@@ -837,9 +833,9 @@
       return _fullTextCache[pdfId] || null;
     }
 
-    function getApiKey() { return localStorage.getItem(LS_KEY) || ''; }
-    function setApiKey(k) { localStorage.setItem(LS_KEY, k); updateGearIcon(); }
-    function clearApiKey() { localStorage.removeItem(LS_KEY); updateGearIcon(); }
+    function getApiKey() { return 'subscription-cli'; }
+    function setApiKey(k) { updateGearIcon(); }
+    function clearApiKey() { updateGearIcon(); }
     function updateGearIcon() {
       const gear = document.getElementById('settings-gear');
       if (gear) gear.classList.toggle('has-key', !!getApiKey());
@@ -892,13 +888,8 @@
       }).join(' &nbsp;·&nbsp; ');
     }
 
-    // Call Gemini API — returns answer + relevance-ranked source order
+    // Call KA server subscription-CLI synthesis — returns answer + relevance-ranked source order
     async function synthesize() {
-      const key = getApiKey();
-      if (!key) {
-        document.getElementById('settings-gear').click();
-        return;
-      }
       const q = lastQuery.trim();
       if (!q || lastScoredResults.length === 0) return;
 
@@ -939,15 +930,15 @@
       ].join('\n');
 
       const body = {
-        system_instruction: { parts: [{ text: systemPrompt }] },
-        contents: [{
-          parts: [{ text: `QUESTION: ${q}\n\n${context}` }]
-        }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 2048 }
+        question: q,
+        context,
+        system_prompt: systemPrompt,
+        mode: 'concise',
+        contract: 'SUBSCRIPTION_CLI_ONLY_NO_AI_API_KEYS'
       };
 
       try {
-        const resp = await fetch(`${GEMINI_URL}?key=${key}`, {
+        const resp = await fetch(SUBSCRIPTION_SYNTH_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
@@ -958,7 +949,7 @@
           throw new Error(msg);
         }
         const data = await resp.json();
-        const raw = data?.candidates?.[0]?.content?.parts?.[0]?.text || '';
+        const raw = data?.answer || data?.text || '';
 
         // Parse relevance order from response
         let answerText = raw;
@@ -1022,7 +1013,7 @@
               <button class="answer-close" title="Close" onclick="document.getElementById('answer-slot').innerHTML=''">×</button>
             </div>
             <div class="answer-body"><p>${e.message}</p>
-            <p style="font-size:0.8rem;color:var(--muted)">Check your API key in ⚙ settings. Free tier: 15 req/min, 1500 req/day.</p></div>
+            <p style="font-size:0.8rem;color:var(--muted)">The server-side subscription synthesis endpoint is unavailable.</p></div>
           </div>`;
       } finally {
         btn.disabled = false;
@@ -1122,7 +1113,7 @@
     }
     window.deepDive = deepDive;
 
-    // Reorder the displayed results based on Gemini's relevance ranking
+    // Reorder the displayed results based on the subscription synthesis relevance ranking
     function reorderResults(rankOrder) {
       const resultsDiv = document.getElementById('results');
       const articles = Array.from(resultsDiv.querySelectorAll('article.result'));
@@ -1158,8 +1149,6 @@
 
     // Elaborate: re-query with full excerpts and higher token budget
     async function elaborate() {
-      const key = getApiKey();
-      if (!key) return;
       const q = lastQuery.trim();
       if (!q || lastScoredResults.length === 0) return;
 
@@ -1190,13 +1179,15 @@
       ].join('\n');
 
       const body = {
-        system_instruction: { parts: [{ text: elabPrompt }] },
-        contents: [{ parts: [{ text: `QUESTION: ${q}\n\n${fullContext}` }] }],
-        generationConfig: { temperature: 0.3, maxOutputTokens: 4096 }
+        question: q,
+        context: fullContext,
+        system_prompt: elabPrompt,
+        mode: 'elaborated',
+        contract: 'SUBSCRIPTION_CLI_ONLY_NO_AI_API_KEYS'
       };
 
       try {
-        const resp = await fetch(`${GEMINI_URL}?key=${key}`, {
+        const resp = await fetch(SUBSCRIPTION_SYNTH_URL, {
           method: 'POST',
           headers: { 'Content-Type': 'application/json' },
           body: JSON.stringify(body)
@@ -1206,7 +1197,7 @@
           throw new Error(err?.error?.message || `HTTP ${resp.status}`);
         }
         const data = await resp.json();
-        const text = data?.candidates?.[0]?.content?.parts?.[0]?.text || 'No response generated.';
+        const text = data?.answer || data?.text || 'No response generated.';
         const sources = buildSourcesList(lastScoredResults, SYNTH_TOP_N);
         const paragraphs = text.split(/\n\n+/).filter(Boolean)
           .map(p => `<p>${p.replace(/\n/g, '<br>')}</p>`).join('');

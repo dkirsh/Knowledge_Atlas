@@ -2,19 +2,20 @@
 ka_critique_endpoints.py
 ========================
 
-KA-T22: LLM-backed "Get AI Suggestions" endpoint for the usability critic panel.
+KA-T22: subscription-CLI-backed "Get AI Suggestions" endpoint for the usability
+critic panel.
 
 Accepts the structured ratings from `ka_usability_critic.js`, filters to the items
-the student flagged as minor/major, and asks Claude to produce a concrete
-suggestion + priority + estimated effort for each one.  Returns a JSON list the
-front-end renders inline below the summary.
+the student flagged as minor/major, and asks the local Claude subscription CLI
+to produce a concrete suggestion + priority + estimated effort for each one.
+Returns a JSON list the front-end renders inline below the summary.
 
 Graceful degradation:
-- If `ANTHROPIC_API_KEY` is missing, the endpoint returns a rule-based canned
-  response so the UI still works in local dev. The response body's `source`
-  field is set to `"fallback"` in that case and `"llm"` when the SDK call
-  succeeds.
-- If the Anthropic SDK call fails for any reason (network, rate limit,
+- If the subscription CLI is unavailable, the endpoint returns a rule-based
+  canned response so the UI still works in local dev. The response body's
+  `source` field is set to `"fallback"` in that case and `"llm"` when the
+  subscription-CLI call succeeds.
+- If the subscription-CLI call fails for any reason (timeout, malformed JSON,
   malformed JSON from the model), the endpoint does NOT return 502; it catches
   the exception, logs it, and silently falls back to the rule-based path so the
   panel remains usable. Callers should treat `source == "fallback"` as the
@@ -30,6 +31,8 @@ from __future__ import annotations
 import os
 import json
 import logging
+import shlex
+import subprocess
 from typing import Any, Dict, List, Optional
 
 from fastapi import APIRouter, HTTPException, Request
@@ -81,7 +84,7 @@ class CritiqueSuggestResponse(BaseModel):
     note: Optional[str] = None
 
 
-# ── Canned fallback (used when ANTHROPIC_API_KEY is missing) ───────────────
+# ── Canned fallback (used when subscription CLI is unavailable) ────────────
 
 _PRIORITY_BY_RATING = {"major": "High", "minor": "Medium", "pass": "Low"}
 
@@ -155,31 +158,24 @@ def _build_user_prompt(req: CritiqueSuggestRequest, flagged: List[CritiqueItem])
     return "\n".join(lines)
 
 
-def _call_claude(system: str, user: str) -> str:
-    """Call Claude via the anthropic SDK. Raises on failure."""
-    try:
-        import anthropic  # type: ignore
-    except ImportError as e:
-        raise RuntimeError("anthropic SDK not installed; pip install anthropic") from e
-
-    api_key = os.environ.get("ANTHROPIC_API_KEY")
-    if not api_key:
-        raise RuntimeError("ANTHROPIC_API_KEY not set in environment")
-
-    client = anthropic.Anthropic(api_key=api_key)
-    model = os.environ.get("KA_CRITIQUE_MODEL", "claude-haiku-4-5-20251001")
-    resp = client.messages.create(
-        model=model,
-        max_tokens=1500,
-        system=system,
-        messages=[{"role": "user", "content": user}],
+def _call_subscription_llm(system: str, user: str) -> str:
+    """Call a local subscription CLI. API SDKs and API keys are forbidden."""
+    command = shlex.split(os.environ.get("KA_CRITIQUE_LLM_COMMAND", "claude -p"))
+    if not command:
+        raise RuntimeError("KA_CRITIQUE_LLM_COMMAND is empty")
+    prompt = system + "\n\n" + user
+    completed = subprocess.run(
+        command,
+        input=prompt,
+        text=True,
+        capture_output=True,
+        timeout=90,
+        check=False,
     )
-    # Concatenate text blocks
-    parts: List[str] = []
-    for block in resp.content:
-        if getattr(block, "type", None) == "text":
-            parts.append(block.text)
-    return "".join(parts).strip()
+    if completed.returncode != 0:
+        stderr = (completed.stderr or "").strip()
+        raise RuntimeError(f"subscription CLI failed with code {completed.returncode}: {stderr[:300]}")
+    return (completed.stdout or "").strip()
 
 
 def _parse_llm_json(raw: str) -> List[Dict[str, Any]]:
@@ -217,19 +213,19 @@ def suggest_fixes(req: CritiqueSuggestRequest, request: Request):
             note="No minor or major issues flagged; nothing to suggest.",
         )
 
-    use_llm = bool(os.environ.get("ANTHROPIC_API_KEY"))
+    use_llm = os.environ.get("KA_CRITIQUE_DISABLE_LLM", "").lower() not in {"1", "true", "yes"}
     if not use_llm:
-        log.info("Critique suggest: no API key, returning rule-based fallback")
+        log.info("Critique suggest: subscription LLM disabled, returning rule-based fallback")
         return CritiqueSuggestResponse(
             suggestions=[_rule_based_suggestion(i) for i in flagged],
             source="fallback",
-            note="LLM unavailable (ANTHROPIC_API_KEY not set); showing rule-based suggestions.",
+            note="Subscription LLM disabled; showing rule-based suggestions.",
         )
 
     system = _SYS_PROMPT
     user = _build_user_prompt(req, flagged)
     try:
-        raw = _call_claude(system, user)
+        raw = _call_subscription_llm(system, user)
         items = _parse_llm_json(raw)
     except Exception as e:
         log.exception("Critique suggest: LLM call failed: %s", e)

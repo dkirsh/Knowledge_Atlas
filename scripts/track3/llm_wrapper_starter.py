@@ -1,15 +1,14 @@
 #!/usr/bin/env python3
 """llm_wrapper_starter.py — Task 3 Phase 1 starter.
 
-Translates natural-language prompts into validated parameter patches by
-function-calling an LLM with the room's manifest as context, then routing
-the patch through validation_gate.py before applying it.
+Translates natural-language prompts into validated parameter patches by asking a
+local subscription LLM CLI to emit JSON with the room's manifest as context,
+then routing the patch through validation_gate.py before applying it.
 
 This is the SCAFFOLD students adapt. The system prompt, function-call
 schema, validation routing, and error-recovery loop are complete; what
-students customise is (a) which LLM provider to use (placeholder for
-Anthropic / OpenAI / Google API), (b) the example-bank in the prompt,
-and (c) any room-specific phrasing nuances.
+students customise is (a) which subscription CLI command to use, (b) the
+example-bank in the prompt, and (c) any room-specific phrasing nuances.
 
 Usage:
 
@@ -25,7 +24,7 @@ Usage:
         --out renders/restorative.gltf
 """
 from __future__ import annotations
-import argparse, json, os, sys, subprocess, tempfile
+import argparse, json, os, shlex, sys, subprocess, tempfile
 from pathlib import Path
 from typing import Any
 
@@ -76,37 +75,29 @@ wall_warmth_index, biophilia_count):
 
 
 def call_llm(system: str, user_message: str, manifest: dict) -> str:
-    """Stub LLM call — students replace with their preferred provider.
-
-    Returns the raw text the LLM produced. The wrapper parses it into JSON
-    afterwards so we can detect malformed output and re-prompt.
-    """
-    provider = os.environ.get("TRACK3_LLM_PROVIDER", "stub")
-    if provider == "anthropic":
-        try:
-            import anthropic
-            client = anthropic.Anthropic()
-            msg = client.messages.create(
-                model="claude-sonnet-4-5",
-                max_tokens=400,
-                system=system + "\n\nManifest:\n" + json.dumps(manifest, indent=2),
-                messages=[{"role": "user", "content": user_message}],
-            )
-            return msg.content[0].text
-        except Exception as e:
-            return json.dumps({"error": "llm_provider_failure", "explanation": str(e)})
-    elif provider == "openai":
-        # TODO: students implement
-        return json.dumps({"error": "openai_not_implemented"})
-    elif provider == "gemini":
-        # TODO: students implement
-        return json.dumps({"error": "gemini_not_implemented"})
-    else:
-        # Stub — useful for testing the rest of the pipeline without API costs
+    """Call a subscription CLI. AI API clients and API keys are forbidden."""
+    command = os.environ.get("TRACK3_LLM_COMMAND", "claude -p")
+    parts = shlex.split(command)
+    if not parts:
+        return json.dumps({"error": "llm_provider_failure", "explanation": "TRACK3_LLM_COMMAND is empty"})
+    prompt = system + "\n\nManifest:\n" + json.dumps(manifest, indent=2) + "\n\nUser:\n" + user_message
+    try:
+        completed = subprocess.run(
+            parts,
+            input=prompt,
+            text=True,
+            capture_output=True,
+            timeout=90,
+            check=False,
+        )
+    except Exception as exc:
+        return json.dumps({"error": "llm_provider_failure", "explanation": str(exc)})
+    if completed.returncode != 0:
         return json.dumps({
-            "op": "set", "param": "ceiling_height_m", "value": 2.7,
-            "_note": "LLM stub (no provider configured); set TRACK3_LLM_PROVIDER env var"
+            "error": "llm_provider_failure",
+            "explanation": (completed.stderr or "").strip()[:500],
         })
+    return (completed.stdout or "").strip()
 
 
 def main() -> int:

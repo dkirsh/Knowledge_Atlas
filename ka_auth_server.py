@@ -994,16 +994,39 @@ except ImportError as e:
     print("[KA-AUTH] Server running with auth-only endpoints")
 
 # ── CRITIQUE SUGGESTION MODULE (KA-T22)
-# POST /api/critique/suggest — accepts the usability-critic payload, calls
-# Claude (if ANTHROPIC_API_KEY is set), and returns per-heuristic suggestions.
-# If the key is missing, returns rule-based fallback suggestions so the UI
-# remains functional in local dev.
+# POST /api/critique/suggest — accepts the usability-critic payload, calls the
+# local subscription CLI, and returns per-heuristic suggestions. If the CLI is
+# unavailable, returns rule-based fallback suggestions so the UI remains
+# functional in local dev. API-AI calls are forbidden.
 try:
     import ka_critique_endpoints
     app.include_router(ka_critique_endpoints.router)
     print("[KA-AUTH] Critique suggest endpoint loaded ✓ (POST /api/critique/suggest)")
 except ImportError as e:
     print(f"[KA-AUTH] Critique module not available: {e}")
+
+# ── SUBSTITUTION SKILL + V7-LITE CONTRACT MODULES
+try:
+    import ka_substitution_skill
+    ka_substitution_skill.init_substitution_graph_db()
+    app.include_router(ka_substitution_skill.router)
+    print("[KA-AUTH] Substitution skill loaded ✓ (/api/substitution_skill/*)")
+except ImportError as e:
+    print(f"[KA-AUTH] Substitution skill not available: {e}")
+
+try:
+    import ka_v7_lite
+    app.include_router(ka_v7_lite.router)
+    print("[KA-AUTH] V7-Lite endpoint loaded ✓ (POST /api/v7_lite/ingest)")
+except ImportError as e:
+    print(f"[KA-AUTH] V7-Lite module not available: {e}")
+
+try:
+    import ka_search_synthesis
+    app.include_router(ka_search_synthesis.router)
+    print("[KA-AUTH] Search synthesis loaded ✓ (POST /api/search/synthesize)")
+except ImportError as e:
+    print(f"[KA-AUTH] Search synthesis not available: {e}")
 
 # ── RESET PAGE REDIRECT (convenience link in reset email)
 @app.get("/reset")

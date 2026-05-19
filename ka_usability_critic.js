@@ -726,9 +726,9 @@
 
   /* ── AI suggestions (KA-T22) ─────────────────────────────────────────── */
   /*  POSTs the current ratings to /api/critique/suggest.  The server calls
-      Claude (if ANTHROPIC_API_KEY is set) and returns one concrete suggestion
-      per flagged heuristic.  Falls back to rule-based suggestions in local
-      dev, so the UI is always responsive. */
+      a local subscription CLI and returns one concrete suggestion per flagged
+      heuristic. Falls back to rule-based suggestions in local dev, so the UI is
+      always responsive without AI API keys. */
 
   function buildCritiquePayload() {
     const ratings = currentSession.ratings || {};
