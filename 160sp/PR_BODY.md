@@ -60,12 +60,12 @@ regardless of what the classifier would have said.
 | Criterion | Points | Evidence |
 |---|---|---|
 | **Diagnosis** — boxology + gap statement accurate | 15 | [`160sp/contracts/Track_2_Context.md`](160sp/contracts/Track_2_Context.md) — includes 2026-05-17 addendum correcting two stale claims |
-| **Spec quality** — contract complete, specific, testable | 15 | [`160sp/contracts/CLASSIFIER_INTEGRATION_CONTRACT_2026-05-09.md`](160sp/contracts/CLASSIFIER_INTEGRATION_CONTRACT_2026-05-09.md) — 13 invariants, 12 thresholds, 8 test cases; response schema at [`160sp/contracts/schemas/classifier_response.json`](160sp/contracts/schemas/classifier_response.json) |
+| **Spec quality** — contract complete, specific, testable | 15 | [`160sp/contracts/CLASSIFIER_INTEGRATION_CONTRACT_2026-05-09.md`](160sp/contracts/CLASSIFIER_INTEGRATION_CONTRACT_2026-05-09.md) — 14 invariants, 12 thresholds, 8 test cases; response schema at [`160sp/contracts/schemas/classifier_response.json`](160sp/contracts/schemas/classifier_response.json); supplementary [`160sp/contracts/SECURITY_REVIEW_2026-05-19.md`](160sp/contracts/SECURITY_REVIEW_2026-05-19.md) — 14-section security audit (zero high-severity vulnerabilities) |
 | **Verification questions** — caught real problems | 15 | [`160sp/verification_log.md`](160sp/verification_log.md) — Q1–Q6; 15 bugs surfaced, 14 fixed, 1 declined by design |
-| **Validation** — ≥3 of 4 test papers correct | 20 | [`160sp/validation_matrix.md`](160sp/validation_matrix.md) — **4/4 PASS**; response JSONs at `160sp/validation_T[1-4]_response.json` |
-| **Diagnosis of failures** — spec vs implementation | 15 | [`160sp/validation_matrix.md`](160sp/validation_matrix.md) §D1–D4 |
-| **File manifest** — complete, matches actual changes | 5 | [`160sp/MANIFEST.md`](160sp/MANIFEST.md) — includes storage proof and grader test predictions |
-| **Automated tests** | 15 | Run `python3 160sp/rubrics/t2/t2_task1_grader.py . --auto-only` — all 8 expected PASS |
+| **Validation** — ≥3 of 4 test papers correct | 20 | [`160sp/validation_matrix.md`](160sp/validation_matrix.md) — **4/4 PASS** on rubric tests + **4/4 supplementary** on contract §8 TC-3/4/5/8 + **20-paper expanded validation** with every routing branch exercised. Response JSONs at `160sp/validation_T[1-4]_response.json` (rubric) and `160sp/validation_TC[3-8]_response.json` (supplementary) |
+| **Diagnosis of failures** — spec vs implementation | 15 | [`160sp/validation_matrix.md`](160sp/validation_matrix.md) §D1–D4 + supplementary D-TC3 through D-TC8 |
+| **File manifest** — complete, matches actual changes | 5 | [`160sp/MANIFEST.md`](160sp/MANIFEST.md) — includes storage proof and grader test predictions; complementary [`160sp/COMPLETION_CHECKLIST_2026-05-19.md`](160sp/COMPLETION_CHECKLIST_2026-05-19.md) — per-rubric-line audit |
+| **Automated tests** | 15 | Run `python3 160sp/rubrics/t2/t2_task1_grader.py . --auto-only` — all 8 PASS (15/15 weighted), latest run captured at `160sp/rubrics/t2/GRADE_REPORT.md` |
 
 ---
 

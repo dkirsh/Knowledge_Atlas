@@ -63,6 +63,13 @@ returns empty — confirmed no commit on this branch deletes any file.
 | `160sp/MANIFEST.md` | — | R-6 (5 pts) | This file |
 | `tests/validate_classifier_integration.py` | — | §11.2 | Contract validation harness (FINAL-tier polish; not grader-blocking) |
 | `tests/fixtures/INDEX.md` | — | — | Fixture index for the validation harness |
+| `160sp/contracts/SECURITY_REVIEW_2026-05-19.md` | — | R-2 supplement | 14-section security audit (S1-S14) covering XSS, path traversal, SQL injection, secret leakage, CSRF, DoS, etc. — every finding cited to file:line |
+| `160sp/COMPLETION_CHECKLIST_2026-05-19.md` | — | self-audit | Per-rubric-line DONE/PARTIAL/DEFERRED audit with citations to the file or commit that satisfies each requirement |
+| `160sp/validation_TC3_response.json` | 4 supplement | R-4 supplement | TC-3 (bad PDF magic bytes) HTTP response — supplementary contract test |
+| `160sp/validation_TC4_response.json` | 4 supplement | R-4 supplement | TC-4 (SHA-256 duplicate) HTTP response — supplementary contract test |
+| `160sp/validation_TC5_first_response.json` | 4 supplement | R-4 supplement | TC-5 reference submission (DOI dedup setup) |
+| `160sp/validation_TC5_second_response.json` | 4 supplement | R-4 supplement | TC-5 DOI-duplicate-with-different-bytes verification |
+| `160sp/validation_TC8_response.json` | 4 supplement | R-4 supplement | TC-8 (mixed batch, per-item independence) HTTP response — 3 items: staged + bad_file + duplicate, all handled independently |
 
 ---
 
