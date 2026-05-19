@@ -76,6 +76,49 @@
   .modal h3{font-family:Georgia,serif;font-size:1.35rem;color:#1C3D3A;margin-bottom:10px}
   .modal p{font-size:.92rem;margin-bottom:12px;color:#2C2C2C}
   .modal .btn-primary{margin-top:10px}
+
+  /* ── Improvement H: collapsible Why? section ──────────────────────────── */
+  .ka-why{margin-top:10px;font-size:.82rem}
+  .ka-why summary{cursor:pointer;color:#2A7868;font-weight:600;user-select:none;outline:none;list-style:none}
+  .ka-why summary::-webkit-details-marker{display:none}
+  .ka-why summary::before{content:"▸ ";color:#2A7868;font-weight:700}
+  .ka-why[open] summary::before{content:"▾ "}
+  .ka-why summary:hover{text-decoration:underline}
+  .ka-why ul{padding-left:18px;margin-top:6px;color:#2C2C2C;line-height:1.55}
+  .ka-why li{margin-bottom:3px}
+  .ka-why code{background:#EFEAE3;padding:1px 5px;border-radius:3px;font-size:.78rem}
+
+  /* ── Improvement G: visual confidence bar ─────────────────────────────── */
+  .ka-conf-row{display:flex;align-items:center;gap:10px;margin-top:8px;margin-bottom:4px}
+  .ka-conf-label{font-size:.78rem;color:#6B6B6B;font-weight:600;min-width:90px}
+  .ka-conf-track{flex:1;height:7px;background:#EFEAE3;border-radius:4px;overflow:hidden}
+  .ka-conf-fill{height:100%;background:#2A7868;border-radius:4px;transition:width .3s ease}
+  .ka-conf-num{font-size:.78rem;color:#6B6B6B;font-variant-numeric:tabular-nums;min-width:42px;text-align:right}
+  /* tint the fill to match the verdict (consistency with the left border + badge) */
+  .ka-result-needs_review .ka-conf-fill        {background:#E8872A}
+  .ka-result-rejected_off_topic .ka-conf-fill  {background:#C0392B}
+  .ka-result-rejected_bad_file .ka-conf-fill   {background:#C03A2B}
+  .ka-result-duplicate_existing .ka-conf-fill  {background:#8A9A96}
+
+  /* ── Improvement F: color-coded result cards (left-border + badge) ────── */
+  .ka-result-card{position:relative;border-left-width:4px;border-left-style:solid;border-left-color:#D8D0C5}
+  .ka-result-staged_pending_review{border-left-color:#2A7868}   /* teal — accepted */
+  .ka-result-needs_review        {border-left-color:#E8872A}   /* amber — edge case / human review */
+  .ka-result-rejected_off_topic  {border-left-color:#C0392B}   /* red — off-topic */
+  .ka-result-rejected_bad_file   {border-left-color:#C03A2B}   /* red — bad PDF */
+  .ka-result-duplicate_existing  {border-left-color:#8A9A96}   /* grey — duplicate */
+  .ka-result-rejected_storage_error{border-left-color:#6B6B6B} /* grey — server error */
+
+  .ka-verdict-badge{display:inline-block;font-size:.66rem;font-weight:700;
+                    letter-spacing:.10em;text-transform:uppercase;
+                    padding:3px 9px;border-radius:4px;margin-bottom:10px;line-height:1.4}
+  .ka-verdict-badge.staged_pending_review{background:#E6F5F0;color:#1C5C4E}
+  .ka-verdict-badge.needs_review        {background:#FEF3E8;color:#A0520F}
+  .ka-verdict-badge.rejected_off_topic  {background:#FDECEA;color:#922B21}
+  .ka-verdict-badge.rejected_bad_file   {background:#FDECEA;color:#922B21}
+  .ka-verdict-badge.duplicate_existing  {background:#F2F2F2;color:#555}
+  .ka-verdict-badge.rejected_storage_error{background:#F2F2F2;color:#444}
+  .ka-verdict-badge.unknown             {background:#F2F2F2;color:#555}
 </style>
 </head>
 <body data-ka-regime="global" data-ka-active="contribute">
@@ -275,19 +318,76 @@
 
     (data.items || []).forEach((item, i) => {
       const card = document.createElement("div");
-      card.classList.add("ka-result-card", "ka-result-" + (item.status || "unknown"));
+      const statusClass = String(item.status || "unknown").replace(/[^a-z_]/gi, "");
+      card.classList.add("ka-result-card", "ka-result-" + statusClass);
       card.setAttribute("data-idx", String(i));
       card.style.cssText = "border:1px solid #D8D0C5;border-radius:8px;padding:14px 16px;margin:12px 0;background:#FBFAF7";
 
-      row(card, "Verdict", VERDICT_LABEL[item.status] || item.status);
+      // Improvement F: top-of-card verdict badge with color coding (CSS handles tone).
+      const badge = document.createElement("span");
+      badge.classList.add("ka-verdict-badge", statusClass);
+      badge.textContent = VERDICT_LABEL[item.status] || item.status || "Unknown";
+      card.appendChild(badge);
+
       row(card, "Article ID", item.article_id);
       const c = item.classifier || {};
       row(card, "Article type", c.classifier_article_type);
       row(card, "Primary topic", c.primary_topic);
-      row(card, "Confidence",
-          (typeof c.overall_confidence === "number") ? c.overall_confidence.toFixed(2) : null);
-      if (item.reason) row(card, "Reason", item.reason);
+
+      // Improvement G: visual confidence bar (replaces plain numeric row when present).
+      if (typeof c.overall_confidence === "number") {
+        const confRow = document.createElement("div");
+        confRow.className = "ka-conf-row";
+        const confLabel = document.createElement("div");
+        confLabel.className = "ka-conf-label";
+        confLabel.textContent = "Confidence:";
+        confRow.appendChild(confLabel);
+        const track = document.createElement("div");
+        track.className = "ka-conf-track";
+        const fill = document.createElement("div");
+        fill.className = "ka-conf-fill";
+        const pct = Math.max(0, Math.min(100, Math.round(c.overall_confidence * 100)));
+        fill.style.width = pct + "%";
+        track.appendChild(fill);
+        confRow.appendChild(track);
+        const confNum = document.createElement("div");
+        confNum.className = "ka-conf-num";
+        confNum.textContent = pct + "%";
+        confRow.appendChild(confNum);
+        card.appendChild(confRow);
+      }
+
       if (item.duplicate_of) row(card, "Duplicate of", item.duplicate_of);
+
+      // Improvement H: collapsible "Why?" section that surfaces the
+      // routing decision in human-readable terms. We compose a bulleted
+      // explanation from the classifier output + the routing reason, so
+      // a curious reviewer can see WHY this paper landed in this bucket
+      // without having to query the database. Collapsed by default to
+      // keep the card scannable.
+      const whyParts = [];
+      if (item.reason) whyParts.push("Routing reason: " + item.reason);
+      if (c.verdict) whyParts.push("Classifier verdict: " + c.verdict);
+      if (c.next_action) whyParts.push("Next action requested: " + c.next_action);
+      if (typeof c.primary_topic_confidence === "number") {
+        whyParts.push("Primary-topic confidence: " + Math.round(c.primary_topic_confidence * 100) + "%");
+      }
+      if (c.backend) whyParts.push("Backend: " + c.backend);
+      if (whyParts.length) {
+        const details = document.createElement("details");
+        details.className = "ka-why";
+        const summary = document.createElement("summary");
+        summary.textContent = "Why this verdict?";
+        details.appendChild(summary);
+        const ul = document.createElement("ul");
+        whyParts.forEach(part => {
+          const li = document.createElement("li");
+          li.textContent = part;
+          ul.appendChild(li);
+        });
+        details.appendChild(ul);
+        card.appendChild(details);
+      }
 
       container.appendChild(card);
     });
