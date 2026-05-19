@@ -46,6 +46,33 @@ def test_v7_lite_admits_on_topic_paper_and_maps_substitution():
     assert evaluation["recommendation"]["rationale_generation"]["python_public_prose_allowed"] is False
 
 
+def test_v7_lite_extracts_dynamic_lighting_iv_dvs_and_methods():
+    abstract = (
+        "This study investigated non-image forming effects of dynamic light on alertness, "
+        "cognitive performance and mood. Sixteen participants completed a psychomotor "
+        "vigilance test, MATB-II and n-back under dynamic 4000 to 12000 K and static "
+        "4000 K lighting. Psychological, behavioural, biochemical and electrophysiological "
+        "responses were assessed. The results showed benefits on subjective sleepiness, "
+        "positive mood and task performance."
+    )
+
+    result = v7.evaluate_v7_lite(
+        title="Diurnal effects of dynamic lighting on alertness, cognition, and mood of mentally fatigued individuals",
+        abstract=abstract,
+        generate_prose=False,
+    )
+
+    evaluation = result["evaluation"]
+    assert evaluation["paper_type"] == "empirical"
+    assert evaluation["paper_type_confidence"] >= 0.7
+    assert evaluation["iv"]["levels"] == ["dynamic lighting", "static lighting"]
+    assert evaluation["methods"]["sample_n"] == 16
+    names = {row["name"] for row in evaluation["dv"]}
+    assert "Psychomotor Vigilance Test" in names
+    assert "n-back task" in names
+    assert "mood rating" in names
+
+
 def test_v7_lite_does_not_import_api_llm_clients():
     source = v7.Path(v7.__file__).read_text()
 
@@ -136,6 +163,8 @@ def test_v7_lite_writes_partial_belief_and_full_v7_queue(tmp_path, monkeypatch):
     )
 
     assert result["evaluation"]["ae_db_write_status"]["status"] == "partial"
+    assert result["paper_id"].startswith("PDF-")
+    assert result["paper_id"] != "PDF-LITE-PENDING"
     db = sqlite3.connect(str(db_path))
     try:
         assert db.execute("SELECT COUNT(*) FROM beliefs").fetchone()[0] == 1

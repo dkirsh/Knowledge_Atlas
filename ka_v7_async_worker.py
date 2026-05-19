@@ -26,7 +26,8 @@ from ka_v7_lite import DEFAULT_AE_DB_PATH, V7_LITE_FULL_WORKER_CONTRACT
 
 FULL_V7_ASYNC_WORKER_VERSION = "2026-05-19.v1"
 FULL_V7_PROSE_CONTRACT = "FULL_V7_ASYNC_SUBSCRIPTION_CLI_PUBLIC_PROSE_CONTRACT_2026-05-19"
-SUBSCRIPTION_LLM_COMMANDS = ["claude -p", "codex exec"]
+DEFAULT_FULL_V7_LLM_COMMAND = "codex exec -s read-only --skip-git-repo-check -"
+SUBSCRIPTION_LLM_COMMANDS = ["codex exec", "claude -p"]
 
 VOI_TARGETS = {
     "target_1_better_stimuli": "Does the paper improve stimulus ecological validity?",
@@ -321,7 +322,12 @@ Python is not allowed to author these public prose fields. If the packet is insu
 Structured packet:
 {json.dumps({"evaluation": evaluation, "full_conditional_voi": full_voi}, indent=2)}
 """
-    result = call_subscription_llm(prompt, env_var="KA_FULL_V7_WORKER_LLM_COMMAND", timeout=180)
+    result = call_subscription_llm(
+        prompt,
+        env_var="KA_FULL_V7_WORKER_LLM_COMMAND",
+        default_command=DEFAULT_FULL_V7_LLM_COMMAND,
+        timeout=180,
+    )
     if not result.ok:
         required = _llm_required("full_v7_public_prose", result)
         return {

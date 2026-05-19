@@ -23,6 +23,8 @@
   .article-title{font-family:Georgia,serif;font-size:1.72rem;line-height:1.18;color:#173D36;margin:0 0 7px;max-width:940px}
   .article-byline{font-size:.93rem;color:#53645F;margin-bottom:18px}
   .article-byline .muted{color:#7A8581}
+  .async-status{background:#EEF7F4;border:1px solid #BFD8D0;border-left:4px solid #2A7868;border-radius:8px;padding:10px 12px;margin:0 0 14px;color:#244A43;font-size:.88rem}
+  .async-status b{color:#173D36}
   .main-col{max-width:940px;margin:0 auto}
   .section{background:#fff;border:1px solid #E4DCCF;border-radius:10px;padding:18px 20px;margin-bottom:14px;scroll-margin-top:76px}
   .section.reading{padding-top:20px}
@@ -493,6 +495,14 @@ function updateTocActive() {
   const firstTopicLink = topicLabels.length ? topicHref(topicLabels[0], articleJourneyParams) : primaryTopicLink;
   const mechanismLink = mechanismHref(firstTheoryRow, articleJourneyParams);
   const summaryImages = collectSummaryImages(detail, operationalization);
+  const completionStatus = articleMeta.completion_status || '';
+  const sourcePdfPath = articleMeta.source_pdf_path || '';
+  const asyncStatus = completionStatus ? `
+    <div class="async-status">
+      <b>Fresh V7 async result.</b>
+      Status: ${esc(String(completionStatus).replace(/_/g, ' '))}
+      ${sourcePdfPath ? ` · Source PDF preserved` : ''}
+    </div>` : '';
 
   document.title = `${article.title || paperId} — Knowledge Atlas`;
   crumb.textContent = paperId;
@@ -513,6 +523,7 @@ function updateTocActive() {
       ${authors ? esc(authors) : '<span class="muted">Authors pending</span>'}
       ${article.venue ? ` <span class="muted">· ${esc(article.venue)}</span>` : ''}
     </div>
+    ${asyncStatus}
 
     <div class="main-col">
         <section class="section reading" id="atlas-reading">
