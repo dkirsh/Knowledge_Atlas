@@ -62,7 +62,7 @@ def _seed_partial(db_path, monkeypatch):
     monkeypatch.setenv("KA_AE_DB_PATH", str(db_path))
     result = v7.evaluate_v7_lite(
         title="Biophilic virtual nature exposure and salivary cortisol",
-        abstract="Participants viewed immersive nature and urban VR scenes in a controlled experiment. Salivary cortisol was measured before and after exposure.",
+        abstract="Participants viewed immersive nature and urban VR scenes in a controlled experiment. Salivary cortisol was measured before and after exposure, t(31) = 2.44, p = .021, Cohen's d = 0.42.",
         write_ae=True,
         generate_prose=False,
     )
@@ -108,6 +108,8 @@ def test_async_worker_upgrades_partial_belief_without_python_public_prose(tmp_pa
     assert epistemic["v7_lite_partial"] is False
     assert epistemic["full_v7_async_completed"] is True
     assert "source_metadata" in epistemic["full_v7_result"]
+    assert epistemic["full_v7_result"]["results"]["statistical_tests"] == ["t(31) = 2.44, p = .021"]
+    assert epistemic["full_v7_result"]["results"]["effect_sizes"] == ["Cohen's d = 0.42"]
     assert len(epistemic["full_conditional_voi"]) == 10
     assert epistemic["science_summary"]["text"] == ""
     assert epistemic["science_summary"]["generation"]["python_public_prose_allowed"] is False
@@ -127,6 +129,8 @@ def test_v7_lite_async_article_endpoint_shape_uses_upgraded_belief(tmp_path, mon
     assert payload["article"]["paper_id"].startswith("PDF-")
     assert payload["detail"]["article_meta"]["belief_id"] == belief_id
     assert payload["detail"]["article_meta"]["extraction_status"]["public_prose_status"] == "requires_subscription_cli_llm"
+    assert payload["detail"]["results"]["primary_effect_size"] == "Cohen's d = 0.42"
+    assert "Reported tests: t(31) = 2.44, p = .021" in payload["detail"]["science_summary"]["key_statistics"]
     assert payload["detail"]["science_summary"]["core_finding"] == ""
     assert payload["full_v7_result"]["completion_status"] == "full_v7_structured_complete_public_prose_pending"
 

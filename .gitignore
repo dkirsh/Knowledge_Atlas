@@ -22,6 +22,7 @@ knowledge_atlas_auth.db
 data/ka_auth_secret.txt
 data/storage/
 data/v7_lite_uploads/
+data/v7_lite_article_images/
 logs/
 ka_server.pid
 .venv/

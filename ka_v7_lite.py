@@ -31,6 +31,7 @@ PAYLOAD_DIR = REPO_ROOT / "data" / "ka_payloads"
 DEFAULT_THRESHOLDS_PATH = REPO_ROOT / "data" / "v7_lite_topic_thresholds.json"
 DEFAULT_AE_DB_PATH = Path("/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/ae.db")
 DEFAULT_UPLOAD_DIR = REPO_ROOT / "data" / "v7_lite_uploads"
+DEFAULT_ARTICLE_IMAGE_DIR = REPO_ROOT / "data" / "v7_lite_article_images"
 V7_LITE_PROSE_CONTRACT = "V7_LITE_SUBSCRIPTION_CLI_RECOMMENDATION_CONTRACT_2026-05-18"
 V7_LITE_FULL_WORKER_CONTRACT = "V7_LITE_FULL_ASYNC_WORKER_CONTRACT_2026-05-19"
 SUBSCRIPTION_LLM_COMMANDS = ["claude -p", "codex exec"]
@@ -376,8 +377,76 @@ def extract_lite_dvs(title: str = "", abstract: str = "") -> list[dict[str, Any]
     return deduped
 
 
+def _unique_preserve_order(values: list[str], *, limit: int = 12) -> list[str]:
+    seen: set[str] = set()
+    out: list[str] = []
+    for value in values:
+        text = " ".join(str(value or "").split()).strip(" ,;")
+        key = text.lower()
+        if not text or key in seen:
+            continue
+        seen.add(key)
+        out.append(text)
+        if len(out) >= limit:
+            break
+    return out
+
+
+def _sentence_snippets(text: str, pattern: str, *, limit: int = 6) -> list[str]:
+    chunks = re.split(r"(?<=[.!?])\s+", str(text or ""))
+    hits = []
+    for chunk in chunks:
+        clean = " ".join(chunk.split())
+        if len(clean) < 20 or len(clean) > 420:
+            continue
+        if re.search(pattern, clean, flags=re.IGNORECASE):
+            hits.append(clean)
+    return _unique_preserve_order(hits, limit=limit)
+
+
+def extract_lite_results(title: str = "", abstract: str = "") -> dict[str, Any]:
+    """Copy reported result markers from the available text surface.
+
+    This is deliberately not an inference engine. It preserves reported strings
+    and marks absence as unknown rather than estimating effect sizes.
+    """
+    text = " ".join(str(part or "") for part in (title, abstract))
+    test_stats = re.findall(
+        r"\b(?:F|t|z|χ2|χ²|chi-?square)\s*\([^)]{1,50}\)\s*=\s*-?\d+(?:\.\d+)?(?:\s*,?\s*p\s*(?:=|<|>|≤|≥)\s*0?\.\d+)?",
+        text,
+        flags=re.IGNORECASE,
+    )
+    p_values = re.findall(r"\bp\s*(?:=|<|>|≤|≥)\s*0?\.\d+\b", text, flags=re.IGNORECASE)
+    p_values = [p for p in p_values if not any(p in stat for stat in test_stats)]
+    statistical_tests = _unique_preserve_order(test_stats + p_values, limit=16)
+    effect_sizes = _unique_preserve_order(
+        re.findall(
+            r"\b(?:Cohen'?s?\s*d|partial\s+eta\s+squared|eta\s+squared|ηp?²|η2|r|odds\s+ratio|OR)\s*(?:=|:)\s*-?\d+(?:\.\d+)?",
+            text,
+            flags=re.IGNORECASE,
+        ),
+        limit=16,
+    )
+    directional_findings = _sentence_snippets(
+        text,
+        r"\b(significant|significantly|increased|decreased|reduced|improved|impaired|benefit|benefits|worse|better|no effect|did not affect)\b",
+        limit=8,
+    )
+    return {
+        "statistical_tests": statistical_tests,
+        "effect_sizes": effect_sizes,
+        "directional_findings": directional_findings,
+        "primary_effect_size": effect_sizes[0] if effect_sizes else "",
+        "statistical_test_status": "reported_statistics_found" if statistical_tests else "not_found_in_lite_text_surface",
+        "effect_size_status": "reported_effect_size_found" if effect_sizes else "not_found_in_lite_text_surface",
+        "extraction_status": "v7_lite_reported_string_extraction",
+        "python_inference_used": False,
+    }
+
+
 def extract_lite_methods(classification: dict[str, Any], title: str = "", abstract: str = "") -> dict[str, Any]:
     text = _norm(f"{title} {abstract}")
+    results = extract_lite_results(title, abstract)
     sample_matches = list(re.finditer(r"\b(\d{1,4})\s+participants\b", text))
     word_counts = {
         "sixteen": 16,
@@ -405,11 +474,48 @@ def extract_lite_methods(classification: dict[str, Any], title: str = "", abstra
             "population": "mentally fatigued individuals" if "mentally fatigued" in text else "",
             "setting": "daylight-deprived environment" if "daylight deprived" in text or "daylight-deprived" in text else "",
         },
-        "statistical_test": "not extracted in V7-Lite",
+        "statistical_test": results["statistical_tests"][0] if results["statistical_tests"] else "not found in V7-Lite text surface",
         "preregistered": None,
         "open_data": None,
         "extraction_status": "v7_lite_heuristic",
     }
+
+
+def export_lite_page_images(pdf_bytes: bytes, paper_id: str, *, max_pages: int = 3) -> list[dict[str, Any]]:
+    """Render a few page images for the article summary carousel.
+
+    These are page evidence surfaces, not claimed figure extractions. They let
+    the article page show real article visuals without pretending to crop or
+    caption figures that have not been reviewed.
+    """
+    if not pdf_bytes or not re.match(r"^PDF-\d{4,}$", str(paper_id or "")):
+        return []
+    out_dir = DEFAULT_ARTICLE_IMAGE_DIR / paper_id
+    try:
+        import fitz
+
+        out_dir.mkdir(parents=True, exist_ok=True)
+        doc = fitz.open(stream=pdf_bytes, filetype="pdf")
+        images: list[dict[str, Any]] = []
+        for index in range(min(max_pages, len(doc))):
+            page = doc.load_page(index)
+            pix = page.get_pixmap(matrix=fitz.Matrix(1.6, 1.6), alpha=False)
+            filename = f"page_{index + 1:02d}.png"
+            path = out_dir / filename
+            if not path.exists():
+                pix.save(str(path))
+            images.append({
+                "image_url": f"data/v7_lite_article_images/{paper_id}/{filename}",
+                "atlas_title": f"Article page {index + 1}",
+                "atlas_caption": "Rendered page from the uploaded paper. This is a visual evidence surface, not a reviewed figure crop.",
+                "surface_kind": "uploaded_pdf_page_render",
+                "page": index + 1,
+                "extraction_status": "v7_lite_page_render",
+            })
+        doc.close()
+        return images
+    except Exception:
+        return []
 
 
 def conditional_voi_for(title: str = "", abstract: str = "", dv: list[dict[str, Any]] | None = None) -> dict[str, str]:
@@ -524,13 +630,24 @@ def _article_payload_from_async_belief(row: sqlite3.Row) -> dict[str, Any]:
     pnu = result.get("plausible_neural_explanation") or {}
     limitations = result.get("limitations") or {}
     importance = result.get("argument_importance") or {}
+    methods = result.get("methods") or {}
+    results = result.get("results") or {}
+    key_stats_parts = []
+    if results.get("statistical_tests"):
+        key_stats_parts.append("Reported tests: " + "; ".join(results.get("statistical_tests") or []))
+    if results.get("effect_sizes"):
+        key_stats_parts.append("Reported effect sizes: " + "; ".join(results.get("effect_sizes") or []))
+    if not key_stats_parts:
+        key_stats_parts.append("No statistical test or effect-size string was found in the V7-Lite text surface.")
     detail = {
         "science_summary": {
             "core_finding": science_summary.get("text") or "",
             "design_implications": importance.get("text") or "",
             "limitations": limitations.get("text") or "",
-            "methods_and_design": f"Design: {(result.get('methods') or {}).get('design') or 'pending full extraction'}",
+            "methods_and_design": f"Design: {methods.get('design') or 'pending full extraction'}; sample: {methods.get('sample_n') if methods.get('sample_n') is not None else 'not found'}; statistical test: {methods.get('statistical_test') or 'not found'}.",
+            "key_statistics": "\n".join(key_stats_parts),
         },
+        "results": results,
         "pnu": {
             "short_summary": pnu.get("text") or "",
             "long_summary": pnu.get("text") or "",
@@ -541,6 +658,7 @@ def _article_payload_from_async_belief(row: sqlite3.Row) -> dict[str, Any]:
             "measures": result.get("vr_suitability_mapping") or [],
         },
         "argumentation": result.get("argumentation") or {},
+        "visual_support_gallery": result.get("visual_support_gallery") or [],
         "article_meta": {
             "authors": authors,
             "source_pdf_path": source.get("source_pdf_path") or "",
@@ -639,6 +757,7 @@ def evaluate_v7_lite(
     abstract: str = "",
     text_surface: str = "",
     source_pdf_path: str = "",
+    source_pdf_bytes: bytes = b"",
     write_ae: bool = False,
     generate_prose: bool = True,
 ) -> dict[str, Any]:
@@ -687,6 +806,9 @@ def evaluate_v7_lite(
     paper_id = _next_v7_lite_paper_id() if write_ae else "PDF-LITE-PENDING"
     iv = None if classification["paper_type"] in {"review", "meta_analysis", "theoretical"} else extract_lite_iv(title, source_text)
     dv = [] if classification["paper_type"] in {"review", "meta_analysis", "theoretical"} else extract_lite_dvs(title, source_text)
+    methods = extract_lite_methods(classification, title, source_text)
+    results = extract_lite_results(title, source_text)
+    visual_support_gallery = export_lite_page_images(source_pdf_bytes, paper_id) if source_pdf_bytes else []
     substitution = admit_mode({"dv_descriptions": dv, "generate_prose": False}) if dv else {"per_dv_results": [], "paper_level_verdict": "admit_review_or_theory", "paper_level_confidence": classification["confidence"]}
     voi = conditional_voi_for(title, abstract or text_surface, dv)
     recommendation_summary = "Admit with substitution" if substitution["paper_level_verdict"] == "admit_with_substitution" else "Admit"
@@ -708,7 +830,9 @@ def evaluate_v7_lite(
             },
             "iv": iv,
             "dv": dv,
-            "methods": extract_lite_methods(classification, title, source_text),
+            "methods": methods,
+            "results": results,
+            "visual_support_gallery": visual_support_gallery,
             "vr_suitability_mapping": substitution["per_dv_results"],
             "conditional_voi": voi,
             "source_metadata": {
@@ -752,10 +876,12 @@ async def ingest_endpoint(
 ) -> dict[str, Any]:
     text_surface = ""
     source_pdf_path = ""
+    source_pdf_bytes = b""
     derived_title = title
     derived_abstract = ""
     if pdf is not None:
         data = await pdf.read()
+        source_pdf_bytes = data
         source_pdf_path = persist_v7_lite_upload(data, getattr(pdf, "filename", "uploaded_paper.pdf"))
         try:
             from ka_article_endpoints import _extract_abstract_from_text, _extract_text_from_pdf_bytes, _extract_title_from_text
@@ -774,6 +900,7 @@ async def ingest_endpoint(
         abstract=derived_abstract,
         text_surface=text_surface,
         source_pdf_path=source_pdf_path,
+        source_pdf_bytes=source_pdf_bytes,
         write_ae=True,
         generate_prose=True,
     )

@@ -53,7 +53,7 @@ def test_v7_lite_extracts_dynamic_lighting_iv_dvs_and_methods():
         "vigilance test, MATB-II and n-back under dynamic 4000 to 12000 K and static "
         "4000 K lighting. Psychological, behavioural, biochemical and electrophysiological "
         "responses were assessed. The results showed benefits on subjective sleepiness, "
-        "positive mood and task performance."
+        "positive mood and task performance, F(1, 15) = 6.21, p = .024, Cohen's d = 0.62."
     )
 
     result = v7.evaluate_v7_lite(
@@ -67,10 +67,26 @@ def test_v7_lite_extracts_dynamic_lighting_iv_dvs_and_methods():
     assert evaluation["paper_type_confidence"] >= 0.7
     assert evaluation["iv"]["levels"] == ["dynamic lighting", "static lighting"]
     assert evaluation["methods"]["sample_n"] == 16
+    assert evaluation["methods"]["statistical_test"] == "F(1, 15) = 6.21, p = .024"
+    assert evaluation["results"]["effect_sizes"] == ["Cohen's d = 0.62"]
+    assert evaluation["results"]["python_inference_used"] is False
     names = {row["name"] for row in evaluation["dv"]}
     assert "Psychomotor Vigilance Test" in names
     assert "n-back task" in names
     assert "mood rating" in names
+
+
+def test_v7_lite_does_not_infer_missing_effect_sizes():
+    result = v7.evaluate_v7_lite(
+        title="Biophilic virtual nature exposure and salivary cortisol",
+        abstract="Participants viewed immersive nature and urban VR scenes in a controlled experiment. Salivary cortisol was measured before and after exposure.",
+        generate_prose=False,
+    )
+
+    results = result["evaluation"]["results"]
+    assert results["statistical_test_status"] == "not_found_in_lite_text_surface"
+    assert results["effect_size_status"] == "not_found_in_lite_text_surface"
+    assert results["primary_effect_size"] == ""
 
 
 def test_v7_lite_does_not_import_api_llm_clients():

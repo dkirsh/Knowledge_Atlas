@@ -374,6 +374,8 @@ def build_full_v7_result(evaluation: dict[str, Any], *, generate_prose: bool = T
         "iv": evaluation.get("iv"),
         "dv": evaluation.get("dv"),
         "methods": evaluation.get("methods"),
+        "results": evaluation.get("results") or {},
+        "visual_support_gallery": evaluation.get("visual_support_gallery") or [],
         "vr_suitability_mapping": evaluation.get("vr_suitability_mapping"),
         "full_conditional_voi": full_voi,
         "argumentation": build_argumentation_scaffold(evaluation, full_voi),
