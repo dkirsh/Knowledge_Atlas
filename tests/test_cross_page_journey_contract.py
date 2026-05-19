@@ -6,6 +6,7 @@ REPO_ROOT = Path(__file__).resolve().parents[1]
 
 def test_article_view_exposes_cross_page_journey_links():
     source = (REPO_ROOT / "ka_article_view.html").read_text()
+    assert "params.get('paper')" in source
     assert "article-primary-topic-link" in source
     assert "article-theory-link" in source
     assert "journey-link-mechanism" in source

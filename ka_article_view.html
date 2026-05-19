@@ -9,114 +9,74 @@
 <script src="ka_data_adapter.js"></script>
 <style>
   *,*::before,*::after{margin:0;padding:0;box-sizing:border-box}
-  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#F7F4EF;color:#2C2C2C;line-height:1.6}
+  body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;background:#F7F4EF;color:#26322F;line-height:1.62}
   a{color:#2A7868}
-  .page-shell{max-width:1260px;margin:0 auto;padding:26px 24px 48px}
-  .art-breadcrumb{font-size:.84rem;color:#6B6B6B;margin-bottom:14px}
+  .page-shell{max-width:1010px;margin:0 auto;padding:18px 22px 42px}
+  .art-breadcrumb{font-size:.8rem;color:#6B6B6B;margin-bottom:10px}
   .art-breadcrumb a{text-decoration:none}
   .art-breadcrumb a:hover{text-decoration:underline}
-  .hero{background:linear-gradient(135deg,#1C3D3A 0%,#214844 100%);color:#fff;border-radius:20px;padding:30px 32px 28px;margin-bottom:22px}
-  .hero-top{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
-  .pill{display:inline-flex;align-items:center;padding:5px 10px;border-radius:999px;font-size:.74rem;font-weight:700;letter-spacing:.06em;text-transform:uppercase}
-  .pill.type{background:rgba(255,255,255,.14);color:#fff}
-  .pill.topic{background:rgba(245,166,35,.18);color:#FFD49A}
-  .pill-link{text-decoration:none}
-  .pill-link:hover{box-shadow:0 4px 12px rgba(0,0,0,.14);transform:translateY(-1px)}
-  .hero h1{font-family:Georgia,serif;font-size:2.15rem;line-height:1.15;margin-bottom:10px;max-width:980px}
-  .hero .authors{font-size:1rem;color:#E5EEEA;margin-bottom:3px}
-  .hero .venue{font-size:.92rem;color:#BFD3CD}
-  .hero .doi a{color:#FFD49A}
-  .metric-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;margin-top:18px}
-  .metric{background:rgba(255,255,255,.08);border:1px solid rgba(255,255,255,.14);border-radius:12px;padding:12px 14px}
-  .metric .label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#BDD1CB;font-weight:700;margin-bottom:4px}
-  .metric .value{font-size:1.15rem;font-weight:700;color:#fff}
-  .metric .sub{font-size:.82rem;color:#D6E5E0;margin-top:2px}
-
-  .content-layout{display:grid;grid-template-columns:240px minmax(0,1fr);gap:24px;align-items:start}
-  .toc{position:sticky;top:76px;background:#fff;border:1px solid #E0D8CC;border-radius:14px;padding:16px}
-  .toc .label{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:#8A9A96;font-weight:700;margin-bottom:10px}
-  .toc a{display:block;padding:7px 8px;border-left:2px solid transparent;color:#37514C;text-decoration:none;font-size:.88rem}
-  .toc a:hover{background:#F7F4EF}
-  .toc a.active{border-left-color:#E8872A;color:#1C3D3A;font-weight:700}
-
-  .main-col{min-width:0}
-  .section{background:#fff;border:1px solid #E0D8CC;border-radius:16px;padding:20px 22px;margin-bottom:18px;scroll-margin-top:90px}
-  .section h2{font-family:Georgia,serif;font-size:1.28rem;color:#1C3D3A;margin-bottom:10px}
-  .section p{margin-bottom:10px}
+  .article-identifier{background:#1F4E45;color:#EFF8F4;border-radius:10px;padding:10px 13px;margin-bottom:14px}
+  .identifier-label{font-size:.68rem;letter-spacing:.12em;text-transform:uppercase;font-weight:800;color:#BFD8D0;margin-bottom:6px}
+  .identifier-row{display:flex;flex-wrap:wrap;gap:7px;align-items:center}
+  .pill{display:inline-flex;align-items:center;padding:3px 8px;border:1px solid rgba(255,255,255,.18);border-radius:999px;background:rgba(255,255,255,.08);color:#F2FAF7;font-size:.71rem;font-weight:700;letter-spacing:.03em;text-transform:uppercase;text-decoration:none}
+  .pill.topic{background:rgba(245,166,35,.16);color:#FFE2B7}
+  .article-title{font-family:Georgia,serif;font-size:1.72rem;line-height:1.18;color:#173D36;margin:0 0 7px;max-width:940px}
+  .article-byline{font-size:.93rem;color:#53645F;margin-bottom:18px}
+  .article-byline .muted{color:#7A8581}
+  .main-col{max-width:940px;margin:0 auto}
+  .section{background:#fff;border:1px solid #E4DCCF;border-radius:10px;padding:18px 20px;margin-bottom:14px;scroll-margin-top:76px}
+  .section.reading{padding-top:20px}
+  .section h2{font-family:Georgia,serif;font-size:1.22rem;color:#173D36;margin-bottom:9px}
+  .section h3{font-size:.98rem;color:#173D36;margin-bottom:6px}
+  .section p{margin-bottom:9px}
   .section p:last-child{margin-bottom:0}
   .section-note{font-size:.88rem;color:#6B6B6B}
-  .abstract{background:#F7FBF9;border-left:4px solid #2A7868;padding:14px 16px;border-radius:0 10px 10px 0}
+  .abstract{background:#F7FBF9;border-left:3px solid #2A7868;padding:12px 14px;border-radius:0 8px 8px 0}
   .subhead{font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:#8A9A96;font-weight:700;margin-bottom:8px}
-
-  .chip-row{display:flex;flex-wrap:wrap;gap:8px}
-  .chip,.chip-link{display:inline-flex;align-items:center;padding:5px 10px;border:1px solid #E0D8CC;border-radius:999px;background:#F9F5EE;color:#1C3D3A;font-size:.8rem}
-  .chip-link{text-decoration:none}
-  .chip-link:hover{border-color:#2A7868;color:#2A7868;background:#F3FAF8}
-
-  .stats-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(180px,1fr));gap:12px}
-  .stat-card{background:#F8F6F1;border:1px solid #E0D8CC;border-radius:12px;padding:14px 15px}
-  .stat-card .label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#8A9A96;font-weight:700;margin-bottom:4px}
-  .stat-card .value{font-size:1.18rem;font-weight:700;color:#1C3D3A}
-  .stat-card .sub{font-size:.84rem;color:#6B6B6B;margin-top:3px}
-
-  .list{display:grid;gap:10px}
-  .list-row{padding:12px 14px;border:1px solid #E0D8CC;border-radius:12px;background:#FAF8F3}
-  .list-row h3{font-size:1rem;color:#1C3D3A;margin-bottom:4px}
-  .list-row .meta{font-size:.84rem;color:#6B6B6B;margin-bottom:4px}
-  .list-row .body{font-size:.92rem;color:#2C2C2C}
-  .list-row .counts{font-size:.8rem;color:#8A9A96}
-
-  .two-col{display:grid;grid-template-columns:1fr 1fr;gap:16px}
-  .soft-box{background:#F8F6F1;border:1px solid #E0D8CC;border-radius:12px;padding:14px 15px}
-  .soft-box h3{font-size:.98rem;color:#1C3D3A;margin-bottom:6px}
+  .summary-grid{display:grid;grid-template-columns:minmax(0,1fr) 300px;gap:18px;align-items:start}
+  .summary-carousel{background:#F8F6F1;border:1px solid #E0D8CC;border-radius:10px;padding:10px}
+  .summary-carousel img{display:block;width:100%;height:230px;object-fit:contain;background:#EFE8DB;border-radius:7px;margin-bottom:8px}
+  .summary-carousel .caption{font-size:.8rem;color:#5E5B54}
+  .summary-carousel .caption b{color:#173D36}
+  .summary-carousel .strip{display:flex;gap:6px;overflow:auto;margin-top:8px}
+  .summary-carousel .strip img{width:64px;height:48px;object-fit:cover;margin:0;border:2px solid transparent;cursor:pointer}
+  .summary-carousel .strip img.active{border-color:#2A7868}
+  .summary-blocks{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:12px}
+  .soft-box{background:#F8F6F1;border:1px solid #E0D8CC;border-radius:9px;padding:12px 13px}
   .soft-box p{font-size:.9rem}
-  .meta-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:12px}
-  .meta-box{background:#F8F6F1;border:1px solid #E0D8CC;border-radius:12px;padding:14px 15px}
-  .meta-box .label{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#8A9A96;font-weight:700;margin-bottom:5px}
-  .meta-box .value{font-size:.96rem;color:#1C3D3A}
-  .gallery-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-  .gallery-card{background:#F8F6F1;border:1px solid #E0D8CC;border-radius:12px;overflow:hidden}
-  .gallery-card img{display:block;width:100%;height:156px;object-fit:cover;background:#EEE7DA}
-  .gallery-copy{padding:12px 13px}
-  .gallery-copy h3{font-size:.98rem;color:#1C3D3A;margin-bottom:5px}
-  .gallery-copy p{font-size:.88rem;color:#5E5B54;margin-bottom:8px}
-  .gallery-copy .meta{font-size:.78rem;color:#8A9A96}
-  .result-surface{display:grid;grid-template-columns:minmax(0,230px) minmax(0,1fr);gap:16px;background:#F8F6F1;border:1px solid #E0D8CC;border-radius:12px;padding:15px;margin-bottom:16px}
-  .result-surface img{display:block;width:100%;height:170px;object-fit:cover;border-radius:10px;background:#EEE7DA}
-  .result-surface h3{font-size:1rem;color:#1C3D3A;margin-bottom:6px}
-  .result-surface p{font-size:.9rem;margin-bottom:8px}
-  .journey-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(220px,1fr));gap:14px}
-  .journey-card{display:block;background:#F8F6F1;border:1px solid #E0D8CC;border-radius:12px;padding:15px 16px;text-decoration:none;color:#2C2C2C}
+  details.more{margin-top:12px;border-top:1px solid #E0D8CC;padding-top:10px}
+  details.more summary{cursor:pointer;color:#2A7868;font-weight:700}
+  details.more .more-body{margin-top:10px}
+  .journey-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(210px,1fr));gap:12px}
+  .journey-card{display:block;background:#F8F6F1;border:1px solid #E0D8CC;border-radius:9px;padding:13px 14px;text-decoration:none;color:#26322F}
   .journey-card:hover{border-color:#2A7868;box-shadow:0 8px 22px rgba(28,61,58,.08);transform:translateY(-1px)}
   .journey-card .eyebrow{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase;color:#8A9A96;font-weight:700;margin-bottom:7px}
-  .journey-card h3{font-size:1rem;color:#1C3D3A;margin-bottom:6px}
+  .journey-card h3{font-size:1rem;color:#173D36;margin-bottom:6px}
   .journey-card p{font-size:.9rem;color:#40514D;margin:0 0 9px}
   .journey-card .meta{font-size:.8rem;color:#6B6B6B}
-
-  details.more{margin-top:12px;border-top:1px dashed #E0D8CC;padding-top:12px}
-  details.more summary{cursor:pointer;color:#2A7868;font-weight:700}
-  details.more .more-body{margin-top:12px}
-
+  .measure-table{width:100%;border-collapse:collapse;font-size:.88rem}
+  .measure-table th,.measure-table td{border-bottom:1px solid #E7DED0;padding:8px 7px;text-align:left;vertical-align:top}
+  .measure-table th{font-size:.72rem;text-transform:uppercase;letter-spacing:.08em;color:#6A7D77;background:#F8F6F1}
+  .measure-table td:first-child{font-weight:700;color:#173D36}
+  .pnu-body{background:#F7FBF9;border-left:3px solid #2A7868;padding:12px 14px;border-radius:0 8px 8px 0}
   .empty-state{background:#fff;border:1.5px solid #F5D09F;border-radius:16px;padding:24px 28px}
   .empty-state h2{font-family:Georgia,serif;color:#9A5010;margin-bottom:8px}
   .empty-state p{color:#6B6B6B}
   .loading{text-align:center;color:#8A9A96;padding:70px 20px}
 
-  .page-footer{background:#1C3D3A;color:#D6E6E0;padding:18px 24px;font-size:.84rem}
-  .page-footer-inner{max-width:1260px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
+  .page-footer{background:#1C3D3A;color:#D6E6E0;padding:14px 22px;font-size:.82rem}
+  .page-footer-inner{max-width:1010px;margin:0 auto;display:flex;justify-content:space-between;gap:18px;flex-wrap:wrap}
   .page-footer a{color:#F5A623;text-decoration:none;font-weight:600}
   .page-footer a:hover{text-decoration:underline}
 
   @media (max-width:980px){
-    .content-layout{grid-template-columns:1fr}
-    .toc{position:static}
-    .two-col{grid-template-columns:1fr}
-    .result-surface{grid-template-columns:1fr}
+    .summary-grid{grid-template-columns:1fr}
+    .summary-carousel img{height:260px}
   }
   @media (max-width:720px){
-    .page-shell{padding:20px 16px 32px}
-    .hero{padding:24px 22px}
-    .hero h1{font-size:1.72rem}
+    .page-shell{padding:14px 14px 30px}
+    .article-title{font-size:1.44rem}
+    .summary-blocks{grid-template-columns:1fr}
   }
 </style>
 </head>
@@ -257,6 +217,107 @@ function renderMeasureRows(items, key) {
   `).join('')}</div>`;
 }
 
+function formatTypeLabel(value) {
+  return String(value || '').replace(/_/g, ' ').trim() || 'Unclassified';
+}
+
+function pageRefs(value) {
+  return Array.isArray(value) && value.length ? value.join(', ') : 'pending';
+}
+
+function renderOperationalTable(operationalization) {
+  const rows = [];
+  (operationalization.measurement_inventory || []).forEach(item => rows.push({
+    kind: 'Measure',
+    name: item.measure_name || item.instrument_name || item.outcome,
+    target: item.target_construct || item.outcome || item.linked_dependent_variable,
+    type: item.instrument_type,
+    pages: item.page_refs,
+  }));
+  (operationalization.instrument_inventory || []).forEach(item => rows.push({
+    kind: 'Instrument',
+    name: item.name,
+    target: item.target_construct || '',
+    type: item.type || item.instrument_type,
+    pages: item.page_refs,
+  }));
+  (operationalization.sensor_inventory || []).forEach(item => rows.push({
+    kind: 'Sensor',
+    name: item.name,
+    target: item.target_construct || '',
+    type: item.type,
+    pages: item.page_refs,
+  }));
+  if (!rows.length) return '<p class="section-note">No instruments or sensors were exported for this paper yet.</p>';
+  return `<table class="measure-table">
+    <thead><tr><th>Kind</th><th>Name</th><th>Measures</th><th>Type</th><th>Pages</th></tr></thead>
+    <tbody>${rows.slice(0, 24).map(row => `
+      <tr>
+        <td>${esc(row.kind)}</td>
+        <td>${esc(row.name || 'Unnamed')}</td>
+        <td>${esc(row.target || 'not tied to one outcome')}</td>
+        <td>${esc(formatTypeLabel(row.type))}</td>
+        <td>${esc(pageRefs(row.pages))}</td>
+      </tr>
+    `).join('')}</tbody>
+  </table>`;
+}
+
+function localArticleImageUrl(path) {
+  const text = String(path || '');
+  const match = text.match(/\/pdf_cache\/(PDF-\d+)\/pageimages_200\/(page_\d+\.png)$/);
+  if (!match) return text;
+  return `data/ka_payloads/article_images/${encodeURIComponent(match[1])}/${encodeURIComponent(match[2])}`;
+}
+
+function collectSummaryImages(detail, operationalization) {
+  const images = [];
+  const seen = new Set();
+  function add(path, caption, page) {
+    const src = localArticleImageUrl(path);
+    if (!src || seen.has(src)) return;
+    seen.add(src);
+    images.push({ src, caption: caption || 'Paper image used by the Atlas extraction.', page });
+  }
+  (detail.visual_support_gallery || []).forEach(item => add(item.image_url, item.atlas_caption || item.atlas_title, item.page));
+  const technical = detail.technical_results_table || {};
+  if (technical.image_url) add(technical.image_url, technical.caption || technical.title, technical.page);
+  (operationalization.measurement_inventory || []).forEach(item => {
+    (item.page_image_paths || []).forEach(path => add(path, `${item.measure_name || item.instrument_name || 'Measurement'} evidence surface`, (item.page_refs || [])[0]));
+  });
+  return images.slice(0, 6);
+}
+
+function renderSummaryCarousel(images) {
+  if (!images.length) return '';
+  const first = images[0];
+  return `<aside class="summary-carousel" data-carousel>
+    <img class="carousel-main" src="${esc(first.src)}" alt="${esc(first.caption)}" loading="lazy">
+    <div class="caption"><b>${first.page ? 'Page ' + esc(first.page) + ': ' : ''}</b><span class="carousel-caption">${esc(first.caption)}</span></div>
+    ${images.length > 1 ? `<div class="strip">${images.map((img, index) => `
+      <img class="${index === 0 ? 'active' : ''}" src="${esc(img.src)}" alt="${esc(img.caption)}" data-caption="${esc(img.caption)}" data-page="${esc(img.page || '')}">
+    `).join('')}</div>` : ''}
+  </aside>`;
+}
+
+function hydrateCarousels(root) {
+  (root || document).querySelectorAll('[data-carousel]').forEach(carousel => {
+    const main = carousel.querySelector('.carousel-main');
+    const caption = carousel.querySelector('.carousel-caption');
+    const captionWrap = carousel.querySelector('.caption b');
+    carousel.querySelectorAll('.strip img').forEach(thumb => {
+      thumb.addEventListener('click', () => {
+        carousel.querySelectorAll('.strip img').forEach(node => node.classList.remove('active'));
+        thumb.classList.add('active');
+        main.src = thumb.src;
+        main.alt = thumb.alt || '';
+        caption.textContent = thumb.dataset.caption || '';
+        captionWrap.textContent = thumb.dataset.page ? `Page ${thumb.dataset.page}: ` : '';
+      });
+    });
+  });
+}
+
 function renderMetaBox(label, value) {
   return `
     <div class="meta-box">
@@ -327,7 +388,7 @@ function updateTocActive() {
   const mount = document.getElementById('art-mount');
   const crumb = document.getElementById('crumb-title');
   const params = new URLSearchParams(window.location.search);
-  const paperId = params.get('id') || params.get('paper_id') || '';
+  const paperId = params.get('id') || params.get('paper_id') || params.get('paper') || '';
 
   if (!paperId) {
     mount.className = 'empty-state';
@@ -405,7 +466,7 @@ function updateTocActive() {
   const authors = Array.isArray(articleMeta.authors) && articleMeta.authors.length
     ? articleMeta.authors.join(', ')
     : (Array.isArray(article.authors) ? article.authors.join(', ') : '');
-  const typeLabel = String(article.article_type || '').replace(/_/g, ' ').trim();
+  const articleTypeLabel = String(article.article_type || '').replace(/_/g, ' ').trim();
   const topicLabels = article.topic_labels || [];
   const articleArgumentation = article.argumentation_summary || {};
   const theoryRows = (theoriesPayload && theoriesPayload.theories) || [];
@@ -417,151 +478,63 @@ function updateTocActive() {
   const primaryTopicLink = article.primary_topic ? topicHref(article.primary_topic, articleJourneyParams) : '';
   const firstTopicLink = topicLabels.length ? topicHref(topicLabels[0], articleJourneyParams) : primaryTopicLink;
   const mechanismLink = mechanismHref(firstTheoryRow, articleJourneyParams);
+  const summaryImages = collectSummaryImages(detail, operationalization);
 
   document.title = `${article.title || paperId} — Knowledge Atlas`;
-  crumb.textContent = article.title || paperId;
+  crumb.textContent = paperId;
 
   mount.className = '';
   mount.innerHTML = `
-    <section class="hero">
-      <div class="hero-top">
-        ${typeLabel ? `<span class="pill type">${esc(typeLabel)}</span>` : ''}
-        ${article.primary_topic ? `<a class="pill topic pill-link article-primary-topic-link" data-runtime-link="${esc(primaryTopicLink)}">${esc(article.primary_topic)}</a>` : ''}
+    <div class="article-identifier">
+      <div class="identifier-label">Article identifier</div>
+      <div class="identifier-row">
+        <span class="pill">${esc(paperId)}</span>
+        ${articleTypeLabel ? `<span class="pill">${esc(articleTypeLabel)}</span>` : ''}
+        ${article.year ? `<span class="pill">${esc(article.year)}</span>` : ''}
+        ${article.primary_topic ? `<a class="pill topic article-primary-topic-link" data-runtime-link="${esc(primaryTopicLink)}">${esc(article.primary_topic)}</a>` : ''}
       </div>
-      <h1>${esc(article.title || paperId)}</h1>
-      ${authors ? `<div class="authors">${esc(authors)}</div>` : ''}
-      <div class="venue">
-        ${article.venue ? esc(article.venue) + ' · ' : ''}
-        ${article.year ? esc(article.year) + ' · ' : ''}
-        ${article.doi ? `<span class="doi"><a href="https://doi.org/${encodeURIComponent(article.doi)}" target="_blank" rel="noopener">${esc(article.doi)}</a></span>` : 'DOI pending'}
-      </div>
-      <div class="metric-row">
-        <div class="metric">
-          <div class="label">Atlas credence</div>
-          <div class="value">${evidenceProfile.atlas_credence_mean == null ? '—' : esc(Number(evidenceProfile.atlas_credence_mean).toFixed(2))}</div>
-          <div class="sub">${evidenceProfile.atlas_credence_percentile == null ? 'percentile pending' : esc(evidenceProfile.atlas_credence_percentile + 'th percentile across indexed papers')}</div>
-        </div>
-        <div class="metric">
-        <div class="label">Claim network</div>
-          <div class="value">${esc(String(evidenceProfile.paper_claim_count || article.claim_count || 0))}</div>
-          <div class="sub">${esc(String(evidenceProfile.support_edge_count || detailArgumentation.support_edge_count || articleArgumentation.incoming_support_total || 0))} support edges · ${esc(String(evidenceProfile.attack_edge_count || detailArgumentation.attack_edge_count || articleArgumentation.incoming_attack_total || 0))} attack edges</div>
-        </div>
-        <div class="metric">
-          <div class="label">Measures</div>
-          <div class="value">${esc(String(operationalization.measurement_count || 0))}</div>
-          <div class="sub">${esc(String(operationalization.instrument_count || 0))} instruments · ${esc(String(operationalization.sensor_count || 0))} sensors</div>
-        </div>
-        <div class="metric">
-        <div class="label">Verification</div>
-          <div class="value">${science.passed_verification ? 'pass' : 'pending'}</div>
-          <div class="sub">${esc(science.page_image_policy || 'policy pending')} · ${esc(pnu.verifier_status || 'PNU pending')}</div>
-        </div>
-      </div>
-    </section>
+    </div>
+    <h1 class="article-title">${esc(article.title || paperId)}</h1>
+    <div class="article-byline">
+      ${authors ? esc(authors) : '<span class="muted">Authors pending</span>'}
+      ${article.venue ? ` <span class="muted">· ${esc(article.venue)}</span>` : ''}
+    </div>
 
-    <div class="content-layout">
-      <aside class="toc">
-        <div class="label">On this page</div>
-        <a href="#abstract" class="active">Abstract</a>
-        <a href="#study-record">Study record</a>
-        <a href="#atlas-reading">Atlas reading</a>
-        <a href="#evidence">Evidence profile</a>
-        <a href="#journey">Atlas journey</a>
-        <a href="#measures">Measures & sensors</a>
-        <a href="#visuals">Visual evidence</a>
-        <a href="#pnu">Relevant PNUs</a>
-        <a href="#claims">Key claims</a>
-        <a href="#support">Support & contradiction</a>
-        <a href="#related">Related papers</a>
-        <a href="#provenance">Provenance</a>
-      </aside>
-
-      <div class="main-col">
-        <section class="section" id="abstract">
-          <h2>Abstract</h2>
-          ${article.abstract ? `<div class="abstract">${paragraphize(article.abstract)}</div>` : '<p class="section-note">No abstract is available in the current payload.</p>'}
-        </section>
-
-        <section class="section" id="study-record">
-          <div class="subhead">Study record</div>
-          <h2>Paper at a glance</h2>
-          <div class="meta-grid">
-            ${renderMetaBox('Primary topic', articleMeta.primary_topic || article.primary_topic || 'Pending')}
-            ${renderMetaBox('Sample size', articleMeta.sample_n == null ? 'Not reported' : articleMeta.sample_n)}
-            ${renderMetaBox('Dominant stance', detailArgumentation.dominant_stance || 'Pending')}
-            ${renderMetaBox('APA citation', articleMeta.apa_citation || 'Pending')}
-          </div>
-          <div class="two-col" style="margin-top:16px">
-            <div class="soft-box">
-              <h3>Main conclusion</h3>
-              ${articleMeta.main_conclusion ? paragraphize(articleMeta.main_conclusion) : '<p class="section-note">No main-conclusion summary was exported.</p>'}
-            </div>
-            <div class="soft-box">
-              <h3>Argumentation snapshot</h3>
-              <p><b>${esc(String(detailArgumentation.claim_count || topClaims.length || 0))}</b> claims, <b>${esc(String(detailArgumentation.support_edge_count || 0))}</b> supports, <b>${esc(String(detailArgumentation.attack_edge_count || 0))}</b> attacks, <b>${esc(String(detailArgumentation.contradiction_count || 0))}</b> contradictions.</p>
-              <p class="section-note">${detailArgumentation.node_qualifier ? esc(detailArgumentation.node_qualifier) : 'The current export does not attach a longer node qualifier for this paper.'}</p>
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="atlas-reading">
+    <div class="main-col">
+        <section class="section reading" id="atlas-reading">
           <div class="subhead">Science summary</div>
-          <h2>Atlas reading</h2>
-          ${science.core_finding ? paragraphize(science.core_finding) : '<p class="section-note">The science summary has not yet been exported for this paper.</p>'}
-          <div class="two-col" style="margin-top:14px">
+          <h2>What this paper says</h2>
+          <div class="summary-grid">
+            <div>
+              ${science.core_finding ? paragraphize(science.core_finding) : '<p class="section-note">The science summary has not yet been exported for this paper.</p>'}
+              ${science.key_statistics ? `<div class="soft-box" style="margin-top:12px"><h3>Key details</h3>${paragraphize(science.key_statistics)}</div>` : ''}
+            </div>
+            ${renderSummaryCarousel(summaryImages)}
+          </div>
+          <div class="summary-blocks">
             <div class="soft-box">
               <h3>Methods and design</h3>
               ${science.methods_and_design ? paragraphize(compact(science.methods_and_design, 900)) : '<p class="section-note">Methods summary pending.</p>'}
             </div>
             <div class="soft-box">
-              <h3>Atlas interpretation</h3>
-              ${atlasReading.core_finding_text ? paragraphize(atlasReading.core_finding_text) : '<p class="section-note">No additional Atlas interpretation row was available.</p>'}
+              <h3>Why it matters</h3>
+              ${science.design_implications ? paragraphize(compact(science.design_implications, 900)) : (atlasReading.core_finding_text ? paragraphize(compact(atlasReading.core_finding_text, 900)) : '<p class="section-note">Atlas interpretation pending.</p>')}
             </div>
           </div>
-          ${science.design_implications || science.limitations || science.gap_and_door ? `
+          ${science.limitations || science.gap_and_door || article.abstract ? `
             <details class="more">
-              <summary>Open the longer Atlas summary</summary>
+              <summary>Longer summary, limits, and abstract</summary>
               <div class="more-body">
-                ${science.key_statistics ? `<div class="soft-box" style="margin-bottom:10px"><h3>Key statistics</h3>${paragraphize(science.key_statistics)}</div>` : ''}
-                ${science.design_implications ? `<div class="soft-box" style="margin-bottom:10px"><h3>Design implications</h3>${paragraphize(science.design_implications)}</div>` : ''}
                 ${science.limitations ? `<div class="soft-box" style="margin-bottom:10px"><h3>Limitations and uncertainty</h3>${paragraphize(science.limitations)}</div>` : ''}
-                ${science.gap_and_door ? `<div class="soft-box"><h3>The gap and the door</h3>${paragraphize(science.gap_and_door)}</div>` : ''}
+                ${science.gap_and_door ? `<div class="soft-box" style="margin-bottom:10px"><h3>The gap and the door</h3>${paragraphize(science.gap_and_door)}</div>` : ''}
+                ${article.abstract ? `<div class="abstract"><h3>Paper abstract</h3>${paragraphize(article.abstract)}</div>` : ''}
               </div>
             </details>` : ''}
         </section>
 
-        <section class="section" id="evidence">
-          <h2>Evidence profile</h2>
-          <div class="stats-grid">
-            ${metricCard('Atlas credence', evidenceProfile.atlas_credence_mean == null ? '—' : Number(evidenceProfile.atlas_credence_mean).toFixed(2), evidenceProfile.atlas_credence_percentile == null ? 'Percentile pending' : evidenceProfile.atlas_credence_percentile + 'th percentile')}
-            ${metricCard('Claim count', evidenceProfile.paper_claim_count || article.claim_count || 0, 'paper-level extracted claims')}
-            ${metricCard('Support edges', evidenceProfile.support_edge_count || detailArgumentation.support_edge_count || articleArgumentation.incoming_support_total || 0, 'current argumentation layer')}
-            ${metricCard('Attack edges', evidenceProfile.attack_edge_count || detailArgumentation.attack_edge_count || articleArgumentation.incoming_attack_total || 0, 'explicit challenge edges')}
-            ${metricCard('Contradictions', evidenceProfile.contradiction_count || detailArgumentation.contradiction_count || articleArgumentation.contested_claim_count || 0, 'cross-paper or intra-paper contestation')}
-            ${metricCard('Search targets', evidenceProfile.search_target_count || detailArgumentation.search_target_count || articleArgumentation.search_target_count || 0, 'open resolution prompts')}
-          </div>
-          <p class="section-note" style="margin-top:12px">Until a separate paper-level EN credence is published, this page uses the mean credence of the paper's extracted evidence rows as the best current paper-level credence reading.</p>
-          ${(topicLabels && topicLabels.length) || detailTheories.length || constructLabels.length || instrumentTags.length ? `
-            <div class="two-col" style="margin-top:16px">
-              <div class="soft-box">
-                <h3>Topics</h3>
-                ${renderLinkedChipCollection(topicLabels, 'No topics yet.', label => topicHref(label, articleJourneyParams), 'article-topic-link')}
-              </div>
-              <div class="soft-box">
-                <h3>Theories and fronts</h3>
-                ${renderLinkedChipCollection(detailTheories, 'No theory links have been normalized for this paper yet.', label => theoryHref(label, theoryByName, articleJourneyParams), 'article-theory-link')}
-              </div>
-            </div>
-            <div class="two-col" style="margin-top:16px">
-              <div class="soft-box">
-                <h3>Constructs</h3>
-                ${renderChipCollection(constructLabels, 'No constructs have been exported yet.')}
-              </div>
-              <div class="soft-box">
-                <h3>Named instruments</h3>
-                ${renderChipCollection(instrumentTags, 'No named instruments have been exported yet.')}
-              </div>
-            </div>` : ''}
+        <section class="section" id="measures">
+          <h2>Instruments and sensors</h2>
+          ${renderOperationalTable(operationalization)}
         </section>
 
         <section class="section" id="journey">
@@ -575,7 +548,7 @@ function updateTocActive() {
               <p>See the defended bundle, its architectural family, and the topic-level theory signals that this paper now sits inside.</p>
               <div class="meta">${esc(topicLabels.length || 0)} exported topic link${topicLabels.length === 1 ? '' : 's'} from this paper.</div>
             </a>
-            <a class="journey-card journey-link-theory" data-runtime-link="${esc(firstTheoryLink || 'ka_home_theory.html')}">
+            <a class="journey-card journey-link-theory article-theory-link" data-runtime-link="${esc(firstTheoryLink || 'ka_home_theory.html')}">
               <div class="eyebrow">Theory surface</div>
               <h3>${esc(firstTheoryLabel || 'Open the live theory index')}</h3>
               <p>Move from this paper to the current theory record, its neighbouring theories, and the representative paper set carrying it.</p>
@@ -590,131 +563,21 @@ function updateTocActive() {
           </div>
         </section>
 
-        <section class="section" id="measures">
-          <h2>Measures, instruments, and sensors</h2>
-          <div class="stats-grid" style="margin-bottom:14px">
-            ${metricCard('Measures', operationalization.measurement_count || 0, 'explicit outcome measures')}
-            ${metricCard('Instruments', operationalization.instrument_count || 0, 'scales, tests, or protocols')}
-            ${metricCard('Sensors', operationalization.sensor_count || 0, 'physiological or environmental sensors')}
-            ${metricCard('Operationalizations', operationalization.outcome_operationalization_count || 0, 'outcome mappings')}
-          </div>
-          <div class="two-col">
-            <div class="soft-box">
-              <h3>Instruments</h3>
-              ${renderMeasureRows(operationalization.instrument_inventory, 'name')}
-            </div>
-            <div class="soft-box">
-              <h3>Sensors</h3>
-              ${renderMeasureRows(operationalization.sensor_inventory, 'name')}
-            </div>
-          </div>
-          <div class="soft-box" style="margin-top:16px">
-            <h3>Named measures</h3>
-            ${renderMeasureRows(operationalization.measurement_inventory, 'measure_name')}
-          </div>
-        </section>
-
-        <section class="section" id="visuals">
-          <h2>Visual support gallery</h2>
-          <p class="section-note">These surfaces come from the current V7-derived visual export. They are useful as evidence of stimuli, context, and results, but they are not a substitute for reading the full paper.</p>
-          ${renderTechnicalSurface(technicalSurface)}
-          ${renderVisualGallery(visualGallery)}
-        </section>
-
         <section class="section" id="pnu">
           <div class="subhead">Neuroscience reading</div>
-          <h2>Relevant PNUs</h2>
-          ${pnu.short_summary ? paragraphize(pnu.short_summary) : '<p class="section-note">No exported PNU short summary is available for this paper yet.</p>'}
-          <div class="stats-grid" style="margin-top:14px">
-            ${metricCard('PNU short form', pnu.short_status || 'pending', '300-word surface')}
-            ${metricCard('PNU long form', pnu.long_status || 'pending', 'extended mechanism reading')}
-            ${metricCard('Panel grounding', pnu.panel_status || 'pending', (pnu.panel_basis_count || 0) + ' panel sources')}
-            ${metricCard('Verifier', pnu.verifier_status || 'pending', 'current lifecycle status')}
-          </div>
-          <div class="two-col" style="margin-top:16px">
-            <div class="soft-box">
-              <h3>PNU provenance</h3>
-              <p>Lifecycle status: <b>${esc(pnu.status || 'pending')}</b></p>
-              <p>Source modality: <b>${esc(pnu.source_modality || 'pending')}</b></p>
-              <p>Generation method: <b>${esc(pnu.generation_method || 'pending')}</b></p>
-              <p>Theory/mechanism status: <b>${esc(pnu.theory_mechanism_status || 'pending')}</b></p>
-              <p>Requires repair: <b>${pnu.requires_repair ? 'yes' : 'no'}</b></p>
-              <p>Verifier errors: <b>${esc(String(pnu.verifier_error_count || 0))}</b></p>
-            </div>
-            <div class="soft-box">
-              <h3>PNU evidence surface</h3>
-              <p>${Array.isArray(pnu.page_refs) && pnu.page_refs.length ? 'Page refs: ' + esc(pnu.page_refs.join(', ')) : 'Page refs pending.'}</p>
-              <p>${Array.isArray(pnu.page_image_paths) && pnu.page_image_paths.length ? esc(pnu.page_image_paths.length + ' page-image path(s) exported') : 'No page-image paths exported.'}</p>
-              <p>${pnu.html_path ? 'HTML artifact: ' + esc(pnu.html_path) : 'No PNU HTML artifact exported.'}</p>
-              <p>${pnu.json_path ? 'JSON artifact: ' + esc(pnu.json_path) : 'No PNU JSON artifact exported.'}</p>
-            </div>
-          </div>
-          <div class="soft-box" style="margin-top:16px">
-            <h3>Panel basis</h3>
-            ${renderPnuPanelBasis(pnu.panel_basis)}
-          </div>
+          <h2>Plausible neural explanation</h2>
+          <div class="pnu-body">${pnu.short_summary ? paragraphize(pnu.short_summary) : '<p class="section-note">No exported PNU short summary is available for this paper yet.</p>'}</div>
           ${pnu.long_summary ? `
             <details class="more">
               <summary>Open the longer PNU reading</summary>
               <div class="more-body">${paragraphize(pnu.long_summary)}</div>
             </details>` : ''}
         </section>
-
-        <section class="section" id="claims">
-          <h2>Key claims surfaced from the current evidence layer</h2>
-          ${renderClaimRows(topClaims)}
-        </section>
-
-        <section class="section" id="support">
-          <h2>Support and contradiction status</h2>
-          <div class="two-col">
-            <div class="soft-box">
-              <h3>Supporting papers</h3>
-              ${renderPaperRefs(supportingPapers, 'No explicit inter-paper support links have yet been surfaced for this paper. The related-paper list below still gives nearby same-front material.')}
-            </div>
-            <div class="soft-box">
-              <h3>Contradicting or challenging papers</h3>
-              ${renderPaperRefs(contradictingPapers, 'No explicit contradictory paper has yet been surfaced by the current argumentation layer. That is a statement about the present layer, not a proof that the literature is unchallenged.')}
-            </div>
-          </div>
-        </section>
-
-        <section class="section" id="related">
-          <h2>Related papers on the same front or method family</h2>
-          ${detailRelatedPapers && detailRelatedPapers.length ? `
-            <div class="list">${detailRelatedPapers.map(row => `
-              <div class="list-row">
-                <h3><a href="ka_article_view.html?id=${encodeURIComponent(row.paper_id)}">${esc(row.title || row.paper_id)}</a></h3>
-                <div class="meta">${esc(row.reason || 'related paper')} ${row.primary_front ? '· ' + esc(row.primary_front) : ''}</div>
-                <div class="counts">match score ${esc(String(row.score || 0))}</div>
-              </div>
-            `).join('')}</div>
-          ` : '<p class="section-note">No related-paper links were exported for this article.</p>'}
-        </section>
-
-        <section class="section" id="provenance">
-          <h2>Provenance and audit</h2>
-          <div class="two-col">
-            <div class="soft-box">
-              <h3>Science summary provenance</h3>
-              <p>Source modality: <b>${esc(science.summary_source_modality || 'pending')}</b></p>
-              <p>Page-image policy: <b>${esc(science.page_image_policy || 'pending')}</b></p>
-              <p>Verification: <b>${science.passed_verification ? 'pass' : 'pending'}</b></p>
-            </div>
-            <div class="soft-box">
-              <h3>Field audit snapshot</h3>
-              <p>${article.json_status ? esc(Object.entries(article.json_status).slice(0, 8).map(([k, v]) => `${k}=${v}`).join(' · ')) : 'No field-audit snapshot was attached.'}</p>
-            </div>
-          </div>
-          <p class="section-note" style="margin-top:12px">Payload sources: <code>articles.json</code> and <code>article_details.json</code>. The richer detail surface is exported from the V7 lifecycle and accepted-row artifacts during the Knowledge Atlas adapter rebuild, including theory links, related-paper neighborhoods, visual support surfaces, and the current PNU reading.</p>
-        </section>
       </div>
-    </div>
   `;
 
   hydrateRuntimeLinks(mount);
-  window.addEventListener('scroll', updateTocActive, { passive: true });
-  updateTocActive();
+  hydrateCarousels(mount);
 })();
 </script>
 </body>
