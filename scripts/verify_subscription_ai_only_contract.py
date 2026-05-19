@@ -22,7 +22,9 @@ DEFAULT_RUNTIME_PATHS = [
     "ka_search.html",
     "ka_substitution_skill.py",
     "ka_v7_lite.py",
+    "ka_v7_async_worker.py",
     "ka_usability_critic.js",
+    "scripts/run_v7_lite_full_worker.py",
     "scripts/track3/llm_wrapper_starter.py",
 ]
 

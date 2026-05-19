@@ -33,6 +33,14 @@ through subscription CLIs such as `claude -p` or `codex exec`.
   verdicts, rankings, and mappings remain deterministic; prose fields are blank
   and carry `requires_subscription_cli_llm` provenance until the subscription
   writer pass runs.
+- Added `ka_v7_async_worker.py` and
+  `scripts/run_v7_lite_full_worker.py` to consume V7-Lite queue rows from
+  Article Eater `ae.db`, upgrade the same partial belief row with a 10-target
+  conditional-VOI packet, a structured argumentation scaffold, and
+  subscription-CLI-authored public prose when the writer is available. If the
+  writer is unavailable, the worker completes the structured pass and marks the
+  science summary/PNU fields as `requires_subscription_cli_llm`; Python does
+  not author fallback public science prose.
 
 ## Current Contract Position
 
@@ -58,7 +66,8 @@ Passing checks:
 - `python3 scripts/verify_subscription_ai_only_contract.py --strict`
 - `python3 scripts/verify_dyk_llm_authoring_contract.py --strict`
 - `pytest -q tests/test_dyk_llm_authoring_contract.py tests/test_subscription_ai_contract.py tests/test_substitution_skill_contract.py tests/test_v7_lite_contract.py tests/test_cross_page_journey_contract.py tests/test_site_runtime_smoke.py`
-- `python3 -m py_compile ka_search_synthesis.py ka_critique_endpoints.py ka_substitution_skill.py ka_v7_lite.py ka_auth_server.py scripts/verify_dyk_llm_authoring_contract.py scripts/verify_subscription_ai_only_contract.py scripts/track3/llm_wrapper_starter.py`
+- `pytest -q tests/test_v7_async_worker_contract.py`
+- `python3 -m py_compile ka_search_synthesis.py ka_critique_endpoints.py ka_substitution_skill.py ka_v7_lite.py ka_v7_async_worker.py ka_auth_server.py scripts/run_v7_lite_full_worker.py scripts/verify_dyk_llm_authoring_contract.py scripts/verify_subscription_ai_only_contract.py scripts/track3/llm_wrapper_starter.py`
 
 ## Remaining Work
 

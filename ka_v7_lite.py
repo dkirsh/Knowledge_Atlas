@@ -31,6 +31,7 @@ PAYLOAD_DIR = REPO_ROOT / "data" / "ka_payloads"
 DEFAULT_THRESHOLDS_PATH = REPO_ROOT / "data" / "v7_lite_topic_thresholds.json"
 DEFAULT_AE_DB_PATH = Path("/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/ae.db")
 V7_LITE_PROSE_CONTRACT = "V7_LITE_SUBSCRIPTION_CLI_RECOMMENDATION_CONTRACT_2026-05-18"
+V7_LITE_FULL_WORKER_CONTRACT = "V7_LITE_FULL_ASYNC_WORKER_CONTRACT_2026-05-19"
 SUBSCRIPTION_LLM_COMMANDS = ["claude -p", "codex exec"]
 
 router = APIRouter(prefix="/api/v7_lite", tags=["v7_lite"])
@@ -341,6 +342,15 @@ def write_v7_lite_partial_to_ae(evaluation: dict[str, Any], *, session_id: str =
             ),
         )
         job_id = f"full_v7_{paper_id}_{digest}"
+        queue_params = {
+            "paper_id": paper_id,
+            "belief_id": belief_id,
+            "lane": "A_student_uploaded",
+            "source": "v7_lite",
+            "worker_contract": V7_LITE_FULL_WORKER_CONTRACT,
+            "queued_at": now,
+            "evaluation": evaluation,
+        }
         db.execute(
             """
             INSERT OR IGNORE INTO processing_queue (
@@ -350,7 +360,7 @@ def write_v7_lite_partial_to_ae(evaluation: dict[str, Any], *, session_id: str =
             (
                 job_id,
                 "L2_extract",
-                json.dumps({"paper_id": paper_id, "belief_id": belief_id, "lane": "A_student_uploaded", "source": "v7_lite"}),
+                json.dumps(queue_params),
                 "pending",
                 10,
                 now,

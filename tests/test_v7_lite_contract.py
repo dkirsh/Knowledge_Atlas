@@ -140,6 +140,10 @@ def test_v7_lite_writes_partial_belief_and_full_v7_queue(tmp_path, monkeypatch):
     try:
         assert db.execute("SELECT COUNT(*) FROM beliefs").fetchone()[0] == 1
         assert db.execute("SELECT COUNT(*) FROM processing_queue").fetchone()[0] == 1
+        params = db.execute("SELECT params FROM processing_queue").fetchone()[0]
+        queue_params = v7.json.loads(params)
+        assert queue_params["worker_contract"] == v7.V7_LITE_FULL_WORKER_CONTRACT
+        assert queue_params["evaluation"]["paper_type"] == "empirical"
     finally:
         db.close()
 
