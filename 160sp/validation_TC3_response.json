@@ -1,0 +1,1 @@
+{"contract_version":"1.0","submission_id":"KA-IN-000005","items":[{"article_id":"KA-ART-000005","input_mode":"pdf_single","filename":"fake.pdf","validation_status":"invalid","duplicate_status":"not_checked","metadata":{},"status":"rejected_bad_file","reason":"Not a PDF file (invalid magic bytes)"}],"summary":{"total":1,"staged":0,"duplicates":0,"rejected":1,"edge_cases":0}}

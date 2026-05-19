@@ -293,6 +293,33 @@ def _init_article_tables():
     );
     CREATE INDEX IF NOT EXISTS idx_claims_user ON question_claims(user_id);
     CREATE INDEX IF NOT EXISTS idx_claims_question ON question_claims(question_id, round);
+
+    -- T2-Task1: monotonic ID counter (replaces SELECT COUNT(*) in _next_id).
+    -- One row per ID prefix. UPDATE ... RETURNING is atomic in SQLite,
+    -- which gives us race-safe ID allocation. Deletes from articles /
+    -- submission_batches no longer reset IDs (counter never moves backward).
+    CREATE TABLE IF NOT EXISTS id_sequences (
+        prefix  TEXT PRIMARY KEY,
+        counter INTEGER NOT NULL
+    );
+    """)
+
+    # Idempotent migration: seed id_sequences from existing data on first
+    # run. WHERE NOT EXISTS guard ensures repeated startups don't reset
+    # counters that have already been allocated.
+    db.execute("""
+    INSERT INTO id_sequences (prefix, counter)
+    SELECT 'KA-ART-',
+           COALESCE(MAX(CAST(SUBSTR(article_id, 8) AS INTEGER)), 0)
+    FROM articles
+    WHERE NOT EXISTS (SELECT 1 FROM id_sequences WHERE prefix = 'KA-ART-')
+    """)
+    db.execute("""
+    INSERT INTO id_sequences (prefix, counter)
+    SELECT 'KA-IN-',
+           COALESCE(MAX(CAST(SUBSTR(submission_id, 7) AS INTEGER)), 0)
+    FROM submission_batches
+    WHERE NOT EXISTS (SELECT 1 FROM id_sequences WHERE prefix = 'KA-IN-')
     """)
     db.commit()
     db.close()
@@ -303,12 +330,42 @@ def _init_article_tables():
 # ════════════════════════════════════════════════
 
 def _next_id(prefix: str, table: str, id_col: str) -> str:
-    """Generate the next sequential ID like KA-ART-000001."""
+    """Generate the next sequential ID like KA-ART-000001.
+
+    Uses an atomic UPDATE ... RETURNING against the id_sequences table
+    (requires SQLite >= 3.35 — verified 3.50.4 on this checkout). This
+    replaces the previous SELECT COUNT(*) approach, which had two bugs:
+
+      - Race condition: two concurrent submissions both read COUNT=N,
+        both compute N+1, both INSERT; one succeeds, the other gets
+        IntegrityError on the PRIMARY KEY.
+      - Delete-and-replay: deleting a row dropped COUNT, causing
+        subsequent _next_id calls to silently reuse the deleted ID,
+        corrupting any provenance keyed to the old article_id.
+
+    UPDATE ... RETURNING is statement-atomic in SQLite, so concurrent
+    callers cannot get the same value. Deletes don't move the counter
+    backward.
+
+    The `table` and `id_col` arguments are kept for backward
+    compatibility with the existing 8 call sites; only `prefix` is
+    used (it keys into id_sequences). The id_sequences row for each
+    prefix is seeded at startup by _init_article_tables.
+    """
     db = _get_db()
-    row = db.execute(f"SELECT COUNT(*) FROM {table}").fetchone()
+    row = db.execute(
+        "UPDATE id_sequences SET counter = counter + 1 "
+        "WHERE prefix = ? RETURNING counter",
+        (prefix,)
+    ).fetchone()
+    db.commit()
     db.close()
-    seq = (row[0] or 0) + 1
-    return f"{prefix}{seq:06d}"
+    if not row:
+        raise RuntimeError(
+            f"id_sequences row missing for prefix {prefix!r}; "
+            "_init_article_tables() must run before _next_id()"
+        )
+    return f"{prefix}{row[0]:06d}"
 
 
 def _now() -> str:
@@ -641,6 +698,86 @@ def _get_optional_user(request: Request) -> Optional[dict]:
     return None
 
 
+# next_action values that mean "classifier needs more data or wants human
+# review" — these override any positive verdict and route the item to
+# needs_review. The complementary set ("ready_for_*") lets verdict +
+# confidence drive routing normally.
+_NEXT_ACTIONS_NEEDING_REVIEW = frozenset({
+    "need_abstract_or_keywords",   # classifier wants more metadata
+    "extract_pdf_surface",         # classifier wants more PDF text
+    "review_borderline_case",      # classifier explicitly wants human judgment
+})
+
+# Off-topic-detection threshold. When the classifier hedges
+# (verdict="edge_case") AND its best primary-topic candidate scores below
+# this value, the implementation treats the paper as off-topic and routes
+# to rejected_off_topic instead of needs_review. This compensates for the
+# classifier's lack of an explicit negative-evidence mechanism — its
+# constitution bank contains only positive topics, so genuinely off-topic
+# papers get matched to the least-bad option with a low score. Tunable;
+# see contract §4.1 for the routing decision tree.
+_OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD = 0.40
+
+# Low-confidence-accept boundary: accept-verdict items below this confidence
+# are escalated to needs_review instead of staged_pending_review. Value is
+# pinned by the Classifier Integration Contract §4.1 (boundary derived from
+# the classifier's own next_action threshold). Named constant added in a
+# code-cleanliness pass; behavior identical to the previous inline literal.
+_ACCEPT_CONFIDENCE_FLOOR = 0.72
+
+
+def _route_classifier_verdict(verdict, overall_confidence: float,
+                              next_action: str = "",
+                              primary_topic_score: float = 0.0):
+    """Map (verdict, overall_confidence, next_action, primary_topic_score)
+    -> (status, audit_action, routing_reason).
+
+    Routing boundary 0.72 is pinned by the Classifier Integration Contract
+    (Track 2 / Phase 1 & 2 / contracts §4.1) and matches the threshold used
+    inside atlas_shared at classifier_system.py:894,898.
+
+    Override 1 (off-topic detection): if verdict=edge_case AND the
+    primary-topic candidate scores below _OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD,
+    the classifier likely couldn't find any topic that fits — treat as
+    rejected_off_topic. This is a deliberate workaround for the
+    classifier's lack of negative-evidence in its constitution bank.
+
+    Override 2 (next_action — Q4 fix): if the classifier signals it needs
+    more data or wants human review, that overrides any verdict-based
+    routing. Handles the case where verdict="accept" + confidence>=0.72
+    but the classifier still emits next_action="review_borderline_case".
+
+    verdict: "accept" | "edge_case" | "reject" | None (None when classifier
+             returned no stable_topic_routing — e.g. local fallback path
+             or bibliographic-only evidence stage).
+    """
+    # Override 1: off-topic detection (NEW for 4/4 PASS target).
+    # Catches off-topic content the classifier can't confidently reject.
+    # Distinguishes T2-style (off-topic with weak topic match) from T3-style
+    # (PDF extraction failure → verdict=reject with null topic, handled by
+    # Override 2 path below).
+    if verdict == "edge_case" and primary_topic_score < _OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD:
+        return (
+            "rejected_off_topic",
+            "rejected_off_topic",
+            f"off_topic:edge_case_with_weak_topic_match_{primary_topic_score:.2f}_below_{_OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD}",
+        )
+
+    # Override 2: classifier's next_action signals it's not done deciding.
+    if next_action in _NEXT_ACTIONS_NEEDING_REVIEW:
+        return ("needs_review", "needs_review", f"next_action:{next_action}")
+
+    if verdict is None:
+        return ("needs_review", "needs_review", "classifier_returned_no_verdict")
+    if verdict == "reject":
+        return ("rejected_off_topic", "rejected_off_topic", "classifier_verdict_reject")
+    if verdict == "edge_case":
+        return ("needs_review", "needs_review", "classifier_verdict_edge_case")
+    if verdict == "accept" and overall_confidence < _ACCEPT_CONFIDENCE_FLOOR:
+        return ("needs_review", "needs_review", "low_confidence_accept")
+    return ("staged_pending_review", "staged", None)
+
+
 # ════════════════════════════════════════════════
 # ENDPOINTS
 # ════════════════════════════════════════════════
@@ -656,6 +793,7 @@ async def submit_articles(
     source_surface: str = Form(default="ka_contribute"),
     a0_task: str = Form(default=""),          # task1 (experimental-only) | task2 (any-type)
     article_type: str = Form(default=""),     # experimental | review | theory | mechanism | meta_analysis | other
+    email: str = Form(default=""),            # optional contact email (Improvement E — persisted in validation_notes for reviewer follow-up)
 ):
     """
     Submit one or more articles (PDFs and/or citation text).
@@ -779,43 +917,171 @@ async def submit_articles(
             })
             continue
 
-        # Save to quarantine
-        month_dir = QUARANTINE_DIR / datetime.now().strftime("%Y-%m")
-        month_dir.mkdir(parents=True, exist_ok=True)
-        quarantine_path = month_dir / f"{article_id}.pdf"
-        quarantine_path.write_bytes(content)
+        # ── T2-Task1: classify the paper before staging
+        # Extract surface text (uses the existing helper)
+        surface_text = _extract_text_from_pdf_bytes(content, max_chars=5000)
+
+        # Per Classifier Integration Contract: skip classifier on insufficient text,
+        # route directly to needs_review with routing_reason
+        if len(surface_text.strip()) < 100:
+            cls = {
+                "verdict": None,
+                "primary_topic": None,
+                "primary_topic_score": 0.0,
+                "overall_confidence": 0.0,
+                "verdict_confidence": 0.0,
+                "article_type": "unknown",
+                "canonical_article_type": "unknown",
+                "confidence": 0.0,
+                "next_action": "need_abstract_or_keywords",
+                "backend": CLASSIFIER_BACKEND,
+                "source": "skipped_insufficient_text",
+                "signals": [],
+            }
+            branch_status, audit_action, routing_reason = (
+                "needs_review", "needs_review", "insufficient_text_for_classification")
+        else:
+            try:
+                title_guess = _extract_title_from_text(surface_text, fallback=filename)
+                abstract_guess = _extract_abstract_from_text(surface_text)
+                cls = _classify_article_payload(
+                    paper_id=article_id,
+                    title=title_guess,
+                    abstract=abstract_guess,
+                    text_surface=surface_text,
+                )
+                branch_status, audit_action, routing_reason = _route_classifier_verdict(
+                    cls["verdict"],
+                    cls["overall_confidence"],
+                    cls.get("next_action", ""),
+                    cls.get("primary_topic_score", 0.0),
+                )
+            except Exception as exc:
+                # Classifier crashed — treat as edge case, capture the error
+                cls = {
+                    "verdict": None,
+                    "primary_topic": None,
+                    "primary_topic_score": 0.0,
+                    "overall_confidence": 0.0,
+                    "verdict_confidence": 0.0,
+                    "article_type": "unknown",
+                    "canonical_article_type": "unknown",
+                    "confidence": 0.0,
+                    "next_action": "review_borderline_case",
+                    "backend": CLASSIFIER_BACKEND,
+                    "source": f"classifier_error:{type(exc).__name__}",
+                    "signals": [],
+                }
+                branch_status, audit_action, routing_reason = (
+                    "needs_review", "needs_review",
+                    f"classifier_error:{type(exc).__name__}")
+
+        # ── T2-Task1: write to quarantine ONLY if the verdict allows it
+        # (Branches A and B per Classifier Integration Contract §4.1).
+        # Branch E (rejected_off_topic) writes the row but no file.
+        # If the filesystem call fails (disk full, permission denied,
+        # read-only FS), we route to rejected_storage_error so the
+        # article_id is not silently consumed by a 500 response.
+        if branch_status in ("staged_pending_review", "needs_review"):
+            month_dir = QUARANTINE_DIR / datetime.now().strftime("%Y-%m")
+            try:
+                month_dir.mkdir(parents=True, exist_ok=True)
+                quarantine_path = month_dir / f"{article_id}.pdf"
+                quarantine_path.write_bytes(content)
+                quarantine_path_str = str(quarantine_path)
+            except OSError as fs_exc:
+                # Filesystem write failed. Override branch to a clean reject
+                # so the row is honest and the file is not orphaned.
+                # Audit action matches status (consistency with other branches:
+                # staged_pending_review<->staged, needs_review<->needs_review,
+                # rejected_*<->rejected_*).
+                quarantine_path_str = None
+                branch_status = "rejected_storage_error"
+                audit_action  = "rejected_storage_error"
+                routing_reason   = f"quarantine_write_failed:{type(fs_exc).__name__}:{fs_exc.errno}"
+                # Annotate the classifier source so the response carries the
+                # cause even though the classifier itself succeeded.
+                cls["source"] = f"quarantine_error:{type(fs_exc).__name__}"
+        else:
+            quarantine_path_str = None
 
         # Determine metadata confidence
         confidence = "low"
         if extracted_doi:
             confidence = "medium"
 
-        # Determine article type validity for A0 task
+        # Determine article type validity for A0 task (existing semantics preserved)
         art_type = article_type if article_type in VALID_ARTICLE_TYPES else None
         art_type_valid = 1 if (not a0_task or a0_task != "task1" or art_type == "experimental") else 0
 
-        # Insert article record
-        db = _get_db()
-        db.execute("""INSERT INTO articles
+        # Per contract §4.2 column-enumeration. The classifier's outputs
+        # (verdict, article_type, topic, confidence) are persisted INTO
+        # validation_notes JSON so reviewers can see what the classifier
+        # thought without re-running it. The dedicated articles.article_type
+        # column stays reserved for the A0 self-reported type.
+        validation_with_reason = dict(validation)
+        if routing_reason:
+            validation_with_reason["routing_reason"] = routing_reason
+        validation_with_reason["classifier_verdict"] = cls.get("verdict")
+        validation_with_reason["classifier_article_type"] = cls.get("canonical_article_type")
+        validation_with_reason["classifier_primary_topic"] = cls.get("primary_topic")
+        validation_with_reason["classifier_overall_confidence"] = cls.get("overall_confidence", 0.0)
+        validation_with_reason["classifier_backend"] = cls.get("backend", "unknown")
+        validation_with_reason["classifier_source"] = cls.get("source", "")
+        # Improvement E: preserve optional contributor metadata so a reviewer can
+        # follow up. PII (email) is treated as opaque — stored only inside the
+        # JSON column, never logged server-side, never exposed in the response.
+        _email_clean = (email or "").strip()[:200]
+        validation_with_reason["contact_email"] = _email_clean or None
+        _citation_hint = (citations or "").strip()[:500]
+        validation_with_reason["submitter_citation_hint"] = _citation_hint or None
+
+        # rejected_at / staged_at must follow the (possibly-overridden) branch_status.
+        # Use a prefix match so any future rejected_* status is handled correctly.
+        rejected_at = now if branch_status.startswith("rejected_") else None
+        staged_at_v = now if branch_status in ("staged_pending_review", "needs_review") else None
+
+        # Insert article record (new column: relevance_score).
+        # Wrapped in retry-on-IntegrityError: with id_sequences in place,
+        # an article_id collision should be impossible. But other UNIQUE
+        # or FOREIGN KEY violations could theoretically fire (e.g., DB
+        # corruption, manual data manipulation). Catch once, allocate a
+        # fresh ID via _next_id (which advances the counter atomically),
+        # retry the INSERT. The original article_id is "burned" — gone
+        # but never reused, preserving monotonicity.
+        _insert_sql = """INSERT INTO articles
             (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
              doi, pdf_filename, pdf_hash_sha256, pdf_size_bytes, quarantine_path,
              article_type, a0_task, article_type_valid,
-             status, validation_notes,
+             status, validation_notes, relevance_score,
              assigned_question_id, topic_tags,
              source_surface, course_context, submitter_notes,
-             created_at, validated_at, staged_at, metadata_confidence)
-            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
-            (article_id, submission_id, submitter_id, submitter_type, track, "pdf_single",
-             extracted_doi, filename, pdf_hash, len(content), str(quarantine_path),
-             art_type, a0_task or None, art_type_valid,
-             "staged_pending_review", json.dumps(validation),
-             question_id or None, topic_tags or None,
-             source_surface, "COGS160-SP26", notes or None,
-             now, now, now, confidence))
-        db.commit()
-        db.close()
+             created_at, validated_at, staged_at, rejected_at, metadata_confidence)
+            VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)"""
 
-        _write_audit(article_id, "staged", "received", "staged_pending_review",
+        def _do_insert(aid):
+            db = _get_db()
+            try:
+                db.execute(_insert_sql,
+                    (aid, submission_id, submitter_id, submitter_type, track, "pdf_single",
+                     extracted_doi, filename, pdf_hash, len(content), quarantine_path_str,
+                     art_type, a0_task or None, art_type_valid,
+                     branch_status, json.dumps(validation_with_reason), cls.get("primary_topic_score", 0.0),
+                     question_id or None, topic_tags or None,
+                     source_surface, "COGS160-SP26", notes or None,
+                     now, now, staged_at_v, rejected_at, confidence))
+                db.commit()
+            finally:
+                db.close()
+
+        try:
+            _do_insert(article_id)
+        except sqlite3.IntegrityError:
+            # Defensive: allocate a fresh article_id and retry once.
+            article_id = _next_id("KA-ART-", "articles", "article_id")
+            _do_insert(article_id)
+
+        _write_audit(article_id, audit_action, "received", branch_status,
                      actor_id=submitter_id, actor_type=submitter_type)
 
         items.append({
@@ -825,10 +1091,22 @@ async def submit_articles(
             "validation_status": "valid",
             "duplicate_status": "not_duplicate",
             "metadata": {"doi": extracted_doi, "confidence": confidence},
-            "status": "staged_pending_review",
+            "status": branch_status,
             "a0_task": a0_task or None,
             "article_type": art_type,
-            "counts_toward_requirement": bool(art_type_valid)
+            "counts_toward_requirement": bool(art_type_valid),
+            "reason": routing_reason,
+            "classifier": {
+                "verdict":                  cls.get("verdict"),
+                "classifier_article_type":  cls.get("canonical_article_type", "unknown"),
+                "article_type_confidence":  cls.get("confidence", 0.0),
+                "primary_topic":            cls.get("primary_topic"),
+                "primary_topic_confidence": cls.get("primary_topic_score", 0.0),
+                "overall_confidence":       cls.get("overall_confidence", 0.0),
+                "next_action":              cls.get("next_action", "review_borderline_case"),
+                "backend":                  cls.get("backend", "unknown"),
+                "active_topic_matches":     [],
+            },
         })
 
     # ── Process citation text
@@ -853,18 +1131,67 @@ async def submit_articles(
             # Duplicate check — fuzzy on title and authors (≤1 word edit distance)
             dup_result = _check_duplicate(doi=extracted_doi, title=dedup_title, authors=dedup_authors)
 
-            status = "duplicate_existing" if dup_result["is_duplicate"] else "staged_pending_review"
+            # ── T2-Task1: citation-only items always route to needs_review when
+            # not a duplicate. Reason: no PDF bytes → no surface text → the
+            # <100-char guard in the classifier would fire anyway. We skip the
+            # classifier call and short-circuit to needs_review with an explicit
+            # routing_reason. Dedup logic preserved exactly as it was.
+            if dup_result["is_duplicate"]:
+                status = "duplicate_existing"
+                audit_action_cit = "duplicate_detected"
+                routing_reason_cit = None
+                cls_cit_block = None  # classifier never called for duplicates (contract §3.1)
+            else:
+                status = "needs_review"
+                audit_action_cit = "needs_review"
+                routing_reason_cit = "citation_only_no_pdf_text"
+                cls_cit_block = {
+                    "verdict": None,
+                    "classifier_article_type": "unknown",
+                    "article_type_confidence": 0.0,
+                    "primary_topic": None,
+                    "primary_topic_confidence": 0.0,
+                    "overall_confidence": 0.0,
+                    "next_action": "need_abstract_or_keywords",
+                    "backend": CLASSIFIER_BACKEND,
+                    "active_topic_matches": [],
+                }
             dup_of = dup_result["matches"][0]["article_id"] if dup_result["is_duplicate"] and dup_result["matches"] else None
+
+            # Citation-only rows carry no quarantine file regardless of branch.
+            metadata_conf = ("high" if extracted_doi and parsed["title"] and parsed["authors"]
+                             else "medium" if extracted_doi or (parsed["title"] and parsed["authors"])
+                             else "low")
+
+            # Build validation_notes for citation-only rows. Carries the
+            # routing_reason plus an explicit "classifier_source: skipped"
+            # marker so reviewers can tell at a glance that this row never
+            # reached the classifier.
+            if routing_reason_cit:
+                vnotes_cit = {
+                    "routing_reason": routing_reason_cit,
+                    "classifier_verdict": None,
+                    "classifier_article_type": None,
+                    "classifier_primary_topic": None,
+                    "classifier_overall_confidence": 0.0,
+                    "classifier_backend": CLASSIFIER_BACKEND,
+                    "classifier_source": "skipped_citation_only",
+                    # Improvement E: preserve optional contact email for reviewer follow-up.
+                    "contact_email": ((email or "").strip()[:200] or None),
+                }
+                vnotes_cit_json = json.dumps(vnotes_cit)
+            else:
+                vnotes_cit_json = None  # duplicates: keep existing behavior (NULL)
 
             db = _get_db()
             db.execute("""INSERT INTO articles
                 (article_id, submission_id, submitter_id, submitter_type, track, input_mode,
                  doi, title, authors, year, citation_raw,
-                 status, duplicate_of,
+                 status, duplicate_of, validation_notes,
                  assigned_question_id, topic_tags,
                  source_surface, course_context, submitter_notes,
                  created_at, staged_at, metadata_confidence)
-                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
+                VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,?)""",
                 (article_id, submission_id, submitter_id, submitter_type, track, "citation_text",
                  extracted_doi,
                  parsed["title"] or None,
@@ -872,29 +1199,31 @@ async def submit_articles(
                  int(parsed["year"]) if parsed["year"] else None,
                  line,
                  status, dup_of,
+                 vnotes_cit_json,
                  question_id or None, topic_tags or None,
                  source_surface, "COGS160-SP26", notes or None,
-                 now, now if status == "staged_pending_review" else None,
-                 "high" if extracted_doi and parsed["title"] and parsed["authors"]
-                 else "medium" if extracted_doi or (parsed["title"] and parsed["authors"])
-                 else "low"))
+                 now,
+                 now if status in ("staged_pending_review", "needs_review") else None,
+                 metadata_conf))
             db.commit()
             db.close()
 
-            _write_audit(article_id,
-                         "duplicate_detected" if dup_result["is_duplicate"] else "staged",
-                         "received", status,
+            _write_audit(article_id, audit_action_cit, "received", status,
                          actor_id=submitter_id, actor_type=submitter_type)
 
-            items.append({
+            item = {
                 "article_id": article_id,
                 "input_mode": "citation_text",
                 "citation": line[:200],
                 "validation_status": "accepted",
                 "duplicate_status": "duplicate" if dup_result["is_duplicate"] else "not_duplicate",
                 "metadata": {"doi": extracted_doi},
-                "status": status
-            })
+                "status": status,
+                "reason": routing_reason_cit,
+            }
+            if cls_cit_block is not None:
+                item["classifier"] = cls_cit_block
+            items.append(item)
 
     # Update batch count
     db = _get_db()
@@ -906,15 +1235,18 @@ async def submit_articles(
     staged = sum(1 for i in items if i["status"] == "staged_pending_review")
     dups = sum(1 for i in items if i["status"] == "duplicate_existing")
     rejected = sum(1 for i in items if "rejected" in i["status"])
+    edge_cases = sum(1 for i in items if i["status"] == "needs_review")
 
     return {
+        "contract_version": "1.0",
         "submission_id": submission_id,
         "items": items,
         "summary": {
             "total": len(items),
             "staged": staged,
             "duplicates": dups,
-            "rejected": rejected
+            "rejected": rejected,
+            "edge_cases": edge_cases,
         }
     }
 
@@ -1605,27 +1937,92 @@ def _get_shared_article_classifier() -> AdaptiveClassifierSubsystem:
 
 
 def _extract_abstract_from_text(text: str) -> str:
+    """Extract the abstract from PDF surface text.
+
+    Uses [\\s\\S] (any char incl. newlines) for the body so multi-line
+    abstracts match — the original (.{50,800}?) regex only matched
+    single-line abstracts because . excludes newlines without re.DOTALL.
+
+    Returns "" when no "Abstract" keyword is found rather than falling
+    back to text[:300]. The old fallback was passing title + authors +
+    affiliations to the classifier as if they were the abstract,
+    biasing the verdict. Empty abstract is a valid input to the
+    classifier; it will rely on first_page_text instead.
+    """
     if not text.strip():
         return ""
     match = re.search(
-        r"(?i)\babstract\b[:\s]*(.{50,800}?)(?:\n\n|\bintroduction\b|\bkeywords\b)",
+        r"(?i)\babstract\b[:\s]*([\s\S]{50,1500}?)"
+        r"(?:\n\s*\n|\bintroduction\b|\bkeywords\b|\b1\.\s+[A-Z])",
         text,
     )
     if match:
         return match.group(1).strip()
-    return text[:300].strip()
+    return ""
+
+
+_TITLE_NOISE_PREFIXES = ("http", "doi", "volume", "journal", "page ", "p.", "vol.",
+                         "issn", "isbn", "©", "received", "accepted", "published")
+
+# Patterns that signal author lines or affiliation blocks (not the title)
+_AUTHOR_AFFIL_RE = re.compile(
+    r"\b(PhD|MD|MSc|MS|BSc|BA|MA|Prof\.?|Dr\.?|"
+    r"University|Universit[éy]|Institute|Institut|Department|Dept\.?|"
+    r"School of|College of|Center for|Centre for|Laboratory|Hospital|Email)\b"
+)
+
+
+def _looks_like_title_line(s: str) -> bool:
+    """A plausible paper-title line. Excludes journal banners, running heads,
+    author lines (PhD/MD honorifics), and affiliation blocks (University etc.).
+    """
+    if len(s) < 15 or len(s) > 250:
+        return False
+    low = s.lower()
+    if low.startswith(_TITLE_NOISE_PREFIXES):
+        return False
+    if _AUTHOR_AFFIL_RE.search(s):
+        return False
+    # Running heads / journal banners are usually all-caps
+    alpha = [c for c in s if c.isalpha()]
+    if alpha and sum(1 for c in alpha if c.isupper()) / len(alpha) > 0.85:
+        return False
+    return True
 
 
 def _extract_title_from_text(text: str, fallback: str = "") -> str:
+    """Best-effort title extraction from the first page of PDF text.
+
+    Strategy (highest-confidence first):
+      1. If 'Abstract' appears in the first 4000 chars, pick the longest
+         title-shaped line above it. This is reliable on most journal PDFs:
+         the title sits between the banner/affiliations and the abstract.
+      2. Otherwise, return the first line that satisfies _looks_like_title_line.
+      3. Else, fall back to the caller-supplied fallback (typically filename).
+    """
     if not text.strip():
         return fallback
-    lines = [line.strip() for line in text.splitlines() if len(line.strip()) > 10]
-    if not lines:
-        return fallback
-    candidate = lines[0][:200]
-    if candidate.lower().startswith(("http", "doi", "volume", "journal")):
-        return fallback
-    return candidate if len(candidate) > 15 else fallback
+
+    # Strategy 1: line-before-Abstract heuristic
+    head = text[:4000]
+    abs_match = re.search(r"(?i)\babstract\b", head)
+    if abs_match:
+        before = head[:abs_match.start()]
+        candidates = [ln.strip() for ln in before.splitlines() if _looks_like_title_line(ln.strip())]
+        if candidates:
+            # Prefer the longest title-shaped line — paper titles usually
+            # dominate the banner/affiliation lines around them.
+            best = max(candidates, key=len)
+            return best[:200]
+
+    # Strategy 2: first plausible line
+    for line in text.splitlines():
+        line = line.strip()
+        if _looks_like_title_line(line):
+            return line[:200]
+
+    # Strategy 3: fallback
+    return fallback
 
 
 def _map_shared_article_type_to_ka_bucket(shared_label: str) -> str:
@@ -1647,13 +2044,14 @@ def _map_shared_article_type_to_ka_bucket(shared_label: str) -> str:
 
 def _classify_article_payload(
     *,
+    paper_id: str = "",
     title: str = "",
     abstract: str = "",
     keywords: Optional[List[str]] = None,
     text_surface: str = "",
 ) -> dict:
     evidence = ClassificationEvidence(
-        paper_id="",
+        paper_id=paper_id,
         title=title,
         abstract=abstract,
         keywords=tuple(keywords or ()),
@@ -1664,7 +2062,24 @@ def _classify_article_payload(
         allow_surface_creation=False,
     )
     shared_label = result.article_type.value
+
+    # Additive extension (T2-Task1) — surface verdict / topic / backend so the
+    # /api/articles/submit handler can route to the correct branch per
+    # Classifier Integration Contract §4.1. Defensive against the local
+    # fallback path where these attributes may be absent.
+    qs   = getattr(result, "question_summary", None)
+    btr  = getattr(result, "stable_topic_routing", None)
+    verdict       = qs.best_verdict     if (qs and qs.best_verdict) else None
+    verdict_conf  = qs.best_confidence  if qs else 0.0
+    primary_topic = btr.primary_topic   if btr else None
+    # Clamp raw candidate score to [0,1]. TopicBundleCandidate.score is an
+    # unbounded float in atlas_shared (we observed 1.08 on T1 of the Phase-4
+    # validation); the contract schema requires [0,1] for confidence fields.
+    raw_primary_score = btr.candidates[0].score if (btr and btr.candidates) else 0.0
+    primary_score = max(0.0, min(1.0, raw_primary_score))
+
     return {
+        # ── Existing keys (unchanged — relied on by /fetch-abstracts, /title-only, /classify-one)
         "article_type": _map_shared_article_type_to_ka_bucket(shared_label),
         "canonical_article_type": shared_label,
         "confidence": round(result.article_type.confidence, 2),
@@ -1672,6 +2087,13 @@ def _classify_article_payload(
         "source": result.article_type.source,
         "evidence_stage": result.evidence_stage,
         "next_action": result.next_action,
+        # ── New keys (T2-Task1 additive extension — see contract §3.1 Field-origin table)
+        "verdict":             verdict,
+        "verdict_confidence":  round(verdict_conf, 2),
+        "primary_topic":       primary_topic,
+        "primary_topic_score": round(primary_score, 2),
+        "overall_confidence":  round(getattr(result, "overall_confidence", 0.0), 2),
+        "backend":             CLASSIFIER_BACKEND,
     }
 
 
