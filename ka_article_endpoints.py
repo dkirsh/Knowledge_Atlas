@@ -718,6 +718,13 @@ _NEXT_ACTIONS_NEEDING_REVIEW = frozenset({
 # see contract §4.1 for the routing decision tree.
 _OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD = 0.40
 
+# Low-confidence-accept boundary: accept-verdict items below this confidence
+# are escalated to needs_review instead of staged_pending_review. Value is
+# pinned by the Classifier Integration Contract §4.1 (boundary derived from
+# the classifier's own next_action threshold). Named constant added in a
+# code-cleanliness pass; behavior identical to the previous inline literal.
+_ACCEPT_CONFIDENCE_FLOOR = 0.72
+
 
 def _route_classifier_verdict(verdict, overall_confidence: float,
                               next_action: str = "",
@@ -766,7 +773,7 @@ def _route_classifier_verdict(verdict, overall_confidence: float,
         return ("rejected_off_topic", "rejected_off_topic", "classifier_verdict_reject")
     if verdict == "edge_case":
         return ("needs_review", "needs_review", "classifier_verdict_edge_case")
-    if verdict == "accept" and overall_confidence < 0.72:
+    if verdict == "accept" and overall_confidence < _ACCEPT_CONFIDENCE_FLOOR:
         return ("needs_review", "needs_review", "low_confidence_accept")
     return ("staged_pending_review", "staged", None)
 
