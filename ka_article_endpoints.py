@@ -786,6 +786,7 @@ async def submit_articles(
     source_surface: str = Form(default="ka_contribute"),
     a0_task: str = Form(default=""),          # task1 (experimental-only) | task2 (any-type)
     article_type: str = Form(default=""),     # experimental | review | theory | mechanism | meta_analysis | other
+    email: str = Form(default=""),            # optional contact email (Improvement E — persisted in validation_notes for reviewer follow-up)
 ):
     """
     Submit one or more articles (PDFs and/or citation text).
@@ -1020,6 +1021,13 @@ async def submit_articles(
         validation_with_reason["classifier_overall_confidence"] = cls.get("overall_confidence", 0.0)
         validation_with_reason["classifier_backend"] = cls.get("backend", "unknown")
         validation_with_reason["classifier_source"] = cls.get("source", "")
+        # Improvement E: preserve optional contributor metadata so a reviewer can
+        # follow up. PII (email) is treated as opaque — stored only inside the
+        # JSON column, never logged server-side, never exposed in the response.
+        _email_clean = (email or "").strip()[:200]
+        validation_with_reason["contact_email"] = _email_clean or None
+        _citation_hint = (citations or "").strip()[:500]
+        validation_with_reason["submitter_citation_hint"] = _citation_hint or None
 
         # rejected_at / staged_at must follow the (possibly-overridden) branch_status.
         # Use a prefix match so any future rejected_* status is handled correctly.
@@ -1161,6 +1169,8 @@ async def submit_articles(
                     "classifier_overall_confidence": 0.0,
                     "classifier_backend": CLASSIFIER_BACKEND,
                     "classifier_source": "skipped_citation_only",
+                    # Improvement E: preserve optional contact email for reviewer follow-up.
+                    "contact_email": ((email or "").strip()[:200] or None),
                 }
                 vnotes_cit_json = json.dumps(vnotes_cit)
             else:

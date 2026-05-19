@@ -316,6 +316,7 @@
     for (const f of chosenFiles) fd.append("files", f);
     if (citation)   fd.append("citations", citation);
     if (why)        fd.append("notes", why);
+    if (email)      fd.append("email", email);  // Improvement E — preserved in validation_notes for reviewer follow-up
     fd.append("source_surface", "ka_contribute_public");
 
     const apiBase = (window.__KA_CONFIG__ && window.__KA_CONFIG__.apiBase) || "";
