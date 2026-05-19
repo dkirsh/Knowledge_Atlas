@@ -173,7 +173,7 @@ For each DV extracted in S3, map to the short-code taxonomy defined in `160sp/ka
 }
 ```
 
-The mapping logic uses a small lookup table from `data/vr_measurability_schema.json` (CW to derive from the quick-reference table in the measurability markdown; UJ-1b task). The substitution candidates are not computed by V7-Lite directly; they come from the substitution-skill API (see `docs/SUBSTITUTION_SKILL_SPEC_2026-05-18.md`).
+The mapping logic uses a small lookup table from `data/vr_measurability_schema.json` (CW to derive from the quick-reference table in the measurability markdown; UJ-1b task). The substitution candidates are not computed by V7-Lite directly; they come from the substitution-skill API (see `docs/CODEX_SUBSTITUTION_SKILL_BUILD_SPEC_2026-05-18.md`).
 
 ### Stage S6 — conditional VOI (NEW)
 

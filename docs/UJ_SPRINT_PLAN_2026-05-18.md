@@ -177,7 +177,7 @@ If I were given everything to do solo, the plan would still execute but the V7-L
 
 Three unblocked items in Sprint UJ-A:
 1. **UJ-A1** — lift the Cook & Campbell content out of the wireframe into a standalone markdown file (`160sp/ka_validities_showcase_content_2026-05-18.md`) so the surface has the same separation of content-source-of-truth that the VR-measurability page has.
-2. **UJ-A4** — fuller substitution-skill spec doc for Codex (`docs/SUBSTITUTION_SKILL_SPEC_2026-05-18.md`), so Codex has the build prompt waiting when the panel returns on refusal criteria.
-3. **UJ-A5** — V7-Lite spec doc for Codex (`docs/V7_LITE_SPEC_2026-05-18.md`), so the Path-B pipeline can be built in parallel with the Sprint-UJ-A content work.
+2. **UJ-A4** — fuller substitution-skill spec doc for Codex (`docs/CODEX_SUBSTITUTION_SKILL_BUILD_SPEC_2026-05-18.md`), so Codex has the build prompt waiting when the panel returns on refusal criteria.
+3. **UJ-A5** — V7-Lite spec doc for Codex (`docs/CODEX_V7_LITE_BUILD_SPEC_2026-05-18.md`), so the Path-B pipeline can be built in parallel with the Sprint-UJ-A content work.
 
 I will continue to do these and update TASKS.md as each lands. If DK wants me to redirect — to begin UJ-B HTML renders sooner, to draft the methodological-pitfalls page (UJ-H) in advance of panel tagging review, or to switch to one of the unrelated workstreams (paper-quality build, anchor paper sidecars, the 22-decision-tree-node walkthrough) — say so and I will redirect.
