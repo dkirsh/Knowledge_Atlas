@@ -1,0 +1,218 @@
+{
+  "schema_version": "ka_substitution_graph_seed_v1",
+  "source_docs": [
+    "docs/SUBSTITUTION_SKILL_SPEC_2026-05-18.md",
+    "160sp/ka_vr_measurability_content_2026-05-18.md"
+  ],
+  "constructs": [
+    {
+      "construct_id": "attention_restoration",
+      "canonical_name": "Attention restoration",
+      "aliases": ["cognitive restoration", "mental recovery", "restorative attention"],
+      "family_theory_id": "attention_restoration_theory",
+      "proliferation_warning": {
+        "jangle_with": ["mental_recovery", "cognitive_restoration"],
+        "jingle_with": ["attention_capacity", "vigilance"]
+      }
+    },
+    {
+      "construct_id": "physiological_stress_response",
+      "canonical_name": "Physiological stress response",
+      "aliases": ["stress response", "arousal", "sympathetic arousal", "cortisol stress"],
+      "family_theory_id": "stress_recovery_theory",
+      "proliferation_warning": {
+        "jangle_with": ["psychophysiological_stress"],
+        "jingle_with": ["negative_affect", "effort"]
+      }
+    },
+    {
+      "construct_id": "implicit_attitude",
+      "canonical_name": "Implicit attitude",
+      "aliases": ["implicit association", "implicit preference", "implicit bias"],
+      "family_theory_id": "implicit_social_cognition",
+      "proliferation_warning": {
+        "jangle_with": [],
+        "jingle_with": ["explicit_preference", "reported_attitude"]
+      }
+    },
+    {
+      "construct_id": "configurational_preference",
+      "canonical_name": "Configurational preference",
+      "aliases": ["preference structure", "q sort preference", "adaptive preference"],
+      "family_theory_id": "preference_construction",
+      "proliferation_warning": {
+        "jangle_with": ["preference_weights"],
+        "jingle_with": ["single_item_liking"]
+      }
+    }
+  ],
+  "measures": [
+    {
+      "measure_id": "m_sart_prs",
+      "short_code": "f2.sart_plus_f3.prs",
+      "canonical_name": "SART plus Perceived Restorativeness Scale",
+      "measurement_family": "f2+f3",
+      "vr_tractable": true,
+      "vr_tractability_conditions": {"requires_headset": "any", "hardware_tier": "confirmed"},
+      "psychometric_profile": {"reliability": 0.78, "validity_note": "Behavioral attention task paired with validated self-report."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 17,
+      "hardware_required": ["headset", "keyboard_or_controller"],
+      "principal_pitfall": "SART is sensitive to fatigue and instruction differences; PRS is demand-sensitive.",
+      "canonical_references": ["Robertson et al. SART lineage", "Hartig et al. PRS lineage"]
+    },
+    {
+      "measure_id": "m_iat",
+      "short_code": "f2.iat",
+      "canonical_name": "Implicit Association Test",
+      "measurement_family": "f2",
+      "vr_tractable": true,
+      "vr_tractability_conditions": {"requires_headset": "any", "hardware_tier": "confirmed"},
+      "psychometric_profile": {"reliability": 0.7, "validity_note": "Indexes relative association strength under timing constraints."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 8,
+      "hardware_required": ["controller_two_key"],
+      "principal_pitfall": "Consumer VR timing jitter can obscure small reaction-time differences.",
+      "canonical_references": ["Greenwald, McGhee & Schwartz 1998"]
+    },
+    {
+      "measure_id": "m_qsort",
+      "short_code": "f2.qsort",
+      "canonical_name": "Q-sort / twenty-card sort",
+      "measurement_family": "f2",
+      "vr_tractable": true,
+      "vr_tractability_conditions": {"requires_headset": "any", "hardware_tier": "confirmed"},
+      "psychometric_profile": {"reliability": 0.68, "validity_note": "Captures configuration of judgments rather than isolated ratings."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 12,
+      "hardware_required": ["controllers"],
+      "principal_pitfall": "The item set determines what the sort can reveal.",
+      "canonical_references": ["Stephenson 1953", "Watts & Stenner 2012"]
+    },
+    {
+      "measure_id": "m_adaptpref",
+      "short_code": "f2.adaptpref",
+      "canonical_name": "Adaptive preference / discrete-choice task",
+      "measurement_family": "f2",
+      "vr_tractable": true,
+      "vr_tractability_conditions": {"requires_headset": "any", "hardware_tier": "confirmed"},
+      "psychometric_profile": {"reliability": 0.72, "validity_note": "Efficiently estimates preference weights across stimulus attributes."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 15,
+      "hardware_required": ["controllers"],
+      "principal_pitfall": "The adaptation rule must be specified before data collection.",
+      "canonical_references": ["Green & Srinivasan 1990", "Toubia, Hauser & Garcia 2007"]
+    },
+    {
+      "measure_id": "m_eda",
+      "short_code": "f4.eda",
+      "canonical_name": "Electrodermal activity",
+      "measurement_family": "f4",
+      "vr_tractable": true,
+      "vr_tractability_conditions": {"requires_headset": "any", "hardware_tier": "confirmed"},
+      "psychometric_profile": {"reliability": 0.76, "validity_note": "Sensitive non-specific sympathetic arousal signal."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 5,
+      "hardware_required": ["eda_sensor"],
+      "principal_pitfall": "Non-specific arousal; pair with behavior or self-report.",
+      "canonical_references": ["Boucsein 2012"]
+    },
+    {
+      "measure_id": "m_hrv",
+      "short_code": "f4.hrv",
+      "canonical_name": "Heart-rate variability",
+      "measurement_family": "f4",
+      "vr_tractable": true,
+      "vr_tractability_conditions": {"requires_headset": "any", "hardware_tier": "confirmed"},
+      "psychometric_profile": {"reliability": 0.74, "validity_note": "Indexes autonomic regulation over multi-minute windows."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 5,
+      "hardware_required": ["chest_strap_or_ppg"],
+      "principal_pitfall": "Requires stable 3-5 minute windows and artifact handling.",
+      "canonical_references": ["Laborde, Mosley & Thayer 2017"]
+    },
+    {
+      "measure_id": "m_resp",
+      "short_code": "f4.resp",
+      "canonical_name": "Respiration belt",
+      "measurement_family": "f4",
+      "vr_tractable": true,
+      "vr_tractability_conditions": {"requires_headset": "any", "hardware_tier": "confirmed"},
+      "psychometric_profile": {"reliability": 0.7, "validity_note": "Measures breathing rate and amplitude; improves HRV interpretation."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 5,
+      "hardware_required": ["respiration_belt"],
+      "principal_pitfall": "Participants may voluntarily change breathing when aware of the belt.",
+      "canonical_references": ["Grossman & Taylor 2007"]
+    },
+    {
+      "measure_id": "m_pupil",
+      "short_code": "f4.pupil",
+      "canonical_name": "Pupillometry",
+      "measurement_family": "f4",
+      "vr_tractable": true,
+      "vr_tractability_conditions": {"requires_headset": "Quest Pro, Vive Pro Eye, Varjo, or equivalent", "hardware_tier": "maybe"},
+      "psychometric_profile": {"reliability": 0.73, "validity_note": "Indexes mental effort and arousal when luminance is controlled."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 5,
+      "hardware_required": ["eye_tracking_headset"],
+      "principal_pitfall": "Luminance confound; equate visual brightness or model it.",
+      "canonical_references": ["Mathot 2018"]
+    },
+    {
+      "measure_id": "m_emg",
+      "short_code": "f4.emg",
+      "canonical_name": "Surface EMG",
+      "measurement_family": "f4",
+      "vr_tractable": true,
+      "vr_tractability_conditions": {"requires_headset": "any", "hardware_tier": "request"},
+      "psychometric_profile": {"reliability": 0.7, "validity_note": "Indexes muscle activation such as facial affect or shoulder tension."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 10,
+      "hardware_required": ["surface_emg"],
+      "principal_pitfall": "Electrode placement and motion noise dominate data quality.",
+      "canonical_references": ["Tassinary, Cacioppo & Vanman 2007"]
+    },
+    {
+      "measure_id": "m_biomarker",
+      "short_code": "x5.biomarker",
+      "canonical_name": "Pharmacological or clinical biomarker",
+      "measurement_family": "x5",
+      "vr_tractable": false,
+      "vr_tractability_conditions": {"exclusion_reason": "IRB and lab-support not available in class envelope."},
+      "psychometric_profile": {"reliability": 0.82, "validity_note": "Often strong but not class-tractable."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 30,
+      "hardware_required": ["biological_sample_lab"],
+      "principal_pitfall": "Not admissible for class VR projects.",
+      "canonical_references": []
+    },
+    {
+      "measure_id": "m_fmri",
+      "short_code": "x1.fmri",
+      "canonical_name": "fMRI BOLD",
+      "measurement_family": "x1",
+      "vr_tractable": false,
+      "vr_tractability_conditions": {"exclusion_reason": "Cannot use course VR headset inside scanner."},
+      "psychometric_profile": {"reliability": 0.78, "validity_note": "Strong localization method but unavailable."},
+      "construct_validity_per_paper": {},
+      "administration_time_min": 60,
+      "hardware_required": ["mri_scanner"],
+      "principal_pitfall": "Excluded from class VR tractability.",
+      "canonical_references": []
+    }
+  ],
+  "construct_measure_links": [
+    {"construct_id": "attention_restoration", "measure_id": "m_sart_prs", "construct_validity": 0.79, "field_acceptance": 23, "canonical_paper_id": "", "citation_count": 23, "severity_average": 0.71, "notes": "Worked-example top rank for Surface 4b."},
+    {"construct_id": "attention_restoration", "measure_id": "m_qsort", "construct_validity": 0.62, "field_acceptance": 8, "canonical_paper_id": "", "citation_count": 8, "severity_average": 0.58, "notes": "Useful for restorative preference structure, weaker for attention performance."},
+    {"construct_id": "physiological_stress_response", "measure_id": "m_biomarker", "construct_validity": 0.88, "field_acceptance": 41, "canonical_paper_id": "", "citation_count": 41, "severity_average": 0.73, "notes": "Canonical but excluded for class projects."},
+    {"construct_id": "physiological_stress_response", "measure_id": "m_eda", "construct_validity": 0.82, "field_acceptance": 47, "canonical_paper_id": "", "citation_count": 47, "severity_average": 0.68, "notes": "Standard VR-tractable substitute for sympathetic arousal."},
+    {"construct_id": "physiological_stress_response", "measure_id": "m_hrv", "construct_validity": 0.74, "field_acceptance": 28, "canonical_paper_id": "", "citation_count": 28, "severity_average": 0.62, "notes": "Useful for autonomic regulation if block length permits."},
+    {"construct_id": "physiological_stress_response", "measure_id": "m_resp", "construct_validity": 0.58, "field_acceptance": 14, "canonical_paper_id": "", "citation_count": 14, "severity_average": 0.55, "notes": "Best as companion signal for HRV, not ECG approximation."},
+    {"construct_id": "physiological_stress_response", "measure_id": "m_pupil", "construct_validity": 0.66, "field_acceptance": 18, "canonical_paper_id": "", "citation_count": 18, "severity_average": 0.6, "notes": "Useful if luminance is controlled and eye-tracking headset exists."},
+    {"construct_id": "physiological_stress_response", "measure_id": "m_emg", "construct_validity": 0.57, "field_acceptance": 9, "canonical_paper_id": "", "citation_count": 9, "severity_average": 0.54, "notes": "Advanced request-tier stress/tension signal."},
+    {"construct_id": "implicit_attitude", "measure_id": "m_iat", "construct_validity": 0.84, "field_acceptance": 36, "canonical_paper_id": "", "citation_count": 36, "severity_average": 0.69, "notes": "Direct task-embedded implicit association measure."},
+    {"construct_id": "configurational_preference", "measure_id": "m_qsort", "construct_validity": 0.82, "field_acceptance": 19, "canonical_paper_id": "", "citation_count": 19, "severity_average": 0.64, "notes": "Captures configuration rather than isolated preference."},
+    {"construct_id": "configurational_preference", "measure_id": "m_adaptpref", "construct_validity": 0.78, "field_acceptance": 16, "canonical_paper_id": "", "citation_count": 16, "severity_average": 0.61, "notes": "Efficient preference-weight estimation with a specified adaptation rule."}
+  ]
+}
