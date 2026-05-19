@@ -85,6 +85,7 @@ def test_v7_lite_queue_payload_carries_worker_contract_and_evaluation(tmp_path, 
     assert params["belief_id"] == belief_id
     assert params["evaluation"]["paper_type"] == "empirical"
     assert params["evaluation"]["conditional_voi"]["target_1_better_stimuli"] == "medium"
+    assert "source_metadata" in params["evaluation"]
 
 
 def test_async_worker_upgrades_partial_belief_without_python_public_prose(tmp_path, monkeypatch):
@@ -106,6 +107,7 @@ def test_async_worker_upgrades_partial_belief_without_python_public_prose(tmp_pa
     assert json.loads(queue_result)["completion_status"] == "full_v7_structured_complete_public_prose_pending"
     assert epistemic["v7_lite_partial"] is False
     assert epistemic["full_v7_async_completed"] is True
+    assert "source_metadata" in epistemic["full_v7_result"]
     assert len(epistemic["full_conditional_voi"]) == 10
     assert epistemic["science_summary"]["text"] == ""
     assert epistemic["science_summary"]["generation"]["python_public_prose_allowed"] is False

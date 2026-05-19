@@ -144,8 +144,19 @@ def test_v7_lite_writes_partial_belief_and_full_v7_queue(tmp_path, monkeypatch):
         queue_params = v7.json.loads(params)
         assert queue_params["worker_contract"] == v7.V7_LITE_FULL_WORKER_CONTRACT
         assert queue_params["evaluation"]["paper_type"] == "empirical"
+        assert queue_params["evaluation"]["source_metadata"]["text_surface_chars"] >= 0
     finally:
         db.close()
+
+
+def test_v7_lite_persists_uploaded_pdf_for_async_full_worker(tmp_path, monkeypatch):
+    monkeypatch.setattr(v7, "DEFAULT_UPLOAD_DIR", tmp_path / "uploads")
+
+    saved = v7.persist_v7_lite_upload(b"%PDF-1.4 test", "A Paper: Draft.pdf")
+
+    assert saved.endswith(".pdf")
+    assert "A_Paper_Draft" in saved
+    assert v7.Path(saved).read_bytes() == b"%PDF-1.4 test"
 
 
 def test_v7_lite_threshold_calibration_produces_topic_thresholds():

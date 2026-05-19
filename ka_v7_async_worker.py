@@ -330,6 +330,7 @@ def build_full_v7_result(evaluation: dict[str, Any], *, generate_prose: bool = T
         "completed_at": _now(),
         "paper_id": evaluation.get("paper_id") or "PDF-LITE-PENDING",
         "paper_type": evaluation.get("paper_type"),
+        "source_metadata": evaluation.get("source_metadata") or {},
         "topic_fit": evaluation.get("topic_fit"),
         "iv": evaluation.get("iv"),
         "dv": evaluation.get("dv"),

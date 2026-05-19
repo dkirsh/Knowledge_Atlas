@@ -41,6 +41,10 @@ through subscription CLIs such as `claude -p` or `codex exec`.
   writer is unavailable, the worker completes the structured pass and marks the
   science summary/PNU fields as `requires_subscription_cli_llm`; Python does
   not author fallback public science prose.
+- V7-Lite uploaded PDFs are now persisted under `data/v7_lite_uploads/` and
+  the queue payload carries `source_metadata.source_pdf_path`, so later full-V7
+  stages can recover the original source artifact instead of relying only on
+  the synchronous text preview.
 
 ## Current Contract Position
 

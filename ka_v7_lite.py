@@ -30,6 +30,7 @@ REPO_ROOT = Path(__file__).resolve().parent
 PAYLOAD_DIR = REPO_ROOT / "data" / "ka_payloads"
 DEFAULT_THRESHOLDS_PATH = REPO_ROOT / "data" / "v7_lite_topic_thresholds.json"
 DEFAULT_AE_DB_PATH = Path("/Users/davidusa/REPOS/Article_Eater_PostQuinean_v1_recovery/ae.db")
+DEFAULT_UPLOAD_DIR = REPO_ROOT / "data" / "v7_lite_uploads"
 V7_LITE_PROSE_CONTRACT = "V7_LITE_SUBSCRIPTION_CLI_RECOMMENDATION_CONTRACT_2026-05-18"
 V7_LITE_FULL_WORKER_CONTRACT = "V7_LITE_FULL_ASYNC_WORKER_CONTRACT_2026-05-19"
 SUBSCRIPTION_LLM_COMMANDS = ["claude -p", "codex exec"]
@@ -69,6 +70,18 @@ def _clean_llm_prose(value: str, max_words: int) -> str:
     if len(words) > max_words:
         text = " ".join(words[:max_words]).rstrip(" ,;:") + "."
     return text
+
+
+def persist_v7_lite_upload(data: bytes, filename: str = "") -> str:
+    if not data:
+        return ""
+    DEFAULT_UPLOAD_DIR.mkdir(parents=True, exist_ok=True)
+    digest = hashlib.sha1(data).hexdigest()[:16]
+    stem = re.sub(r"[^A-Za-z0-9._-]+", "_", Path(filename or "uploaded_paper.pdf").stem).strip("._-") or "uploaded_paper"
+    path = DEFAULT_UPLOAD_DIR / f"{digest}_{stem[:80]}.pdf"
+    if not path.exists():
+        path.write_bytes(data)
+    return str(path)
 
 
 def _write_recommendation_prose(evaluation: dict[str, Any]) -> None:
@@ -382,6 +395,7 @@ def evaluate_v7_lite(
     session_id: str = "",
     abstract: str = "",
     text_surface: str = "",
+    source_pdf_path: str = "",
     write_ae: bool = False,
     generate_prose: bool = True,
 ) -> dict[str, Any]:
@@ -451,6 +465,14 @@ def evaluate_v7_lite(
             "methods": {"design": classification["design_subtype"], "sample_n": None, "sample_composition": {}, "statistical_test": "", "preregistered": None, "open_data": None},
             "vr_suitability_mapping": substitution["per_dv_results"],
             "conditional_voi": voi,
+            "source_metadata": {
+                "doi": doi,
+                "title": title,
+                "authors": authors,
+                "year": year,
+                "source_pdf_path": source_pdf_path,
+                "text_surface_chars": len(text_surface or abstract or ""),
+            },
             "recommendation": {
                 "summary": recommendation_summary,
                 "rationale": "",
@@ -483,10 +505,12 @@ async def ingest_endpoint(
     pdf: UploadFile | None = File(None),
 ) -> dict[str, Any]:
     text_surface = ""
+    source_pdf_path = ""
     derived_title = title
     derived_abstract = ""
     if pdf is not None:
         data = await pdf.read()
+        source_pdf_path = persist_v7_lite_upload(data, getattr(pdf, "filename", "uploaded_paper.pdf"))
         try:
             from ka_article_endpoints import _extract_abstract_from_text, _extract_text_from_pdf_bytes, _extract_title_from_text
 
@@ -503,6 +527,7 @@ async def ingest_endpoint(
         session_id=session_id,
         abstract=derived_abstract,
         text_surface=text_surface,
+        source_pdf_path=source_pdf_path,
         write_ae=True,
         generate_prose=True,
     )
