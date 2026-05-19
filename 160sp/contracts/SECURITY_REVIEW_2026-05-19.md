@@ -29,9 +29,13 @@ Every finding below cites the exact file and line. Issues are categorized as �
 | S11 | CSRF on the submit endpoint | Low | 🟢 N/A (no session cookie established) |
 | S12 | DB connection hygiene | Medium | 🟢 ENFORCED (PRAGMAs at startup) |
 | S13 | ID minting under concurrent load (PK collision attack) | Medium | 🟢 NOT VULNERABLE (atomic id_sequences) |
-| S14 | Race-condition on dedup probe | Medium | 🟡 PARTIAL (retry-on-IntegrityError) |
+| S14 | Race-condition on dedup probe | Medium | 🟡 PARTIAL (retry-on-IntegrityError) + 🟦 design-intent clarification |
+| S15 | `source_surface` not allowlist-validated | Low | 🟡 KNOWN LIMITATION (documented for production) |
+| S16 | `a0_task` loose validation | Low | 🟡 KNOWN LIMITATION (documented for production) |
+| S17 | `_titles_match` O(N) Python-side scan | Low | 🟡 KNOWN LIMITATION (sub-ms at course scale) |
+| S18 | Production body-size hardening (uvicorn flag) | Low | 🟢 RECOMMENDATION (documented for production) |
 
-**Zero high-severity vulnerabilities. Two medium-severity items are documented as partial mitigations with rationale.**
+**Zero high-severity vulnerabilities.** Items S4 and S14 are medium-severity partial mitigations with rationale; items S15–S18 are low-severity known limitations or production recommendations.
 
 ---
 
@@ -286,6 +290,117 @@ If a race occurs and both submissions reach INSERT with the same `pdf_hash_sha25
 **Recommendation for production.** Wrap the probe + INSERT in an explicit `BEGIN IMMEDIATE` transaction so the probe holds a write lock until the INSERT commits. Not blocking for course submission.
 
 **Status:** 🟡 **PARTIAL MITIGATION.** Documented; reviewer catches the worst case.
+
+**Design-intent clarification (added 2026-05-19).** Our endpoint is *intentionally* per-item-commit, not single-batch-transaction. The contract's TC-8 (per-item independence) requires that one item's failure not block siblings — and we honor that. If the handler commits for item A and then raises before processing item B, the operator's expectation is: A is persisted, B is not, the client retries B. That is the documented behavior, not an oversight. A reviewer expecting an all-or-nothing batch transaction would be reading a different contract; ours specifies per-item semantics.
+
+---
+
+## S15 — `source_surface` input not validated against an allowlist 🟡 KNOWN LIMITATION
+
+**Risk model.** The endpoint accepts a free-form `source_surface: str = Form(default="ka_contribute")` and stores it verbatim in `articles.source_surface`. A malicious or buggy client could submit `source_surface=fake_admin_console` to pollute downstream analytics or impersonate a different submission surface in reviewer-facing queries.
+
+**Severity assessment.** Low impact in practice:
+- The field is reviewer-facing (used by triage UIs), not a security control. Nothing branches on `source_surface` to grant or deny access.
+- The value is stored in a single TEXT column, never executed, never composed into SQL via string interpolation (verified — INSERT uses `?` parameter binding).
+- An attacker can already self-tag as `ka_contribute_public` (the public surface) since the endpoint is public. So spoofing one *public* surface for another buys nothing.
+
+**Recommendation for production.** Validate against an allowlist of known surfaces:
+```python
+_ALLOWED_SOURCE_SURFACES = {"ka_contribute", "ka_contribute_public", "ka_admin_intake"}
+if source_surface and source_surface not in _ALLOWED_SOURCE_SURFACES:
+    source_surface = "ka_contribute"  # normalize, do not raise — backward compat
+```
+
+Not implemented in this PR — would risk rejecting legitimate values we haven't enumerated yet. The current behavior (accept-and-store) is documented as a known limitation.
+
+**Status:** 🟡 **KNOWN LIMITATION.** Documented; not blocking.
+
+---
+
+## S16 — `a0_task` input only loosely validated 🟡 KNOWN LIMITATION
+
+**Risk model.** Similar to S15: `a0_task: str = Form(default="")` accepts any string. The downstream code only compares against the literal `"task1"` for the "experimental-only" branch — any other value is treated as non-A0. So an attacker setting `a0_task="task42"` would have it persisted but not counted toward any A0 requirement.
+
+**Severity assessment.** Low:
+- Same parameter-binding protection as S15.
+- The value is only consulted by per-student-progress queries, not authorization or routing.
+- Compare to `article_type`, which IS validated against `VALID_ARTICLE_TYPES` (`ka_article_endpoints.py:1007`) — that's the inconsistency this section flags.
+
+**Recommendation for production.** Mirror the `article_type` pattern:
+```python
+_VALID_A0_TASKS = {"task1", "task2", ""}
+if a0_task not in _VALID_A0_TASKS:
+    a0_task = ""  # normalize
+```
+
+**Status:** 🟡 **KNOWN LIMITATION.** Documented; not blocking.
+
+---
+
+## S17 — `_titles_match` is O(N) Python-side scan 🟡 KNOWN LIMITATION
+
+**Risk model.** `_check_duplicates` at `ka_article_endpoints.py:560` calls `_titles_match` (line 503) for fuzzy-title dedup. Implementation reads all `articles.title` rows into Python and runs an edit-distance comparison per row. As `articles` grows, dedup-probe latency grows linearly. Also enables an enumeration attack (a probe can be slowed by submitting many close-but-distinct titles).
+
+**Severity assessment.** Low at course scale:
+- `articles` is < 1,000 rows in the course corpus. O(N) over ~hundreds of rows is sub-millisecond.
+- Each /submit request runs the probe once per file — bounded by per-batch file count.
+- The endpoint already has rate-limiting constants defined (`MAX_ANON_PER_HOUR`, `MAX_AUTH_PER_HOUR` at lines 168-169), though these constants are not currently enforced (separate known gap; doesn't change this assessment).
+
+**Recommendation for production.** Replace the Python-side scan with a SQLite FTS5 virtual table on `articles.title` for sub-linear fuzzy matching:
+```sql
+CREATE VIRTUAL TABLE articles_title_fts USING fts5(title, content='articles', content_rowid='rowid');
+-- Then: SELECT article_id FROM articles_title_fts WHERE title MATCH ? LIMIT 5;
+```
+Or maintain a `normalized_title` column (lowercased, stop-words removed, sorted tokens) with an index, and exact-match against it.
+
+**Status:** 🟡 **KNOWN LIMITATION.** Documented; not blocking at course scale.
+
+---
+
+## S18 — Production body-size hardening 🟢 RECOMMENDATION
+
+Reinforces S4 (large-upload DoS) with the concrete production setting. Not implemented in this PR (would change server behavior in ways not tested for non-submit endpoints), but the production deployment command should include an explicit body-size cap:
+
+```sh
+uvicorn ka_auth_server:app \
+    --host 0.0.0.0 --port 8765 \
+    --limit-max-body 524288000   # 500 MB, matches MAX_BATCH_SIZE_BYTES
+```
+
+Alternatively, a starlette middleware can enforce per-route limits before the route handler is invoked:
+
+```python
+from starlette.middleware import Middleware
+from starlette.middleware.base import BaseHTTPMiddleware
+
+class BodySizeLimitMiddleware(BaseHTTPMiddleware):
+    async def dispatch(self, request, call_next):
+        if request.url.path == "/api/articles/submit":
+            cl = request.headers.get("content-length")
+            if cl and int(cl) > MAX_BATCH_SIZE_BYTES + 1_048_576:
+                return JSONResponse({"detail": "Batch too large"}, status_code=413)
+        return await call_next(request)
+```
+
+The current SpooledTemporaryFile + per-route check at line 811-813 bounds memory adequately for course-scale submissions; both alternatives above are stricter production hardening.
+
+**Status:** 🟢 **RECOMMENDATION.** Documented for production; not blocking.
+
+---
+
+## Implementation note — `routing_reason` threshold display
+
+The off-topic-detection routing reason string is built at `ka_article_endpoints.py:756`:
+
+```python
+f"off_topic:edge_case_with_weak_topic_match_{primary_topic_score:.2f}_below_{_OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD}"
+```
+
+The `primary_topic_score` is formatted with `:.2f` (always 2 decimal places), but `_OFF_TOPIC_PRIMARY_TOPIC_THRESHOLD = 0.40` is interpolated with Python's default float formatting, which prints as `0.4` (1 decimal place). Existing committed DB rows therefore have `routing_reason` like `…_below_0.4`, even though the threshold *value* is `0.40`.
+
+Both refer to the same threshold. This is cosmetic and historical (existing data has the 1-decimal format). A future code-cleanup could format both with `:.2f` for visual consistency; that change would create a split between historical rows (`0.4`) and new rows (`0.40`) and is therefore deferred until a deliberate data-migration moment.
+
+**Status:** Cosmetic; documented for future reference.
 
 ---
 
